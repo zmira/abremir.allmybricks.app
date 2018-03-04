@@ -9,13 +9,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "abremir.AllMyBricks.Shared.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "abremir.AllMyBricks.Core", "abremir.AllMyBricks.Core\abremir.AllMyBricks.Core.csproj", "{C4BCEFAA-1C80-4A61-8A03-EE8D28822887}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "abremir.AllMyBricks.Android", "abremir.AllMyBricks\abremir.AllMyBricks.Android\abremir.AllMyBricks.Android.csproj", "{E07C502C-D485-402A-8315-C2BFDCCA68C2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "abremir.AllMyBricks.Android", "abremir.AllMyBricks.Android\abremir.AllMyBricks.Android.csproj", "{E07C502C-D485-402A-8315-C2BFDCCA68C2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "abremir.AllMyBricks.iOS", "abremir.AllMyBricks\abremir.AllMyBricks.iOS\abremir.AllMyBricks.iOS.csproj", "{0EF10C2C-9B31-434B-96DA-82471FE7AB37}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "abremir.AllMyBricks.iOS", "abremir.AllMyBricks.iOS\abremir.AllMyBricks.iOS.csproj", "{0EF10C2C-9B31-434B-96DA-82471FE7AB37}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "abremir.AllMyBricks.UWP", "abremir.AllMyBricks\abremir.AllMyBricks.UWP\abremir.AllMyBricks.UWP.csproj", "{6B8DF377-D93C-4CAE-9E3D-2632FD1151C9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "abremir.AllMyBricks.UWP", "abremir.AllMyBricks.UWP\abremir.AllMyBricks.UWP.csproj", "{6B8DF377-D93C-4CAE-9E3D-2632FD1151C9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "abremir.AllMyBricks", "abremir.AllMyBricks\abremir.AllMyBricks\abremir.AllMyBricks.csproj", "{B89C97CD-69A4-4336-9A70-D8223A79810F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "abremir.AllMyBricks", "abremir.AllMyBricks\abremir.AllMyBricks.csproj", "{B89C97CD-69A4-4336-9A70-D8223A79810F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
