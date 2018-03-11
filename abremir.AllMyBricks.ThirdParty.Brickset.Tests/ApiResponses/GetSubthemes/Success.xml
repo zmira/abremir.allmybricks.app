@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ArrayOfSubthemes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="https://brickset.com/api/">
+    <subthemes>
+        <theme>Architecture</theme>
+        <subtheme>{None}</subtheme>
+        <setCount>5</setCount>
+        <yearFrom>2013</yearFrom>
+        <yearTo>2018</yearTo>
+    </subthemes>
+    <subthemes>
+        <theme>Architecture</theme>
+        <subtheme>Architect Series</subtheme>
+        <setCount>8</setCount>
+        <yearFrom>2009</yearFrom>
+        <yearTo>2013</yearTo>
+    </subthemes>
+    <subthemes>
+        <theme>Architecture</theme>
+        <subtheme>Brickstructures</subtheme>
+        <setCount>2</setCount>
+        <yearFrom>2008</yearFrom>
+        <yearTo>2008</yearTo>
+    </subthemes>
+    <subthemes>
+        <theme>Architecture</theme>
+        <subtheme>Landmark Series</subtheme>
+        <setCount>22</setCount>
+        <yearFrom>2008</yearFrom>
+        <yearTo>2017</yearTo>
+    </subthemes>
+    <subthemes>
+        <theme>Architecture</theme>
+        <subtheme>Skylines</subtheme>
+        <setCount>8</setCount>
+        <yearFrom>2016</yearFrom>
+        <yearTo>2018</yearTo>
+    </subthemes>
+</ArrayOfSubthemes>

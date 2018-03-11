@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ArrayOfSets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="https://brickset.com/api/">
+    <sets>
+        <setID>9290</setID>
+        <number>19710</number>
+        <numberVariant>1</numberVariant>
+        <name>Sears Tower</name>
+        <year>2008</year>
+        <theme>Architecture</theme>
+        <themeGroup>Model making</themeGroup>
+        <subtheme>Brickstructures</subtheme>
+        <pieces>68</pieces>
+        <minifigs/>
+        <image>true</image>
+        <imageFilename>19710-1</imageFilename>
+        <thumbnailURL>
+            https://images.brickset.com/sets/thumbs/tn_19710-1_jpg.jpg
+        </thumbnailURL>
+        <largeThumbnailURL>https://images.brickset.com/sets/small/19710-1.jpg</largeThumbnailURL>
+        <imageURL>
+            https://images.brickset.com/sets/images/19710-1.jpg
+        </imageURL>
+        <bricksetURL>https://brickset.com/sets/19710-1</bricksetURL>
+        <released>true</released>
+        <owned>false</owned>
+        <wanted>false</wanted>
+        <qtyOwned>0</qtyOwned>
+        <ACMDataCount>0</ACMDataCount>
+        <ownedByTotal>133</ownedByTotal>
+        <wantedByTotal>637</wantedByTotal>
+        <UKRetailPrice/>
+        <USRetailPrice/>
+        <CARetailPrice/>
+        <EURetailPrice/>
+        <USDateAddedToSAH/>
+        <USDateRemovedFromSAH/>
+        <rating>0</rating>
+        <reviewCount>0</reviewCount>
+        <packagingType>Box</packagingType>
+        <availability>Retail - limited</availability>
+        <instructionsCount>0</instructionsCount>
+        <additionalImageCount>0</additionalImageCount>
+        <ageMin>10</ageMin>
+        <ageMax/>
+        <height/>
+        <width/>
+        <depth/>
+        <weight/>
+        <category>Normal</category>
+        <userRating>0</userRating>
+        <EAN/>
+        <UPC/>
+        <lastUpdated>2014-04-23T15:39:49.017</lastUpdated>
+    </sets>
+</ArrayOfSets>

@@ -1,7 +1,103 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>net461</TargetFramework>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="ApiResponses\CheckKey\InvalidApiKey.xml" />
+    <None Remove="ApiResponses\CheckKey\ValidKey.xml" />
+    <None Remove="ApiResponses\CheckUserHash\InvalidUserHash.xml" />
+    <None Remove="ApiResponses\CheckUserHash\ValidUserHash.xml" />
+    <None Remove="ApiResponses\GetAdditionalImages\InvalidApiKey.xml" />
+    <None Remove="ApiResponses\GetAdditionalImages\InvalidSetId.xml" />
+    <None Remove="ApiResponses\GetAdditionalImages\NoImages.xml" />
+    <None Remove="ApiResponses\GetAdditionalImages\Success.xml" />
+    <None Remove="ApiResponses\GetInstructions\InvalidApiKey.xml" />
+    <None Remove="ApiResponses\GetInstructions\InvalidSetId.xml" />
+    <None Remove="ApiResponses\GetInstructions\NoInstructions.xml" />
+    <None Remove="ApiResponses\GetInstructions\Success.xml" />
+    <None Remove="ApiResponses\GetRecentlyUpdatedSets\InvalidApiKey.xml" />
+    <None Remove="ApiResponses\GetRecentlyUpdatedSets\NoMatches.xml" />
+    <None Remove="ApiResponses\GetRecentlyUpdatedSets\Success.xml" />
+    <None Remove="ApiResponses\GetReviews\InvalidApiKey.xml" />
+    <None Remove="ApiResponses\GetReviews\InvalidSetId.xml" />
+    <None Remove="ApiResponses\GetReviews\NoReviews.xml" />
+    <None Remove="ApiResponses\GetReviews\Success.xml" />
+    <None Remove="ApiResponses\GetSets\InvalidApiKey.xml" />
+    <None Remove="ApiResponses\GetSets\NoMatches.xml" />
+    <None Remove="ApiResponses\GetSets\Success.xml" />
+    <None Remove="ApiResponses\GetSet\InvalidApiKey.xml" />
+    <None Remove="ApiResponses\GetSet\NoMatches.xml" />
+    <None Remove="ApiResponses\GetSet\Success.xml" />
+    <None Remove="ApiResponses\GetSubthemes\InvalidApiKey.xml" />
+    <None Remove="ApiResponses\GetSubthemes\InvalidTheme.xml" />
+    <None Remove="ApiResponses\GetSubthemes\NoSubthemes.xml" />
+    <None Remove="ApiResponses\GetSubthemes\Success.xml" />
+    <None Remove="ApiResponses\GetThemes\InvalidApiKey.xml" />
+    <None Remove="ApiResponses\GetThemes\Success.xml" />
+    <None Remove="ApiResponses\GetYears\InvalidApiKey.xml" />
+    <None Remove="ApiResponses\GetYears\InvalidTheme.xml" />
+    <None Remove="ApiResponses\GetYears\NoYears.xml" />
+    <None Remove="ApiResponses\GetYears\Success.xml" />
+    <None Remove="ApiResponses\Login\InvalidApiKey.xml" />
+    <None Remove="ApiResponses\Login\InvalidCredentials.xml" />
+    <None Remove="ApiResponses\Login\ValidCredentials.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="ApiResponses\CheckKey\InvalidApiKey.xml" />
+    <EmbeddedResource Include="ApiResponses\CheckKey\ValidKey.xml" />
+    <EmbeddedResource Include="ApiResponses\CheckUserHash\InvalidUserHash.xml" />
+    <EmbeddedResource Include="ApiResponses\CheckUserHash\ValidUserHash.xml" />
+    <EmbeddedResource Include="ApiResponses\GetAdditionalImages\InvalidApiKey.xml" />
+    <EmbeddedResource Include="ApiResponses\GetAdditionalImages\InvalidSetId.xml" />
+    <EmbeddedResource Include="ApiResponses\GetAdditionalImages\NoImages.xml" />
+    <EmbeddedResource Include="ApiResponses\GetAdditionalImages\Success.xml" />
+    <EmbeddedResource Include="ApiResponses\GetInstructions\InvalidApiKey.xml" />
+    <EmbeddedResource Include="ApiResponses\GetInstructions\InvalidSetId.xml" />
+    <EmbeddedResource Include="ApiResponses\GetInstructions\NoInstructions.xml" />
+    <EmbeddedResource Include="ApiResponses\GetInstructions\Success.xml" />
+    <EmbeddedResource Include="ApiResponses\GetRecentlyUpdatedSets\InvalidApiKey.xml" />
+    <EmbeddedResource Include="ApiResponses\GetRecentlyUpdatedSets\NoMatches.xml" />
+    <EmbeddedResource Include="ApiResponses\GetRecentlyUpdatedSets\Success.xml" />
+    <EmbeddedResource Include="ApiResponses\GetReviews\InvalidApiKey.xml" />
+    <EmbeddedResource Include="ApiResponses\GetReviews\InvalidSetId.xml" />
+    <EmbeddedResource Include="ApiResponses\GetReviews\NoReviews.xml" />
+    <EmbeddedResource Include="ApiResponses\GetReviews\Success.xml" />
+    <EmbeddedResource Include="ApiResponses\GetSets\InvalidApiKey.xml" />
+    <EmbeddedResource Include="ApiResponses\GetSets\NoMatches.xml" />
+    <EmbeddedResource Include="ApiResponses\GetSets\Success.xml" />
+    <EmbeddedResource Include="ApiResponses\GetSet\InvalidApiKey.xml" />
+    <EmbeddedResource Include="ApiResponses\GetSet\NoMatches.xml" />
+    <EmbeddedResource Include="ApiResponses\GetSet\Success.xml" />
+    <EmbeddedResource Include="ApiResponses\GetSubthemes\InvalidApiKey.xml" />
+    <EmbeddedResource Include="ApiResponses\GetSubthemes\InvalidTheme.xml" />
+    <EmbeddedResource Include="ApiResponses\GetSubthemes\NoSubthemes.xml" />
+    <EmbeddedResource Include="ApiResponses\GetSubthemes\Success.xml" />
+    <EmbeddedResource Include="ApiResponses\GetThemes\InvalidApiKey.xml" />
+    <EmbeddedResource Include="ApiResponses\GetThemes\Success.xml" />
+    <EmbeddedResource Include="ApiResponses\GetYears\Success.xml" />
+    <EmbeddedResource Include="ApiResponses\GetYears\NoYears.xml" />
+    <EmbeddedResource Include="ApiResponses\GetYears\InvalidTheme.xml" />
+    <EmbeddedResource Include="ApiResponses\GetYears\InvalidApiKey.xml" />
+    <EmbeddedResource Include="ApiResponses\Login\InvalidApiKey.xml" />
+    <EmbeddedResource Include="ApiResponses\Login\InvalidCredentials.xml" />
+    <EmbeddedResource Include="ApiResponses\Login\ValidCredentials.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentAssertions" Version="5.1.2" />
+    <PackageReference Include="MSTest.TestAdapter" Version="1.2.0" />
+    <PackageReference Include="MSTest.TestFramework" Version="1.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\abremir.AllMyBricks.ThirdParty.Brickset\abremir.AllMyBricks.ThirdParty.Brickset.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{82a7f48d-3b50-4b1e-b82e-3ada8210c358}" />
+  </ItemGroup>
 
 </Project>
