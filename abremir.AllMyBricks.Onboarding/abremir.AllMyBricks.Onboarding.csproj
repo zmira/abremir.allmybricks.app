@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Flurl" Version="2.7.0" />
+    <PackageReference Include="Flurl.Http" Version="2.2.1" />
+    <PackageReference Include="SimpleInjector" Version="4.0.12" />
+    <PackageReference Include="TinyMapper" Version="2.0.8" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\abremir.AllMyBricks.Core\abremir.AllMyBricks.Core.csproj" />
+  </ItemGroup>
+
+</Project>
