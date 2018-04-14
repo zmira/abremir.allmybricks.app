@@ -2,6 +2,7 @@
 using abremir.AllMyBricks.Onboarding.Configuration;
 using abremir.AllMyBricks.Onboarding.Interfaces;
 using abremir.AllMyBricks.Onboarding.Services;
+using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 
@@ -43,8 +44,8 @@ namespace abremir.AllMyBricks.Onboarding.Tests.Services
             identification = _registrationService.Register(identification);
 
             var apiKey = _apiKeyService.GetBricksetApiKey(identification);
-			
-			apiKey.Should().BeNotNullOrEmpty();
+
+			apiKey.Should().NotBeNullOrEmpty();
 
             _registrationService.Unregister(identification);
         }
