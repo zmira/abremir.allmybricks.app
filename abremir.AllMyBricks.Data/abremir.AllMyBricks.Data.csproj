@@ -6,7 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="LiteDB" Version="4.1.2" />
-    <PackageReference Include="SimpleInjector" Version="4.1.1" />
+    <PackageReference Include="SimpleInjector" Version="4.2.1" />
   </ItemGroup>
 
   <ItemGroup>
