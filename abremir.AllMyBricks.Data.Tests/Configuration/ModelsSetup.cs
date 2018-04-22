@@ -1,6 +1,6 @@
 ﻿using abremir.AllMyBricks.Data.Models;
 
-namespace abremir.AllMyBricks.Data.Tests.Repositories
+namespace abremir.AllMyBricks.Data.Tests.Configuration
 {
     public static class ModelsSetup
     {
@@ -14,6 +14,10 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
         public const ushort SecondThemeYearTo = 2020;
         public const ushort FirstSubthemeYearFrom = FirstThemeYearFrom + 10;
         public const ushort SecondSubthemeYearFrom = FirstThemeYearFrom + 11;
+        public const string CategoryReferenceDataValue = "New Category";
+        public const string PackagingTypeReferenceDataValue = "New Packaging Type";
+        public const string TagReferenceDataValue = "New Tag";
+        public const string ThemeGroupReferenceDataValue = "New Theme Group";
 
         public static Theme ThemeUnderTest => new Theme
         {
@@ -57,6 +61,26 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
                 YearFrom = SecondSubthemeYearFrom,
                 YearTo = ThemeUnderTest.YearTo
             }
+        };
+
+        public static Category CategoryReferenceData => new Category
+        {
+            Value = CategoryReferenceDataValue
+        };
+
+        public static ThemeGroup ThemeGroupReferenceData => new ThemeGroup
+        {
+            Value = ThemeGroupReferenceDataValue
+        };
+
+        public static Tag TagReferenceData => new Tag
+        {
+            Value = TagReferenceDataValue
+        };
+
+        public static PackagingType PackagingTypeReferenceData => new PackagingType
+        {
+            Value = PackagingTypeReferenceDataValue
         };
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace abremir.AllMyBricks.Data.Tests.Config
+﻿namespace abremir.AllMyBricks.Data.Tests.Configuration
 {
     public interface IMemoryRepositoryService
     {

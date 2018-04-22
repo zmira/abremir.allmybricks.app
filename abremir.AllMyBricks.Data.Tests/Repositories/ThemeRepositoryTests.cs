@@ -1,7 +1,7 @@
 ﻿using abremir.AllMyBricks.Data.Interfaces;
 using abremir.AllMyBricks.Data.Models;
 using abremir.AllMyBricks.Data.Repositories;
-using abremir.AllMyBricks.Data.Tests.Config;
+using abremir.AllMyBricks.Data.Tests.Configuration;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

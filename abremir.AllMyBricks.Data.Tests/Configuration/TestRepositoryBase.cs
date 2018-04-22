@@ -1,9 +1,8 @@
 ﻿using abremir.AllMyBricks.Data.Interfaces;
-using abremir.AllMyBricks.Data.Models;
-using abremir.AllMyBricks.Data.Tests.Repositories;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Collections.Generic;
 
-namespace abremir.AllMyBricks.Data.Tests.Config
+namespace abremir.AllMyBricks.Data.Tests.Configuration
 {
     public class TestRepositoryBase
     {
@@ -33,6 +32,14 @@ namespace abremir.AllMyBricks.Data.Tests.Config
                 {
                     repository.Insert(data);
                 }
+            }
+        }
+
+        protected IList<T> GetAllData<T>()
+        {
+            using(var repository = MemoryRepositoryService.GetRepository())
+            {
+                return repository.Query<T>().ToList();
             }
         }
     }
