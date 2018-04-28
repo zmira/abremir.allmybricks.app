@@ -22,7 +22,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
         }
 
         [DataTestMethod]
-        [DataRow("")]
+        [DataRow(ModelsSetup.StringEmpty)]
         [DataRow(null)]
         public void GivenGetOrAdd_WhenInvalidCategoryReferenceDataValue_ThenReturnsNull(string referenceDataValue)
         {
@@ -30,7 +30,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
         }
 
         [DataTestMethod]
-        [DataRow("")]
+        [DataRow(ModelsSetup.StringEmpty)]
         [DataRow(null)]
         public void GivenGetOrAdd_WhenInvalidPackagingTypeReferenceDataValue_ThenReturnsNull(string referenceDataValue)
         {
@@ -38,7 +38,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
         }
 
         [DataTestMethod]
-        [DataRow("")]
+        [DataRow(ModelsSetup.StringEmpty)]
         [DataRow(null)]
         public void GivenGetOrAdd_WhenInvalidTagReferenceDataValue_ThenReturnsNull(string referenceDataValue)
         {
@@ -46,7 +46,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
         }
 
         [DataTestMethod]
-        [DataRow("")]
+        [DataRow(ModelsSetup.StringEmpty)]
         [DataRow(null)]
         public void GivenGetOrAdd_WhenInvalidThemeGroupReferenceDataValue_ThenReturnsNull(string referenceDataValue)
         {

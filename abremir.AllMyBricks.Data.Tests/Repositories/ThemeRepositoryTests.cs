@@ -100,7 +100,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
 
         [DataTestMethod]
         [DataRow(null)]
-        [DataRow("")]
+        [DataRow(ModelsSetup.StringEmpty)]
         public void GivenAddOrUpdateTheme_WhenInvalidTheme_ThenReturnsNull(string themeName)
         {
             var theme = _themeRepository.AddOrUpdateTheme(new Theme { Name = themeName });

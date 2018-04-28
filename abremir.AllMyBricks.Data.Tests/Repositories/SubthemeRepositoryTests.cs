@@ -133,7 +133,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
 
         [DataTestMethod]
         [DataRow(null)]
-        [DataRow("")]
+        [DataRow(ModelsSetup.StringEmpty)]
         public void GivenAddOrUpdateSubtheme_WhenInvalidSubtheme_ThenReturnsNull(string subthemeName)
         {
             var subthemeUnderTest = new Subtheme { Name = subthemeName };
@@ -155,7 +155,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
 
         [DataTestMethod]
         [DataRow(null)]
-        [DataRow("")]
+        [DataRow(ModelsSetup.StringEmpty)]
         public void GivenAddOrUpdateSubtheme_WhenInvalidTheme_ThenReturnsNull(string themeName)
         {
             var subthemeUnderTest = new Subtheme { Name = ModelsSetup.NonExistentSubthemeName, Theme = new Theme { Name = themeName } };
