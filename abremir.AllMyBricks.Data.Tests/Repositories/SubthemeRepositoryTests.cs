@@ -1,4 +1,5 @@
-﻿using abremir.AllMyBricks.Data.Interfaces;
+﻿using abremir.AllMyBricks.Data.Configuration;
+using abremir.AllMyBricks.Data.Interfaces;
 using abremir.AllMyBricks.Data.Models;
 using abremir.AllMyBricks.Data.Repositories;
 using abremir.AllMyBricks.Data.Tests.Configuration;
@@ -86,6 +87,17 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
             allSubthemesForYear.Should().BeEmpty();
         }
 
+        [TestMethod]
+        public void GivenGetAllSubthemesForYear_WhenYearIsLessThanMinimumConstant_ThenReturnsEmpty()
+        {
+            InsertData(ModelsSetup.ListOfThemesUnderTest);
+            InsertData(ModelsSetup.ListOfSubthemesUnderTest);
+
+            var allSubthemesForYear = _subthemeRepository.GetAllSubthemesForYear(Constants.MinimumSetYear - 1);
+
+            allSubthemesForYear.Should().BeEmpty();
+        }
+
         [DataTestMethod]
         [DataRow(ModelsSetup.FirstSubthemeYearFrom, 1)]
         [DataRow(ModelsSetup.SecondSubthemeYearFrom, 2)]
@@ -159,6 +171,28 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
         public void GivenAddOrUpdateSubtheme_WhenInvalidTheme_ThenReturnsNull(string themeName)
         {
             var subthemeUnderTest = new Subtheme { Name = ModelsSetup.NonExistentSubthemeName, Theme = new Theme { Name = themeName } };
+
+            var subtheme = _subthemeRepository.AddOrUpdateSubtheme(subthemeUnderTest);
+
+            subtheme.Should().BeNull();
+        }
+
+        [TestMethod]
+        public void GivenAddOrUpdateSubtheme_WhenSubthemeYearFromIsLessThanMinimumConstant_ThenReturnsNull()
+        {
+            var subthemeUnderTest = ModelsSetup.SubthemeUnderTest;
+            subthemeUnderTest.YearFrom = Constants.MinimumSetYear - 1;
+
+            var subtheme = _subthemeRepository.AddOrUpdateSubtheme(subthemeUnderTest);
+
+            subtheme.Should().BeNull();
+        }
+
+        [TestMethod]
+        public void GivenAddOrUpdateSubtheme_WhenThemeYearFromIsLessThanMinimumConstant_ThenReturnsNull()
+        {
+            var subthemeUnderTest = ModelsSetup.SubthemeUnderTest;
+            subthemeUnderTest.Theme.YearFrom = Constants.MinimumSetYear - 1;
 
             var subtheme = _subthemeRepository.AddOrUpdateSubtheme(subthemeUnderTest);
 

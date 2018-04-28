@@ -1,4 +1,5 @@
-﻿using abremir.AllMyBricks.Data.Interfaces;
+﻿using abremir.AllMyBricks.Data.Configuration;
+using abremir.AllMyBricks.Data.Interfaces;
 using abremir.AllMyBricks.Data.Models;
 using abremir.AllMyBricks.Data.Repositories;
 using abremir.AllMyBricks.Data.Tests.Configuration;
@@ -69,6 +70,16 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
         }
 
         [TestMethod]
+        public void GivenGetAllThemesForYear_WhenYearIsLessThanMinimumConstant_ThenReturnsEmpty()
+        {
+            InsertData(ModelsSetup.ListOfThemesUnderTest);
+
+            var allThemesForYear = _themeRepository.GetAllThemesForYear(Constants.MinimumSetYear - 1);
+
+            allThemesForYear.Should().BeEmpty();
+        }
+
+        [TestMethod]
         public void GivenGetAllThemesForYear_WhenNoThemesForYear_ThenReturnsEmpty()
         {
             InsertData(ModelsSetup.ListOfThemesUnderTest);
@@ -104,6 +115,17 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
         public void GivenAddOrUpdateTheme_WhenInvalidTheme_ThenReturnsNull(string themeName)
         {
             var theme = _themeRepository.AddOrUpdateTheme(new Theme { Name = themeName });
+
+            theme.Should().BeNull();
+        }
+
+        [TestMethod]
+        public void GivenAddOrUpdateTheme_WhenThemeYearFromIsLessThanMinimumConstant_ThenReturnsNull()
+        {
+            var themeUnderTest = ModelsSetup.ThemeUnderTest;
+            themeUnderTest.YearFrom = Constants.MinimumSetYear - 1;
+
+            var theme = _themeRepository.AddOrUpdateTheme(themeUnderTest);
 
             theme.Should().BeNull();
         }

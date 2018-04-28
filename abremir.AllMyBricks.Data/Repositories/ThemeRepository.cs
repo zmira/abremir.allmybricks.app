@@ -1,4 +1,5 @@
-﻿using abremir.AllMyBricks.Data.Interfaces;
+﻿using abremir.AllMyBricks.Data.Configuration;
+using abremir.AllMyBricks.Data.Interfaces;
 using abremir.AllMyBricks.Data.Models;
 using System;
 using System.Collections.Generic;
@@ -17,7 +18,8 @@ namespace abremir.AllMyBricks.Data.Repositories
         public Theme AddOrUpdateTheme(Theme theme)
         {
             if(theme == null
-                || string.IsNullOrWhiteSpace(theme.Name))
+                || string.IsNullOrWhiteSpace(theme.Name)
+                || theme.YearFrom < Constants.MinimumSetYear)
             {
                 return null;
             }
@@ -51,6 +53,11 @@ namespace abremir.AllMyBricks.Data.Repositories
 
         public IEnumerable<Theme> GetAllThemesForYear(ushort year)
         {
+            if(year < Constants.MinimumSetYear)
+            {
+                return new Theme[] { };
+            }
+
             using (var repository = _repositoryService.GetRepository())
             {
                 return repository

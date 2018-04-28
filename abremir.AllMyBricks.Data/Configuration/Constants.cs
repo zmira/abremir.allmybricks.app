@@ -3,5 +3,6 @@
     public static class Constants
     {
         public const string AllMyBricksDbFile = "allmybricks.litedb";
+        public const ushort MinimumSetYear = 1949;
     }
 }
