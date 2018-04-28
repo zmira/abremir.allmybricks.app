@@ -111,6 +111,19 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
             allSubthemesForYear.Should().HaveCount(expectedCount);
         }
 
+        [DataTestMethod]
+        [DataRow(null)]
+        [DataRow(ModelsSetup.StringEmpty)]
+        public void GivenGetAllSubthemesForTheme_WhenThemeNameNotValid_ThenReturnsEmpty(string themeName)
+        {
+            InsertData(ModelsSetup.ListOfThemesUnderTest);
+            InsertData(ModelsSetup.ListOfSubthemesUnderTest);
+
+            var allSubthemesForTheme = _subthemeRepository.GetAllSubthemesForTheme(themeName);
+
+            allSubthemesForTheme.Should().BeEmpty();
+        }
+
         [TestMethod]
         public void GivenGetAllSubthemesForTheme_WhenNoSubthemesForTheme_ThenReturnsEmpty()
         {
@@ -203,6 +216,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
         public void GivenAddOrUpdateSubtheme_WhenNewValidSubtheme_ThenInsertsModel()
         {
             InsertData(ModelsSetup.ThemeUnderTest);
+
             _subthemeRepository.AddOrUpdateSubtheme(ModelsSetup.SubthemeUnderTest);
 
             var subtheme = _subthemeRepository.GetSubtheme(ModelsSetup.ThemeUnderTest.Name, ModelsSetup.SubthemeUnderTest.Name);
