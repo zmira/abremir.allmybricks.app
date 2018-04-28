@@ -33,6 +33,8 @@ namespace abremir.AllMyBricks.Data.Services
                 liteEngine.EnsureIndex(nameof(Subtheme), "YearFrom");
                 liteEngine.EnsureIndex(nameof(Subtheme), "YearTo");
                 liteEngine.EnsureIndex(nameof(Subtheme), "Theme.Name");
+                liteEngine.EnsureIndex(nameof(ThemeYearCount), "Theme.Name");
+                liteEngine.EnsureIndex(nameof(ThemeYearCount), "Year");
 
                 liteEngine.UserVersion = 1;
             }
