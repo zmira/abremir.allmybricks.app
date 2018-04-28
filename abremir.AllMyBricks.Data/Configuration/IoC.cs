@@ -15,6 +15,7 @@ namespace abremir.AllMyBricks.Data.Configuration
             container.Register<IThemeRepository, ThemeRepository>(Lifestyle.Transient);
             container.Register<ISubthemeRepository, SubthemeRepository>(Lifestyle.Transient);
             container.Register<IReferenceDataRepository, ReferenceDataRepository>(Lifestyle.Transient);
+            container.Register<IThemeYearCountRepository, ThemeYearCountRepository>(Lifestyle.Transient);
 
             return container;
         }

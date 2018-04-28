@@ -82,5 +82,29 @@ namespace abremir.AllMyBricks.Data.Tests.Configuration
         {
             Value = PackagingTypeReferenceDataValue
         };
+
+        public static ThemeYearCount ThemeYearCountUnderTest => new ThemeYearCount
+        {
+            Key = new ThemeYear
+            {
+                Theme = ThemeUnderTest,
+                Year = ThemeUnderTest.YearFrom
+            },
+            Count = 55
+        };
+
+        public static ThemeYearCount[] ListOfThemeYearCountUnderTest => new[]
+        {
+            ThemeYearCountUnderTest,
+            new ThemeYearCount
+            {
+                Key = new ThemeYear
+                {
+                    Theme = ListOfThemesUnderTest[1],
+                    Year = ListOfThemesUnderTest[1].YearFrom
+                },
+                Count = 11
+            }
+        };
     }
 }
