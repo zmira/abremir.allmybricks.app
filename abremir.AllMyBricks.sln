@@ -25,9 +25,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "abremir.AllMyBricks.Data", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "abremir.AllMyBricks.Data.Tests", "abremir.AllMyBricks.Data.Tests\abremir.AllMyBricks.Data.Tests.csproj", "{59D9799C-FE03-4121-977D-749F0459CCE0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "abremir.AllMyBricks.Onboarding", "abremir.AllMyBricks.Onboarding\abremir.AllMyBricks.Onboarding.csproj", "{9DFCB010-072B-46B0-957A-F9AF097AA07C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "abremir.AllMyBricks.Onboarding", "abremir.AllMyBricks.Onboarding\abremir.AllMyBricks.Onboarding.csproj", "{9DFCB010-072B-46B0-957A-F9AF097AA07C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "abremir.AllMyBricks.Onboarding.Tests", "abremir.AllMyBricks.Onboarding.Tests\abremir.AllMyBricks.Onboarding.Tests.csproj", "{E75592C6-4829-4722-928B-33A3714CB69B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "abremir.AllMyBricks.Onboarding.Tests", "abremir.AllMyBricks.Onboarding.Tests\abremir.AllMyBricks.Onboarding.Tests.csproj", "{E75592C6-4829-4722-928B-33A3714CB69B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
