@@ -1,4 +1,5 @@
 ﻿using LiteDB;
+using System.Collections.Generic;
 
 namespace abremir.AllMyBricks.Data.Models
 {
@@ -10,5 +11,6 @@ namespace abremir.AllMyBricks.Data.Models
         public ushort SubthemeCount { get; set; }
         public ushort YearFrom { get; set; }
         public ushort YearTo { get; set; }
+        public IList<YearSetCount> SetCountPerYear { get; set; }
     }
 }

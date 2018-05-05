@@ -25,7 +25,14 @@ namespace abremir.AllMyBricks.Data.Tests.Configuration
             SetCount = 9,
             SubthemeCount = 99,
             YearFrom = FirstThemeYearFrom,
-            YearTo = FirstThemeYearTo
+            YearTo = FirstThemeYearTo,
+            SetCountPerYear = new YearSetCount[]
+            {
+                new YearSetCount
+                {
+                    Year = FirstThemeYearTo
+                }
+            }
         };
 
         public static Theme[] ListOfThemesUnderTest => new[]
@@ -37,7 +44,18 @@ namespace abremir.AllMyBricks.Data.Tests.Configuration
                 SetCount = 10,
                 SubthemeCount = 100,
                 YearFrom = 1991,
-                YearTo = SecondThemeYearTo
+                YearTo = SecondThemeYearTo,
+                SetCountPerYear = new YearSetCount[]
+                {
+                    new YearSetCount
+                    {
+                        Year = FirstThemeYearTo
+                    },
+                    new YearSetCount
+                    {
+                        Year = SecondThemeYearTo
+                    }
+                }
             }
         };
 
@@ -81,30 +99,6 @@ namespace abremir.AllMyBricks.Data.Tests.Configuration
         public static PackagingType PackagingTypeReferenceData => new PackagingType
         {
             Value = PackagingTypeReferenceDataValue
-        };
-
-        public static ThemeYearCount ThemeYearCountUnderTest => new ThemeYearCount
-        {
-            Key = new ThemeYear
-            {
-                Theme = ThemeUnderTest,
-                Year = ThemeUnderTest.YearFrom
-            },
-            Count = 55
-        };
-
-        public static ThemeYearCount[] ListOfThemeYearCountUnderTest => new[]
-        {
-            ThemeYearCountUnderTest,
-            new ThemeYearCount
-            {
-                Key = new ThemeYear
-                {
-                    Theme = ListOfThemesUnderTest[1],
-                    Year = ListOfThemesUnderTest[1].YearFrom
-                },
-                Count = 11
-            }
         };
     }
 }

@@ -1,6 +1,7 @@
 ﻿using abremir.AllMyBricks.Data.Configuration;
 using abremir.AllMyBricks.Data.Interfaces;
 using abremir.AllMyBricks.Data.Models;
+using LiteDB;
 using System;
 using System.Collections.Generic;
 
@@ -60,11 +61,17 @@ namespace abremir.AllMyBricks.Data.Repositories
 
             using (var repository = _repositoryService.GetRepository())
             {
-                return repository
-                    .Query<Theme>()
-                    .Where(theme => theme.YearFrom <= year
-                        && year <= theme.YearTo)
-                    .ToEnumerable();
+                //var expression = repository
+                //    .Query<Theme>()
+                //    .Where(theme => theme.SetCountPerYear.Any(setCountPerYear => setCountPerYear.Year == year))
+                //    .ToEnumerable();
+
+                //var expression2 = repository
+                //    .Query<Theme>()
+                //    .Where(theme => theme.SetCountPerYear[0].Year == year)
+                //    .ToEnumerable();
+
+                return repository.Fetch<Theme>(Query.EQ("SetCountPerYear[*].Year", (int)year));
             }
         }
 
