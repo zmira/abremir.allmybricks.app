@@ -61,16 +61,6 @@ namespace abremir.AllMyBricks.Data.Repositories
 
             using (var repository = _repositoryService.GetRepository())
             {
-                //var expression = repository
-                //    .Query<Theme>()
-                //    .Where(theme => theme.SetCountPerYear.Any(setCountPerYear => setCountPerYear.Year == year))
-                //    .ToEnumerable();
-
-                //var expression2 = repository
-                //    .Query<Theme>()
-                //    .Where(theme => theme.SetCountPerYear[0].Year == year)
-                //    .ToEnumerable();
-
                 return repository
                     .Query<Theme>()
                     .Where(Query.EQ("SetCountPerYear[*].Year", (int)year))
