@@ -71,7 +71,10 @@ namespace abremir.AllMyBricks.Data.Repositories
                 //    .Where(theme => theme.SetCountPerYear[0].Year == year)
                 //    .ToEnumerable();
 
-                return repository.Fetch<Theme>(Query.EQ("SetCountPerYear[*].Year", (int)year));
+                return repository
+                    .Query<Theme>()
+                    .Where(Query.EQ("SetCountPerYear[*].Year", (int)year))
+                    .ToEnumerable();
             }
         }
 
