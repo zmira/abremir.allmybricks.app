@@ -49,7 +49,7 @@ namespace abremir.AllMyBricks.Data.Repositories
 
         public IEnumerable<Subtheme> GetAllSubthemes()
         {
-            return GetFromRepository(subtheme => true)
+            return GetFromRepository()
                 .ToEnumerable();
         }
 
@@ -91,14 +91,20 @@ namespace abremir.AllMyBricks.Data.Repositories
                 .FirstOrDefault();
         }
 
-        private LiteQueryable<Subtheme> GetFromRepository(Expression<Func<Subtheme, bool>> whereExpression)
+        private LiteQueryable<Subtheme> GetFromRepository(Expression<Func<Subtheme, bool>> whereExpression = null)
         {
             using (var repository = _repositoryService.GetRepository())
             {
-                return repository
+                var query = repository
                     .Query<Subtheme>()
-                    .Include(subtheme => subtheme.Theme)
-                    .Where(whereExpression);
+                    .Include(subtheme => subtheme.Theme);
+
+                if (whereExpression != null)
+                {
+                    query.Where(whereExpression);
+                }
+
+                return query;
             }
         }
     }
