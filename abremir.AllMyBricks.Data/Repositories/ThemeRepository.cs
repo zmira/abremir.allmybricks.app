@@ -4,6 +4,7 @@ using abremir.AllMyBricks.Data.Models;
 using LiteDB;
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 
 namespace abremir.AllMyBricks.Data.Repositories
 {
@@ -44,12 +45,8 @@ namespace abremir.AllMyBricks.Data.Repositories
 
         public IEnumerable<Theme> GetAllThemes()
         {
-            using (var repository = _repositoryService.GetRepository())
-            {
-                return repository
-                    .Query<Theme>()
-                    .ToEnumerable();
-            }
+            return GetFromRepository(theme => true)
+                .ToEnumerable();
         }
 
         public IEnumerable<Theme> GetAllThemesForYear(ushort year)
@@ -75,12 +72,17 @@ namespace abremir.AllMyBricks.Data.Repositories
                 return null;
             }
 
-            using(var repository = _repositoryService.GetRepository())
+            return GetFromRepository(theme => theme.Name.Equals(themeName, StringComparison.InvariantCultureIgnoreCase))
+                .FirstOrDefault();
+        }
+
+        private LiteQueryable<Theme> GetFromRepository(Expression<Func<Theme, bool>> whereExpression)
+        {
+            using (var repository = _repositoryService.GetRepository())
             {
                 return repository
                     .Query<Theme>()
-                    .Where(theme => theme.Name.Equals(themeName, StringComparison.InvariantCultureIgnoreCase))
-                    .FirstOrDefault();
+                    .Where(whereExpression);
             }
         }
     }
