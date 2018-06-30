@@ -128,4 +128,5 @@
       <Name>abremir.AllMyBricks</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
 </Project>
