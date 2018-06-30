@@ -5,9 +5,9 @@ namespace abremir.AllMyBricks.Data.Interfaces
 {
     public interface IThemeRepository
     {
-        Theme AddOrUpdateTheme(Theme theme);
-        Theme GetTheme(string themeName);
-        IEnumerable<Theme> GetAllThemes();
-        IEnumerable<Theme> GetAllThemesForYear(ushort year);
+        Theme AddOrUpdate(Theme theme);
+        Theme Get(string themeName);
+        IEnumerable<Theme> All();
+        IEnumerable<Theme> AllForYear(short year);
     }
 }

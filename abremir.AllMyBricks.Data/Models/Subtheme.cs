@@ -1,15 +1,19 @@
-﻿using LiteDB;
+﻿using Realms;
 
 namespace abremir.AllMyBricks.Data.Models
 {
-    public class Subtheme
+    public class Subtheme : RealmObject
     {
-        [BsonId(false)]
+        [PrimaryKey]
         public string Name { get; set; }
-        public ushort SetCount { get; set; }
-        public ushort YearFrom { get; set; }
-        public ushort YearTo { get; set; }
-        [BsonRef]
+
+        [Indexed]
+        public short YearFrom { get; set; }
+
+        [Indexed]
+        public short YearTo { get; set; }
+
         public Theme Theme { get; set; }
+        public short SetCount { get; set; }
     }
 }

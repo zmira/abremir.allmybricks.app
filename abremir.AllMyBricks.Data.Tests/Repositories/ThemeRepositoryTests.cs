@@ -5,6 +5,8 @@ using abremir.AllMyBricks.Data.Repositories;
 using abremir.AllMyBricks.Data.Tests.Configuration;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Linq;
 
 namespace abremir.AllMyBricks.Data.Tests.Repositories
 {
@@ -24,67 +26,67 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
         [DataTestMethod]
         [DataRow(null)]
         [DataRow(ModelsSetup.StringEmpty)]
-        public void GivenGetTheme_WhenThemeNameNotValid_ThenReturnsNull(string themeName)
+        public void Get_ThemeNameNotValid_ReturnsNull(string themeName)
         {
-            var theme = _themeRepository.GetTheme(themeName);
+            var theme = _themeRepository.Get(themeName);
 
             theme.Should().BeNull();
         }
 
         [TestMethod]
-        public void GivenGetTheme_WhenThemeDoesNotExist_ThenReturnsNull()
+        public void Get_ThemeDoesNotExist_ReturnsNull()
         {
-            InsertData(ModelsSetup.ThemeUnderTest);
+            InsertData(ModelsSetup.GetThemeUnderTest(Guid.NewGuid().ToString()));
 
-            var theme = _themeRepository.GetTheme(ModelsSetup.NonExistentThemeName);
+            var theme = _themeRepository.Get(ModelsSetup.NonExistentThemeName);
 
             theme.Should().BeNull();
         }
 
         [TestMethod]
-        public void GivenGetTheme_WhenThemeExists_ThenReturnsModel()
+        public void Get_ThemeExists_ReturnsModel()
         {
-            InsertData(ModelsSetup.ThemeUnderTest);
+            var themeUnderTest = InsertData(ModelsSetup.GetThemeUnderTest(Guid.NewGuid().ToString()));
 
-            var theme = _themeRepository.GetTheme(ModelsSetup.ThemeUnderTestName);
+            var theme = _themeRepository.Get(themeUnderTest.Name);
 
-            theme.Should().BeEquivalentTo(ModelsSetup.ThemeUnderTest);
+            theme.Name.Should().BeEquivalentTo(themeUnderTest.Name);
         }
 
         [TestMethod]
-        public void GivenGetAllThemes_WhenNoThemes_ThenReturnsEmpty()
+        public void All_NoThemes_ReturnsEmpty()
         {
-            var allThemes = _themeRepository.GetAllThemes();
+            var allThemes = _themeRepository.All();
 
             allThemes.Should().BeEmpty();
         }
 
         [TestMethod]
-        public void GivenGetAllThemes_WhenHasThemes_ThenReturnsModels()
+        public void All_HasThemes_ReturnsModels()
         {
-            InsertData(ModelsSetup.ListOfThemesUnderTest);
+            var listOfThemesUnderTest = InsertData(ModelsSetup.ListOfThemesUnderTest);
 
-            var allThemes = _themeRepository.GetAllThemes();
+            var allThemes = _themeRepository.All();
 
-            allThemes.Should().BeEquivalentTo(ModelsSetup.ListOfThemesUnderTest);
+            allThemes.Select(theme => theme.Name).Should().BeEquivalentTo(listOfThemesUnderTest.Select(theme => theme.Name));
         }
 
         [TestMethod]
-        public void GivenGetAllThemesForYear_WhenYearIsLessThanMinimumConstant_ThenReturnsEmpty()
+        public void AllForYear_YearIsLessThanMinimumConstant_ReturnsEmpty()
         {
             InsertData(ModelsSetup.ListOfThemesUnderTest);
 
-            var allThemesForYear = _themeRepository.GetAllThemesForYear(Constants.MinimumSetYear - 1);
+            var allThemesForYear = _themeRepository.AllForYear(Constants.MinimumSetYear - 1);
 
             allThemesForYear.Should().BeEmpty();
         }
 
         [TestMethod]
-        public void GivenGetAllThemesForYear_WhenNoThemesForYear_ThenReturnsEmpty()
+        public void AllForYear_NoThemesForYear_ReturnsEmpty()
         {
             InsertData(ModelsSetup.ListOfThemesUnderTest);
 
-            var allThemesForYear = _themeRepository.GetAllThemesForYear(ModelsSetup.SecondThemeYearTo + 1);
+            var allThemesForYear = _themeRepository.AllForYear(ModelsSetup.SecondThemeYearTo + 1);
 
             allThemesForYear.Should().BeEmpty();
         }
@@ -92,19 +94,21 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
         [DataTestMethod]
         [DataRow(ModelsSetup.FirstThemeYearTo, 2)]
         [DataRow(ModelsSetup.SecondThemeYearTo, 1)]
-        public void GivenGetAllThemesForYear_WhenHasThemesForYear_ThenReturnsModels(ushort year, int expectedCount)
+        public void AllForYear_HasThemesForYear_ReturnsModels(short year, int expectedCount)
         {
             InsertData(ModelsSetup.ListOfThemesUnderTest);
 
-            var allThemesForYear = _themeRepository.GetAllThemesForYear(year);
+            var allThemes = _themeRepository.All().ToList();
+
+            var allThemesForYear = _themeRepository.AllForYear(year).ToList();
 
             allThemesForYear.Should().HaveCount(expectedCount);
         }
 
         [TestMethod]
-        public void GivenAddOrUpdateTheme_WhenNullTheme_ThenReturnsNull()
+        public void AddOrUpdate_NullTheme_ReturnsNull()
         {
-            var theme = _themeRepository.AddOrUpdateTheme(null);
+            var theme = _themeRepository.AddOrUpdate(null);
 
             theme.Should().BeNull();
         }
@@ -112,49 +116,53 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
         [DataTestMethod]
         [DataRow(null)]
         [DataRow(ModelsSetup.StringEmpty)]
-        public void GivenAddOrUpdateTheme_WhenInvalidTheme_ThenReturnsNull(string themeName)
+        public void AddOrUpdate_InvalidTheme_ReturnsNull(string themeName)
         {
-            var theme = _themeRepository.AddOrUpdateTheme(new Theme { Name = themeName });
+            var theme = _themeRepository.AddOrUpdate(new Theme { Name = themeName });
 
             theme.Should().BeNull();
         }
 
         [TestMethod]
-        public void GivenAddOrUpdateTheme_WhenThemeYearFromIsLessThanMinimumConstant_ThenReturnsNull()
+        public void AddOrUpdate_ThemeYearFromIsLessThanMinimumConstant_ReturnsNull()
         {
-            var themeUnderTest = ModelsSetup.ThemeUnderTest;
+            var themeUnderTest = ModelsSetup.GetThemeUnderTest(Guid.NewGuid().ToString());
             themeUnderTest.YearFrom = Constants.MinimumSetYear - 1;
 
-            var theme = _themeRepository.AddOrUpdateTheme(themeUnderTest);
+            var theme = _themeRepository.AddOrUpdate(themeUnderTest);
 
             theme.Should().BeNull();
         }
 
         [TestMethod]
-        public void GivenAddOrUpdateTheme_WhenNewValidTheme_ThenInsertsModel()
+        public void AddOrUpdate_NewValidTheme_InsertsModel()
         {
-            _themeRepository.AddOrUpdateTheme(ModelsSetup.ThemeUnderTest);
+            var themeUnderTest = ModelsSetup.GetThemeUnderTest(Guid.NewGuid().ToString());
 
-            var theme = _themeRepository.GetTheme(ModelsSetup.ThemeUnderTest.Name);
+            _themeRepository.AddOrUpdate(themeUnderTest);
 
-            theme.Should().BeEquivalentTo(ModelsSetup.ThemeUnderTest);
+            var theme = _themeRepository.Get(themeUnderTest.Name);
+
+            theme.Name.Should().BeEquivalentTo(themeUnderTest.Name);
         }
 
         [TestMethod]
-        public void GivenAddOrUpdateTheme_WhenExistingValidTheme_ThenUpdatesModel()
+        public void AddOrUpdate_ExistingValidTheme_UpdatesModel()
         {
-            _themeRepository.AddOrUpdateTheme(ModelsSetup.ThemeUnderTest);
+            var themeUnderTest = ModelsSetup.GetThemeUnderTest(Guid.NewGuid().ToString());
 
-            var themeUnderTest = _themeRepository.GetTheme(ModelsSetup.ThemeUnderTest.Name);
+            _themeRepository.AddOrUpdate(themeUnderTest);
 
-            themeUnderTest.SetCount = 99;
-            themeUnderTest.YearTo = 2099;
+            var result = _themeRepository.Get(themeUnderTest.Name);
 
-            _themeRepository.AddOrUpdateTheme(themeUnderTest);
+            result.SetCount = 99;
+            result.YearTo = 2099;
 
-            var theme = _themeRepository.GetTheme(themeUnderTest.Name);
+            _themeRepository.AddOrUpdate(result);
 
-            theme.Should().BeEquivalentTo(themeUnderTest);
+            var theme = _themeRepository.Get(result.Name);
+
+            theme.Should().BeEquivalentTo(result);
         }
     }
 }

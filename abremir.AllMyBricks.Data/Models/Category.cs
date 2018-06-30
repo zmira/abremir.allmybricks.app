@@ -1,11 +1,11 @@
 ﻿using abremir.AllMyBricks.Data.Interfaces;
-using LiteDB;
+using Realms;
 
 namespace abremir.AllMyBricks.Data.Models
 {
-    public class Category : IReferenceData
+    public class Category : RealmObject, IReferenceData
     {
-        [BsonId(false)]
+        [PrimaryKey]
         public string Value { get; set; }
     }
 }

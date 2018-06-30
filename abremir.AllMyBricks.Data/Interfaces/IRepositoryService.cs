@@ -1,9 +1,9 @@
-﻿using LiteDB;
+﻿using Realms;
 
 namespace abremir.AllMyBricks.Data.Interfaces
 {
     public interface IRepositoryService
     {
-        LiteRepository GetRepository();
+        Realm GetRepository();
     }
 }

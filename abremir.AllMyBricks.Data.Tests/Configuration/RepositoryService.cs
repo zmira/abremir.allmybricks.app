@@ -1,34 +1,21 @@
 ﻿using abremir.AllMyBricks.Data.Interfaces;
-using LiteDB;
-using System.IO;
+using Realms;
 
 namespace abremir.AllMyBricks.Data.Tests.Configuration
 {
     public class RepositoryService : IRepositoryService, IMemoryRepositoryService
     {
-        private LiteRepository _liteRepository;
-        private LiteDatabase _liteDatabase;
+        private Realm _repository;
 
-        public LiteRepository GetRepository()
+        public Realm GetRepository()
         {
-            if (_liteDatabase == null)
-            {
-                _liteDatabase = new LiteDatabase(new MemoryStream());
-            }
-
-            if (_liteRepository == null || _liteRepository.Database == null)
-            {
-                _liteRepository = new LiteRepository(_liteDatabase);
-            }
-
-            Services.RepositoryService.SetupIndexes(_liteRepository.Engine);
-
-            return _liteRepository;
+            return _repository ?? (_repository = Realm.GetInstance(new InMemoryConfiguration("abremir.AllMyBricks.Data.Tests.realm")));
         }
 
         public void ResetDatabase()
         {
-            _liteDatabase = null;
+            _repository?.Dispose();
+            _repository = null;
         }
     }
 }

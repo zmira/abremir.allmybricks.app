@@ -1,10 +1,9 @@
 ﻿using abremir.AllMyBricks.Data.Configuration;
 using abremir.AllMyBricks.Data.Interfaces;
 using abremir.AllMyBricks.Data.Models;
-using LiteDB;
-using System;
+using Realms;
 using System.Collections.Generic;
-using System.Linq.Expressions;
+using System.Linq;
 
 namespace abremir.AllMyBricks.Data.Repositories
 {
@@ -12,12 +11,14 @@ namespace abremir.AllMyBricks.Data.Repositories
     {
         private readonly IRepositoryService _repositoryService;
 
+        private IEnumerable<Subtheme> EmptyEnumerable => new Subtheme[] { };
+
         public SubthemeRepository(IRepositoryService repositoryService)
         {
             _repositoryService = repositoryService;
         }
 
-        public Subtheme AddOrUpdateSubtheme(Subtheme subtheme)
+        public Subtheme AddOrUpdate(Subtheme subtheme)
         {
             if(subtheme == null
                 || string.IsNullOrWhiteSpace(subtheme.Name)
@@ -30,54 +31,41 @@ namespace abremir.AllMyBricks.Data.Repositories
                 return null;
             }
 
-            var existingSubtheme = GetSubtheme(subtheme.Theme.Name, subtheme.Name);
+            var existingSubtheme = Get(subtheme.Theme.Name, subtheme.Name);
 
-            using (var repository = _repositoryService.GetRepository())
-            {
-                if(existingSubtheme == null)
-                {
-                    repository.Insert(subtheme);
-                }
-                else
-                {
-                    repository.Update(subtheme);
-                }
-            }
+            var repository = _repositoryService.GetRepository();
+
+            repository.Write(() => repository.Add(subtheme, existingSubtheme != null));
 
             return subtheme;
         }
 
-        public IEnumerable<Subtheme> GetAllSubthemes()
+        public IEnumerable<Subtheme> All()
         {
-            return GetFromRepository()
-                .ToEnumerable();
+            return GetQueryable();
         }
 
-        public IEnumerable<Subtheme> GetAllSubthemesForTheme(string themeName)
+        public IEnumerable<Subtheme> AllForTheme(string themeName)
         {
             if (string.IsNullOrWhiteSpace(themeName))
             {
-                return new List<Subtheme>();
+                return EmptyEnumerable;
             }
 
-            return GetFromRepository(subtheme => subtheme.Theme.Name.Equals(themeName, StringComparison.InvariantCultureIgnoreCase))
-                .ToEnumerable();
+            return GetQueryable().Filter($"Theme.Name ==[c] '{themeName}'");
         }
 
-        public IEnumerable<Subtheme> GetAllSubthemesForYear(ushort year)
+        public IEnumerable<Subtheme> AllForYear(short year)
         {
             if(year < Constants.MinimumSetYear)
             {
-                return new Subtheme[] { };
+                return EmptyEnumerable;
             }
 
-            return GetFromRepository(
-                    subtheme => subtheme.YearFrom <= year
-                    && year <= subtheme.YearTo)
-                .ToEnumerable();
+            return GetQueryable().Where(subtheme => subtheme.YearFrom <= year && subtheme.YearTo >= year );
         }
 
-        public Subtheme GetSubtheme(string themeName, string subthemeName)
+        public Subtheme Get(string themeName, string subthemeName)
         {
             if(string.IsNullOrWhiteSpace(themeName)
                 || string.IsNullOrWhiteSpace(subthemeName))
@@ -85,27 +73,12 @@ namespace abremir.AllMyBricks.Data.Repositories
                 return null;
             }
 
-            return GetFromRepository(
-                    subtheme => subtheme.Name.Equals(subthemeName, StringComparison.InvariantCultureIgnoreCase)
-                    && subtheme.Theme.Name.Equals(themeName, StringComparison.InvariantCultureIgnoreCase))
-                .FirstOrDefault();
+            return GetQueryable().Filter($"Name ==[c] '{subthemeName}' && Theme.Name ==[c] '{themeName}'").FirstOrDefault();
         }
 
-        private LiteQueryable<Subtheme> GetFromRepository(Expression<Func<Subtheme, bool>> whereExpression = null)
+        private IQueryable<Subtheme> GetQueryable()
         {
-            using (var repository = _repositoryService.GetRepository())
-            {
-                var query = repository
-                    .Query<Subtheme>()
-                    .Include(subtheme => subtheme.Theme);
-
-                if (whereExpression != null)
-                {
-                    query.Where(whereExpression);
-                }
-
-                return query;
-            }
+            return _repositoryService.GetRepository().All<Subtheme>();
         }
     }
 }

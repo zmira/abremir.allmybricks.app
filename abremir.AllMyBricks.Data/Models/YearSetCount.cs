@@ -1,8 +1,12 @@
-﻿namespace abremir.AllMyBricks.Data.Models
+﻿using Realms;
+
+namespace abremir.AllMyBricks.Data.Models
 {
-    public class YearSetCount
+    public class YearSetCount : RealmObject
     {
-        public ushort Year { get; set; }
-        public ushort SetCount { get; set; }
+        [Indexed]
+        public short Year { get; set; }
+
+        public short SetCount { get; set; }
     }
 }

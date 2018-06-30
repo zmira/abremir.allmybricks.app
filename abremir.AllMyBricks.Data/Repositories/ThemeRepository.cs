@@ -1,10 +1,10 @@
 ﻿using abremir.AllMyBricks.Data.Configuration;
 using abremir.AllMyBricks.Data.Interfaces;
 using abremir.AllMyBricks.Data.Models;
-using LiteDB;
+using Realms;
 using System;
 using System.Collections.Generic;
-using System.Linq.Expressions;
+using System.Linq;
 
 namespace abremir.AllMyBricks.Data.Repositories
 {
@@ -12,12 +12,14 @@ namespace abremir.AllMyBricks.Data.Repositories
     {
         private readonly IRepositoryService _repositoryService;
 
+        private IEnumerable<Theme> EmptyEnumerable => new Theme[] { };
+
         public ThemeRepository(IRepositoryService repositoryService)
         {
             _repositoryService = repositoryService;
         }
 
-        public Theme AddOrUpdateTheme(Theme theme)
+        public Theme AddOrUpdate(Theme theme)
         {
             if(theme == null
                 || string.IsNullOrWhiteSpace(theme.Name)
@@ -26,71 +28,43 @@ namespace abremir.AllMyBricks.Data.Repositories
                 return null;
             }
 
-            var existingTheme = GetTheme(theme.Name);
+            var existingTheme = Get(theme.Name);
 
-            using (var repository = _repositoryService.GetRepository())
-            {
-                if(existingTheme == null)
-                {
-                    repository.Insert(theme);
-                }
-                else
-                {
-                    repository.Update(theme);
-                }
-            }
+            var repository = _repositoryService.GetRepository();
+
+            repository.Write(() => repository.Add(theme, existingTheme != null));
 
             return theme;
         }
 
-        public IEnumerable<Theme> GetAllThemes()
+        public IEnumerable<Theme> All()
         {
-            return GetFromRepository()
-                .ToEnumerable();
+            return GetQueryable();
         }
 
-        public IEnumerable<Theme> GetAllThemesForYear(ushort year)
+        public IEnumerable<Theme> AllForYear(short year)
         {
             if(year < Constants.MinimumSetYear)
             {
-                return new Theme[] { };
+                return EmptyEnumerable;
             }
 
-            using (var repository = _repositoryService.GetRepository())
-            {
-                return BaseQuery(repository)
-                    .Where(Query.EQ("SetCountPerYear[*].Year", (int)year))
-                    .ToEnumerable();
-            }
+            return GetQueryable().Filter($"SetCountPerYear.Year == {year}");
         }
 
-        public Theme GetTheme(string themeName)
+        public Theme Get(string themeName)
         {
             if (string.IsNullOrWhiteSpace(themeName))
             {
                 return null;
             }
 
-            return GetFromRepository(theme => theme.Name.Equals(themeName, StringComparison.InvariantCultureIgnoreCase))
-                .FirstOrDefault();
+            return GetQueryable().Where(theme => theme.Name.Equals(themeName, StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
         }
 
-        private LiteQueryable<Theme> GetFromRepository(Expression<Func<Theme, bool>> whereExpression = null)
+        private IQueryable<Theme> GetQueryable()
         {
-            using (var repository = _repositoryService.GetRepository())
-            {
-                var query = BaseQuery(repository);
-
-                if (whereExpression != null)
-                {
-                    query.Where(whereExpression);
-                }
-
-                return query;
-            }
+            return _repositoryService.GetRepository().All<Theme>();
         }
-
-        private LiteQueryable<Theme> BaseQuery(LiteRepository repository) => repository
-                                                                                .Query<Theme>();
     }
 }

@@ -4,6 +4,7 @@ using abremir.AllMyBricks.Data.Repositories;
 using abremir.AllMyBricks.Data.Tests.Configuration;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Realms;
 using System.Linq;
 
 namespace abremir.AllMyBricks.Data.Tests.Repositories
@@ -101,11 +102,11 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
             GetOrAddTestHelper(ModelsSetup.ThemeGroupReferenceDataValue, ModelsSetup.ThemeGroupReferenceData, exists: true);
         }
 
-        private void GetOrAddTestHelper<T>(string referenceDataValue, T expectedReferenceData, bool insert = false, bool exists = false) where T : IReferenceData, new()
+        private void GetOrAddTestHelper<T>(string referenceDataValue, T expectedReferenceData, bool insert = false, bool exists = false) where T : RealmObject, IReferenceData, new()
         {
             if (exists)
             {
-                InsertData<T>(expectedReferenceData);
+                _referenceDataRepository.GetOrAdd<T>(expectedReferenceData.Value);
             }
 
             T referenceData = _referenceDataRepository.GetOrAdd<T>(referenceDataValue);
@@ -115,7 +116,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
 
             if (insert || exists)
             {
-                var referenceDataList = GetAllData<T>();
+                var referenceDataList = MemoryRepositoryService.GetRepository().All<T>();
 
                 referenceDataList.Should().ContainSingle();
                 referenceDataList.First().Value.Should().Be(referenceDataValue);

@@ -1,8 +1,7 @@
 ﻿using abremir.AllMyBricks.Data.Configuration;
 using abremir.AllMyBricks.Data.Interfaces;
-using abremir.AllMyBricks.Data.Models;
 using abremir.AllMyBricks.Providers;
-using LiteDB;
+using Realms;
 
 namespace abremir.AllMyBricks.Data.Services
 {
@@ -15,28 +14,9 @@ namespace abremir.AllMyBricks.Data.Services
             _filePathProvider = filePathProvider;
         }
 
-        public LiteRepository GetRepository()
+        public Realm GetRepository()
         {
-            var liteRepository = new LiteRepository(_filePathProvider.GetLocalPathToFile(Constants.AllMyBricksDbFile));
-
-            SetupIndexes(liteRepository.Engine);
-
-            return liteRepository;
-        }
-
-        public static void SetupIndexes(LiteEngine liteEngine)
-        {
-            if (liteEngine.UserVersion == 0)
-            {
-                liteEngine.EnsureIndex(nameof(Theme), "YearFrom");
-                liteEngine.EnsureIndex(nameof(Theme), "YearTo");
-                liteEngine.EnsureIndex(nameof(Theme), "SetCountPerYear.Year");
-                liteEngine.EnsureIndex(nameof(Subtheme), "YearFrom");
-                liteEngine.EnsureIndex(nameof(Subtheme), "YearTo");
-                liteEngine.EnsureIndex(nameof(Subtheme), "Theme.Name");
-
-                liteEngine.UserVersion = 1;
-            }
+            return Realm.GetInstance(_filePathProvider.GetLocalPathToFile(Constants.AllMyBricksDbFile));
         }
     }
 }
