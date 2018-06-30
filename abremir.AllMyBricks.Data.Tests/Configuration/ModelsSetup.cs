@@ -19,6 +19,7 @@ namespace abremir.AllMyBricks.Data.Tests.Configuration
         public const string PackagingTypeReferenceDataValue = "New Packaging Type";
         public const string TagReferenceDataValue = "New Tag";
         public const string ThemeGroupReferenceDataValue = "New Theme Group";
+        public const uint SetUnderTestSetId = 99;
 
         public static Theme GetThemeUnderTest(string themeName)
         {
@@ -114,5 +115,35 @@ namespace abremir.AllMyBricks.Data.Tests.Configuration
         {
             Value = PackagingTypeReferenceDataValue
         };
+
+        public static Set GetSetUnderTest()
+        {
+            return new Set
+            {
+                SetId = SetUnderTestSetId
+            };
+        }
+
+        public static Set GetSecondSetUnderTest()
+        {
+            return new Set
+            {
+                SetId = SetUnderTestSetId + 1
+            };
+        }
+
+        public static Set[] ListOfSetsUnderTest => new[] { GetSetUnderTest(), GetSecondSetUnderTest() };
+
+        public static Set GetSetForSearch(int suffix)
+        {
+            return new Set
+            {
+                Name = $"SET NAME{suffix}",
+                Number = $"SET NUMBER{suffix}",
+                Ean = $"SET EAN{suffix}",
+                Upc = $"SET UPC{suffix}",
+                Description = $"SET DESCRIPTION{suffix}"
+            };
+        }
     }
 }

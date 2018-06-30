@@ -4,5 +4,6 @@
     {
         public const string AllMyBricksDbFile = "allmybricks.litedb";
         public const ushort MinimumSetYear = 1949;
+        public const ushort MinimumSearchQuerySize = 3;
     }
 }
