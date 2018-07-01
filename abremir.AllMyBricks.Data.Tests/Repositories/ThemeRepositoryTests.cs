@@ -3,10 +3,12 @@ using abremir.AllMyBricks.Data.Interfaces;
 using abremir.AllMyBricks.Data.Models;
 using abremir.AllMyBricks.Data.Repositories;
 using abremir.AllMyBricks.Data.Tests.Configuration;
+using ExpressMapper.Extensions;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Linq;
+using Managed = abremir.AllMyBricks.Data.Models.Realm;
 
 namespace abremir.AllMyBricks.Data.Tests.Repositories
 {
@@ -129,7 +131,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
             var themeUnderTest = ModelsSetup.GetThemeUnderTest(Guid.NewGuid().ToString());
             themeUnderTest.YearFrom = Constants.MinimumSetYear - 1;
 
-            var theme = _themeRepository.AddOrUpdate(themeUnderTest);
+            var theme = _themeRepository.AddOrUpdate(themeUnderTest.Map<Managed.Theme, Theme>());
 
             theme.Should().BeNull();
         }
@@ -139,7 +141,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
         {
             var themeUnderTest = ModelsSetup.GetThemeUnderTest(Guid.NewGuid().ToString());
 
-            _themeRepository.AddOrUpdate(themeUnderTest);
+            _themeRepository.AddOrUpdate(themeUnderTest.Map<Managed.Theme, Theme>());
 
             var theme = _themeRepository.Get(themeUnderTest.Name);
 
@@ -151,7 +153,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
         {
             var themeUnderTest = ModelsSetup.GetThemeUnderTest(Guid.NewGuid().ToString());
 
-            _themeRepository.AddOrUpdate(themeUnderTest);
+            _themeRepository.AddOrUpdate(themeUnderTest.Map<Managed.Theme, Theme>());
 
             var result = _themeRepository.Get(themeUnderTest.Name);
 

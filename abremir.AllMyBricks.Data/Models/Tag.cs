@@ -1,11 +1,9 @@
 ﻿using abremir.AllMyBricks.Data.Interfaces;
-using Realms;
 
 namespace abremir.AllMyBricks.Data.Models
 {
-    public class Tag : RealmObject, IReferenceData
+    public class Tag: IReferenceData
     {
-        [PrimaryKey]
         public string Value { get; set; }
     }
 }

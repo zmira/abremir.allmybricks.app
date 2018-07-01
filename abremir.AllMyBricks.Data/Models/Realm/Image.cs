@@ -1,6 +1,8 @@
-﻿namespace abremir.AllMyBricks.Data.Models
+﻿using Realms;
+
+namespace abremir.AllMyBricks.Data.Models.Realm
 {
-    public class Image
+    internal class Image : RealmObject
     {
         public string ThumbnailUrl { get; set; }
         public string LargeThumbnailUrl { get; set; }

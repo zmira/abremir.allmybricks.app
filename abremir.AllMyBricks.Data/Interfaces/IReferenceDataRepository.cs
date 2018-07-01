@@ -1,9 +1,7 @@
-﻿using Realms;
-
-namespace abremir.AllMyBricks.Data.Interfaces
+﻿namespace abremir.AllMyBricks.Data.Interfaces
 {
     public interface IReferenceDataRepository
     {
-        T GetOrAdd<T>(string referenceDataValue) where T : RealmObject, IReferenceData, new();
+        T GetOrAdd<T>(string value) where T : IReferenceData;
     }
 }

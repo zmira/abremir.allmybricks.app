@@ -1,4 +1,5 @@
-﻿using abremir.AllMyBricks.Data.Interfaces;
+﻿using abremir.AllMyBricks.Data.Configuration;
+using abremir.AllMyBricks.Data.Interfaces;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Realms;
 using System.Linq;
@@ -8,6 +9,11 @@ namespace abremir.AllMyBricks.Data.Tests.Configuration
     public class TestRepositoryBase
     {
         protected static readonly IRepositoryService MemoryRepositoryService = new RepositoryService();
+
+        public TestRepositoryBase()
+        {
+            Mappings.Configure();
+        }
 
         private void ResetDatabase()
         {

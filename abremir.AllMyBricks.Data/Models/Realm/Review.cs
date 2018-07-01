@@ -1,9 +1,10 @@
-﻿using System;
+﻿using Realms;
+using System;
 using System.Collections.Generic;
 
-namespace abremir.AllMyBricks.Data.Models
+namespace abremir.AllMyBricks.Data.Models.Realm
 {
-    public class Review
+    internal class Review : RealmObject
     {
         public string Author { get; set; }
         public DateTimeOffset DatePosted { get; set; }

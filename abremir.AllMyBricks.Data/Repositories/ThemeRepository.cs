@@ -1,10 +1,12 @@
 ﻿using abremir.AllMyBricks.Data.Configuration;
 using abremir.AllMyBricks.Data.Interfaces;
 using abremir.AllMyBricks.Data.Models;
+using ExpressMapper.Extensions;
 using Realms;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Managed = abremir.AllMyBricks.Data.Models.Realm;
 
 namespace abremir.AllMyBricks.Data.Repositories
 {
@@ -32,24 +34,16 @@ namespace abremir.AllMyBricks.Data.Repositories
 
             var repository = _repositoryService.GetRepository();
 
-            repository.Write(() => repository.Add(theme, existingTheme != null));
+            var managedTheme = theme.Map<Theme, Managed.Theme>();
 
-            return theme;
+            repository.Write(() => repository.Add(managedTheme, existingTheme != null));
+
+            return managedTheme.Map<Managed.Theme, Theme>();
         }
 
         public IEnumerable<Theme> All()
         {
-            return GetQueryable();
-        }
-
-        public IEnumerable<Theme> AllForYear(short year)
-        {
-            if(year < Constants.MinimumSetYear)
-            {
-                return EmptyEnumerable;
-            }
-
-            return GetQueryable().Filter($"SetCountPerYear.Year == {year}");
+            return GetQueryable().Map<IQueryable<Managed.Theme>, IEnumerable<Theme>>();
         }
 
         public Theme Get(string themeName)
@@ -59,12 +53,28 @@ namespace abremir.AllMyBricks.Data.Repositories
                 return null;
             }
 
-            return GetQueryable().Where(theme => theme.Name.Equals(themeName, StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
+            return GetQueryable()
+                .FirstOrDefault(theme => theme.Name.Equals(themeName, StringComparison.OrdinalIgnoreCase))
+                ?.Map<Managed.Theme, Theme>();
         }
 
-        private IQueryable<Theme> GetQueryable()
+        public IEnumerable<Theme> AllForYear(short year)
         {
-            return _repositoryService.GetRepository().All<Theme>();
+            if(year < Constants.MinimumSetYear)
+            {
+                return EmptyEnumerable;
+            }
+
+            return GetQueryable()
+                .Filter($"SetCountPerYear.Year == {year}")
+                .Map<IQueryable<Managed.Theme>, IEnumerable<Theme>>();
+        }
+
+        private IQueryable<Managed.Theme> GetQueryable()
+        {
+            return _repositoryService
+                .GetRepository()
+                .All<Managed.Theme>();
         }
     }
 }

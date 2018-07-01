@@ -1,20 +1,10 @@
 ﻿using abremir.AllMyBricks.Data.Enumerations;
-using Realms;
 
 namespace abremir.AllMyBricks.Data.Models
 {
-    public class RatingItem : RealmObject
+    public class RatingItem
     {
-        [Indexed]
-        public byte TypeRaw { get; set; }
-
-        [Indexed]
+        public RatingItemEnum Type { get; set; }
         public byte Value { get; set; }
-
-        public RatingItemEnum Type
-        {
-            get => (RatingItemEnum)TypeRaw;
-            set => TypeRaw = (byte)value;
-        }
     }
 }

@@ -4,10 +4,12 @@ using abremir.AllMyBricks.Data.Interfaces;
 using abremir.AllMyBricks.Data.Models;
 using abremir.AllMyBricks.Data.Repositories;
 using abremir.AllMyBricks.Data.Tests.Configuration;
+using ExpressMapper.Extensions;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Linq;
+using Managed = abremir.AllMyBricks.Data.Models.Realm;
 
 namespace abremir.AllMyBricks.Data.Tests.Repositories
 {
@@ -313,7 +315,8 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
         }
 
         [TestMethod]
-        public void AllForYear_YearExists_ReturnsModel() {
+        public void AllForYear_YearExists_ReturnsModel()
+        {
             var listOfSets = ModelsSetup.ListOfSetsUnderTest;
             listOfSets[0].Year = (short?)Constants.MinimumSetYear;
             listOfSets[1].Year = Constants.MinimumSetYear + 1;
@@ -332,7 +335,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
         public void AllForPriceRange_PriceNotValid_ReturnsEmpty(float minPrice, float maxPrice)
         {
             var set = ModelsSetup.GetSetUnderTest();
-            set.Prices.Add(new Price
+            set.Prices.Add(new Managed.Price
             {
                 Region = PriceRegionEnum.CA,
                 Value = 1
@@ -349,7 +352,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
         public void AllForPriceRange_RegionDoesNotExists_ReturnsEmpty()
         {
             var set = ModelsSetup.GetSetUnderTest();
-            set.Prices.Add(new Price
+            set.Prices.Add(new Managed.Price
             {
                 Region = PriceRegionEnum.CA,
                 Value = 1
@@ -366,7 +369,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
         public void AllForPriceRange_PriceDoesNotExist_ReturnsEmpty()
         {
             var set = ModelsSetup.GetSetUnderTest();
-            set.Prices.Add(new Price
+            set.Prices.Add(new Managed.Price
             {
                 Region = PriceRegionEnum.CA,
                 Value = 10
@@ -383,7 +386,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
         public void AllForPriceRange_PriceExists_ReturnsModel()
         {
             var set = ModelsSetup.GetSetUnderTest();
-            set.Prices.Add(new Price
+            set.Prices.Add(new Managed.Price
             {
                 Region = PriceRegionEnum.CA,
                 Value = 1
@@ -470,11 +473,11 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
             set.SetId = suffix;
             set.Theme = theme;
             set.Subtheme = subtheme;
-            set.ThemeGroup = InsertData(new ThemeGroup { Value = $"SET THEMEGROUP{suffix}" });
-            set.Category = InsertData(new Category { Value = $"SET CATEGORY{suffix}" });
-            set.Tags.Add(InsertData(new Tag { Value = $"SET TAG{suffix}" }));
+            set.ThemeGroup = InsertData(new Managed.ThemeGroup { Value = $"SET THEMEGROUP{suffix}" });
+            set.Category = InsertData(new Managed.Category { Value = $"SET CATEGORY{suffix}" });
+            set.Tags.Add(InsertData(new Managed.Tag { Value = $"SET TAG{suffix}" }));
 
-            return InsertData(set);
+            return InsertData(set).Map<Managed.Set, Set>();
         }
 
         [TestMethod]
@@ -498,7 +501,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
         {
             var setUnderTest = ModelsSetup.GetSetUnderTest();
 
-            _setRepository.AddOrUpdate(setUnderTest);
+            _setRepository.AddOrUpdate(setUnderTest.Map<Managed.Set, Set>());
 
             var set = _setRepository.Get(setUnderTest.SetId);
 
@@ -511,7 +514,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
         {
             var setUnderTest = ModelsSetup.GetSetUnderTest();
 
-            _setRepository.AddOrUpdate(setUnderTest);
+            _setRepository.AddOrUpdate(setUnderTest.Map<Managed.Set, Set>());
 
             var result = _setRepository.Get(setUnderTest.SetId);
 

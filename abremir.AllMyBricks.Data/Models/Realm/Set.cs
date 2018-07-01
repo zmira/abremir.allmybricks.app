@@ -1,16 +1,29 @@
-﻿using System;
+﻿using Realms;
+using System;
 using System.Collections.Generic;
 
-namespace abremir.AllMyBricks.Data.Models
+namespace abremir.AllMyBricks.Data.Models.Realm
 {
-    public class Set
+    internal class Set : RealmObject
     {
+        [PrimaryKey]
         public long SetId { get; set; }
+
+        [Indexed]
         public string Number { get; set; }
+
+        [Indexed]
         public string Name { get; set; }
+
+        [Indexed]
         public string Description { get; set; }
+
+        [Indexed]
         public string Ean { get; set; }
+
+        [Indexed]
         public string Upc { get; set; }
+
         public Theme Theme { get; set; }
         public ThemeGroup ThemeGroup { get; set; }
         public Subtheme Subtheme { get; set; }
@@ -40,7 +53,5 @@ namespace abremir.AllMyBricks.Data.Models
         public string Notes { get; set; }
         public string UserRating { get; set; }
         public DateTimeOffset LastUpdated { get; set; }
-
-        public string NumberWithVariant => $"{Number}-{NumberVariant}";
     }
 }

@@ -2,10 +2,12 @@
 using abremir.AllMyBricks.Data.Enumerations;
 using abremir.AllMyBricks.Data.Interfaces;
 using abremir.AllMyBricks.Data.Models;
+using ExpressMapper.Extensions;
 using Realms;
 using System.Collections.Generic;
 using System.Linq;
 using Xamarin.Forms.Internals;
+using Managed = abremir.AllMyBricks.Data.Models.Realm;
 
 namespace abremir.AllMyBricks.Data.Repositories
 {
@@ -32,9 +34,64 @@ namespace abremir.AllMyBricks.Data.Repositories
 
             var repository = _repositoryService.GetRepository();
 
-            repository.Write(() => repository.Add(set, existingSet != null));
+            var managedSet = GetManagedSet(set);
 
-            return set;
+            repository.Write(() => repository.Add(managedSet, existingSet != null));
+
+            return managedSet.Map<Managed.Set, Set>();
+        }
+
+        private Managed.Set GetManagedSet(Set set)
+        {
+            var managedSet = set.Map<Set, Managed.Set>();
+
+            var repository = _repositoryService.GetRepository();
+
+            managedSet.Theme = set.Theme == null
+                ? null
+                : repository.All<Managed.Theme>()
+                    .Filter($"Name ==[c] '{set.Theme.Name}'")
+                    .FirstOrDefault();
+            managedSet.Subtheme = set.Subtheme == null
+                ? null
+                : repository.All<Managed.Subtheme>()
+                    .Filter($"Name ==[c] '{set.Subtheme.Name}' && Theme.Name ==[c] '{set.Theme.Name}'")
+                    .FirstOrDefault();
+            managedSet.ThemeGroup = set.ThemeGroup == null
+                ? null
+                : repository.All<Managed.ThemeGroup>()
+                    .Filter($"Value ==[c] '{set.ThemeGroup.Value}'")
+                    .FirstOrDefault();
+            managedSet.Category = set.Category == null
+                ? null
+                : repository.All<Managed.Category>()
+                    .Filter($"Value ==[c] '{set.Category.Value}'")
+                    .FirstOrDefault();
+            managedSet.PackagingType = set.PackagingType == null
+                ? null
+                : repository.All<Managed.PackagingType>()
+                    .Filter($"Value ==[c] '{set.PackagingType.Value}'")
+                    .FirstOrDefault();
+
+            managedSet.Tags.Clear();
+            (set.Tags ?? new List<Tag>())
+                .Where(tag => tag != null)
+                .ForEach(tag => {
+                    var managedTag = repository.All<Managed.Tag>()
+                        .Filter($"Value ==[c] '{tag.Value}'")
+                        .FirstOrDefault();
+                    if(managedTag != null)
+                    {
+                        managedSet.Tags.Add(managedTag);
+                    }
+                });
+
+            return managedSet;
+        }
+
+        public IEnumerable<Set> All()
+        {
+            return GetQueryable().Map<IQueryable<Managed.Set>, IEnumerable<Set>>();
         }
 
         public Set Get(long setId)
@@ -44,12 +101,9 @@ namespace abremir.AllMyBricks.Data.Repositories
                 return null;
             }
 
-            return GetQueryable().FirstOrDefault(set => set.SetId == setId);
-        }
-
-        public IEnumerable<Set> All()
-        {
-            return GetQueryable();
+            return GetQueryable()
+                .FirstOrDefault(set => set.SetId == setId)
+                ?.Map<Managed.Set, Set>();
         }
 
         public IEnumerable<Set> AllForTheme(string themeName)
@@ -59,7 +113,9 @@ namespace abremir.AllMyBricks.Data.Repositories
                 return EmptyEnumerable;
             }
 
-            return GetQueryable().Filter($"Theme.Name ==[c] '{themeName}'");
+            return GetQueryable()
+                .Filter($"Theme.Name ==[c] '{themeName}'")
+                .Map<IQueryable<Managed.Set>, IEnumerable<Set>>();
         }
 
         public IEnumerable<Set> AllForSubtheme(string themeName, string subthemeName)
@@ -69,7 +125,9 @@ namespace abremir.AllMyBricks.Data.Repositories
                 return EmptyEnumerable;
             }
 
-            return GetQueryable().Filter($"Theme.Name ==[c] '{themeName}' && Subtheme.Name ==[c] '{subthemeName}'");
+            return GetQueryable()
+                .Filter($"Theme.Name ==[c] '{themeName}' && Subtheme.Name ==[c] '{subthemeName}'")
+                .Map<IQueryable<Managed.Set>, IEnumerable<Set>>();
         }
 
         public IEnumerable<Set> AllForThemeGroup(string themeGroupName)
@@ -79,7 +137,9 @@ namespace abremir.AllMyBricks.Data.Repositories
                 return EmptyEnumerable;
             }
 
-            return GetQueryable().Filter($"ThemeGroup.Value ==[c] '{themeGroupName}'");
+            return GetQueryable()
+                .Filter($"ThemeGroup.Value ==[c] '{themeGroupName}'")
+                .Map<IQueryable<Managed.Set>, IEnumerable<Set>>();
         }
 
         public IEnumerable<Set> AllForCategory(string categoryName)
@@ -89,7 +149,9 @@ namespace abremir.AllMyBricks.Data.Repositories
                 return EmptyEnumerable;
             }
 
-            return GetQueryable().Filter($"Category.Value ==[c] '{categoryName}'");
+            return GetQueryable()
+                .Filter($"Category.Value ==[c] '{categoryName}'")
+                .Map<IQueryable<Managed.Set>, IEnumerable<Set>>();
 
         }
 
@@ -100,7 +162,9 @@ namespace abremir.AllMyBricks.Data.Repositories
                 return EmptyEnumerable;
             }
 
-            return GetQueryable().Filter($"Tags.Value ==[c] '{tagName}'");
+            return GetQueryable()
+                .Filter($"Tags.Value ==[c] '{tagName}'")
+                .Map<IQueryable<Managed.Set>, IEnumerable<Set>>();
         }
 
         public IEnumerable<Set> AllForYear(short year)
@@ -110,7 +174,9 @@ namespace abremir.AllMyBricks.Data.Repositories
                 return EmptyEnumerable;
             }
 
-            return GetQueryable().Where(set => set.Year == year);
+            return GetQueryable()
+                .Where(set => set.Year == year)
+                .Map<IQueryable<Managed.Set>, IEnumerable<Set>>();
         }
 
         public IEnumerable<Set> AllForPriceRange(PriceRegionEnum priceRegion, float minimumPrice, float maximumPrice)
@@ -120,7 +186,9 @@ namespace abremir.AllMyBricks.Data.Repositories
                 return EmptyEnumerable;
             }
 
-            return GetQueryable().Filter($"Prices.RegionRaw == {(int)priceRegion} && Prices.Value >= {minimumPrice} && Prices.Value <= {maximumPrice}");
+            return GetQueryable()
+                .Filter($"Prices.RegionRaw == {(int)priceRegion} && Prices.Value >= {minimumPrice} && Prices.Value <= {maximumPrice}")
+                .Map<IQueryable<Managed.Set>, IEnumerable<Set>>();
         }
 
         public IEnumerable<Set> SearchBy(string searchQuery)
@@ -132,7 +200,9 @@ namespace abremir.AllMyBricks.Data.Repositories
                 return EmptyEnumerable;
             }
 
-            return GetQueryable().Filter(realmQuery);
+            return GetQueryable()
+                .Filter(realmQuery)
+                .Map<IQueryable<Managed.Set>, IEnumerable<Set>>();
         }
 
         private string BuildRealmQueryFromSearchQuery(string searchQuery)
@@ -167,9 +237,11 @@ namespace abremir.AllMyBricks.Data.Repositories
                 : string.Join(" OR ", queryList.ToArray());
         }
 
-        private IQueryable<Set> GetQueryable()
+        private IQueryable<Managed.Set> GetQueryable()
         {
-            return _repositoryService.GetRepository().All<Set>();
+            return _repositoryService
+                .GetRepository()
+                .All<Managed.Set>();
         }
     }
 }

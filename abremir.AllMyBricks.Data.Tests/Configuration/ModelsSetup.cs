@@ -1,4 +1,4 @@
-﻿using abremir.AllMyBricks.Data.Models;
+﻿using abremir.AllMyBricks.Data.Models.Realm;
 using System;
 
 namespace abremir.AllMyBricks.Data.Tests.Configuration
@@ -21,7 +21,7 @@ namespace abremir.AllMyBricks.Data.Tests.Configuration
         public const string ThemeGroupReferenceDataValue = "New Theme Group";
         public const uint SetUnderTestSetId = 99;
 
-        public static Theme GetThemeUnderTest(string themeName)
+        internal static Theme GetThemeUnderTest(string themeName)
         {
             var theme = new Theme
             {
@@ -40,7 +40,7 @@ namespace abremir.AllMyBricks.Data.Tests.Configuration
             return theme;
         }
 
-        public static Theme GetSecondThemeUnderTest(string themeName)
+        internal static Theme GetSecondThemeUnderTest(string themeName)
         {
             var theme = new Theme
             {
@@ -64,9 +64,9 @@ namespace abremir.AllMyBricks.Data.Tests.Configuration
             return theme;
         }
 
-        public static Theme[] ListOfThemesUnderTest => new[] { GetThemeUnderTest(Guid.NewGuid().ToString()), GetSecondThemeUnderTest(Guid.NewGuid().ToString()) };
+        internal static Theme[] ListOfThemesUnderTest => new[] { GetThemeUnderTest(Guid.NewGuid().ToString()), GetSecondThemeUnderTest(Guid.NewGuid().ToString()) };
 
-        public static Subtheme GetSubthemeUnderTest(string subthemeName)
+        internal static Subtheme GetSubthemeUnderTest(string subthemeName)
         {
             var theme = GetThemeUnderTest(Guid.NewGuid().ToString());
 
@@ -80,7 +80,7 @@ namespace abremir.AllMyBricks.Data.Tests.Configuration
             };
         }
 
-        public static Subtheme GetSecondSubthemeUnderTest(string subthemeName)
+        internal static Subtheme GetSecondSubthemeUnderTest(string subthemeName)
         {
             var theme = GetThemeUnderTest(Guid.NewGuid().ToString());
 
@@ -94,29 +94,29 @@ namespace abremir.AllMyBricks.Data.Tests.Configuration
             };
         }
 
-        public static Subtheme[] ListOfSubthemesUnderTest => new[] { GetSubthemeUnderTest(Guid.NewGuid().ToString()), GetSecondSubthemeUnderTest(Guid.NewGuid().ToString()) };
+        internal static Subtheme[] ListOfSubthemesUnderTest => new[] { GetSubthemeUnderTest(Guid.NewGuid().ToString()), GetSecondSubthemeUnderTest(Guid.NewGuid().ToString()) };
 
-        public static Category CategoryReferenceData => new Category
+        internal static Category CategoryReferenceData => new Category
         {
             Value = CategoryReferenceDataValue
         };
 
-        public static ThemeGroup ThemeGroupReferenceData => new ThemeGroup
+        internal static ThemeGroup ThemeGroupReferenceData => new ThemeGroup
         {
             Value = ThemeGroupReferenceDataValue
         };
 
-        public static Tag TagReferenceData => new Tag
+        internal static Tag TagReferenceData => new Tag
         {
             Value = TagReferenceDataValue
         };
 
-        public static PackagingType PackagingTypeReferenceData => new PackagingType
+        internal static PackagingType PackagingTypeReferenceData => new PackagingType
         {
             Value = PackagingTypeReferenceDataValue
         };
 
-        public static Set GetSetUnderTest()
+        internal static Set GetSetUnderTest()
         {
             return new Set
             {
@@ -124,7 +124,7 @@ namespace abremir.AllMyBricks.Data.Tests.Configuration
             };
         }
 
-        public static Set GetSecondSetUnderTest()
+        internal static Set GetSecondSetUnderTest()
         {
             return new Set
             {
@@ -132,9 +132,9 @@ namespace abremir.AllMyBricks.Data.Tests.Configuration
             };
         }
 
-        public static Set[] ListOfSetsUnderTest => new[] { GetSetUnderTest(), GetSecondSetUnderTest() };
+        internal static Set[] ListOfSetsUnderTest => new[] { GetSetUnderTest(), GetSecondSetUnderTest() };
 
-        public static Set GetSetForSearch(int suffix)
+        internal static Set GetSetForSearch(int suffix)
         {
             return new Set
             {
