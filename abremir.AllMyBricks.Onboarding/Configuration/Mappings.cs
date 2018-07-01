@@ -1,5 +1,5 @@
 ﻿using abremir.AllMyBricks.Core.Models;
-using Nelibur.ObjectMapper;
+using ExpressMapper;
 
 namespace abremir.AllMyBricks.Onboarding.Configuration
 {
@@ -7,7 +7,7 @@ namespace abremir.AllMyBricks.Onboarding.Configuration
     {
         public static void Configure()
         {
-            TinyMapper.Bind<Identification, ApiKeyRequest>();
+            Mapper.Register<Identification, ApiKeyRequest>();
         }
     }
 }

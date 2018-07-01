@@ -3,9 +3,9 @@ using abremir.AllMyBricks.Onboarding.Configuration;
 using abremir.AllMyBricks.Onboarding.Factories;
 using abremir.AllMyBricks.Onboarding.Helpers;
 using abremir.AllMyBricks.Onboarding.Interfaces;
+using ExpressMapper.Extensions;
 using Flurl;
 using Flurl.Http;
-using Nelibur.ObjectMapper;
 using System.Text;
 
 namespace abremir.AllMyBricks.Onboarding.Services
@@ -16,7 +16,7 @@ namespace abremir.AllMyBricks.Onboarding.Services
         {
             var client = new FlurlClient().Configure(settings => settings.HttpClientFactory = new HmacDelegatingHandlerHttpClientFactory());
 
-            var apiKeyRequest = TinyMapper.Map<ApiKeyRequest>(allMyBricksIdentification);
+            var apiKeyRequest = allMyBricksIdentification.Map<Identification, ApiKeyRequest>();
 
             apiKeyRequest.KeyOption = RandomKeyOptionGenerator.GetRandomKeyOption();
 
