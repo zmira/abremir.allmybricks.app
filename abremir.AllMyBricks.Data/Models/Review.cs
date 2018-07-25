@@ -10,6 +10,7 @@ namespace abremir.AllMyBricks.Data.Models
         public string Title { get; set; }
         public string ReviewContent { get; set; }
         public bool Html { get; set; }
-        public IList<RatingItem> RatingComponents { get; }
+
+        public IList<RatingItem> RatingComponents { get; } = new List<RatingItem>();
     }
 }

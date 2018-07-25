@@ -16,21 +16,16 @@ namespace abremir.AllMyBricks.Data.Models
         public Subtheme Subtheme { get; set; }
         public PackagingType PackagingType { get; set; }
         public Category Category { get; set; }
-        public IList<Tag> Tags { get; }
         public byte NumberVariant { get; set; }
         public short? Year { get; set; }
         public short? Pieces { get; set; }
         public short? Minifigs { get; set; }
-        public IList<Image> Images { get; }
         public string BricksetUrl { get; set; }
         public bool Released { get; set; }
         public short OwnedByTotal { get; set; }
         public short WantedByTotal { get; set; }
-        public IList<Price> Prices { get; }
         public float Rating { get; set; }
-        public IList<Review> Reviews { get; }
         public string Availability { get; set; }
-        public IList<Instruction> Instructions { get; }
         public byte? AgeMin { get; set; }
         public byte? AgeMax { get; set; }
         public short? Height { get; set; }
@@ -40,6 +35,12 @@ namespace abremir.AllMyBricks.Data.Models
         public string Notes { get; set; }
         public string UserRating { get; set; }
         public DateTimeOffset LastUpdated { get; set; }
+
+        public IList<Tag> Tags { get; } = new List<Tag>();
+        public IList<Image> Images { get; } = new List<Image>();
+        public IList<Price> Prices { get; } = new List<Price>();
+        public IList<Review> Reviews { get; } = new List<Review>();
+        public IList<Instruction> Instructions { get; } = new List<Instruction>();
 
         public string NumberWithVariant => $"{Number}-{NumberVariant}";
     }
