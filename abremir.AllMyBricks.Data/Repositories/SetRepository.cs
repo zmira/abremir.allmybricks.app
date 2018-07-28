@@ -6,7 +6,6 @@ using ExpressMapper.Extensions;
 using Realms;
 using System.Collections.Generic;
 using System.Linq;
-using Xamarin.Forms.Internals;
 using Managed = abremir.AllMyBricks.Data.Models.Realm;
 
 namespace abremir.AllMyBricks.Data.Repositories
@@ -74,17 +73,18 @@ namespace abremir.AllMyBricks.Data.Repositories
                     .FirstOrDefault();
 
             managedSet.Tags.Clear();
-            (set.Tags ?? new List<Tag>())
-                .Where(tag => tag != null)
-                .ForEach(tag => {
-                    var managedTag = repository.All<Managed.Tag>()
+
+            foreach (var tag in (set.Tags ?? new List<Tag>())
+                .Where(tag => tag != null))
+            {
+                var managedTag = repository.All<Managed.Tag>()
                         .Filter($"Value ==[c] '{tag.Value}'")
                         .FirstOrDefault();
-                    if(managedTag != null)
-                    {
-                        managedSet.Tags.Add(managedTag);
-                    }
-                });
+                if (managedTag != null)
+                {
+                    managedSet.Tags.Add(managedTag);
+                }
+            }
 
             return managedSet;
         }
@@ -120,7 +120,7 @@ namespace abremir.AllMyBricks.Data.Repositories
 
         public IEnumerable<Set> AllForSubtheme(string themeName, string subthemeName)
         {
-            if(string.IsNullOrWhiteSpace(themeName) || string.IsNullOrWhiteSpace(subthemeName))
+            if (string.IsNullOrWhiteSpace(themeName) || string.IsNullOrWhiteSpace(subthemeName))
             {
                 return EmptyEnumerable;
             }
@@ -169,7 +169,7 @@ namespace abremir.AllMyBricks.Data.Repositories
 
         public IEnumerable<Set> AllForYear(short year)
         {
-            if(year < Constants.MinimumSetYear)
+            if (year < Constants.MinimumSetYear)
             {
                 return EmptyEnumerable;
             }
@@ -181,7 +181,7 @@ namespace abremir.AllMyBricks.Data.Repositories
 
         public IEnumerable<Set> AllForPriceRange(PriceRegionEnum priceRegion, float minimumPrice, float maximumPrice)
         {
-            if(minimumPrice < 0 || maximumPrice < 0)
+            if (minimumPrice < 0 || maximumPrice < 0)
             {
                 return EmptyEnumerable;
             }
@@ -214,23 +214,22 @@ namespace abremir.AllMyBricks.Data.Repositories
 
             var queryList = new List<string>();
 
-            searchQuery
+            foreach (var searchTerm in searchQuery
                 .Split(' ', '-')
-                .Where(searchTerm => (searchTerm?.Trim().Length ?? 0) >= Constants.MinimumSearchQuerySize)
-                .Distinct()
-                .ForEach(searchTerm =>
-                {
-                    queryList.Add($"Number CONTAINS[c] '{searchTerm.Trim()}'");
-                    queryList.Add($"Name CONTAINS[c] '{searchTerm.Trim()}'");
-                    queryList.Add($"Ean CONTAINS[c] '{searchTerm.Trim()}'");
-                    queryList.Add($"Upc CONTAINS[c] '{searchTerm.Trim()}'");
-                    queryList.Add($"Description CONTAINS[c] '{searchTerm.Trim()}'");
-                    queryList.Add($"Theme.Name CONTAINS[c] '{searchTerm.Trim()}'");
-                    queryList.Add($"Subtheme.Name CONTAINS[c] '{searchTerm.Trim()}'");
-                    queryList.Add($"ThemeGroup.Value CONTAINS[c] '{searchTerm.Trim()}'");
-                    queryList.Add($"Category.Value CONTAINS[c] '{searchTerm.Trim()}'");
-                    queryList.Add($"Tags.Value CONTAINS[c] '{searchTerm.Trim()}'");
-                });
+                .Where(term => (term?.Trim().Length ?? 0) >= Constants.MinimumSearchQuerySize)
+                .Distinct())
+            {
+                queryList.Add($"Number CONTAINS[c] '{searchTerm.Trim()}'");
+                queryList.Add($"Name CONTAINS[c] '{searchTerm.Trim()}'");
+                queryList.Add($"Ean CONTAINS[c] '{searchTerm.Trim()}'");
+                queryList.Add($"Upc CONTAINS[c] '{searchTerm.Trim()}'");
+                queryList.Add($"Description CONTAINS[c] '{searchTerm.Trim()}'");
+                queryList.Add($"Theme.Name CONTAINS[c] '{searchTerm.Trim()}'");
+                queryList.Add($"Subtheme.Name CONTAINS[c] '{searchTerm.Trim()}'");
+                queryList.Add($"ThemeGroup.Value CONTAINS[c] '{searchTerm.Trim()}'");
+                queryList.Add($"Category.Value CONTAINS[c] '{searchTerm.Trim()}'");
+                queryList.Add($"Tags.Value CONTAINS[c] '{searchTerm.Trim()}'");
+            }
 
             return queryList.Count == 0
                 ? null
