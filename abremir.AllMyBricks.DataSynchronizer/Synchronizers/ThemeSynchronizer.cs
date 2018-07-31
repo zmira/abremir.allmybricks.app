@@ -41,6 +41,22 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                     YearTo = (short)bricksetTheme.YearTo,
                 };
 
+                var getYearsParameters = new ParameterTheme
+                {
+                    ApiKey = apiKey,
+                    Theme = bricksetTheme.Theme
+                };
+
+                foreach (var yearCount in _bricksetApiService
+                    .GetYears(getYearsParameters))
+                {
+                    theme.SetCountPerYear.Add(new YearSetCount
+                    {
+                        Year = short.Parse(yearCount.Year),
+                        SetCount = (short)yearCount.SetCount
+                    });
+                }
+
                 themeList.Add(theme);
 
                 _themeRepository.AddOrUpdate(theme);
