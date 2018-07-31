@@ -3,6 +3,8 @@ using abremir.AllMyBricks.Data.Models;
 using abremir.AllMyBricks.DataSynchronizer.Interfaces;
 using abremir.AllMyBricks.ThirdParty.Brickset.Interfaces;
 using abremir.AllMyBricks.ThirdParty.Brickset.Models;
+using System;
+using System.Linq;
 
 namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
 {
@@ -44,6 +46,35 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                     .GetSets(getSetsParameters))
                 {
                     _setRepository.AddOrUpdate(MapSet(theme, subtheme, bricksetSet));
+                }
+            }
+
+            return true;
+        }
+
+        public bool Synchronize(string apiKey, DateTimeOffset previousUpdateTimestamp)
+        {
+            var getRecentlyUpdatedSetsParameters = new ParameterMinutesAgo
+            {
+                ApiKey = apiKey,
+                MinutesAgo = (int)(DateTimeOffset.Now - previousUpdateTimestamp).TotalMinutes
+            };
+
+            foreach (var themeGroup in _bricksetApiService
+                .GetRecentlyUpdatedSets(getRecentlyUpdatedSetsParameters)
+                .GroupBy(bricksetSet => bricksetSet.Theme))
+            {
+                var theme = _themeRepository.Get(themeGroup.Key);
+
+                foreach (var subthemeGroup in themeGroup
+                    .GroupBy(themeSets => themeSets.Subtheme))
+                {
+                    var subtheme = _subthemeRepository.Get(theme.Name, subthemeGroup.Key);
+
+                    foreach (var set in subthemeGroup)
+                    {
+                        _setRepository.AddOrUpdate(MapSet(theme, subtheme, set));
+                    }
                 }
             }
 
