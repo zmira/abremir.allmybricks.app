@@ -11,6 +11,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Configuration
             container = container ?? new Container();
 
             container.Register<IThemeSynchronizer, ThemeSynchronizer>(Lifestyle.Transient);
+            container.Register<ISubthemeSynchronizer, SubthemeSynchronizer>(Lifestyle.Transient);
 
             return container;
         }
