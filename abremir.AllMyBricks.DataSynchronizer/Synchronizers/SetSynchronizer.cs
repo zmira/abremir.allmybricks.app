@@ -1,4 +1,5 @@
-﻿using abremir.AllMyBricks.Data.Interfaces;
+﻿using abremir.AllMyBricks.Data.Enumerations;
+using abremir.AllMyBricks.Data.Interfaces;
 using abremir.AllMyBricks.Data.Models;
 using abremir.AllMyBricks.DataSynchronizer.Interfaces;
 using abremir.AllMyBricks.ThirdParty.Brickset.Interfaces;
@@ -45,7 +46,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                 foreach (var bricksetSet in _bricksetApiService
                     .GetSets(getSetsParameters))
                 {
-                    _setRepository.AddOrUpdate(MapSet(theme, subtheme, bricksetSet));
+                    _setRepository.AddOrUpdate(MapSet(apiKey, theme, subtheme, bricksetSet));
                 }
             }
 
@@ -73,7 +74,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
 
                     foreach (var set in subthemeGroup)
                     {
-                        _setRepository.AddOrUpdate(MapSet(theme, subtheme, set));
+                        _setRepository.AddOrUpdate(MapSet(apiKey, theme, subtheme, set));
                     }
                 }
             }
@@ -81,7 +82,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
             return true;
         }
 
-        private Set MapSet(Theme theme, Subtheme subtheme, Sets bricksetSet)
+        private Set MapSet(string apiKey, Theme theme, Subtheme subtheme, Sets bricksetSet)
         {
             var set = new Set
             {
@@ -116,7 +117,180 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                 LastUpdated = bricksetSet.LastUpdated
             };
 
+            SetTagList(set, bricksetSet.Tags);
+            SetImageList(apiKey, set, bricksetSet);
+            SetPriceList(set, bricksetSet);
+            SetReviewList(apiKey, set, bricksetSet);
+            SetInstructionList(apiKey, set, bricksetSet);
+
             return set;
+        }
+
+        private void SetTagList(Set set, string tags)
+        {
+            if (string.IsNullOrWhiteSpace(tags))
+            {
+                return;
+            }
+
+            foreach (var tag in tags
+                .Split(',')
+                .Where(tag => !string.IsNullOrWhiteSpace(tag))
+                .Select(tag => tag))
+            {
+                set.Tags.Add(_referenceDataRepository.GetOrAdd<Tag>(tag));
+            }
+        }
+
+        private void SetImageList(string apiKey, Set set, Sets bricksetSet)
+        {
+            if (bricksetSet.Image)
+            {
+                set.Images.Add(new Image
+                {
+                    ImageUrl = bricksetSet.ImageUrl,
+                    LargeThumbnailUrl = bricksetSet.LargeThumbnailUrl,
+                    ThumbnailUrl = bricksetSet.ThumbnailUrl
+                });
+            }
+
+            if (bricksetSet.AdditionalImageCount > 0)
+            {
+                var getAdditionalImagesParameters = new ParameterSetId
+                {
+                    ApiKey = apiKey,
+                    SetID = set.SetId
+                };
+
+                foreach (var additionalImage in _bricksetApiService
+                    .GetAdditionalImages(getAdditionalImagesParameters))
+                {
+                    set.Images.Add(new Image
+                    {
+                        ImageUrl = additionalImage.ImageUrl,
+                        LargeThumbnailUrl = additionalImage.LargeThumbnailUrl,
+                        ThumbnailUrl = additionalImage.ThumbnailUrl
+                    });
+                }
+            }
+        }
+
+        private void SetPriceList(Set set, Sets bricksetSet)
+        {
+            if (!string.IsNullOrWhiteSpace(bricksetSet.CaRetailPrice))
+            {
+                set.Prices.Add(new Price
+                {
+                    Region = PriceRegionEnum.CA,
+                    Value = float.Parse(bricksetSet.CaRetailPrice)
+                });
+            }
+
+            if (!string.IsNullOrWhiteSpace(bricksetSet.EuRetailPrice))
+            {
+                set.Prices.Add(new Price
+                {
+                    Region = PriceRegionEnum.EU,
+                    Value = float.Parse(bricksetSet.EuRetailPrice)
+                });
+            }
+
+            if (!string.IsNullOrWhiteSpace(bricksetSet.UkRetailPrice))
+            {
+                set.Prices.Add(new Price
+                {
+                    Region = PriceRegionEnum.UK,
+                    Value = float.Parse(bricksetSet.UkRetailPrice)
+                });
+            }
+
+            if (!string.IsNullOrWhiteSpace(bricksetSet.UsRetailPrice))
+            {
+                set.Prices.Add(new Price
+                {
+                    Region = PriceRegionEnum.US,
+                    Value = float.Parse(bricksetSet.UsRetailPrice)
+                });
+            }
+        }
+
+        private void SetReviewList(string apiKey, Set set, Sets bricksetSet)
+        {
+            if (bricksetSet.ReviewCount > 0)
+            {
+                var getReviewsParameters = new ParameterSetId
+                {
+                    ApiKey = apiKey,
+                    SetID = set.SetId
+                };
+
+                foreach (var bricksetReview in _bricksetApiService
+                    .GetReviews(getReviewsParameters))
+                {
+                    var review = new Review
+                    {
+                        Author = bricksetReview.Author,
+                        DatePosted = bricksetReview.DatePosted,
+                        ReviewContent = bricksetReview.Review,
+                        Title = bricksetReview.Title,
+                        Html = bricksetReview.Html
+                    };
+
+                    review.RatingComponents.Add(new RatingItem
+                    {
+                        Type = RatingItemEnum.Overall,
+                        Value = (byte)bricksetReview.OverallRating
+                    });
+
+                    review.RatingComponents.Add(new RatingItem
+                    {
+                        Type = RatingItemEnum.Parts,
+                        Value = (byte)bricksetReview.Parts
+                    });
+
+                    review.RatingComponents.Add(new RatingItem
+                    {
+                        Type = RatingItemEnum.BuildingExperience,
+                        Value = (byte)bricksetReview.BuildingExperience
+                    });
+
+                    review.RatingComponents.Add(new RatingItem
+                    {
+                        Type = RatingItemEnum.Playability,
+                        Value = (byte)bricksetReview.Playability
+                    });
+
+                    review.RatingComponents.Add(new RatingItem
+                    {
+                        Type = RatingItemEnum.ValueForMoney,
+                        Value = (byte)bricksetReview.ValueForMoney
+                    });
+
+                    set.Reviews.Add(review);
+                }
+            }
+        }
+
+        private void SetInstructionList(string apiKey, Set set, Sets bricksetSet)
+        {
+            if (bricksetSet.InstructionsCount > 0)
+            {
+                var getInstructionsParameters = new ParameterSetId
+                {
+                    ApiKey = apiKey,
+                    SetID = set.SetId
+                };
+
+                foreach (var instruction in _bricksetApiService
+                    .GetInstructions(getInstructionsParameters))
+                {
+                    set.Instructions.Add(new Instruction
+                    {
+                        Description = instruction.Description,
+                        Url = instruction.Url
+                    });
+                }
+            }
         }
     }
 }
