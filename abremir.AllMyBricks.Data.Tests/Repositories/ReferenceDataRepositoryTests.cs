@@ -4,6 +4,7 @@ using abremir.AllMyBricks.Data.Interfaces;
 using abremir.AllMyBricks.Data.Models;
 using abremir.AllMyBricks.Data.Repositories;
 using abremir.AllMyBricks.Data.Tests.Configuration;
+using abremir.AllMyBricks.Data.Tests.Shared;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Realms;
@@ -13,7 +14,7 @@ using Managed = abremir.AllMyBricks.Data.Models.Realm;
 namespace abremir.AllMyBricks.Data.Tests.Repositories
 {
     [TestClass]
-    public class ReferenceDataRepositoryTests : TestRepositoryBase
+    public class ReferenceDataRepositoryTests : DataTestsBase
     {
         private static IReferenceDataRepository _referenceDataRepository;
 

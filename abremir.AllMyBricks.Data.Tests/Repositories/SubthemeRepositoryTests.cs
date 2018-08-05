@@ -4,6 +4,7 @@ using abremir.AllMyBricks.Data.Interfaces;
 using abremir.AllMyBricks.Data.Models;
 using abremir.AllMyBricks.Data.Repositories;
 using abremir.AllMyBricks.Data.Tests.Configuration;
+using abremir.AllMyBricks.Data.Tests.Shared;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
@@ -12,7 +13,7 @@ using System.Linq;
 namespace abremir.AllMyBricks.Data.Tests.Repositories
 {
     [TestClass]
-    public class SubthemeRepositoryTests : TestRepositoryBase
+    public class SubthemeRepositoryTests : DataTestsBase
     {
         private static ISubthemeRepository _subthemeRepository;
 
