@@ -76,7 +76,8 @@ namespace abremir.AllMyBricks.Data.Tests.Configuration
                 SetCount = 8,
                 Theme = theme,
                 YearFrom = FirstSubthemeYearFrom,
-                YearTo = theme.YearTo
+                YearTo = theme.YearTo,
+                SubthemeKey = $"{subthemeName}-{theme.Name}"
             };
         }
 
@@ -90,7 +91,8 @@ namespace abremir.AllMyBricks.Data.Tests.Configuration
                 SetCount = 7,
                 Theme = theme,
                 YearFrom = SecondSubthemeYearFrom,
-                YearTo = theme.YearTo
+                YearTo = theme.YearTo,
+                SubthemeKey = $"{subthemeName}-{theme.Name}"
             };
         }
 
