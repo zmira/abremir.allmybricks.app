@@ -5,6 +5,10 @@
         public const string JsonFileGetThemes = "GetThemes";
         public const string JsonFileGetYears = "GetYears";
         public const string JsonFileGetSubthemes = "GetSubthemes";
+        public const string JsonFileGetSets = "GetSets";
+        public const string JsonFileGetInstructions = "GetInstructions";
+        public const string JsonFileGetAdditionalImages = "GetAdditionalImages";
+        public const string JsonFileGetReviews = "GetReviews";
 
         public const string TestTheme = "Architecture";
     }

@@ -5,12 +5,20 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="BricksetApiServiceResponses\GetAdditionalImages.json" />
+    <None Remove="BricksetApiServiceResponses\GetInstructions.json" />
+    <None Remove="BricksetApiServiceResponses\GetReviews.json" />
+    <None Remove="BricksetApiServiceResponses\GetSets.json" />
     <None Remove="BricksetApiServiceResponses\GetSubthemes.json" />
     <None Remove="BricksetApiServiceResponses\GetThemes.json" />
     <None Remove="BricksetApiServiceResponses\GetYears.json" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="BricksetApiServiceResponses\GetAdditionalImages.json" />
+    <EmbeddedResource Include="BricksetApiServiceResponses\GetInstructions.json" />
+    <EmbeddedResource Include="BricksetApiServiceResponses\GetReviews.json" />
+    <EmbeddedResource Include="BricksetApiServiceResponses\GetSets.json" />
     <EmbeddedResource Include="BricksetApiServiceResponses\GetSubthemes.json" />
     <EmbeddedResource Include="BricksetApiServiceResponses\GetThemes.json" />
     <EmbeddedResource Include="BricksetApiServiceResponses\GetYears.json" />

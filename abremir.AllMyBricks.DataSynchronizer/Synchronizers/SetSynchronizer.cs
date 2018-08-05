@@ -1,10 +1,13 @@
 ﻿using abremir.AllMyBricks.Data.Enumerations;
 using abremir.AllMyBricks.Data.Interfaces;
 using abremir.AllMyBricks.Data.Models;
+using abremir.AllMyBricks.DataSynchronizer.Extensions;
 using abremir.AllMyBricks.DataSynchronizer.Interfaces;
 using abremir.AllMyBricks.ThirdParty.Brickset.Interfaces;
 using abremir.AllMyBricks.ThirdParty.Brickset.Models;
 using System;
+using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 
 namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
@@ -31,8 +34,10 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
             _subthemeRepository = subthemeRepository;
         }
 
-        public bool Synchronize(string apiKey, Theme theme, Subtheme subtheme)
+        public IEnumerable<Set> Synchronize(string apiKey, Theme theme, Subtheme subtheme)
         {
+            var sets = new List<Set>();
+
             for (var year = subtheme.YearFrom; year <= subtheme.YearTo; year++)
             {
                 var getSetsParameters = new ParameterSets
@@ -43,14 +48,20 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                     Year = year.ToString()
                 };
 
-                foreach (var bricksetSet in _bricksetApiService
-                    .GetSets(getSetsParameters))
+                var setsRet = _bricksetApiService
+                    .GetSets(getSetsParameters).ToList();
+
+                foreach (var bricksetSet in setsRet)
                 {
-                    _setRepository.AddOrUpdate(MapSet(apiKey, theme, subtheme, bricksetSet));
+                    var set = MapSet(apiKey, theme, subtheme, bricksetSet);
+
+                    sets.Add(set);
+
+                    _setRepository.AddOrUpdate(set);
                 }
             }
 
-            return true;
+            return sets;
         }
 
         public bool Synchronize(string apiKey, DateTimeOffset previousUpdateTimestamp)
@@ -94,26 +105,26 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                 SetId = bricksetSet.SetId,
                 Number = bricksetSet.Number,
                 Name = bricksetSet.Name,
-                Description = bricksetSet.Description,
-                Ean = bricksetSet.Ean,
-                Upc = bricksetSet.Upc,
+                Description = string.IsNullOrWhiteSpace(bricksetSet.Description) ? null : bricksetSet.Description.Trim(),
+                Ean = string.IsNullOrWhiteSpace(bricksetSet.Ean) ? null : bricksetSet.Ean,
+                Upc = string.IsNullOrWhiteSpace(bricksetSet.Upc) ? null : bricksetSet.Upc,
                 NumberVariant = (byte)bricksetSet.NumberVariant,
                 Year = string.IsNullOrWhiteSpace(bricksetSet.Year) ? (short?)null : short.Parse(bricksetSet.Year),
                 Pieces = string.IsNullOrWhiteSpace(bricksetSet.Pieces) ? (short?)null : short.Parse(bricksetSet.Pieces),
                 Minifigs = string.IsNullOrWhiteSpace(bricksetSet.Minifigs) ? (short?)null : short.Parse(bricksetSet.Minifigs),
-                BricksetUrl = bricksetSet.BricksetUrl,
+                BricksetUrl = bricksetSet.BricksetUrl.SanitizeUrl(),
                 Released = bricksetSet.Released,
                 OwnedByTotal = (short)bricksetSet.OwnedByTotal,
                 WantedByTotal = (short)bricksetSet.WantedByTotal,
                 Rating = (float)bricksetSet.Rating,
-                Availability = bricksetSet.Availability,
+                Availability = string.IsNullOrWhiteSpace(bricksetSet.Availability) ? null : bricksetSet.Availability,
                 AgeMin = string.IsNullOrWhiteSpace(bricksetSet.AgeMin) ? (byte?)null : byte.Parse(bricksetSet.AgeMin),
                 AgeMax = string.IsNullOrWhiteSpace(bricksetSet.AgeMax) ? (byte?)null : byte.Parse(bricksetSet.AgeMax),
-                Height = string.IsNullOrWhiteSpace(bricksetSet.Height) ? (short?)null : byte.Parse(bricksetSet.Height),
-                Width = string.IsNullOrWhiteSpace(bricksetSet.Width) ? (short?)null : byte.Parse(bricksetSet.Width),
-                Depth = string.IsNullOrWhiteSpace(bricksetSet.Depth) ? (short?)null : byte.Parse(bricksetSet.Depth),
-                Weight = string.IsNullOrWhiteSpace(bricksetSet.Weight) ? (short?)null : byte.Parse(bricksetSet.Weight),
-                Notes = bricksetSet.Notes,
+                Height = string.IsNullOrWhiteSpace(bricksetSet.Height) ? (float?)null : float.Parse(bricksetSet.Height, NumberStyles.Any, CultureInfo.InvariantCulture),
+                Width = string.IsNullOrWhiteSpace(bricksetSet.Width) ? (float?)null : float.Parse(bricksetSet.Width, NumberStyles.Any, CultureInfo.InvariantCulture),
+                Depth = string.IsNullOrWhiteSpace(bricksetSet.Depth) ? (float?)null : float.Parse(bricksetSet.Depth, NumberStyles.Any, CultureInfo.InvariantCulture),
+                Weight = string.IsNullOrWhiteSpace(bricksetSet.Weight) ? (float?)null : float.Parse(bricksetSet.Weight, NumberStyles.Any, CultureInfo.InvariantCulture),
+                Notes = string.IsNullOrWhiteSpace(bricksetSet.Notes) ? null : bricksetSet.Notes.Trim(),
                 LastUpdated = bricksetSet.LastUpdated
             };
 
@@ -148,9 +159,9 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
             {
                 set.Images.Add(new Image
                 {
-                    ImageUrl = bricksetSet.ImageUrl,
-                    LargeThumbnailUrl = bricksetSet.LargeThumbnailUrl,
-                    ThumbnailUrl = bricksetSet.ThumbnailUrl
+                    ImageUrl = bricksetSet.ImageUrl.SanitizeUrl(),
+                    LargeThumbnailUrl = bricksetSet.LargeThumbnailUrl.SanitizeUrl(),
+                    ThumbnailUrl = bricksetSet.ThumbnailUrl.SanitizeUrl()
                 });
             }
 
@@ -162,16 +173,10 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                     SetID = set.SetId
                 };
 
-                foreach (var additionalImage in _bricksetApiService
-                    .GetAdditionalImages(getAdditionalImagesParameters))
-                {
-                    set.Images.Add(new Image
-                    {
-                        ImageUrl = additionalImage.ImageUrl,
-                        LargeThumbnailUrl = additionalImage.LargeThumbnailUrl,
-                        ThumbnailUrl = additionalImage.ThumbnailUrl
-                    });
-                }
+                set.Images = _bricksetApiService
+                        .GetAdditionalImages(getAdditionalImagesParameters)
+                        .ToImageEnumerable()
+                        .ToList();
             }
         }
 
@@ -182,7 +187,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                 set.Prices.Add(new Price
                 {
                     Region = PriceRegionEnum.CA,
-                    Value = float.Parse(bricksetSet.CaRetailPrice)
+                    Value = float.Parse(bricksetSet.CaRetailPrice, NumberStyles.Any, CultureInfo.InvariantCulture)
                 });
             }
 
@@ -191,7 +196,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                 set.Prices.Add(new Price
                 {
                     Region = PriceRegionEnum.EU,
-                    Value = float.Parse(bricksetSet.EuRetailPrice)
+                    Value = float.Parse(bricksetSet.EuRetailPrice, NumberStyles.Any, CultureInfo.InvariantCulture)
                 });
             }
 
@@ -200,7 +205,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                 set.Prices.Add(new Price
                 {
                     Region = PriceRegionEnum.UK,
-                    Value = float.Parse(bricksetSet.UkRetailPrice)
+                    Value = float.Parse(bricksetSet.UkRetailPrice, NumberStyles.Any, CultureInfo.InvariantCulture)
                 });
             }
 
@@ -209,7 +214,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                 set.Prices.Add(new Price
                 {
                     Region = PriceRegionEnum.US,
-                    Value = float.Parse(bricksetSet.UsRetailPrice)
+                    Value = float.Parse(bricksetSet.UsRetailPrice, NumberStyles.Any, CultureInfo.InvariantCulture)
                 });
             }
         }
@@ -224,50 +229,10 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                     SetID = set.SetId
                 };
 
-                foreach (var bricksetReview in _bricksetApiService
-                    .GetReviews(getReviewsParameters))
-                {
-                    var review = new Review
-                    {
-                        Author = bricksetReview.Author,
-                        DatePosted = bricksetReview.DatePosted,
-                        ReviewContent = bricksetReview.Review,
-                        Title = bricksetReview.Title,
-                        Html = bricksetReview.Html
-                    };
-
-                    review.RatingComponents.Add(new RatingItem
-                    {
-                        Type = RatingItemEnum.Overall,
-                        Value = (byte)bricksetReview.OverallRating
-                    });
-
-                    review.RatingComponents.Add(new RatingItem
-                    {
-                        Type = RatingItemEnum.Parts,
-                        Value = (byte)bricksetReview.Parts
-                    });
-
-                    review.RatingComponents.Add(new RatingItem
-                    {
-                        Type = RatingItemEnum.BuildingExperience,
-                        Value = (byte)bricksetReview.BuildingExperience
-                    });
-
-                    review.RatingComponents.Add(new RatingItem
-                    {
-                        Type = RatingItemEnum.Playability,
-                        Value = (byte)bricksetReview.Playability
-                    });
-
-                    review.RatingComponents.Add(new RatingItem
-                    {
-                        Type = RatingItemEnum.ValueForMoney,
-                        Value = (byte)bricksetReview.ValueForMoney
-                    });
-
-                    set.Reviews.Add(review);
-                }
+                set.Reviews = _bricksetApiService
+                        .GetReviews(getReviewsParameters)
+                        .ToReviewEnumerable()
+                        .ToList();
             }
         }
 
@@ -281,15 +246,10 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                     SetID = set.SetId
                 };
 
-                foreach (var instruction in _bricksetApiService
-                    .GetInstructions(getInstructionsParameters))
-                {
-                    set.Instructions.Add(new Instruction
-                    {
-                        Description = instruction.Description,
-                        Url = instruction.Url
-                    });
-                }
+                set.Instructions = _bricksetApiService
+                        .GetInstructions(getInstructionsParameters)
+                        .ToInstructionEnumerable()
+                        .ToList();
             }
         }
     }

@@ -41,10 +41,10 @@ namespace abremir.AllMyBricks.Data.Models.Realm
         public string Availability { get; set; }
         public byte? AgeMin { get; set; }
         public byte? AgeMax { get; set; }
-        public short? Height { get; set; }
-        public short? Width { get; set; }
-        public short? Depth { get; set; }
-        public short? Weight { get; set; }
+        public float? Height { get; set; }
+        public float? Width { get; set; }
+        public float? Depth { get; set; }
+        public float? Weight { get; set; }
         public string Notes { get; set; }
         public string UserRating { get; set; }
         public DateTimeOffset LastUpdated { get; set; }
