@@ -4,24 +4,25 @@ using System.Collections.Generic;
 
 namespace abremir.AllMyBricks.DataSynchronizer.Extensions
 {
-    public static class SubthemesExtension
+    public static class ThemesExtensions
     {
-        public static Subtheme ToSubtheme(this Subthemes source)
+        public static Theme ToTheme(this Themes source)
         {
-            return new Subtheme
+            return new Theme
             {
-                Name = source.Subtheme,
+                Name = source.Theme,
                 SetCount = (short)source.SetCount,
+                SubthemeCount = (short)source.SubthemeCount,
                 YearFrom = (short)source.YearFrom,
                 YearTo = (short)source.YearTo
             };
         }
 
-        public static IEnumerable<Subtheme> ToSubtheme(this IEnumerable<Subthemes> source)
+        public static IEnumerable<Theme> ToTheme(this IEnumerable<Themes> source)
         {
             foreach (var item in source)
             {
-                yield return item.ToSubtheme();
+                yield return item.ToTheme();
             }
         }
     }

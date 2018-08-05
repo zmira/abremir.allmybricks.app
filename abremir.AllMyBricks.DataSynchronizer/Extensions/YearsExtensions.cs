@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace abremir.AllMyBricks.DataSynchronizer.Extensions
 {
-    public static class YearsExtension
+    public static class YearsExtensions
     {
         public static YearSetCount ToYearSetCount(this Years source)
         {
