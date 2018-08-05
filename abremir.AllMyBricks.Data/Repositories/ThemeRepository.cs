@@ -1,7 +1,7 @@
 ﻿using abremir.AllMyBricks.Data.Configuration;
+using abremir.AllMyBricks.Data.Extensions;
 using abremir.AllMyBricks.Data.Interfaces;
 using abremir.AllMyBricks.Data.Models;
-using ExpressMapper.Extensions;
 using Realms;
 using System;
 using System.Collections.Generic;
@@ -34,16 +34,18 @@ namespace abremir.AllMyBricks.Data.Repositories
 
             var repository = _repositoryService.GetRepository();
 
-            var managedTheme = theme.Map<Theme, Managed.Theme>();
+            var managedTheme = theme.ToRealmObject();
 
             repository.Write(() => repository.Add(managedTheme, existingTheme != null));
 
-            return managedTheme.Map<Managed.Theme, Theme>();
+            return managedTheme.ToPlainObject();
         }
 
         public IEnumerable<Theme> All()
         {
-            return GetQueryable().Map<IQueryable<Managed.Theme>, IEnumerable<Theme>>();
+            return GetQueryable()
+                .AsEnumerable()
+                .ToPlainObject();
         }
 
         public Theme Get(string themeName)
@@ -55,7 +57,7 @@ namespace abremir.AllMyBricks.Data.Repositories
 
             return GetQueryable()
                 .FirstOrDefault(theme => theme.Name.Equals(themeName, StringComparison.OrdinalIgnoreCase))
-                ?.Map<Managed.Theme, Theme>();
+                ?.ToPlainObject();
         }
 
         public IEnumerable<Theme> AllForYear(short year)
@@ -66,8 +68,9 @@ namespace abremir.AllMyBricks.Data.Repositories
             }
 
             return GetQueryable()
-                .Filter($"SetCountPerYear.Year == {year}")
-                .Map<IQueryable<Managed.Theme>, IEnumerable<Theme>>();
+                    .Filter($"SetCountPerYear.Year == {year}")
+                    .AsEnumerable()
+                    .ToPlainObject();
         }
 
         private IQueryable<Managed.Theme> GetQueryable()

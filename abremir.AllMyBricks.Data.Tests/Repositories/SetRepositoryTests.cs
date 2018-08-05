@@ -1,10 +1,10 @@
 ﻿using abremir.AllMyBricks.Data.Configuration;
 using abremir.AllMyBricks.Data.Enumerations;
+using abremir.AllMyBricks.Data.Extensions;
 using abremir.AllMyBricks.Data.Interfaces;
 using abremir.AllMyBricks.Data.Models;
 using abremir.AllMyBricks.Data.Repositories;
 using abremir.AllMyBricks.Data.Tests.Configuration;
-using ExpressMapper.Extensions;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
@@ -477,7 +477,8 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
             set.Category = InsertData(new Managed.Category { Value = $"SET CATEGORY{suffix}" });
             set.Tags.Add(InsertData(new Managed.Tag { Value = $"SET TAG{suffix}" }));
 
-            return InsertData(set).Map<Managed.Set, Set>();
+            return InsertData(set)
+                .ToPlainObject();
         }
 
         [TestMethod]
@@ -501,7 +502,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
         {
             var setUnderTest = ModelsSetup.GetSetUnderTest();
 
-            _setRepository.AddOrUpdate(setUnderTest.Map<Managed.Set, Set>());
+            _setRepository.AddOrUpdate(setUnderTest.ToPlainObject());
 
             var set = _setRepository.Get(setUnderTest.SetId);
 
@@ -514,7 +515,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
         {
             var setUnderTest = ModelsSetup.GetSetUnderTest();
 
-            _setRepository.AddOrUpdate(setUnderTest.Map<Managed.Set, Set>());
+            _setRepository.AddOrUpdate(setUnderTest.ToPlainObject());
 
             var result = _setRepository.Get(setUnderTest.SetId);
 

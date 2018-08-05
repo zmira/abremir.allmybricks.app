@@ -1,14 +1,13 @@
 ﻿using abremir.AllMyBricks.Data.Configuration;
+using abremir.AllMyBricks.Data.Extensions;
 using abremir.AllMyBricks.Data.Interfaces;
 using abremir.AllMyBricks.Data.Models;
 using abremir.AllMyBricks.Data.Repositories;
 using abremir.AllMyBricks.Data.Tests.Configuration;
-using ExpressMapper.Extensions;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Linq;
-using Managed = abremir.AllMyBricks.Data.Models.Realm;
 
 namespace abremir.AllMyBricks.Data.Tests.Repositories
 {
@@ -239,7 +238,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
             var subthemeUnderTest = ModelsSetup.GetSubthemeUnderTest(Guid.NewGuid().ToString());
             subthemeUnderTest.YearFrom = Constants.MinimumSetYear - 1;
 
-            var subtheme = _subthemeRepository.AddOrUpdate(subthemeUnderTest.Map<Managed.Subtheme, Subtheme>());
+            var subtheme = _subthemeRepository.AddOrUpdate(subthemeUnderTest.ToPlainObject());
 
             subtheme.Should().BeNull();
         }
@@ -250,7 +249,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
             var subthemeUnderTest = ModelsSetup.GetSubthemeUnderTest(Guid.NewGuid().ToString());
             subthemeUnderTest.Theme.YearFrom = Constants.MinimumSetYear - 1;
 
-            var subtheme = _subthemeRepository.AddOrUpdate(subthemeUnderTest.Map<Managed.Subtheme, Subtheme>());
+            var subtheme = _subthemeRepository.AddOrUpdate(subthemeUnderTest.ToPlainObject());
 
             subtheme.Should().BeNull();
         }
@@ -261,7 +260,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
             var subthemeUnderTest = ModelsSetup.GetSubthemeUnderTest(Guid.NewGuid().ToString());
             subthemeUnderTest.Theme = InsertData(ModelsSetup.GetThemeUnderTest(Guid.NewGuid().ToString()));
 
-            _subthemeRepository.AddOrUpdate(subthemeUnderTest.Map<Managed.Subtheme, Subtheme>());
+            _subthemeRepository.AddOrUpdate(subthemeUnderTest.ToPlainObject());
 
             var subtheme = _subthemeRepository.Get(subthemeUnderTest.Theme.Name, subthemeUnderTest.Name);
 
@@ -274,7 +273,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
             var subtheme = ModelsSetup.GetSubthemeUnderTest(Guid.NewGuid().ToString());
             subtheme.Theme = InsertData(ModelsSetup.GetThemeUnderTest(Guid.NewGuid().ToString()));
 
-            _subthemeRepository.AddOrUpdate(subtheme.Map<Managed.Subtheme, Subtheme>());
+            _subthemeRepository.AddOrUpdate(subtheme.ToPlainObject());
 
             var subthemeUnderTest = _subthemeRepository.Get(subtheme.Theme.Name, subtheme.Name);
 

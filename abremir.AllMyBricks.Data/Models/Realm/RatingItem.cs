@@ -3,7 +3,7 @@ using Realms;
 
 namespace abremir.AllMyBricks.Data.Models.Realm
 {
-    internal class RatingItem : RealmObject
+    public class RatingItem : RealmObject
     {
         [Indexed]
         public byte TypeRaw { get; set; }

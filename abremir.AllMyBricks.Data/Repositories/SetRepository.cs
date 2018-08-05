@@ -1,8 +1,8 @@
 ﻿using abremir.AllMyBricks.Data.Configuration;
 using abremir.AllMyBricks.Data.Enumerations;
+using abremir.AllMyBricks.Data.Extensions;
 using abremir.AllMyBricks.Data.Interfaces;
 using abremir.AllMyBricks.Data.Models;
-using ExpressMapper.Extensions;
 using Realms;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,12 +37,12 @@ namespace abremir.AllMyBricks.Data.Repositories
 
             repository.Write(() => repository.Add(managedSet, existingSet != null));
 
-            return managedSet.Map<Managed.Set, Set>();
+            return managedSet.ToPlainObject();
         }
 
         private Managed.Set GetManagedSet(Set set)
         {
-            var managedSet = set.Map<Set, Managed.Set>();
+            var managedSet = set.ToRealmObject();
 
             var repository = _repositoryService.GetRepository();
 
@@ -91,7 +91,9 @@ namespace abremir.AllMyBricks.Data.Repositories
 
         public IEnumerable<Set> All()
         {
-            return GetQueryable().Map<IQueryable<Managed.Set>, IEnumerable<Set>>();
+            return GetQueryable()
+                .AsEnumerable()
+                .ToPlainObject();
         }
 
         public Set Get(long setId)
@@ -103,7 +105,7 @@ namespace abremir.AllMyBricks.Data.Repositories
 
             return GetQueryable()
                 .FirstOrDefault(set => set.SetId == setId)
-                ?.Map<Managed.Set, Set>();
+                ?.ToPlainObject();
         }
 
         public IEnumerable<Set> AllForTheme(string themeName)
@@ -115,7 +117,8 @@ namespace abremir.AllMyBricks.Data.Repositories
 
             return GetQueryable()
                 .Filter($"Theme.Name ==[c] '{themeName}'")
-                .Map<IQueryable<Managed.Set>, IEnumerable<Set>>();
+                .AsEnumerable()
+                .ToPlainObject();
         }
 
         public IEnumerable<Set> AllForSubtheme(string themeName, string subthemeName)
@@ -127,7 +130,8 @@ namespace abremir.AllMyBricks.Data.Repositories
 
             return GetQueryable()
                 .Filter($"Theme.Name ==[c] '{themeName}' && Subtheme.Name ==[c] '{subthemeName}'")
-                .Map<IQueryable<Managed.Set>, IEnumerable<Set>>();
+                .AsEnumerable()
+                .ToPlainObject();
         }
 
         public IEnumerable<Set> AllForThemeGroup(string themeGroupName)
@@ -139,7 +143,8 @@ namespace abremir.AllMyBricks.Data.Repositories
 
             return GetQueryable()
                 .Filter($"ThemeGroup.Value ==[c] '{themeGroupName}'")
-                .Map<IQueryable<Managed.Set>, IEnumerable<Set>>();
+                .AsEnumerable()
+                .ToPlainObject();
         }
 
         public IEnumerable<Set> AllForCategory(string categoryName)
@@ -151,7 +156,8 @@ namespace abremir.AllMyBricks.Data.Repositories
 
             return GetQueryable()
                 .Filter($"Category.Value ==[c] '{categoryName}'")
-                .Map<IQueryable<Managed.Set>, IEnumerable<Set>>();
+                .AsEnumerable()
+                .ToPlainObject();
 
         }
 
@@ -164,7 +170,8 @@ namespace abremir.AllMyBricks.Data.Repositories
 
             return GetQueryable()
                 .Filter($"Tags.Value ==[c] '{tagName}'")
-                .Map<IQueryable<Managed.Set>, IEnumerable<Set>>();
+                .AsEnumerable()
+                .ToPlainObject();
         }
 
         public IEnumerable<Set> AllForYear(short year)
@@ -176,7 +183,8 @@ namespace abremir.AllMyBricks.Data.Repositories
 
             return GetQueryable()
                 .Where(set => set.Year == year)
-                .Map<IQueryable<Managed.Set>, IEnumerable<Set>>();
+                .AsEnumerable()
+                .ToPlainObject();
         }
 
         public IEnumerable<Set> AllForPriceRange(PriceRegionEnum priceRegion, float minimumPrice, float maximumPrice)
@@ -188,7 +196,8 @@ namespace abremir.AllMyBricks.Data.Repositories
 
             return GetQueryable()
                 .Filter($"Prices.RegionRaw == {(int)priceRegion} && Prices.Value >= {minimumPrice} && Prices.Value <= {maximumPrice}")
-                .Map<IQueryable<Managed.Set>, IEnumerable<Set>>();
+                .AsEnumerable()
+                .ToPlainObject();
         }
 
         public IEnumerable<Set> SearchBy(string searchQuery)
@@ -202,7 +211,8 @@ namespace abremir.AllMyBricks.Data.Repositories
 
             return GetQueryable()
                 .Filter(realmQuery)
-                .Map<IQueryable<Managed.Set>, IEnumerable<Set>>();
+                .AsEnumerable()
+                .ToPlainObject();
         }
 
         private string BuildRealmQueryFromSearchQuery(string searchQuery)

@@ -1,8 +1,9 @@
-﻿using abremir.AllMyBricks.Data.Interfaces;
+﻿using abremir.AllMyBricks.Data.Configuration;
+using abremir.AllMyBricks.Data.Extensions;
+using abremir.AllMyBricks.Data.Interfaces;
 using abremir.AllMyBricks.Data.Models;
 using abremir.AllMyBricks.Data.Repositories;
 using abremir.AllMyBricks.Data.Tests.Configuration;
-using ExpressMapper.Extensions;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Realms;
@@ -59,49 +60,49 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
         [TestMethod]
         public void GivenGetOrAdd_WhenCategoryReferenceDataDoesNotExist_ThenInsertsReferenceData()
         {
-            GetOrAddTestHelper<Category, Managed.Category>(ModelsSetup.CategoryReferenceDataValue, ModelsSetup.CategoryReferenceData.Map<Managed.Category, Category>(), insert: true);
+            GetOrAddTestHelper<Category, Managed.Category>(ModelsSetup.CategoryReferenceDataValue, ModelsSetup.CategoryReferenceData.ToPlainObject(), insert: true);
         }
 
         [TestMethod]
         public void GivenGetOrAdd_WhenPackaginTypeReferenceDataDoesNotExist_ThenInsertsReferenceData()
         {
-            GetOrAddTestHelper<PackagingType, Managed.PackagingType>(ModelsSetup.PackagingTypeReferenceDataValue, ModelsSetup.PackagingTypeReferenceData.Map<Managed.PackagingType, PackagingType>(), insert: true);
+            GetOrAddTestHelper<PackagingType, Managed.PackagingType>(ModelsSetup.PackagingTypeReferenceDataValue, ModelsSetup.PackagingTypeReferenceData.ToPlainObject(), insert: true);
         }
 
         [TestMethod]
         public void GivenGetOrAdd_WhenTagReferenceDataDoesNotExist_ThenInsertsReferenceData()
         {
-            GetOrAddTestHelper<Tag, Managed.Tag>(ModelsSetup.TagReferenceDataValue, ModelsSetup.TagReferenceData.Map<Managed.Tag, Tag>(), insert: true);
+            GetOrAddTestHelper<Tag, Managed.Tag>(ModelsSetup.TagReferenceDataValue, ModelsSetup.TagReferenceData.ToPlainObject(), insert: true);
         }
 
         [TestMethod]
         public void GivenGetOrAdd_WhenThemeGroupReferenceDataDoesNotExist_ThenInsertsReferenceData()
         {
-            GetOrAddTestHelper<ThemeGroup, Managed.ThemeGroup>(ModelsSetup.ThemeGroupReferenceDataValue, ModelsSetup.ThemeGroupReferenceData.Map<Managed.ThemeGroup, ThemeGroup>(), insert: true);
+            GetOrAddTestHelper<ThemeGroup, Managed.ThemeGroup>(ModelsSetup.ThemeGroupReferenceDataValue, ModelsSetup.ThemeGroupReferenceData.ToPlainObject(), insert: true);
         }
 
         [TestMethod]
         public void GivenGetOrAdd_WhenCategoryReferenceDataExists_ThenDoesNotInsertReferenceData()
         {
-            GetOrAddTestHelper<Category, Managed.Category>(ModelsSetup.CategoryReferenceDataValue, ModelsSetup.CategoryReferenceData.Map<Managed.Category, Category>(), exists: true);
+            GetOrAddTestHelper<Category, Managed.Category>(ModelsSetup.CategoryReferenceDataValue, ModelsSetup.CategoryReferenceData.ToPlainObject(), exists: true);
         }
 
         [TestMethod]
         public void GivenGetOrAdd_WhenPackaginTypeReferenceDataExists_ThenDoesNotInsertReferenceData()
         {
-            GetOrAddTestHelper<PackagingType, Managed.PackagingType>(ModelsSetup.PackagingTypeReferenceDataValue, ModelsSetup.PackagingTypeReferenceData.Map<Managed.PackagingType, PackagingType>(), exists: true);
+            GetOrAddTestHelper<PackagingType, Managed.PackagingType>(ModelsSetup.PackagingTypeReferenceDataValue, ModelsSetup.PackagingTypeReferenceData.ToPlainObject(), exists: true);
         }
 
         [TestMethod]
         public void GivenGetOrAdd_WhenTagReferenceDataExists_ThenDoesNotInsertReferenceData()
         {
-            GetOrAddTestHelper<Tag, Managed.Tag>(ModelsSetup.TagReferenceDataValue, ModelsSetup.TagReferenceData.Map<Managed.Tag, Tag>(), exists: true);
+            GetOrAddTestHelper<Tag, Managed.Tag>(ModelsSetup.TagReferenceDataValue, ModelsSetup.TagReferenceData.ToPlainObject(), exists: true);
         }
 
         [TestMethod]
         public void GivenGetOrAdd_WhenThemeGroupReferenceDataExists_ThenDoesNotInsertReferenceData()
         {
-            GetOrAddTestHelper<ThemeGroup, Managed.ThemeGroup>(ModelsSetup.ThemeGroupReferenceDataValue, ModelsSetup.ThemeGroupReferenceData.Map<Managed.ThemeGroup, ThemeGroup>(), exists: true);
+            GetOrAddTestHelper<ThemeGroup, Managed.ThemeGroup>(ModelsSetup.ThemeGroupReferenceDataValue, ModelsSetup.ThemeGroupReferenceData.ToPlainObject(), exists: true);
         }
 
         private void GetOrAddTestHelper<T, U>(string referenceDataValue, T expectedReferenceData, bool insert = false, bool exists = false) where T: IReferenceData where U: RealmObject, IReferenceData

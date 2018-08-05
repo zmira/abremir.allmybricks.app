@@ -1,14 +1,13 @@
 ﻿using abremir.AllMyBricks.Data.Configuration;
+using abremir.AllMyBricks.Data.Extensions;
 using abremir.AllMyBricks.Data.Interfaces;
 using abremir.AllMyBricks.Data.Models;
 using abremir.AllMyBricks.Data.Repositories;
 using abremir.AllMyBricks.Data.Tests.Configuration;
-using ExpressMapper.Extensions;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Linq;
-using Managed = abremir.AllMyBricks.Data.Models.Realm;
 
 namespace abremir.AllMyBricks.Data.Tests.Repositories
 {
@@ -100,8 +99,6 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
         {
             InsertData(ModelsSetup.ListOfThemesUnderTest);
 
-            var allThemes = _themeRepository.All().ToList();
-
             var allThemesForYear = _themeRepository.AllForYear(year).ToList();
 
             allThemesForYear.Should().HaveCount(expectedCount);
@@ -131,7 +128,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
             var themeUnderTest = ModelsSetup.GetThemeUnderTest(Guid.NewGuid().ToString());
             themeUnderTest.YearFrom = Constants.MinimumSetYear - 1;
 
-            var theme = _themeRepository.AddOrUpdate(themeUnderTest.Map<Managed.Theme, Theme>());
+            var theme = _themeRepository.AddOrUpdate(themeUnderTest.ToPlainObject());
 
             theme.Should().BeNull();
         }
@@ -141,7 +138,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
         {
             var themeUnderTest = ModelsSetup.GetThemeUnderTest(Guid.NewGuid().ToString());
 
-            _themeRepository.AddOrUpdate(themeUnderTest.Map<Managed.Theme, Theme>());
+            _themeRepository.AddOrUpdate(themeUnderTest.ToPlainObject());
 
             var theme = _themeRepository.Get(themeUnderTest.Name);
 
@@ -153,7 +150,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
         {
             var themeUnderTest = ModelsSetup.GetThemeUnderTest(Guid.NewGuid().ToString());
 
-            _themeRepository.AddOrUpdate(themeUnderTest.Map<Managed.Theme, Theme>());
+            _themeRepository.AddOrUpdate(themeUnderTest.ToPlainObject());
 
             var result = _themeRepository.Get(themeUnderTest.Name);
 

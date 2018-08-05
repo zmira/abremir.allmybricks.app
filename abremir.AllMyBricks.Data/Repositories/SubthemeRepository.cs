@@ -1,9 +1,8 @@
 ﻿using abremir.AllMyBricks.Data.Configuration;
+using abremir.AllMyBricks.Data.Extensions;
 using abremir.AllMyBricks.Data.Interfaces;
 using abremir.AllMyBricks.Data.Models;
-using ExpressMapper.Extensions;
 using Realms;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Managed = abremir.AllMyBricks.Data.Models.Realm;
@@ -42,12 +41,12 @@ namespace abremir.AllMyBricks.Data.Repositories
 
             repository.Write(() => repository.Add(managedSubtheme, existingSubtheme != null));
 
-            return managedSubtheme.Map<Managed.Subtheme, Subtheme>();
+            return managedSubtheme.ToPlainObject();
         }
 
         private Managed.Subtheme GetManagedSubtheme(Subtheme subtheme)
         {
-            var managedSubtheme = subtheme.Map<Subtheme, Managed.Subtheme>();
+            var managedSubtheme = subtheme.ToRealmObject();
 
             var repository = _repositoryService.GetRepository();
 
@@ -62,7 +61,9 @@ namespace abremir.AllMyBricks.Data.Repositories
 
         public IEnumerable<Subtheme> All()
         {
-            return GetQueryable().Map<IQueryable<Managed.Subtheme>, IEnumerable<Subtheme>>();
+            return GetQueryable()
+                .AsEnumerable()
+                .ToPlainObject();
         }
 
         public Subtheme Get(string themeName, string subthemeName)
@@ -76,7 +77,7 @@ namespace abremir.AllMyBricks.Data.Repositories
             return GetQueryable()
                 .Filter($"Name ==[c] '{subthemeName}' && Theme.Name ==[c] '{themeName}'")
                 .FirstOrDefault()
-                ?.Map<Managed.Subtheme, Subtheme>();
+                ?.ToPlainObject();
         }
 
         public IEnumerable<Subtheme> AllForTheme(string themeName)
@@ -88,7 +89,8 @@ namespace abremir.AllMyBricks.Data.Repositories
 
             return GetQueryable()
                 .Filter($"Theme.Name ==[c] '{themeName}'")
-                .Map<IQueryable<Managed.Subtheme>, IEnumerable<Subtheme>>();
+                .AsEnumerable()
+                .ToPlainObject();
         }
 
         public IEnumerable<Subtheme> AllForYear(short year)
@@ -99,8 +101,9 @@ namespace abremir.AllMyBricks.Data.Repositories
             }
 
             return GetQueryable()
-                .Where(subtheme => subtheme.YearFrom <= year && subtheme.YearTo >= year )
-                .Map<IQueryable<Managed.Subtheme>, IEnumerable<Subtheme>>();
+                .Where(subtheme => subtheme.YearFrom <= year && subtheme.YearTo >= year)
+                .AsEnumerable()
+                .ToPlainObject();
         }
 
         private IQueryable<Managed.Subtheme> GetQueryable()

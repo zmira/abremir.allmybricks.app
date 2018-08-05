@@ -3,7 +3,7 @@ using Realms;
 
 namespace abremir.AllMyBricks.Data.Models.Realm
 {
-    internal class Tag : RealmObject, IReferenceData
+    public class Tag : RealmObject, IReferenceData
     {
         [PrimaryKey]
         public string Value { get; set; }

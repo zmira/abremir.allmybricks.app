@@ -1,6 +1,5 @@
 ﻿using abremir.AllMyBricks.Data.Interfaces;
 using abremir.AllMyBricks.Data.Models;
-using ExpressMapper.Extensions;
 using Realms;
 using System;
 using System.Collections.Generic;
@@ -46,7 +45,7 @@ namespace abremir.AllMyBricks.Data.Repositories
             return default(T);
         }
 
-        private T GetOrAdd<T, U>(string referenceDataValue) where T : IReferenceData where U : RealmObject, IReferenceData, new()
+        private T GetOrAdd<T, U>(string referenceDataValue) where T : IReferenceData, new() where U : RealmObject, IReferenceData, new()
         {
             if (string.IsNullOrWhiteSpace(referenceDataValue))
             {
@@ -62,7 +61,10 @@ namespace abremir.AllMyBricks.Data.Repositories
 
             if (!EqualityComparer<U>.Default.Equals(existingReferenceData, default(U)))
             {
-                return existingReferenceData.Map<U, T>();
+                return new T
+                {
+                    Value = existingReferenceData.Value
+                };
             }
 
             var newReferenceData = new U
@@ -72,7 +74,10 @@ namespace abremir.AllMyBricks.Data.Repositories
 
             repository.Write(() => repository.Add<U>(newReferenceData));
 
-            return newReferenceData.Map<U, T>();
+            return new T
+            {
+                Value = newReferenceData.Value
+            };
         }
     }
 }

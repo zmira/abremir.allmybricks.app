@@ -1,9 +1,9 @@
 ﻿using abremir.AllMyBricks.Core.Models;
 using abremir.AllMyBricks.Onboarding.Configuration;
+using abremir.AllMyBricks.Onboarding.Extensions;
 using abremir.AllMyBricks.Onboarding.Factories;
 using abremir.AllMyBricks.Onboarding.Helpers;
 using abremir.AllMyBricks.Onboarding.Interfaces;
-using ExpressMapper.Extensions;
 using Flurl;
 using Flurl.Http;
 using System.Text;
@@ -16,7 +16,7 @@ namespace abremir.AllMyBricks.Onboarding.Services
         {
             var client = new FlurlClient().Configure(settings => settings.HttpClientFactory = new HmacDelegatingHandlerHttpClientFactory());
 
-            var apiKeyRequest = allMyBricksIdentification.Map<Identification, ApiKeyRequest>();
+            var apiKeyRequest = allMyBricksIdentification.ToApiKeyRequest();
 
             apiKeyRequest.KeyOption = RandomKeyOptionGenerator.GetRandomKeyOption();
 

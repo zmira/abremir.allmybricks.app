@@ -1,5 +1,4 @@
 ﻿using abremir.AllMyBricks.Core.Models;
-using abremir.AllMyBricks.Onboarding.Configuration;
 using abremir.AllMyBricks.Onboarding.Interfaces;
 using abremir.AllMyBricks.Onboarding.Services;
 using FluentAssertions;
@@ -21,8 +20,6 @@ namespace abremir.AllMyBricks.Onboarding.Tests.Services
         {
             _registrationService = new RegistrationService();
             _apiKeyService = new ApiKeyService();
-
-            Mappings.Configure();
         }
 
         [TestMethod, Ignore("Only to be used to validate comunication between app and onboarding endpoints")]

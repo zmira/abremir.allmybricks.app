@@ -2,7 +2,7 @@
 
 namespace abremir.AllMyBricks.Data.Models.Realm
 {
-    internal class Subtheme : RealmObject
+    public class Subtheme : RealmObject
     {
         [PrimaryKey]
         public string Name { get; set; }

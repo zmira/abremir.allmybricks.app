@@ -2,7 +2,7 @@
 
 namespace abremir.AllMyBricks.Data.Models.Realm
 {
-    internal class YearSetCount : RealmObject
+    public class YearSetCount : RealmObject
     {
         [Indexed]
         public short Year { get; set; }
