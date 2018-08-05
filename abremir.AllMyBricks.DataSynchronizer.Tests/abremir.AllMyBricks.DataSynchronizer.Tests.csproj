@@ -5,6 +5,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="BricksetApiServiceResponses\GetThemes.json" />
+    <None Remove="BricksetApiServiceResponses\GetYears.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="BricksetApiServiceResponses\GetThemes.json" />
+    <EmbeddedResource Include="BricksetApiServiceResponses\GetYears.json" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="fastJSON" Version="2.1.34" />
     <PackageReference Include="FluentAssertions" Version="5.4.1" />
     <PackageReference Include="MSTest.TestFramework" Version="1.3.2" />
