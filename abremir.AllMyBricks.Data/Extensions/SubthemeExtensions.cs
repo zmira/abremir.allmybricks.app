@@ -31,15 +31,7 @@ namespace abremir.AllMyBricks.Data.Extensions
             };
         }
 
-        public static IEnumerable<Managed.Subtheme> ToRealmObject(this IEnumerable<Subtheme> source)
-        {
-            foreach (var item in source)
-            {
-                yield return item.ToRealmObject();
-            }
-        }
-
-        public static IEnumerable<Subtheme> ToPlainObject(this IEnumerable<Managed.Subtheme> source)
+        public static IEnumerable<Subtheme> ToPlainObjectEnumerable(this IEnumerable<Managed.Subtheme> source)
         {
             foreach (var item in source)
             {

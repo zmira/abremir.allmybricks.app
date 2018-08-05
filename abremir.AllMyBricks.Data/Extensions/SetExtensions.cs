@@ -42,11 +42,11 @@ namespace abremir.AllMyBricks.Data.Extensions
                 Year = source.Year
             };
 
-            set.Images.AddRange((source.Images ?? new List<Image>()).ToRealmObject());
-            set.Instructions.AddRange((source.Instructions ?? new List<Instruction>()).ToRealmObject());
-            set.Prices.AddRange((source.Prices ?? new List<Price>()).ToRealmObject());
-            set.Reviews.AddRange((source.Reviews ?? new List<Review>()).ToRealmObject());
-            set.Tags.AddRange((source.Tags ?? new List<Tag>()).ToRealmObject());
+            set.Images.AddRange((source.Images ?? new List<Image>()).ToRealmObjectEnumerable());
+            set.Instructions.AddRange((source.Instructions ?? new List<Instruction>()).ToRealmObjectEnumerable());
+            set.Prices.AddRange((source.Prices ?? new List<Price>()).ToRealmObjectEnumerable());
+            set.Reviews.AddRange((source.Reviews ?? new List<Review>()).ToRealmObjectEnumerable());
+            set.Tags.AddRange((source.Tags ?? new List<Tag>()).ToRealmObjectEnumerable());
 
             return set;
         }
@@ -87,24 +87,16 @@ namespace abremir.AllMyBricks.Data.Extensions
                 Year = source.Year
             };
 
-            set.Images.AddRange((source.Images ?? new List<Managed.Image>()).ToPlainObject());
-            set.Instructions.AddRange((source.Instructions ?? new List<Managed.Instruction>()).ToPlainObject());
-            set.Prices.AddRange((source.Prices ?? new List<Managed.Price>()).ToPlainObject());
-            set.Reviews.AddRange((source.Reviews ?? new List<Managed.Review>()).ToPlainObject());
-            set.Tags.AddRange((source.Tags ?? new List<Managed.Tag>()).ToPlainObject());
+            set.Images.AddRange((source.Images ?? new List<Managed.Image>()).ToPlainObjectEnumerable());
+            set.Instructions.AddRange((source.Instructions ?? new List<Managed.Instruction>()).ToPlainObjectEnumerable());
+            set.Prices.AddRange((source.Prices ?? new List<Managed.Price>()).ToPlainObjectEnumerable());
+            set.Reviews.AddRange((source.Reviews ?? new List<Managed.Review>()).ToPlainObjectEnumerable());
+            set.Tags.AddRange((source.Tags ?? new List<Managed.Tag>()).ToPlainObjectEnumerable());
 
             return set;
         }
 
-        public static IEnumerable<Managed.Set> ToRealmObject(this IEnumerable<Set> source)
-        {
-            foreach (var item in source)
-            {
-                yield return item.ToRealmObject();
-            }
-        }
-
-        public static IEnumerable<Set> ToPlainObject(this IEnumerable<Managed.Set> source)
+        public static IEnumerable<Set> ToPlainObjectEnumerable(this IEnumerable<Managed.Set> source)
         {
             foreach (var item in source)
             {

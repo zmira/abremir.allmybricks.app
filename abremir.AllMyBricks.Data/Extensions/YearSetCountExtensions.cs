@@ -24,7 +24,7 @@ namespace abremir.AllMyBricks.Data.Extensions
             };
         }
 
-        public static IEnumerable<Managed.YearSetCount> ToRealmObject(this IEnumerable<YearSetCount> source)
+        public static IEnumerable<Managed.YearSetCount> ToRealmObjectEnumerable(this IEnumerable<YearSetCount> source)
         {
             foreach (var item in source)
             {
@@ -32,7 +32,7 @@ namespace abremir.AllMyBricks.Data.Extensions
             }
         }
 
-        public static IEnumerable<YearSetCount> ToPlainObject(this IEnumerable<Managed.YearSetCount> source)
+        public static IEnumerable<YearSetCount> ToPlainObjectEnumerable(this IEnumerable<Managed.YearSetCount> source)
         {
             foreach (var item in source)
             {

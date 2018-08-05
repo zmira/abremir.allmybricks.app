@@ -26,7 +26,7 @@ namespace abremir.AllMyBricks.Data.Extensions
             };
         }
 
-        public static IEnumerable<Managed.Image> ToRealmObject(this IEnumerable<Image> source)
+        public static IEnumerable<Managed.Image> ToRealmObjectEnumerable(this IEnumerable<Image> source)
         {
             foreach (var item in source)
             {
@@ -34,7 +34,7 @@ namespace abremir.AllMyBricks.Data.Extensions
             }
         }
 
-        public static IEnumerable<Image> ToPlainObject(this IEnumerable<Managed.Image> source)
+        public static IEnumerable<Image> ToPlainObjectEnumerable(this IEnumerable<Managed.Image> source)
         {
             foreach (var item in source)
             {

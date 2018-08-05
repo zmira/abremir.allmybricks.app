@@ -24,7 +24,7 @@ namespace abremir.AllMyBricks.Data.Extensions
             };
         }
 
-        public static IEnumerable<Managed.RatingItem> ToRealmObject(this IEnumerable<RatingItem> source)
+        public static IEnumerable<Managed.RatingItem> ToRealmObjectEnumerable(this IEnumerable<RatingItem> source)
         {
             foreach (var item in source)
             {
@@ -32,7 +32,7 @@ namespace abremir.AllMyBricks.Data.Extensions
             }
         }
 
-        public static IEnumerable<RatingItem> ToPlainObject(this IEnumerable<Managed.RatingItem> source)
+        public static IEnumerable<RatingItem> ToPlainObjectEnumerable(this IEnumerable<Managed.RatingItem> source)
         {
             foreach (var item in source)
             {

@@ -63,7 +63,7 @@ namespace abremir.AllMyBricks.Data.Repositories
         {
             return GetQueryable()
                 .AsEnumerable()
-                .ToPlainObject();
+                .ToPlainObjectEnumerable();
         }
 
         public Subtheme Get(string themeName, string subthemeName)
@@ -90,7 +90,7 @@ namespace abremir.AllMyBricks.Data.Repositories
             return GetQueryable()
                 .Filter($"Theme.Name ==[c] '{themeName}'")
                 .AsEnumerable()
-                .ToPlainObject();
+                .ToPlainObjectEnumerable();
         }
 
         public IEnumerable<Subtheme> AllForYear(short year)
@@ -103,7 +103,7 @@ namespace abremir.AllMyBricks.Data.Repositories
             return GetQueryable()
                 .Where(subtheme => subtheme.YearFrom <= year && subtheme.YearTo >= year)
                 .AsEnumerable()
-                .ToPlainObject();
+                .ToPlainObjectEnumerable();
         }
 
         private IQueryable<Managed.Subtheme> GetQueryable()

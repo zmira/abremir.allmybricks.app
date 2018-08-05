@@ -24,7 +24,7 @@ namespace abremir.AllMyBricks.Data.Extensions
             };
         }
 
-        public static IEnumerable<Managed.Price> ToRealmObject(this IEnumerable<Price> source)
+        public static IEnumerable<Managed.Price> ToRealmObjectEnumerable(this IEnumerable<Price> source)
         {
             foreach (var item in source)
             {
@@ -32,7 +32,7 @@ namespace abremir.AllMyBricks.Data.Extensions
             }
         }
 
-        public static IEnumerable<Price> ToPlainObject(this IEnumerable<Managed.Price> source)
+        public static IEnumerable<Price> ToPlainObjectEnumerable(this IEnumerable<Managed.Price> source)
         {
             foreach (var item in source)
             {

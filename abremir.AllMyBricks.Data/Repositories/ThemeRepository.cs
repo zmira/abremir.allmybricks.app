@@ -45,7 +45,7 @@ namespace abremir.AllMyBricks.Data.Repositories
         {
             return GetQueryable()
                 .AsEnumerable()
-                .ToPlainObject();
+                .ToPlainObjectEnumerable();
         }
 
         public Theme Get(string themeName)
@@ -70,7 +70,7 @@ namespace abremir.AllMyBricks.Data.Repositories
             return GetQueryable()
                     .Filter($"SetCountPerYear.Year == {year}")
                     .AsEnumerable()
-                    .ToPlainObject();
+                    .ToPlainObjectEnumerable();
         }
 
         private IQueryable<Managed.Theme> GetQueryable()

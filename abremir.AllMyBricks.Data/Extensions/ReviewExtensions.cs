@@ -17,7 +17,7 @@ namespace abremir.AllMyBricks.Data.Extensions
                 Title = source.Title
             };
 
-            review.RatingComponents.AddRange((source.RatingComponents ?? new List<RatingItem>()).ToRealmObject());
+            review.RatingComponents.AddRange((source.RatingComponents ?? new List<RatingItem>()).ToRealmObjectEnumerable());
 
             return review;
         }
@@ -33,12 +33,12 @@ namespace abremir.AllMyBricks.Data.Extensions
                 Title = source.Title
             };
 
-            review.RatingComponents.AddRange((source.RatingComponents ?? new List<Managed.RatingItem>()).ToPlainObject());
+            review.RatingComponents.AddRange((source.RatingComponents ?? new List<Managed.RatingItem>()).ToPlainObjectEnumerable());
 
             return review;
         }
 
-        public static IEnumerable<Managed.Review> ToRealmObject(this IEnumerable<Review> source)
+        public static IEnumerable<Managed.Review> ToRealmObjectEnumerable(this IEnumerable<Review> source)
         {
             foreach (var item in source)
             {
@@ -46,7 +46,7 @@ namespace abremir.AllMyBricks.Data.Extensions
             }
         }
 
-        public static IEnumerable<Review> ToPlainObject(this IEnumerable<Managed.Review> source)
+        public static IEnumerable<Review> ToPlainObjectEnumerable(this IEnumerable<Managed.Review> source)
         {
             foreach (var item in source)
             {

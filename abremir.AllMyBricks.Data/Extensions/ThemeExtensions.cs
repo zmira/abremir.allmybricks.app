@@ -17,7 +17,7 @@ namespace abremir.AllMyBricks.Data.Extensions
                 YearTo = source.YearTo
             };
 
-            theme.SetCountPerYear.AddRange((source.SetCountPerYear ?? new List<YearSetCount>()).ToRealmObject());
+            theme.SetCountPerYear.AddRange((source.SetCountPerYear ?? new List<YearSetCount>()).ToRealmObjectEnumerable());
 
             return theme;
         }
@@ -33,20 +33,12 @@ namespace abremir.AllMyBricks.Data.Extensions
                 YearTo = source.YearTo
             };
 
-            theme.SetCountPerYear.AddRange((source.SetCountPerYear ?? new List<Managed.YearSetCount>()).ToPlainObject());
+            theme.SetCountPerYear.AddRange((source.SetCountPerYear ?? new List<Managed.YearSetCount>()).ToPlainObjectEnumerable());
 
             return theme;
         }
 
-        public static IEnumerable<Managed.Theme> ToRealmObject(this IEnumerable<Theme> source)
-        {
-            foreach (var item in source)
-            {
-                yield return item.ToRealmObject();
-            }
-        }
-
-        public static IEnumerable<Theme> ToPlainObject(this IEnumerable<Managed.Theme> source)
+        public static IEnumerable<Theme> ToPlainObjectEnumerable(this IEnumerable<Managed.Theme> source)
         {
             foreach (var item in source)
             {
