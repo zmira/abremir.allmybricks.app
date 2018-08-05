@@ -26,7 +26,7 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Shared
 
         protected string GetResultFileFromResource(string fileName)
         {
-            var resourcePath = $"{GetAssemblyName()}.ApiResponses.{GetType().GetDescription()}.{fileName}.xml";
+            var resourcePath = $"{GetAssemblyName()}.BricksetApiResponses.{GetType().GetDescription()}.{fileName}.xml";
 
             using (Stream stream = _assembly.GetManifestResourceStream(resourcePath))
             using (StreamReader reader = new StreamReader(stream))
