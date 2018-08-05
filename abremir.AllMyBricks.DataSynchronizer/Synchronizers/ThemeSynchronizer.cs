@@ -1,9 +1,11 @@
 ﻿using abremir.AllMyBricks.Data.Interfaces;
 using abremir.AllMyBricks.Data.Models;
+using abremir.AllMyBricks.DataSynchronizer.Extensions;
 using abremir.AllMyBricks.DataSynchronizer.Interfaces;
 using abremir.AllMyBricks.ThirdParty.Brickset.Interfaces;
 using abremir.AllMyBricks.ThirdParty.Brickset.Models;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
 {
@@ -32,14 +34,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
             foreach (var bricksetTheme in _bricksetApiService
                 .GetThemes(getThemesParameters))
             {
-                var theme = new Theme
-                {
-                    Name = bricksetTheme.Theme,
-                    SetCount = (short)bricksetTheme.SetCount,
-                    SubthemeCount = (short)bricksetTheme.SubthemeCount,
-                    YearFrom = (short)bricksetTheme.YearFrom,
-                    YearTo = (short)bricksetTheme.YearTo,
-                };
+                var theme = bricksetTheme.ToTheme();
 
                 var getYearsParameters = new ParameterTheme
                 {
@@ -47,15 +42,10 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                     Theme = bricksetTheme.Theme
                 };
 
-                foreach (var yearCount in _bricksetApiService
-                    .GetYears(getYearsParameters))
-                {
-                    theme.SetCountPerYear.Add(new YearSetCount
-                    {
-                        Year = short.Parse(yearCount.Year),
-                        SetCount = (short)yearCount.SetCount
-                    });
-                }
+                theme.SetCountPerYear = _bricksetApiService
+                    .GetYears(getYearsParameters)
+                    .ToYearSetCount()
+                    .ToList();
 
                 themeList.Add(theme);
 
