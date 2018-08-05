@@ -54,7 +54,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
             var subthemesList = fastJSON.JSON.ToObject<List<Subthemes>>(GetResultFileFromResource(Constants.JsonFileGetSubthemes));
 
             var theme = testTheme.ToTheme();
-            theme.SetCountPerYear = yearsList.ToYearSetCount().ToList();
+            theme.SetCountPerYear = yearsList.ToYearSetCountEnumerable().ToList();
 
             _themeRepository.AddOrUpdate(theme);
 

@@ -1,6 +1,5 @@
 ﻿using abremir.AllMyBricks.Data.Models;
 using abremir.AllMyBricks.ThirdParty.Brickset.Models;
-using System.Collections.Generic;
 
 namespace abremir.AllMyBricks.DataSynchronizer.Extensions
 {
@@ -16,14 +15,6 @@ namespace abremir.AllMyBricks.DataSynchronizer.Extensions
                 YearFrom = (short)source.YearFrom,
                 YearTo = (short)source.YearTo
             };
-        }
-
-        public static IEnumerable<Theme> ToTheme(this IEnumerable<Themes> source)
-        {
-            foreach (var item in source)
-            {
-                yield return item.ToTheme();
-            }
         }
     }
 }

@@ -44,7 +44,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
 
                 theme.SetCountPerYear = _bricksetApiService
                     .GetYears(getYearsParameters)
-                    .ToYearSetCount()
+                    .ToYearSetCountEnumerable()
                     .ToList();
 
                 themeList.Add(theme);

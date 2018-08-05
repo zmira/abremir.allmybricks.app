@@ -15,7 +15,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Extensions
             };
         }
 
-        public static IEnumerable<YearSetCount> ToYearSetCount(this IEnumerable<Years> source)
+        public static IEnumerable<YearSetCount> ToYearSetCountEnumerable(this IEnumerable<Years> source)
         {
             foreach (var item in source)
             {
