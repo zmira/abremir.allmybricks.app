@@ -36,11 +36,11 @@ namespace abremir.AllMyBricks.Data.Models
         public string UserRating { get; set; }
         public DateTimeOffset LastUpdated { get; set; }
 
-        public IList<Tag> Tags { get; } = new List<Tag>();
-        public IList<Image> Images { get; } = new List<Image>();
-        public IList<Price> Prices { get; } = new List<Price>();
-        public IList<Review> Reviews { get; } = new List<Review>();
-        public IList<Instruction> Instructions { get; } = new List<Instruction>();
+        public IList<Tag> Tags { get; set; } = new List<Tag>();
+        public IList<Image> Images { get; set; } = new List<Image>();
+        public IList<Price> Prices { get; set; } = new List<Price>();
+        public IList<Review> Reviews { get; set; } = new List<Review>();
+        public IList<Instruction> Instructions { get; set; } = new List<Instruction>();
 
         public string NumberWithVariant => $"{Number}-{NumberVariant}";
     }
