@@ -1,5 +1,6 @@
 ﻿using abremir.AllMyBricks.Data.Interfaces;
 using abremir.AllMyBricks.Data.Models;
+using abremir.AllMyBricks.DataSynchronizer.Extensions;
 using abremir.AllMyBricks.DataSynchronizer.Interfaces;
 using abremir.AllMyBricks.ThirdParty.Brickset.Interfaces;
 using abremir.AllMyBricks.ThirdParty.Brickset.Models;
@@ -33,13 +34,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
             foreach (var bricksetSubtheme in _bricksetApiService
                 .GetSubthemes(getSubthemesParameters))
             {
-                var subtheme = new Subtheme
-                {
-                    Name = bricksetSubtheme.Subtheme,
-                    SetCount = (short)bricksetSubtheme.SetCount,
-                    YearFrom = (short)bricksetSubtheme.YearFrom,
-                    YearTo = (short)bricksetSubtheme.YearTo
-                };
+                var subtheme = bricksetSubtheme.ToSubtheme();
 
                 subthemes.Add(subtheme);
 

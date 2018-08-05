@@ -5,11 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="BricksetApiServiceResponses\GetSubthemes.json" />
     <None Remove="BricksetApiServiceResponses\GetThemes.json" />
     <None Remove="BricksetApiServiceResponses\GetYears.json" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="BricksetApiServiceResponses\GetSubthemes.json" />
     <EmbeddedResource Include="BricksetApiServiceResponses\GetThemes.json" />
     <EmbeddedResource Include="BricksetApiServiceResponses\GetYears.json" />
   </ItemGroup>
