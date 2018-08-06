@@ -105,14 +105,14 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                 SetId = bricksetSet.SetId,
                 Number = bricksetSet.Number,
                 Name = bricksetSet.Name,
-                Description = string.IsNullOrWhiteSpace(bricksetSet.Description) ? null : bricksetSet.Description.Trim(),
+                Description = bricksetSet.Description?.SanitizeBricksetString(),
                 Ean = string.IsNullOrWhiteSpace(bricksetSet.Ean) ? null : bricksetSet.Ean,
                 Upc = string.IsNullOrWhiteSpace(bricksetSet.Upc) ? null : bricksetSet.Upc,
                 NumberVariant = (byte)bricksetSet.NumberVariant,
                 Year = string.IsNullOrWhiteSpace(bricksetSet.Year) ? (short?)null : short.Parse(bricksetSet.Year),
                 Pieces = string.IsNullOrWhiteSpace(bricksetSet.Pieces) ? (short?)null : short.Parse(bricksetSet.Pieces),
                 Minifigs = string.IsNullOrWhiteSpace(bricksetSet.Minifigs) ? (short?)null : short.Parse(bricksetSet.Minifigs),
-                BricksetUrl = bricksetSet.BricksetUrl.SanitizeUrl(),
+                BricksetUrl = bricksetSet.BricksetUrl?.SanitizeBricksetString(),
                 Released = bricksetSet.Released,
                 OwnedByTotal = (short)bricksetSet.OwnedByTotal,
                 WantedByTotal = (short)bricksetSet.WantedByTotal,
@@ -124,7 +124,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                 Width = string.IsNullOrWhiteSpace(bricksetSet.Width) ? (float?)null : float.Parse(bricksetSet.Width, NumberStyles.Any, CultureInfo.InvariantCulture),
                 Depth = string.IsNullOrWhiteSpace(bricksetSet.Depth) ? (float?)null : float.Parse(bricksetSet.Depth, NumberStyles.Any, CultureInfo.InvariantCulture),
                 Weight = string.IsNullOrWhiteSpace(bricksetSet.Weight) ? (float?)null : float.Parse(bricksetSet.Weight, NumberStyles.Any, CultureInfo.InvariantCulture),
-                Notes = string.IsNullOrWhiteSpace(bricksetSet.Notes) ? null : bricksetSet.Notes.Trim(),
+                Notes = bricksetSet.Notes?.SanitizeBricksetString(),
                 LastUpdated = bricksetSet.LastUpdated
             };
 
@@ -159,9 +159,9 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
             {
                 set.Images.Add(new Image
                 {
-                    ImageUrl = bricksetSet.ImageUrl.SanitizeUrl(),
-                    LargeThumbnailUrl = bricksetSet.LargeThumbnailUrl.SanitizeUrl(),
-                    ThumbnailUrl = bricksetSet.ThumbnailUrl.SanitizeUrl()
+                    ImageUrl = bricksetSet.ImageUrl?.SanitizeBricksetString(),
+                    LargeThumbnailUrl = bricksetSet.LargeThumbnailUrl?.SanitizeBricksetString(),
+                    ThumbnailUrl = bricksetSet.ThumbnailUrl?.SanitizeBricksetString()
                 });
             }
 

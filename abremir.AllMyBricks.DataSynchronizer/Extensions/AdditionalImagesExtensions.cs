@@ -10,9 +10,9 @@ namespace abremir.AllMyBricks.DataSynchronizer.Extensions
         {
             return new Image
             {
-                ImageUrl = source.ImageUrl.SanitizeUrl(),
-                LargeThumbnailUrl = source.LargeThumbnailUrl.SanitizeUrl(),
-                ThumbnailUrl = source.ThumbnailUrl.SanitizeUrl()
+                ImageUrl = source.ImageUrl?.SanitizeBricksetString(),
+                LargeThumbnailUrl = source.LargeThumbnailUrl?.SanitizeBricksetString(),
+                ThumbnailUrl = source.ThumbnailUrl?.SanitizeBricksetString()
             };
         }
 

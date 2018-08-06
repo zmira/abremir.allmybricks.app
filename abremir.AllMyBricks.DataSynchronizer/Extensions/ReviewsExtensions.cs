@@ -13,8 +13,8 @@ namespace abremir.AllMyBricks.DataSynchronizer.Extensions
             {
                 Author = source.Author,
                 DatePosted = source.DatePosted,
-                ReviewContent = string.IsNullOrWhiteSpace(source.Review) ? null : (source.Html ? source.Review.SanitizeHtml() : source.Review.Trim()),
-                Title = string.IsNullOrWhiteSpace(source.Title) ? null : source.Title.Trim(),
+                ReviewContent = source.Review?.SanitizeBricksetReview(),
+                Title = source.Title?.SanitizeBricksetString(),
                 Html = source.Html
             };
 
