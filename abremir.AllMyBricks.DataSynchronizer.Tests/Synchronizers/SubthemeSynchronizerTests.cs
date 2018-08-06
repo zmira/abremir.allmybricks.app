@@ -47,7 +47,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
         }
 
         [TestMethod]
-        public void Synchronize_BricksetApiServiceReturnsListOfThemes_AllSubthemesAreSaved()
+        public void Synchronize_BricksetApiServiceReturnsListOfSubthemes_AllSubthemesAreSaved()
         {
             var testTheme = fastJSON.JSON.ToObject<List<Themes>>(GetResultFileFromResource(Constants.JsonFileGetThemes)).First(themes => themes.Theme == Constants.TestTheme);
             var yearsList = fastJSON.JSON.ToObject<List<Years>>(GetResultFileFromResource(Constants.JsonFileGetYears));
