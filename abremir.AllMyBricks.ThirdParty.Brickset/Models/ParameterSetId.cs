@@ -2,6 +2,6 @@
 {
     public class ParameterSetId : ParameterApiKey
     {
-        public int SetID { get; set; }
+        public long SetID { get; set; }
     }
 }
