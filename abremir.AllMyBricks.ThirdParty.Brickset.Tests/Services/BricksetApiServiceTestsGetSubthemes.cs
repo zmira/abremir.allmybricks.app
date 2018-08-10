@@ -4,6 +4,7 @@ using abremir.AllMyBricks.ThirdParty.Brickset.Tests.Configuration;
 using abremir.AllMyBricks.ThirdParty.Brickset.Tests.Shared;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Linq;
 using ComponentModelDescription = System.ComponentModel.DescriptionAttribute;
 
 namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
@@ -21,7 +22,7 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
 
             var result = service.GetSubthemes(new ParameterTheme());
 
-            result.Should().NotBeEmpty();
+            result.Count().Should().Be(5);
         }
 
         [TestMethod]
