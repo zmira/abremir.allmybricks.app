@@ -36,7 +36,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
 
         public IEnumerable<Set> Synchronize(string apiKey, Theme theme, Subtheme subtheme)
         {
-            var sets = new List<Set>();
+            var processedSets = new List<Set>();
 
             for (var year = subtheme.YearFrom; year <= subtheme.YearTo; year++)
             {
@@ -53,15 +53,11 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
 
                 foreach (var bricksetSet in setsRet)
                 {
-                    var set = MapSet(apiKey, theme, subtheme, bricksetSet);
-
-                    sets.Add(set);
-
-                    _setRepository.AddOrUpdate(set);
+                    AddOrUpdateSet(processedSets, apiKey, theme, subtheme, bricksetSet);
                 }
             }
 
-            return sets;
+            return processedSets;
         }
 
         public IEnumerable<Set> Synchronize(string apiKey, DateTimeOffset previousUpdateTimestamp)
@@ -85,14 +81,23 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                 {
                     var subtheme = _subthemeRepository.Get(theme.Name, subthemeGroup.Key);
 
-                    foreach (var set in subthemeGroup)
+                    foreach (var bricksetSet in subthemeGroup)
                     {
-                        _setRepository.AddOrUpdate(MapSet(apiKey, theme, subtheme, set));
+                        AddOrUpdateSet(processedSets, apiKey, theme, subtheme, bricksetSet);
                     }
                 }
             }
 
             return processedSets;
+        }
+
+        private void AddOrUpdateSet(IList<Set> setList, string apiKey, Theme theme, Subtheme subtheme, Sets bricksetSet)
+        {
+            var set = MapSet(apiKey, theme, subtheme, bricksetSet);
+
+            setList.Add(set);
+
+            _setRepository.AddOrUpdate(set);
         }
 
         private Set MapSet(string apiKey, Theme theme, Subtheme subtheme, Sets bricksetSet)
