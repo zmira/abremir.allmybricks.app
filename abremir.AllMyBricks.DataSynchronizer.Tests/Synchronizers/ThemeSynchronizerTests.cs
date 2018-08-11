@@ -53,7 +53,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
                 .GetThemes(Arg.Any<ParameterApiKey>())
                 .Returns(themesList);
             bricksetApiService
-                .GetYears(Arg.Is<ParameterTheme>(parameter => parameter.Theme == Constants.TestTheme))
+                .GetYears(Arg.Is<ParameterTheme>(parameter => parameter.Theme == Constants.TestThemeArchitecture))
                 .Returns(yearsList);
 
             var themeSynchronizer = CreateTarget(bricksetApiService);
@@ -62,7 +62,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 
             themes.Count().Should().Be(themesList.Count);
             _themeRepository.All().Count().Should().Be(themesList.Count);
-            _themeRepository.Get(Constants.TestTheme).SetCountPerYear.Should().NotBeEmpty();
+            _themeRepository.Get(Constants.TestThemeArchitecture).SetCountPerYear.Should().NotBeEmpty();
         }
 
         private ThemeSynchronizer CreateTarget(IBricksetApiService bricksetApiService = null)

@@ -55,11 +55,11 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
         public void Synchronize_BricksetApiServiceReturnsListOfSets_AllSetsAreSaved()
         {
             var themesList = fastJSON.JSON.ToObject<List<Themes>>(GetResultFileFromResource(Constants.JsonFileGetThemes));
-            var testTheme = themesList.First(themes => themes.Theme == Constants.TestTheme);
+            var testTheme = themesList.First(themes => themes.Theme == Constants.TestThemeArchitecture);
             var yearsList = fastJSON.JSON.ToObject<List<Years>>(GetResultFileFromResource(Constants.JsonFileGetYears));
             var subthemesList = fastJSON.JSON.ToObject<List<Subthemes>>(GetResultFileFromResource(Constants.JsonFileGetSubthemes));
             var setsList = fastJSON.JSON.ToObject<List<Sets>>(GetResultFileFromResource(Constants.JsonFileGetSets));
-            var testSet = setsList.First(set => set.SetId == 6679);
+            var testSet = setsList.First(set => set.SetId == Constants.TestSetId);
             var additionalImagesList = fastJSON.JSON.ToObject<List<AdditionalImages>>(GetResultFileFromResource(Constants.JsonFileGetAdditionalImages));
             var instructionsList = fastJSON.JSON.ToObject<List<Instructions>>(GetResultFileFromResource(Constants.JsonFileGetInstructions));
             var reviewsList = fastJSON.JSON.ToObject<List<Reviews>>(GetResultFileFromResource(Constants.JsonFileGetReviews));

@@ -11,7 +11,8 @@
         public const string JsonFileGetReviews = "GetReviews";
         public const string JsonFileGetRecentlyUpdatedSets = "GetRecentlyUpdatedSets";
 
-        public const string TestTheme = "Architecture";
+        public const string TestThemeArchitecture = "Architecture";
+        public const int TestSetId = 6679;
         public const string TestThemeTechnic = "Technic";
     }
 }
