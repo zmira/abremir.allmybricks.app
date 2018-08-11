@@ -10,6 +10,7 @@ using abremir.AllMyBricks.ThirdParty.Brickset.Models;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -108,6 +109,53 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
             persistedSet.Images.Count.Should().BeGreaterOrEqualTo(additionalImagesList.Count);
             persistedSet.Instructions.Count.Should().Be(instructionsList.Count);
             persistedSet.Reviews.Count.Should().Be(reviewsList.Count);
+        }
+
+        [TestMethod]
+        public void SynchronizeForRecentlyUpdated_BricksetApiServiceReturnsEmptyList_NothingIsSaved()
+        {
+            var bricksetApiService = Substitute.For<IBricksetApiService>();
+            bricksetApiService
+                .GetRecentlyUpdatedSets(Arg.Any<ParameterMinutesAgo>())
+                .Returns(Enumerable.Empty<Sets>());
+
+            var setSynchronizer = CreateTarget(bricksetApiService);
+
+            var sets = setSynchronizer.Synchronize(string.Empty, DateTimeOffset.Now.Date);
+
+            sets.Should().BeEmpty();
+            _setRepository.All().Should().BeEmpty();
+        }
+
+        [TestMethod]
+        public void SynchronizeForRecentlyUpdated_BricksetApiServiceReturnsListOfSets_AllSetsAreSaved()
+        {
+            var themesList = fastJSON.JSON.ToObject<List<Themes>>(GetResultFileFromResource(Constants.JsonFileGetThemes));
+            var testTheme = themesList.First(themes => themes.Theme == Constants.TestThemeTechnic);
+            var theme = testTheme.ToTheme();
+            var recentlyUpdatedSetsList = fastJSON.JSON.ToObject<List<Sets>>(GetResultFileFromResource(Constants.JsonFileGetRecentlyUpdatedSets));
+
+            _themeRepository.AddOrUpdate(theme);
+
+            var subtheme = new Subtheme
+            {
+                Name = "",
+                Theme = theme
+            };
+
+            _subthemeRepository.AddOrUpdate(subtheme);
+
+            var bricksetApiService = Substitute.For<IBricksetApiService>();
+            bricksetApiService
+                .GetRecentlyUpdatedSets(Arg.Any<ParameterMinutesAgo>())
+                .Returns(recentlyUpdatedSetsList);
+
+            var setSynchronizer = CreateTarget(bricksetApiService);
+
+            var sets = setSynchronizer.Synchronize(string.Empty, DateTimeOffset.Now);
+
+            sets.Count().Should().Be(recentlyUpdatedSetsList.Count);
+            _setRepository.All().Count().Should().Be(recentlyUpdatedSetsList.Count);
         }
 
         private SetSynchronizer CreateTarget(IBricksetApiService bricksetApiService = null)

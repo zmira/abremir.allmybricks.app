@@ -64,8 +64,10 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
             return sets;
         }
 
-        public bool Synchronize(string apiKey, DateTimeOffset previousUpdateTimestamp)
+        public IEnumerable<Set> Synchronize(string apiKey, DateTimeOffset previousUpdateTimestamp)
         {
+            var processedSets = new List<Set>();
+
             var getRecentlyUpdatedSetsParameters = new ParameterMinutesAgo
             {
                 ApiKey = apiKey,
@@ -90,7 +92,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                 }
             }
 
-            return true;
+            return processedSets;
         }
 
         private Set MapSet(string apiKey, Theme theme, Subtheme subtheme, Sets bricksetSet)

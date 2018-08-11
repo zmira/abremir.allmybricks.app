@@ -9,7 +9,9 @@
         public const string JsonFileGetInstructions = "GetInstructions";
         public const string JsonFileGetAdditionalImages = "GetAdditionalImages";
         public const string JsonFileGetReviews = "GetReviews";
+        public const string JsonFileGetRecentlyUpdatedSets = "GetRecentlyUpdatedSets";
 
         public const string TestTheme = "Architecture";
+        public const string TestThemeTechnic = "Technic";
     }
 }
