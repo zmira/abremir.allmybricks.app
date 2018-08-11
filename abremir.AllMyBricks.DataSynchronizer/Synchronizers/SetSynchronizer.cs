@@ -91,6 +91,29 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
             return processedSets;
         }
 
+        public Set Synchronize(string apiKey, long setId)
+        {
+            var getSetParameters = new ParameterUserHashSetId
+            {
+                ApiKey = apiKey,
+                SetID = setId
+            };
+
+            var bricksetSet = _bricksetApiService.GetSet(getSetParameters);
+
+            if(bricksetSet == null)
+            {
+                return null;
+            }
+
+            var theme = _themeRepository.Get(bricksetSet.Theme);
+            var subtheme = _subthemeRepository.Get(bricksetSet.Theme, bricksetSet.Subtheme);
+
+            var set = MapSet(apiKey, theme, subtheme, bricksetSet);
+
+            return _setRepository.AddOrUpdate(set);
+        }
+
         private void AddOrUpdateSet(IList<Set> setList, string apiKey, Theme theme, Subtheme subtheme, Sets bricksetSet)
         {
             var set = MapSet(apiKey, theme, subtheme, bricksetSet);

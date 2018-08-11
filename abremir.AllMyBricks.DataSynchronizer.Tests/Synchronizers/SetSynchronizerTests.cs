@@ -160,6 +160,47 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
             _setRepository.All().Count().Should().Be(recentlyUpdatedSetsList.Count);
         }
 
+        [TestMethod]
+        public void SynchonizeForSet_BricksetApiServiceReturnsNull_NothingIsSaved()
+        {
+            var setSynchronizer = CreateTarget();
+
+            var set = setSynchronizer.Synchronize(string.Empty, 0);
+
+            set.Should().BeNull();
+            _setRepository.All().Should().BeEmpty();
+        }
+
+        [TestMethod]
+        public void SynchonizeForSet_BricksetApiServiceReturnsSetData_SetIsSaved()
+        {
+            var themesList = fastJSON.JSON.ToObject<List<Themes>>(GetResultFileFromResource(Constants.JsonFileGetThemes));
+            var testTheme = themesList.First(themes => themes.Theme == Constants.TestThemeTechnic);
+            var theme = testTheme.ToTheme();
+            var set = fastJSON.JSON.ToObject<Sets>(GetResultFileFromResource(Constants.JsonFileGetSet));
+
+            _themeRepository.AddOrUpdate(theme);
+
+            var subtheme = new Subtheme
+            {
+                Name = "",
+                Theme = theme
+            };
+
+            _subthemeRepository.AddOrUpdate(subtheme);
+
+            var bricksetApiService = Substitute.For<IBricksetApiService>();
+            bricksetApiService
+                .GetSet(Arg.Any<ParameterUserHashSetId>())
+                .Returns(set);
+
+            var setSynchronizer = CreateTarget(bricksetApiService);
+
+            var expectedSet = setSynchronizer.Synchronize(string.Empty, set.SetId);
+
+            _setRepository.Get(set.SetId).Should().NotBeNull();
+        }
+
         private SetSynchronizer CreateTarget(IBricksetApiService bricksetApiService = null)
         {
             bricksetApiService = bricksetApiService ?? Substitute.For<IBricksetApiService>();

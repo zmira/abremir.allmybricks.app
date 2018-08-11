@@ -2,6 +2,6 @@
 {
     public class ParameterUserHashSetId : ParameterApiKeyUserHash
     {
-        public int SetID { get; set; }
+        public long SetID { get; set; }
     }
 }

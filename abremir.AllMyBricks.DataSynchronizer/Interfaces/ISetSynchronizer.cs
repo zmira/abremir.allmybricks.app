@@ -8,5 +8,6 @@ namespace abremir.AllMyBricks.DataSynchronizer.Interfaces
     {
         IEnumerable<Set> Synchronize(string apiKey, Theme theme, Subtheme subtheme);
         IEnumerable<Set> Synchronize(string apiKey, DateTimeOffset previousUpdateTimestamp);
+        Set Synchronize(string apiKey, long setId);
     }
 }

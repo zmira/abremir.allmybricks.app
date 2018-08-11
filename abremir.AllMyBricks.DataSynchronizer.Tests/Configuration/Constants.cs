@@ -10,6 +10,7 @@
         public const string JsonFileGetAdditionalImages = "GetAdditionalImages";
         public const string JsonFileGetReviews = "GetReviews";
         public const string JsonFileGetRecentlyUpdatedSets = "GetRecentlyUpdatedSets";
+        public const string JsonFileGetSet = "GetSet";
 
         public const string TestThemeArchitecture = "Architecture";
         public const int TestSetId = 6679;
