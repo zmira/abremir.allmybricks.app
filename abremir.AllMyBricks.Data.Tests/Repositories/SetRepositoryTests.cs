@@ -21,7 +21,9 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
 
         [ClassInitialize]
 #pragma warning disable RCS1163 // Unused parameter.
+#pragma warning disable RECS0154 // Parameter is never used
         public static void ClassInitialize(TestContext testContext)
+#pragma warning restore RECS0154 // Parameter is never used
 #pragma warning restore RCS1163 // Unused parameter.
         {
             _setRepository = new SetRepository(MemoryRepositoryService);
