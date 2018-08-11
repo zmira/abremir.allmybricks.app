@@ -36,7 +36,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
         }
 
         [TestMethod]
-        public void Synchronize_BricksetApiServiceReturnsEmptyList_NothingIsSaved()
+        public void SynchronizeForThemeAndSubtheme_BricksetApiServiceReturnsEmptyList_NothingIsSaved()
         {
             var bricksetApiService = Substitute.For<IBricksetApiService>();
             bricksetApiService
@@ -52,7 +52,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
         }
 
         [TestMethod]
-        public void Synchronize_BricksetApiServiceReturnsListOfSets_AllSetsAreSaved()
+        public void SynchronizeForThemeAndSubtheme_BricksetApiServiceReturnsListOfSets_AllSetsAreSaved()
         {
             var themesList = fastJSON.JSON.ToObject<List<Themes>>(GetResultFileFromResource(Constants.JsonFileGetThemes));
             var testTheme = themesList.First(themes => themes.Theme == Constants.TestThemeArchitecture);
