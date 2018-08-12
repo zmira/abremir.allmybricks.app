@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Essential.Interfaces" Version="0.8.0-preview" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\abremir.AllMyBricks.Device\abremir.AllMyBricks.Device.csproj" />
   </ItemGroup>
 
