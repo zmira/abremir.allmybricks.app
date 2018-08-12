@@ -15,7 +15,7 @@ namespace abremir.AllMyBricks.Device.Services
 
         public string GetLocalPathToFile(string filename, string subfolder = null)
         {
-            return $"{_fileSystem.AppDataDirectory}{Constants.AllMyBricksDataFolder}/{(string.IsNullOrWhiteSpace(subfolder) ? string.Empty : $"{subfolder}/")}{filename}";
+            return $"{_fileSystem.AppDataDirectory}{Constants.AllMyBricksDataFolder}/{(string.IsNullOrWhiteSpace(subfolder?.Trim()) ? string.Empty : $"{subfolder.Trim()}/")}{(filename ?? string.Empty).Trim()}";
         }
     }
 }
