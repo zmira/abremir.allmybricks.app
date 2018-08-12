@@ -5,7 +5,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="SimpleInjector" Version="4.3.0" />
     <PackageReference Include="Xamarin.Forms" Version="3.1.0.637273" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\abremir.AllMyBricks.DataSynchronizer\abremir.AllMyBricks.DataSynchronizer.csproj" />
+    <ProjectReference Include="..\abremir.AllMyBricks.Data\abremir.AllMyBricks.Data.csproj" />
+    <ProjectReference Include="..\abremir.AllMyBricks.Onboarding\abremir.AllMyBricks.Onboarding.csproj" />
+    <ProjectReference Include="..\abremir.AllMyBricks.Device\abremir.AllMyBricks.Device.csproj" />
+    <ProjectReference Include="..\abremir.AllMyBricks.ThirdParty.Brickset\abremir.AllMyBricks.ThirdParty.Brickset.csproj" />
   </ItemGroup>
 
   <ItemGroup>
