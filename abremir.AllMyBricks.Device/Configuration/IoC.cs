@@ -13,7 +13,10 @@ namespace abremir.AllMyBricks.Device.Configuration
             container = container ?? new Container();
 
             container.Register<IFileSystem, FileSystemImplementation>(Lifestyle.Singleton);
+            container.Register<IVersionTracking, VersionTrackingImplementation>(Lifestyle.Singleton);
+
             container.Register<IFileSystemService, FileSystemService>(Lifestyle.Singleton);
+            container.Register<IVersionTrackingService, VersionTrackingService>(Lifestyle.Singleton);
 
             return container;
         }
