@@ -10,7 +10,7 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>abremir.AllMyBricks.iOS</RootNamespace>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
-    <AssemblyName>abremir.AllMyBricks.iOS</AssemblyName>
+    <AssemblyName>abremir.AllMyBricks</AssemblyName>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
   </PropertyGroup>
