@@ -1,22 +1,22 @@
 ﻿using abremir.AllMyBricks.Data.Configuration;
 using abremir.AllMyBricks.Data.Interfaces;
-using abremir.AllMyBricks.Providers;
+using abremir.AllMyBricks.Device.Interfaces;
 using Realms;
 
 namespace abremir.AllMyBricks.Data.Services
 {
     public class RepositoryService : IRepositoryService
     {
-        private readonly IFilePathProvider _filePathProvider;
+        private readonly IFileSystemService _fileSystemService;
 
-        public RepositoryService(IFilePathProvider filePathProvider)
+        public RepositoryService(IFileSystemService fileSystemService)
         {
-            _filePathProvider = filePathProvider;
+            _fileSystemService = fileSystemService;
         }
 
         public Realm GetRepository()
         {
-            return Realm.GetInstance(_filePathProvider.GetLocalPathToFile(Constants.AllMyBricksDbFile));
+            return Realm.GetInstance(_fileSystemService.GetLocalPathToFile(Constants.AllMyBricksDbFile));
         }
     }
 }
