@@ -10,7 +10,7 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Configuration
         {
             container = container ?? new Container();
 
-            container.Register<IBricksetApiService, BricksetApiService>(Lifestyle.Singleton);
+            container.Register<IBricksetApiService, BricksetApiService>(Lifestyle.Transient);
 
             return container;
         }

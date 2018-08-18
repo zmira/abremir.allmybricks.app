@@ -12,13 +12,15 @@ namespace abremir.AllMyBricks.Device.Configuration
         {
             container = container ?? new Container();
 
-            container.Register<IFileSystem, FileSystemImplementation>(Lifestyle.Singleton);
-            container.Register<IVersionTracking, VersionTrackingImplementation>(Lifestyle.Singleton);
-            container.Register<IConnectivity, ConnectivityImplementation>(Lifestyle.Singleton);
+            container.Register<IFileSystem, FileSystemImplementation>(Lifestyle.Transient);
+            container.Register<IVersionTracking, VersionTrackingImplementation>(Lifestyle.Transient);
+            container.Register<IConnectivity, ConnectivityImplementation>(Lifestyle.Transient);
+            container.Register<ISecureStorage, SecureStorageImplementation>(Lifestyle.Transient);
 
-            container.Register<IFileSystemService, FileSystemService>(Lifestyle.Singleton);
-            container.Register<IVersionTrackingService, VersionTrackingService>(Lifestyle.Singleton);
-            container.Register<IConnectivityService, ConnectivityService>(Lifestyle.Singleton);
+            container.Register<IFileSystemService, FileSystemService>(Lifestyle.Transient);
+            container.Register<IVersionTrackingService, VersionTrackingService>(Lifestyle.Transient);
+            container.Register<IConnectivityService, ConnectivityService>(Lifestyle.Transient);
+            container.Register<ISecureStorageService, SecureStorageService>(Lifestyle.Transient);
 
             return container;
         }
