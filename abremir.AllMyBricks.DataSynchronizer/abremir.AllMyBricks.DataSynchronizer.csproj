@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\abremir.AllMyBricks.Data\abremir.AllMyBricks.Data.csproj" />
+    <ProjectReference Include="..\abremir.AllMyBricks.Onboarding\abremir.AllMyBricks.Onboarding.csproj" />
     <ProjectReference Include="..\abremir.AllMyBricks.ThirdParty.Brickset\abremir.AllMyBricks.ThirdParty.Brickset.csproj" />
   </ItemGroup>
 
