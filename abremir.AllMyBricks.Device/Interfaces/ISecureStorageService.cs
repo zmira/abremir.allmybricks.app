@@ -2,5 +2,8 @@
 {
     public interface ISecureStorageService
     {
+        bool BricksetApiKeyAcquired { get; }
+        string GetBricksetApiKey();
+        void SaveBricksetApiKey(string bricksetApiKey);
     }
 }

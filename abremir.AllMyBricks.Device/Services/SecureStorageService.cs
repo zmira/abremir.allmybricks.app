@@ -1,4 +1,5 @@
-﻿using abremir.AllMyBricks.Device.Interfaces;
+using abremir.AllMyBricks.Device.Configuration;
+using abremir.AllMyBricks.Device.Interfaces;
 using Xamarin.Essentials.Interfaces;
 
 namespace abremir.AllMyBricks.Device.Services
@@ -10,6 +11,23 @@ namespace abremir.AllMyBricks.Device.Services
         public SecureStorageService(ISecureStorage secureStorage)
         {
             _secureStorage = secureStorage;
+        }
+
+        public bool BricksetApiKeyAcquired => _secureStorage
+            .GetAsync(Constants.BricksetApiKeySecureStorageKey).Result != null;
+
+        public string GetBricksetApiKey()
+        {
+            return _secureStorage
+            .GetAsync(Constants.BricksetApiKeySecureStorageKey).Result;
+        }
+
+        public void SaveBricksetApiKey(string bricksetApiKey)
+        {
+            if (!BricksetApiKeyAcquired)
+            {
+                _secureStorage.SetAsync(Constants.BricksetApiKeySecureStorageKey, bricksetApiKey);
+            }
         }
     }
 }
