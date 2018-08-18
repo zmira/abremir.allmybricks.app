@@ -12,6 +12,7 @@ namespace abremir.AllMyBricks.Onboarding.Configuration
 
             container.Register<IApiKeyService, ApiKeyService>(Lifestyle.Transient);
             container.Register<IRegistrationService, RegistrationService>(Lifestyle.Transient);
+            container.Register<IOnboardingService, OnboardingService>(Lifestyle.Transient);
 
             return container;
         }
