@@ -13,8 +13,7 @@ namespace abremir.AllMyBricks.Device.Services
             _secureStorage = secureStorage;
         }
 
-        public bool BricksetApiKeyAcquired => _secureStorage
-            .GetAsync(Constants.BricksetApiKeySecureStorageKey).Result != null;
+        public bool BricksetApiKeyAcquired => GetBricksetApiKey() != null;
 
         public string GetBricksetApiKey()
         {
