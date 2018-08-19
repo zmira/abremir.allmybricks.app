@@ -9,4 +9,8 @@
     <PackageReference Include="SimpleInjector" Version="4.3.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\abremir.AllMyBricks.Core\abremir.AllMyBricks.Core.csproj" />
+  </ItemGroup>
+
 </Project>

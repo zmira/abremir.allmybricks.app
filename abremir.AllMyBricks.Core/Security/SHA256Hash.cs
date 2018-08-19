@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Security.Cryptography;
+using System.Text;
 
 namespace abremir.AllMyBricks.Core.Security
 {
@@ -15,6 +16,17 @@ namespace abremir.AllMyBricks.Core.Security
                     ? sha256.ComputeHash(content)
                     : null;
             }
+        }
+
+        public static byte[] ComputeHash(string textToHash)
+        {
+            return ComputeHash(
+                new MemoryStream(
+                    Encoding.ASCII.GetBytes(
+                        textToHash ?? string.Empty
+                    )
+                )
+            );
         }
     }
 }
