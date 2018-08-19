@@ -22,7 +22,7 @@ namespace abremir.AllMyBricks.Onboarding.Tests.Helpers
             }
 
             algorithmTypeEnumList.Should().HaveCount(count);
-            algorithmTypeEnumList.Should().OnlyContain(algoType => algoType.GetType() == typeof(AlgorithmTypeEnum));
+            algorithmTypeEnumList.Should().OnlyContain(algoType => algoType is AlgorithmTypeEnum);
         }
     }
 }
