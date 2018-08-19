@@ -24,7 +24,7 @@ namespace abremir.AllMyBricks.Onboarding.Tests.Services
             _apiKeyService = new ApiKeyService();
         }
 
-        [TestMethod, Ignore("Only to be used to validate comunication between app and onboarding endpoints")]
+        [TestMethod, Ignore("Only to be used to validate communication between app and onboarding endpoints")]
         public void EndToEndTest()
         {
             var identification = new Identification
