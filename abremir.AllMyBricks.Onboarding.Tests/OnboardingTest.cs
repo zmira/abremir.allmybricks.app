@@ -8,10 +8,10 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
 using Xamarin.Essentials.Interfaces;
 
-namespace abremir.AllMyBricks.Onboarding.Tests.Services
+namespace abremir.AllMyBricks.Onboarding.Tests
 {
     [TestClass]
-    public class OnboardingServiceTests
+    public class OnboardingTest
     {
         private static IRegistrationService _registrationService;
         private static IApiKeyService _apiKeyService;
