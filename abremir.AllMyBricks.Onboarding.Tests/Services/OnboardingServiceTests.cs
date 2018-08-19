@@ -1,9 +1,12 @@
 ﻿using abremir.AllMyBricks.Core.Models;
+using abremir.AllMyBricks.Device.Interfaces;
+using abremir.AllMyBricks.Device.Services;
 using abremir.AllMyBricks.Onboarding.Interfaces;
 using abremir.AllMyBricks.Onboarding.Services;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
+using NSubstitute;
+using Xamarin.Essentials.Interfaces;
 
 namespace abremir.AllMyBricks.Onboarding.Tests.Services
 {
@@ -12,6 +15,7 @@ namespace abremir.AllMyBricks.Onboarding.Tests.Services
     {
         private static IRegistrationService _registrationService;
         private static IApiKeyService _apiKeyService;
+        private static IDeviceInformationService _deviceInformationService;
 
         [ClassInitialize]
 #pragma warning disable RCS1163 // Unused parameter.
@@ -22,6 +26,15 @@ namespace abremir.AllMyBricks.Onboarding.Tests.Services
         {
             _registrationService = new RegistrationService();
             _apiKeyService = new ApiKeyService();
+
+            var deviceInfo = Substitute.For<IDeviceInfo>();
+            deviceInfo.Manufacturer.Returns("BRAND");
+            deviceInfo.Model.Returns("MODEL");
+            deviceInfo.VersionString.Returns("VERSION YEAR");
+            deviceInfo.Platform.Returns("WINDOWS");
+            deviceInfo.Idiom.Returns("PC");
+
+            _deviceInformationService = new DeviceInformationService(deviceInfo);
         }
 
         [TestMethod, Ignore("Only to be used to validate communication between app and onboarding endpoints")]
@@ -29,15 +42,7 @@ namespace abremir.AllMyBricks.Onboarding.Tests.Services
         {
             var identification = new Identification
             {
-                DeviceIdentification = new Device
-                {
-                    AppId = Guid.NewGuid().ToString(),
-                    DeviceHash = Guid.NewGuid().ToString(),
-                    DeviceHashDate = DateTimeOffset.Now,
-                    Model = "MODEL",
-                    Platform = "PLATFORM",
-                    Version = "VERSION"
-                }
+                DeviceIdentification = _deviceInformationService.GenerateNewDeviceIdentification()
             };
 
             identification = _registrationService.Register(identification);
