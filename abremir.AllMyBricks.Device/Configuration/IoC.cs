@@ -17,12 +17,14 @@ namespace abremir.AllMyBricks.Device.Configuration
             container.Register<IConnectivity, ConnectivityImplementation>(Lifestyle.Transient);
             container.Register<ISecureStorage, SecureStorageImplementation>(Lifestyle.Transient);
             container.Register<IDeviceInfo, DeviceInfoImplementation>(Lifestyle.Transient);
+            container.Register<IPreferences, PreferencesImplementation>(Lifestyle.Transient);
 
             container.Register<IFileSystemService, FileSystemService>(Lifestyle.Transient);
             container.Register<IVersionTrackingService, VersionTrackingService>(Lifestyle.Transient);
             container.Register<IConnectivityService, ConnectivityService>(Lifestyle.Transient);
             container.Register<ISecureStorageService, SecureStorageService>(Lifestyle.Transient);
             container.Register<IDeviceInformationService, DeviceInformationService>(Lifestyle.Transient);
+            container.Register<IPreferencesService, PreferencesService>(Lifestyle.Transient);
 
             return container;
         }

@@ -6,5 +6,7 @@
         public const string BricksetApiKeySecureStorageKey = "AllMyBricks.BricksetApiKey";
 
         public const string AllMyBricksDataFolder = "AllMyBricks";
+
+        public const string PreferencesSharedName = "AllMyBricks.Preferences";
     }
 }
