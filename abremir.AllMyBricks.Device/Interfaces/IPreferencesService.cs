@@ -2,5 +2,6 @@
 {
     public interface IPreferencesService
     {
+        bool RetrieveFullSetDataOnSynchronization { get; set; }
     }
 }
