@@ -4,6 +4,7 @@ using abremir.AllMyBricks.Device.Services;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
+using System.Text.RegularExpressions;
 using Xamarin.Essentials.Interfaces;
 
 namespace abremir.AllMyBricks.Device.Tests.Services
@@ -12,6 +13,7 @@ namespace abremir.AllMyBricks.Device.Tests.Services
     public class FileSystemServiceTest
     {
         private static IFileSystemService _fileSystemService;
+        private static IFile _file;
 
         [ClassInitialize]
 #pragma warning disable RCS1163 // Unused parameter.
@@ -23,7 +25,9 @@ namespace abremir.AllMyBricks.Device.Tests.Services
             var fileSystem = Substitute.For<IFileSystem>();
             fileSystem.AppDataDirectory.Returns("./");
 
-            _fileSystemService = new FileSystemService(fileSystem);
+            _file = Substitute.For<IFile>();
+
+            _fileSystemService = new FileSystemService(fileSystem, _file);
         }
 
         [DataTestMethod]
@@ -56,6 +60,49 @@ namespace abremir.AllMyBricks.Device.Tests.Services
             if (!string.IsNullOrWhiteSpace(folder))
             {
                 result.Should().Contain(folder);
+            }
+        }
+
+        [DataTestMethod]
+        [DataRow(null, null, 2)]
+        [DataRow("", null, 2)]
+        [DataRow(null, "", 2)]
+        [DataRow("", "", 2)]
+        [DataRow("THEME", null, 1)]
+        [DataRow("", "SUBTHEME", 1)]
+        [DataRow("THEME", "SUBTHEME", 0)]
+        public void GetThumbnailFolder_ReturnsValidPath(string theme, string subtheme, int countOfFallbackFolderName)
+        {
+            var result = _fileSystemService.GetThumbnailFolder(theme, subtheme);
+
+            result.Should().NotBeNullOrWhiteSpace();
+            result.Should().Contain(Constants.AllMyBricksDataFolder);
+            result.Should().Contain(Constants.ThumbnailCacheFolder);
+
+            Regex.Matches(result, Constants.FallbackFolderName).Count.Should().Be(countOfFallbackFolderName);
+        }
+
+        [DataTestMethod]
+        [DataRow(null, null, false)]
+        [DataRow("", null, false)]
+        [DataRow(null, new byte[] { }, false)]
+        [DataRow("", new byte[] { }, false)]
+        [DataRow("FILENAME", null, false)]
+        [DataRow("FILENAME", new byte[] { }, false)]
+        [DataRow(null, new byte[] { 0 }, false)]
+        [DataRow("", new byte[] { 0 }, false)]
+        [DataRow("FILENAME", new byte[] { 0 }, true)]
+        public void SaveThumbnailToCache_InvokesWriteAllBytes(string filename, byte[] thumbnail, bool invokesWriteAllBytes)
+        {
+            _fileSystemService.SaveThumbnailToCache(string.Empty, string.Empty, filename, thumbnail);
+
+            if (invokesWriteAllBytes)
+            {
+                _file.Received().WriteAllBytes(Arg.Any<string>(), Arg.Any<byte[]>());
+            }
+            else
+            {
+                _file.DidNotReceive().WriteAllBytes(Arg.Any<string>(), Arg.Any<byte[]>());
             }
         }
     }

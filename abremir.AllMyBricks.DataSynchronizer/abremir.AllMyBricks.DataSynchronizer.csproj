@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Flurl" Version="2.8.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\abremir.AllMyBricks.Data\abremir.AllMyBricks.Data.csproj" />
     <ProjectReference Include="..\abremir.AllMyBricks.Device\abremir.AllMyBricks.Device.csproj" />
     <ProjectReference Include="..\abremir.AllMyBricks.Onboarding\abremir.AllMyBricks.Onboarding.csproj" />

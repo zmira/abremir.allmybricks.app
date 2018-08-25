@@ -6,6 +6,8 @@
         public const string BricksetApiKeySecureStorageKey = "AllMyBricks.BricksetApiKey";
 
         public const string AllMyBricksDataFolder = "AllMyBricks";
+        public const string ThumbnailCacheFolder = "Thumbnails";
+        public const string FallbackFolderName = "-None-";
 
         public const string PreferencesSharedName = "AllMyBricks.Preferences";
     }
