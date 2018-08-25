@@ -3,10 +3,10 @@ using abremir.AllMyBricks.Data.Interfaces;
 using abremir.AllMyBricks.Data.Models;
 using abremir.AllMyBricks.DataSynchronizer.Extensions;
 using abremir.AllMyBricks.DataSynchronizer.Interfaces;
+using abremir.AllMyBricks.Device.Interfaces;
 using abremir.AllMyBricks.ThirdParty.Brickset.Interfaces;
 using abremir.AllMyBricks.ThirdParty.Brickset.Models;
 using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 
@@ -19,25 +19,26 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
         private readonly IReferenceDataRepository _referenceDataRepository;
         private readonly IThemeRepository _themeRepository;
         private readonly ISubthemeRepository _subthemeRepository;
+        private readonly IPreferencesService _preferencesService;
 
         public SetSynchronizer(
             IBricksetApiService bricksetApiService,
             ISetRepository setRepository,
             IReferenceDataRepository referenceDataRepository,
             IThemeRepository themeRepository,
-            ISubthemeRepository subthemeRepository)
+            ISubthemeRepository subthemeRepository,
+            IPreferencesService preferencesService)
         {
             _bricksetApiService = bricksetApiService;
             _setRepository = setRepository;
             _referenceDataRepository = referenceDataRepository;
             _themeRepository = themeRepository;
             _subthemeRepository = subthemeRepository;
+            _preferencesService = preferencesService;
         }
 
-        public IEnumerable<Set> Synchronize(string apiKey, Theme theme, Subtheme subtheme)
+        public void Synchronize(string apiKey, Theme theme, Subtheme subtheme)
         {
-            var processedSets = new List<Set>();
-
             for (var year = subtheme.YearFrom; year <= subtheme.YearTo; year++)
             {
                 var getSetsParameters = new ParameterSets
@@ -48,22 +49,18 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                     Year = year.ToString()
                 };
 
-                var setsRet = _bricksetApiService
+                var bricksetSets = _bricksetApiService
                     .GetSets(getSetsParameters).ToList();
 
-                foreach (var bricksetSet in setsRet)
+                foreach (var bricksetSet in bricksetSets)
                 {
-                    AddOrUpdateSet(processedSets, apiKey, theme, subtheme, bricksetSet);
+                    AddOrUpdateSet(apiKey, theme, subtheme, bricksetSet);
                 }
             }
-
-            return processedSets;
         }
 
-        public IEnumerable<Set> Synchronize(string apiKey, DateTimeOffset previousUpdateTimestamp)
+        public void Synchronize(string apiKey, DateTimeOffset previousUpdateTimestamp)
         {
-            var processedSets = new List<Set>();
-
             var getRecentlyUpdatedSetsParameters = new ParameterMinutesAgo
             {
                 ApiKey = apiKey,
@@ -83,15 +80,13 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
 
                     foreach (var bricksetSet in subthemeGroup)
                     {
-                        AddOrUpdateSet(processedSets, apiKey, theme, subtheme, bricksetSet);
+                        AddOrUpdateSet(apiKey, theme, subtheme, bricksetSet);
                     }
                 }
             }
-
-            return processedSets;
         }
 
-        public Set Synchronize(string apiKey, long setId)
+        private Sets Synchronize(string apiKey, long setId)
         {
             var getSetParameters = new ParameterUserHashSetId
             {
@@ -99,26 +94,22 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                 SetID = setId
             };
 
-            var bricksetSet = _bricksetApiService.GetSet(getSetParameters);
-
-            if(bricksetSet == null)
-            {
-                return null;
-            }
-
-            var theme = _themeRepository.Get(bricksetSet.Theme);
-            var subtheme = _subthemeRepository.Get(bricksetSet.Theme, bricksetSet.Subtheme);
-
-            var set = MapSet(apiKey, theme, subtheme, bricksetSet);
-
-            return _setRepository.AddOrUpdate(set);
+            return _bricksetApiService.GetSet(getSetParameters);
         }
 
-        private void AddOrUpdateSet(IList<Set> setList, string apiKey, Theme theme, Subtheme subtheme, Sets bricksetSet)
+        private void AddOrUpdateSet(string apiKey, Theme theme, Subtheme subtheme, Sets bricksetSet)
         {
-            var set = MapSet(apiKey, theme, subtheme, bricksetSet);
+            if (_preferencesService.RetrieveFullSetDataOnSynchronization)
+            {
+                bricksetSet = Synchronize(apiKey, bricksetSet.SetId);
 
-            setList.Add(set);
+                if(bricksetSet == null)
+                {
+                    return;
+                }
+            }
+
+            var set = MapSet(apiKey, theme, subtheme, bricksetSet);
 
             _setRepository.AddOrUpdate(set);
         }

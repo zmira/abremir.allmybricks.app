@@ -1,10 +1,7 @@
 ﻿using abremir.AllMyBricks.Data.Interfaces;
-using abremir.AllMyBricks.Data.Models;
 using abremir.AllMyBricks.DataSynchronizer.Interfaces;
-using abremir.AllMyBricks.Device.Interfaces;
 using abremir.AllMyBricks.Onboarding.Interfaces;
 using System;
-using System.Collections.Generic;
 
 namespace abremir.AllMyBricks.DataSynchronizer.Services
 {
@@ -15,22 +12,19 @@ namespace abremir.AllMyBricks.DataSynchronizer.Services
         private readonly ISetSynchronizer _setSynchronizer;
         private readonly IInsightsRepository _insightsRepository;
         private readonly IOnboardingService _onboardingService;
-        private readonly IPreferencesService _preferencesService;
 
         public DataSynchronizerService(
             IThemeSynchronizer themeSynchronizer,
             ISubthemeSynchronizer subthemeSynchronizer,
             ISetSynchronizer setSynchronizer,
             IInsightsRepository insightsRepository,
-            IOnboardingService onboardingService,
-            IPreferencesService preferencesService)
+            IOnboardingService onboardingService)
         {
             _themeSynchronizer = themeSynchronizer;
             _subthemeSynchronizer = subthemeSynchronizer;
             _setSynchronizer = setSynchronizer;
             _insightsRepository = insightsRepository;
             _onboardingService = onboardingService;
-            _preferencesService = preferencesService;
         }
 
         public void SynchronizeAllSetData()
@@ -44,8 +38,6 @@ namespace abremir.AllMyBricks.DataSynchronizer.Services
 
             var dataSynchronizationTimestamp = _insightsRepository.GetDataSynchronizationTimestamp();
 
-            var synchronizedSets = new List<Set>();
-
             foreach (var theme in _themeSynchronizer.Synchronize(apiKey))
             {
                 var subthemes = _subthemeSynchronizer.Synchronize(apiKey, theme);
@@ -54,7 +46,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Services
                 {
                     foreach (var subtheme in subthemes)
                     {
-                        synchronizedSets.AddRange(_setSynchronizer.Synchronize(apiKey, theme, subtheme));
+                        _setSynchronizer.Synchronize(apiKey, theme, subtheme);
                     }
 
                     _insightsRepository.UpdateDataSynchronizationTimestamp(DateTimeOffset.Now);
@@ -63,16 +55,8 @@ namespace abremir.AllMyBricks.DataSynchronizer.Services
 
             if (dataSynchronizationTimestamp.HasValue)
             {
-                synchronizedSets.AddRange(_setSynchronizer.Synchronize(apiKey, dataSynchronizationTimestamp.Value));
+                _setSynchronizer.Synchronize(apiKey, dataSynchronizationTimestamp.Value);
                 _insightsRepository.UpdateDataSynchronizationTimestamp(DateTimeOffset.Now);
-            }
-
-            if (_preferencesService.RetrieveFullSetDataOnSynchronization)
-            {
-                foreach (var set in synchronizedSets)
-                {
-                    _setSynchronizer.Synchronize(apiKey, set.SetId);
-                }
             }
         }
     }
