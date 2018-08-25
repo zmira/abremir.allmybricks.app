@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace abremir.AllMyBricks.Data.Models
 {
+    [DebuggerStepThrough]
     public class Review
     {
         public string Author { get; set; }
