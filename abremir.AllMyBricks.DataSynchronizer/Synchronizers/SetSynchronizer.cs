@@ -20,6 +20,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
         private readonly IThemeRepository _themeRepository;
         private readonly ISubthemeRepository _subthemeRepository;
         private readonly IPreferencesService _preferencesService;
+        private readonly IThumbnailSynchronizer _thumbnailSynchronizer;
 
         public SetSynchronizer(
             IBricksetApiService bricksetApiService,
@@ -27,7 +28,8 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
             IReferenceDataRepository referenceDataRepository,
             IThemeRepository themeRepository,
             ISubthemeRepository subthemeRepository,
-            IPreferencesService preferencesService)
+            IPreferencesService preferencesService,
+            IThumbnailSynchronizer thumbnailSynchronizer)
         {
             _bricksetApiService = bricksetApiService;
             _setRepository = setRepository;
@@ -35,6 +37,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
             _themeRepository = themeRepository;
             _subthemeRepository = subthemeRepository;
             _preferencesService = preferencesService;
+            _thumbnailSynchronizer = thumbnailSynchronizer;
         }
 
         public void Synchronize(string apiKey, Theme theme, Subtheme subtheme)
@@ -112,6 +115,8 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
             var set = MapSet(apiKey, theme, subtheme, bricksetSet);
 
             _setRepository.AddOrUpdate(set);
+
+            _thumbnailSynchronizer.Synchronize(set, true);
         }
 
         private Set MapSet(string apiKey, Theme theme, Subtheme subtheme, Sets bricksetSet)
