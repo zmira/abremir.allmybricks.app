@@ -9,6 +9,7 @@ using abremir.AllMyBricks.DataSynchronizer.Tests.Shared;
 using abremir.AllMyBricks.Device.Interfaces;
 using abremir.AllMyBricks.ThirdParty.Brickset.Interfaces;
 using abremir.AllMyBricks.ThirdParty.Brickset.Models;
+using fastJSON;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
@@ -57,15 +58,15 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
         [TestMethod]
         public void SynchronizeForThemeAndSubtheme_BricksetApiServiceReturnsListOfSets_AllSetsAreSaved()
         {
-            var themesList = fastJSON.JSON.ToObject<List<Themes>>(GetResultFileFromResource(Constants.JsonFileGetThemes));
+            var themesList = JSON.ToObject<List<Themes>>(GetResultFileFromResource(Constants.JsonFileGetThemes));
             var testTheme = themesList.First(themes => themes.Theme == Constants.TestThemeArchitecture);
-            var yearsList = fastJSON.JSON.ToObject<List<Years>>(GetResultFileFromResource(Constants.JsonFileGetYears));
-            var subthemesList = fastJSON.JSON.ToObject<List<Subthemes>>(GetResultFileFromResource(Constants.JsonFileGetSubthemes));
-            var setsList = fastJSON.JSON.ToObject<List<Sets>>(GetResultFileFromResource(Constants.JsonFileGetSets));
+            var yearsList = JSON.ToObject<List<Years>>(GetResultFileFromResource(Constants.JsonFileGetYears));
+            var subthemesList = JSON.ToObject<List<Subthemes>>(GetResultFileFromResource(Constants.JsonFileGetSubthemes));
+            var setsList = JSON.ToObject<List<Sets>>(GetResultFileFromResource(Constants.JsonFileGetSets));
             var testSet = setsList.First(set => set.SetId == Constants.TestSetId);
-            var additionalImagesList = fastJSON.JSON.ToObject<List<AdditionalImages>>(GetResultFileFromResource(Constants.JsonFileGetAdditionalImages));
-            var instructionsList = fastJSON.JSON.ToObject<List<Instructions>>(GetResultFileFromResource(Constants.JsonFileGetInstructions));
-            var reviewsList = fastJSON.JSON.ToObject<List<Reviews>>(GetResultFileFromResource(Constants.JsonFileGetReviews));
+            var additionalImagesList = JSON.ToObject<List<AdditionalImages>>(GetResultFileFromResource(Constants.JsonFileGetAdditionalImages));
+            var instructionsList = JSON.ToObject<List<Instructions>>(GetResultFileFromResource(Constants.JsonFileGetInstructions));
+            var reviewsList = JSON.ToObject<List<Reviews>>(GetResultFileFromResource(Constants.JsonFileGetReviews));
             var testSubtheme = subthemesList.First(bricksetSubtheme => bricksetSubtheme.Subtheme == testSet.Subtheme);
 
             var theme = testTheme.ToTheme();
@@ -116,15 +117,15 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
         [TestMethod]
         public void SynchronizeForThemeAndSubtheme_RetrieveFullSetDataOnSynchronizationTrueButNullSet_NothingIsSaved()
         {
-            var themesList = fastJSON.JSON.ToObject<List<Themes>>(GetResultFileFromResource(Constants.JsonFileGetThemes));
+            var themesList = JSON.ToObject<List<Themes>>(GetResultFileFromResource(Constants.JsonFileGetThemes));
             var testTheme = themesList.First(themes => themes.Theme == Constants.TestThemeArchitecture);
-            var yearsList = fastJSON.JSON.ToObject<List<Years>>(GetResultFileFromResource(Constants.JsonFileGetYears));
-            var subthemesList = fastJSON.JSON.ToObject<List<Subthemes>>(GetResultFileFromResource(Constants.JsonFileGetSubthemes));
-            var setsList = fastJSON.JSON.ToObject<List<Sets>>(GetResultFileFromResource(Constants.JsonFileGetSets));
+            var yearsList = JSON.ToObject<List<Years>>(GetResultFileFromResource(Constants.JsonFileGetYears));
+            var subthemesList = JSON.ToObject<List<Subthemes>>(GetResultFileFromResource(Constants.JsonFileGetSubthemes));
+            var setsList = JSON.ToObject<List<Sets>>(GetResultFileFromResource(Constants.JsonFileGetSets));
             var testSet = setsList.First(set => set.SetId == Constants.TestSetId);
-            var additionalImagesList = fastJSON.JSON.ToObject<List<AdditionalImages>>(GetResultFileFromResource(Constants.JsonFileGetAdditionalImages));
-            var instructionsList = fastJSON.JSON.ToObject<List<Instructions>>(GetResultFileFromResource(Constants.JsonFileGetInstructions));
-            var reviewsList = fastJSON.JSON.ToObject<List<Reviews>>(GetResultFileFromResource(Constants.JsonFileGetReviews));
+            var additionalImagesList = JSON.ToObject<List<AdditionalImages>>(GetResultFileFromResource(Constants.JsonFileGetAdditionalImages));
+            var instructionsList = JSON.ToObject<List<Instructions>>(GetResultFileFromResource(Constants.JsonFileGetInstructions));
+            var reviewsList = JSON.ToObject<List<Reviews>>(GetResultFileFromResource(Constants.JsonFileGetReviews));
             var testSubtheme = subthemesList.First(bricksetSubtheme => bricksetSubtheme.Subtheme == testSet.Subtheme);
 
             var theme = testTheme.ToTheme();
@@ -180,15 +181,15 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
         [TestMethod]
         public void SynchronizeForThemeAndSubtheme_RetrieveFullSetDataOnSynchronizationTrueAndSetNotNull_GetSetInvokedAndAllSetsAreSaved()
         {
-            var themesList = fastJSON.JSON.ToObject<List<Themes>>(GetResultFileFromResource(Constants.JsonFileGetThemes));
+            var themesList = JSON.ToObject<List<Themes>>(GetResultFileFromResource(Constants.JsonFileGetThemes));
             var testTheme = themesList.First(themes => themes.Theme == Constants.TestThemeArchitecture);
-            var yearsList = fastJSON.JSON.ToObject<List<Years>>(GetResultFileFromResource(Constants.JsonFileGetYears));
-            var subthemesList = fastJSON.JSON.ToObject<List<Subthemes>>(GetResultFileFromResource(Constants.JsonFileGetSubthemes));
-            var setsList = fastJSON.JSON.ToObject<List<Sets>>(GetResultFileFromResource(Constants.JsonFileGetSets));
+            var yearsList = JSON.ToObject<List<Years>>(GetResultFileFromResource(Constants.JsonFileGetYears));
+            var subthemesList = JSON.ToObject<List<Subthemes>>(GetResultFileFromResource(Constants.JsonFileGetSubthemes));
+            var setsList = JSON.ToObject<List<Sets>>(GetResultFileFromResource(Constants.JsonFileGetSets));
             var testSet = setsList.First(set => set.SetId == Constants.TestSetId);
-            var additionalImagesList = fastJSON.JSON.ToObject<List<AdditionalImages>>(GetResultFileFromResource(Constants.JsonFileGetAdditionalImages));
-            var instructionsList = fastJSON.JSON.ToObject<List<Instructions>>(GetResultFileFromResource(Constants.JsonFileGetInstructions));
-            var reviewsList = fastJSON.JSON.ToObject<List<Reviews>>(GetResultFileFromResource(Constants.JsonFileGetReviews));
+            var additionalImagesList = JSON.ToObject<List<AdditionalImages>>(GetResultFileFromResource(Constants.JsonFileGetAdditionalImages));
+            var instructionsList = JSON.ToObject<List<Instructions>>(GetResultFileFromResource(Constants.JsonFileGetInstructions));
+            var reviewsList = JSON.ToObject<List<Reviews>>(GetResultFileFromResource(Constants.JsonFileGetReviews));
             var testSubtheme = subthemesList.First(bricksetSubtheme => bricksetSubtheme.Subtheme == testSet.Subtheme);
 
             var theme = testTheme.ToTheme();
@@ -263,10 +264,10 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
         [TestMethod]
         public void SynchronizeForRecentlyUpdated_BricksetApiServiceReturnsListOfSets_AllSetsAreSaved()
         {
-            var themesList = fastJSON.JSON.ToObject<List<Themes>>(GetResultFileFromResource(Constants.JsonFileGetThemes));
+            var themesList = JSON.ToObject<List<Themes>>(GetResultFileFromResource(Constants.JsonFileGetThemes));
             var testTheme = themesList.First(themes => themes.Theme == Constants.TestThemeTechnic);
             var theme = testTheme.ToTheme();
-            var recentlyUpdatedSetsList = fastJSON.JSON.ToObject<List<Sets>>(GetResultFileFromResource(Constants.JsonFileGetRecentlyUpdatedSets));
+            var recentlyUpdatedSetsList = JSON.ToObject<List<Sets>>(GetResultFileFromResource(Constants.JsonFileGetRecentlyUpdatedSets));
 
             _themeRepository.AddOrUpdate(theme);
 
@@ -293,10 +294,10 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
         [TestMethod]
         public void SynchronizeForRecentlyUpdated_RetrieveFullSetDataOnSynchronizationTrueButNullSet_GetSetInvokedButNothingSaved()
         {
-            var themesList = fastJSON.JSON.ToObject<List<Themes>>(GetResultFileFromResource(Constants.JsonFileGetThemes));
+            var themesList = JSON.ToObject<List<Themes>>(GetResultFileFromResource(Constants.JsonFileGetThemes));
             var testTheme = themesList.First(themes => themes.Theme == Constants.TestThemeTechnic);
             var theme = testTheme.ToTheme();
-            var recentlyUpdatedSetsList = fastJSON.JSON.ToObject<List<Sets>>(GetResultFileFromResource(Constants.JsonFileGetRecentlyUpdatedSets));
+            var recentlyUpdatedSetsList = JSON.ToObject<List<Sets>>(GetResultFileFromResource(Constants.JsonFileGetRecentlyUpdatedSets));
 
             _themeRepository.AddOrUpdate(theme);
 
@@ -332,10 +333,10 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
         [TestMethod]
         public void SynchronizeForRecentlyUpdated_RetrieveFullSetDataOnSynchronizationTrueAndSetNotNull_GetSetInvokedAndAllSetsAreSaved()
         {
-            var themesList = fastJSON.JSON.ToObject<List<Themes>>(GetResultFileFromResource(Constants.JsonFileGetThemes));
+            var themesList = JSON.ToObject<List<Themes>>(GetResultFileFromResource(Constants.JsonFileGetThemes));
             var testTheme = themesList.First(themes => themes.Theme == Constants.TestThemeTechnic);
             var theme = testTheme.ToTheme();
-            var recentlyUpdatedSetsList = fastJSON.JSON.ToObject<List<Sets>>(GetResultFileFromResource(Constants.JsonFileGetRecentlyUpdatedSets));
+            var recentlyUpdatedSetsList = JSON.ToObject<List<Sets>>(GetResultFileFromResource(Constants.JsonFileGetRecentlyUpdatedSets));
 
             _themeRepository.AddOrUpdate(theme);
 

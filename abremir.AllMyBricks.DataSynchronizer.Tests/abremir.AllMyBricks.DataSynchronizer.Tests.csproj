@@ -31,6 +31,7 @@
   <ItemGroup>
     <PackageReference Include="fastJSON" Version="2.2.0" />
     <PackageReference Include="FluentAssertions" Version="5.4.1" />
+    <PackageReference Include="Flurl" Version="2.8.0" />
     <PackageReference Include="Flurl.Http" Version="2.3.2" />
     <PackageReference Include="MSTest.TestAdapter" Version="1.3.2" />
     <PackageReference Include="MSTest.TestFramework" Version="1.3.2" />

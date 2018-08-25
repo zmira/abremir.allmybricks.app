@@ -5,6 +5,7 @@ using abremir.AllMyBricks.DataSynchronizer.Tests.Configuration;
 using abremir.AllMyBricks.DataSynchronizer.Tests.Shared;
 using abremir.AllMyBricks.ThirdParty.Brickset.Interfaces;
 using abremir.AllMyBricks.ThirdParty.Brickset.Models;
+using fastJSON;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
@@ -47,8 +48,8 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
         [TestMethod]
         public void Synchronize_BricksetApiServiceReturnsListOfThemes_AllThemesAreSaved()
         {
-            var themesList = fastJSON.JSON.ToObject<List<Themes>>(GetResultFileFromResource(Constants.JsonFileGetThemes));
-            var yearsList = fastJSON.JSON.ToObject<List<Years>>(GetResultFileFromResource(Constants.JsonFileGetYears));
+            var themesList = JSON.ToObject<List<Themes>>(GetResultFileFromResource(Constants.JsonFileGetThemes));
+            var yearsList = JSON.ToObject<List<Years>>(GetResultFileFromResource(Constants.JsonFileGetYears));
 
             var bricksetApiService = Substitute.For<IBricksetApiService>();
             bricksetApiService

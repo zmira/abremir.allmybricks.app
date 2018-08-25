@@ -6,6 +6,7 @@ using abremir.AllMyBricks.Onboarding.Helpers;
 using abremir.AllMyBricks.Onboarding.Interfaces;
 using Flurl;
 using Flurl.Http;
+using Jose;
 using System.Text;
 
 namespace abremir.AllMyBricks.Onboarding.Services
@@ -27,7 +28,7 @@ namespace abremir.AllMyBricks.Onboarding.Services
                 .ReceiveString()
                 .Result;
 
-            return Jose.JWT.Decode(responseApiKeyResult, Encoding.UTF8.GetBytes(allMyBricksIdentification.RegistrationHash.ToCharArray()), (Jose.JwsAlgorithm)apiKeyRequest.KeyOption);
+            return JWT.Decode(responseApiKeyResult, Encoding.UTF8.GetBytes(allMyBricksIdentification.RegistrationHash.ToCharArray()), (JwsAlgorithm)apiKeyRequest.KeyOption);
         }
     }
 }

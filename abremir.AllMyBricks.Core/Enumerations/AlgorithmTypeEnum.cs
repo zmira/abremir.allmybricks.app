@@ -1,9 +1,11 @@
-﻿namespace abremir.AllMyBricks.Core.Enumerations
+﻿using Jose;
+
+namespace abremir.AllMyBricks.Core.Enumerations
 {
     public enum AlgorithmTypeEnum
     {
-        Type1 = Jose.JwsAlgorithm.HS256,
-        Type2 = Jose.JwsAlgorithm.HS384,
-        Type3 = Jose.JwsAlgorithm.HS512
+        Type1 = JwsAlgorithm.HS256,
+        Type2 = JwsAlgorithm.HS384,
+        Type3 = JwsAlgorithm.HS512
     }
 }
