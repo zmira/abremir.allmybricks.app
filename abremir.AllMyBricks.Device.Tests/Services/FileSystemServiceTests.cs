@@ -12,15 +12,11 @@ namespace abremir.AllMyBricks.Device.Tests.Services
     [TestClass]
     public class FileSystemServiceTest
     {
-        private static IFileSystemService _fileSystemService;
-        private static IFile _file;
+        private IFileSystemService _fileSystemService;
+        private IFile _file;
 
-        [ClassInitialize]
-#pragma warning disable RCS1163 // Unused parameter.
-#pragma warning disable RECS0154 // Parameter is never used
-        public static void ClassInitialize(TestContext testContext)
-#pragma warning restore RECS0154 // Parameter is never used
-#pragma warning restore RCS1163 // Unused parameter.
+        [TestInitialize]
+        public void TestInitialize()
         {
             var fileSystem = Substitute.For<IFileSystem>();
             fileSystem.AppDataDirectory.Returns("./");
@@ -47,19 +43,19 @@ namespace abremir.AllMyBricks.Device.Tests.Services
         [DataRow("FILENAME", "FOLDERNAME")]
         public void GetLocalPathToFile_ReturnsValidPathWithFilename(string filename, string folder)
         {
-            var result = _fileSystemService.GetLocalPathToFile(filename, folder);
+            var localPathToFile = _fileSystemService.GetLocalPathToFile(filename, folder);
 
-            result.Should().NotBeNullOrWhiteSpace();
-            result.Should().Contain(Constants.AllMyBricksDataFolder);
+            localPathToFile.Should().NotBeNullOrWhiteSpace();
+            localPathToFile.Should().Contain(Constants.AllMyBricksDataFolder);
 
             if (!string.IsNullOrWhiteSpace(filename))
             {
-                result.Should().EndWith(filename);
+                localPathToFile.Should().EndWith(filename);
             }
 
             if (!string.IsNullOrWhiteSpace(folder))
             {
-                result.Should().Contain(folder);
+                localPathToFile.Should().Contain(folder);
             }
         }
 
@@ -73,13 +69,13 @@ namespace abremir.AllMyBricks.Device.Tests.Services
         [DataRow("THEME", "SUBTHEME", 0)]
         public void GetThumbnailFolder_ReturnsValidPath(string theme, string subtheme, int countOfFallbackFolderName)
         {
-            var result = _fileSystemService.GetThumbnailFolder(theme, subtheme);
+            var thumbnailFolder = _fileSystemService.GetThumbnailFolder(theme, subtheme);
 
-            result.Should().NotBeNullOrWhiteSpace();
-            result.Should().Contain(Constants.AllMyBricksDataFolder);
-            result.Should().Contain(Constants.ThumbnailCacheFolder);
+            thumbnailFolder.Should().NotBeNullOrWhiteSpace();
+            thumbnailFolder.Should().Contain(Constants.AllMyBricksDataFolder);
+            thumbnailFolder.Should().Contain(Constants.ThumbnailCacheFolder);
 
-            Regex.Matches(result, Constants.FallbackFolderName).Count.Should().Be(countOfFallbackFolderName);
+            Regex.Matches(thumbnailFolder, Constants.FallbackFolderName).Count.Should().Be(countOfFallbackFolderName);
         }
 
         [DataTestMethod]

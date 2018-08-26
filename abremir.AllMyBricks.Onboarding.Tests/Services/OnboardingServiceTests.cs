@@ -10,25 +10,21 @@ namespace abremir.AllMyBricks.Onboarding.Tests.Services
     [TestClass]
     public class OnboardingServiceTests
     {
+        private OnboardingService _onboardingService;
         private ISecureStorageService _secureStorageService;
         private IApiKeyService _apiKeyService;
         private IRegistrationService _registrationService;
 
-        [ClassInitialize]
-#pragma warning disable RCS1163 // Unused parameter.
-#pragma warning disable RECS0154 // Parameter is never used
-        public static void ClassInitialize(TestContext testContext)
-#pragma warning restore RECS0154 // Parameter is never used
-#pragma warning restore RCS1163 // Unused parameter.
-        {
-        }
-
         [TestInitialize]
-        public void Initialize()
+        public void TestInitialize()
         {
             _secureStorageService = Substitute.For<ISecureStorageService>();
             _apiKeyService = Substitute.For<IApiKeyService>();
             _registrationService = Substitute.For<IRegistrationService>();
+
+            var deviceInformationService = Substitute.For<IDeviceInformationService>();
+
+            _onboardingService = new OnboardingService(_secureStorageService, _registrationService, _apiKeyService, deviceInformationService);
         }
 
         [TestMethod]
@@ -38,11 +34,9 @@ namespace abremir.AllMyBricks.Onboarding.Tests.Services
                 .GetBricksetApiKey()
                 .Returns("API KEY");
 
-            var onboardingService = CreateTarget();
+            var apiKey = _onboardingService.GetBricksetApiKey();
 
-            var result = onboardingService.GetBricksetApiKey();
-
-            result.Should().NotBeNullOrWhiteSpace();
+            apiKey.Should().NotBeNullOrWhiteSpace();
             _secureStorageService.DidNotReceive().SaveBricksetApiKey(Arg.Any<string>());
         }
 
@@ -62,11 +56,9 @@ namespace abremir.AllMyBricks.Onboarding.Tests.Services
                 .GetBricksetApiKey(Arg.Any<Core.Models.Identification>())
                 .Returns("API KEY");
 
-            var onboardingService = CreateTarget();
+            var apiKey = _onboardingService.GetBricksetApiKey();
 
-            var result = onboardingService.GetBricksetApiKey();
-
-            result.Should().NotBeNullOrWhiteSpace();
+            apiKey.Should().NotBeNullOrWhiteSpace();
             _apiKeyService.Received().GetBricksetApiKey(Arg.Any<Core.Models.Identification>());
             _secureStorageService.DidNotReceive().SaveDeviceIdentification(Arg.Any<Core.Models.Identification>());
         }
@@ -87,20 +79,11 @@ namespace abremir.AllMyBricks.Onboarding.Tests.Services
                 .GetBricksetApiKey(Arg.Any<Core.Models.Identification>())
                 .Returns("API KEY");
 
-            var onboardingService = CreateTarget();
+            var apiKey = _onboardingService.GetBricksetApiKey();
 
-            var result = onboardingService.GetBricksetApiKey();
-
-            result.Should().NotBeNullOrWhiteSpace();
+            apiKey.Should().NotBeNullOrWhiteSpace();
             _apiKeyService.Received().GetBricksetApiKey(Arg.Any<Core.Models.Identification>());
             _secureStorageService.Received().SaveDeviceIdentification(Arg.Any<Core.Models.Identification>());
-        }
-
-        private OnboardingService CreateTarget()
-        {
-            var deviceInformationService = Substitute.For<IDeviceInformationService>();
-
-            return new OnboardingService(_secureStorageService, _registrationService, _apiKeyService, deviceInformationService);
         }
     }
 }

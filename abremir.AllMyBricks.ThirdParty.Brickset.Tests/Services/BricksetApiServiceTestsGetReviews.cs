@@ -13,16 +13,26 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
     [ComponentModelDescription(Constants.ApiResponseFolderGetReviews)]
     public class BricksetApiServiceTestsGetReviews : BricksetApiServiceTestsBase
     {
+        private static BricksetApiService _bricksetApiService;
+
+        [ClassInitialize]
+#pragma warning disable RCS1163 // Unused parameter.
+#pragma warning disable RECS0154 // Parameter is never used
+        public static void ClassInitialize(TestContext testContext)
+#pragma warning restore RECS0154 // Parameter is never used
+#pragma warning restore RCS1163 // Unused parameter.
+        {
+            _bricksetApiService = new BricksetApiService();
+        }
+
         [TestMethod]
         public void Success()
         {
             _httpTestFake.RespondWith(GetResultFileFromResource(nameof(Success)));
 
-            var service = new BricksetApiService();
+            var reviews = _bricksetApiService.GetReviews(new ParameterSetId());
 
-            var result = service.GetReviews(new ParameterSetId());
-
-            result.Count().Should().Be(5);
+            reviews.Count().Should().Be(5);
         }
 
         [TestMethod]
@@ -30,11 +40,9 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
         {
             _httpTestFake.RespondWith(GetResultFileFromResource(nameof(NoReviews)));
 
-            var service = new BricksetApiService();
+            var reviews = _bricksetApiService.GetReviews(new ParameterSetId());
 
-            var result = service.GetReviews(new ParameterSetId());
-
-            result.Should().BeEmpty();
+            reviews.Should().BeEmpty();
         }
 
         [TestMethod]
@@ -42,11 +50,9 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
         {
             _httpTestFake.RespondWith(GetResultFileFromResource(nameof(InvalidSetId)));
 
-            var service = new BricksetApiService();
+            var reviews = _bricksetApiService.GetReviews(new ParameterSetId());
 
-            var result = service.GetReviews(new ParameterSetId());
-
-            result.Should().BeEmpty();
+            reviews.Should().BeEmpty();
         }
 
         [TestMethod]
@@ -54,11 +60,9 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
         {
             _httpTestFake.RespondWith(GetResultFileFromResource(nameof(InvalidApiKey)));
 
-            var service = new BricksetApiService();
+            var reviews = _bricksetApiService.GetReviews(new ParameterSetId());
 
-            var result = service.GetReviews(new ParameterSetId());
-
-            result.Should().BeEmpty();
+            reviews.Should().BeEmpty();
         }
     }
 }

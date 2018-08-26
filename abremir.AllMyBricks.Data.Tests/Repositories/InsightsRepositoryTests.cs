@@ -26,9 +26,9 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
         [TestMethod]
         public void GetDataSynchronizationTimestamp_InsightsDoesNotExist_ReturnsNull()
         {
-            var result = _insightsRepository.GetDataSynchronizationTimestamp();
+            var timestamp = _insightsRepository.GetDataSynchronizationTimestamp();
 
-            result.Should().BeNull();
+            timestamp.Should().BeNull();
         }
 
         [TestMethod]
@@ -41,9 +41,9 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
 
             InsertData(insights);
 
-            var result = _insightsRepository.GetDataSynchronizationTimestamp();
+            var timestamp = _insightsRepository.GetDataSynchronizationTimestamp();
 
-            result.Should().Be(insights.DataSynchronizationTimestamp);
+            timestamp.Should().Be(insights.DataSynchronizationTimestamp);
         }
 
         [TestMethod]
@@ -53,9 +53,9 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
 
             _insightsRepository.UpdateDataSynchronizationTimestamp(dataSynchronizationTimestamp);
 
-            var result = _insightsRepository.GetDataSynchronizationTimestamp();
+            var timestamp = _insightsRepository.GetDataSynchronizationTimestamp();
 
-            result.Should().Be(dataSynchronizationTimestamp);
+            timestamp.Should().Be(dataSynchronizationTimestamp);
         }
 
         [TestMethod]
@@ -74,9 +74,9 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
 
             _insightsRepository.UpdateDataSynchronizationTimestamp(dataSynchronizationTimestamp);
 
-            var result = _insightsRepository.GetDataSynchronizationTimestamp();
+            var timestamp = _insightsRepository.GetDataSynchronizationTimestamp();
 
-            result.Should().Be(dataSynchronizationTimestamp);
+            timestamp.Should().Be(dataSynchronizationTimestamp);
         }
     }
 }

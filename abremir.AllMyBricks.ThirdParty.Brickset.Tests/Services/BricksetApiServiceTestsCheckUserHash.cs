@@ -13,16 +13,26 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
     [ComponentModelDescription(Constants.ApiResponseFolderCheckUserHash)]
     public class BricksetApiServiceTestsCheckUserHash : BricksetApiServiceTestsBase
     {
+        private static BricksetApiService _bricksetApiService;
+
+        [ClassInitialize]
+#pragma warning disable RCS1163 // Unused parameter.
+#pragma warning disable RECS0154 // Parameter is never used
+        public static void ClassInitialize(TestContext testContext)
+#pragma warning restore RECS0154 // Parameter is never used
+#pragma warning restore RCS1163 // Unused parameter.
+        {
+            _bricksetApiService = new BricksetApiService();
+        }
+
         [TestMethod]
         public void ValidUserHash()
         {
             _httpTestFake.RespondWith(GetResultFileFromResource(nameof(ValidUserHash)));
 
-            var service = new BricksetApiService();
+            var userHashValidity = _bricksetApiService.CheckUserHash(new ParameterUserHash());
 
-            var result = service.CheckUserHash(new ParameterUserHash());
-
-            result.Should()
+            userHashValidity.Should()
                 .NotBeNullOrEmpty()
                 .And.NotBe(BricksetApiConstants.ResponseInvalid);
         }
@@ -32,11 +42,9 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
         {
             _httpTestFake.RespondWith(GetResultFileFromResource(nameof(InvalidUserHash)));
 
-            var service = new BricksetApiService();
+            var userHashValidity = _bricksetApiService.CheckUserHash(new ParameterUserHash());
 
-            var result = service.CheckUserHash(new ParameterUserHash());
-
-            result.Should()
+            userHashValidity.Should()
                 .NotBeNullOrEmpty()
                 .And.Be(BricksetApiConstants.ResponseInvalid);
         }

@@ -155,16 +155,16 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
 
             _themeRepository.AddOrUpdate(themeUnderTest.ToPlainObject());
 
-            var result = _themeRepository.Get(themeUnderTest.Name);
+            var themeFromDb = _themeRepository.Get(themeUnderTest.Name);
 
-            result.SetCount = 99;
-            result.YearTo = 2099;
+            themeFromDb.SetCount = 99;
+            themeFromDb.YearTo = 2099;
 
-            _themeRepository.AddOrUpdate(result);
+            _themeRepository.AddOrUpdate(themeFromDb);
 
-            var theme = _themeRepository.Get(result.Name);
+            var theme = _themeRepository.Get(themeFromDb.Name);
 
-            theme.Should().BeEquivalentTo(result);
+            theme.Should().BeEquivalentTo(themeFromDb);
         }
     }
 }

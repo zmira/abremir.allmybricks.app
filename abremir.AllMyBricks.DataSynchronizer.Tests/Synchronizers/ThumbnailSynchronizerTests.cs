@@ -13,28 +13,19 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
     [TestClass]
     public class ThumbnailSynchronizerTests
     {
-        private static IPreferencesService _preferencesService;
-        private static IFileSystemService _fileSystemService;
-        private static HttpTest _httpTest;
-        private static ThumbnailSynchronizer _thumbnailSynchronizer;
-
-        [ClassInitialize]
-#pragma warning disable RCS1163 // Unused parameter.
-#pragma warning disable RECS0154 // Parameter is never used
-        public static void ClassInitialize(TestContext testContext)
-#pragma warning restore RECS0154 // Parameter is never used
-#pragma warning restore RCS1163 // Unused parameter.
-        {
-            _preferencesService = Substitute.For<IPreferencesService>();
-            _fileSystemService = Substitute.For<IFileSystemService>();
-
-            _thumbnailSynchronizer = new ThumbnailSynchronizer(_preferencesService, _fileSystemService);
-        }
+        private ThumbnailSynchronizer _thumbnailSynchronizer;
+        private IPreferencesService _preferencesService;
+        private IFileSystemService _fileSystemService;
+        private HttpTest _httpTest;
 
         [TestInitialize]
         public void TestInitialize()
         {
             _httpTest = new HttpTest();
+            _preferencesService = Substitute.For<IPreferencesService>();
+            _fileSystemService = Substitute.For<IFileSystemService>();
+
+            _thumbnailSynchronizer = new ThumbnailSynchronizer(_preferencesService, _fileSystemService);
         }
 
         [TestCleanup]

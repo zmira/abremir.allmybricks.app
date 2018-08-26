@@ -13,16 +13,26 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
     [ComponentModelDescription(Constants.ApiResponseFolderGetSubthemes)]
     public class BricksetApiServiceTestsGetSubthemes : BricksetApiServiceTestsBase
     {
+        private static BricksetApiService _bricksetApiService;
+
+        [ClassInitialize]
+#pragma warning disable RCS1163 // Unused parameter.
+#pragma warning disable RECS0154 // Parameter is never used
+        public static void ClassInitialize(TestContext testContext)
+#pragma warning restore RECS0154 // Parameter is never used
+#pragma warning restore RCS1163 // Unused parameter.
+        {
+            _bricksetApiService = new BricksetApiService();
+        }
+
         [TestMethod]
         public void Success()
         {
             _httpTestFake.RespondWith(GetResultFileFromResource(nameof(Success)));
 
-            var service = new BricksetApiService();
+            var subthemes = _bricksetApiService.GetSubthemes(new ParameterTheme());
 
-            var result = service.GetSubthemes(new ParameterTheme());
-
-            result.Count().Should().Be(5);
+            subthemes.Count().Should().Be(5);
         }
 
         [TestMethod]
@@ -30,11 +40,9 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
         {
             _httpTestFake.RespondWith(GetResultFileFromResource(nameof(NoSubthemes)));
 
-            var service = new BricksetApiService();
+            var subthemes = _bricksetApiService.GetSubthemes(new ParameterTheme());
 
-            var result = service.GetSubthemes(new ParameterTheme());
-
-            result.Should().BeEmpty();
+            subthemes.Should().BeEmpty();
         }
 
         [TestMethod]
@@ -42,11 +50,9 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
         {
             _httpTestFake.RespondWith(GetResultFileFromResource(nameof(InvalidTheme)));
 
-            var service = new BricksetApiService();
+            var subthemes = _bricksetApiService.GetSubthemes(new ParameterTheme());
 
-            var result = service.GetSubthemes(new ParameterTheme());
-
-            result.Should().BeEmpty();
+            subthemes.Should().BeEmpty();
         }
 
         [TestMethod]
@@ -54,11 +60,9 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
         {
             _httpTestFake.RespondWith(GetResultFileFromResource(nameof(InvalidApiKey)));
 
-            var service = new BricksetApiService();
+            var subthemes = _bricksetApiService.GetSubthemes(new ParameterTheme());
 
-            var result = service.GetSubthemes(new ParameterTheme());
-
-            result.Should().BeEmpty();
+            subthemes.Should().BeEmpty();
         }
     }
 }

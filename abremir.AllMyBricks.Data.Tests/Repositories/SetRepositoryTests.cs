@@ -520,15 +520,15 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
 
             _setRepository.AddOrUpdate(setUnderTest.ToPlainObject());
 
-            var result = _setRepository.Get(setUnderTest.SetId);
+            var setFromDb = _setRepository.Get(setUnderTest.SetId);
 
-            result.Name = "NEW NAME";
+            setFromDb.Name = "NEW NAME";
 
-            _setRepository.AddOrUpdate(result);
+            _setRepository.AddOrUpdate(setFromDb);
 
             var set = _setRepository.Get(setUnderTest.SetId);
 
-            set.Should().BeEquivalentTo(result);
+            set.Should().BeEquivalentTo(setFromDb);
         }
     }
 }

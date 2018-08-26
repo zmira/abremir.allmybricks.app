@@ -12,16 +12,26 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
     [ComponentModelDescription(Constants.ApiResponseFolderCheckKey)]
     public class BricksetApiServiceTestsCheckKey : BricksetApiServiceTestsBase
     {
+        private static BricksetApiService _bricksetApiService;
+
+        [ClassInitialize]
+#pragma warning disable RCS1163 // Unused parameter.
+#pragma warning disable RECS0154 // Parameter is never used
+        public static void ClassInitialize(TestContext testContext)
+#pragma warning restore RECS0154 // Parameter is never used
+#pragma warning restore RCS1163 // Unused parameter.
+        {
+            _bricksetApiService = new BricksetApiService();
+        }
+
         [TestMethod]
         public void ValidKey()
         {
             _httpTestFake.RespondWith(GetResultFileFromResource(nameof(ValidKey)));
 
-            var service = new BricksetApiService();
+            var keyValidity = _bricksetApiService.CheckKey(new ParameterApiKey());
 
-            var result = service.CheckKey(new ParameterApiKey());
-
-            result.Should().BeTrue();
+            keyValidity.Should().BeTrue();
         }
 
         [TestMethod]
@@ -29,11 +39,9 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
         {
             _httpTestFake.RespondWith(GetResultFileFromResource(nameof(InvalidApiKey)));
 
-            var service = new BricksetApiService();
+            var keyValidity = _bricksetApiService.CheckKey(new ParameterApiKey());
 
-            var result = service.CheckKey(new ParameterApiKey());
-
-            result.Should().BeFalse();
+            keyValidity.Should().BeFalse();
         }
     }
 }

@@ -12,16 +12,26 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
     [ComponentModelDescription(Constants.ApiResponseFolderGetSet)]
     public class BricksetApiServiceTestsGetSet : BricksetApiServiceTestsBase
     {
+        private static BricksetApiService _bricksetApiService;
+
+        [ClassInitialize]
+#pragma warning disable RCS1163 // Unused parameter.
+#pragma warning disable RECS0154 // Parameter is never used
+        public static void ClassInitialize(TestContext testContext)
+#pragma warning restore RECS0154 // Parameter is never used
+#pragma warning restore RCS1163 // Unused parameter.
+        {
+            _bricksetApiService = new BricksetApiService();
+        }
+
         [TestMethod]
         public void Success()
         {
             _httpTestFake.RespondWith(GetResultFileFromResource(nameof(Success)));
 
-            var service = new BricksetApiService();
+            var set = _bricksetApiService.GetSet(new ParameterUserHashSetId());
 
-            var result = service.GetSet(new ParameterUserHashSetId());
-
-            result.Should().NotBeNull();
+            set.Should().NotBeNull();
         }
 
         [TestMethod]
@@ -29,11 +39,9 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
         {
             _httpTestFake.RespondWith(GetResultFileFromResource(nameof(InvalidApiKey)));
 
-            var service = new BricksetApiService();
+            var set = _bricksetApiService.GetSet(new ParameterUserHashSetId());
 
-            var result = service.GetSet(new ParameterUserHashSetId());
-
-            result.Should().BeNull();
+            set.Should().BeNull();
         }
 
         [TestMethod]
@@ -41,11 +49,9 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
         {
             _httpTestFake.RespondWith(GetResultFileFromResource(nameof(NoMatches)));
 
-            var service = new BricksetApiService();
+            var set = _bricksetApiService.GetSet(new ParameterUserHashSetId());
 
-            var result = service.GetSet(new ParameterUserHashSetId());
-
-            result.Should().BeNull();
+            set.Should().BeNull();
         }
     }
 }

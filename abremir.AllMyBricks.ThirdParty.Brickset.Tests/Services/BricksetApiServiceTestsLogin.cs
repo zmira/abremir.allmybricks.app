@@ -13,16 +13,26 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
     [ComponentModelDescription(Constants.ApiResponseFolderLogin)]
     public class BricksetApiServiceTestsLogin : BricksetApiServiceTestsBase
     {
+        private static BricksetApiService _bricksetApiService;
+
+        [ClassInitialize]
+#pragma warning disable RCS1163 // Unused parameter.
+#pragma warning disable RECS0154 // Parameter is never used
+        public static void ClassInitialize(TestContext testContext)
+#pragma warning restore RECS0154 // Parameter is never used
+#pragma warning restore RCS1163 // Unused parameter.
+        {
+            _bricksetApiService = new BricksetApiService();
+        }
+
         [TestMethod]
         public void ValidCredentials()
         {
             _httpTestFake.RespondWith(GetResultFileFromResource(nameof(ValidCredentials)));
 
-            var service = new BricksetApiService();
+            var loginResult = _bricksetApiService.Login(new ParameterLogin());
 
-            var result = service.Login(new ParameterLogin());
-
-            result.Should()
+            loginResult.Should()
                 .NotBeNullOrEmpty()
                 .And.NotStartWith(BricksetApiConstants.ResponseError)
                 .And.NotStartWith(BricksetApiConstants.ResponseInvalidKey);
@@ -33,11 +43,9 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
         {
             _httpTestFake.RespondWith(GetResultFileFromResource(nameof(InvalidCredentials)));
 
-            var service = new BricksetApiService();
+            var loginResult = _bricksetApiService.Login(new ParameterLogin());
 
-            var result = service.Login(new ParameterLogin());
-
-            result.Should()
+            loginResult.Should()
                 .NotBeNullOrEmpty()
                 .And.StartWith(BricksetApiConstants.ResponseError)
                 .And.NotStartWith(BricksetApiConstants.ResponseInvalidKey);
@@ -48,11 +56,9 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
         {
             _httpTestFake.RespondWith(GetResultFileFromResource(nameof(InvalidApiKey)));
 
-            var service = new BricksetApiService();
+            var loginResult = _bricksetApiService.Login(new ParameterLogin());
 
-            var result = service.Login(new ParameterLogin());
-
-            result.Should()
+            loginResult.Should()
                 .NotBeNullOrEmpty()
                 .And.NotStartWith(BricksetApiConstants.ResponseError)
                 .And.StartWith(BricksetApiConstants.ResponseInvalidKey);

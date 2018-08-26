@@ -13,16 +13,12 @@ namespace abremir.AllMyBricks.Onboarding.Tests
     [TestClass]
     public class OnboardingTest
     {
-        private static IRegistrationService _registrationService;
-        private static IApiKeyService _apiKeyService;
-        private static IDeviceInformationService _deviceInformationService;
+        private IRegistrationService _registrationService;
+        private IApiKeyService _apiKeyService;
+        private IDeviceInformationService _deviceInformationService;
 
-        [ClassInitialize]
-#pragma warning disable RCS1163 // Unused parameter.
-#pragma warning disable RECS0154 // Parameter is never used
-        public static void ClassInitialize(TestContext testContext)
-#pragma warning restore RECS0154 // Parameter is never used
-#pragma warning restore RCS1163 // Unused parameter.
+        [TestInitialize]
+        public void TestInitialize()
         {
             _registrationService = new RegistrationService();
             _apiKeyService = new ApiKeyService();

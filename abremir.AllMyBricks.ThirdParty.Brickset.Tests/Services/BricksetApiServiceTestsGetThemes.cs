@@ -13,16 +13,26 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
     [ComponentModelDescription(Constants.ApiResponseFolderGetThemes)]
     public class BricksetApiServiceTestsGetThemes : BricksetApiServiceTestsBase
     {
+        private static BricksetApiService _bricksetApiService;
+
+        [ClassInitialize]
+#pragma warning disable RCS1163 // Unused parameter.
+#pragma warning disable RECS0154 // Parameter is never used
+        public static void ClassInitialize(TestContext testContext)
+#pragma warning restore RECS0154 // Parameter is never used
+#pragma warning restore RCS1163 // Unused parameter.
+        {
+            _bricksetApiService = new BricksetApiService();
+        }
+
         [TestMethod]
         public void Success()
         {
             _httpTestFake.RespondWith(GetResultFileFromResource(nameof(Success)));
 
-            var service = new BricksetApiService();
+            var themes = _bricksetApiService.GetThemes(new ParameterApiKey());
 
-            var result = service.GetThemes(new ParameterApiKey());
-
-            result.Count().Should().Be(133);
+            themes.Count().Should().Be(133);
         }
 
         [TestMethod]
@@ -30,11 +40,9 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
         {
             _httpTestFake.RespondWith(GetResultFileFromResource(nameof(InvalidApiKey)));
 
-            var service = new BricksetApiService();
+            var themes = _bricksetApiService.GetThemes(new ParameterApiKey());
 
-            var result = service.GetThemes(new ParameterApiKey());
-
-            result.Should().BeEmpty();
+            themes.Should().BeEmpty();
         }
     }
 }

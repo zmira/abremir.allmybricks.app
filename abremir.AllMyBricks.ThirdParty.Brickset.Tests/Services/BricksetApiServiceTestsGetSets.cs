@@ -13,16 +13,26 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
     [ComponentModelDescription(Constants.ApiResponseFolderGetSets)]
     public class BricksetApiServiceTestsGetSets : BricksetApiServiceTestsBase
     {
+        private static BricksetApiService _bricksetApiService;
+
+        [ClassInitialize]
+#pragma warning disable RCS1163 // Unused parameter.
+#pragma warning disable RECS0154 // Parameter is never used
+        public static void ClassInitialize(TestContext testContext)
+#pragma warning restore RECS0154 // Parameter is never used
+#pragma warning restore RCS1163 // Unused parameter.
+        {
+            _bricksetApiService = new BricksetApiService();
+        }
+
         [TestMethod]
         public void Success()
         {
             _httpTestFake.RespondWith(GetResultFileFromResource(nameof(Success)));
 
-            var service = new BricksetApiService();
+            var sets = _bricksetApiService.GetSets(new ParameterSets());
 
-            var result = service.GetSets(new ParameterSets());
-
-            result.Count().Should().Be(20);
+            sets.Count().Should().Be(20);
         }
 
         [TestMethod]
@@ -30,11 +40,9 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
         {
             _httpTestFake.RespondWith(GetResultFileFromResource(nameof(InvalidApiKey)));
 
-            var service = new BricksetApiService();
+            var sets = _bricksetApiService.GetSets(new ParameterSets());
 
-            var result = service.GetSets(new ParameterSets());
-
-            result.Should().BeEmpty();
+            sets.Should().BeEmpty();
         }
 
         [TestMethod]
@@ -42,11 +50,9 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
         {
             _httpTestFake.RespondWith(GetResultFileFromResource(nameof(NoMatches)));
 
-            var service = new BricksetApiService();
+            var sets = _bricksetApiService.GetSets(new ParameterSets());
 
-            var result = service.GetSets(new ParameterSets());
-
-            result.Should().BeEmpty();
+            sets.Should().BeEmpty();
         }
     }
 }
