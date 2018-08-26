@@ -34,7 +34,21 @@ namespace abremir.AllMyBricks.Device.Services
             }
             set
             {
+                ClearThumbnailCache |= (value == ThumbnailCachingStrategyEnum.NeverCache && ThumbnailCachingStrategy != value);
+
                 _preferences.Set(nameof(ThumbnailCachingStrategy), (int)value, Constants.PreferencesSharedName);
+            }
+        }
+
+        public bool ClearThumbnailCache
+        {
+            get
+            {
+                return _preferences.Get(nameof(ClearThumbnailCache), false, Constants.PreferencesSharedName);
+            }
+            set
+            {
+                _preferences.Set(nameof(ClearThumbnailCache), value, Constants.PreferencesSharedName);
             }
         }
 
