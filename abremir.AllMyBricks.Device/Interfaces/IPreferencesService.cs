@@ -6,5 +6,8 @@ namespace abremir.AllMyBricks.Device.Interfaces
     {
         bool RetrieveFullSetDataOnSynchronization { get; set; }
         ThumbnailCachingStrategyEnum ThumbnailCachingStrategy { get; set; }
+        bool ClearThumbnailCache { get; set; }
+        AutomaticDataSynchronizationOverConnectionEnum AutomaticDataSynchronization { get; set; }
+        bool AllowDataSynchronizationInBackground { get; set; }
     }
 }
