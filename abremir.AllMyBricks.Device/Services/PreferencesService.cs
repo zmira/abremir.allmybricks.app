@@ -30,7 +30,7 @@ namespace abremir.AllMyBricks.Device.Services
         {
             get
             {
-                return (ThumbnailCachingStrategyEnum)_preferences.Get(nameof(ThumbnailCachingStrategy), (int)ThumbnailCachingStrategyEnum.OnlyCacheDisplayedThumbnails, Constants.PreferencesSharedName);
+                return (ThumbnailCachingStrategyEnum)_preferences.Get(nameof(ThumbnailCachingStrategy), (int)ThumbnailCachingStrategyEnum.NeverCache, Constants.PreferencesSharedName);
             }
             set
             {
