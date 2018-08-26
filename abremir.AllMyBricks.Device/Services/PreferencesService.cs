@@ -37,5 +37,29 @@ namespace abremir.AllMyBricks.Device.Services
                 _preferences.Set(nameof(ThumbnailCachingStrategy), (int)value, Constants.PreferencesSharedName);
             }
         }
+
+        public AutomaticDataSynchronizationOverConnectionEnum AutomaticDataSynchronization
+        {
+            get
+            {
+                return (AutomaticDataSynchronizationOverConnectionEnum)_preferences.Get(nameof(AutomaticDataSynchronization), (int)AutomaticDataSynchronizationOverConnectionEnum.OnlyOverWiFiConnection, Constants.PreferencesSharedName);
+            }
+            set
+            {
+                _preferences.Set(nameof(AutomaticDataSynchronization), (int)value, Constants.PreferencesSharedName);
+            }
+        }
+
+        public bool AllowDataSynchronizationInBackground
+        {
+            get
+            {
+                return _preferences.Get(nameof(AllowDataSynchronizationInBackground), false, Constants.PreferencesSharedName);
+            }
+            set
+            {
+                _preferences.Set(nameof(AllowDataSynchronizationInBackground), value, Constants.PreferencesSharedName);
+            }
+        }
     }
 }
