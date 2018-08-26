@@ -19,16 +19,34 @@ namespace abremir.AllMyBricks
 		{
             // Handle when your app starts
             IoC.Configure();
+
+            ClearThumbnailCacheIfRequired();
         }
 
         protected override void OnSleep ()
 		{
-			// Handle when your app sleeps
+            // Handle when your app sleeps
+            ClearThumbnailCacheIfRequired();
 		}
 
 		protected override void OnResume ()
 		{
 			// Handle when your app resumes
 		}
+
+        private void ClearThumbnailCacheIfRequired()
+        {
+            var preferencesService = IoC.IoCContainer.GetInstance<IPreferencesService>();
+
+            if (preferencesService.ClearThumbnailCache)
+            {
+                var fileSystemService = IoC.IoCContainer.GetInstance<IFileSystemService>();
+
+                if (fileSystemService.ClearThumbnailCache())
+                {
+                    preferencesService.ClearThumbnailCache = false;
+                }
+            }
+        }
 	}
 }
