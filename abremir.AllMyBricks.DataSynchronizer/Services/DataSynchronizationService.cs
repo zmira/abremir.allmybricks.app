@@ -5,7 +5,7 @@ using System;
 
 namespace abremir.AllMyBricks.DataSynchronizer.Services
 {
-    public class DataSynchronizerService : IDataSynchronizerService
+    public class DataSynchronizationService : IDataSynchronizationService
     {
         private readonly IThemeSynchronizer _themeSynchronizer;
         private readonly ISubthemeSynchronizer _subthemeSynchronizer;
@@ -13,7 +13,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Services
         private readonly IInsightsRepository _insightsRepository;
         private readonly IOnboardingService _onboardingService;
 
-        public DataSynchronizerService(
+        public DataSynchronizationService(
             IThemeSynchronizer themeSynchronizer,
             ISubthemeSynchronizer subthemeSynchronizer,
             ISetSynchronizer setSynchronizer,
