@@ -44,5 +44,18 @@ namespace abremir.AllMyBricks.Device.Services
 
             _file.WriteAllBytes(Path.Combine(GetThumbnailFolder(theme, subtheme), filename), thumbnail);
         }
+
+        public bool ClearThumbnailCache()
+        {
+            try
+            {
+                Directory.Delete(ThumbnailCacheFolder, true);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
     }
 }
