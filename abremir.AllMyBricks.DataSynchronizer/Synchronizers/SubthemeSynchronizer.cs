@@ -4,7 +4,9 @@ using abremir.AllMyBricks.DataSynchronizer.Extensions;
 using abremir.AllMyBricks.DataSynchronizer.Interfaces;
 using abremir.AllMyBricks.ThirdParty.Brickset.Interfaces;
 using abremir.AllMyBricks.ThirdParty.Brickset.Models;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
 {
@@ -12,6 +14,12 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
     {
         private readonly IBricksetApiService _bricksetApiService;
         private readonly ISubthemeRepository _subthemeRepository;
+
+        public event EventHandler SubthemeSynchronizerStart;
+        public event EventHandler SubthemeSynchronizerEnd;
+        public event EventHandler<int> SubthemesAcquired;
+        public event EventHandler<string> SynchronizingSubtheme;
+        public event EventHandler<string> SynchronizedSubtheme;
 
         public SubthemeSynchronizer(
             IBricksetApiService bricksetApiService,
@@ -23,6 +31,8 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
 
         public IEnumerable<Subtheme> Synchronize(string apiKey, Theme theme)
         {
+            SubthemeSynchronizerStart?.Invoke(this, null);
+
             var subthemes = new List<Subtheme>();
 
             var getSubthemesParameters = new ParameterTheme
@@ -31,9 +41,14 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                 Theme = theme.Name
             };
 
-            foreach (var bricksetSubtheme in _bricksetApiService
-                .GetSubthemes(getSubthemesParameters))
+            var bricksetSubthemes = _bricksetApiService.GetSubthemes(getSubthemesParameters).ToList();
+
+            SubthemesAcquired?.Invoke(this, bricksetSubthemes.Count);
+
+            foreach (var bricksetSubtheme in bricksetSubthemes)
             {
+                SynchronizingSubtheme?.Invoke(this, bricksetSubtheme.Subtheme);
+
                 var subtheme = bricksetSubtheme.ToSubtheme();
 
                 subthemes.Add(subtheme);
@@ -41,7 +56,11 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                 subtheme.Theme = theme;
 
                 _subthemeRepository.AddOrUpdate(subtheme);
+
+                SynchronizedSubtheme?.Invoke(this, bricksetSubtheme.Subtheme);
             }
+
+            SubthemeSynchronizerEnd?.Invoke(this, null);
 
             return subthemes;
         }

@@ -13,6 +13,13 @@ namespace abremir.AllMyBricks.DataSynchronizer.Services
         private readonly IInsightsRepository _insightsRepository;
         private readonly IOnboardingService _onboardingService;
 
+        public event EventHandler DataSynchronizationStart;
+        public event EventHandler DataSynchronizationEnd;
+        public event EventHandler<string> ProcessingTheme;
+        public event EventHandler<string> ProcessedTheme;
+        public event EventHandler<string> ProcessingSubtheme;
+        public event EventHandler<string> ProcessedSubtheme;
+
         public DataSynchronizationService(
             IThemeSynchronizer themeSynchronizer,
             ISubthemeSynchronizer subthemeSynchronizer,
@@ -29,6 +36,8 @@ namespace abremir.AllMyBricks.DataSynchronizer.Services
 
         public void SynchronizeAllSetData()
         {
+            DataSynchronizationStart?.Invoke(this, null);
+
             var apiKey = _onboardingService.GetBricksetApiKey();
 
             if (string.IsNullOrWhiteSpace(apiKey))
@@ -40,17 +49,25 @@ namespace abremir.AllMyBricks.DataSynchronizer.Services
 
             foreach (var theme in _themeSynchronizer.Synchronize(apiKey))
             {
+                ProcessingTheme?.Invoke(this, theme.Name);
+
                 var subthemes = _subthemeSynchronizer.Synchronize(apiKey, theme);
 
                 if (!dataSynchronizationTimestamp.HasValue)
                 {
                     foreach (var subtheme in subthemes)
                     {
+                        ProcessingSubtheme?.Invoke(this, subtheme.Name);
+
                         _setSynchronizer.Synchronize(apiKey, theme, subtheme);
+
+                        ProcessedSubtheme?.Invoke(this, subtheme.Name);
                     }
 
                     _insightsRepository.UpdateDataSynchronizationTimestamp(DateTimeOffset.Now);
                 }
+
+                ProcessedTheme?.Invoke(this, theme.Name);
             }
 
             if (dataSynchronizationTimestamp.HasValue)
@@ -58,6 +75,8 @@ namespace abremir.AllMyBricks.DataSynchronizer.Services
                 _setSynchronizer.Synchronize(apiKey, dataSynchronizationTimestamp.Value);
                 _insightsRepository.UpdateDataSynchronizationTimestamp(DateTimeOffset.Now);
             }
+
+            DataSynchronizationEnd?.Invoke(this, null);
         }
     }
 }

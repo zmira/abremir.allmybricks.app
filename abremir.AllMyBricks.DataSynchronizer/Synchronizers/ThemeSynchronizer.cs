@@ -4,6 +4,7 @@ using abremir.AllMyBricks.DataSynchronizer.Extensions;
 using abremir.AllMyBricks.DataSynchronizer.Interfaces;
 using abremir.AllMyBricks.ThirdParty.Brickset.Interfaces;
 using abremir.AllMyBricks.ThirdParty.Brickset.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -13,6 +14,12 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
     {
         private readonly IBricksetApiService _bricksetApiService;
         private readonly IThemeRepository _themeRepository;
+
+        public event EventHandler ThemeSynchronizerStart;
+        public event EventHandler ThemeSynchronizerEnd;
+        public event EventHandler<int> ThemesAcquired;
+        public event EventHandler<string> SynchronizingTheme;
+        public event EventHandler<string> SynchronizedTheme;
 
         public ThemeSynchronizer(
             IBricksetApiService bricksetService,
@@ -24,6 +31,8 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
 
         public IEnumerable<Theme> Synchronize(string apiKey)
         {
+            ThemeSynchronizerStart?.Invoke(this, null);
+
             var themeList = new List<Theme>();
 
             var getThemesParameters = new ParameterApiKey
@@ -31,9 +40,14 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                 ApiKey = apiKey
             };
 
-            foreach (var bricksetTheme in _bricksetApiService
-                .GetThemes(getThemesParameters))
+            var bricksetThemes = _bricksetApiService.GetThemes(getThemesParameters).ToList();
+
+            ThemesAcquired?.Invoke(this, bricksetThemes.Count);
+
+            foreach (var bricksetTheme in bricksetThemes)
             {
+                SynchronizingTheme?.Invoke(this, bricksetTheme.Theme);
+
                 var theme = bricksetTheme.ToTheme();
 
                 var getYearsParameters = new ParameterTheme
@@ -50,7 +64,11 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                 themeList.Add(theme);
 
                 _themeRepository.AddOrUpdate(theme);
+
+                SynchronizedTheme?.Invoke(this, bricksetTheme.Theme);
             }
+
+            ThemeSynchronizerEnd?.Invoke(this, null);
 
             return themeList;
         }

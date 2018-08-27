@@ -22,6 +22,12 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
         private readonly IPreferencesService _preferencesService;
         private readonly IThumbnailSynchronizer _thumbnailSynchronizer;
 
+        public event EventHandler SetSynchronizerStart;
+        public event EventHandler SetSynchronizerEnd;
+        public event EventHandler<int> SetsAcquired;
+        public event EventHandler<string> SynchronizingSet;
+        public event EventHandler<string> SynchronizedSet;
+
         public SetSynchronizer(
             IBricksetApiService bricksetApiService,
             ISetRepository setRepository,
@@ -42,6 +48,8 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
 
         public void Synchronize(string apiKey, Theme theme, Subtheme subtheme)
         {
+            SetSynchronizerStart?.Invoke(this, null);
+
             for (var year = subtheme.YearFrom; year <= subtheme.YearTo; year++)
             {
                 var getSetsParameters = new ParameterSets
@@ -52,32 +60,38 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                     Year = year.ToString()
                 };
 
-                var bricksetSets = _bricksetApiService
-                    .GetSets(getSetsParameters).ToList();
+                var bricksetSets = _bricksetApiService.GetSets(getSetsParameters).ToList();
+
+                SetsAcquired?.Invoke(this, bricksetSets.Count);
 
                 foreach (var bricksetSet in bricksetSets)
                 {
                     AddOrUpdateSet(apiKey, theme, subtheme, bricksetSet);
                 }
             }
+
+            SetSynchronizerEnd?.Invoke(this, null);
         }
 
         public void Synchronize(string apiKey, DateTimeOffset previousUpdateTimestamp)
         {
+            SetSynchronizerStart?.Invoke(this, null);
+
             var getRecentlyUpdatedSetsParameters = new ParameterMinutesAgo
             {
                 ApiKey = apiKey,
                 MinutesAgo = (int)(DateTimeOffset.Now - previousUpdateTimestamp).TotalMinutes
             };
 
-            foreach (var themeGroup in _bricksetApiService
-                .GetRecentlyUpdatedSets(getRecentlyUpdatedSetsParameters)
-                .GroupBy(bricksetSet => bricksetSet.Theme))
+            var recentlyUpdatedSets = _bricksetApiService.GetRecentlyUpdatedSets(getRecentlyUpdatedSetsParameters).ToList();
+
+            SetsAcquired?.Invoke(this, recentlyUpdatedSets.Count);
+
+            foreach (var themeGroup in recentlyUpdatedSets.GroupBy(bricksetSet => bricksetSet.Theme))
             {
                 var theme = _themeRepository.Get(themeGroup.Key);
 
-                foreach (var subthemeGroup in themeGroup
-                    .GroupBy(themeSets => themeSets.Subtheme))
+                foreach (var subthemeGroup in themeGroup.GroupBy(themeSets => themeSets.Subtheme))
                 {
                     var subtheme = _subthemeRepository.Get(theme.Name, subthemeGroup.Key);
 
@@ -87,6 +101,8 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                     }
                 }
             }
+
+            SetSynchronizerEnd?.Invoke(this, null);
         }
 
         private Sets Synchronize(string apiKey, long setId)
@@ -102,6 +118,10 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
 
         private void AddOrUpdateSet(string apiKey, Theme theme, Subtheme subtheme, Sets bricksetSet)
         {
+            var eventIdentifier = $"{bricksetSet.Number}-{bricksetSet.NumberVariant} {bricksetSet.Name}";
+
+            SynchronizingSet?.Invoke(this, eventIdentifier);
+
             if (_preferencesService.RetrieveFullSetDataOnSynchronization)
             {
                 bricksetSet = Synchronize(apiKey, bricksetSet.SetId);
@@ -117,6 +137,8 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
             _setRepository.AddOrUpdate(set);
 
             _thumbnailSynchronizer.Synchronize(set, true);
+
+            SynchronizedSet?.Invoke(this, eventIdentifier);
         }
 
         private Set MapSet(string apiKey, Theme theme, Subtheme subtheme, Sets bricksetSet)
