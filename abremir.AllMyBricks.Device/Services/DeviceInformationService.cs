@@ -27,19 +27,9 @@ namespace abremir.AllMyBricks.Device.Services
                 DeviceHashDate = DateTimeOffset.Now
             };
 
-            device.DeviceHash = GetDeviceHash(device);
+            device.DeviceHash = SHA256Hash.GetDeviceHash(device);
 
             return device;
-        }
-
-        private string GetDeviceHash(Core.Models.Device device)
-        {
-            return Convert
-                .ToBase64String(
-                    SHA256Hash.ComputeHash(
-                        $"{device.AppId}_{device.Manufacturer}_{device.Model}_{device.Version}_{device.Platform}_{device.Idiom}"
-                    )
-                );
         }
     }
 }

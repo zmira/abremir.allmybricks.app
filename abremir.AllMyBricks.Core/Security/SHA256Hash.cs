@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -27,6 +28,16 @@ namespace abremir.AllMyBricks.Core.Security
                     )
                 )
             );
+        }
+
+        public static string GetDeviceHash(Models.Device device)
+        {
+            return Convert
+                .ToBase64String(
+                    ComputeHash(
+                        $"{device.AppId}_{device.Manufacturer}_{device.Model}_{device.Version}_{device.Platform}_{device.Idiom}"
+                    )
+                );
         }
     }
 }
