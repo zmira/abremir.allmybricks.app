@@ -8,9 +8,16 @@ namespace abremir.AllMyBricks.Onboarding.Services
 {
     public class RegistrationService : IRegistrationService
     {
+        private readonly string _allMyBricksOnboardingRegistrationServiceUrl;
+
+        public RegistrationService(string allMyBricksOnboardingUrl)
+        {
+            _allMyBricksOnboardingRegistrationServiceUrl = $"{allMyBricksOnboardingUrl}{Constants.AllMyBricksOnboardingRegistrationService}";
+        }
+
         public Identification Register(Identification allMyBricksIdentification)
         {
-            return Constants.AllMyBricksOnboardingRegistrationService
+            return _allMyBricksOnboardingRegistrationServiceUrl
                 .AppendPathSegment(Constants.AllMyBricksOnboardingRegistrationServiceRegisterMethod)
                 .PostJsonAsync(allMyBricksIdentification)
                 .ReceiveJson<Identification>()
@@ -19,7 +26,7 @@ namespace abremir.AllMyBricks.Onboarding.Services
 
         public void Unregister(Identification allMyBricksIdentification)
         {
-            Constants.AllMyBricksOnboardingRegistrationService
+            _allMyBricksOnboardingRegistrationServiceUrl
                 .AppendPathSegment(Constants.AllMyBricksOnboardingRegistrationServiceUnregisterMethod)
                 .PostJsonAsync(allMyBricksIdentification);
         }

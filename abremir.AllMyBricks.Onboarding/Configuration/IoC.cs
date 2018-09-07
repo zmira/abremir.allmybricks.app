@@ -6,12 +6,12 @@ namespace abremir.AllMyBricks.Onboarding.Configuration
 {
     public static class IoC
     {
-        public static Container Configure(Container container = null)
+        public static Container Configure(string allMyBricksOnboardingUrl, Container container = null)
         {
             container = container ?? new Container();
 
-            container.Register<IApiKeyService, ApiKeyService>(Lifestyle.Transient);
-            container.Register<IRegistrationService, RegistrationService>(Lifestyle.Transient);
+            container.Register<IApiKeyService>(() => new ApiKeyService(allMyBricksOnboardingUrl), Lifestyle.Transient);
+            container.Register<IRegistrationService>(() => new RegistrationService(allMyBricksOnboardingUrl), Lifestyle.Transient);
             container.Register<IOnboardingService, OnboardingService>(Lifestyle.Transient);
 
             return container;

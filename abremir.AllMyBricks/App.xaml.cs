@@ -16,7 +16,9 @@ namespace abremir.AllMyBricks
 		protected override void OnStart ()
 		{
             // Handle when your app starts
-            IoC.Configure();
+            var allMyBricksOnboardingUrl = string.Empty;
+
+            IoC.Configure(allMyBricksOnboardingUrl);
 
             ClearThumbnailCacheIfRequired();
         }

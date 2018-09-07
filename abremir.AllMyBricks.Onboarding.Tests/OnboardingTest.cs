@@ -20,8 +20,10 @@ namespace abremir.AllMyBricks.Onboarding.Tests
         [TestInitialize]
         public void TestInitialize()
         {
-            _registrationService = new RegistrationService();
-            _apiKeyService = new ApiKeyService();
+            const string allMyBricksOnboardingUrl = "http://localhost/";
+
+            _registrationService = new RegistrationService(allMyBricksOnboardingUrl);
+            _apiKeyService = new ApiKeyService(allMyBricksOnboardingUrl);
 
             var deviceInfo = Substitute.For<IDeviceInfo>();
             deviceInfo.Manufacturer.Returns("BRAND");

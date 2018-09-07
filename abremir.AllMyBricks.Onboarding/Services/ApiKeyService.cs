@@ -13,6 +13,13 @@ namespace abremir.AllMyBricks.Onboarding.Services
 {
     public class ApiKeyService : IApiKeyService
     {
+        private readonly string _allMyBricksOnboardingApiKeyServiceUrl;
+
+        public ApiKeyService(string allMyBricksOnboardingUrl)
+        {
+            _allMyBricksOnboardingApiKeyServiceUrl = $"{allMyBricksOnboardingUrl}{Constants.AllMyBricksOnboardingApiKeyService}";
+        }
+
         public string GetBricksetApiKey(Identification allMyBricksIdentification)
         {
             var client = new FlurlClient().Configure(settings => settings.HttpClientFactory = new HmacDelegatingHandlerHttpClientFactory());
@@ -21,7 +28,7 @@ namespace abremir.AllMyBricks.Onboarding.Services
 
             apiKeyRequest.KeyOption = RandomKeyOptionGenerator.GetRandomKeyOption();
 
-            var responseApiKeyResult = Constants.AllMyBricksOnboardingApiKeyService
+            var responseApiKeyResult = _allMyBricksOnboardingApiKeyServiceUrl
                 .AppendPathSegment(Constants.AllMyBricksOnboardingApiKeyServiceBricksetMethod)
                 .WithClient(client)
                 .PostJsonAsync(apiKeyRequest)
