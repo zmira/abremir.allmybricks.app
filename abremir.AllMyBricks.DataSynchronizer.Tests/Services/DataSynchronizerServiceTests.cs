@@ -29,7 +29,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Services
             _insightsRepository = Substitute.For<IInsightsRepository>();
             _onboardingService = Substitute.For<IOnboardingService>();
 
-            _dataSynchronizationService = new DataSynchronizationService(_themeSynchronizer, _subthemeSynchronizer, _setSynchronizer, _insightsRepository, _onboardingService);
+            _dataSynchronizationService = new DataSynchronizationService(_themeSynchronizer, _subthemeSynchronizer, _setSynchronizer, _insightsRepository, _onboardingService, Substitute.For<IDataSynchronizerEventManager>());
         }
 
         [DataTestMethod]

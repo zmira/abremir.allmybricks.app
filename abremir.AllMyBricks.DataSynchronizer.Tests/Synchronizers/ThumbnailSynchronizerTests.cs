@@ -1,4 +1,5 @@
 ﻿using abremir.AllMyBricks.Data.Models;
+using abremir.AllMyBricks.DataSynchronizer.Interfaces;
 using abremir.AllMyBricks.DataSynchronizer.Synchronizers;
 using abremir.AllMyBricks.Device.Enumerations;
 using abremir.AllMyBricks.Device.Interfaces;
@@ -25,7 +26,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
             _preferencesService = Substitute.For<IPreferencesService>();
             _fileSystemService = Substitute.For<IFileSystemService>();
 
-            _thumbnailSynchronizer = new ThumbnailSynchronizer(_preferencesService, _fileSystemService);
+            _thumbnailSynchronizer = new ThumbnailSynchronizer(_preferencesService, _fileSystemService, Substitute.For<IDataSynchronizerEventManager>());
         }
 
         [TestCleanup]

@@ -1,5 +1,6 @@
 ﻿using abremir.AllMyBricks.Data.Interfaces;
 using abremir.AllMyBricks.Data.Repositories;
+using abremir.AllMyBricks.DataSynchronizer.Interfaces;
 using abremir.AllMyBricks.DataSynchronizer.Synchronizers;
 using abremir.AllMyBricks.DataSynchronizer.Tests.Configuration;
 using abremir.AllMyBricks.DataSynchronizer.Tests.Shared;
@@ -72,7 +73,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
         {
             bricksetApiService = bricksetApiService ?? Substitute.For<IBricksetApiService>();
 
-            return new ThemeSynchronizer(bricksetApiService, _themeRepository);
+            return new ThemeSynchronizer(bricksetApiService, _themeRepository, Substitute.For<IDataSynchronizerEventManager>());
         }
     }
 }
