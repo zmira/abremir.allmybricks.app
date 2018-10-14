@@ -9,7 +9,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Extensions
         {
             return new Theme
             {
-                Name = source.Theme,
+                Name = source.Theme.Trim(),
                 SetCount = (short)source.SetCount,
                 SubthemeCount = (short)source.SubthemeCount,
                 YearFrom = (short)source.YearFrom,
