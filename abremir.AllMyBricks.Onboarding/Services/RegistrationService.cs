@@ -12,7 +12,7 @@ namespace abremir.AllMyBricks.Onboarding.Services
 
         public RegistrationService(string allMyBricksOnboardingUrl)
         {
-            _allMyBricksOnboardingRegistrationServiceUrl = $"{allMyBricksOnboardingUrl}{Constants.AllMyBricksOnboardingRegistrationService}";
+            _allMyBricksOnboardingRegistrationServiceUrl = $"{allMyBricksOnboardingUrl}api/{Constants.AllMyBricksOnboardingRegistrationService}";
         }
 
         public Identification Register(Identification allMyBricksIdentification)

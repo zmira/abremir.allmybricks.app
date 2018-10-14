@@ -17,7 +17,7 @@ namespace abremir.AllMyBricks.Onboarding.Services
 
         public ApiKeyService(string allMyBricksOnboardingUrl)
         {
-            _allMyBricksOnboardingApiKeyServiceUrl = $"{allMyBricksOnboardingUrl}{Constants.AllMyBricksOnboardingApiKeyService}";
+            _allMyBricksOnboardingApiKeyServiceUrl = $"{allMyBricksOnboardingUrl}api/{Constants.AllMyBricksOnboardingApiKeyService}";
         }
 
         public string GetBricksetApiKey(Identification allMyBricksIdentification)
