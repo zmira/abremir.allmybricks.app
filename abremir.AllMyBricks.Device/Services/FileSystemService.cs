@@ -42,7 +42,14 @@ namespace abremir.AllMyBricks.Device.Services
                 return;
             }
 
-            _file.WriteAllBytes(Path.Combine(GetThumbnailFolder(theme, subtheme), filename), thumbnail);
+            var thumbnailFolder = GetThumbnailFolder(theme, subtheme);
+
+            if (!Directory.Exists(thumbnailFolder))
+            {
+                Directory.CreateDirectory(thumbnailFolder);
+            }
+
+            _file.WriteAllBytes(Path.Combine(thumbnailFolder, filename), thumbnail);
         }
 
         public bool ClearThumbnailCache()
@@ -55,6 +62,16 @@ namespace abremir.AllMyBricks.Device.Services
             catch
             {
                 return false;
+            }
+        }
+
+        public void EnsureLocalDataFolder()
+        {
+            var localDataFolder = GetLocalPathToFile(null);
+
+            if (!Directory.Exists(localDataFolder))
+            {
+                Directory.CreateDirectory(localDataFolder);
             }
         }
     }

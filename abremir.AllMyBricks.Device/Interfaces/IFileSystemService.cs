@@ -2,6 +2,7 @@
 {
     public interface IFileSystemService
     {
+        void EnsureLocalDataFolder();
         string ThumbnailCacheFolder { get; }
         string GetLocalPathToFile(string filename, string subfolder = null);
         string GetThumbnailFolder(string theme, string subtheme);
