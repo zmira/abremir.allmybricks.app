@@ -16,6 +16,8 @@ namespace abremir.AllMyBricks.Configuration
             Onboarding.Configuration.IoC.Configure(allMyBricksOnboardingUrl, IoCContainer);
             DataSynchronizer.Configuration.IoC.Configure(IoCContainer);
 
+            Onboarding.Configuration.FlurlConfiguration.Configure();
+
             return IoCContainer;
         }
     }

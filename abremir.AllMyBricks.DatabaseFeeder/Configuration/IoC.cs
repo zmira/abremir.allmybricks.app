@@ -15,12 +15,13 @@ namespace abremir.AllMyBricks.DatabaseFeeder.Configuration
             DataSynchronizer.Configuration.IoC.Configure(IoCContainer);
             ThirdParty.Brickset.Configuration.IoC.Configure(IoCContainer);
             Data.Configuration.IoC.Configure(IoCContainer);
-            Onboarding.Configuration.IoC.Configure(allMyBricksOnboardingUrl, IoCContainer);
 
             IoCContainer.Register<IPreferencesService, PreferencesService>(Lifestyle.Transient);
             IoCContainer.Register<ISecureStorageService, SecureStorageService>(Lifestyle.Transient);
             IoCContainer.Register<IDeviceInformationService, DeviceInformationService>(Lifestyle.Transient);
             IoCContainer.Register<IFileSystemService, FileSystemService>(Lifestyle.Transient);
+
+            Onboarding.Configuration.FlurlConfiguration.Configure();
         }
     }
 }
