@@ -53,7 +53,7 @@ namespace abremir.AllMyBricks.Data.Repositories
             managedSubtheme.Theme = subtheme.Theme == null
                 ? null
                 : repository.All<Managed.Theme>()
-                    .Filter($"Name ==[c] '{subtheme.Theme.Name}'")
+                    .Filter($"Name ==[c] '{subtheme.Theme.Name.Sanitize()}'")
                     .FirstOrDefault();
 
             return managedSubtheme;
@@ -75,7 +75,7 @@ namespace abremir.AllMyBricks.Data.Repositories
             }
 
             return GetQueryable()
-                .Filter($"Name ==[c] '{subthemeName}' && Theme.Name ==[c] '{themeName}'")
+                .Filter($"Name ==[c] '{subthemeName.Sanitize()}' && Theme.Name ==[c] '{themeName.Sanitize()}'")
                 .FirstOrDefault()
                 ?.ToPlainObject();
         }
@@ -88,7 +88,7 @@ namespace abremir.AllMyBricks.Data.Repositories
             }
 
             return GetQueryable()
-                .Filter($"Theme.Name ==[c] '{themeName}'")
+                .Filter($"Theme.Name ==[c] '{themeName.Sanitize()}'")
                 .AsEnumerable()
                 .ToPlainObjectEnumerable();
         }
