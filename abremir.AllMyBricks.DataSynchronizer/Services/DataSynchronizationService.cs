@@ -1,4 +1,5 @@
 ﻿using abremir.AllMyBricks.Data.Interfaces;
+using abremir.AllMyBricks.DataSynchronizer.Events.DataSynchronizationService;
 using abremir.AllMyBricks.DataSynchronizer.Interfaces;
 using abremir.AllMyBricks.Onboarding.Interfaces;
 using System;
@@ -12,71 +13,81 @@ namespace abremir.AllMyBricks.DataSynchronizer.Services
         private readonly ISetSynchronizer _setSynchronizer;
         private readonly IInsightsRepository _insightsRepository;
         private readonly IOnboardingService _onboardingService;
-
-        public event EventHandler DataSynchronizationStart;
-        public event EventHandler DataSynchronizationEnd;
-        public event EventHandler<string> ProcessingTheme;
-        public event EventHandler<string> ProcessedTheme;
-        public event EventHandler<string> ProcessingSubtheme;
-        public event EventHandler<string> ProcessedSubtheme;
+        private readonly IDataSynchronizerEventManager _dataSynchronizerEventHandler;
 
         public DataSynchronizationService(
             IThemeSynchronizer themeSynchronizer,
             ISubthemeSynchronizer subthemeSynchronizer,
             ISetSynchronizer setSynchronizer,
             IInsightsRepository insightsRepository,
-            IOnboardingService onboardingService)
+            IOnboardingService onboardingService,
+            IDataSynchronizerEventManager dataSynchronizerEventHandler)
         {
             _themeSynchronizer = themeSynchronizer;
             _subthemeSynchronizer = subthemeSynchronizer;
             _setSynchronizer = setSynchronizer;
             _insightsRepository = insightsRepository;
             _onboardingService = onboardingService;
+            _dataSynchronizerEventHandler = dataSynchronizerEventHandler;
         }
 
         public void SynchronizeAllSetData()
         {
-            DataSynchronizationStart?.Invoke(this, null);
+            _dataSynchronizerEventHandler.Raise(new DataSynchronizationStart());
 
-            var apiKey = _onboardingService.GetBricksetApiKey();
-
-            if (string.IsNullOrWhiteSpace(apiKey))
+            try
             {
-                return;
-            }
+                var apiKey = _onboardingService.GetBricksetApiKey();
 
-            var dataSynchronizationTimestamp = _insightsRepository.GetDataSynchronizationTimestamp();
-
-            foreach (var theme in _themeSynchronizer.Synchronize(apiKey))
-            {
-                ProcessingTheme?.Invoke(this, theme.Name);
-
-                var subthemes = _subthemeSynchronizer.Synchronize(apiKey, theme);
-
-                if (!dataSynchronizationTimestamp.HasValue)
+                if (string.IsNullOrWhiteSpace(apiKey))
                 {
-                    foreach (var subtheme in subthemes)
-                    {
-                        ProcessingSubtheme?.Invoke(this, subtheme.Name);
-
-                        _setSynchronizer.Synchronize(apiKey, theme, subtheme);
-
-                        ProcessedSubtheme?.Invoke(this, subtheme.Name);
-                    }
-
-                    _insightsRepository.UpdateDataSynchronizationTimestamp(DateTimeOffset.Now);
+                    return;
                 }
 
-                ProcessedTheme?.Invoke(this, theme.Name);
-            }
+                var dataSynchronizationTimestamp = _insightsRepository.GetDataSynchronizationTimestamp();
 
-            if (dataSynchronizationTimestamp.HasValue)
+                foreach (var theme in _themeSynchronizer.Synchronize(apiKey))
+                {
+                    _dataSynchronizerEventHandler.Raise(new ProcessingTheme { Name = theme.Name });
+
+                    try
+                    {
+                        var subthemes = _subthemeSynchronizer.Synchronize(apiKey, theme);
+
+                        if (!dataSynchronizationTimestamp.HasValue)
+                        {
+                            foreach (var subtheme in subthemes)
+                            {
+                                _dataSynchronizerEventHandler.Raise(new ProcessingSubtheme { Name = subtheme.Name });
+
+                                _setSynchronizer.Synchronize(apiKey, theme, subtheme);
+
+                                _dataSynchronizerEventHandler.Raise(new ProcessedSubtheme { Name = subtheme.Name });
+                            }
+
+                            _insightsRepository.UpdateDataSynchronizationTimestamp(DateTimeOffset.Now);
+                        }
+                    }
+                    catch(Exception ex)
+                    {
+                        _dataSynchronizerEventHandler.Raise(new ProcessingThemeException { Name = theme.Name, Exception = ex });
+                    }
+
+                    _dataSynchronizerEventHandler.Raise(new ProcessedTheme { Name = theme.Name });
+                }
+
+                if (dataSynchronizationTimestamp.HasValue)
+                {
+                    _setSynchronizer.Synchronize(apiKey, dataSynchronizationTimestamp.Value);
+                    _insightsRepository.UpdateDataSynchronizationTimestamp(DateTimeOffset.Now);
+                }
+            }
+            catch(Exception ex)
             {
-                _setSynchronizer.Synchronize(apiKey, dataSynchronizationTimestamp.Value);
-                _insightsRepository.UpdateDataSynchronizationTimestamp(DateTimeOffset.Now);
+                _dataSynchronizerEventHandler.Raise(new DataSynchronizationException { Exception = ex });
             }
 
-            DataSynchronizationEnd?.Invoke(this, null);
+            _dataSynchronizerEventHandler.Raise(new DataSynchronizationEnd());
         }
     }
 }

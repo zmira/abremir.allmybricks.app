@@ -1,5 +1,6 @@
 ﻿using abremir.AllMyBricks.Data.Interfaces;
 using abremir.AllMyBricks.Data.Models;
+using abremir.AllMyBricks.DataSynchronizer.Events.ThemeSynchronizer;
 using abremir.AllMyBricks.DataSynchronizer.Extensions;
 using abremir.AllMyBricks.DataSynchronizer.Interfaces;
 using abremir.AllMyBricks.ThirdParty.Brickset.Interfaces;
@@ -14,61 +15,72 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
     {
         private readonly IBricksetApiService _bricksetApiService;
         private readonly IThemeRepository _themeRepository;
-
-        public event EventHandler ThemeSynchronizerStart;
-        public event EventHandler ThemeSynchronizerEnd;
-        public event EventHandler<int> ThemesAcquired;
-        public event EventHandler<string> SynchronizingTheme;
-        public event EventHandler<string> SynchronizedTheme;
+        private readonly IDataSynchronizerEventManager _dataSynchronizerEventHandler;
 
         public ThemeSynchronizer(
             IBricksetApiService bricksetService,
-            IThemeRepository themeRepository)
+            IThemeRepository themeRepository,
+            IDataSynchronizerEventManager dataSynchronizerEventHandler)
         {
             _bricksetApiService = bricksetService;
             _themeRepository = themeRepository;
+            _dataSynchronizerEventHandler = dataSynchronizerEventHandler;
         }
 
         public IEnumerable<Theme> Synchronize(string apiKey)
         {
-            ThemeSynchronizerStart?.Invoke(this, null);
+            _dataSynchronizerEventHandler.Raise(new ThemeSynchronizerStart());
 
             var themeList = new List<Theme>();
 
-            var getThemesParameters = new ParameterApiKey
+            try
             {
-                ApiKey = apiKey
-            };
-
-            var bricksetThemes = _bricksetApiService.GetThemes(getThemesParameters).ToList();
-
-            ThemesAcquired?.Invoke(this, bricksetThemes.Count);
-
-            foreach (var bricksetTheme in bricksetThemes)
-            {
-                SynchronizingTheme?.Invoke(this, bricksetTheme.Theme);
-
-                var theme = bricksetTheme.ToTheme();
-
-                var getYearsParameters = new ParameterTheme
+                var getThemesParameters = new ParameterApiKey
                 {
-                    ApiKey = apiKey,
-                    Theme = bricksetTheme.Theme
+                    ApiKey = apiKey
                 };
 
-                theme.SetCountPerYear = _bricksetApiService
-                    .GetYears(getYearsParameters)
-                    .ToYearSetCountEnumerable()
-                    .ToList();
+                var bricksetThemes = _bricksetApiService.GetThemes(getThemesParameters).ToList();
 
-                themeList.Add(theme);
+                _dataSynchronizerEventHandler.Raise(new ThemesAcquired { Count = bricksetThemes.Count });
 
-                _themeRepository.AddOrUpdate(theme);
+                foreach (var bricksetTheme in bricksetThemes)
+                {
+                    _dataSynchronizerEventHandler.Raise(new SynchronizingTheme { Name = bricksetTheme.Theme });
 
-                SynchronizedTheme?.Invoke(this, bricksetTheme.Theme);
+                    try
+                    {
+                        var theme = bricksetTheme.ToTheme();
+
+                        var getYearsParameters = new ParameterTheme
+                        {
+                            ApiKey = apiKey,
+                            Theme = bricksetTheme.Theme
+                        };
+
+                        theme.SetCountPerYear = _bricksetApiService
+                            .GetYears(getYearsParameters)
+                            .ToYearSetCountEnumerable()
+                            .ToList();
+
+                        themeList.Add(theme);
+
+                        _themeRepository.AddOrUpdate(theme);
+                    }
+                    catch (Exception ex)
+                    {
+                        _dataSynchronizerEventHandler.Raise(new SynchronizingThemeException { Name = bricksetTheme.Theme, Exception = ex });
+                    }
+
+                    _dataSynchronizerEventHandler.Raise(new SynchronizedTheme { Name = bricksetTheme.Theme });
+                }
+            }
+            catch(Exception ex)
+            {
+                _dataSynchronizerEventHandler.Raise(new ThemeSynchronizerException { Exception = ex });
             }
 
-            ThemeSynchronizerEnd?.Invoke(this, null);
+            _dataSynchronizerEventHandler.Raise(new ThemeSynchronizerEnd());
 
             return themeList;
         }

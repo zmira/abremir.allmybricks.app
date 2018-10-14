@@ -1,5 +1,6 @@
 ﻿using abremir.AllMyBricks.Data.Interfaces;
 using abremir.AllMyBricks.Data.Models;
+using abremir.AllMyBricks.DataSynchronizer.Events.SubthemeSynchronizer;
 using abremir.AllMyBricks.DataSynchronizer.Extensions;
 using abremir.AllMyBricks.DataSynchronizer.Interfaces;
 using abremir.AllMyBricks.ThirdParty.Brickset.Interfaces;
@@ -14,53 +15,64 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
     {
         private readonly IBricksetApiService _bricksetApiService;
         private readonly ISubthemeRepository _subthemeRepository;
-
-        public event EventHandler SubthemeSynchronizerStart;
-        public event EventHandler SubthemeSynchronizerEnd;
-        public event EventHandler<int> SubthemesAcquired;
-        public event EventHandler<string> SynchronizingSubtheme;
-        public event EventHandler<string> SynchronizedSubtheme;
+        private readonly IDataSynchronizerEventManager _dataSynchronizerEventHandler;
 
         public SubthemeSynchronizer(
             IBricksetApiService bricksetApiService,
-            ISubthemeRepository subthemeRepository)
+            ISubthemeRepository subthemeRepository,
+            IDataSynchronizerEventManager dataSynchronizerEventHandler)
         {
             _bricksetApiService = bricksetApiService;
             _subthemeRepository = subthemeRepository;
+            _dataSynchronizerEventHandler = dataSynchronizerEventHandler;
         }
 
         public IEnumerable<Subtheme> Synchronize(string apiKey, Theme theme)
         {
-            SubthemeSynchronizerStart?.Invoke(this, null);
+            _dataSynchronizerEventHandler.Raise(new SubthemeSynchronizerStart());
 
             var subthemes = new List<Subtheme>();
 
-            var getSubthemesParameters = new ParameterTheme
+            try
             {
-                ApiKey = apiKey,
-                Theme = theme.Name
-            };
+                var getSubthemesParameters = new ParameterTheme
+                {
+                    ApiKey = apiKey,
+                    Theme = theme.Name
+                };
 
-            var bricksetSubthemes = _bricksetApiService.GetSubthemes(getSubthemesParameters).ToList();
+                var bricksetSubthemes = _bricksetApiService.GetSubthemes(getSubthemesParameters).ToList();
 
-            SubthemesAcquired?.Invoke(this, bricksetSubthemes.Count);
+                _dataSynchronizerEventHandler.Raise(new SubthemesAcquired { Count = bricksetSubthemes.Count });
 
-            foreach (var bricksetSubtheme in bricksetSubthemes)
+                foreach (var bricksetSubtheme in bricksetSubthemes)
+                {
+                    _dataSynchronizerEventHandler.Raise(new SynchronizingSubtheme { Name = bricksetSubtheme.Subtheme });
+
+                    try
+                    {
+                        var subtheme = bricksetSubtheme.ToSubtheme();
+
+                        subthemes.Add(subtheme);
+
+                        subtheme.Theme = theme;
+
+                        _subthemeRepository.AddOrUpdate(subtheme);
+                    }
+                    catch(Exception ex)
+                    {
+                        _dataSynchronizerEventHandler.Raise(new SynchronizingSubthemeException { ThemeName = theme.Name, Name = bricksetSubtheme.Subtheme, Exception = ex });
+                    }
+
+                    _dataSynchronizerEventHandler.Raise(new SynchronizedSubtheme { Name = bricksetSubtheme.Subtheme });
+                }
+            }
+            catch(Exception ex)
             {
-                SynchronizingSubtheme?.Invoke(this, bricksetSubtheme.Subtheme);
-
-                var subtheme = bricksetSubtheme.ToSubtheme();
-
-                subthemes.Add(subtheme);
-
-                subtheme.Theme = theme;
-
-                _subthemeRepository.AddOrUpdate(subtheme);
-
-                SynchronizedSubtheme?.Invoke(this, bricksetSubtheme.Subtheme);
+                _dataSynchronizerEventHandler.Raise(new SubthemeSynchronizerException { Exception = ex });
             }
 
-            SubthemeSynchronizerEnd?.Invoke(this, null);
+            _dataSynchronizerEventHandler.Raise(new SubthemeSynchronizerEnd());
 
             return subthemes;
         }

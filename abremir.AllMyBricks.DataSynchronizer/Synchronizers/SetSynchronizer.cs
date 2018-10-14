@@ -1,6 +1,7 @@
 ﻿using abremir.AllMyBricks.Data.Enumerations;
 using abremir.AllMyBricks.Data.Interfaces;
 using abremir.AllMyBricks.Data.Models;
+using abremir.AllMyBricks.DataSynchronizer.Events.SetSynchronizer;
 using abremir.AllMyBricks.DataSynchronizer.Extensions;
 using abremir.AllMyBricks.DataSynchronizer.Interfaces;
 using abremir.AllMyBricks.Device.Interfaces;
@@ -21,12 +22,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
         private readonly ISubthemeRepository _subthemeRepository;
         private readonly IPreferencesService _preferencesService;
         private readonly IThumbnailSynchronizer _thumbnailSynchronizer;
-
-        public event EventHandler SetSynchronizerStart;
-        public event EventHandler SetSynchronizerEnd;
-        public event EventHandler<int> SetsAcquired;
-        public event EventHandler<string> SynchronizingSet;
-        public event EventHandler<string> SynchronizedSet;
+        private readonly IDataSynchronizerEventManager _dataSynchronizerEventHandler;
 
         public SetSynchronizer(
             IBricksetApiService bricksetApiService,
@@ -35,7 +31,8 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
             IThemeRepository themeRepository,
             ISubthemeRepository subthemeRepository,
             IPreferencesService preferencesService,
-            IThumbnailSynchronizer thumbnailSynchronizer)
+            IThumbnailSynchronizer thumbnailSynchronizer,
+            IDataSynchronizerEventManager dataSynchronizerEventHandler)
         {
             _bricksetApiService = bricksetApiService;
             _setRepository = setRepository;
@@ -44,65 +41,80 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
             _subthemeRepository = subthemeRepository;
             _preferencesService = preferencesService;
             _thumbnailSynchronizer = thumbnailSynchronizer;
+            _dataSynchronizerEventHandler = dataSynchronizerEventHandler;
         }
 
         public void Synchronize(string apiKey, Theme theme, Subtheme subtheme)
         {
-            SetSynchronizerStart?.Invoke(this, null);
+            _dataSynchronizerEventHandler.Raise(new SetSynchronizerStart());
 
             for (var year = subtheme.YearFrom; year <= subtheme.YearTo; year++)
             {
-                var getSetsParameters = new ParameterSets
+                try
                 {
-                    ApiKey = apiKey,
-                    Theme = theme.Name,
-                    Subtheme = subtheme.Name,
-                    Year = year.ToString()
-                };
+                    var getSetsParameters = new ParameterSets
+                    {
+                        ApiKey = apiKey,
+                        Theme = theme.Name,
+                        Subtheme = subtheme.Name.Replace("{None}", ""),
+                        Year = year.ToString()
+                    };
 
-                var bricksetSets = _bricksetApiService.GetSets(getSetsParameters).ToList();
+                    var bricksetSets = _bricksetApiService.GetSets(getSetsParameters).ToList();
 
-                SetsAcquired?.Invoke(this, bricksetSets.Count);
+                    _dataSynchronizerEventHandler.Raise(new SetsAcquired { Count = bricksetSets.Count, Year = year });
 
-                foreach (var bricksetSet in bricksetSets)
-                {
-                    AddOrUpdateSet(apiKey, theme, subtheme, bricksetSet);
-                }
-            }
-
-            SetSynchronizerEnd?.Invoke(this, null);
-        }
-
-        public void Synchronize(string apiKey, DateTimeOffset previousUpdateTimestamp)
-        {
-            SetSynchronizerStart?.Invoke(this, null);
-
-            var getRecentlyUpdatedSetsParameters = new ParameterMinutesAgo
-            {
-                ApiKey = apiKey,
-                MinutesAgo = (int)(DateTimeOffset.Now - previousUpdateTimestamp).TotalMinutes
-            };
-
-            var recentlyUpdatedSets = _bricksetApiService.GetRecentlyUpdatedSets(getRecentlyUpdatedSetsParameters).ToList();
-
-            SetsAcquired?.Invoke(this, recentlyUpdatedSets.Count);
-
-            foreach (var themeGroup in recentlyUpdatedSets.GroupBy(bricksetSet => bricksetSet.Theme))
-            {
-                var theme = _themeRepository.Get(themeGroup.Key);
-
-                foreach (var subthemeGroup in themeGroup.GroupBy(themeSets => themeSets.Subtheme))
-                {
-                    var subtheme = _subthemeRepository.Get(theme.Name, subthemeGroup.Key);
-
-                    foreach (var bricksetSet in subthemeGroup)
+                    foreach (var bricksetSet in bricksetSets)
                     {
                         AddOrUpdateSet(apiKey, theme, subtheme, bricksetSet);
                     }
                 }
+                catch(Exception ex)
+                {
+                    _dataSynchronizerEventHandler.Raise(new SetSynchronizerException { Exception = ex });
+                }
             }
 
-            SetSynchronizerEnd?.Invoke(this, null);
+            _dataSynchronizerEventHandler.Raise(new SetSynchronizerEnd());
+        }
+
+        public void Synchronize(string apiKey, DateTimeOffset previousUpdateTimestamp)
+        {
+            _dataSynchronizerEventHandler.Raise(new SetSynchronizerStart());
+
+            try
+            {
+                var getRecentlyUpdatedSetsParameters = new ParameterMinutesAgo
+                {
+                    ApiKey = apiKey,
+                    MinutesAgo = (int)(DateTimeOffset.Now - previousUpdateTimestamp).TotalMinutes
+                };
+
+                var recentlyUpdatedSets = _bricksetApiService.GetRecentlyUpdatedSets(getRecentlyUpdatedSetsParameters).ToList();
+
+                _dataSynchronizerEventHandler.Raise(new SetsAcquired { Count = recentlyUpdatedSets.Count });
+
+                foreach (var themeGroup in recentlyUpdatedSets.GroupBy(bricksetSet => bricksetSet.Theme))
+                {
+                    var theme = _themeRepository.Get(themeGroup.Key);
+
+                    foreach (var subthemeGroup in themeGroup.GroupBy(themeSets => themeSets.Subtheme))
+                    {
+                        var subtheme = _subthemeRepository.Get(theme.Name, subthemeGroup.Key);
+
+                        foreach (var bricksetSet in subthemeGroup)
+                        {
+                            AddOrUpdateSet(apiKey, theme, subtheme, bricksetSet);
+                        }
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+                _dataSynchronizerEventHandler.Raise(new SetSynchronizerException { Exception = ex });
+            }
+
+            _dataSynchronizerEventHandler.Raise(new SetSynchronizerEnd());
         }
 
         private Sets Synchronize(string apiKey, long setId)
@@ -120,25 +132,32 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
         {
             var eventIdentifier = $"{bricksetSet.Number}-{bricksetSet.NumberVariant} {bricksetSet.Name}";
 
-            SynchronizingSet?.Invoke(this, eventIdentifier);
+            _dataSynchronizerEventHandler.Raise(new SynchronizingSet { Identifier = eventIdentifier });
 
-            if (_preferencesService.RetrieveFullSetDataOnSynchronization)
+            try
             {
-                bricksetSet = Synchronize(apiKey, bricksetSet.SetId);
-
-                if(bricksetSet == null)
+                if (_preferencesService.RetrieveFullSetDataOnSynchronization)
                 {
-                    return;
+                    bricksetSet = Synchronize(apiKey, bricksetSet.SetId);
+
+                    if (bricksetSet == null)
+                    {
+                        return;
+                    }
                 }
+
+                var set = MapSet(apiKey, theme, subtheme, bricksetSet);
+
+                _setRepository.AddOrUpdate(set);
+
+                _thumbnailSynchronizer.Synchronize(set, true);
+            }
+            catch(Exception ex)
+            {
+                _dataSynchronizerEventHandler.Raise(new SynchronizingSetException { Identifier = eventIdentifier, Exception = ex });
             }
 
-            var set = MapSet(apiKey, theme, subtheme, bricksetSet);
-
-            _setRepository.AddOrUpdate(set);
-
-            _thumbnailSynchronizer.Synchronize(set, true);
-
-            SynchronizedSet?.Invoke(this, eventIdentifier);
+            _dataSynchronizerEventHandler.Raise(new SynchronizedSet { Identifier = eventIdentifier });
         }
 
         private Set MapSet(string apiKey, Theme theme, Subtheme subtheme, Sets bricksetSet)
