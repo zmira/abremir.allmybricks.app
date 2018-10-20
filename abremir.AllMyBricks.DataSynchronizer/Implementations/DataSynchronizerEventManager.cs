@@ -19,12 +19,19 @@ namespace abremir.AllMyBricks.DataSynchronizer.Implementations
                 _eventHandlers.Add(type, new List<Delegate>());
             }
 
-            _eventHandlers[typeof(T)].Add(eventHandler);
+            _eventHandlers[type].Add(eventHandler);
         }
 
         public void Raise<T>(T dataSynchronizerEvent) where T : IDataSynchronizerEvent
         {
-            foreach(var handler in _eventHandlers[dataSynchronizerEvent.GetType()])
+            var type = dataSynchronizerEvent.GetType();
+
+            if (!_eventHandlers.ContainsKey(type))
+            {
+                return;
+            }
+
+            foreach (var handler in _eventHandlers[type])
             {
                 var action = (Action<T>)handler;
 
