@@ -43,11 +43,11 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
 
                 var bricksetSubthemes = _bricksetApiService.GetSubthemes(getSubthemesParameters).ToList();
 
-                _dataSynchronizerEventHandler.Raise(new SubthemesAcquired { Count = bricksetSubthemes.Count });
+                _dataSynchronizerEventHandler.Raise(new SubthemesAcquired { Theme = theme.Name, Count = bricksetSubthemes.Count });
 
                 foreach (var bricksetSubtheme in bricksetSubthemes)
                 {
-                    _dataSynchronizerEventHandler.Raise(new SynchronizingSubtheme { Name = bricksetSubtheme.Subtheme });
+                    _dataSynchronizerEventHandler.Raise(new SynchronizingSubtheme { Theme = theme.Name, Subtheme = bricksetSubtheme.Subtheme });
 
                     try
                     {
@@ -61,15 +61,15 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                     }
                     catch(Exception ex)
                     {
-                        _dataSynchronizerEventHandler.Raise(new SynchronizingSubthemeException { ThemeName = theme.Name, Name = bricksetSubtheme.Subtheme, Exception = ex });
+                        _dataSynchronizerEventHandler.Raise(new SynchronizingSubthemeException { Theme = theme.Name, Subtheme = bricksetSubtheme.Subtheme, Exception = ex });
                     }
 
-                    _dataSynchronizerEventHandler.Raise(new SynchronizedSubtheme { Name = bricksetSubtheme.Subtheme });
+                    _dataSynchronizerEventHandler.Raise(new SynchronizedSubtheme { Theme = theme.Name, Subtheme = bricksetSubtheme.Subtheme });
                 }
             }
             catch(Exception ex)
             {
-                _dataSynchronizerEventHandler.Raise(new SubthemeSynchronizerException { Exception = ex });
+                _dataSynchronizerEventHandler.Raise(new SubthemeSynchronizerException { Theme = theme.Name, Exception = ex });
             }
 
             _dataSynchronizerEventHandler.Raise(new SubthemeSynchronizerEnd());

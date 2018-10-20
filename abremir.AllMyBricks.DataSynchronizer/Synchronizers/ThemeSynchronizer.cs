@@ -46,7 +46,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
 
                 foreach (var bricksetTheme in bricksetThemes)
                 {
-                    _dataSynchronizerEventHandler.Raise(new SynchronizingTheme { Name = bricksetTheme.Theme });
+                    _dataSynchronizerEventHandler.Raise(new SynchronizingTheme { Theme = bricksetTheme.Theme });
 
                     try
                     {
@@ -69,10 +69,10 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                     }
                     catch (Exception ex)
                     {
-                        _dataSynchronizerEventHandler.Raise(new SynchronizingThemeException { Name = bricksetTheme.Theme, Exception = ex });
+                        _dataSynchronizerEventHandler.Raise(new SynchronizingThemeException { Theme = bricksetTheme.Theme, Exception = ex });
                     }
 
-                    _dataSynchronizerEventHandler.Raise(new SynchronizedTheme { Name = bricksetTheme.Theme });
+                    _dataSynchronizerEventHandler.Raise(new SynchronizedTheme { Theme = bricksetTheme.Theme });
                 }
             }
             catch(Exception ex)
