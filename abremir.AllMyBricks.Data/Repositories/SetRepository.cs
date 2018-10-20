@@ -49,27 +49,27 @@ namespace abremir.AllMyBricks.Data.Repositories
             managedSet.Theme = set.Theme == null
                 ? null
                 : repository.All<Managed.Theme>()
-                    .Filter($"Name ==[c] '{set.Theme.Name.Sanitize()}'")
+                    .Filter($"Name ==[c] \"{set.Theme.Name.Trim()}\"")
                     .FirstOrDefault();
             managedSet.Subtheme = set.Subtheme == null
                 ? null
                 : repository.All<Managed.Subtheme>()
-                    .Filter($"Name ==[c] '{set.Subtheme.Name.Sanitize()}' && Theme.Name ==[c] '{set.Theme.Name.Sanitize()}'")
+                    .Filter($"Name ==[c] \"{set.Subtheme.Name.Trim()}\" && Theme.Name ==[c] \"{set.Theme.Name.Trim()}\"")
                     .FirstOrDefault();
             managedSet.ThemeGroup = set.ThemeGroup == null
                 ? null
                 : repository.All<Managed.ThemeGroup>()
-                    .Filter($"Value ==[c] '{set.ThemeGroup.Value.Sanitize()}'")
+                    .Filter($"Value ==[c] \"{set.ThemeGroup.Value.Trim()}\"")
                     .FirstOrDefault();
             managedSet.Category = set.Category == null
                 ? null
                 : repository.All<Managed.Category>()
-                    .Filter($"Value ==[c] '{set.Category.Value.Sanitize()}'")
+                    .Filter($"Value ==[c] \"{set.Category.Value.Trim()}\"")
                     .FirstOrDefault();
             managedSet.PackagingType = set.PackagingType == null
                 ? null
                 : repository.All<Managed.PackagingType>()
-                    .Filter($"Value ==[c] '{set.PackagingType.Value.Sanitize()}'")
+                    .Filter($"Value ==[c] \"{set.PackagingType.Value.Trim()}\"")
                     .FirstOrDefault();
 
             managedSet.Tags.Clear();
@@ -78,7 +78,7 @@ namespace abremir.AllMyBricks.Data.Repositories
                 .Where(tag => tag != null))
             {
                 var managedTag = repository.All<Managed.Tag>()
-                        .Filter($"Value ==[c] '{tag.Value.Sanitize()}'")
+                        .Filter($"Value ==[c] \"{tag.Value.Trim()}\"")
                         .FirstOrDefault();
                 if (managedTag != null)
                 {
@@ -116,7 +116,7 @@ namespace abremir.AllMyBricks.Data.Repositories
             }
 
             return GetQueryable()
-                .Filter($"Theme.Name ==[c] '{themeName.Sanitize()}'")
+                .Filter($"Theme.Name ==[c] \"{themeName.Trim()}\"")
                 .AsEnumerable()
                 .ToPlainObjectEnumerable();
         }
@@ -129,7 +129,7 @@ namespace abremir.AllMyBricks.Data.Repositories
             }
 
             return GetQueryable()
-                .Filter($"Theme.Name ==[c] '{themeName.Sanitize()}' && Subtheme.Name ==[c] '{subthemeName.Sanitize()}'")
+                .Filter($"Theme.Name ==[c] \"{themeName.Trim()}\" && Subtheme.Name ==[c] \"{subthemeName.Trim()}\"")
                 .AsEnumerable()
                 .ToPlainObjectEnumerable();
         }
@@ -142,7 +142,7 @@ namespace abremir.AllMyBricks.Data.Repositories
             }
 
             return GetQueryable()
-                .Filter($"ThemeGroup.Value ==[c] '{themeGroupName.Sanitize()}'")
+                .Filter($"ThemeGroup.Value ==[c] \"{themeGroupName.Trim()}\"")
                 .AsEnumerable()
                 .ToPlainObjectEnumerable();
         }
@@ -155,7 +155,7 @@ namespace abremir.AllMyBricks.Data.Repositories
             }
 
             return GetQueryable()
-                .Filter($"Category.Value ==[c] '{categoryName.Sanitize()}'")
+                .Filter($"Category.Value ==[c] \"{categoryName.Trim()}\"")
                 .AsEnumerable()
                 .ToPlainObjectEnumerable();
 
@@ -169,7 +169,7 @@ namespace abremir.AllMyBricks.Data.Repositories
             }
 
             return GetQueryable()
-                .Filter($"Tags.Value ==[c] '{tagName.Sanitize()}'")
+                .Filter($"Tags.Value ==[c] \"{tagName.Trim()}\"")
                 .AsEnumerable()
                 .ToPlainObjectEnumerable();
         }
@@ -229,16 +229,16 @@ namespace abremir.AllMyBricks.Data.Repositories
                 .Where(term => (term?.Trim().Length ?? 0) >= Constants.MinimumSearchQuerySize)
                 .Distinct())
             {
-                queryList.Add($"Number CONTAINS[c] '{searchTerm.Sanitize()}'");
-                queryList.Add($"Name CONTAINS[c] '{searchTerm.Sanitize()}'");
-                queryList.Add($"Ean CONTAINS[c] '{searchTerm.Sanitize()}'");
-                queryList.Add($"Upc CONTAINS[c] '{searchTerm.Sanitize()}'");
-                queryList.Add($"Description CONTAINS[c] '{searchTerm.Sanitize()}'");
-                queryList.Add($"Theme.Name CONTAINS[c] '{searchTerm.Sanitize()}'");
-                queryList.Add($"Subtheme.Name CONTAINS[c] '{searchTerm.Sanitize()}'");
-                queryList.Add($"ThemeGroup.Value CONTAINS[c] '{searchTerm.Sanitize()}'");
-                queryList.Add($"Category.Value CONTAINS[c] '{searchTerm.Sanitize()}'");
-                queryList.Add($"Tags.Value CONTAINS[c] '{searchTerm.Sanitize()}'");
+                queryList.Add($"Number CONTAINS[c] \"{searchTerm.Trim()}\"");
+                queryList.Add($"Name CONTAINS[c] \"{searchTerm.Trim()}\"");
+                queryList.Add($"Ean CONTAINS[c] \"{searchTerm.Trim()}\"");
+                queryList.Add($"Upc CONTAINS[c] \"{searchTerm.Trim()}\"");
+                queryList.Add($"Description CONTAINS[c] \"{searchTerm.Trim()}\"");
+                queryList.Add($"Theme.Name CONTAINS[c] \"{searchTerm.Trim()}\"");
+                queryList.Add($"Subtheme.Name CONTAINS[c] \"{searchTerm.Trim()}\"");
+                queryList.Add($"ThemeGroup.Value CONTAINS[c] \"{searchTerm.Trim()}\"");
+                queryList.Add($"Category.Value CONTAINS[c] \"{searchTerm.Trim()}\"");
+                queryList.Add($"Tags.Value CONTAINS[c] \"{searchTerm.Trim()}\"");
             }
 
             return queryList.Count == 0
