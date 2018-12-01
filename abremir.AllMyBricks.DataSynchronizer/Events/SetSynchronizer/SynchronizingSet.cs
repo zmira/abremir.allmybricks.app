@@ -9,5 +9,9 @@ namespace abremir.AllMyBricks.DataSynchronizer.Events.SetSynchronizer
         public string Number { get; set; }
         public int NumberVariant { get; set; }
         public string Name { get; set; }
+        public int? Year { get; set; }
+
+        public string IdentifierShort => $"{Number}-{NumberVariant} {Name}";
+        public string IdentifierLong => $"{IdentifierShort} ({Theme}-{Subtheme})";
     }
 }
