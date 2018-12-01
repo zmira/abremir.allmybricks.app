@@ -64,8 +64,6 @@ namespace abremir.AllMyBricks.DataSynchronizer.Services
 
                                 _dataSynchronizerEventHandler.Raise(new ProcessedSubtheme { Name = subtheme.Name });
                             }
-
-                            _insightsRepository.UpdateDataSynchronizationTimestamp(DateTimeOffset.Now);
                         }
                     }
                     catch(Exception ex)
@@ -79,8 +77,9 @@ namespace abremir.AllMyBricks.DataSynchronizer.Services
                 if (dataSynchronizationTimestamp.HasValue)
                 {
                     _setSynchronizer.Synchronize(apiKey, dataSynchronizationTimestamp.Value);
-                    _insightsRepository.UpdateDataSynchronizationTimestamp(DateTimeOffset.Now);
                 }
+
+                _insightsRepository.UpdateDataSynchronizationTimestamp(DateTimeOffset.Now);
             }
             catch(Exception ex)
             {

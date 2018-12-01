@@ -46,12 +46,14 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
 
         public void Synchronize(string apiKey, Theme theme, Subtheme subtheme)
         {
-            _dataSynchronizerEventHandler.Raise(new SetSynchronizerStart());
+            _dataSynchronizerEventHandler.Raise(new SetSynchronizerStart { ForSubtheme = true });
 
             for (var year = subtheme.YearFrom; year <= subtheme.YearTo; year++)
             {
                 try
                 {
+                    _dataSynchronizerEventHandler.Raise(new AcquiringSets { Theme = theme.Name, Subtheme = subtheme.Name, Year = year });
+
                     var getSetsParameters = new ParameterSets
                     {
                         ApiKey = apiKey,
@@ -66,7 +68,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
 
                     foreach (var bricksetSet in bricksetSets)
                     {
-                        AddOrUpdateSet(apiKey, theme, subtheme, bricksetSet);
+                        AddOrUpdateSet(apiKey, theme, subtheme, bricksetSet, year);
                     }
                 }
                 catch(Exception ex)
@@ -75,12 +77,12 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                 }
             }
 
-            _dataSynchronizerEventHandler.Raise(new SetSynchronizerEnd());
+            _dataSynchronizerEventHandler.Raise(new SetSynchronizerEnd { ForSubtheme = true });
         }
 
         public void Synchronize(string apiKey, DateTimeOffset previousUpdateTimestamp)
         {
-            _dataSynchronizerEventHandler.Raise(new SetSynchronizerStart());
+            _dataSynchronizerEventHandler.Raise(new SetSynchronizerStart { ForSubtheme = false });
 
             try
             {
@@ -114,7 +116,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                 _dataSynchronizerEventHandler.Raise(new SetSynchronizerException { Exception = ex });
             }
 
-            _dataSynchronizerEventHandler.Raise(new SetSynchronizerEnd());
+            _dataSynchronizerEventHandler.Raise(new SetSynchronizerEnd { ForSubtheme = false });
         }
 
         private Sets Synchronize(string apiKey, long setId)
@@ -128,9 +130,9 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
             return _bricksetApiService.GetSet(getSetParameters);
         }
 
-        private void AddOrUpdateSet(string apiKey, Theme theme, Subtheme subtheme, Sets bricksetSet)
+        private void AddOrUpdateSet(string apiKey, Theme theme, Subtheme subtheme, Sets bricksetSet, short? year = null)
         {
-            _dataSynchronizerEventHandler.Raise(new SynchronizingSet { Theme = theme.Name, Subtheme = subtheme.Name, Name = bricksetSet.Name, Number = bricksetSet.Number, NumberVariant = bricksetSet.NumberVariant });
+            _dataSynchronizerEventHandler.Raise(new SynchronizingSet { Theme = theme.Name, Subtheme = subtheme?.Name, Name = bricksetSet.Name, Number = bricksetSet.Number, NumberVariant = bricksetSet.NumberVariant, Year = year });
 
             try
             {
@@ -152,10 +154,10 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
             }
             catch(Exception ex)
             {
-                _dataSynchronizerEventHandler.Raise(new SynchronizingSetException { Theme = theme.Name, Subtheme = subtheme.Name, Name = bricksetSet.Name, Number = bricksetSet.Number, NumberVariant = bricksetSet.NumberVariant, Exception = ex });
+                _dataSynchronizerEventHandler.Raise(new SynchronizingSetException { Theme = theme.Name, Subtheme = subtheme?.Name, Name = bricksetSet.Name, Number = bricksetSet.Number, NumberVariant = bricksetSet.NumberVariant, Exception = ex });
             }
 
-            _dataSynchronizerEventHandler.Raise(new SynchronizedSet { Theme = theme.Name, Subtheme = subtheme.Name, Name = bricksetSet.Name, Number = bricksetSet.Number, NumberVariant = bricksetSet.NumberVariant });
+            _dataSynchronizerEventHandler.Raise(new SynchronizedSet { Theme = theme.Name, Subtheme = subtheme?.Name, Name = bricksetSet.Name, Number = bricksetSet.Number, NumberVariant = bricksetSet.NumberVariant });
         }
 
         private Set MapSet(string apiKey, Theme theme, Subtheme subtheme, Sets bricksetSet)
