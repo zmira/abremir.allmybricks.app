@@ -2,7 +2,7 @@
 using JsonFlatFileDataStore;
 using System;
 
-namespace abremir.AllMyBricks.DatabaseFeeder
+namespace abremir.AllMyBricks.DatabaseSeeder
 {
     public sealed class Settings
     {

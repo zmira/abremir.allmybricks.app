@@ -1,7 +1,7 @@
 ﻿using abremir.AllMyBricks.Device.Interfaces;
 using System.IO;
 
-namespace abremir.AllMyBricks.DatabaseFeeder.Implementations
+namespace abremir.AllMyBricks.DatabaseSeeder.Implementations
 {
     public class FileSystemService : IFileSystemService
     {

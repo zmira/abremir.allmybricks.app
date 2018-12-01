@@ -33,7 +33,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "abremir.AllMyBricks.DataSyn
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "abremir.AllMyBricks.DataSynchronizer.Tests", "abremir.AllMyBricks.DataSynchronizer.Tests\abremir.AllMyBricks.DataSynchronizer.Tests.csproj", "{08506CF5-F104-42B4-A841-A3D6877F9227}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "abremir.AllMyBricks.DatabaseFeeder", "abremir.AllMyBricks.DatabaseFeeder\abremir.AllMyBricks.DatabaseFeeder.csproj", "{ACDCA9CE-B4D8-4A9D-9905-A0EBD9F6B7C4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "abremir.AllMyBricks.DatabaseSeeder", "abremir.AllMyBricks.DatabaseSeeder\abremir.AllMyBricks.DatabaseSeeder.csproj", "{ACDCA9CE-B4D8-4A9D-9905-A0EBD9F6B7C4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

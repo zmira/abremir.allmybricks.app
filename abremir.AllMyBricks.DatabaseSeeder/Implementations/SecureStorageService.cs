@@ -1,7 +1,7 @@
 ﻿using abremir.AllMyBricks.Core.Models;
 using abremir.AllMyBricks.Device.Interfaces;
 
-namespace abremir.AllMyBricks.DatabaseFeeder.Implementations
+namespace abremir.AllMyBricks.DatabaseSeeder.Implementations
 {
     public class SecureStorageService : ISecureStorageService
     {
