@@ -46,6 +46,8 @@ namespace abremir.AllMyBricks.DataSynchronizer.Services
 
                 var dataSynchronizationTimestamp = _insightsRepository.GetDataSynchronizationTimestamp();
 
+                _dataSynchronizerEventHandler.Raise(new InsightsAcquired { SynchronizationTimestamp = dataSynchronizationTimestamp });
+
                 foreach (var theme in _themeSynchronizer.Synchronize(apiKey))
                 {
                     _dataSynchronizerEventHandler.Raise(new ProcessingTheme { Name = theme.Name });
