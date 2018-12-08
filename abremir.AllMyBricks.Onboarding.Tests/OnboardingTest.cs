@@ -6,6 +6,7 @@ using abremir.AllMyBricks.Onboarding.Services;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
+using Xamarin.Essentials;
 using Xamarin.Essentials.Interfaces;
 
 namespace abremir.AllMyBricks.Onboarding.Tests
@@ -29,8 +30,8 @@ namespace abremir.AllMyBricks.Onboarding.Tests
             deviceInfo.Manufacturer.Returns("BRAND");
             deviceInfo.Model.Returns("MODEL");
             deviceInfo.VersionString.Returns("VERSION YEAR");
-            deviceInfo.Platform.Returns("WINDOWS");
-            deviceInfo.Idiom.Returns("PC");
+            deviceInfo.Platform.Returns(DevicePlatform.UWP);
+            deviceInfo.Idiom.Returns(DeviceIdiom.Desktop);
 
             _deviceInformationService = new DeviceInformationService(deviceInfo);
         }

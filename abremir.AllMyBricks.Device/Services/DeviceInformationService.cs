@@ -22,8 +22,8 @@ namespace abremir.AllMyBricks.Device.Services
                 Manufacturer = _deviceInfo.Manufacturer,
                 Model = _deviceInfo.Model,
                 Version = _deviceInfo.VersionString,
-                Platform = _deviceInfo.Platform,
-                Idiom = _deviceInfo.Idiom,
+                Platform = _deviceInfo.Platform.ToString(),
+                Idiom = _deviceInfo.Idiom.ToString(),
                 DeviceHashDate = DateTimeOffset.Now
             };
 
