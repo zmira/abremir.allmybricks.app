@@ -7,7 +7,7 @@
   <ItemGroup>
     <PackageReference Include="fastJSON" Version="2.2.0.1" />
     <PackageReference Include="jose-jwt" Version="2.4.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Http.Extensions" Version="2.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Extensions" Version="2.2.0" />
   </ItemGroup>
 
 </Project>
