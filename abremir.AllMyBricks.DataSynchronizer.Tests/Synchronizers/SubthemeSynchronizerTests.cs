@@ -14,6 +14,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 {
@@ -35,7 +36,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
         }
 
         [TestMethod]
-        public void Synchronize_BricksetApiServiceReturnsEmptyList_NothingIsSaved()
+        public async Task Synchronize_BricksetApiServiceReturnsEmptyList_NothingIsSaved()
         {
             var bricksetApiService = Substitute.For<IBricksetApiService>();
             bricksetApiService
@@ -44,14 +45,14 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 
             var subthemeSynchronizer = CreateTarget(bricksetApiService);
 
-            var subthemes = subthemeSynchronizer.Synchronize(string.Empty, new Theme { Name = string.Empty });
+            var subthemes = await subthemeSynchronizer.Synchronize(string.Empty, new Theme { Name = string.Empty });
 
             subthemes.Should().BeEmpty();
             _subthemeRepository.All().Should().BeEmpty();
         }
 
         [TestMethod]
-        public void Synchronize_BricksetApiServiceReturnsListOfSubthemes_AllSubthemesAreSaved()
+        public async Task Synchronize_BricksetApiServiceReturnsListOfSubthemes_AllSubthemesAreSaved()
         {
             var testTheme = JSON.ToObject<List<Themes>>(GetResultFileFromResource(Constants.JsonFileGetThemes)).First(themes => themes.Theme == Constants.TestThemeArchitecture);
             var yearsList = JSON.ToObject<List<Years>>(GetResultFileFromResource(Constants.JsonFileGetYears));
@@ -69,7 +70,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 
             var subthemeSynchronizer = CreateTarget(bricksetApiService);
 
-            var subthemes = subthemeSynchronizer.Synchronize(string.Empty, theme);
+            var subthemes = await subthemeSynchronizer.Synchronize(string.Empty, theme);
 
             subthemes.Count().Should().Be(subthemesList.Count);
             _subthemeRepository.All().Count().Should().Be(subthemesList.Count);

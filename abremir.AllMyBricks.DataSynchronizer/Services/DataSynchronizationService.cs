@@ -3,6 +3,7 @@ using abremir.AllMyBricks.DataSynchronizer.Events.DataSynchronizationService;
 using abremir.AllMyBricks.DataSynchronizer.Interfaces;
 using abremir.AllMyBricks.Onboarding.Interfaces;
 using System;
+using System.Threading.Tasks;
 
 namespace abremir.AllMyBricks.DataSynchronizer.Services
 {
@@ -31,13 +32,13 @@ namespace abremir.AllMyBricks.DataSynchronizer.Services
             _dataSynchronizerEventHandler = dataSynchronizerEventHandler;
         }
 
-        public void SynchronizeAllSetData()
+        public async Task SynchronizeAllSetData()
         {
             _dataSynchronizerEventHandler.Raise(new DataSynchronizationStart());
 
             try
             {
-                var apiKey = _onboardingService.GetBricksetApiKey();
+                var apiKey = await _onboardingService.GetBricksetApiKey();
 
                 if (string.IsNullOrWhiteSpace(apiKey))
                 {
@@ -48,13 +49,13 @@ namespace abremir.AllMyBricks.DataSynchronizer.Services
 
                 _dataSynchronizerEventHandler.Raise(new InsightsAcquired { SynchronizationTimestamp = dataSynchronizationTimestamp });
 
-                foreach (var theme in _themeSynchronizer.Synchronize(apiKey))
+                foreach (var theme in await _themeSynchronizer.Synchronize(apiKey))
                 {
                     _dataSynchronizerEventHandler.Raise(new ProcessingTheme { Name = theme.Name });
 
                     try
                     {
-                        var subthemes = _subthemeSynchronizer.Synchronize(apiKey, theme);
+                        var subthemes = await _subthemeSynchronizer.Synchronize(apiKey, theme);
 
                         if (!dataSynchronizationTimestamp.HasValue)
                         {
@@ -62,7 +63,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Services
                             {
                                 _dataSynchronizerEventHandler.Raise(new ProcessingSubtheme { Name = subtheme.Name });
 
-                                _setSynchronizer.Synchronize(apiKey, theme, subtheme);
+                                await _setSynchronizer.Synchronize(apiKey, theme, subtheme);
 
                                 _dataSynchronizerEventHandler.Raise(new ProcessedSubtheme { Name = subtheme.Name });
                             }
@@ -78,7 +79,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Services
 
                 if (dataSynchronizationTimestamp.HasValue)
                 {
-                    _setSynchronizer.Synchronize(apiKey, dataSynchronizationTimestamp.Value);
+                    await _setSynchronizer.Synchronize(apiKey, dataSynchronizationTimestamp.Value);
                 }
 
                 _insightsRepository.UpdateDataSynchronizationTimestamp(DateTimeOffset.Now);

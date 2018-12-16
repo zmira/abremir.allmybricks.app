@@ -16,6 +16,7 @@ using NSubstitute;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 {
@@ -41,7 +42,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
         }
 
         [TestMethod]
-        public void SynchronizeForThemeAndSubtheme_BricksetApiServiceReturnsEmptyList_NothingIsSaved()
+        public async Task SynchronizeForThemeAndSubtheme_BricksetApiServiceReturnsEmptyList_NothingIsSaved()
         {
             var bricksetApiService = Substitute.For<IBricksetApiService>();
             bricksetApiService
@@ -50,13 +51,13 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 
             var setSynchronizer = CreateTarget(bricksetApiService);
 
-            setSynchronizer.Synchronize(string.Empty, new Theme { Name = string.Empty, YearFrom = 0, YearTo = 1 }, new Subtheme { Name = string.Empty });
+            await setSynchronizer.Synchronize(string.Empty, new Theme { Name = string.Empty, YearFrom = 0, YearTo = 1 }, new Subtheme { Name = string.Empty });
 
             _setRepository.All().Should().BeEmpty();
         }
 
         [TestMethod]
-        public void SynchronizeForThemeAndSubtheme_BricksetApiServiceReturnsListOfSets_AllSetsAreSaved()
+        public async Task SynchronizeForThemeAndSubtheme_BricksetApiServiceReturnsListOfSets_AllSetsAreSaved()
         {
             var themesList = JSON.ToObject<List<Themes>>(GetResultFileFromResource(Constants.JsonFileGetThemes));
             var testTheme = themesList.First(themes => themes.Theme == Constants.TestThemeArchitecture);
@@ -126,7 +127,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 
             var setSynchronizer = CreateTarget(bricksetApiService, preferencesService);
 
-            setSynchronizer.Synchronize(string.Empty, theme, subtheme);
+            await setSynchronizer.Synchronize(string.Empty, theme, subtheme);
 
             var expectedSets = setsList.Where(bricksetSets => bricksetSets.Subtheme == subtheme.Name).ToList();
 
@@ -138,7 +139,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
         }
 
         [TestMethod]
-        public void SynchronizeForThemeAndSubtheme_RetrieveFullSetDataOnSynchronizationTrueButNullSet_NothingIsSaved()
+        public async Task SynchronizeForThemeAndSubtheme_RetrieveFullSetDataOnSynchronizationTrueButNullSet_NothingIsSaved()
         {
             var themesList = JSON.ToObject<List<Themes>>(GetResultFileFromResource(Constants.JsonFileGetThemes));
             var testTheme = themesList.First(themes => themes.Theme == Constants.TestThemeArchitecture);
@@ -193,16 +194,16 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 
             var setSynchronizer = CreateTarget(bricksetApiService, preferencesService);
 
-            setSynchronizer.Synchronize(string.Empty, theme, subtheme);
+            await setSynchronizer.Synchronize(string.Empty, theme, subtheme);
 
             var expectedSets = setsList.Where(bricksetSets => bricksetSets.Subtheme == subtheme.Name).ToList();
 
-            bricksetApiService.ReceivedWithAnyArgs().GetSet(null);
+            await bricksetApiService.ReceivedWithAnyArgs().GetSet(null);
             _setRepository.All().Should().BeEmpty();
         }
 
         [TestMethod]
-        public void SynchronizeForThemeAndSubtheme_RetrieveFullSetDataOnSynchronizationTrueAndSetNotNull_GetSetInvokedAndAllSetsAreSaved()
+        public async Task SynchronizeForThemeAndSubtheme_RetrieveFullSetDataOnSynchronizationTrueAndSetNotNull_GetSetInvokedAndAllSetsAreSaved()
         {
             var themesList = JSON.ToObject<List<Themes>>(GetResultFileFromResource(Constants.JsonFileGetThemes));
             var testTheme = themesList.First(themes => themes.Theme == Constants.TestThemeArchitecture);
@@ -272,11 +273,11 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 
             var setSynchronizer = CreateTarget(bricksetApiService, preferencesService);
 
-            setSynchronizer.Synchronize(string.Empty, theme, subtheme);
+            await setSynchronizer.Synchronize(string.Empty, theme, subtheme);
 
             var expectedSets = setsList.Where(bricksetSets => bricksetSets.Subtheme == subtheme.Name).ToList();
 
-            bricksetApiService.ReceivedWithAnyArgs().GetSet(null);
+            await bricksetApiService.ReceivedWithAnyArgs().GetSet(null);
             _setRepository.All().Count().Should().Be(expectedSets.Count);
             var persistedSet = _setRepository.Get(testSet.SetId);
             persistedSet.Images.Count.Should().BeGreaterOrEqualTo(additionalImagesList.Count);
@@ -285,7 +286,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
         }
 
         [TestMethod]
-        public void SynchronizeForThemeAndSubtheme_SynchronizeFullDataSetIsFalse_OnlyLoadsMinimalAmountOfData()
+        public async Task SynchronizeForThemeAndSubtheme_SynchronizeFullDataSetIsFalse_OnlyLoadsMinimalAmountOfData()
         {
             var themesList = JSON.ToObject<List<Themes>>(GetResultFileFromResource(Constants.JsonFileGetThemes));
             var testTheme = themesList.First(themes => themes.Theme == Constants.TestThemeArchitecture);
@@ -340,11 +341,11 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 
             var setSynchronizer = CreateTarget(bricksetApiService, preferencesService);
 
-            setSynchronizer.Synchronize(string.Empty, theme, subtheme);
+            await setSynchronizer.Synchronize(string.Empty, theme, subtheme);
 
             var expectedSets = setsList.Where(bricksetSets => bricksetSets.Subtheme == subtheme.Name).ToList();
 
-            bricksetApiService.DidNotReceiveWithAnyArgs().GetSet(null);
+            await bricksetApiService.DidNotReceiveWithAnyArgs().GetSet(null);
             _setRepository.All().Count().Should().Be(expectedSets.Count);
             var persistedSet = _setRepository.Get(testSet.SetId);
             persistedSet.Images.Count.Should().BeLessOrEqualTo(1);
@@ -355,7 +356,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
         }
 
         [TestMethod]
-        public void SynchronizeForRecentlyUpdated_BricksetApiServiceReturnsEmptyList_NothingIsSaved()
+        public async Task SynchronizeForRecentlyUpdated_BricksetApiServiceReturnsEmptyList_NothingIsSaved()
         {
             var bricksetApiService = Substitute.For<IBricksetApiService>();
             bricksetApiService
@@ -364,13 +365,13 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 
             var setSynchronizer = CreateTarget(bricksetApiService);
 
-            setSynchronizer.Synchronize(string.Empty, DateTimeOffset.Now.Date);
+            await setSynchronizer.Synchronize(string.Empty, DateTimeOffset.Now.Date);
 
             _setRepository.All().Should().BeEmpty();
         }
 
         [TestMethod]
-        public void SynchronizeForRecentlyUpdated_BricksetApiServiceReturnsListOfSets_AllSetsAreSaved()
+        public async Task SynchronizeForRecentlyUpdated_BricksetApiServiceReturnsListOfSets_AllSetsAreSaved()
         {
             var themesList = JSON.ToObject<List<Themes>>(GetResultFileFromResource(Constants.JsonFileGetThemes));
             var testTheme = themesList.First(themes => themes.Theme == Constants.TestThemeTechnic);
@@ -394,13 +395,13 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 
             var setSynchronizer = CreateTarget(bricksetApiService);
 
-            setSynchronizer.Synchronize(string.Empty, DateTimeOffset.Now);
+            await setSynchronizer.Synchronize(string.Empty, DateTimeOffset.Now);
 
             _setRepository.All().Count().Should().Be(recentlyUpdatedSetsList.Count);
         }
 
         [TestMethod]
-        public void SynchronizeForRecentlyUpdated_RetrieveFullSetDataOnSynchronizationTrueButNullSet_GetSetInvokedButNothingSaved()
+        public async Task SynchronizeForRecentlyUpdated_RetrieveFullSetDataOnSynchronizationTrueButNullSet_GetSetInvokedButNothingSaved()
         {
             var themesList = JSON.ToObject<List<Themes>>(GetResultFileFromResource(Constants.JsonFileGetThemes));
             var testTheme = themesList.First(themes => themes.Theme == Constants.TestThemeTechnic);
@@ -432,14 +433,14 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 
             var setSynchronizer = CreateTarget(bricksetApiService, preferencesService);
 
-            setSynchronizer.Synchronize(string.Empty, DateTimeOffset.Now);
+            await setSynchronizer.Synchronize(string.Empty, DateTimeOffset.Now);
 
-            bricksetApiService.ReceivedWithAnyArgs().GetSet(null);
+            await bricksetApiService.ReceivedWithAnyArgs().GetSet(null);
             _setRepository.All().Should().BeEmpty();
         }
 
         [TestMethod]
-        public void SynchronizeForRecentlyUpdated_RetrieveFullSetDataOnSynchronizationTrueAndSetNotNull_GetSetInvokedAndAllSetsAreSaved()
+        public async Task SynchronizeForRecentlyUpdated_RetrieveFullSetDataOnSynchronizationTrueAndSetNotNull_GetSetInvokedAndAllSetsAreSaved()
         {
             var themesList = JSON.ToObject<List<Themes>>(GetResultFileFromResource(Constants.JsonFileGetThemes));
             var testTheme = themesList.First(themes => themes.Theme == Constants.TestThemeTechnic);
@@ -471,14 +472,14 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 
             var setSynchronizer = CreateTarget(bricksetApiService, preferencesService);
 
-            setSynchronizer.Synchronize(string.Empty, DateTimeOffset.Now);
+            await setSynchronizer.Synchronize(string.Empty, DateTimeOffset.Now);
 
-            bricksetApiService.ReceivedWithAnyArgs().GetSet(null);
+            await bricksetApiService.ReceivedWithAnyArgs().GetSet(null);
             _setRepository.All().Count().Should().Be(recentlyUpdatedSetsList.Count);
         }
 
         [TestMethod]
-        public void SynchronizeForRecentlyUpdated_SynchronizeFullDatasetIsFalse_OnlyLoadsMinimalAmountOfData()
+        public async Task SynchronizeForRecentlyUpdated_SynchronizeFullDatasetIsFalse_OnlyLoadsMinimalAmountOfData()
         {
             var themesList = JSON.ToObject<List<Themes>>(GetResultFileFromResource(Constants.JsonFileGetThemes));
             var testTheme = themesList.First(themes => themes.Theme == Constants.TestThemeTechnic);
@@ -511,9 +512,9 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 
             var setSynchronizer = CreateTarget(bricksetApiService, preferencesService);
 
-            setSynchronizer.Synchronize(string.Empty, DateTimeOffset.Now);
+            await setSynchronizer.Synchronize(string.Empty, DateTimeOffset.Now);
 
-            bricksetApiService.DidNotReceiveWithAnyArgs().GetSet(null);
+            await bricksetApiService.DidNotReceiveWithAnyArgs().GetSet(null);
             _setRepository.All().Count().Should().Be(recentlyUpdatedSetsList.Count);
             var persistedSet = _setRepository.Get(testSet.SetId);
             persistedSet.Images.Count.Should().BeLessOrEqualTo(1);

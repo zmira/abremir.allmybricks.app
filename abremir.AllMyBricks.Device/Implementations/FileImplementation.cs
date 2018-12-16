@@ -1,13 +1,17 @@
 ﻿using abremir.AllMyBricks.Device.Interfaces;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace abremir.AllMyBricks.Device.Implementations
 {
     public class FileImplementation : IFile
     {
-        public void WriteAllBytes(string path, byte[] bytes)
+        public async Task WriteAllBytes(string path, byte[] bytes)
         {
-            File.WriteAllBytes(path, bytes);
+            using(var stream = new FileStream(path, FileMode.Create))
+            {
+                await stream.WriteAsync(bytes, 0, bytes.Length);
+            }
         }
     }
 }

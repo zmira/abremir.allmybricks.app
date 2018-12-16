@@ -1,6 +1,7 @@
 ﻿using abremir.AllMyBricks.Device.Configuration;
 using abremir.AllMyBricks.Device.Interfaces;
 using System.IO;
+using System.Threading.Tasks;
 using Xamarin.Essentials.Interfaces;
 
 namespace abremir.AllMyBricks.Device.Services
@@ -35,7 +36,7 @@ namespace abremir.AllMyBricks.Device.Services
                 string.IsNullOrWhiteSpace(subtheme?.Trim()) ? Constants.FallbackFolderName : subtheme.Trim());
         }
 
-        public void SaveThumbnailToCache(string theme, string subtheme, string filename, byte[] thumbnail)
+        public async Task SaveThumbnailToCache(string theme, string subtheme, string filename, byte[] thumbnail)
         {
             if(string.IsNullOrWhiteSpace(filename) || thumbnail == null || thumbnail.Length == 0)
             {
@@ -49,7 +50,7 @@ namespace abremir.AllMyBricks.Device.Services
                 Directory.CreateDirectory(thumbnailFolder);
             }
 
-            _file.WriteAllBytes(Path.Combine(thumbnailFolder, filename), thumbnail);
+            await _file.WriteAllBytes(Path.Combine(thumbnailFolder, filename), thumbnail);
         }
 
         public bool ClearThumbnailCache()

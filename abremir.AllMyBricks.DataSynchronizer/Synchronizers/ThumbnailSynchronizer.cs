@@ -6,6 +6,7 @@ using abremir.AllMyBricks.Device.Interfaces;
 using Flurl.Http;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
 {
@@ -25,7 +26,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
             _dataSynchronizerEventHandler = dataSynchronizerEventHandler;
         }
 
-        public void Synchronize(Set set, bool requestFromSynchronizer = false)
+        public async Task Synchronize(Set set, bool requestFromSynchronizer = false)
         {
             _dataSynchronizerEventHandler.Raise(new ThumbnailSynchronizerStart());
 
@@ -59,7 +60,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
 
                 _dataSynchronizerEventHandler.Raise(new SynchronizingThumbnail { Thumbnail = set.Images[0].ThumbnailUrl });
 
-                _fileSystemService.SaveThumbnailToCache(set.Theme.Name, set.Subtheme.Name, set.NumberWithVariant, thumbnail);
+                await _fileSystemService.SaveThumbnailToCache(set.Theme.Name, set.Subtheme.Name, set.NumberWithVariant, thumbnail);
 
                 _dataSynchronizerEventHandler.Raise(new SynchronizedThumbnail { Thumbnail = set.Images[0].ThumbnailUrl });
             }

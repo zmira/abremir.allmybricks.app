@@ -10,6 +10,7 @@ using abremir.AllMyBricks.ThirdParty.Brickset.Models;
 using System;
 using System.Globalization;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
 {
@@ -44,7 +45,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
             _dataSynchronizerEventHandler = dataSynchronizerEventHandler;
         }
 
-        public void Synchronize(string apiKey, Theme theme, Subtheme subtheme)
+        public async Task Synchronize(string apiKey, Theme theme, Subtheme subtheme)
         {
             _dataSynchronizerEventHandler.Raise(new SetSynchronizerStart { ForSubtheme = true });
 
@@ -62,13 +63,13 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                         Year = year.ToString()
                     };
 
-                    var bricksetSets = _bricksetApiService.GetSets(getSetsParameters).ToList();
+                    var bricksetSets = (await _bricksetApiService.GetSets(getSetsParameters)).ToList();
 
                     _dataSynchronizerEventHandler.Raise(new SetsAcquired { Theme = theme.Name, Subtheme = subtheme.Name, Count = bricksetSets.Count, Year = year });
 
                     foreach (var bricksetSet in bricksetSets)
                     {
-                        AddOrUpdateSet(apiKey, theme, subtheme, bricksetSet, year);
+                        await AddOrUpdateSet(apiKey, theme, subtheme, bricksetSet, year);
                     }
                 }
                 catch(Exception ex)
@@ -80,7 +81,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
             _dataSynchronizerEventHandler.Raise(new SetSynchronizerEnd { ForSubtheme = true });
         }
 
-        public void Synchronize(string apiKey, DateTimeOffset previousUpdateTimestamp)
+        public async Task Synchronize(string apiKey, DateTimeOffset previousUpdateTimestamp)
         {
             _dataSynchronizerEventHandler.Raise(new SetSynchronizerStart { ForSubtheme = false });
 
@@ -92,7 +93,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                     MinutesAgo = (int)(DateTimeOffset.Now - previousUpdateTimestamp).TotalMinutes
                 };
 
-                var recentlyUpdatedSets = _bricksetApiService.GetRecentlyUpdatedSets(getRecentlyUpdatedSetsParameters).ToList();
+                var recentlyUpdatedSets = (await _bricksetApiService.GetRecentlyUpdatedSets(getRecentlyUpdatedSetsParameters)).ToList();
 
                 _dataSynchronizerEventHandler.Raise(new SetsAcquired { Count = recentlyUpdatedSets.Count });
 
@@ -106,7 +107,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
 
                         foreach (var bricksetSet in subthemeGroup)
                         {
-                            AddOrUpdateSet(apiKey, theme, subtheme, bricksetSet);
+                            await AddOrUpdateSet(apiKey, theme, subtheme, bricksetSet);
                         }
                     }
                 }
@@ -119,7 +120,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
             _dataSynchronizerEventHandler.Raise(new SetSynchronizerEnd { ForSubtheme = false });
         }
 
-        private Sets Synchronize(string apiKey, long setId)
+        private async Task<Sets> Synchronize(string apiKey, long setId)
         {
             var getSetParameters = new ParameterUserHashSetId
             {
@@ -127,10 +128,10 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                 SetID = setId
             };
 
-            return _bricksetApiService.GetSet(getSetParameters);
+            return await _bricksetApiService.GetSet(getSetParameters);
         }
 
-        private void AddOrUpdateSet(string apiKey, Theme theme, Subtheme subtheme, Sets bricksetSet, short? year = null)
+        private async Task AddOrUpdateSet(string apiKey, Theme theme, Subtheme subtheme, Sets bricksetSet, short? year = null)
         {
             _dataSynchronizerEventHandler.Raise(new SynchronizingSet { Theme = theme.Name, Subtheme = subtheme?.Name, Name = bricksetSet.Name, Number = bricksetSet.Number, NumberVariant = bricksetSet.NumberVariant, Year = year });
 
@@ -138,7 +139,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
             {
                 if (_preferencesService.SynchronizeSetExtendedData)
                 {
-                    bricksetSet = Synchronize(apiKey, bricksetSet.SetId);
+                    bricksetSet = await Synchronize(apiKey, bricksetSet.SetId);
 
                     if (bricksetSet == null)
                     {
@@ -146,11 +147,11 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                     }
                 }
 
-                var set = MapSet(apiKey, theme, subtheme, bricksetSet);
+                var set = await MapSet(apiKey, theme, subtheme, bricksetSet);
 
                 _setRepository.AddOrUpdate(set);
 
-                _thumbnailSynchronizer.Synchronize(set, true);
+                await _thumbnailSynchronizer.Synchronize(set, true);
             }
             catch(Exception ex)
             {
@@ -160,7 +161,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
             _dataSynchronizerEventHandler.Raise(new SynchronizedSet { Theme = theme.Name, Subtheme = subtheme?.Name, Name = bricksetSet.Name, Number = bricksetSet.Number, NumberVariant = bricksetSet.NumberVariant });
         }
 
-        private Set MapSet(string apiKey, Theme theme, Subtheme subtheme, Sets bricksetSet)
+        private async Task<Set> MapSet(string apiKey, Theme theme, Subtheme subtheme, Sets bricksetSet)
         {
             var set = new Set
             {
@@ -179,7 +180,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                 LastUpdated = bricksetSet.LastUpdated
             };
 
-            SetImageList(apiKey, set, bricksetSet);
+            await SetImageList(apiKey, set, bricksetSet);
 
             if (_preferencesService.SynchronizeSetExtendedData)
             {
@@ -200,10 +201,10 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                 set.Weight = string.IsNullOrWhiteSpace(bricksetSet.Weight) ? (float?)null : float.Parse(bricksetSet.Weight, NumberStyles.Any, CultureInfo.InvariantCulture);
                 set.Notes = bricksetSet.Notes?.SanitizeBricksetString();
 
-                SetInstructionList(apiKey, set, bricksetSet);
+                await SetInstructionList(apiKey, set, bricksetSet);
                 SetTagList(set, bricksetSet.Tags);
                 SetPriceList(set, bricksetSet);
-                SetReviewList(apiKey, set, bricksetSet);
+                await SetReviewList(apiKey, set, bricksetSet);
             }
 
             return set;
@@ -225,7 +226,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
             }
         }
 
-        private void SetImageList(string apiKey, Set set, Sets bricksetSet)
+        private async Task SetImageList(string apiKey, Set set, Sets bricksetSet)
         {
             if (bricksetSet.Image)
             {
@@ -248,8 +249,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                 SetID = set.SetId
             };
 
-            set.Images = _bricksetApiService
-                    .GetAdditionalImages(getAdditionalImagesParameters)
+            set.Images = (await _bricksetApiService.GetAdditionalImages(getAdditionalImagesParameters))
                     .ToImageEnumerable()
                     .ToList();
         }
@@ -298,7 +298,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
             }
         }
 
-        private void SetReviewList(string apiKey, Set set, Sets bricksetSet)
+        private async Task SetReviewList(string apiKey, Set set, Sets bricksetSet)
         {
             if (bricksetSet.ReviewCount == 0 || !_preferencesService.SynchronizeSetExtendedData || !_preferencesService.SynchronizeReviews)
             {
@@ -311,13 +311,12 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                 SetID = set.SetId
             };
 
-            set.Reviews = _bricksetApiService
-                    .GetReviews(getReviewsParameters)
+            set.Reviews = (await _bricksetApiService.GetReviews(getReviewsParameters))
                     .ToReviewEnumerable()
                     .ToList();
         }
 
-        private void SetInstructionList(string apiKey, Set set, Sets bricksetSet)
+        private async Task SetInstructionList(string apiKey, Set set, Sets bricksetSet)
         {
             if (bricksetSet.InstructionsCount == 0 || !_preferencesService.SynchronizeSetExtendedData || !_preferencesService.SynchronizeInstructions)
             {
@@ -330,8 +329,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                 SetID = set.SetId
             };
 
-            set.Instructions = _bricksetApiService
-                    .GetInstructions(getInstructionsParameters)
+            set.Instructions = (await _bricksetApiService.GetInstructions(getInstructionsParameters))
                     .ToInstructionEnumerable()
                     .ToList();
         }

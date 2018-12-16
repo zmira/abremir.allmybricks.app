@@ -8,6 +8,7 @@ using abremir.AllMyBricks.ThirdParty.Brickset.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
 {
@@ -27,7 +28,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
             _dataSynchronizerEventHandler = dataSynchronizerEventHandler;
         }
 
-        public IEnumerable<Subtheme> Synchronize(string apiKey, Theme theme)
+        public async Task<IEnumerable<Subtheme>> Synchronize(string apiKey, Theme theme)
         {
             _dataSynchronizerEventHandler.Raise(new SubthemeSynchronizerStart());
 
@@ -41,7 +42,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                     Theme = theme.Name
                 };
 
-                var bricksetSubthemes = _bricksetApiService.GetSubthemes(getSubthemesParameters).ToList();
+                var bricksetSubthemes = (await _bricksetApiService.GetSubthemes(getSubthemesParameters)).ToList();
 
                 _dataSynchronizerEventHandler.Raise(new SubthemesAcquired { Theme = theme.Name, Count = bricksetSubthemes.Count });
 

@@ -12,6 +12,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 {
@@ -31,7 +32,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
         }
 
         [TestMethod]
-        public void Synchronize_BricksetApiServiceReturnsEmptyList_NothingIsSaved()
+        public async Task Synchronize_BricksetApiServiceReturnsEmptyList_NothingIsSaved()
         {
             var bricksetApiService = Substitute.For<IBricksetApiService>();
             bricksetApiService
@@ -40,14 +41,14 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 
             var themeSynchronizer = CreateTarget(bricksetApiService);
 
-            var themes = themeSynchronizer.Synchronize(string.Empty);
+            var themes = await themeSynchronizer.Synchronize(string.Empty);
 
             themes.Should().BeEmpty();
             _themeRepository.All().Should().BeEmpty();
         }
 
         [TestMethod]
-        public void Synchronize_BricksetApiServiceReturnsListOfThemes_AllThemesAreSaved()
+        public async Task Synchronize_BricksetApiServiceReturnsListOfThemes_AllThemesAreSaved()
         {
             var themesList = JSON.ToObject<List<Themes>>(GetResultFileFromResource(Constants.JsonFileGetThemes));
             var yearsList = JSON.ToObject<List<Years>>(GetResultFileFromResource(Constants.JsonFileGetYears));
@@ -62,7 +63,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 
             var themeSynchronizer = CreateTarget(bricksetApiService);
 
-            var themes = themeSynchronizer.Synchronize(string.Empty);
+            var themes = await themeSynchronizer.Synchronize(string.Empty);
 
             themes.Count().Should().Be(themesList.Count);
             _themeRepository.All().Count().Should().Be(themesList.Count);

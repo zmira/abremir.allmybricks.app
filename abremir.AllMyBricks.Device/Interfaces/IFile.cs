@@ -1,7 +1,9 @@
-﻿namespace abremir.AllMyBricks.Device.Interfaces
+﻿using System.Threading.Tasks;
+
+namespace abremir.AllMyBricks.Device.Interfaces
 {
     public interface IFile
     {
-        void WriteAllBytes(string path, byte[] bytes);
+        Task WriteAllBytes(string path, byte[] bytes);
     }
 }

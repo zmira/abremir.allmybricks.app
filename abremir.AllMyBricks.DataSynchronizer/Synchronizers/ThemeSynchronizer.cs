@@ -8,6 +8,7 @@ using abremir.AllMyBricks.ThirdParty.Brickset.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
 {
@@ -27,7 +28,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
             _dataSynchronizerEventHandler = dataSynchronizerEventHandler;
         }
 
-        public IEnumerable<Theme> Synchronize(string apiKey)
+        public async Task<IEnumerable<Theme>> Synchronize(string apiKey)
         {
             _dataSynchronizerEventHandler.Raise(new ThemeSynchronizerStart());
 
@@ -40,7 +41,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                     ApiKey = apiKey
                 };
 
-                var bricksetThemes = _bricksetApiService.GetThemes(getThemesParameters).ToList();
+                var bricksetThemes = (await _bricksetApiService.GetThemes(getThemesParameters)).ToList();
 
                 _dataSynchronizerEventHandler.Raise(new ThemesAcquired { Count = bricksetThemes.Count });
 
@@ -58,8 +59,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                             Theme = bricksetTheme.Theme
                         };
 
-                        theme.SetCountPerYear = _bricksetApiService
-                            .GetYears(getYearsParameters)
+                        theme.SetCountPerYear = (await _bricksetApiService.GetYears(getYearsParameters))
                             .ToYearSetCountEnumerable()
                             .ToList();
 

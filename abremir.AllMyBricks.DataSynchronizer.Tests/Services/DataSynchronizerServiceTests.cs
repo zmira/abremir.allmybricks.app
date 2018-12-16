@@ -7,6 +7,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace abremir.AllMyBricks.DataSynchronizer.Tests.Services
 {
@@ -35,46 +36,46 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Services
         [DataTestMethod]
         [DataRow("")]
         [DataRow(null)]
-        public void SynchronizeAllSetData_InvalidApiKey_GetDataSynchronizationTimestampNotInvoked(string apiKey)
+        public async Task SynchronizeAllSetData_InvalidApiKey_GetDataSynchronizationTimestampNotInvoked(string apiKey)
         {
             _onboardingService.GetBricksetApiKey().Returns(apiKey);
 
-            _dataSynchronizationService.SynchronizeAllSetData();
+            await _dataSynchronizationService.SynchronizeAllSetData();
 
             _insightsRepository.DidNotReceive().GetDataSynchronizationTimestamp();
         }
 
         [TestMethod]
-        public void SynchronizeAllSetData_WithoutDataSynchronizationTimestamp_SynchronizeAllSetsAndUpdateDataSynchronizationTimestampInvoked()
+        public async Task SynchronizeAllSetData_WithoutDataSynchronizationTimestamp_SynchronizeAllSetsAndUpdateDataSynchronizationTimestampInvoked()
         {
             _onboardingService.GetBricksetApiKey().Returns("APIKEY");
             _insightsRepository.GetDataSynchronizationTimestamp().Returns((DateTimeOffset?)null);
             _themeSynchronizer.Synchronize(Arg.Any<string>()).Returns(new List<Theme> { new Theme() });
             _subthemeSynchronizer.Synchronize(Arg.Any<string>(), Arg.Any<Theme>()).Returns(new List<Subtheme> { new Subtheme() });
 
-            _dataSynchronizationService.SynchronizeAllSetData();
+            await _dataSynchronizationService.SynchronizeAllSetData();
 
-            _themeSynchronizer.Received(1).Synchronize(Arg.Any<string>());
-            _subthemeSynchronizer.Received(1).Synchronize(Arg.Any<string>(), Arg.Any<Theme>());
-            _setSynchronizer.Received(1).Synchronize(Arg.Any<string>(), Arg.Any<Theme>(), Arg.Any<Subtheme>());
-            _setSynchronizer.DidNotReceive().Synchronize(Arg.Any<string>(), Arg.Any<DateTimeOffset>());
+            await _themeSynchronizer.Received(1).Synchronize(Arg.Any<string>());
+            await _subthemeSynchronizer.Received(1).Synchronize(Arg.Any<string>(), Arg.Any<Theme>());
+            await _setSynchronizer.Received(1).Synchronize(Arg.Any<string>(), Arg.Any<Theme>(), Arg.Any<Subtheme>());
+            await _setSynchronizer.DidNotReceive().Synchronize(Arg.Any<string>(), Arg.Any<DateTimeOffset>());
             _insightsRepository.Received(1).UpdateDataSynchronizationTimestamp(Arg.Any<DateTimeOffset>());
         }
 
         [TestMethod]
-        public void SynchronizeAllSetData_WithDataSynchronizationTimestamp_SynchronizeRecentlyUpdatedSetsAndUpdateDataSynchronizationTimestampInvoked()
+        public async Task SynchronizeAllSetData_WithDataSynchronizationTimestamp_SynchronizeRecentlyUpdatedSetsAndUpdateDataSynchronizationTimestampInvoked()
         {
             _onboardingService.GetBricksetApiKey().Returns("APIKEY");
             _insightsRepository.GetDataSynchronizationTimestamp().Returns(DateTimeOffset.Now);
             _themeSynchronizer.Synchronize(Arg.Any<string>()).Returns(new List<Theme> { new Theme() });
             _subthemeSynchronizer.Synchronize(Arg.Any<string>(), Arg.Any<Theme>()).Returns(new List<Subtheme> { new Subtheme() });
 
-            _dataSynchronizationService.SynchronizeAllSetData();
+            await _dataSynchronizationService.SynchronizeAllSetData();
 
-            _themeSynchronizer.Received(1).Synchronize(Arg.Any<string>());
-            _subthemeSynchronizer.Received(1).Synchronize(Arg.Any<string>(), Arg.Any<Theme>());
-            _setSynchronizer.DidNotReceive().Synchronize(Arg.Any<string>(), Arg.Any<Theme>(), Arg.Any<Subtheme>());
-            _setSynchronizer.Received(1).Synchronize(Arg.Any<string>(), Arg.Any<DateTimeOffset>());
+            await _themeSynchronizer.Received(1).Synchronize(Arg.Any<string>());
+            await _subthemeSynchronizer.Received(1).Synchronize(Arg.Any<string>(), Arg.Any<Theme>());
+            await _setSynchronizer.DidNotReceive().Synchronize(Arg.Any<string>(), Arg.Any<Theme>(), Arg.Any<Subtheme>());
+            await _setSynchronizer.Received(1).Synchronize(Arg.Any<string>(), Arg.Any<DateTimeOffset>());
             _insightsRepository.Received(1).UpdateDataSynchronizationTimestamp(Arg.Any<DateTimeOffset>());
         }
     }
