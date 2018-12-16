@@ -5,6 +5,7 @@ using abremir.AllMyBricks.ThirdParty.Brickset.Tests.Shared;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
+using System.Threading.Tasks;
 using ComponentModelDescription = System.ComponentModel.DescriptionAttribute;
 
 namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
@@ -26,41 +27,41 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
         }
 
         [TestMethod]
-        public void Success()
+        public async Task Success()
         {
             _httpTestFake.RespondWith(GetResultFileFromResource(nameof(Success)));
 
-            var subthemes = _bricksetApiService.GetSubthemes(new ParameterTheme());
+            var subthemes = await _bricksetApiService.GetSubthemes(new ParameterTheme());
 
             subthemes.Count().Should().Be(5);
         }
 
         [TestMethod]
-        public void NoSubthemes()
+        public async Task NoSubthemes()
         {
             _httpTestFake.RespondWith(GetResultFileFromResource(nameof(NoSubthemes)));
 
-            var subthemes = _bricksetApiService.GetSubthemes(new ParameterTheme());
+            var subthemes = await _bricksetApiService.GetSubthemes(new ParameterTheme());
 
             subthemes.Should().BeEmpty();
         }
 
         [TestMethod]
-        public void InvalidTheme()
+        public async Task InvalidTheme()
         {
             _httpTestFake.RespondWith(GetResultFileFromResource(nameof(InvalidTheme)));
 
-            var subthemes = _bricksetApiService.GetSubthemes(new ParameterTheme());
+            var subthemes = await _bricksetApiService.GetSubthemes(new ParameterTheme());
 
             subthemes.Should().BeEmpty();
         }
 
         [TestMethod]
-        public void InvalidApiKey()
+        public async Task InvalidApiKey()
         {
             _httpTestFake.RespondWith(GetResultFileFromResource(nameof(InvalidApiKey)));
 
-            var subthemes = _bricksetApiService.GetSubthemes(new ParameterTheme());
+            var subthemes = await _bricksetApiService.GetSubthemes(new ParameterTheme());
 
             subthemes.Should().BeEmpty();
         }

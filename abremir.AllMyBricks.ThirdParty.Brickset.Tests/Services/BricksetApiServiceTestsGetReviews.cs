@@ -5,6 +5,7 @@ using abremir.AllMyBricks.ThirdParty.Brickset.Tests.Shared;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
+using System.Threading.Tasks;
 using ComponentModelDescription = System.ComponentModel.DescriptionAttribute;
 
 namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
@@ -26,41 +27,41 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
         }
 
         [TestMethod]
-        public void Success()
+        public async Task Success()
         {
             _httpTestFake.RespondWith(GetResultFileFromResource(nameof(Success)));
 
-            var reviews = _bricksetApiService.GetReviews(new ParameterSetId());
+            var reviews = await _bricksetApiService.GetReviews(new ParameterSetId());
 
             reviews.Count().Should().Be(5);
         }
 
         [TestMethod]
-        public void NoReviews()
+        public async Task NoReviews()
         {
             _httpTestFake.RespondWith(GetResultFileFromResource(nameof(NoReviews)));
 
-            var reviews = _bricksetApiService.GetReviews(new ParameterSetId());
+            var reviews = await _bricksetApiService.GetReviews(new ParameterSetId());
 
             reviews.Should().BeEmpty();
         }
 
         [TestMethod]
-        public void InvalidSetId()
+        public async Task InvalidSetId()
         {
             _httpTestFake.RespondWith(GetResultFileFromResource(nameof(InvalidSetId)));
 
-            var reviews = _bricksetApiService.GetReviews(new ParameterSetId());
+            var reviews = await _bricksetApiService.GetReviews(new ParameterSetId());
 
             reviews.Should().BeEmpty();
         }
 
         [TestMethod]
-        public void InvalidApiKey()
+        public async Task InvalidApiKey()
         {
             _httpTestFake.RespondWith(GetResultFileFromResource(nameof(InvalidApiKey)));
 
-            var reviews = _bricksetApiService.GetReviews(new ParameterSetId());
+            var reviews = await _bricksetApiService.GetReviews(new ParameterSetId());
 
             reviews.Should().BeEmpty();
         }

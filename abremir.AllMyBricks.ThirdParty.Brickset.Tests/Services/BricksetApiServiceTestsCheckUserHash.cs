@@ -4,6 +4,7 @@ using abremir.AllMyBricks.ThirdParty.Brickset.Tests.Configuration;
 using abremir.AllMyBricks.ThirdParty.Brickset.Tests.Shared;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Threading.Tasks;
 using BricksetApiConstants = abremir.AllMyBricks.ThirdParty.Brickset.Configuration.Constants;
 using ComponentModelDescription = System.ComponentModel.DescriptionAttribute;
 
@@ -26,11 +27,11 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
         }
 
         [TestMethod]
-        public void ValidUserHash()
+        public async Task ValidUserHash()
         {
             _httpTestFake.RespondWith(GetResultFileFromResource(nameof(ValidUserHash)));
 
-            var userHashValidity = _bricksetApiService.CheckUserHash(new ParameterUserHash());
+            var userHashValidity = await _bricksetApiService.CheckUserHash(new ParameterUserHash());
 
             userHashValidity.Should()
                 .NotBeNullOrEmpty()
@@ -38,11 +39,11 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
         }
 
         [TestMethod]
-        public void InvalidUserHash()
+        public async Task InvalidUserHash()
         {
             _httpTestFake.RespondWith(GetResultFileFromResource(nameof(InvalidUserHash)));
 
-            var userHashValidity = _bricksetApiService.CheckUserHash(new ParameterUserHash());
+            var userHashValidity = await _bricksetApiService.CheckUserHash(new ParameterUserHash());
 
             userHashValidity.Should()
                 .NotBeNullOrEmpty()

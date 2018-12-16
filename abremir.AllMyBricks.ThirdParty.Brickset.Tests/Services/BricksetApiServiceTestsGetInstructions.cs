@@ -5,6 +5,7 @@ using abremir.AllMyBricks.ThirdParty.Brickset.Tests.Shared;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
+using System.Threading.Tasks;
 using ComponentModelDescription = System.ComponentModel.DescriptionAttribute;
 
 namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
@@ -26,41 +27,41 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
         }
 
         [TestMethod]
-        public void Success()
+        public async Task Success()
         {
             _httpTestFake.RespondWith(GetResultFileFromResource(nameof(Success)));
 
-            var instructions = _bricksetApiService.GetInstructions(new ParameterSetId());
+            var instructions = await _bricksetApiService.GetInstructions(new ParameterSetId());
 
             instructions.Count().Should().Be(2);
         }
 
         [TestMethod]
-        public void NoInstructions()
+        public async Task NoInstructions()
         {
             _httpTestFake.RespondWith(GetResultFileFromResource(nameof(NoInstructions)));
 
-            var instructions = _bricksetApiService.GetInstructions(new ParameterSetId());
+            var instructions = await _bricksetApiService.GetInstructions(new ParameterSetId());
 
             instructions.Should().BeEmpty();
         }
 
         [TestMethod]
-        public void InvalidSetId()
+        public async Task InvalidSetId()
         {
             _httpTestFake.RespondWith(GetResultFileFromResource(nameof(InvalidSetId)));
 
-            var instructions = _bricksetApiService.GetInstructions(new ParameterSetId());
+            var instructions = await _bricksetApiService.GetInstructions(new ParameterSetId());
 
             instructions.Should().BeEmpty();
         }
 
         [TestMethod]
-        public void InvalidApiKey()
+        public async Task InvalidApiKey()
         {
             _httpTestFake.RespondWith(GetResultFileFromResource(nameof(InvalidApiKey)));
 
-            var instructions = _bricksetApiService.GetInstructions(new ParameterSetId());
+            var instructions = await _bricksetApiService.GetInstructions(new ParameterSetId());
 
             instructions.Should().BeEmpty();
         }

@@ -4,6 +4,7 @@ using abremir.AllMyBricks.ThirdParty.Brickset.Tests.Configuration;
 using abremir.AllMyBricks.ThirdParty.Brickset.Tests.Shared;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Threading.Tasks;
 using BricksetApiConstants = abremir.AllMyBricks.ThirdParty.Brickset.Configuration.Constants;
 using ComponentModelDescription = System.ComponentModel.DescriptionAttribute;
 
@@ -26,11 +27,11 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
         }
 
         [TestMethod]
-        public void ValidCredentials()
+        public async Task ValidCredentials()
         {
             _httpTestFake.RespondWith(GetResultFileFromResource(nameof(ValidCredentials)));
 
-            var loginResult = _bricksetApiService.Login(new ParameterLogin());
+            var loginResult = await _bricksetApiService.Login(new ParameterLogin());
 
             loginResult.Should()
                 .NotBeNullOrEmpty()
@@ -39,11 +40,11 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
         }
 
         [TestMethod]
-        public void InvalidCredentials()
+        public async Task InvalidCredentials()
         {
             _httpTestFake.RespondWith(GetResultFileFromResource(nameof(InvalidCredentials)));
 
-            var loginResult = _bricksetApiService.Login(new ParameterLogin());
+            var loginResult = await _bricksetApiService.Login(new ParameterLogin());
 
             loginResult.Should()
                 .NotBeNullOrEmpty()
@@ -52,11 +53,11 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
         }
 
         [TestMethod]
-        public void InvalidApiKey()
+        public async Task InvalidApiKey()
         {
             _httpTestFake.RespondWith(GetResultFileFromResource(nameof(InvalidApiKey)));
 
-            var loginResult = _bricksetApiService.Login(new ParameterLogin());
+            var loginResult = await _bricksetApiService.Login(new ParameterLogin());
 
             loginResult.Should()
                 .NotBeNullOrEmpty()

@@ -4,6 +4,7 @@ using abremir.AllMyBricks.ThirdParty.Brickset.Tests.Configuration;
 using abremir.AllMyBricks.ThirdParty.Brickset.Tests.Shared;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Threading.Tasks;
 using ComponentModelDescription = System.ComponentModel.DescriptionAttribute;
 
 namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
@@ -25,31 +26,31 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
         }
 
         [TestMethod]
-        public void Success()
+        public async Task Success()
         {
             _httpTestFake.RespondWith(GetResultFileFromResource(nameof(Success)));
 
-            var set = _bricksetApiService.GetSet(new ParameterUserHashSetId());
+            var set = await _bricksetApiService.GetSet(new ParameterUserHashSetId());
 
             set.Should().NotBeNull();
         }
 
         [TestMethod]
-        public void InvalidApiKey()
+        public async Task InvalidApiKey()
         {
             _httpTestFake.RespondWith(GetResultFileFromResource(nameof(InvalidApiKey)));
 
-            var set = _bricksetApiService.GetSet(new ParameterUserHashSetId());
+            var set = await _bricksetApiService.GetSet(new ParameterUserHashSetId());
 
             set.Should().BeNull();
         }
 
         [TestMethod]
-        public void NoMatches()
+        public async Task NoMatches()
         {
             _httpTestFake.RespondWith(GetResultFileFromResource(nameof(NoMatches)));
 
-            var set = _bricksetApiService.GetSet(new ParameterUserHashSetId());
+            var set = await _bricksetApiService.GetSet(new ParameterUserHashSetId());
 
             set.Should().BeNull();
         }

@@ -5,6 +5,7 @@ using abremir.AllMyBricks.ThirdParty.Brickset.Tests.Shared;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
+using System.Threading.Tasks;
 using ComponentModelDescription = System.ComponentModel.DescriptionAttribute;
 
 namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
@@ -26,31 +27,31 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
         }
 
         [TestMethod]
-        public void Success()
+        public async Task Success()
         {
             _httpTestFake.RespondWith(GetResultFileFromResource(nameof(Success)));
 
-            var sets = _bricksetApiService.GetSets(new ParameterSets());
+            var sets = await _bricksetApiService.GetSets(new ParameterSets());
 
             sets.Count().Should().Be(20);
         }
 
         [TestMethod]
-        public void InvalidApiKey()
+        public async Task InvalidApiKey()
         {
             _httpTestFake.RespondWith(GetResultFileFromResource(nameof(InvalidApiKey)));
 
-            var sets = _bricksetApiService.GetSets(new ParameterSets());
+            var sets = await _bricksetApiService.GetSets(new ParameterSets());
 
             sets.Should().BeEmpty();
         }
 
         [TestMethod]
-        public void NoMatches()
+        public async Task NoMatches()
         {
             _httpTestFake.RespondWith(GetResultFileFromResource(nameof(NoMatches)));
 
-            var sets = _bricksetApiService.GetSets(new ParameterSets());
+            var sets = await _bricksetApiService.GetSets(new ParameterSets());
 
             sets.Should().BeEmpty();
         }
