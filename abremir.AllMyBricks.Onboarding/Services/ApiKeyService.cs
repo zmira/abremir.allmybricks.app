@@ -8,6 +8,7 @@ using Flurl;
 using Flurl.Http;
 using Jose;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace abremir.AllMyBricks.Onboarding.Services
 {
@@ -20,7 +21,7 @@ namespace abremir.AllMyBricks.Onboarding.Services
             _allMyBricksOnboardingApiKeyServiceUrl = $"{allMyBricksOnboardingUrl}api/{Constants.AllMyBricksOnboardingApiKeyService}";
         }
 
-        public string GetBricksetApiKey(Identification allMyBricksIdentification)
+        public async Task<string> GetBricksetApiKey(Identification allMyBricksIdentification)
         {
             var client = new FlurlClient().Configure(settings => settings.HttpClientFactory = new HmacDelegatingHandlerHttpClientFactory());
 
@@ -28,12 +29,11 @@ namespace abremir.AllMyBricks.Onboarding.Services
 
             apiKeyRequest.KeyOption = RandomKeyOptionGenerator.GetRandomKeyOption();
 
-            var responseApiKeyResult = _allMyBricksOnboardingApiKeyServiceUrl
+            var responseApiKeyResult = await _allMyBricksOnboardingApiKeyServiceUrl
                 .AppendPathSegment(Constants.AllMyBricksOnboardingApiKeyServiceBricksetMethod)
                 .WithClient(client)
                 .PostJsonAsync(apiKeyRequest)
-                .ReceiveString()
-                .Result;
+                .ReceiveString();
 
             return JWT.Decode(responseApiKeyResult, Encoding.UTF8.GetBytes(allMyBricksIdentification.RegistrationHash.ToCharArray()), (JwsAlgorithm)apiKeyRequest.KeyOption);
         }

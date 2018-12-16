@@ -1,9 +1,10 @@
 ﻿using abremir.AllMyBricks.Core.Models;
+using System.Threading.Tasks;
 
 namespace abremir.AllMyBricks.Onboarding.Interfaces
 {
     public interface IApiKeyService
     {
-        string GetBricksetApiKey(Identification allMyBricksIdentification);
+        Task<string> GetBricksetApiKey(Identification allMyBricksIdentification);
     }
 }

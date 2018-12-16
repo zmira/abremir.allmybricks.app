@@ -6,6 +6,7 @@ using abremir.AllMyBricks.Onboarding.Services;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
+using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Essentials.Interfaces;
 
@@ -37,20 +38,20 @@ namespace abremir.AllMyBricks.Onboarding.Tests
         }
 
         [TestMethod, Ignore("Only to be used to validate communication between app and onboarding endpoints")]
-        public void EndToEndTest()
+        public async Task EndToEndTest()
         {
             var identification = new Identification
             {
                 DeviceIdentification = _deviceInformationService.GenerateNewDeviceIdentification()
             };
 
-            identification = _registrationService.Register(identification);
+            identification = await _registrationService.Register(identification);
 
-            var apiKey = _apiKeyService.GetBricksetApiKey(identification);
+            var apiKey = await _apiKeyService.GetBricksetApiKey(identification);
 
 			apiKey.Should().NotBeNullOrEmpty();
 
-            _registrationService.Unregister(identification);
+            await _registrationService.Unregister(identification);
         }
     }
 }

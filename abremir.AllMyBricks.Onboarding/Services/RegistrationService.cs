@@ -3,6 +3,7 @@ using abremir.AllMyBricks.Onboarding.Configuration;
 using abremir.AllMyBricks.Onboarding.Interfaces;
 using Flurl;
 using Flurl.Http;
+using System.Threading.Tasks;
 
 namespace abremir.AllMyBricks.Onboarding.Services
 {
@@ -15,18 +16,17 @@ namespace abremir.AllMyBricks.Onboarding.Services
             _allMyBricksOnboardingRegistrationServiceUrl = $"{allMyBricksOnboardingUrl}api/{Constants.AllMyBricksOnboardingRegistrationService}";
         }
 
-        public Identification Register(Identification allMyBricksIdentification)
+        public async Task<Identification> Register(Identification allMyBricksIdentification)
         {
-            return _allMyBricksOnboardingRegistrationServiceUrl
+            return await _allMyBricksOnboardingRegistrationServiceUrl
                 .AppendPathSegment(Constants.AllMyBricksOnboardingRegistrationServiceRegisterMethod)
                 .PostJsonAsync(allMyBricksIdentification)
-                .ReceiveJson<Identification>()
-                .Result;
+                .ReceiveJson<Identification>();
         }
 
-        public void Unregister(Identification allMyBricksIdentification)
+        public async Task Unregister(Identification allMyBricksIdentification)
         {
-            _allMyBricksOnboardingRegistrationServiceUrl
+            await _allMyBricksOnboardingRegistrationServiceUrl
                 .AppendPathSegment(Constants.AllMyBricksOnboardingRegistrationServiceUnregisterMethod)
                 .PostJsonAsync(allMyBricksIdentification);
         }

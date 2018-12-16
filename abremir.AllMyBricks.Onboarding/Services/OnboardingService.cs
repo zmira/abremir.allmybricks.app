@@ -1,6 +1,7 @@
 ﻿using abremir.AllMyBricks.Core.Models;
 using abremir.AllMyBricks.Device.Interfaces;
 using abremir.AllMyBricks.Onboarding.Interfaces;
+using System.Threading.Tasks;
 
 namespace abremir.AllMyBricks.Onboarding.Services
 {
@@ -23,13 +24,13 @@ namespace abremir.AllMyBricks.Onboarding.Services
             _deviceInformationService = deviceInformationService;
         }
 
-        public string GetBricksetApiKey()
+        public async Task<string> GetBricksetApiKey()
         {
             var bricksetApiKey = _secureStorageService.GetBricksetApiKey();
 
             if (string.IsNullOrWhiteSpace(bricksetApiKey))
             {
-                bricksetApiKey = GetApiKeyFromOnboardingServiceEndpoint();
+                bricksetApiKey = await GetApiKeyFromOnboardingServiceEndpoint();
 
                 _secureStorageService.SaveBricksetApiKey(bricksetApiKey);
             }
@@ -37,13 +38,13 @@ namespace abremir.AllMyBricks.Onboarding.Services
             return bricksetApiKey;
         }
 
-        private string GetApiKeyFromOnboardingServiceEndpoint()
+        private async Task<string> GetApiKeyFromOnboardingServiceEndpoint()
         {
             Identification identification = null;
 
             if (!_secureStorageService.DeviceIdentificationCreated)
             {
-                identification = _registrationService.Register(new Identification
+                identification = await _registrationService.Register(new Identification
                 {
                     DeviceIdentification = _deviceInformationService.GenerateNewDeviceIdentification()
                 });
@@ -55,7 +56,7 @@ namespace abremir.AllMyBricks.Onboarding.Services
                 identification = _secureStorageService.GetDeviceIdentification();
             }
 
-            return _apiKeyService.GetBricksetApiKey(identification);
+            return await _apiKeyService.GetBricksetApiKey(identification);
         }
     }
 }

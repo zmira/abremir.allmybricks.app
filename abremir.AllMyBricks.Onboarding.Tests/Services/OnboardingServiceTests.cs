@@ -4,6 +4,7 @@ using abremir.AllMyBricks.Onboarding.Services;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
+using System.Threading.Tasks;
 
 namespace abremir.AllMyBricks.Onboarding.Tests.Services
 {
@@ -28,20 +29,20 @@ namespace abremir.AllMyBricks.Onboarding.Tests.Services
         }
 
         [TestMethod]
-        public void GetBricksetApiKey_ApiKeyExistsStored_ReturnsApiKeyAndSaveBricksetApiKeyNotInvoked()
+        public async Task GetBricksetApiKey_ApiKeyExistsStored_ReturnsApiKeyAndSaveBricksetApiKeyNotInvoked()
         {
             _secureStorageService
                 .GetBricksetApiKey()
                 .Returns("API KEY");
 
-            var apiKey = _onboardingService.GetBricksetApiKey();
+            var apiKey = await _onboardingService.GetBricksetApiKey();
 
             apiKey.Should().NotBeNullOrWhiteSpace();
             _secureStorageService.DidNotReceive().SaveBricksetApiKey(Arg.Any<string>());
         }
 
         [TestMethod]
-        public void GetBricksetApiKey_ApiKeyNotStoredButIdentificationStored_ReturnsApiKeyAndSaveDeviceIdentificationNotInvoked()
+        public async Task GetBricksetApiKey_ApiKeyNotStoredButIdentificationStored_ReturnsApiKeyAndSaveDeviceIdentificationNotInvoked()
         {
             _secureStorageService
                 .GetBricksetApiKey()
@@ -56,15 +57,15 @@ namespace abremir.AllMyBricks.Onboarding.Tests.Services
                 .GetBricksetApiKey(Arg.Any<Core.Models.Identification>())
                 .Returns("API KEY");
 
-            var apiKey = _onboardingService.GetBricksetApiKey();
+            var apiKey = await _onboardingService.GetBricksetApiKey();
 
             apiKey.Should().NotBeNullOrWhiteSpace();
-            _apiKeyService.Received().GetBricksetApiKey(Arg.Any<Core.Models.Identification>());
+            await _apiKeyService.Received().GetBricksetApiKey(Arg.Any<Core.Models.Identification>());
             _secureStorageService.DidNotReceive().SaveDeviceIdentification(Arg.Any<Core.Models.Identification>());
         }
 
         [TestMethod]
-        public void GetBricksetApiKey_ApiKeyAndIdentificationNotStored_ReturnsApiKeyAndSaveDeviceIdentificationInvoked()
+        public async Task GetBricksetApiKey_ApiKeyAndIdentificationNotStored_ReturnsApiKeyAndSaveDeviceIdentificationInvoked()
         {
             _secureStorageService
                 .GetBricksetApiKey()
@@ -79,10 +80,10 @@ namespace abremir.AllMyBricks.Onboarding.Tests.Services
                 .GetBricksetApiKey(Arg.Any<Core.Models.Identification>())
                 .Returns("API KEY");
 
-            var apiKey = _onboardingService.GetBricksetApiKey();
+            var apiKey = await _onboardingService.GetBricksetApiKey();
 
             apiKey.Should().NotBeNullOrWhiteSpace();
-            _apiKeyService.Received().GetBricksetApiKey(Arg.Any<Core.Models.Identification>());
+            await _apiKeyService.Received().GetBricksetApiKey(Arg.Any<Core.Models.Identification>());
             _secureStorageService.Received().SaveDeviceIdentification(Arg.Any<Core.Models.Identification>());
         }
     }
