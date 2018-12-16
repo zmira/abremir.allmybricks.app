@@ -44,10 +44,10 @@ namespace abremir.AllMyBricks.DatabaseSeeder
             var setProgress = new ProgressBar(new Rect(8, 10, 80, 1));
 
             var lastUpdatedLabel = new Label(4, 15, "Last Updated: Never                                                   ");
-            var totalUpdatedThemesLabel = new Label(4, 16, "Total Updated Themes: 0                                                   ");
-            var totalUpdatedSubthemesLabel = new Label(4, 17, "Total Updated Subthemes: 0                                                   ");
-            var totalUpdatedSetsLabel = new Label(4, 18, "Total Updated Sets: 0                                                   ");
             var synchronizeExtendedDataLabel = new Label(4, 16, "Synchronize Extended Data: False");
+            var totalUpdatedThemesLabel = new Label(4, 17, "Total Updated Themes: 0                                                   ");
+            var totalUpdatedSubthemesLabel = new Label(4, 18, "Total Updated Subthemes: 0                                                   ");
+            var totalUpdatedSetsLabel = new Label(4, 19, "Total Updated Sets: 0                                                   ");
 
             SynchronizationProgressFrame.Add(themeLabel);
             SynchronizationProgressFrame.Add(themeProgress);
@@ -82,28 +82,13 @@ namespace abremir.AllMyBricks.DatabaseSeeder
 
             var dataSynchronizerEventHandler = IoC.IoCContainer.GetInstance<IDataSynchronizerEventManager>();
 
-            dataSynchronizerEventHandler.Register<DataSynchronizationStart>(_ => SynchronizationProgressFrame.Clear());
-            dataSynchronizerEventHandler.Register<DataSynchronizationEnd>(_ =>
+            dataSynchronizerEventHandler.Register<DataSynchronizationStart>(_ =>
             {
-                themeLabel.Text = string.Empty;
-                subthemeLabel.Text = string.Empty;
-                setLabel.Text = string.Empty;
-
-                themeCount = 0f;
-                subthemeCount = 0f;
-                setCount = 0f;
-
-                themeIndex = 0f;
-                subthemeIndex = 0f;
-                setIndex = 0f;
-
-                themeProgress.Fraction = 0;
-                subthemeProgress.Fraction = 0;
-                setProgress.Fraction = 0;
+                totalUpdatedThemes = 0f;
+                totalUpdatedSubthemes = 0f;
+                totalUpdatedSets = 0;
 
                 SynchronizationProgressFrame.Clear();
-
-                Application.Refresh();
             });
             dataSynchronizerEventHandler.Register<InsightsAcquired>(ev =>
             {
@@ -281,6 +266,28 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                     themeProgress.Fraction = 0f;
                     subthemeProgress.Fraction = 0f;
                 }
+
+                Application.Refresh();
+            });
+            dataSynchronizerEventHandler.Register<DataSynchronizationEnd>(_ =>
+            {
+                themeLabel.Text = string.Empty;
+                subthemeLabel.Text = string.Empty;
+                setLabel.Text = string.Empty;
+
+                themeCount = 0f;
+                subthemeCount = 0f;
+                setCount = 0f;
+
+                themeIndex = 0f;
+                subthemeIndex = 0f;
+                setIndex = 0f;
+
+                themeProgress.Fraction = 0;
+                subthemeProgress.Fraction = 0;
+                setProgress.Fraction = 0;
+
+                SynchronizationProgressFrame.Clear();
 
                 Application.Refresh();
             });
