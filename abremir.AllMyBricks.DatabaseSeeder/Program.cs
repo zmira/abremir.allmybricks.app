@@ -47,6 +47,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder
             var totalUpdatedThemesLabel = new Label(4, 16, "Total Updated Themes: 0                                                   ");
             var totalUpdatedSubthemesLabel = new Label(4, 17, "Total Updated Subthemes: 0                                                   ");
             var totalUpdatedSetsLabel = new Label(4, 18, "Total Updated Sets: 0                                                   ");
+            var synchronizeExtendedDataLabel = new Label(4, 16, "Synchronize Extended Data: False");
 
             SynchronizationProgressFrame.Add(themeLabel);
             SynchronizationProgressFrame.Add(themeProgress);
@@ -55,6 +56,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder
             SynchronizationProgressFrame.Add(setLabel);
             SynchronizationProgressFrame.Add(setProgress);
             SynchronizationProgressFrame.Add(lastUpdatedLabel);
+            SynchronizationProgressFrame.Add(synchronizeExtendedDataLabel);
             SynchronizationProgressFrame.Add(totalUpdatedThemesLabel);
             SynchronizationProgressFrame.Add(totalUpdatedSubthemesLabel);
             SynchronizationProgressFrame.Add(totalUpdatedSetsLabel);
@@ -106,6 +108,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder
             dataSynchronizerEventHandler.Register<InsightsAcquired>(ev =>
             {
                 lastUpdatedLabel.Text = $"Last Updated: {(ev.SynchronizationTimestamp.HasValue ? ev.SynchronizationTimestamp.Value.ToString("yyyy-MM-dd HH:mm:ss") : "Never")}";
+                synchronizeExtendedDataLabel.Text = $"Synchronize Extended Data: {(Settings.SynchronizeSetExtendedData ? "True" : "False")}";
 
                 Application.Refresh();
             });
@@ -291,6 +294,8 @@ namespace abremir.AllMyBricks.DatabaseSeeder
 
             AddOnboardingUrl(topLevelWindow);
 
+            AddSynchronizationOptions(topLevelWindow);
+
             Application.Run();
         }
 
@@ -414,6 +419,54 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                     }
                 }
             );
+        }
+
+        private static void AddSynchronizationOptions(Window window)
+        {
+            var synchronizeExtendedDataCheckbox = new CheckBox(3, 4, "Synchronize sets' extended data", Settings.SynchronizeSetExtendedData);
+
+            var synchronizeAdditionalImagesCheckbox = new CheckBox(5, 5, "Synchronize additional images", Settings.SynchronizeAdditionalImages);
+            synchronizeAdditionalImagesCheckbox.Toggled += (sender, _) => Settings.SynchronizeAdditionalImages = ((CheckBox)sender).Checked;
+
+            var synchronizeInstructionsCheckbox = new CheckBox(5, 6, "Synchronize instructions", Settings.SynchronizeInstructions);
+            synchronizeInstructionsCheckbox.Toggled += (sender, _) => Settings.SynchronizeInstructions = ((CheckBox)sender).Checked;
+
+            var synchronizeTagsCheckbox = new CheckBox(5, 7, "Synchronize tags", Settings.SynchronizeTags);
+            synchronizeTagsCheckbox.Toggled += (sender, _) => Settings.SynchronizeTags = ((CheckBox)sender).Checked;
+
+            var synchronizePricesCheckbox = new CheckBox(5, 8, "Synchronize prices", Settings.SynchronizePrices);
+            synchronizePricesCheckbox.Toggled += (sender, _) => Settings.SynchronizePrices = ((CheckBox)sender).Checked;
+
+            var synchronizeReviewsCheckbox = new CheckBox(5, 9, "Synchronize reviews", Settings.SynchronizeReviews);
+            synchronizeReviewsCheckbox.Toggled += (sender, _) => Settings.SynchronizeReviews = ((CheckBox)sender).Checked;
+
+            synchronizeExtendedDataCheckbox.Toggled += (sender, _) =>
+            {
+                Settings.SynchronizeSetExtendedData = ((CheckBox)sender).Checked;
+
+                SetExtendedDataOptions(window, ((CheckBox)sender).Checked, synchronizeAdditionalImagesCheckbox, synchronizeInstructionsCheckbox, synchronizeTagsCheckbox, synchronizePricesCheckbox, synchronizeReviewsCheckbox);
+            };
+
+            window.Add(synchronizeExtendedDataCheckbox);
+
+            SetExtendedDataOptions(window, Settings.SynchronizeSetExtendedData, synchronizeAdditionalImagesCheckbox, synchronizeInstructionsCheckbox, synchronizeTagsCheckbox, synchronizePricesCheckbox, synchronizeReviewsCheckbox);
+        }
+
+        private static void SetExtendedDataOptions(Window window, bool parentCheckedState, params View[] extendedDataOptions)
+        {
+            if (!parentCheckedState)
+            {
+                foreach(var view in extendedDataOptions)
+                {
+                    ((CheckBox)view).Checked = false;
+
+                    window.Remove(view);
+                }
+
+                return;
+            }
+
+            window.Add(extendedDataOptions);
         }
     }
 }

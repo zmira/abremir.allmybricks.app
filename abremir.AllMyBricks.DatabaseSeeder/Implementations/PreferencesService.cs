@@ -6,10 +6,10 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Implementations
 {
     public class PreferencesService : IPreferencesService
     {
-        public bool RetrieveFullSetDataOnSynchronization
+        public bool SynchronizeSetExtendedData
         {
-            get => true;
-            set => throw new NotImplementedException();
+            get => Settings.SynchronizeSetExtendedData;
+            set => Settings.SynchronizeSetExtendedData = value;
         }
 
         public ThumbnailCachingStrategyEnum ThumbnailCachingStrategy
@@ -34,6 +34,35 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Implementations
         {
             get => true;
             set => throw new NotImplementedException();
+        }
+
+        public bool SynchronizeAdditionalImages {
+            get => Settings.SynchronizeAdditionalImages;
+            set => Settings.SynchronizeAdditionalImages = value;
+        }
+
+        public bool SynchronizeInstructions
+        {
+            get => Settings.SynchronizeInstructions;
+            set => Settings.SynchronizeInstructions = value;
+        }
+
+        public bool SynchronizeTags
+        {
+            get => Settings.SynchronizeTags;
+            set => Settings.SynchronizeTags = value;
+        }
+
+        public bool SynchronizePrices
+        {
+            get => Settings.SynchronizePrices;
+            set => Settings.SynchronizePrices = value;
+        }
+
+        public bool SynchronizeReviews
+        {
+            get => Settings.SynchronizeReviews;
+            set => Settings.SynchronizeReviews = value;
         }
     }
 }
