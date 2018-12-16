@@ -7,6 +7,7 @@ using abremir.AllMyBricks.DataSynchronizer.Events.ThemeSynchronizer;
 using abremir.AllMyBricks.DataSynchronizer.Interfaces;
 using abremir.AllMyBricks.Device.Interfaces;
 using Microsoft.Extensions.Logging;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using Terminal.Gui;
 
@@ -297,7 +298,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder
 
             AddMenuBar(topLevel);
 
-            AddButton(topLevel, topLevelWindow);
+            AddButton(topLevelWindow);
 
             AddOnboardingUrl(topLevelWindow);
 
@@ -336,7 +337,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder
             );
         }
 
-        private static void AddButton(Toplevel topLevel, Window window)
+        private static void AddButton(Window window)
         {
             var button = new Button("Start seeding the database...")
             {
@@ -352,9 +353,13 @@ namespace abremir.AllMyBricks.DatabaseSeeder
 
                     Task.Run(() =>
                     {
+                        var stopwatch = Stopwatch.StartNew();
+
                         dataSynchronizationService.SynchronizeAllSetData();
 
-                        var dialog = new Dialog("Synchronization finished", 50, 6, new Button("Ok")
+                        stopwatch.Stop();
+
+                        var dialog = new Dialog("Synchronization finished", 50, 8, new Button("Ok")
                         {
                             Clicked = () =>
                             {
@@ -365,6 +370,13 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                                 Application.RequestStop();
                             }
                         });
+
+                        var totalTimeLabel = new Label($"Synchronized in {stopwatch.Elapsed.ToString(@"hh\:mm\:ss")}")
+                        {
+                            X = Pos.Center(),
+                            Y = 1
+                        };
+                        dialog.Add(totalTimeLabel);
 
                         Application.Run(dialog);
                     });
