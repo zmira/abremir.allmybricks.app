@@ -1,5 +1,6 @@
 ﻿using abremir.AllMyBricks.Device.Interfaces;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace abremir.AllMyBricks.DatabaseSeeder.Implementations
 {
@@ -37,8 +38,9 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Implementations
             return string.Empty;
         }
 
-        public void SaveThumbnailToCache(string theme, string subtheme, string filename, byte[] thumbnail)
+        public Task SaveThumbnailToCache(string theme, string subtheme, string filename, byte[] thumbnail)
         {
+            return null;
         }
     }
 }
