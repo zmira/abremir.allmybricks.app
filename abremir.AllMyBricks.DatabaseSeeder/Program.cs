@@ -44,11 +44,17 @@ namespace abremir.AllMyBricks.DatabaseSeeder
             var setLabel = new Label(8, 9, "                                                    ");
             var setProgress = new ProgressBar(new Rect(8, 10, 80, 1));
 
-            var lastUpdatedLabel = new Label(4, 15, "Last Updated: Never                                                   ");
-            var synchronizeExtendedDataLabel = new Label(4, 16, "Synchronize Extended Data: False");
-            var totalUpdatedThemesLabel = new Label(4, 17, "Total Updated Themes: 0                                                   ");
-            var totalUpdatedSubthemesLabel = new Label(4, 18, "Total Updated Subthemes: 0                                                   ");
-            var totalUpdatedSetsLabel = new Label(4, 19, "Total Updated Sets: 0                                                   ");
+            var synchronizeAdditionalImagesLabel = new Label(4, 16, "Synchronize Additional Images: False");
+            var synchronizeInstructionsLabel = new Label(4, 17, "Synchronize Instructions: False");
+            var synchronizeReviewsLabel = new Label(4, 18, "Synchronize Reviews: False");
+            var synchronizeExtendedDataLabel = new Label(4, 19, "Synchronize Extended Data: False");
+            var synchronizeTagsLabel = new Label(6, 20, "Synchronize Tags: False");
+            var synchronizePricesLabel = new Label(6, 21, "Synchronize Prices: False");
+
+            var lastUpdatedLabel = new Label(50, 17, "Last Updated: Never                 ");
+            var totalUpdatedThemesLabel = new Label(50, 18, "Total Updated Themes: 0      ");
+            var totalUpdatedSubthemesLabel = new Label(50, 19, "Total Updated Subthemes: 0      ");
+            var totalUpdatedSetsLabel = new Label(50, 20, "Total Updated Sets: 0      ");
 
             SynchronizationProgressFrame.Add(themeLabel);
             SynchronizationProgressFrame.Add(themeProgress);
@@ -57,7 +63,12 @@ namespace abremir.AllMyBricks.DatabaseSeeder
             SynchronizationProgressFrame.Add(setLabel);
             SynchronizationProgressFrame.Add(setProgress);
             SynchronizationProgressFrame.Add(lastUpdatedLabel);
+            SynchronizationProgressFrame.Add(synchronizeAdditionalImagesLabel);
+            SynchronizationProgressFrame.Add(synchronizeInstructionsLabel);
+            SynchronizationProgressFrame.Add(synchronizeReviewsLabel);
             SynchronizationProgressFrame.Add(synchronizeExtendedDataLabel);
+            SynchronizationProgressFrame.Add(synchronizeTagsLabel);
+            SynchronizationProgressFrame.Add(synchronizePricesLabel);
             SynchronizationProgressFrame.Add(totalUpdatedThemesLabel);
             SynchronizationProgressFrame.Add(totalUpdatedSubthemesLabel);
             SynchronizationProgressFrame.Add(totalUpdatedSetsLabel);
@@ -100,10 +111,20 @@ namespace abremir.AllMyBricks.DatabaseSeeder
             dataSynchronizerEventHandler.Register<InsightsAcquired>(ev =>
             {
                 lastUpdatedLabel.Text = $"Last Updated: {(ev.SynchronizationTimestamp.HasValue ? ev.SynchronizationTimestamp.Value.ToString("yyyy-MM-dd HH:mm:ss") : "Never")}";
+                synchronizeAdditionalImagesLabel.Text = $"Synchronize Additional Images: {(Settings.SynchronizeAdditionalImages ? "True" : "False")}";
+                synchronizeInstructionsLabel.Text = $"Synchronize Instructions: {(Settings.SynchronizeInstructions ? "True" : "False")}";
+                synchronizeReviewsLabel.Text = $"Synchronize Reviews: {(Settings.SynchronizeReviews ? "True" : "False")}";
                 synchronizeExtendedDataLabel.Text = $"Synchronize Extended Data: {(Settings.SynchronizeSetExtendedData ? "True" : "False")}";
+                synchronizeTagsLabel.Text = $"Synchronize Tags: {(Settings.SynchronizeTags ? "True" : "False")}";
+                synchronizePricesLabel.Text = $"Synchronize Prices: {(Settings.SynchronizePrices ? "True" : "False")}";
 
                 Application.MainLoop.Invoke(lastUpdatedLabel.ChildNeedsDisplay);
+                Application.MainLoop.Invoke(synchronizeAdditionalImagesLabel.ChildNeedsDisplay);
+                Application.MainLoop.Invoke(synchronizeInstructionsLabel.ChildNeedsDisplay);
+                Application.MainLoop.Invoke(synchronizeReviewsLabel.ChildNeedsDisplay);
                 Application.MainLoop.Invoke(synchronizeExtendedDataLabel.ChildNeedsDisplay);
+                Application.MainLoop.Invoke(synchronizeTagsLabel.ChildNeedsDisplay);
+                Application.MainLoop.Invoke(synchronizePricesLabel.ChildNeedsDisplay);
 
                 //Application.MainLoop.Invoke(SynchronizationProgressFrame.ChildNeedsDisplay);
             });
@@ -501,33 +522,36 @@ namespace abremir.AllMyBricks.DatabaseSeeder
 
         private static void AddSynchronizationOptions(Window window)
         {
-            var synchronizeExtendedDataCheckbox = new CheckBox(3, 4, "Synchronize sets' extended data", Settings.SynchronizeSetExtendedData);
-
-            var synchronizeAdditionalImagesCheckbox = new CheckBox(5, 5, "Synchronize additional images", Settings.SynchronizeAdditionalImages);
+            var synchronizeAdditionalImagesCheckbox = new CheckBox(3, 4, "Synchronize additional images", Settings.SynchronizeAdditionalImages);
             synchronizeAdditionalImagesCheckbox.Toggled += (sender, _) => Settings.SynchronizeAdditionalImages = ((CheckBox)sender).Checked;
 
-            var synchronizeInstructionsCheckbox = new CheckBox(5, 6, "Synchronize instructions", Settings.SynchronizeInstructions);
+            var synchronizeInstructionsCheckbox = new CheckBox(3, 5, "Synchronize instructions", Settings.SynchronizeInstructions);
             synchronizeInstructionsCheckbox.Toggled += (sender, _) => Settings.SynchronizeInstructions = ((CheckBox)sender).Checked;
 
-            var synchronizeTagsCheckbox = new CheckBox(5, 7, "Synchronize tags", Settings.SynchronizeTags);
+            var synchronizeReviewsCheckbox = new CheckBox(3, 6, "Synchronize reviews", Settings.SynchronizeReviews);
+            synchronizeReviewsCheckbox.Toggled += (sender, _) => Settings.SynchronizeReviews = ((CheckBox)sender).Checked;
+
+            var synchronizeExtendedDataCheckbox = new CheckBox(3, 7, "Synchronize sets' extended data", Settings.SynchronizeSetExtendedData);
+
+            var synchronizeTagsCheckbox = new CheckBox(5, 8, "Synchronize tags", Settings.SynchronizeTags);
             synchronizeTagsCheckbox.Toggled += (sender, _) => Settings.SynchronizeTags = ((CheckBox)sender).Checked;
 
-            var synchronizePricesCheckbox = new CheckBox(5, 8, "Synchronize prices", Settings.SynchronizePrices);
+            var synchronizePricesCheckbox = new CheckBox(5, 9, "Synchronize prices", Settings.SynchronizePrices);
             synchronizePricesCheckbox.Toggled += (sender, _) => Settings.SynchronizePrices = ((CheckBox)sender).Checked;
-
-            var synchronizeReviewsCheckbox = new CheckBox(5, 9, "Synchronize reviews", Settings.SynchronizeReviews);
-            synchronizeReviewsCheckbox.Toggled += (sender, _) => Settings.SynchronizeReviews = ((CheckBox)sender).Checked;
 
             synchronizeExtendedDataCheckbox.Toggled += (sender, _) =>
             {
                 Settings.SynchronizeSetExtendedData = ((CheckBox)sender).Checked;
 
-                SetExtendedDataOptions(window, ((CheckBox)sender).Checked, synchronizeAdditionalImagesCheckbox, synchronizeInstructionsCheckbox, synchronizeTagsCheckbox, synchronizePricesCheckbox, synchronizeReviewsCheckbox);
+                SetExtendedDataOptions(window, ((CheckBox)sender).Checked, synchronizeTagsCheckbox, synchronizePricesCheckbox);
             };
 
+            window.Add(synchronizeAdditionalImagesCheckbox);
+            window.Add(synchronizeInstructionsCheckbox);
+            window.Add(synchronizeReviewsCheckbox);
             window.Add(synchronizeExtendedDataCheckbox);
 
-            SetExtendedDataOptions(window, Settings.SynchronizeSetExtendedData, synchronizeAdditionalImagesCheckbox, synchronizeInstructionsCheckbox, synchronizeTagsCheckbox, synchronizePricesCheckbox, synchronizeReviewsCheckbox);
+            SetExtendedDataOptions(window, Settings.SynchronizeSetExtendedData, synchronizeTagsCheckbox, synchronizePricesCheckbox);
         }
 
         private static void SetExtendedDataOptions(Window window, bool parentCheckedState, params View[] extendedDataOptions)
