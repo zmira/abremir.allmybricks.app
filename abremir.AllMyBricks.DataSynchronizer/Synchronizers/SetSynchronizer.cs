@@ -181,6 +181,8 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
             };
 
             await SetImageList(apiKey, set, bricksetSet);
+            await SetInstructionList(apiKey, set, bricksetSet);
+            await SetReviewList(apiKey, set, bricksetSet);
 
             if (_preferencesService.SynchronizeSetExtendedData)
             {
@@ -201,10 +203,8 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                 set.Weight = string.IsNullOrWhiteSpace(bricksetSet.Weight) ? (float?)null : float.Parse(bricksetSet.Weight, NumberStyles.Any, CultureInfo.InvariantCulture);
                 set.Notes = bricksetSet.Notes?.SanitizeBricksetString();
 
-                await SetInstructionList(apiKey, set, bricksetSet);
                 SetTagList(set, bricksetSet.Tags);
                 SetPriceList(set, bricksetSet);
-                await SetReviewList(apiKey, set, bricksetSet);
             }
 
             return set;
@@ -238,7 +238,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                 });
             }
 
-            if (bricksetSet.AdditionalImageCount == 0 || !_preferencesService.SynchronizeSetExtendedData || !_preferencesService.SynchronizeAdditionalImages)
+            if (bricksetSet.AdditionalImageCount == 0 || !_preferencesService.SynchronizeAdditionalImages)
             {
                 return;
             }
@@ -300,7 +300,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
 
         private async Task SetReviewList(string apiKey, Set set, Sets bricksetSet)
         {
-            if (bricksetSet.ReviewCount == 0 || !_preferencesService.SynchronizeSetExtendedData || !_preferencesService.SynchronizeReviews)
+            if (bricksetSet.ReviewCount == 0 || !_preferencesService.SynchronizeReviews)
             {
                 return;
             }
@@ -318,7 +318,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
 
         private async Task SetInstructionList(string apiKey, Set set, Sets bricksetSet)
         {
-            if (bricksetSet.InstructionsCount == 0 || !_preferencesService.SynchronizeSetExtendedData || !_preferencesService.SynchronizeInstructions)
+            if (bricksetSet.InstructionsCount == 0 || !_preferencesService.SynchronizeInstructions)
             {
                 return;
             }
