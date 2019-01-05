@@ -81,6 +81,8 @@ namespace abremir.AllMyBricks.DatabaseSeeder
             var setSynchronizerEventHandler = IoC.IoCContainer.GetInstance<SetSynchronizerLogger>();
             var thumbnailSynchronizerEventHandler = IoC.IoCContainer.GetInstance<ThumbnailSynchronizerLogger>();
 
+            Stopwatch stopwatch = null;
+
             var dataSynchronizerEventHandler = IoC.IoCContainer.GetInstance<IDataSynchronizerEventManager>();
 
             dataSynchronizerEventHandler.Register<DataSynchronizationStart>(_ =>
@@ -90,6 +92,8 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                 totalUpdatedSets = 0;
 
                 SynchronizationProgressFrame.Clear();
+
+                stopwatch = Stopwatch.StartNew();
             });
             dataSynchronizerEventHandler.Register<InsightsAcquired>(ev =>
             {
@@ -272,6 +276,8 @@ namespace abremir.AllMyBricks.DatabaseSeeder
             });
             dataSynchronizerEventHandler.Register<DataSynchronizationEnd>(_ =>
             {
+                stopwatch.Stop();
+
                 themeLabel.Text = string.Empty;
                 subthemeLabel.Text = string.Empty;
                 setLabel.Text = string.Empty;
@@ -291,6 +297,27 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                 SynchronizationProgressFrame.Clear();
 
                 Application.Refresh();
+
+                var dialog = new Dialog("Synchronization finished", 50, 8, new Button("Ok")
+                {
+                    Clicked = () =>
+                    {
+                        topLevelWindow.Remove(SynchronizationProgressFrame);
+
+                        CanExit = true;
+
+                        Application.RequestStop();
+                    }
+                });
+
+                var totalTimeLabel = new Label($"Synchronized in {stopwatch.Elapsed.ToString(@"hh\:mm\:ss")}")
+                {
+                    X = Pos.Center(),
+                    Y = 1
+                };
+                dialog.Add(totalTimeLabel);
+
+                Application.Run(dialog);
             });
 
             var fileSystem = IoC.IoCContainer.GetInstance<IFileSystemService>();
@@ -351,35 +378,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder
 
                     var dataSynchronizationService = IoC.IoCContainer.GetInstance<IDataSynchronizationService>();
 
-                    Task.Run(() =>
-                    {
-                        var stopwatch = Stopwatch.StartNew();
-
-                        dataSynchronizationService.SynchronizeAllSetData();
-
-                        stopwatch.Stop();
-
-                        var dialog = new Dialog("Synchronization finished", 50, 8, new Button("Ok")
-                        {
-                            Clicked = () =>
-                            {
-                                window.Remove(SynchronizationProgressFrame);
-
-                                CanExit = true;
-
-                                Application.RequestStop();
-                            }
-                        });
-
-                        var totalTimeLabel = new Label($"Synchronized in {stopwatch.Elapsed.ToString(@"hh\:mm\:ss")}")
-                        {
-                            X = Pos.Center(),
-                            Y = 1
-                        };
-                        dialog.Add(totalTimeLabel);
-
-                        Application.Run(dialog);
-                    });
+                    dataSynchronizationService.SynchronizeAllSetData();
                 }
             };
 
