@@ -35,6 +35,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "abremir.AllMyBricks.DataSyn
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "abremir.AllMyBricks.DatabaseSeeder", "abremir.AllMyBricks.DatabaseSeeder\abremir.AllMyBricks.DatabaseSeeder.csproj", "{ACDCA9CE-B4D8-4A9D-9905-A0EBD9F6B7C4}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ci-cd", "ci-cd", "{C970A841-210A-4407-93F3-DEA3BC5B390F}"
+	ProjectSection(SolutionItems) = preProject
+		azure-pipelines.yml = azure-pipelines.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Ad-Hoc|Any CPU = Ad-Hoc|Any CPU
