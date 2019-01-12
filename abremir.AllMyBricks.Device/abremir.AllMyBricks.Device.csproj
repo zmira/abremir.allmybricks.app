@@ -5,9 +5,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Essential.Interfaces" Version="1.0.0" />
     <PackageReference Include="fastJSON" Version="2.2.0.1" />
     <PackageReference Include="SimpleInjector" Version="4.4.3" />
+    <PackageReference Include="Xamarin.Essentials.Interfaces" Version="1.0.0" />
   </ItemGroup>
 
   <ItemGroup>
