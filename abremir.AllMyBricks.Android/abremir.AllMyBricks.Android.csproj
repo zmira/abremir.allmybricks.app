@@ -6,8 +6,8 @@
     <ProjectGuid>{E07C502C-D485-402A-8315-C2BFDCCA68C2}</ProjectGuid>
     <ProjectTypeGuids>{EFBA0AD7-5A72-4C68-AF49-83D382785DCF};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
-    <RootNamespace>abremir.AllMyBricks.Droid</RootNamespace>
-    <AssemblyName>abremir.AllMyBricks</AssemblyName>
+    <RootNamespace>abremir.AllMyBricks.Android</RootNamespace>
+    <AssemblyName>abremir.AllMyBricks.Android</AssemblyName>
     <TargetFrameworkVersion>v8.1</TargetFrameworkVersion>
     <AndroidApplication>True</AndroidApplication>
     <AndroidResgenFile>Resources\Resource.designer.cs</AndroidResgenFile>

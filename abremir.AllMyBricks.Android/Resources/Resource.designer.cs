@@ -9,9 +9,9 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: global::Android.Runtime.ResourceDesignerAttribute("abremir.AllMyBricks.Droid.Resource", IsApplication=true)]
+[assembly: global::Android.Runtime.ResourceDesignerAttribute("abremir.AllMyBricks.Android.Resource", IsApplication=true)]
 
-namespace abremir.AllMyBricks.Droid
+namespace abremir.AllMyBricks.Android
 {
 	
 	
@@ -26,7 +26,7 @@ namespace abremir.AllMyBricks.Droid
 		
 		public static void UpdateIdValues()
 		{
-			global::Xamarin.Forms.Platform.Android.Resource.Attribute.actionBarSize = global::abremir.AllMyBricks.Droid.Resource.Attribute.actionBarSize;
+			global::Xamarin.Forms.Platform.Android.Resource.Attribute.actionBarSize = global::abremir.AllMyBricks.Android.Resource.Attribute.actionBarSize;
 		}
 		
 		public partial class Animation
