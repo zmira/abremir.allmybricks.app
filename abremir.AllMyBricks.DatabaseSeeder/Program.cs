@@ -17,6 +17,8 @@ namespace abremir.AllMyBricks.DatabaseSeeder
 
             IoC.Configure();
             IoC.ConfigureOnboarding(Settings.OnboardingUrl);
+                var fileSystem = IoC.IoCContainer.GetInstance<IFileSystemService>();
+                fileSystem.EnsureLocalDataFolder();
 
             InteractiveConsole.Run();
         }

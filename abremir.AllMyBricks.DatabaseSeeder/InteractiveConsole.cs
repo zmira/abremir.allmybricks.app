@@ -387,9 +387,6 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                 Application.Run(dialog);
             });
 
-            var fileSystem = IoC.IoCContainer.GetInstance<IFileSystemService>();
-            fileSystem.EnsureLocalDataFolder();
-
             AddMenuBar(topLevel);
 
             AddButton(topLevelWindow);
