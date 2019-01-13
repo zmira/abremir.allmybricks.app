@@ -2,7 +2,7 @@
 using abremir.AllMyBricks.Device.Interfaces;
 using System;
 
-namespace abremir.AllMyBricks.DatabaseSeeder.Implementations
+namespace abremir.AllMyBricks.DatabaseSeeder.Services
 {
     public class DeviceInformationService : IDeviceInformationService
     {

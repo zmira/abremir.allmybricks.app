@@ -1,5 +1,5 @@
-﻿using abremir.AllMyBricks.DatabaseSeeder.Implementations;
-using abremir.AllMyBricks.DatabaseSeeder.Loggers;
+﻿using abremir.AllMyBricks.DatabaseSeeder.Loggers;
+using abremir.AllMyBricks.DatabaseSeeder.Services;
 using abremir.AllMyBricks.Device.Interfaces;
 using Microsoft.Extensions.Logging;
 using SimpleInjector;

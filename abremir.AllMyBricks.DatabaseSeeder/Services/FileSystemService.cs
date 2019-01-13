@@ -2,7 +2,7 @@
 using System.IO;
 using System.Threading.Tasks;
 
-namespace abremir.AllMyBricks.DatabaseSeeder.Implementations
+namespace abremir.AllMyBricks.DatabaseSeeder.Services
 {
     public class FileSystemService : IFileSystemService
     {
