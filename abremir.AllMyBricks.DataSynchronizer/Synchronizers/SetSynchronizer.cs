@@ -137,14 +137,11 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
 
             try
             {
-                if (_preferencesService.SynchronizeSetExtendedData)
-                {
-                    bricksetSet = await Synchronize(apiKey, bricksetSet.SetId);
+                bricksetSet = await Synchronize(apiKey, bricksetSet.SetId);
 
-                    if (bricksetSet == null)
-                    {
-                        return;
-                    }
+                if (bricksetSet == null)
+                {
+                    return;
                 }
 
                 var set = await MapSet(apiKey, theme, subtheme, bricksetSet);
@@ -180,39 +177,36 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                 LastUpdated = bricksetSet.LastUpdated
             };
 
+            set.OwnedByTotal = (short)bricksetSet.OwnedByTotal;
+            set.WantedByTotal = (short)bricksetSet.WantedByTotal;
+            set.Rating = (float)bricksetSet.Rating;
+            set.Category = _referenceDataRepository.GetOrAdd<Category>(bricksetSet.Category);
+            set.PackagingType = _referenceDataRepository.GetOrAdd<PackagingType>(bricksetSet.PackagingType);
+            set.ThemeGroup = _referenceDataRepository.GetOrAdd<ThemeGroup>(bricksetSet.ThemeGroup);
+            set.Ean = string.IsNullOrWhiteSpace(bricksetSet.Ean) ? null : bricksetSet.Ean;
+            set.Upc = string.IsNullOrWhiteSpace(bricksetSet.Upc) ? null : bricksetSet.Upc;
+            set.Availability = string.IsNullOrWhiteSpace(bricksetSet.Availability) ? null : bricksetSet.Availability;
+            set.AgeMin = string.IsNullOrWhiteSpace(bricksetSet.AgeMin) ? (byte?)null : byte.Parse(bricksetSet.AgeMin);
+            set.AgeMax = string.IsNullOrWhiteSpace(bricksetSet.AgeMax) ? (byte?)null : byte.Parse(bricksetSet.AgeMax);
+            set.Height = string.IsNullOrWhiteSpace(bricksetSet.Height) ? (float?)null : float.Parse(bricksetSet.Height, NumberStyles.Any, CultureInfo.InvariantCulture);
+            set.Width = string.IsNullOrWhiteSpace(bricksetSet.Width) ? (float?)null : float.Parse(bricksetSet.Width, NumberStyles.Any, CultureInfo.InvariantCulture);
+            set.Depth = string.IsNullOrWhiteSpace(bricksetSet.Depth) ? (float?)null : float.Parse(bricksetSet.Depth, NumberStyles.Any, CultureInfo.InvariantCulture);
+            set.Weight = string.IsNullOrWhiteSpace(bricksetSet.Weight) ? (float?)null : float.Parse(bricksetSet.Weight, NumberStyles.Any, CultureInfo.InvariantCulture);
+            set.Notes = bricksetSet.Notes?.SanitizeBricksetString();
+
+            SetTagList(set, bricksetSet.Tags);
+            SetPriceList(set, bricksetSet);
+
             await SetImageList(apiKey, set, bricksetSet);
             await SetInstructionList(apiKey, set, bricksetSet);
-            await SetReviewList(apiKey, set, bricksetSet);
-
-            if (_preferencesService.SynchronizeSetExtendedData)
-            {
-                set.OwnedByTotal = (short)bricksetSet.OwnedByTotal;
-                set.WantedByTotal = (short)bricksetSet.WantedByTotal;
-                set.Rating = (float)bricksetSet.Rating;
-                set.Category = _referenceDataRepository.GetOrAdd<Category>(bricksetSet.Category);
-                set.PackagingType = _referenceDataRepository.GetOrAdd<PackagingType>(bricksetSet.PackagingType);
-                set.ThemeGroup = _referenceDataRepository.GetOrAdd<ThemeGroup>(bricksetSet.ThemeGroup);
-                set.Ean = string.IsNullOrWhiteSpace(bricksetSet.Ean) ? null : bricksetSet.Ean;
-                set.Upc = string.IsNullOrWhiteSpace(bricksetSet.Upc) ? null : bricksetSet.Upc;
-                set.Availability = string.IsNullOrWhiteSpace(bricksetSet.Availability) ? null : bricksetSet.Availability;
-                set.AgeMin = string.IsNullOrWhiteSpace(bricksetSet.AgeMin) ? (byte?)null : byte.Parse(bricksetSet.AgeMin);
-                set.AgeMax = string.IsNullOrWhiteSpace(bricksetSet.AgeMax) ? (byte?)null : byte.Parse(bricksetSet.AgeMax);
-                set.Height = string.IsNullOrWhiteSpace(bricksetSet.Height) ? (float?)null : float.Parse(bricksetSet.Height, NumberStyles.Any, CultureInfo.InvariantCulture);
-                set.Width = string.IsNullOrWhiteSpace(bricksetSet.Width) ? (float?)null : float.Parse(bricksetSet.Width, NumberStyles.Any, CultureInfo.InvariantCulture);
-                set.Depth = string.IsNullOrWhiteSpace(bricksetSet.Depth) ? (float?)null : float.Parse(bricksetSet.Depth, NumberStyles.Any, CultureInfo.InvariantCulture);
-                set.Weight = string.IsNullOrWhiteSpace(bricksetSet.Weight) ? (float?)null : float.Parse(bricksetSet.Weight, NumberStyles.Any, CultureInfo.InvariantCulture);
-                set.Notes = bricksetSet.Notes?.SanitizeBricksetString();
-
-                SetTagList(set, bricksetSet.Tags);
-                SetPriceList(set, bricksetSet);
-            }
+            //await SetReviewList(apiKey, set, bricksetSet);
 
             return set;
         }
 
         private void SetTagList(Set set, string tags)
         {
-            if (string.IsNullOrWhiteSpace(tags) || !_preferencesService.SynchronizeSetExtendedData || !_preferencesService.SynchronizeTags)
+            if (string.IsNullOrWhiteSpace(tags))
             {
                 return;
             }
@@ -238,7 +232,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                 });
             }
 
-            if (bricksetSet.AdditionalImageCount == 0 || !_preferencesService.SynchronizeAdditionalImages)
+            if (bricksetSet.AdditionalImageCount == 0)
             {
                 return;
             }
@@ -256,11 +250,6 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
 
         private void SetPriceList(Set set, Sets bricksetSet)
         {
-            if(!_preferencesService.SynchronizeSetExtendedData || !_preferencesService.SynchronizePrices)
-            {
-                return;
-            }
-
             if (!string.IsNullOrWhiteSpace(bricksetSet.CaRetailPrice))
             {
                 set.Prices.Add(new Price
@@ -300,7 +289,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
 
         private async Task SetReviewList(string apiKey, Set set, Sets bricksetSet)
         {
-            if (bricksetSet.ReviewCount == 0 || !_preferencesService.SynchronizeReviews)
+            if (bricksetSet.ReviewCount == 0)
             {
                 return;
             }
@@ -318,7 +307,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
 
         private async Task SetInstructionList(string apiKey, Set set, Sets bricksetSet)
         {
-            if (bricksetSet.InstructionsCount == 0 || !_preferencesService.SynchronizeInstructions)
+            if (bricksetSet.InstructionsCount == 0)
             {
                 return;
             }

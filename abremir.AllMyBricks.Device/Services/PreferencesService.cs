@@ -14,18 +14,6 @@ namespace abremir.AllMyBricks.Device.Services
             _preferences = preferences;
         }
 
-        public bool SynchronizeSetExtendedData
-        {
-            get
-            {
-                return _preferences.Get(nameof(SynchronizeSetExtendedData), false, Constants.PreferencesSharedName);
-            }
-            set
-            {
-                _preferences.Set(nameof(SynchronizeSetExtendedData), value, Constants.PreferencesSharedName);
-            }
-        }
-
         public ThumbnailCachingStrategyEnum ThumbnailCachingStrategy
         {
             get
@@ -73,61 +61,6 @@ namespace abremir.AllMyBricks.Device.Services
             set
             {
                 _preferences.Set(nameof(AllowDataSynchronizationInBackground), value, Constants.PreferencesSharedName);
-            }
-        }
-
-        public bool SynchronizeAdditionalImages {
-            get
-            {
-                return _preferences.Get(nameof(SynchronizeAdditionalImages), false, Constants.PreferencesSharedName);
-            }
-            set
-            {
-                _preferences.Set(nameof(SynchronizeAdditionalImages), value, Constants.PreferencesSharedName);
-            }
-        }
-
-        public bool SynchronizeInstructions {
-            get
-            {
-                return _preferences.Get(nameof(SynchronizeInstructions), false, Constants.PreferencesSharedName);
-            }
-            set
-            {
-                _preferences.Set(nameof(SynchronizeInstructions), value, Constants.PreferencesSharedName);
-            }
-        }
-
-        public bool SynchronizeTags {
-            get
-            {
-                return _preferences.Get(nameof(SynchronizeTags), false, Constants.PreferencesSharedName);
-            }
-            set
-            {
-                _preferences.Set(nameof(SynchronizeTags), value, Constants.PreferencesSharedName);
-            }
-        }
-
-        public bool SynchronizePrices {
-            get
-            {
-                return _preferences.Get(nameof(SynchronizePrices), false, Constants.PreferencesSharedName);
-            }
-            set
-            {
-                _preferences.Set(nameof(SynchronizePrices), value, Constants.PreferencesSharedName);
-            }
-        }
-
-        public bool SynchronizeReviews {
-            get
-            {
-                return _preferences.Get(nameof(SynchronizeReviews), false, Constants.PreferencesSharedName);
-            }
-            set
-            {
-                _preferences.Set(nameof(SynchronizeReviews), value, Constants.PreferencesSharedName);
             }
         }
     }

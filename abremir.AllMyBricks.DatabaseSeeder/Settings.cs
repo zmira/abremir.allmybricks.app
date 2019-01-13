@@ -28,42 +28,6 @@ namespace abremir.AllMyBricks.DatabaseSeeder
             set => Store.ReplaceItemAsync<Identification>(nameof(DeviceIdentification), value, true);
         }
 
-        public static bool SynchronizeSetExtendedData
-        {
-            get => Store.GetItem<bool>(nameof(SynchronizeSetExtendedData));
-            set => Store.ReplaceItemAsync<bool>(nameof(SynchronizeSetExtendedData), value, true);
-        }
-
-        public static bool SynchronizeAdditionalImages
-        {
-            get => Store.GetItem<bool>(nameof(SynchronizeAdditionalImages));
-            set => Store.ReplaceItemAsync<bool>(nameof(SynchronizeAdditionalImages), value, true);
-        }
-
-        public static bool SynchronizeInstructions
-        {
-            get => Store.GetItem<bool>(nameof(SynchronizeInstructions));
-            set => Store.ReplaceItemAsync<bool>(nameof(SynchronizeInstructions), value, true);
-        }
-
-        public static bool SynchronizeTags
-        {
-            get => Store.GetItem<bool>(nameof(SynchronizeTags));
-            set => Store.ReplaceItemAsync<bool>(nameof(SynchronizeTags), value, true);
-        }
-
-        public static bool SynchronizePrices
-        {
-            get => Store.GetItem<bool>(nameof(SynchronizePrices));
-            set => Store.ReplaceItemAsync<bool>(nameof(SynchronizePrices), value, true);
-        }
-
-        public static bool SynchronizeReviews
-        {
-            get => Store.GetItem<bool>(nameof(SynchronizeReviews));
-            set => Store.ReplaceItemAsync<bool>(nameof(SynchronizeReviews), value, true);
-        }
-
         private Settings() { }
     }
 }

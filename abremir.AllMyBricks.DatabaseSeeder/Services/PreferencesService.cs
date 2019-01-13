@@ -6,12 +6,6 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Services
 {
     public class PreferencesService : IPreferencesService
     {
-        public bool SynchronizeSetExtendedData
-        {
-            get => Settings.SynchronizeSetExtendedData;
-            set => Settings.SynchronizeSetExtendedData = value;
-        }
-
         public ThumbnailCachingStrategyEnum ThumbnailCachingStrategy
         {
             get => ThumbnailCachingStrategyEnum.NeverCache;
@@ -34,35 +28,6 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Services
         {
             get => true;
             set => throw new NotImplementedException();
-        }
-
-        public bool SynchronizeAdditionalImages {
-            get => Settings.SynchronizeAdditionalImages;
-            set => Settings.SynchronizeAdditionalImages = value;
-        }
-
-        public bool SynchronizeInstructions
-        {
-            get => Settings.SynchronizeInstructions;
-            set => Settings.SynchronizeInstructions = value;
-        }
-
-        public bool SynchronizeTags
-        {
-            get => Settings.SynchronizeTags;
-            set => Settings.SynchronizeTags = value;
-        }
-
-        public bool SynchronizePrices
-        {
-            get => Settings.SynchronizePrices;
-            set => Settings.SynchronizePrices = value;
-        }
-
-        public bool SynchronizeReviews
-        {
-            get => Settings.SynchronizeReviews;
-            set => Settings.SynchronizeReviews = value;
         }
     }
 }

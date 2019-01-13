@@ -18,7 +18,6 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
             dataSynchronizerEventManager.Register<InsightsAcquired>(ev =>
             {
                 _logger.LogInformation($"Last Updated: {(ev.SynchronizationTimestamp.HasValue ? ev.SynchronizationTimestamp.Value.ToString("yyyy-MM-dd HH:mm:ss") : "Never")}");
-                _logger.LogInformation($"Synchronize Extended Data: {(Settings.SynchronizeSetExtendedData ? "True" : "False")}");
             });
 
             dataSynchronizerEventManager.Register<ProcessingTheme>(ev => _logger.LogInformation($"Processing theme: {ev.Name}"));
