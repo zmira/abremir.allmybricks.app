@@ -7,7 +7,7 @@ using static System.FormattableString;
 
 namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
 {
-    public class ThemeSynchronizerLogger
+    public class ThemeSynchronizerLogger : IDatabaseSeederLogger
     {
         private static float _themeIndex;
         private static float _themeProgressFraction;

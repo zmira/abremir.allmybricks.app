@@ -3,6 +3,7 @@ using abremir.AllMyBricks.DatabaseSeeder.Services;
 using abremir.AllMyBricks.Device.Interfaces;
 using Microsoft.Extensions.Logging;
 using SimpleInjector;
+using System.Reflection;
 
 namespace abremir.AllMyBricks.DatabaseSeeder.Configuration
 {
@@ -23,11 +24,8 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Configuration
             IoCContainer.Register<IDeviceInformationService, DeviceInformationService>(Lifestyle.Transient);
             IoCContainer.Register<IFileSystemService, FileSystemService>(Lifestyle.Transient);
             IoCContainer.Register<ILoggerFactory>(() => Logging.LoggerFactory, Lifestyle.Singleton);
-            IoCContainer.Register<DataSynchronizationServiceLogger>(Lifestyle.Transient);
-            IoCContainer.Register<ThemeSynchronizerLogger>(Lifestyle.Transient);
-            IoCContainer.Register<SubthemeSynchronizerLogger>(Lifestyle.Transient);
-            IoCContainer.Register<SetSynchronizerLogger>(Lifestyle.Transient);
-            IoCContainer.Register<ThumbnailSynchronizerLogger>(Lifestyle.Transient);
+
+            IoCContainer.Collection.Register<IDatabaseSeederLogger>(Assembly.GetExecutingAssembly());
 
             Onboarding.Configuration.FlurlConfiguration.Configure();
         }

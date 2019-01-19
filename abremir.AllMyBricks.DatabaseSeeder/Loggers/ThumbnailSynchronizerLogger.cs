@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 
 namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
 {
-    public class ThumbnailSynchronizerLogger
+    public class ThumbnailSynchronizerLogger : IDatabaseSeederLogger
     {
         private readonly ILogger _logger;
 

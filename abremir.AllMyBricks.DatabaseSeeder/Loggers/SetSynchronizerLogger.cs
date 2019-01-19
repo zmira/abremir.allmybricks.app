@@ -7,7 +7,7 @@ using static System.FormattableString;
 
 namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
 {
-    public class SetSynchronizerLogger
+    public class SetSynchronizerLogger : IDatabaseSeederLogger
     {
         private static float _setIndex;
         private static float _setProgressFraction;

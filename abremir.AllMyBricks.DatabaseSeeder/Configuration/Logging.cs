@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using abremir.AllMyBricks.DatabaseSeeder.Loggers;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Console;
 using NReco.Logging.File;
 using System;
@@ -13,7 +14,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Configuration
 
         public static ILogger CreateLogger<T>() => LoggerFactory.CreateLogger<T>();
 
-        private static LoggingVerbosityEnum LogVerbosity { get; set; }
+        public static LoggingVerbosityEnum LogVerbosity { get; set; }
 
         public static void Configure(LogDestinationEnum logDestination, LoggingVerbosityEnum logVerbosity)
         {
@@ -27,6 +28,15 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Configuration
                 case LogDestinationEnum.Console:
                     SetupConsoleLogging();
                     break;
+            }
+
+            if (LogVerbosity != LoggingVerbosityEnum.NoLogging)
+            {
+                var dataSynchronizationServiceEventHandler = IoC.IoCContainer.GetInstance<DataSynchronizationServiceLogger>();
+                var themeSynchronizerEventHandler = IoC.IoCContainer.GetInstance<ThemeSynchronizerLogger>();
+                var subthemeSynchronizerEventHandler = IoC.IoCContainer.GetInstance<SubthemeSynchronizerLogger>();
+                var setSynchronizerEventHandler = IoC.IoCContainer.GetInstance<SetSynchronizerLogger>();
+                var thumbnailSynchronizerEventHandler = IoC.IoCContainer.GetInstance<ThumbnailSynchronizerLogger>();
             }
         }
 

@@ -1,5 +1,4 @@
 ﻿using abremir.AllMyBricks.DatabaseSeeder.Configuration;
-using abremir.AllMyBricks.DatabaseSeeder.Loggers;
 using abremir.AllMyBricks.DataSynchronizer.Events.DataSynchronizationService;
 using abremir.AllMyBricks.DataSynchronizer.Events.SetSynchronizer;
 using abremir.AllMyBricks.DataSynchronizer.Events.SubthemeSynchronizer;
@@ -60,12 +59,6 @@ namespace abremir.AllMyBricks.DatabaseSeeder
             var totalUpdatedThemes = 0f;
             var totalUpdatedSubthemes = 0f;
             var totalUpdatedSets = 0f;
-
-            var dataSynchronizationServiceEventHandler = IoC.IoCContainer.GetInstance<DataSynchronizationServiceLogger>();
-            var themeSynchronizerEventHandler = IoC.IoCContainer.GetInstance<ThemeSynchronizerLogger>();
-            var subthemeSynchronizerEventHandler = IoC.IoCContainer.GetInstance<SubthemeSynchronizerLogger>();
-            var setSynchronizerEventHandler = IoC.IoCContainer.GetInstance<SetSynchronizerLogger>();
-            var thumbnailSynchronizerEventHandler = IoC.IoCContainer.GetInstance<ThumbnailSynchronizerLogger>();
 
             var dataSynchronizerEventManager = IoC.IoCContainer.GetInstance<IDataSynchronizerEventManager>();
 

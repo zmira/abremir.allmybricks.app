@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 
 namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
 {
-    public class DataSynchronizationServiceLogger
+    public class DataSynchronizationServiceLogger : IDatabaseSeederLogger
     {
         private readonly ILogger _logger;
 
