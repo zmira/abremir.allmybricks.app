@@ -15,10 +15,12 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Configuration
         public static ILogger CreateLogger<T>() => LoggerFactory.CreateLogger<T>();
 
         public static LoggingVerbosityEnum LogVerbosity { get; set; }
+        public static LogDestinationEnum LogDestination { get; set; }
 
         public static void Configure(LogDestinationEnum logDestination, LoggingVerbosityEnum logVerbosity)
         {
             LogVerbosity = logVerbosity;
+            LogDestination = logDestination;
 
             switch (logDestination)
             {
@@ -60,7 +62,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Configuration
 
         private static void SetupConsoleLogging()
         {
-            LoggerFactory.AddProvider(new ConsoleLoggerProvider(new ConsoleLoggerSettings()));
+            LoggerFactory.AddProvider(new ConsoleLoggerProvider((_, __) => true, true));
         }
     }
 }

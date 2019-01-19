@@ -33,7 +33,10 @@ namespace abremir.AllMyBricks.DatabaseSeeder
 
                 Logger = Logging.CreateLogger<Program>();
 
-                Logger.LogInformation("Starting database seeder...");
+                if (loggingVerbosity != LoggingVerbosityEnum.NoLogging)
+                {
+                    Logger.LogInformation($"Running All My Bricks database seeder with arguments: { (unattendedCommand.HasValue() ? "--unattended" : string.Empty)} { (loggingVerbosityCommand.HasValue() ? $"--logging-verbosity={loggingVerbosityCommand.Value()}" : string.Empty) } { (logDestinationCommand.HasValue() ? $"--log-destination={logDestinationCommand.Value()}" : string.Empty) }");
+                }
 
                 if (unattendedCommand.HasValue())
                 {

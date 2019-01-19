@@ -1,4 +1,5 @@
-﻿using abremir.AllMyBricks.DataSynchronizer.Events.ThemeSynchronizer;
+﻿using abremir.AllMyBricks.DatabaseSeeder.Configuration;
+using abremir.AllMyBricks.DataSynchronizer.Events.ThemeSynchronizer;
 using abremir.AllMyBricks.DataSynchronizer.Interfaces;
 using abremir.AllMyBricks.DataSynchronizer.Synchronizers;
 using Microsoft.Extensions.Logging;
@@ -24,7 +25,10 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
                 _themeIndex = 0;
                 _themeProgressFraction = 0;
 
-                _logger.LogInformation("Theme Synchronizer Started");
+                if (Logging.LogVerbosity == LoggingVerbosityEnum.FullLogging)
+                {
+                    _logger.LogInformation("Theme Synchronizer Started");
+                }
             });
 
             dataSynchronizerEventManager.Register<ThemesAcquired>(ev =>
@@ -39,12 +43,21 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
                 _themeIndex++;
                 _themeProgressFraction = _themeIndex / _themeCount;
 
-                _logger.LogInformation(Invariant($"Synchronizing Theme '{ev.Theme}': index {_themeIndex}, progress {_themeProgressFraction:##0.00%}"));
+                if (Logging.LogVerbosity == LoggingVerbosityEnum.FullLogging)
+                {
+                    _logger.LogInformation(Invariant($"Synchronizing Theme '{ev.Theme}': index {_themeIndex}, progress {_themeProgressFraction:##0.00%}"));
+                }
             });
 
             dataSynchronizerEventManager.Register<SynchronizingThemeException>(ev => _logger.LogError(ev.Exception, $"Synchronizing Theme '{ev.Theme}' Exception"));
 
-            dataSynchronizerEventManager.Register<SynchronizedTheme>(ev => _logger.LogInformation($"Finished Synchronizing Theme '{ev.Theme}'"));
+            dataSynchronizerEventManager.Register<SynchronizedTheme>(ev =>
+            {
+                if (Logging.LogVerbosity == LoggingVerbosityEnum.FullLogging)
+                {
+                    _logger.LogInformation($"Finished Synchronizing Theme '{ev.Theme}'");
+                }
+            });
 
             dataSynchronizerEventManager.Register<ThemeSynchronizerException>(ev => _logger.LogError(ev.Exception, "Theme Synchronizer Exception"));
 

@@ -1,4 +1,5 @@
-﻿using abremir.AllMyBricks.DataSynchronizer.Events.SetSynchronizer;
+﻿using abremir.AllMyBricks.DatabaseSeeder.Configuration;
+using abremir.AllMyBricks.DataSynchronizer.Events.SetSynchronizer;
 using abremir.AllMyBricks.DataSynchronizer.Interfaces;
 using abremir.AllMyBricks.DataSynchronizer.Synchronizers;
 using Microsoft.Extensions.Logging;
@@ -24,7 +25,10 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
                 _setIndex = 0;
                 _setProgressFraction = 0;
 
-                _logger.LogInformation($"Set Synchronizer Started {(ev.ForSubtheme ? " for subtheme" : string.Empty)}");
+                if (Logging.LogVerbosity == LoggingVerbosityEnum.FullLogging)
+                {
+                    _logger.LogInformation($"Set Synchronizer Started{(ev.ForSubtheme ? " for subtheme" : string.Empty)}");
+                }
             });
 
             dataSynchronizerEventManager.Register<AcquiringSets>(ev =>
@@ -32,7 +36,10 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
                 _setIndex = 0;
                 _setProgressFraction = 0;
 
-                _logger.LogInformation($"Acquiring sets from '{ev.Theme}-{ev.Subtheme}' to process for year {ev.Year}");
+                if (Logging.LogVerbosity == LoggingVerbosityEnum.FullLogging)
+                {
+                    _logger.LogInformation($"Acquiring sets from '{ev.Theme}-{ev.Subtheme}' to process for year {ev.Year}");
+                }
             });
 
             dataSynchronizerEventManager.Register<SetsAcquired>(ev =>
@@ -40,7 +47,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
                 _setCount = ev.Count;
                 _setIndex = 0;
 
-                _logger.LogInformation($"Acquired {ev.Count} sets {(ev.Year.HasValue ? "from '{ev.Theme}-{ev.Subtheme}' " : string.Empty)}to process{(ev.Year.HasValue ? $" for year {ev.Year}" : string.Empty)}");
+                _logger.LogInformation($"Acquired {ev.Count} sets {(ev.Year.HasValue ? $"from '{ev.Theme}-{ev.Subtheme}' " : string.Empty)}to process{(ev.Year.HasValue ? $" for year {ev.Year}" : string.Empty)}");
             });
 
             dataSynchronizerEventManager.Register<SynchronizingSet>(ev =>
@@ -48,12 +55,21 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
                 _setIndex++;
                 _setProgressFraction = _setIndex / _setCount;
 
-                _logger.LogInformation(Invariant($"Synchronizing Set '{ev.IdentifierLong}': index {_setIndex}, progress {_setProgressFraction:##0.00%}"));
+                if(Logging.LogVerbosity == LoggingVerbosityEnum.FullLogging)
+                {
+                    _logger.LogInformation(Invariant($"Synchronizing Set '{ev.IdentifierLong}': index {_setIndex}, progress {_setProgressFraction:##0.00%}"));
+                }
             });
 
             dataSynchronizerEventManager.Register<SynchronizingSetException>(ev => _logger.LogError(ev.Exception, $"Synchronizing Set '{ev.IdentifierLong}' Exception"));
 
-            dataSynchronizerEventManager.Register<SynchronizedSet>(ev => _logger.LogInformation($"Finished Synchronizing Set '{ev.IdentifierLong}'"));
+            dataSynchronizerEventManager.Register<SynchronizedSet>(ev =>
+            {
+                if (Logging.LogVerbosity == LoggingVerbosityEnum.FullLogging)
+                {
+                    _logger.LogInformation($"Finished Synchronizing Set '{ev.IdentifierLong}'");
+                }
+            });
 
             dataSynchronizerEventManager.Register<SetSynchronizerException>(ev => _logger.LogError(ev.Exception, "Set Synchronizer Exception"));
 
@@ -62,7 +78,10 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
                 _setIndex = 0;
                 _setProgressFraction = 0;
 
-                _logger.LogInformation($"Finished Set Synchronizer {(ev.ForSubtheme ? " for subtheme" : string.Empty)}");
+                if (Logging.LogVerbosity == LoggingVerbosityEnum.FullLogging)
+                {
+                    _logger.LogInformation($"Finished Set Synchronizer {(ev.ForSubtheme ? " for subtheme" : string.Empty)}");
+                }
             });
         }
     }
