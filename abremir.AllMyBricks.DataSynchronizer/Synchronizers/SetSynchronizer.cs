@@ -120,24 +120,19 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
             _dataSynchronizerEventHandler.Raise(new SetSynchronizerEnd { ForSubtheme = false });
         }
 
-        private async Task<Sets> Synchronize(string apiKey, long setId)
-        {
-            var getSetParameters = new ParameterUserHashSetId
-            {
-                ApiKey = apiKey,
-                SetID = setId
-            };
-
-            return await _bricksetApiService.GetSet(getSetParameters);
-        }
-
         private async Task AddOrUpdateSet(string apiKey, Theme theme, Subtheme subtheme, Sets bricksetSet, short? year = null)
         {
             _dataSynchronizerEventHandler.Raise(new SynchronizingSet { Theme = theme.Name, Subtheme = subtheme?.Name, Name = bricksetSet.Name, Number = bricksetSet.Number, NumberVariant = bricksetSet.NumberVariant, Year = year });
 
             try
             {
-                bricksetSet = await Synchronize(apiKey, bricksetSet.SetId);
+                var getSetParameters = new ParameterUserHashSetId
+                {
+                    ApiKey = apiKey,
+                    SetID = bricksetSet.SetId
+                };
+
+                bricksetSet = await _bricksetApiService.GetSet(getSetParameters);
 
                 if (bricksetSet == null)
                 {
