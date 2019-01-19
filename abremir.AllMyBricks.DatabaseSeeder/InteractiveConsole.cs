@@ -25,13 +25,13 @@ namespace abremir.AllMyBricks.DatabaseSeeder
 
             SynchronizationProgressFrame = new FrameView(new Rect(10, 1, 99, topLevel.Frame.Height - 4), "Synchronization Progress...");
 
-            var themeLabel = new Label(4, 3, "                                                              ");
+            var themeLabel = new Label(4, 3, "".PadRight(70));
             var themeProgress = new ProgressBar(new Rect(4, 4, 88, 1));
 
-            var subthemeLabel = new Label(6, 6, "                                                              ");
+            var subthemeLabel = new Label(6, 6, "".PadRight(70));
             var subthemeProgress = new ProgressBar(new Rect(6, 7, 84, 1));
 
-            var setLabel = new Label(8, 9, "                                                              ");
+            var setLabel = new Label(8, 9, "".PadRight(70));
             var setProgress = new ProgressBar(new Rect(8, 10, 80, 1));
 
             var lastUpdatedLabel = new Label(50, 17, "Last Updated: Never                 ");
@@ -81,8 +81,6 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                 lastUpdatedLabel.Text = $"Last Updated: {(ev.SynchronizationTimestamp.HasValue ? ev.SynchronizationTimestamp.Value.ToString("yyyy-MM-dd HH:mm:ss") : "Never")}";
 
                 Application.MainLoop.Invoke(lastUpdatedLabel.ChildNeedsDisplay);
-
-                //Application.MainLoop.Invoke(SynchronizationProgressFrame.ChildNeedsDisplay);
             });
             dataSynchronizerEventManager.Register<ThemeSynchronizerStart>(_ =>
             {
@@ -90,8 +88,6 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                 themeProgress.Fraction = 0;
 
                 Application.MainLoop.Invoke(themeProgress.ChildNeedsDisplay);
-
-                //Application.MainLoop.Invoke(SynchronizationProgressFrame.ChildNeedsDisplay);
             });
             dataSynchronizerEventManager.Register<ThemesAcquired>(ev => themeCount = ev.Count);
             dataSynchronizerEventManager.Register<SynchronizingTheme>(ev =>
@@ -103,8 +99,6 @@ namespace abremir.AllMyBricks.DatabaseSeeder
 
                 Application.MainLoop.Invoke(themeLabel.ChildNeedsDisplay);
                 Application.MainLoop.Invoke(themeProgress.ChildNeedsDisplay);
-
-                //Application.MainLoop.Invoke(SynchronizationProgressFrame.ChildNeedsDisplay);
             });
             dataSynchronizerEventManager.Register<SynchronizedTheme>(_ =>
             {
@@ -114,8 +108,6 @@ namespace abremir.AllMyBricks.DatabaseSeeder
 
                 Application.MainLoop.Invoke(themeLabel.ChildNeedsDisplay);
                 Application.MainLoop.Invoke(totalUpdatedThemesLabel.ChildNeedsDisplay);
-
-                //Application.MainLoop.Invoke(SynchronizationProgressFrame.ChildNeedsDisplay);
             });
             dataSynchronizerEventManager.Register<ThemeSynchronizerEnd>(_ =>
             {
@@ -125,16 +117,12 @@ namespace abremir.AllMyBricks.DatabaseSeeder
 
                 Application.MainLoop.Invoke(themeLabel.ChildNeedsDisplay);
                 Application.MainLoop.Invoke(themeProgress.ChildNeedsDisplay);
-
-                //Application.MainLoop.Invoke(SynchronizationProgressFrame.ChildNeedsDisplay);
             });
             dataSynchronizerEventManager.Register<ProcessingTheme>(ev =>
             {
                 themeLabel.Text = $"Theme: {ev.Name}";
 
                 Application.MainLoop.Invoke(themeLabel.ChildNeedsDisplay);
-
-                //Application.MainLoop.Invoke(SynchronizationProgressFrame.ChildNeedsDisplay);
             });
             dataSynchronizerEventManager.Register<SubthemeSynchronizerStart>(_ =>
             {
@@ -144,8 +132,6 @@ namespace abremir.AllMyBricks.DatabaseSeeder
 
                 Application.MainLoop.Invoke(subthemeLabel.ChildNeedsDisplay);
                 Application.MainLoop.Invoke(subthemeProgress.ChildNeedsDisplay);
-
-                //Application.MainLoop.Invoke(SynchronizationProgressFrame.ChildNeedsDisplay);
             });
             dataSynchronizerEventManager.Register<SubthemesAcquired>(ev =>
             {
@@ -161,8 +147,6 @@ namespace abremir.AllMyBricks.DatabaseSeeder
 
                 Application.MainLoop.Invoke(subthemeLabel.ChildNeedsDisplay);
                 Application.MainLoop.Invoke(subthemeProgress.ChildNeedsDisplay);
-
-                //Application.MainLoop.Invoke(SynchronizationProgressFrame.ChildNeedsDisplay);
             });
             dataSynchronizerEventManager.Register<SynchronizedSubtheme>(_ =>
             {
@@ -172,8 +156,6 @@ namespace abremir.AllMyBricks.DatabaseSeeder
 
                 Application.MainLoop.Invoke(subthemeLabel.ChildNeedsDisplay);
                 Application.MainLoop.Invoke(totalUpdatedSubthemesLabel.ChildNeedsDisplay);
-
-                //Application.MainLoop.Invoke(SynchronizationProgressFrame.ChildNeedsDisplay);
             });
             dataSynchronizerEventManager.Register<SubthemeSynchronizerEnd>(_ =>
             {
@@ -183,16 +165,12 @@ namespace abremir.AllMyBricks.DatabaseSeeder
 
                 Application.MainLoop.Invoke(subthemeLabel.ChildNeedsDisplay);
                 Application.MainLoop.Invoke(subthemeProgress.ChildNeedsDisplay);
-
-                //Application.MainLoop.Invoke(SynchronizationProgressFrame.ChildNeedsDisplay);
             });
             dataSynchronizerEventManager.Register<ProcessingSubtheme>(ev =>
             {
                 subthemeLabel.Text = $"Subtheme: {ev.Name}";
 
                 Application.MainLoop.Invoke(subthemeLabel.ChildNeedsDisplay);
-
-                //Application.MainLoop.Invoke(SynchronizationProgressFrame.ChildNeedsDisplay);
             });
             dataSynchronizerEventManager.Register<SetSynchronizerStart>(_ =>
             {
@@ -202,8 +180,6 @@ namespace abremir.AllMyBricks.DatabaseSeeder
 
                 Application.MainLoop.Invoke(setLabel.ChildNeedsDisplay);
                 Application.MainLoop.Invoke(setProgress.ChildNeedsDisplay);
-
-                //Application.MainLoop.Invoke(SynchronizationProgressFrame.ChildNeedsDisplay);
             });
             dataSynchronizerEventManager.Register<AcquiringSets>(ev =>
             {
@@ -213,8 +189,6 @@ namespace abremir.AllMyBricks.DatabaseSeeder
 
                 Application.MainLoop.Invoke(setProgress.ChildNeedsDisplay);
                 Application.MainLoop.Invoke(subthemeLabel.ChildNeedsDisplay);
-
-                //Application.MainLoop.Invoke(SynchronizationProgressFrame.ChildNeedsDisplay);
             });
             dataSynchronizerEventManager.Register<SetsAcquired>(ev =>
             {
@@ -229,8 +203,6 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                 }
 
                 Application.MainLoop.Invoke(setProgress.ChildNeedsDisplay);
-
-                //Application.MainLoop.Invoke(SynchronizationProgressFrame.ChildNeedsDisplay);
             });
             dataSynchronizerEventManager.Register<SynchronizingSet>(ev =>
             {
@@ -245,8 +217,6 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                 Application.MainLoop.Invoke(subthemeLabel.ChildNeedsDisplay);
                 Application.MainLoop.Invoke(setLabel.ChildNeedsDisplay);
                 Application.MainLoop.Invoke(setProgress.ChildNeedsDisplay);
-
-                //Application.MainLoop.Invoke(SynchronizationProgressFrame.ChildNeedsDisplay);
             });
             dataSynchronizerEventManager.Register<SynchronizedSet>(_ =>
             {
@@ -256,8 +226,6 @@ namespace abremir.AllMyBricks.DatabaseSeeder
 
                 Application.MainLoop.Invoke(setLabel.ChildNeedsDisplay);
                 Application.MainLoop.Invoke(totalUpdatedSetsLabel.ChildNeedsDisplay);
-
-                //Application.MainLoop.Invoke(SynchronizationProgressFrame.ChildNeedsDisplay);
             });
             dataSynchronizerEventManager.Register<SetSynchronizerEnd>(ev =>
             {
@@ -275,8 +243,6 @@ namespace abremir.AllMyBricks.DatabaseSeeder
 
                 Application.MainLoop.Invoke(setLabel.ChildNeedsDisplay);
                 Application.MainLoop.Invoke(setProgress.ChildNeedsDisplay);
-
-                //Application.MainLoop.Invoke(SynchronizationProgressFrame.ChildNeedsDisplay);
             });
             dataSynchronizerEventManager.Register<ProcessedSubtheme>(_ =>
             {
@@ -286,8 +252,6 @@ namespace abremir.AllMyBricks.DatabaseSeeder
 
                 Application.MainLoop.Invoke(subthemeLabel.ChildNeedsDisplay);
                 Application.MainLoop.Invoke(subthemeProgress.ChildNeedsDisplay);
-
-                //Application.MainLoop.Invoke(SynchronizationProgressFrame.ChildNeedsDisplay);
             });
             dataSynchronizerEventManager.Register<ProcessedTheme>(_ =>
             {
@@ -305,8 +269,6 @@ namespace abremir.AllMyBricks.DatabaseSeeder
 
                 Application.MainLoop.Invoke(themeLabel.ChildNeedsDisplay);
                 Application.MainLoop.Invoke(themeProgress.ChildNeedsDisplay);
-
-                //Application.MainLoop.Invoke(SynchronizationProgressFrame.ChildNeedsDisplay);
             });
             dataSynchronizerEventManager.Register<DataSynchronizationEnd>(_ =>
             {
