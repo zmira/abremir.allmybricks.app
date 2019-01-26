@@ -21,7 +21,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
 
             dataSynchronizerEventManager.Register<ProcessingTheme>(ev =>
             {
-                if (Logging.LogVerbosity == LoggingVerbosityEnum.FullLogging)
+                if (Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
                 {
                     _logger.LogInformation($"Processing theme: {ev.Name}");
                 }
@@ -29,7 +29,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
 
             dataSynchronizerEventManager.Register<ProcessingSubtheme>(ev =>
             {
-                if (Logging.LogVerbosity == LoggingVerbosityEnum.FullLogging)
+                if (Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
                 {
                     _logger.LogInformation($"Processing subtheme: {ev.Name}");
                 }
@@ -37,7 +37,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
 
             dataSynchronizerEventManager.Register<ProcessedSubtheme>(ev =>
             {
-                if (Logging.LogVerbosity == LoggingVerbosityEnum.FullLogging)
+                if (Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
                 {
                     _logger.LogInformation($"Finished processing subtheme: {ev.Name}");
                 }
@@ -47,7 +47,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
 
             dataSynchronizerEventManager.Register<ProcessedTheme>(ev =>
             {
-                if (Logging.LogVerbosity == LoggingVerbosityEnum.FullLogging)
+                if (Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
                 {
                     _logger.LogInformation($"Finished processing theme: {ev.Name}");
                 }

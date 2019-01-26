@@ -1,6 +1,6 @@
 ﻿namespace abremir.AllMyBricks.DatabaseSeeder.Configuration
 {
-    public enum LoggingVerbosityEnum
+    public enum LogVerbosityEnum
     {
         NoLogging,
         MinimalLogging,

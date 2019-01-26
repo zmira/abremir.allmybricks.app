@@ -25,7 +25,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
                 _subthemeIndex = 0;
                 _subthemeProgressFraction = 0;
 
-                if (Logging.LogVerbosity == LoggingVerbosityEnum.FullLogging)
+                if (Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
                 {
                     _logger.LogInformation("Subtheme Synchronizer Started");
                 }
@@ -44,7 +44,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
                 _subthemeIndex++;
                 _subthemeProgressFraction = _subthemeIndex / _subthemeCount;
 
-                if (Logging.LogVerbosity == LoggingVerbosityEnum.FullLogging)
+                if (Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
                 {
                     _logger.LogInformation(Invariant($"Synchronizing Subtheme '{ev.Theme}-{ev.Subtheme}': index {_subthemeIndex}, progress {_subthemeProgressFraction:##0.00%}"));
                 }
@@ -54,7 +54,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
 
             dataSynchronizerEventManager.Register<SynchronizedSubtheme>(ev =>
             {
-                if (Logging.LogVerbosity == LoggingVerbosityEnum.FullLogging)
+                if (Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
                 {
                     _logger.LogInformation($"Finished Synchronizing Subtheme '{ev.Theme}-{ev.Subtheme}'");
                 }
@@ -67,7 +67,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
                 _subthemeIndex = 0;
                 _subthemeProgressFraction = 0;
 
-                if (Logging.LogVerbosity == LoggingVerbosityEnum.FullLogging)
+                if (Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
                 {
                     _logger.LogInformation("Finished Subtheme Synchronizer");
                 }

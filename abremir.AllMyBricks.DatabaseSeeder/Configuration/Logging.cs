@@ -14,10 +14,10 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Configuration
 
         public static ILogger CreateLogger<T>() => LoggerFactory.CreateLogger<T>();
 
-        public static LoggingVerbosityEnum LogVerbosity { get; set; }
+        public static LogVerbosityEnum LogVerbosity { get; set; }
         public static LogDestinationEnum LogDestination { get; set; }
 
-        public static void Configure(LogDestinationEnum logDestination, LoggingVerbosityEnum logVerbosity)
+        public static void Configure(LogDestinationEnum logDestination, LogVerbosityEnum logVerbosity)
         {
             LogVerbosity = logVerbosity;
             LogDestination = logDestination;
@@ -32,7 +32,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Configuration
                     break;
             }
 
-            if (LogVerbosity != LoggingVerbosityEnum.NoLogging)
+            if (LogVerbosity != LogVerbosityEnum.NoLogging)
             {
                 var dataSynchronizationServiceEventHandler = IoC.IoCContainer.GetInstance<DataSynchronizationServiceLogger>();
                 var themeSynchronizerEventHandler = IoC.IoCContainer.GetInstance<ThemeSynchronizerLogger>();

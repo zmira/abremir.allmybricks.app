@@ -25,7 +25,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
                 _setIndex = 0;
                 _setProgressFraction = 0;
 
-                if (Logging.LogVerbosity == LoggingVerbosityEnum.FullLogging)
+                if (Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
                 {
                     _logger.LogInformation($"Set Synchronizer Started{(ev.ForSubtheme ? " for subtheme" : string.Empty)}");
                 }
@@ -36,7 +36,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
                 _setIndex = 0;
                 _setProgressFraction = 0;
 
-                if (Logging.LogVerbosity == LoggingVerbosityEnum.FullLogging)
+                if (Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
                 {
                     _logger.LogInformation($"Acquiring sets from '{ev.Theme}-{ev.Subtheme}' to process for year {ev.Year}");
                 }
@@ -55,7 +55,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
                 _setIndex++;
                 _setProgressFraction = _setIndex / _setCount;
 
-                if(Logging.LogVerbosity == LoggingVerbosityEnum.FullLogging)
+                if(Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
                 {
                     _logger.LogInformation(Invariant($"Synchronizing Set '{ev.IdentifierLong}': index {_setIndex}, progress {_setProgressFraction:##0.00%}"));
                 }
@@ -65,7 +65,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
 
             dataSynchronizerEventManager.Register<SynchronizedSet>(ev =>
             {
-                if (Logging.LogVerbosity == LoggingVerbosityEnum.FullLogging)
+                if (Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
                 {
                     _logger.LogInformation($"Finished Synchronizing Set '{ev.IdentifierLong}'");
                 }
@@ -78,7 +78,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
                 _setIndex = 0;
                 _setProgressFraction = 0;
 
-                if (Logging.LogVerbosity == LoggingVerbosityEnum.FullLogging)
+                if (Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
                 {
                     _logger.LogInformation($"Finished Set Synchronizer {(ev.ForSubtheme ? " for subtheme" : string.Empty)}");
                 }

@@ -16,7 +16,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
 
             dataSynchronizerEventManager.Register<ThumbnailSynchronizerStart>(_ =>
             {
-                if(Logging.LogVerbosity == LoggingVerbosityEnum.FullLogging)
+                if(Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
                 {
                     _logger.LogInformation("Thumbnail Synchronizer Started");
                 }
@@ -24,7 +24,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
 
             dataSynchronizerEventManager.Register<ThumbnailAcquired>(ev =>
             {
-                if (Logging.LogVerbosity == LoggingVerbosityEnum.FullLogging)
+                if (Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
                 {
                     _logger.LogInformation($"Acquired thumbnail '{ev.Thumbnail}' to process");
                 }
@@ -32,7 +32,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
 
             dataSynchronizerEventManager.Register<SynchronizingThumbnail>(ev =>
             {
-                if (Logging.LogVerbosity == LoggingVerbosityEnum.FullLogging)
+                if (Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
                 {
                     _logger.LogInformation($"Synchronizing Thumbnail '{ev.Thumbnail}'");
                 }
@@ -40,7 +40,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
 
             dataSynchronizerEventManager.Register<SynchronizedThumbnail>(ev =>
             {
-                if (Logging.LogVerbosity == LoggingVerbosityEnum.FullLogging)
+                if (Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
                 {
                     _logger.LogInformation($"Finished Synchronizing Thumbnail '{ev.Thumbnail}'");
                 }
@@ -50,7 +50,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
 
             dataSynchronizerEventManager.Register<ThumbnailSynchronizerEnd>(_ =>
             {
-                if (Logging.LogVerbosity == LoggingVerbosityEnum.FullLogging)
+                if (Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
                 {
                     _logger.LogInformation("Finished Thumbnail Synchronizer");
                 }
