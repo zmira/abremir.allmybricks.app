@@ -15,8 +15,9 @@ namespace abremir.AllMyBricks.DatabaseSeeder
             app.HelpOption();
 
             var unattendedCommand = app.Option("--unattended", "Run in unattended mode (non-interactive)", CommandOptionType.NoValue);
-            var loggingVerbosityCommand = app.Option("--logging-verbosity", "Logging verbosity: none, minimal or full", CommandOptionType.SingleValue);
-            var logDestinationCommand = app.Option("--log-destination", "[this option is only valid when run with --unattended]: Log destination: console or file", CommandOptionType.SingleValue);
+            var logVerbosityCommand = app.Option("--log-verbosity", "Logging verbosity: none, minimal or full", CommandOptionType.SingleValue);
+            var logDestinationCommand = app.Option("--log-destination", "[this option is only valid when run with --unattended] Logging destination: console or file", CommandOptionType.SingleValue);
+            var distributionFileCommand = app.Option("--distribution-file", "[this option is only valid when run with --unattended] Prepare distribution file by LZip compresing the database file", CommandOptionType.NoValue);
 
             app.OnExecute(() =>
             {
@@ -26,21 +27,21 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                 var fileSystem = IoC.IoCContainer.GetInstance<IFileSystemService>();
                 fileSystem.EnsureLocalDataFolder();
 
-                var loggingVerbosity = GetLoggingVerbosity(loggingVerbosityCommand, unattendedCommand);
-                var logDestination = GetLogDestination(loggingVerbosityCommand, unattendedCommand, logDestinationCommand);
+                var logVerbosity = GetLogVerbosity(logVerbosityCommand, unattendedCommand);
+                var logDestination = GetLogDestination(logVerbosityCommand, unattendedCommand, logDestinationCommand);
 
-                Logging.Configure(logDestination, loggingVerbosity);
+                Logging.Configure(logDestination, logVerbosity);
 
                 Logger = Logging.CreateLogger<Program>();
 
-                if (loggingVerbosity != LoggingVerbosityEnum.NoLogging)
+                if (logVerbosity != LogVerbosityEnum.NoLogging)
                 {
-                    Logger.LogInformation($"Running All My Bricks database seeder with arguments: { (unattendedCommand.HasValue() ? "--unattended" : string.Empty)} { (loggingVerbosityCommand.HasValue() ? $"--logging-verbosity={loggingVerbosityCommand.Value()}" : string.Empty) } { (logDestinationCommand.HasValue() ? $"--log-destination={logDestinationCommand.Value()}" : string.Empty) }");
+                    Logger.LogInformation($"Running All My Bricks database seeder with arguments: { (unattendedCommand.HasValue() ? "--unattended" : string.Empty)} { (logVerbosityCommand.HasValue() ? $"--logging-verbosity={logVerbosityCommand.Value()}" : string.Empty) } { (logDestinationCommand.HasValue() ? $"--log-destination={logDestinationCommand.Value()}" : string.Empty) }");
                 }
 
                 if (unattendedCommand.HasValue())
                 {
-                    NonInteractiveConsole.Run().GetAwaiter().GetResult();
+                    NonInteractiveConsole.Run(distributionFileCommand.HasValue()).GetAwaiter().GetResult();
                 }
                 else
                 {
@@ -51,36 +52,36 @@ namespace abremir.AllMyBricks.DatabaseSeeder
             return app.Execute(args);
         }
 
-        private static LoggingVerbosityEnum GetLoggingVerbosity(CommandOption loggingVerbosityCommand, CommandOption unattendedCommand)
+        private static LogVerbosityEnum GetLogVerbosity(CommandOption logVerbosityCommand, CommandOption unattendedCommand)
         {
-            if (!loggingVerbosityCommand.HasValue())
+            if (!logVerbosityCommand.HasValue())
             {
-                return GetLoggingVerbosityBasedOnUnattendedCommand(unattendedCommand);
+                return GetLogVerbosityBasedOnUnattendedCommand(unattendedCommand);
             }
 
-            switch (loggingVerbosityCommand.Value())
+            switch (logVerbosityCommand.Value())
             {
                 case "none":
-                    return LoggingVerbosityEnum.NoLogging;
+                    return LogVerbosityEnum.NoLogging;
                 case "minimal":
-                    return LoggingVerbosityEnum.MinimalLogging;
+                    return LogVerbosityEnum.MinimalLogging;
                 case "full":
-                    return LoggingVerbosityEnum.FullLogging;
+                    return LogVerbosityEnum.FullLogging;
                 default:
-                    return GetLoggingVerbosityBasedOnUnattendedCommand(unattendedCommand);
+                    return GetLogVerbosityBasedOnUnattendedCommand(unattendedCommand);
             }
         }
 
-        private static LoggingVerbosityEnum GetLoggingVerbosityBasedOnUnattendedCommand(CommandOption unattendedCommand)
+        private static LogVerbosityEnum GetLogVerbosityBasedOnUnattendedCommand(CommandOption unattendedCommand)
         {
             return unattendedCommand.HasValue()
-                ? LoggingVerbosityEnum.MinimalLogging
-                : LoggingVerbosityEnum.FullLogging;
+                ? LogVerbosityEnum.MinimalLogging
+                : LogVerbosityEnum.FullLogging;
         }
 
-        private static LogDestinationEnum GetLogDestination(CommandOption loggingVerbosityCommand, CommandOption unattendedCommand, CommandOption logDestinationCommand)
+        private static LogDestinationEnum GetLogDestination(CommandOption logVerbosityCommand, CommandOption unattendedCommand, CommandOption logDestinationCommand)
         {
-            if (GetLoggingVerbosity(loggingVerbosityCommand, unattendedCommand) == LoggingVerbosityEnum.NoLogging)
+            if (GetLogVerbosity(logVerbosityCommand, unattendedCommand) == LogVerbosityEnum.NoLogging)
             {
                 return LogDestinationEnum.DevNull;
             }
