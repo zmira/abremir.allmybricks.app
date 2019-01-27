@@ -1,5 +1,7 @@
 ﻿using abremir.AllMyBricks.Data.Models;
+using abremir.AllMyBricks.DataSynchronizer.Configuration;
 using abremir.AllMyBricks.ThirdParty.Brickset.Models;
+using System;
 using System.Collections.Generic;
 
 namespace abremir.AllMyBricks.DataSynchronizer.Extensions
@@ -19,6 +21,11 @@ namespace abremir.AllMyBricks.DataSynchronizer.Extensions
         {
             foreach (var item in source)
             {
+                if(item.Description.Equals(Constants.InstructionNoLongerListedInLego, StringComparison.InvariantCultureIgnoreCase))
+                {
+                    continue;
+                }
+
                 yield return item.ToInstruction();
             }
         }
