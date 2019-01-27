@@ -68,12 +68,17 @@ namespace abremir.AllMyBricks.Device.Services
 
         public void EnsureLocalDataFolder()
         {
-            var localDataFolder = GetLocalPathToFile(null);
+            var localDataFolder = GetLocalPathToDataFolder();
 
             if (!Directory.Exists(localDataFolder))
             {
                 Directory.CreateDirectory(localDataFolder);
             }
+        }
+
+        public string GetLocalPathToDataFolder()
+        {
+            return GetLocalPathToFile(null);
         }
     }
 }

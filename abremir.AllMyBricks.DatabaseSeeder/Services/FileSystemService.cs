@@ -17,7 +17,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Services
 
         public void EnsureLocalDataFolder()
         {
-            var localDataFolder = GetLocalPathToFile(null);
+            var localDataFolder = GetLocalPathToDataFolder();
 
             if (!Directory.Exists(localDataFolder))
             {
@@ -41,6 +41,11 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Services
         public Task SaveThumbnailToCache(string theme, string subtheme, string filename, byte[] thumbnail)
         {
             return null;
+        }
+
+        public string GetLocalPathToDataFolder()
+        {
+            return GetLocalPathToFile(null);
         }
     }
 }
