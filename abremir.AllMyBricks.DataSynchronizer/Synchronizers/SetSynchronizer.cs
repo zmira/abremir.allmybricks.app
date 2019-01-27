@@ -194,7 +194,6 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
 
             await SetImageList(apiKey, set, bricksetSet);
             await SetInstructionList(apiKey, set, bricksetSet);
-            //await SetReviewList(apiKey, set, bricksetSet);
 
             return set;
         }
@@ -280,24 +279,6 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                     Value = float.Parse(bricksetSet.UsRetailPrice, NumberStyles.Any, CultureInfo.InvariantCulture)
                 });
             }
-        }
-
-        private async Task SetReviewList(string apiKey, Set set, Sets bricksetSet)
-        {
-            if (bricksetSet.ReviewCount == 0)
-            {
-                return;
-            }
-
-            var getReviewsParameters = new ParameterSetId
-            {
-                ApiKey = apiKey,
-                SetID = set.SetId
-            };
-
-            set.Reviews = (await _bricksetApiService.GetReviews(getReviewsParameters))
-                    .ToReviewEnumerable()
-                    .ToList();
         }
 
         private async Task SetInstructionList(string apiKey, Set set, Sets bricksetSet)
