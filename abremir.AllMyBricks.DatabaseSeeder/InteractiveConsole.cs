@@ -1,12 +1,18 @@
-﻿using abremir.AllMyBricks.DatabaseSeeder.Configuration;
+﻿using abremir.AllMyBricks.Data.Interfaces;
+using abremir.AllMyBricks.DatabaseSeeder.Configuration;
+using abremir.AllMyBricks.DatabaseSeeder.Services;
 using abremir.AllMyBricks.DataSynchronizer.Events.DataSynchronizationService;
 using abremir.AllMyBricks.DataSynchronizer.Events.SetSynchronizer;
 using abremir.AllMyBricks.DataSynchronizer.Events.SubthemeSynchronizer;
 using abremir.AllMyBricks.DataSynchronizer.Events.ThemeSynchronizer;
 using abremir.AllMyBricks.DataSynchronizer.Interfaces;
+using abremir.AllMyBricks.Device.Interfaces;
 using System;
 using System.Diagnostics;
+using System.IO;
 using Terminal.Gui;
+
+using DataConfigurationConstants = abremir.AllMyBricks.Data.Configuration.Constants;
 
 namespace abremir.AllMyBricks.DatabaseSeeder
 {
@@ -318,9 +324,15 @@ namespace abremir.AllMyBricks.DatabaseSeeder
 
             AddMenuBar(topLevel);
 
-            AddButton(topLevelWindow);
+            AddDatabaseSeedingButton(topLevelWindow);
 
             AddOnboardingUrl(topLevelWindow);
+
+            AddCompressDatabaseFileButton(topLevelWindow);
+
+            AddUncompressDatabaseFileButton(topLevelWindow);
+
+            AddCompactDatabaseButton(topLevelWindow);
 
             Application.Run();
         }
@@ -355,7 +367,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder
             );
         }
 
-        private static void AddButton(Window window)
+        private static void AddDatabaseSeedingButton(Window window)
         {
             var button = new Button("Start seeding the database...")
             {
@@ -370,9 +382,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                     // HACK: since there is a bug in Application.MainLoop.Invoke(...) this is needed to force the UI to refresh!
                     Application.MainLoop.AddTimeout(TimeSpan.FromMilliseconds(500), _ => true);
 
-                    var dataSynchronizationService = IoC.IoCContainer.GetInstance<IDataSynchronizationService>();
-
-                    dataSynchronizationService.SynchronizeAllSetData();
+                    IoC.IoCContainer.GetInstance<IDataSynchronizationService>().SynchronizeAllSetData();
                 }
             };
 
@@ -416,6 +426,8 @@ namespace abremir.AllMyBricks.DatabaseSeeder
 
                                     IoC.ReplaceOnboarding(onboardingUrl);
 
+                                    AddCompressDatabaseFileButton(window);
+
                                     Application.RequestStop();
                                 }
                             },
@@ -431,6 +443,114 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                     }
                 }
             );
+        }
+
+        private static void AddCompressDatabaseFileButton(Window window)
+        {
+            var assetManagementService = IoC.IoCContainer.GetInstance<IAssetManagementService>();
+
+            if (assetManagementService.DatabaseFilePathExists())
+            {
+                var button = new Button("Compress Database File")
+                {
+                    X = 3,
+                    Y = 4,
+                    Clicked = () =>
+                    {
+                        CanExit = false;
+
+                        assetManagementService.CompressDatabaseFile();
+
+                        var dialog = new Dialog("Database File Compressed", 50, 6, new Button("Ok")
+                        {
+                            Clicked = () =>
+                            {
+                                CanExit = true;
+
+                                Application.RequestStop();
+                            }
+                        });
+
+                        Application.Run(dialog);
+                    }
+                };
+
+                window.Add(
+                    button
+                );
+            }
+        }
+
+        private static void AddUncompressDatabaseFileButton(Window window)
+        {
+            var assetManagementService = IoC.IoCContainer.GetInstance<IAssetManagementService>();
+
+            if (assetManagementService.CompressedDatabaseFilePathExists())
+            {
+                var button = new Button("Uncompress Database File")
+                {
+                    X = 3,
+                    Y = 6,
+                    Clicked = () =>
+                    {
+                        CanExit = false;
+
+                        assetManagementService.UncompressDatabaseFile();
+
+                        var dialog = new Dialog("Database File Uncompressed", 50, 6, new Button("Ok")
+                        {
+                            Clicked = () =>
+                            {
+                                CanExit = true;
+
+                                Application.RequestStop();
+                            }
+                        });
+
+                        Application.Run(dialog);
+                    }
+                };
+
+                window.Add(
+                    button
+                );
+            }
+        }
+
+        private static void AddCompactDatabaseButton(Window window)
+        {
+            var assetManagementService = IoC.IoCContainer.GetInstance<IAssetManagementService>();
+
+            if (assetManagementService.DatabaseFilePathExists())
+            {
+                var button = new Button("Compact AllMyBricks Database")
+                {
+                    X = 3,
+                    Y = 8,
+                    Clicked = () =>
+                    {
+                        CanExit = false;
+
+                        assetManagementService.CompactAllMyBricksDatabase();
+
+                        var dialog = new Dialog("AllMyBricks Database Compacted", 50, 6, new Button("Ok")
+                        {
+                            Clicked = () =>
+                            {
+                                CanExit = true;
+
+                                Application.RequestStop();
+                            }
+                        });
+
+                        Application.Run(dialog);
+                    }
+                };
+
+                window.Add(
+                    button
+                );
+            }
         }
     }
 }

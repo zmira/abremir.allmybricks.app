@@ -36,7 +36,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder
 
                 if (logVerbosity != LogVerbosityEnum.NoLogging)
                 {
-                    Logger.LogInformation($"Running All My Bricks database seeder with arguments: { (unattendedCommand.HasValue() ? "--unattended" : string.Empty)} { (logVerbosityCommand.HasValue() ? $"--logging-verbosity={logVerbosityCommand.Value()}" : string.Empty) } { (logDestinationCommand.HasValue() ? $"--log-destination={logDestinationCommand.Value()}" : string.Empty) }");
+                    Logger.LogInformation($"Running All My Bricks database seeder with arguments:{ (unattendedCommand.HasValue() ? " --unattended" : string.Empty) }{ (logVerbosityCommand.HasValue() ? $" --logging-verbosity={logVerbosityCommand.Value()}" : string.Empty) }{ (logDestinationCommand.HasValue() ? $" --log-destination={logDestinationCommand.Value()}" : string.Empty) }{ (distributionFileCommand.HasValue() ? $" --distribution-file" : string.Empty) }");
                 }
 
                 if (unattendedCommand.HasValue())
