@@ -1,7 +1,6 @@
 ﻿using abremir.AllMyBricks.DatabaseSeeder.Loggers;
 using abremir.AllMyBricks.DatabaseSeeder.Services;
 using abremir.AllMyBricks.Device.Interfaces;
-using Microsoft.Extensions.Logging;
 using SimpleInjector;
 using System.Reflection;
 
@@ -18,13 +17,15 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Configuration
             DataSynchronizer.Configuration.IoC.Configure(IoCContainer);
             ThirdParty.Brickset.Configuration.IoC.Configure(IoCContainer);
             Data.Configuration.IoC.Configure(IoCContainer);
+            AssetManagement.Configuration.IoC.Configure(IoCContainer);
 
             IoCContainer.Register<IPreferencesService, PreferencesService>(Lifestyle.Transient);
             IoCContainer.Register<ISecureStorageService, SecureStorageService>(Lifestyle.Transient);
             IoCContainer.Register<IDeviceInformationService, DeviceInformationService>(Lifestyle.Transient);
             IoCContainer.Register<IFileSystemService, FileSystemService>(Lifestyle.Transient);
-            IoCContainer.Register<ILoggerFactory>(() => Logging.LoggerFactory, Lifestyle.Singleton);
+            IoCContainer.Register<IAssetManagementService, AssetManagementService>(Lifestyle.Transient);
 
+            IoCContainer.Register(() => Logging.LoggerFactory, Lifestyle.Singleton);
             IoCContainer.Collection.Register<IDatabaseSeederLogger>(Assembly.GetExecutingAssembly());
 
             Onboarding.Configuration.FlurlConfiguration.Configure();

@@ -26,6 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\abremir.AllMyBricks.AssetManagement\abremir.AllMyBricks.AssetManagement.csproj" />
     <ProjectReference Include="..\abremir.AllMyBricks.DataSynchronizer\abremir.AllMyBricks.DataSynchronizer.csproj" />
     <ProjectReference Include="..\abremir.AllMyBricks.Device\abremir.AllMyBricks.Device.csproj" />
   </ItemGroup>
