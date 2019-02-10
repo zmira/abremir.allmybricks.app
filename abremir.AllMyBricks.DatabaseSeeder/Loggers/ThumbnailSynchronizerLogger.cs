@@ -10,7 +10,9 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
     {
         private readonly ILogger _logger;
 
-        public ThumbnailSynchronizerLogger(ILoggerFactory loggerFactory, IDataSynchronizerEventManager dataSynchronizerEventManager)
+        public ThumbnailSynchronizerLogger(
+            ILoggerFactory loggerFactory,
+            IDataSynchronizerEventManager dataSynchronizerEventManager)
         {
             _logger = loggerFactory.CreateLogger<ThumbnailSynchronizer>();
 

@@ -16,7 +16,9 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
 
         private readonly ILogger _logger;
 
-        public SubthemeSynchronizerLogger(ILoggerFactory loggerFactory, IDataSynchronizerEventManager dataSynchronizerEventManager)
+        public SubthemeSynchronizerLogger(
+            ILoggerFactory loggerFactory,
+            IDataSynchronizerEventManager dataSynchronizerEventManager)
         {
             _logger = loggerFactory.CreateLogger<SubthemeSynchronizer>();
 
