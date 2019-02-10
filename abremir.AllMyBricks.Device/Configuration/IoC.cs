@@ -20,14 +20,22 @@ namespace abremir.AllMyBricks.Device.Configuration
             container.Register<IDeviceInfo, DeviceInfoImplementation>(Lifestyle.Transient);
             container.Register<IPreferences, PreferencesImplementation>(Lifestyle.Transient);
 
-            container.Register<IFile, FileImplementation>(Lifestyle.Transient);
-
             container.Register<IFileSystemService, FileSystemService>(Lifestyle.Transient);
             container.Register<IVersionTrackingService, VersionTrackingService>(Lifestyle.Transient);
             container.Register<IConnectivityService, ConnectivityService>(Lifestyle.Transient);
             container.Register<ISecureStorageService, SecureStorageService>(Lifestyle.Transient);
             container.Register<IDeviceInformationService, DeviceInformationService>(Lifestyle.Transient);
             container.Register<IPreferencesService, PreferencesService>(Lifestyle.Transient);
+
+            return ConfigureIO(container);
+        }
+
+        public static Container ConfigureIO(Container container = null)
+        {
+            container = container ?? new Container();
+
+            container.Register<IFile, FileImplementation>(Lifestyle.Transient);
+            container.Register<IDirectory, DirectoryImplementation>(Lifestyle.Transient);
 
             return container;
         }
