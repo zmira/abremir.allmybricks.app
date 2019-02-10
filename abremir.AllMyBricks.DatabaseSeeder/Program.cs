@@ -17,7 +17,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder
             var unattendedCommand = app.Option("--unattended", "Run in unattended mode (non-interactive)", CommandOptionType.NoValue);
             var logVerbosityCommand = app.Option("--log-verbosity", "Logging verbosity: none, minimal or full", CommandOptionType.SingleValue);
             var logDestinationCommand = app.Option("--log-destination", "[this option is only valid when run with --unattended] Logging destination: console or file", CommandOptionType.SingleValue);
-            var distributionFileCommand = app.Option("--distribution-file", "[this option is only valid when run with --unattended] Prepare distribution file by LZip compresing the database file", CommandOptionType.NoValue);
+            var compressCommand = app.Option("--compress", "[this option is only valid when run with --unattended] Compress the seeded database using LZip", CommandOptionType.NoValue);
 
             app.OnExecute(() =>
             {
@@ -36,12 +36,12 @@ namespace abremir.AllMyBricks.DatabaseSeeder
 
                 if (logVerbosity != LogVerbosityEnum.NoLogging)
                 {
-                    Logger.LogInformation($"Running All My Bricks database seeder with arguments:{ (unattendedCommand.HasValue() ? " --unattended" : string.Empty) }{ (logVerbosityCommand.HasValue() ? $" --logging-verbosity={logVerbosityCommand.Value()}" : string.Empty) }{ (logDestinationCommand.HasValue() ? $" --log-destination={logDestinationCommand.Value()}" : string.Empty) }{ (distributionFileCommand.HasValue() ? $" --distribution-file" : string.Empty) }");
+                    Logger.LogInformation($"Running All My Bricks database seeder with arguments:{ (unattendedCommand.HasValue() ? " --unattended" : string.Empty) }{ (logVerbosityCommand.HasValue() ? $" --logging-verbosity={logVerbosityCommand.Value()}" : string.Empty) }{ (logDestinationCommand.HasValue() ? $" --log-destination={logDestinationCommand.Value()}" : string.Empty) }{ (compressCommand.HasValue() ? $" --compress" : string.Empty) }");
                 }
 
                 if (unattendedCommand.HasValue())
                 {
-                    NonInteractiveConsole.Run(distributionFileCommand.HasValue()).GetAwaiter().GetResult();
+                    NonInteractiveConsole.Run(compressCommand.HasValue()).GetAwaiter().GetResult();
                 }
                 else
                 {

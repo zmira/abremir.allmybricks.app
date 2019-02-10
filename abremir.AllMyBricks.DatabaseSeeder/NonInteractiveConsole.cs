@@ -7,13 +7,13 @@ namespace abremir.AllMyBricks.DatabaseSeeder
 {
     public static class NonInteractiveConsole
     {
-        public static async Task Run(bool createDistributionFile)
+        public static async Task Run(bool compress)
         {
             await IoC.IoCContainer.GetInstance<IDataSynchronizationService>().SynchronizeAllSetData();
 
             IoC.IoCContainer.GetInstance<IAssetManagementService>().CompactAllMyBricksDatabase();
 
-            if (createDistributionFile)
+            if (compress)
             {
                 IoC.IoCContainer.GetInstance<IAssetManagementService>().CompressDatabaseFile();
             }
