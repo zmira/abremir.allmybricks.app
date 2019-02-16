@@ -1,5 +1,4 @@
-﻿using abremir.AllMyBricks.DataSynchronizer.Implementations;
-using abremir.AllMyBricks.DataSynchronizer.Interfaces;
+﻿using abremir.AllMyBricks.DataSynchronizer.Interfaces;
 using abremir.AllMyBricks.DataSynchronizer.Services;
 using abremir.AllMyBricks.DataSynchronizer.Synchronizers;
 using SimpleInjector;
@@ -17,8 +16,6 @@ namespace abremir.AllMyBricks.DataSynchronizer.Configuration
             container.Register<ISubthemeSynchronizer, SubthemeSynchronizer>(Lifestyle.Transient);
             container.Register<ISetSynchronizer, SetSynchronizer>(Lifestyle.Transient);
             container.Register<IThumbnailSynchronizer, ThumbnailSynchronizer>(Lifestyle.Transient);
-
-            container.Register<IDataSynchronizerEventManager, DataSynchronizerEventManager>(Lifestyle.Singleton);
 
             return container;
         }

@@ -1,8 +1,6 @@
-﻿using abremir.AllMyBricks.DataSynchronizer.Interfaces;
-
-namespace abremir.AllMyBricks.DataSynchronizer.Events.DataSynchronizationService
+﻿namespace abremir.AllMyBricks.DataSynchronizer.Events.DataSynchronizationService
 {
-    public class ProcessingTheme : IDataSynchronizerEvent
+    public class ProcessingTheme
     {
         public string Name { get; set; }
     }

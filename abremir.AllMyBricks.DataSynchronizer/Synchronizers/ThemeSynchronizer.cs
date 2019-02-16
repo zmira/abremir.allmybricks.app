@@ -5,6 +5,7 @@ using abremir.AllMyBricks.DataSynchronizer.Extensions;
 using abremir.AllMyBricks.DataSynchronizer.Interfaces;
 using abremir.AllMyBricks.ThirdParty.Brickset.Interfaces;
 using abremir.AllMyBricks.ThirdParty.Brickset.Models;
+using Easy.MessageHub;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,21 +17,21 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
     {
         private readonly IBricksetApiService _bricksetApiService;
         private readonly IThemeRepository _themeRepository;
-        private readonly IDataSynchronizerEventManager _dataSynchronizerEventHandler;
+        private readonly IMessageHub _messageHub;
 
         public ThemeSynchronizer(
             IBricksetApiService bricksetService,
             IThemeRepository themeRepository,
-            IDataSynchronizerEventManager dataSynchronizerEventHandler)
+            IMessageHub messageHub)
         {
             _bricksetApiService = bricksetService;
             _themeRepository = themeRepository;
-            _dataSynchronizerEventHandler = dataSynchronizerEventHandler;
+            _messageHub = messageHub;
         }
 
         public async Task<IEnumerable<Theme>> Synchronize(string apiKey)
         {
-            _dataSynchronizerEventHandler.Raise(new ThemeSynchronizerStart());
+            _messageHub.Publish(new ThemeSynchronizerStart());
 
             var themeList = new List<Theme>();
 
@@ -43,11 +44,11 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
 
                 var bricksetThemes = (await _bricksetApiService.GetThemes(getThemesParameters)).ToList();
 
-                _dataSynchronizerEventHandler.Raise(new ThemesAcquired { Count = bricksetThemes.Count });
+                _messageHub.Publish(new ThemesAcquired { Count = bricksetThemes.Count });
 
                 foreach (var bricksetTheme in bricksetThemes)
                 {
-                    _dataSynchronizerEventHandler.Raise(new SynchronizingTheme { Theme = bricksetTheme.Theme });
+                    _messageHub.Publish(new SynchronizingTheme { Theme = bricksetTheme.Theme });
 
                     try
                     {
@@ -69,18 +70,18 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                     }
                     catch (Exception ex)
                     {
-                        _dataSynchronizerEventHandler.Raise(new SynchronizingThemeException { Theme = bricksetTheme.Theme, Exception = ex });
+                        _messageHub.Publish(new SynchronizingThemeException { Theme = bricksetTheme.Theme, Exception = ex });
                     }
 
-                    _dataSynchronizerEventHandler.Raise(new SynchronizedTheme { Theme = bricksetTheme.Theme });
+                    _messageHub.Publish(new SynchronizedTheme { Theme = bricksetTheme.Theme });
                 }
             }
             catch(Exception ex)
             {
-                _dataSynchronizerEventHandler.Raise(new ThemeSynchronizerException { Exception = ex });
+                _messageHub.Publish(new ThemeSynchronizerException { Exception = ex });
             }
 
-            _dataSynchronizerEventHandler.Raise(new ThemeSynchronizerEnd());
+            _messageHub.Publish(new ThemeSynchronizerEnd());
 
             return themeList;
         }

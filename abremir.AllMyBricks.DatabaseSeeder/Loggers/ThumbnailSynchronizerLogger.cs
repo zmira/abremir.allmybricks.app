@@ -1,7 +1,7 @@
 ﻿using abremir.AllMyBricks.DatabaseSeeder.Configuration;
 using abremir.AllMyBricks.DataSynchronizer.Events.ThumbnailSynchronizer;
-using abremir.AllMyBricks.DataSynchronizer.Interfaces;
 using abremir.AllMyBricks.DataSynchronizer.Synchronizers;
+using Easy.MessageHub;
 using Microsoft.Extensions.Logging;
 
 namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
@@ -12,11 +12,11 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
 
         public ThumbnailSynchronizerLogger(
             ILoggerFactory loggerFactory,
-            IDataSynchronizerEventManager dataSynchronizerEventManager)
+            IMessageHub messageHub)
         {
             _logger = loggerFactory.CreateLogger<ThumbnailSynchronizer>();
 
-            dataSynchronizerEventManager.Register<ThumbnailSynchronizerStart>(_ =>
+            messageHub.Subscribe<ThumbnailSynchronizerStart>(_ =>
             {
                 if(Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
                 {
@@ -24,7 +24,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
                 }
             });
 
-            dataSynchronizerEventManager.Register<ThumbnailAcquired>(ev =>
+            messageHub.Subscribe<ThumbnailAcquired>(ev =>
             {
                 if (Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
                 {
@@ -32,7 +32,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
                 }
             });
 
-            dataSynchronizerEventManager.Register<SynchronizingThumbnail>(ev =>
+            messageHub.Subscribe<SynchronizingThumbnail>(ev =>
             {
                 if (Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
                 {
@@ -40,7 +40,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
                 }
             });
 
-            dataSynchronizerEventManager.Register<SynchronizedThumbnail>(ev =>
+            messageHub.Subscribe<SynchronizedThumbnail>(ev =>
             {
                 if (Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
                 {
@@ -48,9 +48,9 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
                 }
             });
 
-            dataSynchronizerEventManager.Register<ThumbnailSynchronizerException>(ev =>  _logger.LogError(ev.Exception, "Thumbnail Synchronizer Exception"));
+            messageHub.Subscribe<ThumbnailSynchronizerException>(ev =>  _logger.LogError(ev.Exception, "Thumbnail Synchronizer Exception"));
 
-            dataSynchronizerEventManager.Register<ThumbnailSynchronizerEnd>(_ =>
+            messageHub.Subscribe<ThumbnailSynchronizerEnd>(_ =>
             {
                 if (Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
                 {

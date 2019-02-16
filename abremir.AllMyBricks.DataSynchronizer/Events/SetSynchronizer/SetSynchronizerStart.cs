@@ -1,9 +1,6 @@
-﻿using abremir.AllMyBricks.DataSynchronizer.Interfaces;
-using System;
-
-namespace abremir.AllMyBricks.DataSynchronizer.Events.SetSynchronizer
+﻿namespace abremir.AllMyBricks.DataSynchronizer.Events.SetSynchronizer
 {
-    public class SetSynchronizerStart : IDataSynchronizerEvent
+    public class SetSynchronizerStart
     {
         public bool ForSubtheme { get; set; }
     }

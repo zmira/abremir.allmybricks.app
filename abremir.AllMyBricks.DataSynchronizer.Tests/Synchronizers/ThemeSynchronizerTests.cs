@@ -1,11 +1,11 @@
 ﻿using abremir.AllMyBricks.Data.Interfaces;
 using abremir.AllMyBricks.Data.Repositories;
-using abremir.AllMyBricks.DataSynchronizer.Interfaces;
 using abremir.AllMyBricks.DataSynchronizer.Synchronizers;
 using abremir.AllMyBricks.DataSynchronizer.Tests.Configuration;
 using abremir.AllMyBricks.DataSynchronizer.Tests.Shared;
 using abremir.AllMyBricks.ThirdParty.Brickset.Interfaces;
 using abremir.AllMyBricks.ThirdParty.Brickset.Models;
+using Easy.MessageHub;
 using fastJSON;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -74,7 +74,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
         {
             bricksetApiService = bricksetApiService ?? Substitute.For<IBricksetApiService>();
 
-            return new ThemeSynchronizer(bricksetApiService, _themeRepository, Substitute.For<IDataSynchronizerEventManager>());
+            return new ThemeSynchronizer(bricksetApiService, _themeRepository, Substitute.For<IMessageHub>());
         }
     }
 }

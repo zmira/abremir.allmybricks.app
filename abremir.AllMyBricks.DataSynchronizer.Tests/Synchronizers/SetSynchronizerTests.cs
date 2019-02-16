@@ -9,6 +9,7 @@ using abremir.AllMyBricks.DataSynchronizer.Tests.Shared;
 using abremir.AllMyBricks.Device.Interfaces;
 using abremir.AllMyBricks.ThirdParty.Brickset.Interfaces;
 using abremir.AllMyBricks.ThirdParty.Brickset.Models;
+using Easy.MessageHub;
 using fastJSON;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -172,7 +173,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 
             var thumbnailSynchronizer = Substitute.For<IThumbnailSynchronizer>();
 
-            return new SetSynchronizer(bricksetApiService, _setRepository, _referenceDataRepository, _themeRepository, _subthemeRepository, Substitute.For<IPreferencesService>(), thumbnailSynchronizer, Substitute.For<IDataSynchronizerEventManager>());
+            return new SetSynchronizer(bricksetApiService, _setRepository, _referenceDataRepository, _themeRepository, _subthemeRepository, Substitute.For<IPreferencesService>(), thumbnailSynchronizer, Substitute.For<IMessageHub>());
         }
     }
 }

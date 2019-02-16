@@ -1,7 +1,7 @@
 ﻿using abremir.AllMyBricks.DatabaseSeeder.Configuration;
 using abremir.AllMyBricks.DataSynchronizer.Events.ThemeSynchronizer;
-using abremir.AllMyBricks.DataSynchronizer.Interfaces;
 using abremir.AllMyBricks.DataSynchronizer.Synchronizers;
+using Easy.MessageHub;
 using Microsoft.Extensions.Logging;
 
 using static System.FormattableString;
@@ -18,11 +18,11 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
 
         public ThemeSynchronizerLogger(
             ILoggerFactory loggerFactory,
-            IDataSynchronizerEventManager dataSynchronizerEventManager)
+            IMessageHub messageHub)
         {
             _logger = loggerFactory.CreateLogger<ThemeSynchronizer>();
 
-            dataSynchronizerEventManager.Register<ThemeSynchronizerStart>(_ =>
+            messageHub.Subscribe<ThemeSynchronizerStart>(_ =>
             {
                 _themeIndex = 0;
                 _themeProgressFraction = 0;
@@ -33,14 +33,14 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
                 }
             });
 
-            dataSynchronizerEventManager.Register<ThemesAcquired>(ev =>
+            messageHub.Subscribe<ThemesAcquired>(ev =>
             {
                 _themeCount = ev.Count;
 
                 _logger.LogInformation($"Acquired {ev.Count} themes to process");
             });
 
-            dataSynchronizerEventManager.Register<SynchronizingTheme>(ev =>
+            messageHub.Subscribe<SynchronizingTheme>(ev =>
             {
                 _themeIndex++;
                 _themeProgressFraction = _themeIndex / _themeCount;
@@ -51,9 +51,9 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
                 }
             });
 
-            dataSynchronizerEventManager.Register<SynchronizingThemeException>(ev => _logger.LogError(ev.Exception, $"Synchronizing Theme '{ev.Theme}' Exception"));
+            messageHub.Subscribe<SynchronizingThemeException>(ev => _logger.LogError(ev.Exception, $"Synchronizing Theme '{ev.Theme}' Exception"));
 
-            dataSynchronizerEventManager.Register<SynchronizedTheme>(ev =>
+            messageHub.Subscribe<SynchronizedTheme>(ev =>
             {
                 if (Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
                 {
@@ -61,9 +61,9 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
                 }
             });
 
-            dataSynchronizerEventManager.Register<ThemeSynchronizerException>(ev => _logger.LogError(ev.Exception, "Theme Synchronizer Exception"));
+            messageHub.Subscribe<ThemeSynchronizerException>(ev => _logger.LogError(ev.Exception, "Theme Synchronizer Exception"));
 
-            dataSynchronizerEventManager.Register<ThemeSynchronizerEnd>(_ =>
+            messageHub.Subscribe<ThemeSynchronizerEnd>(_ =>
             {
                 _themeIndex = 0;
                 _themeProgressFraction = 0;

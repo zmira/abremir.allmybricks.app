@@ -1,9 +1,8 @@
-﻿using abremir.AllMyBricks.DataSynchronizer.Interfaces;
-using System;
+﻿using System;
 
 namespace abremir.AllMyBricks.DataSynchronizer.Events.SetSynchronizer
 {
-    public class SetSynchronizerException : IDataSynchronizerEvent
+    public class SetSynchronizerException
     {
         public Exception Exception { get; set; }
     }

@@ -2,6 +2,7 @@
 using abremir.AllMyBricks.DataSynchronizer.Events.DataSynchronizationService;
 using abremir.AllMyBricks.DataSynchronizer.Interfaces;
 using abremir.AllMyBricks.Onboarding.Interfaces;
+using Easy.MessageHub;
 using System;
 using System.Threading.Tasks;
 
@@ -14,7 +15,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Services
         private readonly ISetSynchronizer _setSynchronizer;
         private readonly IInsightsRepository _insightsRepository;
         private readonly IOnboardingService _onboardingService;
-        private readonly IDataSynchronizerEventManager _dataSynchronizerEventHandler;
+        private readonly IMessageHub _messageHub;
 
         public DataSynchronizationService(
             IThemeSynchronizer themeSynchronizer,
@@ -22,19 +23,19 @@ namespace abremir.AllMyBricks.DataSynchronizer.Services
             ISetSynchronizer setSynchronizer,
             IInsightsRepository insightsRepository,
             IOnboardingService onboardingService,
-            IDataSynchronizerEventManager dataSynchronizerEventHandler)
+            IMessageHub messageHub)
         {
             _themeSynchronizer = themeSynchronizer;
             _subthemeSynchronizer = subthemeSynchronizer;
             _setSynchronizer = setSynchronizer;
             _insightsRepository = insightsRepository;
             _onboardingService = onboardingService;
-            _dataSynchronizerEventHandler = dataSynchronizerEventHandler;
+            _messageHub = messageHub;
         }
 
         public async Task SynchronizeAllSetData()
         {
-            _dataSynchronizerEventHandler.Raise(new DataSynchronizationStart());
+            _messageHub.Publish(new DataSynchronizationStart());
 
             try
             {
@@ -47,11 +48,11 @@ namespace abremir.AllMyBricks.DataSynchronizer.Services
 
                 var dataSynchronizationTimestamp = _insightsRepository.GetDataSynchronizationTimestamp();
 
-                _dataSynchronizerEventHandler.Raise(new InsightsAcquired { SynchronizationTimestamp = dataSynchronizationTimestamp });
+                _messageHub.Publish(new InsightsAcquired { SynchronizationTimestamp = dataSynchronizationTimestamp });
 
                 foreach (var theme in await _themeSynchronizer.Synchronize(apiKey))
                 {
-                    _dataSynchronizerEventHandler.Raise(new ProcessingTheme { Name = theme.Name });
+                    _messageHub.Publish(new ProcessingTheme { Name = theme.Name });
 
                     try
                     {
@@ -61,20 +62,20 @@ namespace abremir.AllMyBricks.DataSynchronizer.Services
                         {
                             foreach (var subtheme in subthemes)
                             {
-                                _dataSynchronizerEventHandler.Raise(new ProcessingSubtheme { Name = subtheme.Name });
+                                _messageHub.Publish(new ProcessingSubtheme { Name = subtheme.Name });
 
                                 await _setSynchronizer.Synchronize(apiKey, theme, subtheme);
 
-                                _dataSynchronizerEventHandler.Raise(new ProcessedSubtheme { Name = subtheme.Name });
+                                _messageHub.Publish(new ProcessedSubtheme { Name = subtheme.Name });
                             }
                         }
                     }
                     catch(Exception ex)
                     {
-                        _dataSynchronizerEventHandler.Raise(new ProcessingThemeException { Name = theme.Name, Exception = ex });
+                        _messageHub.Publish(new ProcessingThemeException { Name = theme.Name, Exception = ex });
                     }
 
-                    _dataSynchronizerEventHandler.Raise(new ProcessedTheme { Name = theme.Name });
+                    _messageHub.Publish(new ProcessedTheme { Name = theme.Name });
                 }
 
                 if (dataSynchronizationTimestamp.HasValue)
@@ -86,10 +87,10 @@ namespace abremir.AllMyBricks.DataSynchronizer.Services
             }
             catch(Exception ex)
             {
-                _dataSynchronizerEventHandler.Raise(new DataSynchronizationException { Exception = ex });
+                _messageHub.Publish(new DataSynchronizationException { Exception = ex });
             }
 
-            _dataSynchronizerEventHandler.Raise(new DataSynchronizationEnd());
+            _messageHub.Publish(new DataSynchronizationEnd());
         }
     }
 }

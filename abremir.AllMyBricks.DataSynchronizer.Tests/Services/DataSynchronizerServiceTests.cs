@@ -3,6 +3,7 @@ using abremir.AllMyBricks.Data.Models;
 using abremir.AllMyBricks.DataSynchronizer.Interfaces;
 using abremir.AllMyBricks.DataSynchronizer.Services;
 using abremir.AllMyBricks.Onboarding.Interfaces;
+using Easy.MessageHub;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
 using System;
@@ -30,7 +31,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Services
             _insightsRepository = Substitute.For<IInsightsRepository>();
             _onboardingService = Substitute.For<IOnboardingService>();
 
-            _dataSynchronizationService = new DataSynchronizationService(_themeSynchronizer, _subthemeSynchronizer, _setSynchronizer, _insightsRepository, _onboardingService, Substitute.For<IDataSynchronizerEventManager>());
+            _dataSynchronizationService = new DataSynchronizationService(_themeSynchronizer, _subthemeSynchronizer, _setSynchronizer, _insightsRepository, _onboardingService, Substitute.For<IMessageHub>());
         }
 
         [DataTestMethod]

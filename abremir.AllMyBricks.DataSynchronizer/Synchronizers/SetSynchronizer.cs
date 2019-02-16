@@ -7,6 +7,7 @@ using abremir.AllMyBricks.DataSynchronizer.Interfaces;
 using abremir.AllMyBricks.Device.Interfaces;
 using abremir.AllMyBricks.ThirdParty.Brickset.Interfaces;
 using abremir.AllMyBricks.ThirdParty.Brickset.Models;
+using Easy.MessageHub;
 using System;
 using System.Globalization;
 using System.Linq;
@@ -23,7 +24,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
         private readonly ISubthemeRepository _subthemeRepository;
         private readonly IPreferencesService _preferencesService;
         private readonly IThumbnailSynchronizer _thumbnailSynchronizer;
-        private readonly IDataSynchronizerEventManager _dataSynchronizerEventHandler;
+        private readonly IMessageHub _messageHub;
 
         public SetSynchronizer(
             IBricksetApiService bricksetApiService,
@@ -33,7 +34,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
             ISubthemeRepository subthemeRepository,
             IPreferencesService preferencesService,
             IThumbnailSynchronizer thumbnailSynchronizer,
-            IDataSynchronizerEventManager dataSynchronizerEventHandler)
+            IMessageHub messageHub)
         {
             _bricksetApiService = bricksetApiService;
             _setRepository = setRepository;
@@ -42,18 +43,18 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
             _subthemeRepository = subthemeRepository;
             _preferencesService = preferencesService;
             _thumbnailSynchronizer = thumbnailSynchronizer;
-            _dataSynchronizerEventHandler = dataSynchronizerEventHandler;
+            _messageHub = messageHub;
         }
 
         public async Task Synchronize(string apiKey, Theme theme, Subtheme subtheme)
         {
-            _dataSynchronizerEventHandler.Raise(new SetSynchronizerStart { ForSubtheme = true });
+            _messageHub.Publish(new SetSynchronizerStart { ForSubtheme = true });
 
             for (var year = subtheme.YearFrom; year <= subtheme.YearTo; year++)
             {
                 try
                 {
-                    _dataSynchronizerEventHandler.Raise(new AcquiringSets { Theme = theme.Name, Subtheme = subtheme.Name, Year = year });
+                    _messageHub.Publish(new AcquiringSets { Theme = theme.Name, Subtheme = subtheme.Name, Year = year });
 
                     var getSetsParameters = new ParameterSets
                     {
@@ -65,7 +66,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
 
                     var bricksetSets = (await _bricksetApiService.GetSets(getSetsParameters)).ToList();
 
-                    _dataSynchronizerEventHandler.Raise(new SetsAcquired { Theme = theme.Name, Subtheme = subtheme.Name, Count = bricksetSets.Count, Year = year });
+                    _messageHub.Publish(new SetsAcquired { Theme = theme.Name, Subtheme = subtheme.Name, Count = bricksetSets.Count, Year = year });
 
                     foreach (var bricksetSet in bricksetSets)
                     {
@@ -74,16 +75,16 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                 }
                 catch(Exception ex)
                 {
-                    _dataSynchronizerEventHandler.Raise(new SetSynchronizerException { Exception = ex });
+                    _messageHub.Publish(new SetSynchronizerException { Exception = ex });
                 }
             }
 
-            _dataSynchronizerEventHandler.Raise(new SetSynchronizerEnd { ForSubtheme = true });
+            _messageHub.Publish(new SetSynchronizerEnd { ForSubtheme = true });
         }
 
         public async Task Synchronize(string apiKey, DateTimeOffset previousUpdateTimestamp)
         {
-            _dataSynchronizerEventHandler.Raise(new SetSynchronizerStart { ForSubtheme = false });
+            _messageHub.Publish(new SetSynchronizerStart { ForSubtheme = false });
 
             try
             {
@@ -95,7 +96,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
 
                 var recentlyUpdatedSets = (await _bricksetApiService.GetRecentlyUpdatedSets(getRecentlyUpdatedSetsParameters)).ToList();
 
-                _dataSynchronizerEventHandler.Raise(new SetsAcquired { Count = recentlyUpdatedSets.Count });
+                _messageHub.Publish(new SetsAcquired { Count = recentlyUpdatedSets.Count });
 
                 foreach (var themeGroup in recentlyUpdatedSets.GroupBy(bricksetSet => bricksetSet.Theme))
                 {
@@ -114,15 +115,15 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
             }
             catch(Exception ex)
             {
-                _dataSynchronizerEventHandler.Raise(new SetSynchronizerException { Exception = ex });
+                _messageHub.Publish(new SetSynchronizerException { Exception = ex });
             }
 
-            _dataSynchronizerEventHandler.Raise(new SetSynchronizerEnd { ForSubtheme = false });
+            _messageHub.Publish(new SetSynchronizerEnd { ForSubtheme = false });
         }
 
         private async Task AddOrUpdateSet(string apiKey, Theme theme, Subtheme subtheme, Sets bricksetSet, short? year = null)
         {
-            _dataSynchronizerEventHandler.Raise(new SynchronizingSet { Theme = theme.Name, Subtheme = subtheme?.Name, Name = bricksetSet.Name, Number = bricksetSet.Number, NumberVariant = bricksetSet.NumberVariant, Year = year });
+            _messageHub.Publish(new SynchronizingSet { Theme = theme.Name, Subtheme = subtheme?.Name, Name = bricksetSet.Name, Number = bricksetSet.Number, NumberVariant = bricksetSet.NumberVariant, Year = year });
 
             try
             {
@@ -147,10 +148,10 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
             }
             catch(Exception ex)
             {
-                _dataSynchronizerEventHandler.Raise(new SynchronizingSetException { Theme = theme.Name, Subtheme = subtheme?.Name, Name = bricksetSet.Name, Number = bricksetSet.Number, NumberVariant = bricksetSet.NumberVariant, Exception = ex });
+                _messageHub.Publish(new SynchronizingSetException { Theme = theme.Name, Subtheme = subtheme?.Name, Name = bricksetSet.Name, Number = bricksetSet.Number, NumberVariant = bricksetSet.NumberVariant, Exception = ex });
             }
 
-            _dataSynchronizerEventHandler.Raise(new SynchronizedSet { Theme = theme.Name, Subtheme = subtheme?.Name, Name = bricksetSet.Name, Number = bricksetSet.Number, NumberVariant = bricksetSet.NumberVariant });
+            _messageHub.Publish(new SynchronizedSet { Theme = theme.Name, Subtheme = subtheme?.Name, Name = bricksetSet.Name, Number = bricksetSet.Number, NumberVariant = bricksetSet.NumberVariant });
         }
 
         private async Task<Set> MapSet(string apiKey, Theme theme, Subtheme subtheme, Sets bricksetSet)

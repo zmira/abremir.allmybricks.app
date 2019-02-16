@@ -1,8 +1,8 @@
 ﻿using abremir.AllMyBricks.Data.Models;
-using abremir.AllMyBricks.DataSynchronizer.Interfaces;
 using abremir.AllMyBricks.DataSynchronizer.Synchronizers;
 using abremir.AllMyBricks.Device.Enumerations;
 using abremir.AllMyBricks.Device.Interfaces;
+using Easy.MessageHub;
 using Flurl.Http.Testing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
@@ -27,7 +27,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
             _preferencesService = Substitute.For<IPreferencesService>();
             _fileSystemService = Substitute.For<IFileSystemService>();
 
-            _thumbnailSynchronizer = new ThumbnailSynchronizer(_preferencesService, _fileSystemService, Substitute.For<IDataSynchronizerEventManager>());
+            _thumbnailSynchronizer = new ThumbnailSynchronizer(_preferencesService, _fileSystemService, Substitute.For<IMessageHub>());
         }
 
         [TestCleanup]

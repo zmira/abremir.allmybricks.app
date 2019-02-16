@@ -1,8 +1,6 @@
-﻿using abremir.AllMyBricks.DataSynchronizer.Interfaces;
-
-namespace abremir.AllMyBricks.DataSynchronizer.Events.ThemeSynchronizer
+﻿namespace abremir.AllMyBricks.DataSynchronizer.Events.ThemeSynchronizer
 {
-    public class ThemesAcquired : IDataSynchronizerEvent
+    public class ThemesAcquired
     {
         public int Count { get; set; }
     }

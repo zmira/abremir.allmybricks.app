@@ -1,9 +1,8 @@
-﻿using abremir.AllMyBricks.DataSynchronizer.Interfaces;
-using System;
+﻿using System;
 
 namespace abremir.AllMyBricks.DataSynchronizer.Events.DataSynchronizationService
 {
-    public class InsightsAcquired : IDataSynchronizerEvent
+    public class InsightsAcquired
     {
         public DateTimeOffset? SynchronizationTimestamp { get; set; }
     }

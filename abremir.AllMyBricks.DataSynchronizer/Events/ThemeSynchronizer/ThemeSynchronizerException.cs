@@ -1,9 +1,8 @@
-﻿using abremir.AllMyBricks.DataSynchronizer.Interfaces;
-using System;
+﻿using System;
 
 namespace abremir.AllMyBricks.DataSynchronizer.Events.ThemeSynchronizer
 {
-    public class ThemeSynchronizerException : IDataSynchronizerEvent
+    public class ThemeSynchronizerException
     {
         public Exception Exception { get; set; }
     }

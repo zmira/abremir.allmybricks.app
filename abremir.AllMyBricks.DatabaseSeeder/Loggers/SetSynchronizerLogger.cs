@@ -1,7 +1,7 @@
 ﻿using abremir.AllMyBricks.DatabaseSeeder.Configuration;
 using abremir.AllMyBricks.DataSynchronizer.Events.SetSynchronizer;
-using abremir.AllMyBricks.DataSynchronizer.Interfaces;
 using abremir.AllMyBricks.DataSynchronizer.Synchronizers;
+using Easy.MessageHub;
 using Microsoft.Extensions.Logging;
 
 using static System.FormattableString;
@@ -18,11 +18,11 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
 
         public SetSynchronizerLogger(
             ILoggerFactory loggerFactory,
-            IDataSynchronizerEventManager dataSynchronizerEventManager)
+            IMessageHub messageHub)
         {
             _logger = loggerFactory.CreateLogger<SetSynchronizer>();
 
-            dataSynchronizerEventManager.Register<SetSynchronizerStart>(ev =>
+            messageHub.Subscribe<SetSynchronizerStart>(ev =>
             {
                 _setIndex = 0;
                 _setProgressFraction = 0;
@@ -33,7 +33,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
                 }
             });
 
-            dataSynchronizerEventManager.Register<AcquiringSets>(ev =>
+            messageHub.Subscribe<AcquiringSets>(ev =>
             {
                 _setIndex = 0;
                 _setProgressFraction = 0;
@@ -44,7 +44,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
                 }
             });
 
-            dataSynchronizerEventManager.Register<SetsAcquired>(ev =>
+            messageHub.Subscribe<SetsAcquired>(ev =>
             {
                 _setCount = ev.Count;
                 _setIndex = 0;
@@ -52,7 +52,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
                 _logger.LogInformation($"Acquired {ev.Count} sets {(ev.Year.HasValue ? $"from '{ev.Theme}-{ev.Subtheme}' " : string.Empty)}to process{(ev.Year.HasValue ? $" for year {ev.Year}" : string.Empty)}");
             });
 
-            dataSynchronizerEventManager.Register<SynchronizingSet>(ev =>
+            messageHub.Subscribe<SynchronizingSet>(ev =>
             {
                 _setIndex++;
                 _setProgressFraction = _setIndex / _setCount;
@@ -63,9 +63,9 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
                 }
             });
 
-            dataSynchronizerEventManager.Register<SynchronizingSetException>(ev => _logger.LogError(ev.Exception, $"Synchronizing Set '{ev.IdentifierLong}' Exception"));
+            messageHub.Subscribe<SynchronizingSetException>(ev => _logger.LogError(ev.Exception, $"Synchronizing Set '{ev.IdentifierLong}' Exception"));
 
-            dataSynchronizerEventManager.Register<SynchronizedSet>(ev =>
+            messageHub.Subscribe<SynchronizedSet>(ev =>
             {
                 if (Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
                 {
@@ -73,9 +73,9 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
                 }
             });
 
-            dataSynchronizerEventManager.Register<SetSynchronizerException>(ev => _logger.LogError(ev.Exception, "Set Synchronizer Exception"));
+            messageHub.Subscribe<SetSynchronizerException>(ev => _logger.LogError(ev.Exception, "Set Synchronizer Exception"));
 
-            dataSynchronizerEventManager.Register<SetSynchronizerEnd>(ev =>
+            messageHub.Subscribe<SetSynchronizerEnd>(ev =>
             {
                 _setIndex = 0;
                 _setProgressFraction = 0;

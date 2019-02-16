@@ -1,6 +1,7 @@
 ﻿using abremir.AllMyBricks.DatabaseSeeder.Loggers;
 using abremir.AllMyBricks.DatabaseSeeder.Services;
 using abremir.AllMyBricks.Device.Interfaces;
+using Easy.MessageHub;
 using SimpleInjector;
 using System.Reflection;
 
@@ -24,6 +25,8 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Configuration
             IoCContainer.Register<IDeviceInformationService, DeviceInformationService>(Lifestyle.Transient);
             IoCContainer.Register<IFileSystemService, FileSystemService>(Lifestyle.Transient);
             IoCContainer.Register<IAssetManagementService, AssetManagementService>(Lifestyle.Transient);
+
+            IoCContainer.Register<IMessageHub>(() => MessageHub.Instance, Lifestyle.Singleton);
 
             IoCContainer.Register(() => Logging.LoggerFactory, Lifestyle.Singleton);
             IoCContainer.Collection.Register<IDatabaseSeederLogger>(Assembly.GetExecutingAssembly());

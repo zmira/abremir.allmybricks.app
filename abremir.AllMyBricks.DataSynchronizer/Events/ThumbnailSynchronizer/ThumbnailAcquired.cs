@@ -1,8 +1,6 @@
-﻿using abremir.AllMyBricks.DataSynchronizer.Interfaces;
-
-namespace abremir.AllMyBricks.DataSynchronizer.Events.ThumbnailSynchronizer
+﻿namespace abremir.AllMyBricks.DataSynchronizer.Events.ThumbnailSynchronizer
 {
-    public class ThumbnailAcquired : IDataSynchronizerEvent
+    public class ThumbnailAcquired
     {
         public string Thumbnail { get; set; }
     }
