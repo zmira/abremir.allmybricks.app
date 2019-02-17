@@ -68,7 +68,6 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
             var testSet = setsList.First(set => set.SetId == Constants.TestSetId);
             var additionalImagesList = JSON.ToObject<List<AdditionalImages>>(GetResultFileFromResource(Constants.JsonFileGetAdditionalImages));
             var instructionsList = JSON.ToObject<List<Instructions>>(GetResultFileFromResource(Constants.JsonFileGetInstructions));
-            //var reviewsList = JSON.ToObject<List<Reviews>>(GetResultFileFromResource(Constants.JsonFileGetReviews));
             var testSubtheme = subthemesList.First(bricksetSubtheme => bricksetSubtheme.Subtheme == testSet.Subtheme);
 
             var theme = testTheme.ToTheme();
@@ -99,9 +98,6 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
             bricksetApiService
                 .GetInstructions(Arg.Is<ParameterSetId>(parameter => parameter.SetID == testSet.SetId))
                 .Returns(instructionsList);
-            //bricksetApiService
-            //    .GetReviews(Arg.Is<ParameterSetId>(parameter => parameter.SetID == testSet.SetId))
-            //    .Returns(reviewsList);
             bricksetApiService
                 .GetSet(Arg.Any<ParameterUserHashSetId>())
                 .Returns(ret => setsList.First(setFromList => setFromList.SetId == ((ParameterUserHashSetId)ret.Args()[0]).SetID));
@@ -116,7 +112,6 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
             var persistedSet = _setRepository.Get(testSet.SetId);
             persistedSet.Images.Count.Should().BeGreaterOrEqualTo(additionalImagesList.Count);
             persistedSet.Instructions.Count.Should().Be(instructionsList.Count);
-            //persistedSet.Reviews.Count.Should().Be(reviewsList.Count);
         }
 
         [TestMethod]
