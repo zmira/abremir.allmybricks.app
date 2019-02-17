@@ -31,6 +31,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Easy.MessageHub" Version="4.0.1" />
     <PackageReference Include="fastJSON" Version="2.2.0.1" />
     <PackageReference Include="FluentAssertions" Version="5.6.0" />
     <PackageReference Include="Flurl" Version="2.8.1" />
