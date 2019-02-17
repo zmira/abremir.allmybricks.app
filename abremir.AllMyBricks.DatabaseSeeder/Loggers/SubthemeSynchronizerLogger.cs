@@ -14,13 +14,11 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
         private static float _subthemeProgressFraction;
         private static float _subthemeCount;
 
-        private readonly ILogger _logger;
-
         public SubthemeSynchronizerLogger(
             ILoggerFactory loggerFactory,
             IMessageHub messageHub)
         {
-            _logger = loggerFactory.CreateLogger<SubthemeSynchronizer>();
+            var logger = loggerFactory.CreateLogger<SubthemeSynchronizer>();
 
             messageHub.Subscribe<SubthemeSynchronizerStart>(_ =>
             {
@@ -29,7 +27,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
 
                 if (Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
                 {
-                    _logger.LogInformation("Subtheme Synchronizer Started");
+                    logger.LogInformation("Subtheme Synchronizer Started");
                 }
             });
 
@@ -38,7 +36,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
                 _subthemeIndex = 0;
                 _subthemeCount = ev.Count;
 
-                _logger.LogInformation($"Acquired {ev.Count} subthemes to process for theme '{ev.Theme}'");
+                logger.LogInformation($"Acquired {ev.Count} subthemes to process for theme '{ev.Theme}'");
             });
 
             messageHub.Subscribe<SynchronizingSubtheme>(ev =>
@@ -48,21 +46,21 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
 
                 if (Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
                 {
-                    _logger.LogInformation(Invariant($"Synchronizing Subtheme '{ev.Theme}-{ev.Subtheme}': index {_subthemeIndex}, progress {_subthemeProgressFraction:##0.00%}"));
+                    logger.LogInformation(Invariant($"Synchronizing Subtheme '{ev.Theme}-{ev.Subtheme}': index {_subthemeIndex}, progress {_subthemeProgressFraction:##0.00%}"));
                 }
             });
 
-            messageHub.Subscribe<SynchronizingSubthemeException>(ev => _logger.LogError(ev.Exception, $"Synchronizing Subtheme '{ev.Theme}-{ev.Subtheme}' Exception"));
+            messageHub.Subscribe<SynchronizingSubthemeException>(ev => logger.LogError(ev.Exception, $"Synchronizing Subtheme '{ev.Theme}-{ev.Subtheme}' Exception"));
 
             messageHub.Subscribe<SynchronizedSubtheme>(ev =>
             {
                 if (Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
                 {
-                    _logger.LogInformation($"Finished Synchronizing Subtheme '{ev.Theme}-{ev.Subtheme}'");
+                    logger.LogInformation($"Finished Synchronizing Subtheme '{ev.Theme}-{ev.Subtheme}'");
                 }
             });
 
-            messageHub.Subscribe<SubthemeSynchronizerException>(ev => _logger.LogError(ev.Exception, $"Subtheme Synchronizer Exception for theme '{ev.Theme}'"));
+            messageHub.Subscribe<SubthemeSynchronizerException>(ev => logger.LogError(ev.Exception, $"Subtheme Synchronizer Exception for theme '{ev.Theme}'"));
 
             messageHub.Subscribe<SubthemeSynchronizerEnd>(_ =>
             {
@@ -71,7 +69,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
 
                 if (Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
                 {
-                    _logger.LogInformation("Finished Subtheme Synchronizer");
+                    logger.LogInformation("Finished Subtheme Synchronizer");
                 }
             });
         }

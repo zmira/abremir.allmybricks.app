@@ -8,19 +8,17 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
 {
     public class ThumbnailSynchronizerLogger : IDatabaseSeederLogger
     {
-        private readonly ILogger _logger;
-
         public ThumbnailSynchronizerLogger(
             ILoggerFactory loggerFactory,
             IMessageHub messageHub)
         {
-            _logger = loggerFactory.CreateLogger<ThumbnailSynchronizer>();
+            var logger = loggerFactory.CreateLogger<ThumbnailSynchronizer>();
 
             messageHub.Subscribe<ThumbnailSynchronizerStart>(_ =>
             {
                 if(Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
                 {
-                    _logger.LogInformation("Thumbnail Synchronizer Started");
+                    logger.LogInformation("Thumbnail Synchronizer Started");
                 }
             });
 
@@ -28,7 +26,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
             {
                 if (Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
                 {
-                    _logger.LogInformation($"Acquired thumbnail '{ev.Thumbnail}' to process");
+                    logger.LogInformation($"Acquired thumbnail '{ev.Thumbnail}' to process");
                 }
             });
 
@@ -36,7 +34,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
             {
                 if (Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
                 {
-                    _logger.LogInformation($"Synchronizing Thumbnail '{ev.Thumbnail}'");
+                    logger.LogInformation($"Synchronizing Thumbnail '{ev.Thumbnail}'");
                 }
             });
 
@@ -44,17 +42,17 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
             {
                 if (Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
                 {
-                    _logger.LogInformation($"Finished Synchronizing Thumbnail '{ev.Thumbnail}'");
+                    logger.LogInformation($"Finished Synchronizing Thumbnail '{ev.Thumbnail}'");
                 }
             });
 
-            messageHub.Subscribe<ThumbnailSynchronizerException>(ev =>  _logger.LogError(ev.Exception, "Thumbnail Synchronizer Exception"));
+            messageHub.Subscribe<ThumbnailSynchronizerException>(ev =>  logger.LogError(ev.Exception, "Thumbnail Synchronizer Exception"));
 
             messageHub.Subscribe<ThumbnailSynchronizerEnd>(_ =>
             {
                 if (Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
                 {
-                    _logger.LogInformation("Finished Thumbnail Synchronizer");
+                    logger.LogInformation("Finished Thumbnail Synchronizer");
                 }
             });
         }

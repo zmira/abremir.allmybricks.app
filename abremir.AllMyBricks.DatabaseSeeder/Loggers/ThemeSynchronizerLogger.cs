@@ -14,13 +14,11 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
         private static float _themeProgressFraction;
         private static float _themeCount;
 
-        private readonly ILogger _logger;
-
         public ThemeSynchronizerLogger(
             ILoggerFactory loggerFactory,
             IMessageHub messageHub)
         {
-            _logger = loggerFactory.CreateLogger<ThemeSynchronizer>();
+            var logger = loggerFactory.CreateLogger<ThemeSynchronizer>();
 
             messageHub.Subscribe<ThemeSynchronizerStart>(_ =>
             {
@@ -29,7 +27,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
 
                 if (Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
                 {
-                    _logger.LogInformation("Theme Synchronizer Started");
+                    logger.LogInformation("Theme Synchronizer Started");
                 }
             });
 
@@ -37,7 +35,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
             {
                 _themeCount = ev.Count;
 
-                _logger.LogInformation($"Acquired {ev.Count} themes to process");
+                logger.LogInformation($"Acquired {ev.Count} themes to process");
             });
 
             messageHub.Subscribe<SynchronizingTheme>(ev =>
@@ -47,28 +45,28 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
 
                 if (Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
                 {
-                    _logger.LogInformation(Invariant($"Synchronizing Theme '{ev.Theme}': index {_themeIndex}, progress {_themeProgressFraction:##0.00%}"));
+                    logger.LogInformation(Invariant($"Synchronizing Theme '{ev.Theme}': index {_themeIndex}, progress {_themeProgressFraction:##0.00%}"));
                 }
             });
 
-            messageHub.Subscribe<SynchronizingThemeException>(ev => _logger.LogError(ev.Exception, $"Synchronizing Theme '{ev.Theme}' Exception"));
+            messageHub.Subscribe<SynchronizingThemeException>(ev => logger.LogError(ev.Exception, $"Synchronizing Theme '{ev.Theme}' Exception"));
 
             messageHub.Subscribe<SynchronizedTheme>(ev =>
             {
                 if (Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
                 {
-                    _logger.LogInformation($"Finished Synchronizing Theme '{ev.Theme}'");
+                    logger.LogInformation($"Finished Synchronizing Theme '{ev.Theme}'");
                 }
             });
 
-            messageHub.Subscribe<ThemeSynchronizerException>(ev => _logger.LogError(ev.Exception, "Theme Synchronizer Exception"));
+            messageHub.Subscribe<ThemeSynchronizerException>(ev => logger.LogError(ev.Exception, "Theme Synchronizer Exception"));
 
             messageHub.Subscribe<ThemeSynchronizerEnd>(_ =>
             {
                 _themeIndex = 0;
                 _themeProgressFraction = 0;
 
-                _logger.LogInformation("Finished Theme Synchronizer");
+                logger.LogInformation("Finished Theme Synchronizer");
             });
         }
     }
