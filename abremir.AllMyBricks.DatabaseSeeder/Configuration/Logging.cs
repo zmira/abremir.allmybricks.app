@@ -34,11 +34,11 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Configuration
 
             if (LogVerbosity != LogVerbosityEnum.NoLogging)
             {
-                var dataSynchronizationServiceEventHandler = IoC.IoCContainer.GetInstance<DataSynchronizationServiceLogger>();
-                var themeSynchronizerEventHandler = IoC.IoCContainer.GetInstance<ThemeSynchronizerLogger>();
-                var subthemeSynchronizerEventHandler = IoC.IoCContainer.GetInstance<SubthemeSynchronizerLogger>();
-                var setSynchronizerEventHandler = IoC.IoCContainer.GetInstance<SetSynchronizerLogger>();
-                var thumbnailSynchronizerEventHandler = IoC.IoCContainer.GetInstance<ThumbnailSynchronizerLogger>();
+                var dataSynchronizationServiceLogger = IoC.IoCContainer.GetInstance<DataSynchronizationServiceLogger>();
+                var themeSynchronizerLogger = IoC.IoCContainer.GetInstance<ThemeSynchronizerLogger>();
+                var subthemeSynchronizerLogger = IoC.IoCContainer.GetInstance<SubthemeSynchronizerLogger>();
+                var setSynchronizerLogger = IoC.IoCContainer.GetInstance<SetSynchronizerLogger>();
+                var thumbnailSynchronizerLogger = IoC.IoCContainer.GetInstance<ThumbnailSynchronizerLogger>();
                 var assetUncompressionLogger = IoC.IoCContainer.GetInstance<AssetUncompressionLogger>();
             }
         }
