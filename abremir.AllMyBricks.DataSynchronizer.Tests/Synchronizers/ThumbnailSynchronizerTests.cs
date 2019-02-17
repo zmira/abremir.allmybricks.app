@@ -2,10 +2,10 @@
 using abremir.AllMyBricks.DataSynchronizer.Synchronizers;
 using abremir.AllMyBricks.Device.Enumerations;
 using abremir.AllMyBricks.Device.Interfaces;
-using Easy.MessageHub;
 using Flurl.Http.Testing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
+using NSubstituteAutoMocker.Standard;
 using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
@@ -15,19 +15,14 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
     [TestClass]
     public class ThumbnailSynchronizerTests
     {
-        private ThumbnailSynchronizer _thumbnailSynchronizer;
-        private IPreferencesService _preferencesService;
-        private IFileSystemService _fileSystemService;
+        private NSubstituteAutoMocker<ThumbnailSynchronizer> _thumbnailSynchronizer;
         private HttpTest _httpTest;
 
         [TestInitialize]
         public void TestInitialize()
         {
             _httpTest = new HttpTest();
-            _preferencesService = Substitute.For<IPreferencesService>();
-            _fileSystemService = Substitute.For<IFileSystemService>();
-
-            _thumbnailSynchronizer = new ThumbnailSynchronizer(_preferencesService, _fileSystemService, Substitute.For<IMessageHub>());
+            _thumbnailSynchronizer = new NSubstituteAutoMocker<ThumbnailSynchronizer>();
         }
 
         [TestCleanup]
@@ -39,9 +34,11 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
         [TestMethod]
         public async Task Synchronize_InvalidCachingPreferences_HttpNotInvoked()
         {
-            _preferencesService.ThumbnailCachingStrategy.Returns(ThumbnailCachingStrategyEnum.NeverCache);
+            _thumbnailSynchronizer.Get<IPreferencesService>()
+                .ThumbnailCachingStrategy
+                .Returns(ThumbnailCachingStrategyEnum.NeverCache);
 
-            await _thumbnailSynchronizer.Synchronize(new Set
+            await _thumbnailSynchronizer.ClassUnderTest.Synchronize(new Set
             {
                 Images = new List<Image>
                 {
@@ -58,9 +55,11 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
         [TestMethod]
         public async Task Synchronize_InvalidSet_HttpNotInvoked()
         {
-            _preferencesService.ThumbnailCachingStrategy.Returns(ThumbnailCachingStrategyEnum.CacheAllThumbnailsWhenSynchronizing);
+            _thumbnailSynchronizer.Get<IPreferencesService>()
+                .ThumbnailCachingStrategy
+                .Returns(ThumbnailCachingStrategyEnum.CacheAllThumbnailsWhenSynchronizing);
 
-            await _thumbnailSynchronizer.Synchronize(null);
+            await _thumbnailSynchronizer.ClassUnderTest.Synchronize(null);
 
             _httpTest.ShouldNotHaveMadeACall();
         }
@@ -68,9 +67,11 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
         [TestMethod]
         public async Task Synchronize_NoImages_HttpNotInvoked()
         {
-            _preferencesService.ThumbnailCachingStrategy.Returns(ThumbnailCachingStrategyEnum.CacheAllThumbnailsWhenSynchronizing);
+            _thumbnailSynchronizer.Get<IPreferencesService>()
+                .ThumbnailCachingStrategy
+                .Returns(ThumbnailCachingStrategyEnum.CacheAllThumbnailsWhenSynchronizing);
 
-            await _thumbnailSynchronizer.Synchronize(new Set
+            await _thumbnailSynchronizer.ClassUnderTest.Synchronize(new Set
             {
                 Images = new List<Image>()
             });
@@ -83,9 +84,11 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
         [DataRow("")]
         public async Task Synchronize_InvalidThumbnailUrl_HttpNotInvoked(string thumbnailUrl)
         {
-            _preferencesService.ThumbnailCachingStrategy.Returns(ThumbnailCachingStrategyEnum.CacheAllThumbnailsWhenSynchronizing);
+            _thumbnailSynchronizer.Get<IPreferencesService>()
+                .ThumbnailCachingStrategy
+                .Returns(ThumbnailCachingStrategyEnum.CacheAllThumbnailsWhenSynchronizing);
 
-            await _thumbnailSynchronizer.Synchronize(new Set
+            await _thumbnailSynchronizer.ClassUnderTest.Synchronize(new Set
             {
                 Images = new List<Image>
                 {
@@ -102,10 +105,12 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
         [TestMethod]
         public async Task Synchronize_InvalidImage_SaveThumbnailToCacheNotInvoked()
         {
-            _preferencesService.ThumbnailCachingStrategy.Returns(ThumbnailCachingStrategyEnum.CacheAllThumbnailsWhenSynchronizing);
+            _thumbnailSynchronizer.Get<IPreferencesService>()
+                .ThumbnailCachingStrategy
+                .Returns(ThumbnailCachingStrategyEnum.CacheAllThumbnailsWhenSynchronizing);
             _httpTest.RespondWith(string.Empty);
 
-            await _thumbnailSynchronizer.Synchronize(new Set
+            await _thumbnailSynchronizer.ClassUnderTest.Synchronize(new Set
             {
                 Images = new List<Image>
                 {
@@ -117,16 +122,18 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
             });
 
             _httpTest.ShouldHaveMadeACall();
-            await _fileSystemService.DidNotReceiveWithAnyArgs().SaveThumbnailToCache(null, null, null, null);
+            await _thumbnailSynchronizer.Get<IFileSystemService>().DidNotReceiveWithAnyArgs().SaveThumbnailToCache(null, null, null, null);
         }
 
         [TestMethod]
         public async Task Synchronize_NotOkResult_SaveThumbnailToCacheNotInvoked()
         {
-            _preferencesService.ThumbnailCachingStrategy.Returns(ThumbnailCachingStrategyEnum.CacheAllThumbnailsWhenSynchronizing);
+            _thumbnailSynchronizer.Get<IPreferencesService>()
+                .ThumbnailCachingStrategy
+                .Returns(ThumbnailCachingStrategyEnum.CacheAllThumbnailsWhenSynchronizing);
             _httpTest.RespondWith(status: (int)HttpStatusCode.NotFound);
 
-            await _thumbnailSynchronizer.Synchronize(new Set
+            await _thumbnailSynchronizer.ClassUnderTest.Synchronize(new Set
             {
                 Images = new List<Image>
                 {
@@ -138,16 +145,18 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
             });
 
             _httpTest.ShouldHaveMadeACall();
-            await _fileSystemService.DidNotReceiveWithAnyArgs().SaveThumbnailToCache(null, null, null, null);
+            await _thumbnailSynchronizer.Get<IFileSystemService>().DidNotReceiveWithAnyArgs().SaveThumbnailToCache(null, null, null, null);
         }
 
         [TestMethod]
         public async Task Synchronize_ValidImage_SaveThumbnailToCacheInvoked()
         {
-            _preferencesService.ThumbnailCachingStrategy.Returns(ThumbnailCachingStrategyEnum.CacheAllThumbnailsWhenSynchronizing);
+            _thumbnailSynchronizer.Get<IPreferencesService>()
+                .ThumbnailCachingStrategy
+                .Returns(ThumbnailCachingStrategyEnum.CacheAllThumbnailsWhenSynchronizing);
             _httpTest.RespondWith("THUMBNAIL_IMAGE");
 
-            await _thumbnailSynchronizer.Synchronize(new Set
+            await _thumbnailSynchronizer.ClassUnderTest.Synchronize(new Set
             {
                 Images = new List<Image>
                 {
@@ -161,7 +170,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
             });
 
             _httpTest.ShouldHaveMadeACall();
-            await _fileSystemService.ReceivedWithAnyArgs().SaveThumbnailToCache(null, null, null, null);
+            await _thumbnailSynchronizer.Get<IFileSystemService>().ReceivedWithAnyArgs().SaveThumbnailToCache(null, null, null, null);
         }
     }
 }

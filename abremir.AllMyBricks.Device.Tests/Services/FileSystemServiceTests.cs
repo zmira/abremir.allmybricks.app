@@ -4,7 +4,9 @@ using abremir.AllMyBricks.Device.Services;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
+using NSubstituteAutoMocker.Standard;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using Xamarin.Essentials.Interfaces;
 
 namespace abremir.AllMyBricks.Device.Tests.Services
@@ -12,18 +14,16 @@ namespace abremir.AllMyBricks.Device.Tests.Services
     [TestClass]
     public class FileSystemServiceTest
     {
-        private IFileSystemService _fileSystemService;
-        private IFile _file;
+        private NSubstituteAutoMocker<FileSystemService> _fileSystemService;
 
         [TestInitialize]
         public void TestInitialize()
         {
-            var fileSystem = Substitute.For<IFileSystem>();
-            fileSystem.AppDataDirectory.Returns("./");
+            _fileSystemService = new NSubstituteAutoMocker<FileSystemService>();
 
-            _file = Substitute.For<IFile>();
-
-            _fileSystemService = new FileSystemService(fileSystem, _file);
+            _fileSystemService.Get<IFileSystem>()
+                .AppDataDirectory
+                .Returns("./");
         }
 
         [DataTestMethod]
@@ -43,7 +43,7 @@ namespace abremir.AllMyBricks.Device.Tests.Services
         [DataRow("FILENAME", "FOLDERNAME")]
         public void GetLocalPathToFile_ReturnsValidPathWithFilename(string filename, string folder)
         {
-            var localPathToFile = _fileSystemService.GetLocalPathToFile(filename, folder);
+            var localPathToFile = _fileSystemService.ClassUnderTest.GetLocalPathToFile(filename, folder);
 
             localPathToFile.Should().NotBeNullOrWhiteSpace();
             localPathToFile.Should().Contain(Constants.AllMyBricksDataFolder);
@@ -69,7 +69,7 @@ namespace abremir.AllMyBricks.Device.Tests.Services
         [DataRow("THEME", "SUBTHEME", 0)]
         public void GetThumbnailFolder_ReturnsValidPath(string theme, string subtheme, int countOfFallbackFolderName)
         {
-            var thumbnailFolder = _fileSystemService.GetThumbnailFolder(theme, subtheme);
+            var thumbnailFolder = _fileSystemService.ClassUnderTest.GetThumbnailFolder(theme, subtheme);
 
             thumbnailFolder.Should().NotBeNullOrWhiteSpace();
             thumbnailFolder.Should().Contain(Constants.AllMyBricksDataFolder);
@@ -88,17 +88,17 @@ namespace abremir.AllMyBricks.Device.Tests.Services
         [DataRow(null, new byte[] { 0 }, false)]
         [DataRow("", new byte[] { 0 }, false)]
         [DataRow("FILENAME", new byte[] { 0 }, true)]
-        public void SaveThumbnailToCache_InvokesWriteAllBytes(string filename, byte[] thumbnail, bool invokesWriteAllBytes)
+        public async Task SaveThumbnailToCache_InvokesWriteAllBytes(string filename, byte[] thumbnail, bool invokesWriteAllBytes)
         {
-            _fileSystemService.SaveThumbnailToCache(string.Empty, string.Empty, filename, thumbnail);
+            await _fileSystemService.ClassUnderTest.SaveThumbnailToCache(string.Empty, string.Empty, filename, thumbnail);
 
             if (invokesWriteAllBytes)
             {
-                _file.Received().WriteAllBytes(Arg.Any<string>(), Arg.Any<byte[]>());
+                await _fileSystemService.Get<IFile>().Received().WriteAllBytes(Arg.Any<string>(), Arg.Any<byte[]>());
             }
             else
             {
-                _file.DidNotReceive().WriteAllBytes(Arg.Any<string>(), Arg.Any<byte[]>());
+                await _fileSystemService.Get<IFile>().DidNotReceive().WriteAllBytes(Arg.Any<string>(), Arg.Any<byte[]>());
             }
         }
     }

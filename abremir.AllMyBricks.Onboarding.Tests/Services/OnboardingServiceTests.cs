@@ -4,6 +4,7 @@ using abremir.AllMyBricks.Onboarding.Services;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
+using NSubstituteAutoMocker.Standard;
 using System.Threading.Tasks;
 
 namespace abremir.AllMyBricks.Onboarding.Tests.Services
@@ -11,80 +12,71 @@ namespace abremir.AllMyBricks.Onboarding.Tests.Services
     [TestClass]
     public class OnboardingServiceTests
     {
-        private OnboardingService _onboardingService;
-        private ISecureStorageService _secureStorageService;
-        private IApiKeyService _apiKeyService;
-        private IRegistrationService _registrationService;
+        private NSubstituteAutoMocker<OnboardingService> _onboardingService;
 
         [TestInitialize]
         public void TestInitialize()
         {
-            _secureStorageService = Substitute.For<ISecureStorageService>();
-            _apiKeyService = Substitute.For<IApiKeyService>();
-            _registrationService = Substitute.For<IRegistrationService>();
-
-            var deviceInformationService = Substitute.For<IDeviceInformationService>();
-
-            _onboardingService = new OnboardingService(_secureStorageService, _registrationService, _apiKeyService, deviceInformationService);
+            _onboardingService = new NSubstituteAutoMocker<OnboardingService>();
         }
 
         [TestMethod]
         public async Task GetBricksetApiKey_ApiKeyExistsStored_ReturnsApiKeyAndSaveBricksetApiKeyNotInvoked()
         {
-            _secureStorageService
+            _onboardingService.Get<ISecureStorageService>()
                 .GetBricksetApiKey()
                 .Returns("API KEY");
 
-            var apiKey = await _onboardingService.GetBricksetApiKey();
+            var apiKey = await _onboardingService.ClassUnderTest.GetBricksetApiKey();
 
             apiKey.Should().NotBeNullOrWhiteSpace();
-            _secureStorageService.DidNotReceive().SaveBricksetApiKey(Arg.Any<string>());
+            _onboardingService.Get<ISecureStorageService>().DidNotReceive().SaveBricksetApiKey(Arg.Any<string>());
         }
 
         [TestMethod]
         public async Task GetBricksetApiKey_ApiKeyNotStoredButIdentificationStored_ReturnsApiKeyAndSaveDeviceIdentificationNotInvoked()
         {
-            _secureStorageService
+            _onboardingService.Get<ISecureStorageService>()
                 .GetBricksetApiKey()
                 .Returns(string.Empty);
-            _secureStorageService
+            _onboardingService.Get<ISecureStorageService>()
                 .DeviceIdentificationCreated
                 .Returns(true);
-            _secureStorageService
+            _onboardingService.Get<ISecureStorageService>()
                 .GetDeviceIdentification()
                 .Returns(new Core.Models.Identification());
-            _apiKeyService
+            _onboardingService.Get<IApiKeyService>()
                 .GetBricksetApiKey(Arg.Any<Core.Models.Identification>())
                 .Returns("API KEY");
 
-            var apiKey = await _onboardingService.GetBricksetApiKey();
+            var apiKey = await _onboardingService.ClassUnderTest.GetBricksetApiKey();
 
             apiKey.Should().NotBeNullOrWhiteSpace();
-            await _apiKeyService.Received().GetBricksetApiKey(Arg.Any<Core.Models.Identification>());
-            _secureStorageService.DidNotReceive().SaveDeviceIdentification(Arg.Any<Core.Models.Identification>());
+            await _onboardingService.Get<IApiKeyService>().Received().GetBricksetApiKey(Arg.Any<Core.Models.Identification>());
+            _onboardingService.Get<ISecureStorageService>().DidNotReceive().SaveDeviceIdentification(Arg.Any<Core.Models.Identification>());
         }
 
         [TestMethod]
         public async Task GetBricksetApiKey_ApiKeyAndIdentificationNotStored_ReturnsApiKeyAndSaveDeviceIdentificationInvoked()
         {
-            _secureStorageService
+            _onboardingService.Get<ISecureStorageService>()
                 .GetBricksetApiKey()
                 .Returns(string.Empty);
-            _secureStorageService
+            _onboardingService.Get<ISecureStorageService>()
                 .DeviceIdentificationCreated
                 .Returns(false);
-            _registrationService
+            _onboardingService.Get<IRegistrationService>()
                 .Register(Arg.Any<Core.Models.Identification>())
                 .Returns(new Core.Models.Identification());
-            _apiKeyService
+            _onboardingService.Get<IApiKeyService>()
                 .GetBricksetApiKey(Arg.Any<Core.Models.Identification>())
                 .Returns("API KEY");
 
-            var apiKey = await _onboardingService.GetBricksetApiKey();
+            var apiKey = await _onboardingService.ClassUnderTest.GetBricksetApiKey();
 
             apiKey.Should().NotBeNullOrWhiteSpace();
-            await _apiKeyService.Received().GetBricksetApiKey(Arg.Any<Core.Models.Identification>());
-            _secureStorageService.Received().SaveDeviceIdentification(Arg.Any<Core.Models.Identification>());
+            await _onboardingService.Get<IApiKeyService>().Received().GetBricksetApiKey(Arg.Any<Core.Models.Identification>());
+            _onboardingService.Get<ISecureStorageService>().Received().SaveDeviceIdentification(Arg.Any<Core.Models.Identification>());
         }
     }
 }
