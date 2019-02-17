@@ -83,7 +83,7 @@ namespace abremir.AllMyBricks.AssetManagement.Implementations
 
         private void OriginReader_EntryExtractionProgress(object sender, ReaderExtractionEventArgs<IEntry> entry)
         {
-            _messageHub.Publish(entry.ReaderProgress);
+            _messageHub.Publish(entry);
         }
     }
 }
