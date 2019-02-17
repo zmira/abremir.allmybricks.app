@@ -1,4 +1,5 @@
-﻿using abremir.AllMyBricks.AssetManagement.Interfaces;
+﻿using abremir.AllMyBricks.AssetManagement.Implementations;
+using abremir.AllMyBricks.AssetManagement.Interfaces;
 using abremir.AllMyBricks.Data.Configuration;
 using abremir.AllMyBricks.Data.Interfaces;
 using abremir.AllMyBricks.Device.Interfaces;
@@ -104,7 +105,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Services
 
         private bool GetCompressedDatabaseFilePathIfExists(out string compressedFilePath)
         {
-            compressedFilePath = Path.Combine(_fileSystemService.GetLocalPathToDataFolder(), _assetCompression.GetCompressedAssetFileName(Constants.AllMyBricksDbFile));
+            compressedFilePath = Path.Combine(_fileSystemService.GetLocalPathToDataFolder(), AssetCompression.GetCompressedAssetFileName(Constants.AllMyBricksDbFile));
 
             return _file.Exists(compressedFilePath);
         }

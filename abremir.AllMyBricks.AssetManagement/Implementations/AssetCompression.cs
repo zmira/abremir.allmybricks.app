@@ -61,7 +61,7 @@ namespace abremir.AllMyBricks.AssetManagement.Implementations
             return true;
         }
 
-        public string GetCompressedAssetFileName(string uncompressedFilePath)
+        public static string GetCompressedAssetFileName(string uncompressedFilePath)
         {
             if (string.IsNullOrWhiteSpace(uncompressedFilePath))
             {
