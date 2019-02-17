@@ -8,14 +8,14 @@ namespace abremir.AllMyBricks.AssetManagement.Services
 {
     public class AssetManagementService : IAssetManagementService
     {
-        private readonly IAssetUncompression _assetDecompression;
+        private readonly IAssetUncompression _assetUncompression;
         private readonly IDirectory _directory;
 
         public AssetManagementService(
-            IAssetUncompression assetDdecompression,
+            IAssetUncompression assetUncompression,
             IDirectory directory)
         {
-            _assetDecompression = assetDdecompression;
+            _assetUncompression = assetUncompression;
             _directory = directory;
         }
 
@@ -31,7 +31,7 @@ namespace abremir.AllMyBricks.AssetManagement.Services
                 return false;
             }
 
-            return _assetDecompression.UncompressAsset(await databaseSeedUrl.GetStreamAsync(), destinationFolderPath ?? string.Empty);
+            return _assetUncompression.UncompressAsset(await databaseSeedUrl.GetStreamAsync(), destinationFolderPath ?? string.Empty);
         }
     }
 }
