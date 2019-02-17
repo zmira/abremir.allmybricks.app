@@ -1,5 +1,7 @@
 ﻿using abremir.AllMyBricks.AssetManagement.Interfaces;
 using abremir.AllMyBricks.Device.Interfaces;
+using Easy.MessageHub;
+using SharpCompress.Common;
 using System.IO;
 
 namespace abremir.AllMyBricks.AssetManagement.Implementations
@@ -9,15 +11,18 @@ namespace abremir.AllMyBricks.AssetManagement.Implementations
         private readonly IFile _file;
         private readonly IDirectory _directory;
         private readonly IReaderFactory _readerFactory;
+        private readonly IMessageHub _messageHub;
 
         public AssetUncompression(
             IFile file,
             IDirectory directory,
-            IReaderFactory readerFactory)
+            IReaderFactory readerFactory,
+            IMessageHub messageHub)
         {
             _file = file;
             _directory = directory;
             _readerFactory = readerFactory;
+            _messageHub = messageHub;
         }
 
         public bool UncompressAsset(string originFilePath, string destinationFolderPath, bool overwrite = true)
@@ -52,6 +57,8 @@ namespace abremir.AllMyBricks.AssetManagement.Implementations
 
             using(var originReader = _readerFactory.Open(originStream))
             {
+                originReader.EntryExtractionProgress += OriginReader_EntryExtractionProgress;
+
                 while (originReader.MoveToNextEntry())
                 {
                     if (!originReader.Entry.IsDirectory)
@@ -72,6 +79,11 @@ namespace abremir.AllMyBricks.AssetManagement.Implementations
             }
 
             return true;
+        }
+
+        private void OriginReader_EntryExtractionProgress(object sender, ReaderExtractionEventArgs<IEntry> entry)
+        {
+            _messageHub.Publish(entry.ReaderProgress);
         }
     }
 }

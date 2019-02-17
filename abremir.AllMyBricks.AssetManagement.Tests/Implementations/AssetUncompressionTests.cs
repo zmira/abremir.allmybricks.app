@@ -1,6 +1,7 @@
 ﻿using abremir.AllMyBricks.AssetManagement.Implementations;
 using abremir.AllMyBricks.AssetManagement.Interfaces;
 using abremir.AllMyBricks.Device.Interfaces;
+using Easy.MessageHub;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
@@ -16,6 +17,7 @@ namespace abremir.AllMyBricks.AssetManagement.Tests.Implementations
         private IFile _file;
         private IDirectory _directory;
         private IReaderFactory _readerFactory;
+        private IMessageHub _messagehub;
 
         [TestInitialize]
         public void TestInitialize()
@@ -23,8 +25,9 @@ namespace abremir.AllMyBricks.AssetManagement.Tests.Implementations
             _file = Substitute.For<IFile>();
             _directory = Substitute.For<IDirectory>();
             _readerFactory = Substitute.For<IReaderFactory>();
+            _messagehub = Substitute.For<IMessageHub>();
 
-            _assetUncompression = new AssetUncompression(_file, _directory, _readerFactory);
+            _assetUncompression = new AssetUncompression(_file, _directory, _readerFactory, _messagehub);
         }
 
         [DataTestMethod]
