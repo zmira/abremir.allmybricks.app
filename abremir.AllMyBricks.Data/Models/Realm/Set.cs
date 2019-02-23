@@ -35,8 +35,8 @@ namespace abremir.AllMyBricks.Data.Models.Realm
         public short? Minifigs { get; set; }
         public string BricksetUrl { get; set; }
         public bool Released { get; set; }
-        public short OwnedByTotal { get; set; }
-        public short WantedByTotal { get; set; }
+        public int OwnedByTotal { get; set; }
+        public int WantedByTotal { get; set; }
         public float Rating { get; set; }
         public string Availability { get; set; }
         public byte? AgeMin { get; set; }
