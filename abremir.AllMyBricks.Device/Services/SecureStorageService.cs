@@ -1,6 +1,8 @@
 ﻿using abremir.AllMyBricks.Core.Models;
 using abremir.AllMyBricks.Device.Configuration;
 using abremir.AllMyBricks.Device.Interfaces;
+using fastJSON;
+using System.Threading.Tasks;
 using Xamarin.Essentials.Interfaces;
 
 namespace abremir.AllMyBricks.Device.Services
@@ -14,36 +16,46 @@ namespace abremir.AllMyBricks.Device.Services
             _secureStorage = secureStorage;
         }
 
-        public bool BricksetApiKeyAcquired => GetBricksetApiKey() != null;
-
-        public bool DeviceIdentificationCreated => _secureStorage
-            .GetAsync(Constants.DeviceIdentificationSecureStorageKey).Result != null;
-
-        public string GetBricksetApiKey()
+        public async Task<string> GetBricksetApiKey()
         {
-            return _secureStorage
-            .GetAsync(Constants.BricksetApiKeySecureStorageKey).Result;
+            return await _secureStorage
+            .GetAsync(Constants.BricksetApiKeySecureStorageKey);
         }
 
-        public void SaveBricksetApiKey(string bricksetApiKey)
+        public async Task<bool> IsBricksetApiKeyAcquired()
         {
-            if (!BricksetApiKeyAcquired)
+            return !string.IsNullOrWhiteSpace(await GetBricksetApiKey());
+        }
+
+        public async Task SaveBricksetApiKey(string bricksetApiKey)
+        {
+            if (!await IsBricksetApiKeyAcquired())
             {
-                _secureStorage.SetAsync(Constants.BricksetApiKeySecureStorageKey, bricksetApiKey);
+                await _secureStorage.SetAsync(Constants.BricksetApiKeySecureStorageKey, bricksetApiKey);
             }
         }
 
-        public Identification GetDeviceIdentification()
+        public async Task<Identification> GetDeviceIdentification()
         {
-            return fastJSON.JSON.ToObject<Identification>(_secureStorage.GetAsync(Constants.DeviceIdentificationSecureStorageKey).Result);
+            return JSON.ToObject<Identification>(await GetRawDeviceIdentification());
         }
 
-        public void SaveDeviceIdentification(Identification deviceIdentification)
+        public async Task<bool> IsDeviceIdentificationCreated()
         {
-            if(!DeviceIdentificationCreated)
+            return !string.IsNullOrWhiteSpace(await GetRawDeviceIdentification());
+        }
+
+        public async Task SaveDeviceIdentification(Identification deviceIdentification)
+        {
+            if(!await IsDeviceIdentificationCreated())
             {
-                _secureStorage.SetAsync(Constants.DeviceIdentificationSecureStorageKey, fastJSON.JSON.ToJSON(deviceIdentification));
+                await _secureStorage.SetAsync(Constants.DeviceIdentificationSecureStorageKey, JSON.ToJSON(deviceIdentification));
             }
+        }
+
+        private async Task<string> GetRawDeviceIdentification()
+        {
+            return await _secureStorage.GetAsync(Constants.DeviceIdentificationSecureStorageKey);
         }
     }
 }

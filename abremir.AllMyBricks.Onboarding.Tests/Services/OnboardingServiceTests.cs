@@ -40,7 +40,7 @@ namespace abremir.AllMyBricks.Onboarding.Tests.Services
                 .GetBricksetApiKey()
                 .Returns(string.Empty);
             _onboardingService.Get<ISecureStorageService>()
-                .DeviceIdentificationCreated
+                .IsDeviceIdentificationCreated()
                 .Returns(true);
             _onboardingService.Get<ISecureStorageService>()
                 .GetDeviceIdentification()
@@ -63,7 +63,7 @@ namespace abremir.AllMyBricks.Onboarding.Tests.Services
                 .GetBricksetApiKey()
                 .Returns(string.Empty);
             _onboardingService.Get<ISecureStorageService>()
-                .DeviceIdentificationCreated
+                .IsDeviceIdentificationCreated()
                 .Returns(false);
             _onboardingService.Get<IRegistrationService>()
                 .Register(Arg.Any<Core.Models.Identification>())

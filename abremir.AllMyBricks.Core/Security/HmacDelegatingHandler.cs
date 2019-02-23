@@ -26,7 +26,7 @@ namespace abremir.AllMyBricks.Core.Security
                 return null;
             }
 
-            var apiKeyRequest = JSON.ToObject<ApiKeyRequest>(content.ReadAsStringAsync().Result);
+            var apiKeyRequest = JSON.ToObject<ApiKeyRequest>(await content.ReadAsStringAsync());
             var appId = apiKeyRequest.DeviceIdentification.DeviceHash;
             var apiKey = apiKeyRequest.RegistrationHash;
 

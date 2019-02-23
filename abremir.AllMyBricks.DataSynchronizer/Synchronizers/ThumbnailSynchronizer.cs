@@ -47,11 +47,13 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
 
                 try
                 {
-                    thumbnail = set.Images[0].ThumbnailUrl.GetBytesAsync().Result;
+                    thumbnail = await set.Images[0].ThumbnailUrl.GetBytesAsync();
 
                     _messageHub.Publish(new ThumbnailAcquired { Thumbnail = set.Images[0].ThumbnailUrl });
                 }
+#pragma warning disable RECS0022 // A catch clause that catches System.Exception and has an empty body
                 catch { }
+#pragma warning restore RECS0022 // A catch clause that catches System.Exception and has an empty body
 
                 if (thumbnail == null || thumbnail.Length == 0)
                 {

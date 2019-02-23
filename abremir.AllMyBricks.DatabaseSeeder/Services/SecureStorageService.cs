@@ -1,32 +1,39 @@
 ﻿using abremir.AllMyBricks.Core.Models;
 using abremir.AllMyBricks.Device.Interfaces;
+using System.Threading.Tasks;
 
 namespace abremir.AllMyBricks.DatabaseSeeder.Services
 {
     public class SecureStorageService : ISecureStorageService
     {
-        public bool BricksetApiKeyAcquired => GetBricksetApiKey() != null;
-
-        public bool DeviceIdentificationCreated => GetDeviceIdentification() != null;
-
-        public string GetBricksetApiKey()
+        public async Task<string> GetBricksetApiKey()
         {
             return Settings.BricksetApiKey;
         }
 
-        public Identification GetDeviceIdentification()
+        public async Task<bool> IsBricksetApiKeyAcquired()
+        {
+            return !string.IsNullOrWhiteSpace(await GetBricksetApiKey());
+        }
+
+        public async Task SaveBricksetApiKey(string bricksetApiKey)
+        {
+            await Task.Run(() => Settings.BricksetApiKey = bricksetApiKey);
+        }
+
+        public async Task<Identification> GetDeviceIdentification()
         {
             return Settings.DeviceIdentification;
         }
 
-        public void SaveBricksetApiKey(string bricksetApiKey)
+        public async Task<bool> IsDeviceIdentificationCreated()
         {
-            Settings.BricksetApiKey = bricksetApiKey;
+            return await GetDeviceIdentification() != null;
         }
 
-        public void SaveDeviceIdentification(Identification deviceIdentification)
+        public async Task SaveDeviceIdentification(Identification deviceIdentification)
         {
-            Settings.DeviceIdentification = deviceIdentification;
+            await Task.Run(() => Settings.DeviceIdentification = deviceIdentification);
         }
     }
 }

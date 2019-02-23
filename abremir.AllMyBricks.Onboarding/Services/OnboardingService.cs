@@ -26,13 +26,13 @@ namespace abremir.AllMyBricks.Onboarding.Services
 
         public async Task<string> GetBricksetApiKey()
         {
-            var bricksetApiKey = _secureStorageService.GetBricksetApiKey();
+            var bricksetApiKey = await _secureStorageService.GetBricksetApiKey();
 
             if (string.IsNullOrWhiteSpace(bricksetApiKey))
             {
                 bricksetApiKey = await GetApiKeyFromOnboardingServiceEndpoint();
 
-                _secureStorageService.SaveBricksetApiKey(bricksetApiKey);
+                await _secureStorageService.SaveBricksetApiKey(bricksetApiKey);
             }
 
             return bricksetApiKey;
@@ -42,18 +42,18 @@ namespace abremir.AllMyBricks.Onboarding.Services
         {
             Identification identification = null;
 
-            if (!_secureStorageService.DeviceIdentificationCreated)
+            if (!await _secureStorageService.IsDeviceIdentificationCreated())
             {
                 identification = await _registrationService.Register(new Identification
                 {
                     DeviceIdentification = _deviceInformationService.GenerateNewDeviceIdentification()
                 });
 
-                _secureStorageService.SaveDeviceIdentification(identification);
+                await _secureStorageService.SaveDeviceIdentification(identification);
             }
             else
             {
-                identification = _secureStorageService.GetDeviceIdentification();
+                identification = await _secureStorageService.GetDeviceIdentification();
             }
 
             return await _apiKeyService.GetBricksetApiKey(identification);
