@@ -1,4 +1,5 @@
 ﻿using abremir.AllMyBricks.Core.Models;
+using abremir.AllMyBricks.Device.Models;
 using System.Threading.Tasks;
 
 namespace abremir.AllMyBricks.Device.Interfaces
@@ -11,5 +12,9 @@ namespace abremir.AllMyBricks.Device.Interfaces
         Task<Identification> GetDeviceIdentification();
         Task<bool> IsDeviceIdentificationCreated();
         Task SaveDeviceIdentification(Identification deviceIdentification);
+        Task<string> GetBricksetUserHash(string username);
+        Task<bool> IsBricksetPrimaryUsersDefined();
+        Task SaveBricksetPrimaryUser(string username, string userHash);
+        Task<bool> ClearBricksetPrimaryUser(string username);
     }
 }

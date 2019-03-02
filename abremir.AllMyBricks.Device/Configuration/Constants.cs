@@ -2,13 +2,16 @@
 {
     public static class Constants
     {
-        public const string DeviceIdentificationSecureStorageKey = "AllMyBricks.DeviceIdentification";
-        public const string BricksetApiKeySecureStorageKey = "AllMyBricks.BricksetApiKey";
+        private const string AllMyBricks = "AllMyBricks";
 
-        public const string AllMyBricksDataFolder = "AllMyBricks";
+        public static readonly string DeviceIdentificationSecureStorageKey = $"{AllMyBricks}.DeviceIdentification";
+        public static readonly string BricksetApiKeySecureStorageKey = $"{AllMyBricks}.BricksetApiKey";
+        public static readonly string BricksetPrimaryUsers = $"{AllMyBricks}.BricksetPrimaryUsers";
+
+        public const string AllMyBricksDataFolder = AllMyBricks;
         public const string ThumbnailCacheFolder = "Thumbnails";
         public const string FallbackFolderName = "-None-";
 
-        public const string PreferencesSharedName = "AllMyBricks.Preferences";
+        public static readonly string PreferencesSharedName = $"{AllMyBricks}.Preferences";
     }
 }

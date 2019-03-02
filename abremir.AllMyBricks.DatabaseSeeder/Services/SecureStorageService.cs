@@ -1,5 +1,6 @@
 ﻿using abremir.AllMyBricks.Core.Models;
 using abremir.AllMyBricks.Device.Interfaces;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace abremir.AllMyBricks.DatabaseSeeder.Services
@@ -8,7 +9,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Services
     {
         public async Task<string> GetBricksetApiKey()
         {
-            return Settings.BricksetApiKey;
+            return await Task.Run(() => Settings.BricksetApiKey);
         }
 
         public async Task<bool> IsBricksetApiKeyAcquired()
@@ -23,7 +24,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Services
 
         public async Task<Identification> GetDeviceIdentification()
         {
-            return Settings.DeviceIdentification;
+            return await Task.Run(() => Settings.DeviceIdentification);
         }
 
         public async Task<bool> IsDeviceIdentificationCreated()
@@ -34,6 +35,42 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Services
         public async Task SaveDeviceIdentification(Identification deviceIdentification)
         {
             await Task.Run(() => Settings.DeviceIdentification = deviceIdentification);
+        }
+
+        public async Task<string> GetBricksetUserHash(string username)
+        {
+            return await Task.Run(() => Settings.BricksetPrimaryUsers[username]);
+        }
+
+        public async Task<bool> IsBricksetPrimaryUsersDefined()
+        {
+            return await Task.Run(() => Settings.BricksetPrimaryUsers != null);
+        }
+
+        public async Task SaveBricksetPrimaryUser(string username, string userHash)
+        {
+            var bricksetPrimaryUsers = Settings.BricksetPrimaryUsers ?? new Dictionary<string, string>();
+
+            if (!bricksetPrimaryUsers.ContainsKey(username))
+            {
+                bricksetPrimaryUsers.Add(username, userHash);
+
+                await Task.Run(() => Settings.BricksetPrimaryUsers = bricksetPrimaryUsers);
+            }
+        }
+
+        public async Task<bool> ClearBricksetPrimaryUser(string username)
+        {
+            var bricksetPrimaryUsers = Settings.BricksetPrimaryUsers ?? new Dictionary<string, string>();
+
+            if (bricksetPrimaryUsers.ContainsKey(username))
+            {
+                bricksetPrimaryUsers.Remove(username);
+
+                await Task.Run(() => Settings.BricksetPrimaryUsers = bricksetPrimaryUsers);
+            }
+
+            return bricksetPrimaryUsers.ContainsKey(username);
         }
     }
 }

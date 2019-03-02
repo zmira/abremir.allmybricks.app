@@ -1,6 +1,7 @@
 ﻿using abremir.AllMyBricks.Core.Models;
 using JsonFlatFileDataStore;
 using System;
+using System.Collections.Generic;
 
 namespace abremir.AllMyBricks.DatabaseSeeder
 {
@@ -26,6 +27,12 @@ namespace abremir.AllMyBricks.DatabaseSeeder
         {
             get => Store.GetItem<Identification>(nameof(DeviceIdentification));
             set => Store.ReplaceItemAsync<Identification>(nameof(DeviceIdentification), value, true);
+        }
+
+        public static Dictionary<string, string> BricksetPrimaryUsers
+        {
+            get => Store.GetItem<Dictionary<string, string>>(nameof(BricksetPrimaryUsers));
+            set => Store.ReplaceItemAsync<Dictionary<string, string>>(nameof(BricksetPrimaryUsers), value, true);
         }
 
         private Settings() { }
