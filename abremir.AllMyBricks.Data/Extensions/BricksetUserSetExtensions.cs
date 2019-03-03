@@ -13,7 +13,7 @@ namespace abremir.AllMyBricks.Data.Extensions
                 LastChangeTimestamp = source.LastChangeTimestamp,
                 Owned = source.Owned,
                 QuantityOwned = source.QuantityOwned,
-                Set = source.Set.ToRealmObject(),
+                SetId = source.SetId,
                 Wanted = source.Wanted
             };
         }
@@ -25,7 +25,7 @@ namespace abremir.AllMyBricks.Data.Extensions
                 LastChangeTimestamp = source.LastChangeTimestamp,
                 Owned = source.Owned,
                 QuantityOwned = source.QuantityOwned,
-                Set = source.Set.ToPlainObject(),
+                SetId = source.SetId,
                 Wanted = source.Wanted
             };
         }
