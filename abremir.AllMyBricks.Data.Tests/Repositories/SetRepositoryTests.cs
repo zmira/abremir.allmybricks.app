@@ -30,7 +30,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
         }
 
         [TestMethod]
-        public void Get_SetIdNotValid_ReturnsNull()
+        public void Get_InvalidSetId_ReturnsNull()
         {
             var set = _setRepository.Get(0);
 
@@ -84,7 +84,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
         [DataTestMethod]
         [DataRow(null)]
         [DataRow(ModelsSetup.StringEmpty)]
-        public void AllForTheme_ThemeNameNotValid_ReturnsEmpty(string themeName)
+        public void AllForTheme_InvalidThemeName_ReturnsEmpty(string themeName)
         {
             var allSetsForTheme = _setRepository.AllForTheme(themeName);
 
@@ -126,7 +126,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
         [DataRow(null, ModelsSetup.StringEmpty)]
         [DataRow(ModelsSetup.StringEmpty, null)]
         [DataRow(ModelsSetup.StringEmpty, ModelsSetup.StringEmpty)]
-        public void AllForSubtheme_SubthemeNameNotValid_ReturnsEmpty(string themeName, string subthemeName)
+        public void AllForSubtheme_InvalidSubthemeName_ReturnsEmpty(string themeName, string subthemeName)
         {
             var allSetsForSubtheme = _setRepository.AllForSubtheme(themeName, subthemeName);
 
@@ -185,7 +185,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
         [DataTestMethod]
         [DataRow(null)]
         [DataRow(ModelsSetup.StringEmpty)]
-        public void AllForThemeGroup_ThemeGroupNameNotValid_ReturnsEmpty(string themeGroupName)
+        public void AllForThemeGroup_InvalidThemeGroupName_ReturnsEmpty(string themeGroupName)
         {
             var allSetsForThemeGroup = _setRepository.AllForThemeGroup(themeGroupName);
 
@@ -222,7 +222,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
         [DataTestMethod]
         [DataRow(null)]
         [DataRow(ModelsSetup.StringEmpty)]
-        public void AllForCategory_CategoryNameNotValid_ReturnsEmpty(string categoryName)
+        public void AllForCategory_InvalidCategoryName_ReturnsEmpty(string categoryName)
         {
             var allSetsForCategory = _setRepository.AllForCategory(categoryName);
 
@@ -261,7 +261,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
         [DataTestMethod]
         [DataRow(null)]
         [DataRow(ModelsSetup.StringEmpty)]
-        public void AllForTag_TagNameNotValid_ReturnsEmpty(string tagName)
+        public void AllForTag_InvalidTagName_ReturnsEmpty(string tagName)
         {
             var allSetsForTag = _setRepository.AllForTag(tagName);
 
@@ -296,7 +296,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
         }
 
         [TestMethod]
-        public void AllForYear_YearNotValid_ReturnsEmpty()
+        public void AllForYear_InvalidYear_ReturnsEmpty()
         {
             var allSetsForYear = _setRepository.AllForYear(Constants.MinimumSetYear - 1);
 
@@ -335,7 +335,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
         [DataTestMethod]
         [DataRow(-1, 0)]
         [DataRow(0, -1)]
-        public void AllForPriceRange_PriceNotValid_ReturnsEmpty(float minPrice, float maxPrice)
+        public void AllForPriceRange_InvalidPrice_ReturnsEmpty(float minPrice, float maxPrice)
         {
             var set = ModelsSetup.GetSetUnderTest();
             set.Prices.Add(new Managed.Price
@@ -412,7 +412,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
         [DataRow("ab-ab")]
         [DataRow("a a")]
         [DataRow("ab ab")]
-        public void SearchBy_SearchTermNotValid_ReturnsEmpty(string searchTerm)
+        public void SearchBy_InvalidSearchTerm_ReturnsEmpty(string searchTerm)
         {
             var searchResult = _setRepository.SearchBy(searchTerm);
 

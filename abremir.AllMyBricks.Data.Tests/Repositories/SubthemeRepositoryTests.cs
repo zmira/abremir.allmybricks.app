@@ -144,7 +144,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
         [DataTestMethod]
         [DataRow(null)]
         [DataRow(ModelsSetup.StringEmpty)]
-        public void AllForTheme_ThemeNameNotValid_ReturnsEmpty(string themeName)
+        public void AllForTheme_InvalidThemeName_ReturnsEmpty(string themeName)
         {
             var listOfThemesUnderTest = InsertData(ModelsSetup.ListOfThemesUnderTest);
 

@@ -30,7 +30,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
         [DataTestMethod]
         [DataRow(null)]
         [DataRow(ModelsSetup.StringEmpty)]
-        public void Get_ThemeNameNotValid_ReturnsNull(string themeName)
+        public void Get_InvalidThemeName_ReturnsNull(string themeName)
         {
             var theme = _themeRepository.Get(themeName);
 
