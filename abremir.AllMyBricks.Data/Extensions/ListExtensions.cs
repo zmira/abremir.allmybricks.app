@@ -2,7 +2,7 @@
 
 namespace abremir.AllMyBricks.Data.Extensions
 {
-    public static class IListExtensions
+    public static class ListExtensions
     {
         public static void AddRange<T>(this IList<T> list, IEnumerable<T> source)
         {
