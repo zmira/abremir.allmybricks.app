@@ -21,8 +21,7 @@ namespace abremir.AllMyBricks.Data.Services
 
         public bool CompactRepository()
         {
-            var config = new RealmConfiguration(_fileSystemService.GetLocalPathToFile(Constants.AllMyBricksDbFile));
-            return Realm.Compact(config);
+            return Realm.Compact(new RealmConfiguration(_fileSystemService.GetLocalPathToFile(Constants.AllMyBricksDbFile)));
         }
     }
 }
