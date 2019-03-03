@@ -17,6 +17,7 @@ namespace abremir.AllMyBricks.Data.Configuration
             container.Register<IReferenceDataRepository, ReferenceDataRepository>(Lifestyle.Transient);
             container.Register<ISetRepository, SetRepository>(Lifestyle.Transient);
             container.Register<IInsightsRepository, InsightsRepository>(Lifestyle.Transient);
+            container.Register<IBricksetUserRepository, BricksetUserRepository>(Lifestyle.Transient);
 
             return container;
         }

@@ -1,4 +1,5 @@
-﻿using abremir.AllMyBricks.Data.Models.Realm;
+﻿using abremir.AllMyBricks.Data.Enumerations;
+using abremir.AllMyBricks.Data.Models.Realm;
 using System;
 
 namespace abremir.AllMyBricks.Data.Tests.Configuration
@@ -145,6 +146,15 @@ namespace abremir.AllMyBricks.Data.Tests.Configuration
                 Ean = $"SET EAN{suffix}",
                 Upc = $"SET UPC{suffix}",
                 Description = $"SET DESCRIPTION{suffix}"
+            };
+        }
+
+        internal static BricksetUser GetBricksetUserUnderTest()
+        {
+            return new BricksetUser
+            {
+                BricksetUsername = Guid.NewGuid().ToString(),
+                UserType = BricksetUserTypeEnum.Primary
             };
         }
     }
