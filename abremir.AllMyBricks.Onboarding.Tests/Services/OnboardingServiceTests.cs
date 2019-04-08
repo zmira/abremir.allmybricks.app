@@ -30,7 +30,7 @@ namespace abremir.AllMyBricks.Onboarding.Tests.Services
             var apiKey = await _onboardingService.ClassUnderTest.GetBricksetApiKey();
 
             apiKey.Should().NotBeNullOrWhiteSpace();
-            _onboardingService.Get<ISecureStorageService>().DidNotReceive().SaveBricksetApiKey(Arg.Any<string>());
+            await _onboardingService.Get<ISecureStorageService>().DidNotReceive().SaveBricksetApiKey(Arg.Any<string>());
         }
 
         [TestMethod]
@@ -53,7 +53,7 @@ namespace abremir.AllMyBricks.Onboarding.Tests.Services
 
             apiKey.Should().NotBeNullOrWhiteSpace();
             await _onboardingService.Get<IApiKeyService>().Received().GetBricksetApiKey(Arg.Any<Core.Models.Identification>());
-            _onboardingService.Get<ISecureStorageService>().DidNotReceive().SaveDeviceIdentification(Arg.Any<Core.Models.Identification>());
+            await _onboardingService.Get<ISecureStorageService>().DidNotReceive().SaveDeviceIdentification(Arg.Any<Core.Models.Identification>());
         }
 
         [TestMethod]
@@ -76,7 +76,7 @@ namespace abremir.AllMyBricks.Onboarding.Tests.Services
 
             apiKey.Should().NotBeNullOrWhiteSpace();
             await _onboardingService.Get<IApiKeyService>().Received().GetBricksetApiKey(Arg.Any<Core.Models.Identification>());
-            _onboardingService.Get<ISecureStorageService>().Received().SaveDeviceIdentification(Arg.Any<Core.Models.Identification>());
+            await _onboardingService.Get<ISecureStorageService>().Received().SaveDeviceIdentification(Arg.Any<Core.Models.Identification>());
         }
     }
 }
