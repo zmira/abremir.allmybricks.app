@@ -29,7 +29,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
         [DataRow(ModelsSetup.StringEmpty)]
         public void Add_InvalidUsername_ReturnsNull(string username)
         {
-            var bricksetUser = _bricksetUserRepository.Add(username, BricksetUserTypeEnum.None);
+            var bricksetUser = _bricksetUserRepository.Add(BricksetUserTypeEnum.None, username);
 
             bricksetUser.Should().BeNull();
         }
@@ -41,7 +41,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
 
             InsertData(bricksetUserUnderTest);
 
-            var bricksetUser = _bricksetUserRepository.Add(bricksetUserUnderTest.BricksetUsername, bricksetUserUnderTest.UserType);
+            var bricksetUser = _bricksetUserRepository.Add(bricksetUserUnderTest.UserType, bricksetUserUnderTest.BricksetUsername);
 
             bricksetUser.BricksetUsername.Should().Be(bricksetUserUnderTest.BricksetUsername);
         }
@@ -55,7 +55,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
 
             var newUsername = "new username";
 
-            var bricksetUser = _bricksetUserRepository.Add(newUsername, bricksetUserUnderTest.UserType);
+            var bricksetUser = _bricksetUserRepository.Add(bricksetUserUnderTest.UserType, newUsername);
 
             bricksetUser.BricksetUsername.Should().Be(newUsername);
         }

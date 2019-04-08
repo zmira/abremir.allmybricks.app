@@ -19,7 +19,7 @@ namespace abremir.AllMyBricks.Data.Repositories
             _repositoryService = repositoryService;
         }
 
-        public BricksetUser Add(string username, BricksetUserTypeEnum userType)
+        public BricksetUser Add(BricksetUserTypeEnum userType, string username)
         {
             if (string.IsNullOrWhiteSpace(username))
             {
