@@ -6,6 +6,7 @@ using abremir.AllMyBricks.Data.Tests.Configuration;
 using abremir.AllMyBricks.Data.Tests.Shared;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 
 namespace abremir.AllMyBricks.Data.Tests.Repositories
 {
@@ -92,6 +93,76 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
             var bricksetUser = _bricksetUserRepository.Get(bricksetUserUnderTest.BricksetUsername);
 
             bricksetUser.BricksetUsername.Should().Be(bricksetUserUnderTest.BricksetUsername);
+        }
+
+        [DataTestMethod]
+        [DataRow(null)]
+        [DataRow(ModelsSetup.StringEmpty)]
+        public void Exists_InvalidUsername_ReturnsFalse(string username)
+        {
+            var bricksetUserExists = _bricksetUserRepository.Exists(username);
+
+            bricksetUserExists.Should().BeFalse();
+        }
+
+        [TestMethod]
+        public void Exists_ValidUsernameAndDoesNotExist_ReturnsFalse()
+        {
+            var bricksetUserUnderTest = ModelsSetup.GetBricksetUserUnderTest();
+
+            InsertData(bricksetUserUnderTest);
+
+            var bricksetUserExists = _bricksetUserRepository.Exists(Guid.NewGuid().ToString());
+
+            bricksetUserExists.Should().BeFalse();
+        }
+
+        [TestMethod]
+        public void Exists_ValidUsernameAndExists_ReturnsTrue()
+        {
+            var bricksetUserUnderTest = ModelsSetup.GetBricksetUserUnderTest();
+
+            InsertData(bricksetUserUnderTest);
+
+            var bricksetUserExists = _bricksetUserRepository.Exists(bricksetUserUnderTest.BricksetUsername);
+
+            bricksetUserExists.Should().BeTrue();
+        }
+
+        [DataTestMethod]
+        [DataRow(null)]
+        [DataRow(ModelsSetup.StringEmpty)]
+        public void Remove_InvalidUsername_ReturnsFalse(string username)
+        {
+            var removedUser = _bricksetUserRepository.Remove(username);
+
+            removedUser.Should().BeFalse();
+        }
+
+        [TestMethod]
+        public void Remove_ValidUsernameAndDoesNotExist_ReturnsFalse()
+        {
+            var bricksetUserUnderTest = ModelsSetup.GetBricksetUserUnderTest();
+
+            InsertData(bricksetUserUnderTest);
+
+            var removedUser = _bricksetUserRepository.Remove(Guid.NewGuid().ToString());
+
+            removedUser.Should().BeFalse();
+        }
+
+        [TestMethod]
+        public void Remove_ValidUsernameAndExists_ReturnsTrueAndRemovesUser()
+        {
+            var bricksetUserUnderTest = ModelsSetup.GetBricksetUserUnderTest();
+            string bricksetUsernameUnderTest = bricksetUserUnderTest.BricksetUsername;
+
+            InsertData(bricksetUserUnderTest);
+
+            var removedUser = _bricksetUserRepository.Remove(bricksetUsernameUnderTest);
+
+            removedUser.Should().BeTrue();
+            _bricksetUserRepository.Exists(bricksetUsernameUnderTest).Should().BeFalse();
         }
 
         [DataTestMethod]

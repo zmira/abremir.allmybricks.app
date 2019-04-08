@@ -59,6 +59,34 @@ namespace abremir.AllMyBricks.Data.Repositories
                 ?.ToPlainObject();
         }
 
+        public bool Exists(string username)
+        {
+            return !string.IsNullOrWhiteSpace(username)
+                && GetQueryable()
+                    .Any(bricksetUser => bricksetUser.BricksetUsername.Equals(username, StringComparison.OrdinalIgnoreCase));
+        }
+
+        public bool Remove(string username)
+        {
+            if (!Exists(username))
+            {
+                return false;
+            }
+
+            var repository = _repositoryService.GetRepository();
+
+            var bricksetUserToRemove = GetQueryable()
+                        .First(bricksetUser => bricksetUser.BricksetUsername.Equals(username, StringComparison.OrdinalIgnoreCase));
+
+            using (var transaction = repository.BeginWrite())
+            {
+                repository.Remove(bricksetUserToRemove);
+                transaction.Commit();
+            }
+
+            return true;
+        }
+
         public BricksetUserSet AddOrUpdateSet(string username, BricksetUserSet bricksetUserSet)
         {
             if (string.IsNullOrWhiteSpace(username)
