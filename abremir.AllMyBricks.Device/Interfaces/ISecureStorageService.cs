@@ -1,5 +1,4 @@
 ﻿using abremir.AllMyBricks.Core.Models;
-using abremir.AllMyBricks.Device.Models;
 using System.Threading.Tasks;
 
 namespace abremir.AllMyBricks.Device.Interfaces

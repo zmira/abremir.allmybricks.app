@@ -6,7 +6,7 @@
 
         public static readonly string DeviceIdentificationSecureStorageKey = $"{AllMyBricks}.DeviceIdentification";
         public static readonly string BricksetApiKeySecureStorageKey = $"{AllMyBricks}.BricksetApiKey";
-        public static readonly string BricksetPrimaryUsers = $"{AllMyBricks}.BricksetPrimaryUsers";
+        public static readonly string BricksetPrimaryUsersStorageKey = $"{AllMyBricks}.BricksetPrimaryUsers";
 
         public const string AllMyBricksDataFolder = AllMyBricks;
         public const string ThumbnailCacheFolder = "Thumbnails";

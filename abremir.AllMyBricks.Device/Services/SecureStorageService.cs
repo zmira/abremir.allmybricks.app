@@ -19,8 +19,7 @@ namespace abremir.AllMyBricks.Device.Services
 
         public async Task<string> GetBricksetApiKey()
         {
-            return await _secureStorage
-            .GetAsync(Constants.BricksetApiKeySecureStorageKey);
+            return await _secureStorage.GetAsync(Constants.BricksetApiKeySecureStorageKey);
         }
 
         public async Task<bool> IsBricksetApiKeyAcquired()
@@ -67,7 +66,7 @@ namespace abremir.AllMyBricks.Device.Services
             {
                 bricksetUsers.Add(username, userHash);
 
-                await _secureStorage.SetAsync(Constants.BricksetPrimaryUsers, JSON.ToJSON(bricksetUsers));
+                await _secureStorage.SetAsync(Constants.BricksetPrimaryUsersStorageKey, JSON.ToJSON(bricksetUsers));
             }
         }
 
@@ -79,7 +78,7 @@ namespace abremir.AllMyBricks.Device.Services
             {
                 bricksetUsers.Remove(username);
 
-                await _secureStorage.SetAsync(Constants.BricksetPrimaryUsers, JSON.ToJSON(bricksetUsers));
+                await _secureStorage.SetAsync(Constants.BricksetPrimaryUsersStorageKey, JSON.ToJSON(bricksetUsers));
             }
 
             return bricksetUsers.ContainsKey(username);
