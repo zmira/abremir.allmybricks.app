@@ -72,5 +72,20 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Services
 
             return bricksetPrimaryUsers.ContainsKey(username);
         }
+
+        public Task<string> GetDefaultUsername()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task<bool> IsDefaultUsernameDefined()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task SaveDefaultUsername(string username)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

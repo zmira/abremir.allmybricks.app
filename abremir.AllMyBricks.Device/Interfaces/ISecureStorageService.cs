@@ -15,5 +15,8 @@ namespace abremir.AllMyBricks.Device.Interfaces
         Task<bool> IsBricksetPrimaryUsersDefined();
         Task SaveBricksetPrimaryUser(string username, string userHash);
         Task<bool> ClearBricksetPrimaryUser(string username);
+        Task<string> GetDefaultUsername();
+        Task<bool> IsDefaultUsernameDefined();
+        Task SaveDefaultUsername(string username);
     }
 }

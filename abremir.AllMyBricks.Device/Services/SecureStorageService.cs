@@ -84,6 +84,29 @@ namespace abremir.AllMyBricks.Device.Services
             return bricksetUsers.ContainsKey(username);
         }
 
+        public async Task<bool> IsBricksetPrimaryUsersDefined()
+        {
+            return !string.IsNullOrWhiteSpace(await GetRawBricksetPrimaryUsers());
+        }
+
+        public async Task<string> GetDefaultUsername()
+        {
+            return await _secureStorage.GetAsync(Constants.DefaultUsernameStorageKey);
+        }
+
+        public async Task<bool> IsDefaultUsernameDefined()
+        {
+            return !string.IsNullOrWhiteSpace(await GetDefaultUsername());
+        }
+
+        public async Task SaveDefaultUsername(string username)
+        {
+            if (!await IsDefaultUsernameDefined())
+            {
+                await _secureStorage.SetAsync(Constants.DefaultUsernameStorageKey, username);
+            }
+        }
+
         private async Task<string> GetRawDeviceIdentification()
         {
             return await _secureStorage.GetAsync(Constants.DeviceIdentificationSecureStorageKey);
@@ -91,12 +114,7 @@ namespace abremir.AllMyBricks.Device.Services
 
         private async Task<string> GetRawBricksetPrimaryUsers()
         {
-            return await _secureStorage.GetAsync(Constants.BricksetPrimaryUsers);
-        }
-
-        public async Task<bool> IsBricksetPrimaryUsersDefined()
-        {
-            return !string.IsNullOrWhiteSpace(await GetRawBricksetPrimaryUsers());
+            return await _secureStorage.GetAsync(Constants.BricksetPrimaryUsersStorageKey);
         }
     }
 }
