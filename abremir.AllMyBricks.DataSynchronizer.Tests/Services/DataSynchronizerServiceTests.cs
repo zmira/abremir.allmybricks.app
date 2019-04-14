@@ -15,12 +15,12 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Services
     [TestClass]
     public class DataSynchronizerServiceTests
     {
-        private NSubstituteAutoMocker<DataSynchronizationService> _dataSynchronizationService;
+        private NSubstituteAutoMocker<SetSynchronizationService> _dataSynchronizationService;
 
         [TestInitialize]
         public void TestInitialize()
         {
-            _dataSynchronizationService = new NSubstituteAutoMocker<DataSynchronizationService>();
+            _dataSynchronizationService = new NSubstituteAutoMocker<SetSynchronizationService>();
         }
 
         [DataTestMethod]
@@ -32,7 +32,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Services
                 .GetBricksetApiKey()
                 .Returns(apiKey);
 
-            await _dataSynchronizationService.ClassUnderTest.SynchronizeAllSetData();
+            await _dataSynchronizationService.ClassUnderTest.SynchronizeAllSets();
 
             _dataSynchronizationService.Get<IInsightsRepository>().DidNotReceive().GetDataSynchronizationTimestamp();
         }
@@ -53,7 +53,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Services
                 .Synchronize(Arg.Any<string>(), Arg.Any<Theme>())
                 .Returns(new List<Subtheme> { new Subtheme() });
 
-            await _dataSynchronizationService.ClassUnderTest.SynchronizeAllSetData();
+            await _dataSynchronizationService.ClassUnderTest.SynchronizeAllSets();
 
             await _dataSynchronizationService.Get<IThemeSynchronizer>().Received(1).Synchronize(Arg.Any<string>());
             await _dataSynchronizationService.Get<ISubthemeSynchronizer>().Received(1).Synchronize(Arg.Any<string>(), Arg.Any<Theme>());
@@ -78,7 +78,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Services
                 .Synchronize(Arg.Any<string>(), Arg.Any<Theme>())
                 .Returns(new List<Subtheme> { new Subtheme() });
 
-            await _dataSynchronizationService.ClassUnderTest.SynchronizeAllSetData();
+            await _dataSynchronizationService.ClassUnderTest.SynchronizeAllSets();
 
             await _dataSynchronizationService.Get<IThemeSynchronizer>().Received(1).Synchronize(Arg.Any<string>());
             await _dataSynchronizationService.Get<ISubthemeSynchronizer>().Received(1).Synchronize(Arg.Any<string>(), Arg.Any<Theme>());

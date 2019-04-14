@@ -9,7 +9,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder
     {
         public static async Task Run(bool compress)
         {
-            await IoC.IoCContainer.GetInstance<IDataSynchronizationService>().SynchronizeAllSetData();
+            await IoC.IoCContainer.GetInstance<ISetSynchronizationService>().SynchronizeAllSets();
 
             IoC.IoCContainer.GetInstance<IAssetManagementService>().CompactAllMyBricksDatabase();
 

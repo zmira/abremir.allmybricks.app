@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace abremir.AllMyBricks.DataSynchronizer.Services
 {
-    public class DataSynchronizationService : IDataSynchronizationService
+    public class SetSynchronizationService : ISetSynchronizationService
     {
         private readonly IThemeSynchronizer _themeSynchronizer;
         private readonly ISubthemeSynchronizer _subthemeSynchronizer;
@@ -17,7 +17,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Services
         private readonly IOnboardingService _onboardingService;
         private readonly IMessageHub _messageHub;
 
-        public DataSynchronizationService(
+        public SetSynchronizationService(
             IThemeSynchronizer themeSynchronizer,
             ISubthemeSynchronizer subthemeSynchronizer,
             ISetSynchronizer setSynchronizer,
@@ -33,7 +33,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Services
             _messageHub = messageHub;
         }
 
-        public async Task SynchronizeAllSetData()
+        public async Task SynchronizeAllSets()
         {
             _messageHub.Publish(new DataSynchronizationStart());
 

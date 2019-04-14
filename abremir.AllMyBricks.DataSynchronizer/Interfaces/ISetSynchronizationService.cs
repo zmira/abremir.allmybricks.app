@@ -2,8 +2,8 @@
 
 namespace abremir.AllMyBricks.DataSynchronizer.Interfaces
 {
-    public interface IDataSynchronizationService
+    public interface ISetSynchronizationService
     {
-        Task SynchronizeAllSetData();
+        Task SynchronizeAllSets();
     }
 }

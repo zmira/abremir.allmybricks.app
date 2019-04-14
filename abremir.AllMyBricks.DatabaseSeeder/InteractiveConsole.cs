@@ -378,7 +378,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                     // HACK: since there is a bug in Application.MainLoop.Invoke(...) this is needed to force the UI to refresh!
                     Application.MainLoop.AddTimeout(TimeSpan.FromMilliseconds(500), _ => true);
 
-                    IoC.IoCContainer.GetInstance<IDataSynchronizationService>().SynchronizeAllSetData();
+                    IoC.IoCContainer.GetInstance<ISetSynchronizationService>().SynchronizeAllSets();
                 }
             };
 

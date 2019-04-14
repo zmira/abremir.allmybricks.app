@@ -13,7 +13,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
             ILoggerFactory loggerFactory,
             IMessageHub messageHub)
         {
-            var logger = loggerFactory.CreateLogger<DataSynchronizationService>();
+            var logger = loggerFactory.CreateLogger<SetSynchronizationService>();
 
             messageHub.Subscribe<DataSynchronizationStart>(_ => logger.LogInformation($"Data Synchronization Started{(Logging.LogDestination == LogDestinationEnum.Console ? $" {DateTimeOffset.Now.ToString("yyyy-MM-dd hh:mm:ss")}" : string.Empty)}"));
 
