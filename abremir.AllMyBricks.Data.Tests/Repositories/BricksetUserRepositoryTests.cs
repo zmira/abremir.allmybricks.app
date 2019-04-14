@@ -7,6 +7,7 @@ using abremir.AllMyBricks.Data.Tests.Shared;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Linq;
 
 namespace abremir.AllMyBricks.Data.Tests.Repositories
 {
@@ -356,6 +357,31 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
             var bricksetUserSet = _bricksetUserRepository.GetSet(bricksetUser.BricksetUsername, bricksetUserSetUnderTest.SetId);
 
             bricksetUserSet.SetId.Should().Be(bricksetUserSetUnderTest.SetId);
+        }
+
+        [TestMethod]
+        public void GetAllUsernames_BricksetUserTypeDoesNotExist_ReturnsEmptyList()
+        {
+            var bricksetUser = ModelsSetup.GetBricksetUserUnderTest();
+
+            InsertData(bricksetUser);
+
+            var usernameList = _bricksetUserRepository.GetAllUsernames(BricksetUserTypeEnum.Friend);
+
+            usernameList.Should().BeEmpty();
+        }
+
+        [TestMethod]
+        public void GetAllUsernames_BricksetUserTypeExists_ReturnsListOfUsernames()
+        {
+            var bricksetUser = ModelsSetup.GetBricksetUserUnderTest();
+
+            InsertData(bricksetUser);
+
+            var usernameList = _bricksetUserRepository.GetAllUsernames(bricksetUser.UserType);
+
+            usernameList.Should().NotBeEmpty();
+            usernameList.First().Should().Be(bricksetUser.BricksetUsername);
         }
     }
 }

@@ -152,6 +152,14 @@ namespace abremir.AllMyBricks.Data.Repositories
                 .ToPlainObject();
         }
 
+        public IEnumerable<string> GetAllUsernames(BricksetUserTypeEnum userType)
+        {
+            return GetQueryable()
+                .Filter($"UserTypeRaw == {(int)userType}")
+                .ToList()
+                .Select(bricksetUser => bricksetUser.BricksetUsername);
+        }
+
         private IQueryable<Managed.BricksetUser> GetQueryable()
         {
             return _repositoryService
