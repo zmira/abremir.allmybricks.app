@@ -26,7 +26,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Configuration
             IoCContainer.Register<IFileSystemService, FileSystemService>(Lifestyle.Transient);
             IoCContainer.Register<IAssetManagementService, AssetManagementService>(Lifestyle.Transient);
 
-            IoCContainer.Register<IMessageHub>(() => MessageHub.Instance, Lifestyle.Singleton);
+            IoCContainer.Register<IMessageHub, MessageHub>(Lifestyle.Singleton);
 
             IoCContainer.Register(() => Logging.LoggerFactory, Lifestyle.Singleton);
             IoCContainer.Collection.Register<IDatabaseSeederLogger>(Assembly.GetExecutingAssembly());
