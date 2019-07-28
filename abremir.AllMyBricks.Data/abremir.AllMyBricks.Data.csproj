@@ -1,12 +1,17 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Realm" Version="3.4.0" />
-    <PackageReference Include="SimpleInjector" Version="4.5.1" />
+    <PackageReference Include="Realm" Version="4.0.1" />
+    <PackageReference Include="Realm.DataBinding" Version="1.2.0" />
+    <PackageReference Include="Realm.Fody" Version="4.0.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="SimpleInjector" Version="4.6.2" />
   </ItemGroup>
 
   <ItemGroup>
