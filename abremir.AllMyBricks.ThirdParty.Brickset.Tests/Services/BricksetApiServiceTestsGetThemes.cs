@@ -33,7 +33,8 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
 
             var themes = await _bricksetApiService.GetThemes(new ParameterApiKey());
 
-            themes.Count().Should().Be(133);
+            themes.Count().Should()
+                .Be(133);
         }
 
         [TestMethod]
@@ -43,7 +44,8 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
 
             var themes = await _bricksetApiService.GetThemes(new ParameterApiKey());
 
-            themes.Should().BeEmpty();
+            themes.Should()
+                .BeEmpty();
         }
     }
 }

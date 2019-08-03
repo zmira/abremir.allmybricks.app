@@ -33,7 +33,8 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
 
             var reviews = await _bricksetApiService.GetReviews(new ParameterSetId());
 
-            reviews.Count().Should().Be(5);
+            reviews.Count().Should()
+                .Be(5);
         }
 
         [TestMethod]
@@ -43,7 +44,8 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
 
             var reviews = await _bricksetApiService.GetReviews(new ParameterSetId());
 
-            reviews.Should().BeEmpty();
+            reviews.Should()
+                .BeEmpty();
         }
 
         [TestMethod]
@@ -53,7 +55,8 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
 
             var reviews = await _bricksetApiService.GetReviews(new ParameterSetId());
 
-            reviews.Should().BeEmpty();
+            reviews.Should()
+                .BeEmpty();
         }
 
         [TestMethod]
@@ -63,7 +66,8 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
 
             var reviews = await _bricksetApiService.GetReviews(new ParameterSetId());
 
-            reviews.Should().BeEmpty();
+            reviews.Should()
+                .BeEmpty();
         }
     }
 }

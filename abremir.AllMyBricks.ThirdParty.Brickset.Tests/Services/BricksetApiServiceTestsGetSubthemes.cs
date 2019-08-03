@@ -33,7 +33,8 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
 
             var subthemes = await _bricksetApiService.GetSubthemes(new ParameterTheme());
 
-            subthemes.Count().Should().Be(5);
+            subthemes.Count().Should()
+                .Be(5);
         }
 
         [TestMethod]
@@ -43,7 +44,8 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
 
             var subthemes = await _bricksetApiService.GetSubthemes(new ParameterTheme());
 
-            subthemes.Should().BeEmpty();
+            subthemes.Should()
+                .BeEmpty();
         }
 
         [TestMethod]
@@ -53,7 +55,8 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
 
             var subthemes = await _bricksetApiService.GetSubthemes(new ParameterTheme());
 
-            subthemes.Should().BeEmpty();
+            subthemes.Should()
+                .BeEmpty();
         }
 
         [TestMethod]
@@ -63,7 +66,8 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
 
             var subthemes = await _bricksetApiService.GetSubthemes(new ParameterTheme());
 
-            subthemes.Should().BeEmpty();
+            subthemes.Should()
+                .BeEmpty();
         }
     }
 }

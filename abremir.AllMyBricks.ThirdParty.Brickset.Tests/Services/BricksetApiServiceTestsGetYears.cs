@@ -33,7 +33,8 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
 
             var years = await _bricksetApiService.GetYears(new ParameterTheme());
 
-            years.Count().Should().Be(11);
+            years.Count().Should()
+                .Be(11);
         }
 
         [TestMethod]
@@ -43,7 +44,8 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
 
             var years = await _bricksetApiService.GetYears(new ParameterTheme());
 
-            years.Should().BeEmpty();
+            years.Should()
+                .BeEmpty();
         }
 
         [TestMethod]
@@ -53,7 +55,8 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
 
             var years = await _bricksetApiService.GetYears(new ParameterTheme());
 
-            years.Should().BeEmpty();
+            years.Should()
+                .BeEmpty();
         }
 
         [TestMethod]
@@ -63,7 +66,8 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
 
             var years = await _bricksetApiService.GetYears(new ParameterTheme());
 
-            years.Should().BeEmpty();
+            years.Should()
+                .BeEmpty();
         }
     }
 }

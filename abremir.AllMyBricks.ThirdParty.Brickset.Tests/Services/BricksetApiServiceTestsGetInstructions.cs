@@ -33,7 +33,8 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
 
             var instructions = await _bricksetApiService.GetInstructions(new ParameterSetId());
 
-            instructions.Count().Should().Be(2);
+            instructions.Count().Should()
+                .Be(2);
         }
 
         [TestMethod]
@@ -43,7 +44,8 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
 
             var instructions = await _bricksetApiService.GetInstructions(new ParameterSetId());
 
-            instructions.Should().BeEmpty();
+            instructions.Should()
+                .BeEmpty();
         }
 
         [TestMethod]
@@ -53,7 +55,8 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
 
             var instructions = await _bricksetApiService.GetInstructions(new ParameterSetId());
 
-            instructions.Should().BeEmpty();
+            instructions.Should()
+                .BeEmpty();
         }
 
         [TestMethod]
@@ -63,7 +66,8 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
 
             var instructions = await _bricksetApiService.GetInstructions(new ParameterSetId());
 
-            instructions.Should().BeEmpty();
+            instructions.Should()
+                .BeEmpty();
         }
     }
 }

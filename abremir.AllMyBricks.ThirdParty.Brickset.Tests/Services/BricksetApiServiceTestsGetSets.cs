@@ -33,7 +33,8 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
 
             var sets = await _bricksetApiService.GetSets(new ParameterSets());
 
-            sets.Count().Should().Be(20);
+            sets.Count().Should()
+                .Be(20);
         }
 
         [TestMethod]
@@ -43,7 +44,8 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
 
             var sets = await _bricksetApiService.GetSets(new ParameterSets());
 
-            sets.Should().BeEmpty();
+            sets.Should()
+                .BeEmpty();
         }
 
         [TestMethod]
@@ -53,7 +55,8 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
 
             var sets = await _bricksetApiService.GetSets(new ParameterSets());
 
-            sets.Should().BeEmpty();
+            sets.Should()
+                .BeEmpty();
         }
     }
 }

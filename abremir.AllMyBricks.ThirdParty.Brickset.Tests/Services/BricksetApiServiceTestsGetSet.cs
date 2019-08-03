@@ -32,7 +32,8 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
 
             var set = await _bricksetApiService.GetSet(new ParameterUserHashSetId());
 
-            set.Should().NotBeNull();
+            set.Should()
+                .NotBeNull();
         }
 
         [TestMethod]
@@ -42,7 +43,8 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
 
             var set = await _bricksetApiService.GetSet(new ParameterUserHashSetId());
 
-            set.Should().BeNull();
+            set.Should()
+                .BeNull();
         }
 
         [TestMethod]
@@ -52,7 +54,8 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
 
             var set = await _bricksetApiService.GetSet(new ParameterUserHashSetId());
 
-            set.Should().BeNull();
+            set.Should()
+                .BeNull();
         }
     }
 }

@@ -33,7 +33,8 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
 
             var recentlyUpdatedSets = await _bricksetApiService.GetRecentlyUpdatedSets(new ParameterMinutesAgo());
 
-            recentlyUpdatedSets.Count().Should().Be(3);
+            recentlyUpdatedSets.Count().Should()
+                .Be(3);
         }
 
         [TestMethod]
@@ -43,7 +44,8 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
 
             var recentlyUpdatedSets = await _bricksetApiService.GetRecentlyUpdatedSets(new ParameterMinutesAgo());
 
-            recentlyUpdatedSets.Should().BeEmpty();
+            recentlyUpdatedSets.Should()
+                .BeEmpty();
         }
 
         [TestMethod]
@@ -53,7 +55,8 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
 
             var recentlyUpdatedSets = await _bricksetApiService.GetRecentlyUpdatedSets(new ParameterMinutesAgo());
 
-            recentlyUpdatedSets.Should().BeEmpty();
+            recentlyUpdatedSets.Should()
+                .BeEmpty();
         }
     }
 }

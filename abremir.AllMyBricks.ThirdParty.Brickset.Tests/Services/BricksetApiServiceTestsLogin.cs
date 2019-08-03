@@ -34,9 +34,8 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
             var loginResult = await _bricksetApiService.Login(new ParameterLogin());
 
             loginResult.Should()
-                .NotBeNullOrEmpty()
-                .And.NotStartWith(BricksetApiConstants.ResponseError)
-                .And.NotStartWith(BricksetApiConstants.ResponseInvalidKey);
+                .NotStartWith(BricksetApiConstants.ResponseError)
+                .And.NotBe(BricksetApiConstants.ResponseInvalidKey);
         }
 
         [TestMethod]
@@ -47,9 +46,7 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
             var loginResult = await _bricksetApiService.Login(new ParameterLogin());
 
             loginResult.Should()
-                .NotBeNullOrEmpty()
-                .And.StartWith(BricksetApiConstants.ResponseError)
-                .And.NotStartWith(BricksetApiConstants.ResponseInvalidKey);
+                .StartWith(BricksetApiConstants.ResponseError);
         }
 
         [TestMethod]
@@ -60,9 +57,7 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
             var loginResult = await _bricksetApiService.Login(new ParameterLogin());
 
             loginResult.Should()
-                .NotBeNullOrEmpty()
-                .And.NotStartWith(BricksetApiConstants.ResponseError)
-                .And.StartWith(BricksetApiConstants.ResponseInvalidKey);
+                .Be(BricksetApiConstants.ResponseInvalidKey);
         }
     }
 }

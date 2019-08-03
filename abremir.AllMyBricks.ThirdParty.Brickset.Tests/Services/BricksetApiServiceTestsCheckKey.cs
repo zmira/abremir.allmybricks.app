@@ -32,7 +32,8 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
 
             var keyValidity = await _bricksetApiService.CheckKey(new ParameterApiKey());
 
-            keyValidity.Should().BeTrue();
+            keyValidity.Should()
+                .BeTrue();
         }
 
         [TestMethod]
@@ -42,7 +43,8 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
 
             var keyValidity = await _bricksetApiService.CheckKey(new ParameterApiKey());
 
-            keyValidity.Should().BeFalse();
+            keyValidity.Should()
+                .BeFalse();
         }
     }
 }

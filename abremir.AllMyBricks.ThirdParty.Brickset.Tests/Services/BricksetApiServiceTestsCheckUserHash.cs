@@ -34,8 +34,7 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
             var userHashValidity = await _bricksetApiService.CheckUserHash(new ParameterUserHash());
 
             userHashValidity.Should()
-                .NotBeNullOrEmpty()
-                .And.NotBe(BricksetApiConstants.ResponseInvalid);
+                .NotBe(BricksetApiConstants.ResponseInvalid);
         }
 
         [TestMethod]
@@ -46,8 +45,7 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
             var userHashValidity = await _bricksetApiService.CheckUserHash(new ParameterUserHash());
 
             userHashValidity.Should()
-                .NotBeNullOrEmpty()
-                .And.Be(BricksetApiConstants.ResponseInvalid);
+                .Be(BricksetApiConstants.ResponseInvalid);
         }
     }
 }

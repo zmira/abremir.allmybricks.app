@@ -33,7 +33,8 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
 
             var additionalImages = await _bricksetApiService.GetAdditionalImages(new ParameterSetId());
 
-            additionalImages.Count().Should().Be(6);
+            additionalImages.Count().Should()
+                .Be(6);
         }
 
         [TestMethod]
@@ -43,7 +44,8 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
 
             var additionalImages = await _bricksetApiService.GetAdditionalImages(new ParameterSetId());
 
-            additionalImages.Should().BeEmpty();
+            additionalImages.Should()
+                .BeEmpty();
         }
 
         [TestMethod]
@@ -53,7 +55,8 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
 
             var additionalImages = await _bricksetApiService.GetAdditionalImages(new ParameterSetId());
 
-            additionalImages.Should().BeEmpty();
+            additionalImages.Should()
+                .BeEmpty();
         }
 
         [TestMethod]
@@ -63,7 +66,8 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
 
             var additionalImages = await _bricksetApiService.GetAdditionalImages(new ParameterSetId());
 
-            additionalImages.Should().BeEmpty();
+            additionalImages.Should()
+                .BeEmpty();
         }
     }
 }
