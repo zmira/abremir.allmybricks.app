@@ -4,7 +4,6 @@ using abremir.AllMyBricks.Data.Models;
 using abremir.AllMyBricks.DataSynchronizer.Events.SetSynchronizer;
 using abremir.AllMyBricks.DataSynchronizer.Extensions;
 using abremir.AllMyBricks.DataSynchronizer.Interfaces;
-using abremir.AllMyBricks.Device.Interfaces;
 using abremir.AllMyBricks.ThirdParty.Brickset.Interfaces;
 using abremir.AllMyBricks.ThirdParty.Brickset.Models;
 using Easy.MessageHub;
@@ -22,7 +21,6 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
         private readonly IReferenceDataRepository _referenceDataRepository;
         private readonly IThemeRepository _themeRepository;
         private readonly ISubthemeRepository _subthemeRepository;
-        private readonly IPreferencesService _preferencesService;
         private readonly IThumbnailSynchronizer _thumbnailSynchronizer;
         private readonly IMessageHub _messageHub;
 
@@ -32,7 +30,6 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
             IReferenceDataRepository referenceDataRepository,
             IThemeRepository themeRepository,
             ISubthemeRepository subthemeRepository,
-            IPreferencesService preferencesService,
             IThumbnailSynchronizer thumbnailSynchronizer,
             IMessageHub messageHub)
         {
@@ -41,7 +38,6 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
             _referenceDataRepository = referenceDataRepository;
             _themeRepository = themeRepository;
             _subthemeRepository = subthemeRepository;
-            _preferencesService = preferencesService;
             _thumbnailSynchronizer = thumbnailSynchronizer;
             _messageHub = messageHub;
         }

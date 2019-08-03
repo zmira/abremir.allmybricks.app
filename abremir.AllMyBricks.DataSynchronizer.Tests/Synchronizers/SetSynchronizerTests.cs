@@ -168,7 +168,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 
             var thumbnailSynchronizer = Substitute.For<IThumbnailSynchronizer>();
 
-            return new SetSynchronizer(bricksetApiService, _setRepository, _referenceDataRepository, _themeRepository, _subthemeRepository, Substitute.For<IPreferencesService>(), thumbnailSynchronizer, Substitute.For<IMessageHub>());
+            return new SetSynchronizer(bricksetApiService, _setRepository, _referenceDataRepository, _themeRepository, _subthemeRepository, thumbnailSynchronizer, Substitute.For<IMessageHub>());
         }
     }
 }
