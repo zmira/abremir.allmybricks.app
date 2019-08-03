@@ -14,5 +14,9 @@
         public const string ApiResponseFolderGetInstructions = "GetInstructions";
         public const string ApiResponseFolderGetAdditionalImages = "GetAdditionalImages";
         public const string ApiResponseFolderGetReviews = "GetReviews";
+        public const string ApiResponseFolderSetCollection = "SetCollection";
+        public const string ApiResponseFolderSetCollectionOwns = "SetCollectionOwns";
+        public const string ApiResponseFolderSetCollectionWants = "SetCollectionWants";
+        public const string ApiResponseFolderSetCollectionQtyOwned = "SetCollectionQtyOwned";
     }
 }

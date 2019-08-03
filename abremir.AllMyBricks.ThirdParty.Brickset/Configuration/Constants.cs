@@ -22,6 +22,10 @@
         public const string MethodGetInstructions = "getInstructions";
         public const string MethodGetAdditionalImages = "getAdditionalImages";
         public const string MethodGetReviews = "getReviews";
+        public const string MethodSetCollection = "setCollection";
+        public const string MethodSetCollectionOwns = "setCollection_owns";
+        public const string MethodSetCollectionWants = "setCollection_wants";
+        public const string MethodSetCollectionQtyOwned = "setCollection_qtyOwned";
 
         public const string TypeThemes = "themes";
         public const string TypeSubthemes = "subthemes";

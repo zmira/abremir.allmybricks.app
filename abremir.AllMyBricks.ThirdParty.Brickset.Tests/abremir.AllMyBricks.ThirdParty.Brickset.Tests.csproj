@@ -45,6 +45,22 @@
     <None Remove="BricksetApiResponses\Login\InvalidApiKey.xml" />
     <None Remove="BricksetApiResponses\Login\InvalidCredentials.xml" />
     <None Remove="BricksetApiResponses\Login\ValidCredentials.xml" />
+    <None Remove="BricksetApiResponses\SetCollectionOwns\InvalidApiKey.xml" />
+    <None Remove="BricksetApiResponses\SetCollectionOwns\InvalidParameters.xml" />
+    <None Remove="BricksetApiResponses\SetCollectionOwns\InvalidUserHash.xml" />
+    <None Remove="BricksetApiResponses\SetCollectionOwns\Success.xml" />
+    <None Remove="BricksetApiResponses\SetCollectionQtyOwned\InvalidApiKey.xml" />
+    <None Remove="BricksetApiResponses\SetCollectionQtyOwned\InvalidParameters.xml" />
+    <None Remove="BricksetApiResponses\SetCollectionQtyOwned\InvalidUserHash.xml" />
+    <None Remove="BricksetApiResponses\SetCollectionQtyOwned\Success.xml" />
+    <None Remove="BricksetApiResponses\SetCollectionWants\InvalidApiKey.xml" />
+    <None Remove="BricksetApiResponses\SetCollectionWants\InvalidParameters.xml" />
+    <None Remove="BricksetApiResponses\SetCollectionWants\InvalidUserHash.xml" />
+    <None Remove="BricksetApiResponses\SetCollectionWants\Success.xml" />
+    <None Remove="BricksetApiResponses\SetCollection\InvalidApiKey.xml" />
+    <None Remove="BricksetApiResponses\SetCollection\InvalidParameters.xml" />
+    <None Remove="BricksetApiResponses\SetCollection\InvalidUserHash.xml" />
+    <None Remove="BricksetApiResponses\SetCollection\Success.xml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -86,6 +102,22 @@
     <EmbeddedResource Include="BricksetApiResponses\Login\InvalidApiKey.xml" />
     <EmbeddedResource Include="BricksetApiResponses\Login\InvalidCredentials.xml" />
     <EmbeddedResource Include="BricksetApiResponses\Login\ValidCredentials.xml" />
+    <EmbeddedResource Include="BricksetApiResponses\SetCollectionOwns\InvalidApiKey.xml" />
+    <EmbeddedResource Include="BricksetApiResponses\SetCollectionOwns\InvalidParameters.xml" />
+    <EmbeddedResource Include="BricksetApiResponses\SetCollectionOwns\InvalidUserHash.xml" />
+    <EmbeddedResource Include="BricksetApiResponses\SetCollectionOwns\Success.xml" />
+    <EmbeddedResource Include="BricksetApiResponses\SetCollectionQtyOwned\InvalidApiKey.xml" />
+    <EmbeddedResource Include="BricksetApiResponses\SetCollectionQtyOwned\InvalidParameters.xml" />
+    <EmbeddedResource Include="BricksetApiResponses\SetCollectionQtyOwned\InvalidUserHash.xml" />
+    <EmbeddedResource Include="BricksetApiResponses\SetCollectionQtyOwned\Success.xml" />
+    <EmbeddedResource Include="BricksetApiResponses\SetCollectionWants\Success.xml" />
+    <EmbeddedResource Include="BricksetApiResponses\SetCollectionWants\InvalidApiKey.xml" />
+    <EmbeddedResource Include="BricksetApiResponses\SetCollectionWants\InvalidParameters.xml" />
+    <EmbeddedResource Include="BricksetApiResponses\SetCollectionWants\InvalidUserHash.xml" />
+    <EmbeddedResource Include="BricksetApiResponses\SetCollection\InvalidApiKey.xml" />
+    <EmbeddedResource Include="BricksetApiResponses\SetCollection\InvalidParameters.xml" />
+    <EmbeddedResource Include="BricksetApiResponses\SetCollection\InvalidUserHash.xml" />
+    <EmbeddedResource Include="BricksetApiResponses\SetCollection\Success.xml" />
   </ItemGroup>
 
   <ItemGroup>

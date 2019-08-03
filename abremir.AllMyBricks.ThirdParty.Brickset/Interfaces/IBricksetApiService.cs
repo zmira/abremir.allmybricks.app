@@ -18,5 +18,9 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Interfaces
         Task<IEnumerable<Instructions>> GetInstructions(ParameterSetId getInstructionsParameters);
         Task<IEnumerable<AdditionalImages>> GetAdditionalImages(ParameterSetId getAdditionalImagesParameters);
         Task<IEnumerable<Reviews>> GetReviews(ParameterSetId getReviewsParameters);
+        Task<string> SetCollection(ParameterSetCollection setCollectionParameters);
+        Task<string> SetCollectionOwns(ParameterSetCollectionOwns setCollectionOwnsParameters);
+        Task<string> SetCollectionWants(ParameterSetCollectionWants setCollectionWantsParameters);
+        Task<string> SetCollectionQtyOwned(ParameterSetCollectionQtyOwned setCollectionQtyOwnedParameters);
     }
 }

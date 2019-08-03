@@ -73,6 +73,26 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Services
             return await BricksetHttpPostUrlEncodeAsync<ArrayOfReviews, IEnumerable<Reviews>, ParameterSetId>(getReviewsParameters);
         }
 
+        public async Task<string> SetCollection(ParameterSetCollection setCollectionParameters)
+        {
+            return (await BricksetHttpPostUrlEncodeAsync<ResultSetCollection, ResultSetCollection, ParameterSetCollection>(setCollectionParameters)).Value;
+        }
+
+        public async Task<string> SetCollectionOwns(ParameterSetCollectionOwns setCollectionOwnsParameters)
+        {
+            return (await BricksetHttpPostUrlEncodeAsync<ResultSetCollectionOwns, ResultSetCollectionOwns, ParameterSetCollectionOwns>(setCollectionOwnsParameters)).Value;
+        }
+
+        public async Task<string> SetCollectionWants(ParameterSetCollectionWants setCollectionWantsParameters)
+        {
+            return (await BricksetHttpPostUrlEncodeAsync<ResultSetCollectionWants, ResultSetCollectionWants, ParameterSetCollectionWants>(setCollectionWantsParameters)).Value;
+        }
+
+        public async Task<string> SetCollectionQtyOwned(ParameterSetCollectionQtyOwned setCollectionQtyOwnedParameters)
+        {
+            return (await BricksetHttpPostUrlEncodeAsync<ResultSetCollectionQtyOwned, ResultSetCollectionQtyOwned, ParameterSetCollectionQtyOwned>(setCollectionQtyOwnedParameters)).Value;
+        }
+
         private async Task<U> BricksetHttpPostUrlEncodeAsync<T, U, V>(V parameters) where T: class where U : class where V : class
         {
             return await Constants.BricksetApiUrl.AppendPathSegment(typeof(T).GetDescription()).PostUrlEncodedAsync(parameters).ReceiveXml<T>() as U;
