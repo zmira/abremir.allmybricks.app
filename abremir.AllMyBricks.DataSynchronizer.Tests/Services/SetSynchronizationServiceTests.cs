@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 namespace abremir.AllMyBricks.DataSynchronizer.Tests.Services
 {
     [TestClass]
-    public class DataSynchronizerServiceTests
+    public class SetSynchronizationServiceTests
     {
         private NSubstituteAutoMocker<SetSynchronizationService> _dataSynchronizationService;
 
@@ -26,7 +26,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Services
         [DataTestMethod]
         [DataRow("")]
         [DataRow(null)]
-        public async Task SynchronizeAllSetData_InvalidApiKey_GetDataSynchronizationTimestampNotInvoked(string apiKey)
+        public async Task SynchronizeAllSets_InvalidApiKey_GetDataSynchronizationTimestampNotInvoked(string apiKey)
         {
             _dataSynchronizationService.Get<IOnboardingService>()
                 .GetBricksetApiKey()
@@ -38,7 +38,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Services
         }
 
         [TestMethod]
-        public async Task SynchronizeAllSetData_WithoutDataSynchronizationTimestamp_SynchronizeAllSetsAndUpdateDataSynchronizationTimestampInvoked()
+        public async Task SynchronizeAllSets_WithoutDataSynchronizationTimestamp_SynchronizeAllSetsAndUpdateDataSynchronizationTimestampInvoked()
         {
             _dataSynchronizationService.Get<IOnboardingService>()
                 .GetBricksetApiKey()
@@ -63,7 +63,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Services
         }
 
         [TestMethod]
-        public async Task SynchronizeAllSetData_WithDataSynchronizationTimestamp_SynchronizeRecentlyUpdatedSetsAndUpdateDataSynchronizationTimestampInvoked()
+        public async Task SynchronizeAllSets_WithDataSynchronizationTimestamp_SynchronizeRecentlyUpdatedSetsAndUpdateDataSynchronizationTimestampInvoked()
         {
             _dataSynchronizationService.Get<IOnboardingService>()
                 .GetBricksetApiKey()
