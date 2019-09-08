@@ -1,13 +1,14 @@
 ﻿using abremir.AllMyBricks.DatabaseSeeder.Configuration;
 using abremir.AllMyBricks.DatabaseSeeder.Services;
 using abremir.AllMyBricks.DataSynchronizer.Interfaces;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace abremir.AllMyBricks.DatabaseSeeder
 {
     public static class NonInteractiveConsole
     {
-        public static async Task Run(bool compress)
+        public static async Task Run(IList<string> synchronizationContext, bool compress)
         {
             await IoC.IoCContainer.GetInstance<ISetSynchronizationService>().SynchronizeAllSets();
 

@@ -14,10 +14,19 @@ namespace abremir.AllMyBricks.DatabaseSeeder
             var app = new CommandLineApplication();
             app.HelpOption();
 
-            var unattendedCommand = app.Option("--unattended", "Run in unattended mode (non-interactive)", CommandOptionType.NoValue);
-            var logVerbosityCommand = app.Option("--log-verbosity", "Logging verbosity: none, minimal or full", CommandOptionType.SingleValue);
-            var logDestinationCommand = app.Option("--log-destination", "[this option is only valid when run with --unattended] Logging destination: console or file", CommandOptionType.SingleValue);
-            var compressCommand = app.Option("--compress", "[this option is only valid when run with --unattended] Compress the seeded database using LZip", CommandOptionType.NoValue);
+            var unattendeOption = app
+                .Option(DatabaseSeederConstants.UnattentedOption, "Run in unattended mode (non-interactive)", CommandOptionType.NoValue);
+            var logVerbosityOption = app
+                .Option<string>(DatabaseSeederConstants.LogVerbosityOption, $"Logging verbosity: {DatabaseSeederConstants.LogVerbosityValueNone}, {DatabaseSeederConstants.LogVerbosityValueMinimal}, {DatabaseSeederConstants.LogVerbosityValueFull}", CommandOptionType.SingleValue)
+                .Accepts(builder => ValidationExtensions.Values(builder, true, DatabaseSeederConstants.LogVerbosityValueNone, DatabaseSeederConstants.LogVerbosityValueMinimal, DatabaseSeederConstants.LogVerbosityValueFull));
+            var logDestinationOption = app
+                .Option<string>(DatabaseSeederConstants.LogDestinationOption, $"[this option is only valid when run with {DatabaseSeederConstants.UnattentedOption}] Logging destination: {DatabaseSeederConstants.LogDestinationValueConsole}, {DatabaseSeederConstants.LogDestinationValueFile}", CommandOptionType.SingleValue)
+                .Accepts(builder => ValidationExtensions.Values(builder, true, DatabaseSeederConstants.LogDestinationValueConsole, DatabaseSeederConstants.LogDestinationValueFile));
+            var compressOption = app
+                .Option(DatabaseSeederConstants.CompressOption, $"[this option is only valid when run with {DatabaseSeederConstants.UnattentedOption}] Compress the seeded database using LZip", CommandOptionType.NoValue);
+            var datasetOption = app
+                .Option<string>(DatabaseSeederConstants.DatasetOption, $"[this option is only valid when run with {DatabaseSeederConstants.UnattentedOption}] Select which dataset(s) to synchronize: {DatabaseSeederConstants.DatasetValueSets}", CommandOptionType.MultipleValue)
+                .Accepts(builder => ValidationExtensions.Values(builder, true, DatabaseSeederConstants.DatasetValueSets));
 
             app.OnExecute(() =>
             {
@@ -27,8 +36,8 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                 var fileSystem = IoC.IoCContainer.GetInstance<IFileSystemService>();
                 fileSystem.EnsureLocalDataFolder();
 
-                var logVerbosity = GetLogVerbosity(logVerbosityCommand, unattendedCommand);
-                var logDestination = GetLogDestination(logVerbosityCommand, unattendedCommand, logDestinationCommand);
+                var logVerbosity = GetLogVerbosity(logVerbosityOption, unattendeOption);
+                var logDestination = GetLogDestination(logVerbosityOption, unattendeOption, logDestinationOption);
 
                 Logging.Configure(logDestination, logVerbosity);
 
@@ -36,17 +45,22 @@ namespace abremir.AllMyBricks.DatabaseSeeder
 
                 if (logVerbosity != LogVerbosityEnum.NoLogging)
                 {
-                    Logger.LogInformation($"Running All My Bricks database seeder with arguments:{ (unattendedCommand.HasValue() ? " --unattended" : string.Empty) }{ (logVerbosityCommand.HasValue() ? $" --logging-verbosity={logVerbosityCommand.Value()}" : string.Empty) }{ (logDestinationCommand.HasValue() ? $" --log-destination={logDestinationCommand.Value()}" : string.Empty) }{ (compressCommand.HasValue() ? $" --compress" : string.Empty) }");
+                    Logger.LogInformation($"Running All My Bricks database seeder with arguments: { (unattendeOption.HasValue() ? $" { DatabaseSeederConstants.UnattentedOption }" : string.Empty) }{ (logVerbosityOption.HasValue() ? $" { DatabaseSeederConstants.LogVerbosityOption }={ logVerbosityOption.Value() }" : string.Empty) }{ (logDestinationOption.HasValue() ? $" { DatabaseSeederConstants.LogDestinationOption }={ logDestinationOption.Value() }" : string.Empty) }{ (compressOption.HasValue() ? $" { DatabaseSeederConstants.CompressOption }" : string.Empty) }{ (datasetOption.HasValue() ? $" { DatabaseSeederConstants.DatasetOption }={ string.Join(", ", datasetOption.Values) }" : string.Empty) }");
                 }
 
-                if (unattendedCommand.HasValue())
+                if (unattendeOption.HasValue())
                 {
-                    NonInteractiveConsole.Run(compressCommand.HasValue()).GetAwaiter().GetResult();
+                    NonInteractiveConsole.Run(datasetOption.Values, compressOption.HasValue()).GetAwaiter().GetResult();
                 }
                 else
                 {
                     InteractiveConsole.Run();
                 }
+            });
+
+            app.OnValidationError((validationResult) =>
+            {
+                Logger.LogError(validationResult.ErrorMessage);
             });
 
             return app.Execute(args);
@@ -61,11 +75,11 @@ namespace abremir.AllMyBricks.DatabaseSeeder
 
             switch (logVerbosityCommand.Value())
             {
-                case "none":
+                case DatabaseSeederConstants.LogVerbosityValueNone:
                     return LogVerbosityEnum.NoLogging;
-                case "minimal":
+                case DatabaseSeederConstants.LogVerbosityValueMinimal:
                     return LogVerbosityEnum.MinimalLogging;
-                case "full":
+                case DatabaseSeederConstants.LogVerbosityValueFull:
                     return LogVerbosityEnum.FullLogging;
                 default:
                     return GetLogVerbosityBasedOnUnattendedCommand(unattendedCommand);
@@ -93,7 +107,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder
 
             switch (logDestinationCommand.Value())
             {
-                case "file":
+                case DatabaseSeederConstants.LogDestinationValueFile:
                     return LogDestinationEnum.File;
                 default:
                     return LogDestinationEnum.Console;
