@@ -62,7 +62,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder
             var totalUpdatedSubthemes = 0f;
             var totalUpdatedSets = 0f;
 
-            var messageHub = new MessageHub();
+            var messageHub = IoC.IoCContainer.GetInstance<IMessageHub>();
 
             Stopwatch stopwatch = null;
 
