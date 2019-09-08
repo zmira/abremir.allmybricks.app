@@ -5,13 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Realm" Version="4.0.1" />
+    <PackageReference Include="Realm" Version="4.1.0" />
     <PackageReference Include="Realm.DataBinding" Version="1.2.0" />
-    <PackageReference Include="Realm.Fody" Version="4.0.1">
+    <PackageReference Include="Realm.Fody" Version="4.1.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="SimpleInjector" Version="4.6.2" />
+    <PackageReference Include="SimpleInjector" Version="4.7.1" />
   </ItemGroup>
 
   <ItemGroup>
