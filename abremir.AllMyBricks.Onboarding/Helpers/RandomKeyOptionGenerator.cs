@@ -20,7 +20,7 @@ namespace abremir.AllMyBricks.Onboarding.Helpers
 
                 int generatedValue = Math.Abs(BitConverter.ToInt32(data, startIndex: 0));
 
-                int diff = max - min;
+                const int diff = max - min;
                 int mod = generatedValue % diff;
                 return (AlgorithmTypeEnum)(min + mod);
             }
