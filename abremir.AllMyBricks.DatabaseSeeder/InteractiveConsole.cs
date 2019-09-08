@@ -318,9 +318,8 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                 Application.Run(dialog);
             });
 
-            AddMenuBar(topLevel);
 
-            AddDatabaseSeedingButton(topLevelWindow);
+            AddMenuBar(topLevel, topLevelWindow);
 
             AddOnboardingUrl(topLevelWindow);
 
@@ -350,7 +349,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder
             return window;
         }
 
-        private static void AddMenuBar(Toplevel topLevel)
+        private static void AddMenuBar(Toplevel topLevel, Window window)
         {
             topLevel.Add(
                 new MenuBar(new MenuBarItem[]
@@ -358,32 +357,25 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                     new MenuBarItem("_File", new MenuItem[]
                     {
                         new MenuItem("E_xit", "", () => topLevel.Running &= !CanExit)
+                    }),
+                    new MenuBarItem("_Synchronize", new MenuItem[]
+                    {
+                        new MenuItem("S_ets", "", () =>
+                        {
+                            if (CanExit)
+                            {
+                                CanExit = false;
+
+                                window.Add(SetsSynchronizationProgressFrame);
+
+                                // HACK: since there is a bug in Application.MainLoop.Invoke(...) this is needed to force the UI to refresh!
+                                Application.MainLoop.AddTimeout(TimeSpan.FromMilliseconds(500), _ => true);
+
+                                IoC.IoCContainer.GetInstance<ISetSynchronizationService>().SynchronizeAllSets();
+                            }
+                        })
                     })
                 })
-            );
-        }
-
-        private static void AddDatabaseSeedingButton(Window window)
-        {
-            var button = new Button("Start seeding the database...")
-            {
-                X = Pos.Center(),
-                Y = Pos.Center(),
-                Clicked = () =>
-                {
-                    CanExit = false;
-
-                    window.Add(SynchronizationProgressFrame);
-
-                    // HACK: since there is a bug in Application.MainLoop.Invoke(...) this is needed to force the UI to refresh!
-                    Application.MainLoop.AddTimeout(TimeSpan.FromMilliseconds(500), _ => true);
-
-                    IoC.IoCContainer.GetInstance<ISetSynchronizationService>().SynchronizeAllSets();
-                }
-            };
-
-            window.Add(
-                button
             );
         }
 
