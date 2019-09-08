@@ -1,5 +1,6 @@
 ﻿using abremir.AllMyBricks.Data.Enumerations;
 using abremir.AllMyBricks.Data.Models;
+using System;
 using System.Collections.Generic;
 
 namespace abremir.AllMyBricks.Data.Interfaces
@@ -13,5 +14,6 @@ namespace abremir.AllMyBricks.Data.Interfaces
         BricksetUserSet AddOrUpdateSet(string username, BricksetUserSet bricksetUserSet);
         BricksetUserSet GetSet(string username, long setId);
         IEnumerable<string> GetAllUsernames(BricksetUserTypeEnum userType);
+        BricksetUser UpdateUserSynchronizationTimestamp(string username, DateTimeOffset userSynchronizationTimestamp);
     }
 }

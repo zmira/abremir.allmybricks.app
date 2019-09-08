@@ -11,7 +11,8 @@ namespace abremir.AllMyBricks.Data.Extensions
             var bricksetUser = new Managed.BricksetUser
             {
                 BricksetUsername = source.BricksetUsername,
-                UserType = source.UserType
+                UserType = source.UserType,
+                UserSynchronizationTimestamp = source.UserSynchronizationTimestamp
             };
 
             bricksetUser.Sets.AddRange((source.Sets ?? new List<BricksetUserSet>()).ToRealmObjectEnumerable());
@@ -24,7 +25,8 @@ namespace abremir.AllMyBricks.Data.Extensions
             var bricksetUser = new BricksetUser
             {
                 BricksetUsername = source.BricksetUsername,
-                UserType = source.UserType
+                UserType = source.UserType,
+                UserSynchronizationTimestamp = source.UserSynchronizationTimestamp
             };
 
             bricksetUser.Sets.AddRange((source.Sets ?? new List<Managed.BricksetUserSet>()).ToPlainObjectEnumerable());

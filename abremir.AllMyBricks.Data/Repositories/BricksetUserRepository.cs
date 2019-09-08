@@ -118,10 +118,6 @@ namespace abremir.AllMyBricks.Data.Repositories
                 bricksetUser.Sets.Remove(existingBricksetUserSet);
             }
 
-            if (bricksetUserSet.LastChangeTimestamp == DateTimeOffset.MinValue)
-            {
-                bricksetUserSet.LastChangeTimestamp = DateTimeOffset.Now;
-            }
 
             bricksetUser.Sets.Add(bricksetUserSet);
 
@@ -158,6 +154,31 @@ namespace abremir.AllMyBricks.Data.Repositories
                 .Filter($"UserTypeRaw == {(int)userType}")
                 .ToList()
                 .Select(bricksetUser => bricksetUser.BricksetUsername);
+        }
+
+        public BricksetUser UpdateUserSynchronizationTimestamp(string username, DateTimeOffset userSynchronizationTimestamp)
+        {
+            if (string.IsNullOrWhiteSpace(username))
+            {
+                return null;
+            }
+
+            var bricksetUser = Get(username);
+
+            if (bricksetUser == null)
+            {
+                return null;
+            }
+
+            bricksetUser.UserSynchronizationTimestamp = userSynchronizationTimestamp;
+
+            var repository = _repositoryService.GetRepository();
+
+            var managedBricksetUser = bricksetUser.ToRealmObject();
+
+            repository.Write(() => repository.Add(managedBricksetUser, true));
+
+            return managedBricksetUser.ToPlainObject();
         }
 
         private IQueryable<Managed.BricksetUser> GetQueryable()

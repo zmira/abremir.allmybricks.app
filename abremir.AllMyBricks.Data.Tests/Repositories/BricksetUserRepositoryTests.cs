@@ -383,5 +383,42 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
             usernameList.Should().NotBeEmpty();
             usernameList.First().Should().Be(bricksetUser.BricksetUsername);
         }
+
+        [DataTestMethod]
+        [DataRow(null)]
+        [DataRow(ModelsSetup.StringEmpty)]
+        public void UpdateUserSynchronizationTimestamp_InvalidUsername_ReturnsNull(string username)
+        {
+            var bricksetUser = _bricksetUserRepository.UpdateUserSynchronizationTimestamp(username, DateTimeOffset.Now);
+
+            bricksetUser.Should().BeNull();
+        }
+
+        [TestMethod]
+        public void UpdateUserSynchronizationTimestamp_BricksetUserDoesNotExist_ReturnsNull()
+        {
+            var bricksetUserUnderTest = ModelsSetup.GetBricksetUserUnderTest();
+
+            InsertData(bricksetUserUnderTest);
+
+            var bricksetUser = _bricksetUserRepository.UpdateUserSynchronizationTimestamp(Guid.NewGuid().ToString(), DateTimeOffset.Now);
+
+            bricksetUser.Should().BeNull();
+        }
+
+        [TestMethod]
+        public void UpdateUserSynchronizationTimestamp_BricksetUserExists_UpdatesUserSynchronizationTimestampAndReturnsModel()
+        {
+            var bricksetUserUnderTest = ModelsSetup.GetBricksetUserUnderTest();
+
+            InsertData(bricksetUserUnderTest);
+
+            var synchronizationTimestamp = DateTimeOffset.Now.AddHours(-2);
+
+            var bricksetUser = _bricksetUserRepository.UpdateUserSynchronizationTimestamp(bricksetUserUnderTest.BricksetUsername, synchronizationTimestamp);
+
+            bricksetUser.Should().NotBeNull();
+            bricksetUser.UserSynchronizationTimestamp.Should().Be(synchronizationTimestamp);
+        }
     }
 }
