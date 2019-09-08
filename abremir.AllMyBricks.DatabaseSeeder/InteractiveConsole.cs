@@ -1,6 +1,6 @@
 ﻿using abremir.AllMyBricks.DatabaseSeeder.Configuration;
 using abremir.AllMyBricks.DatabaseSeeder.Services;
-using abremir.AllMyBricks.DataSynchronizer.Events.DataSynchronizationService;
+using abremir.AllMyBricks.DataSynchronizer.Events.SetSynchronizationService;
 using abremir.AllMyBricks.DataSynchronizer.Events.SetSynchronizer;
 using abremir.AllMyBricks.DataSynchronizer.Events.SubthemeSynchronizer;
 using abremir.AllMyBricks.DataSynchronizer.Events.ThemeSynchronizer;
@@ -14,7 +14,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder
 {
     public static class InteractiveConsole
     {
-        private static FrameView SynchronizationProgressFrame;
+        private static FrameView SetsSynchronizationProgressFrame;
         private static bool CanExit = true;
 
         public static void Run()
@@ -25,7 +25,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder
 
             var topLevelWindow = AddTopLevelWindow(topLevel);
 
-            SynchronizationProgressFrame = new FrameView(new Rect(10, 1, 99, topLevel.Frame.Height - 4), "Synchronization Progress...");
+            SetsSynchronizationProgressFrame = new FrameView(new Rect(10, 1, 99, topLevel.Frame.Height - 4), "Sets Synchronization Progress...");
 
             var themeLabel = new Label(4, 3, "".PadRight(70));
             var themeProgress = new ProgressBar(new Rect(4, 4, 88, 1));
@@ -41,16 +41,16 @@ namespace abremir.AllMyBricks.DatabaseSeeder
             var totalUpdatedSubthemesLabel = new Label(50, 19, "Total Updated Subthemes: 0      ");
             var totalUpdatedSetsLabel = new Label(50, 20, "Total Updated Sets: 0      ");
 
-            SynchronizationProgressFrame.Add(themeLabel);
-            SynchronizationProgressFrame.Add(themeProgress);
-            SynchronizationProgressFrame.Add(subthemeLabel);
-            SynchronizationProgressFrame.Add(subthemeProgress);
-            SynchronizationProgressFrame.Add(setLabel);
-            SynchronizationProgressFrame.Add(setProgress);
-            SynchronizationProgressFrame.Add(lastUpdatedLabel);
-            SynchronizationProgressFrame.Add(totalUpdatedThemesLabel);
-            SynchronizationProgressFrame.Add(totalUpdatedSubthemesLabel);
-            SynchronizationProgressFrame.Add(totalUpdatedSetsLabel);
+            SetsSynchronizationProgressFrame.Add(themeLabel);
+            SetsSynchronizationProgressFrame.Add(themeProgress);
+            SetsSynchronizationProgressFrame.Add(subthemeLabel);
+            SetsSynchronizationProgressFrame.Add(subthemeProgress);
+            SetsSynchronizationProgressFrame.Add(setLabel);
+            SetsSynchronizationProgressFrame.Add(setProgress);
+            SetsSynchronizationProgressFrame.Add(lastUpdatedLabel);
+            SetsSynchronizationProgressFrame.Add(totalUpdatedThemesLabel);
+            SetsSynchronizationProgressFrame.Add(totalUpdatedSubthemesLabel);
+            SetsSynchronizationProgressFrame.Add(totalUpdatedSetsLabel);
 
             var themeCount = 0f;
             var themeIndex = 0f;
@@ -66,15 +66,15 @@ namespace abremir.AllMyBricks.DatabaseSeeder
 
             Stopwatch stopwatch = null;
 
-            messageHub.Subscribe<DataSynchronizationStart>(_ =>
+            messageHub.Subscribe<SetSynchronizationServiceStart>(_ =>
             {
                 totalUpdatedThemes = 0f;
                 totalUpdatedSubthemes = 0f;
                 totalUpdatedSets = 0;
 
-                SynchronizationProgressFrame.Clear();
+                SetsSynchronizationProgressFrame.Clear();
 
-                Application.MainLoop.Invoke(SynchronizationProgressFrame.ChildNeedsDisplay);
+                Application.MainLoop.Invoke(SetsSynchronizationProgressFrame.ChildNeedsDisplay);
 
                 stopwatch = Stopwatch.StartNew();
             });
@@ -272,7 +272,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                 Application.MainLoop.Invoke(themeLabel.ChildNeedsDisplay);
                 Application.MainLoop.Invoke(themeProgress.ChildNeedsDisplay);
             });
-            messageHub.Subscribe<DataSynchronizationEnd>(_ =>
+            messageHub.Subscribe<SetSynchronizationServiceEnd>(_ =>
             {
                 stopwatch.Stop();
 
@@ -292,15 +292,15 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                 subthemeProgress.Fraction = 0;
                 setProgress.Fraction = 0;
 
-                SynchronizationProgressFrame.Clear();
+                SetsSynchronizationProgressFrame.Clear();
 
-                Application.MainLoop.Invoke(SynchronizationProgressFrame.ChildNeedsDisplay);
+                Application.MainLoop.Invoke(SetsSynchronizationProgressFrame.ChildNeedsDisplay);
 
-                var dialog = new Dialog("Synchronization finished", 50, 8, new Button("Ok")
+                var dialog = new Dialog("Sets Synchronization finished", 50, 8, new Button("Ok")
                 {
                     Clicked = () =>
                     {
-                        topLevelWindow.Remove(SynchronizationProgressFrame);
+                        topLevelWindow.Remove(SetsSynchronizationProgressFrame);
 
                         CanExit = true;
 
@@ -308,7 +308,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                     }
                 });
 
-                var totalTimeLabel = new Label($"Synchronized in {stopwatch.Elapsed.ToString(@"hh\:mm\:ss")}")
+                var totalTimeLabel = new Label($"Sets synchronized in {stopwatch.Elapsed.ToString(@"hh\:mm\:ss")}")
                 {
                     X = Pos.Center(),
                     Y = 1

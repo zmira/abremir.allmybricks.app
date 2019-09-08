@@ -1,5 +1,5 @@
 ﻿using abremir.AllMyBricks.DatabaseSeeder.Configuration;
-using abremir.AllMyBricks.DataSynchronizer.Events.DataSynchronizationService;
+using abremir.AllMyBricks.DataSynchronizer.Events.SetSynchronizationService;
 using abremir.AllMyBricks.DataSynchronizer.Services;
 using Easy.MessageHub;
 using Microsoft.Extensions.Logging;
@@ -15,7 +15,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
         {
             var logger = loggerFactory.CreateLogger<SetSynchronizationService>();
 
-            messageHub.Subscribe<DataSynchronizationStart>(_ => logger.LogInformation($"Data Synchronization Started{(Logging.LogDestination == LogDestinationEnum.Console ? $" {DateTimeOffset.Now.ToString("yyyy-MM-dd hh:mm:ss")}" : string.Empty)}"));
+            messageHub.Subscribe<SetSynchronizationServiceStart>(_ => logger.LogInformation($"Set Synchronization Started{(Logging.LogDestination == LogDestinationEnum.Console ? $" {DateTimeOffset.Now.ToString("yyyy-MM-dd hh:mm:ss")}" : string.Empty)}"));
 
             messageHub.Subscribe<InsightsAcquired>(ev => logger.LogInformation($"Last Updated: {(ev.SynchronizationTimestamp.HasValue ? ev.SynchronizationTimestamp.Value.ToString("yyyy-MM-dd HH:mm:ss") : "Never")}"));
 
@@ -53,9 +53,9 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
                 }
             });
 
-            messageHub.Subscribe<DataSynchronizationException>(ev => logger.LogError(ev.Exception, "Data Synchronization Exception"));
+            messageHub.Subscribe<SetSynchronizationServiceException>(ev => logger.LogError(ev.Exception, "Set Synchronization Exception"));
 
-            messageHub.Subscribe<DataSynchronizationEnd>(_ => logger.LogInformation($"Finished Data Synchronization{(Logging.LogDestination == LogDestinationEnum.Console ? $" {DateTimeOffset.Now.ToString("yyyy-MM-dd HH:mm:ss")}" : string.Empty)}"));
+            messageHub.Subscribe<SetSynchronizationServiceEnd>(_ => logger.LogInformation($"Finished Set Synchronization{(Logging.LogDestination == LogDestinationEnum.Console ? $" {DateTimeOffset.Now.ToString("yyyy-MM-dd HH:mm:ss")}" : string.Empty)}"));
         }
     }
 }

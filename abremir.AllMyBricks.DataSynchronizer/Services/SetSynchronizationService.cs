@@ -1,5 +1,5 @@
 ﻿using abremir.AllMyBricks.Data.Interfaces;
-using abremir.AllMyBricks.DataSynchronizer.Events.DataSynchronizationService;
+using abremir.AllMyBricks.DataSynchronizer.Events.SetSynchronizationService;
 using abremir.AllMyBricks.DataSynchronizer.Interfaces;
 using abremir.AllMyBricks.Onboarding.Interfaces;
 using Easy.MessageHub;
@@ -35,7 +35,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Services
 
         public async Task SynchronizeAllSets()
         {
-            _messageHub.Publish(new DataSynchronizationStart());
+            _messageHub.Publish(new SetSynchronizationServiceStart());
 
             try
             {
@@ -87,10 +87,10 @@ namespace abremir.AllMyBricks.DataSynchronizer.Services
             }
             catch(Exception ex)
             {
-                _messageHub.Publish(new DataSynchronizationException { Exception = ex });
+                _messageHub.Publish(new SetSynchronizationServiceException { Exception = ex });
             }
 
-            _messageHub.Publish(new DataSynchronizationEnd());
+            _messageHub.Publish(new SetSynchronizationServiceEnd());
         }
     }
 }
