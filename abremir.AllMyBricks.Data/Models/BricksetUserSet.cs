@@ -8,6 +8,6 @@ namespace abremir.AllMyBricks.Data.Models
         public bool Wanted { get; set; }
         public bool Owned { get; set; }
         public short QuantityOwned { get; set; }
-        public DateTimeOffset LastChangeTimestamp { get; set; }
+        public DateTimeOffset? LastChangeTimestamp { get; set; }
     }
 }
