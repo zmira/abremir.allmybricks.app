@@ -118,7 +118,7 @@ namespace abremir.AllMyBricks.Data.Repositories
                 bricksetUser.Sets.Remove(existingBricksetUserSet);
             }
 
-
+            bricksetUserSet.LastChangeTimestamp = bricksetUserSet.LastChangeTimestamp ?? DateTimeOffset.Now;
             bricksetUser.Sets.Add(bricksetUserSet);
 
             var repository = _repositoryService.GetRepository();
