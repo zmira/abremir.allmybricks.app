@@ -69,7 +69,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                         await AddOrUpdateSet(apiKey, theme, subtheme, bricksetSet, year);
                     }
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     _messageHub.Publish(new SetSynchronizerException { Exception = ex });
                 }
@@ -109,7 +109,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _messageHub.Publish(new SetSynchronizerException { Exception = ex });
             }
@@ -142,7 +142,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
 
                 await _thumbnailSynchronizer.Synchronize(set, true);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _messageHub.Publish(new SynchronizingSetException { Theme = theme.Name, Subtheme = subtheme?.Name, Name = bricksetSet.Name, Number = bricksetSet.Number, NumberVariant = bricksetSet.NumberVariant, Exception = ex });
             }
@@ -152,39 +152,13 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
 
         private async Task<Set> MapSet(string apiKey, Theme theme, Subtheme subtheme, Sets bricksetSet)
         {
-            var set = new Set
-            {
-                SetId = bricksetSet.SetId,
-                Number = bricksetSet.Number,
-                Name = bricksetSet.Name,
-                Description = bricksetSet.Description?.SanitizeBricksetString(),
-                NumberVariant = (byte)bricksetSet.NumberVariant,
-                Theme = theme,
-                Subtheme = subtheme,
-                Year = string.IsNullOrWhiteSpace(bricksetSet.Year) ? (short?)null : short.Parse(bricksetSet.Year),
-                Pieces = string.IsNullOrWhiteSpace(bricksetSet.Pieces) ? (short?)null : short.Parse(bricksetSet.Pieces),
-                Minifigs = string.IsNullOrWhiteSpace(bricksetSet.Minifigs) ? (short?)null : short.Parse(bricksetSet.Minifigs),
-                BricksetUrl = bricksetSet.BricksetUrl?.SanitizeBricksetString(),
-                Released = bricksetSet.Released,
-                LastUpdated = bricksetSet.LastUpdated
-            };
+            var set = bricksetSet.ToSet();
 
-            set.OwnedByTotal = (short)bricksetSet.OwnedByTotal;
-            set.WantedByTotal = (short)bricksetSet.WantedByTotal;
-            set.Rating = (float)bricksetSet.Rating;
+            set.Theme = theme;
+            set.Subtheme = subtheme;
             set.Category = _referenceDataRepository.GetOrAdd<Category>(bricksetSet.Category);
             set.PackagingType = _referenceDataRepository.GetOrAdd<PackagingType>(bricksetSet.PackagingType);
             set.ThemeGroup = _referenceDataRepository.GetOrAdd<ThemeGroup>(bricksetSet.ThemeGroup);
-            set.Ean = string.IsNullOrWhiteSpace(bricksetSet.Ean) ? null : bricksetSet.Ean;
-            set.Upc = string.IsNullOrWhiteSpace(bricksetSet.Upc) ? null : bricksetSet.Upc;
-            set.Availability = string.IsNullOrWhiteSpace(bricksetSet.Availability) ? null : bricksetSet.Availability;
-            set.AgeMin = string.IsNullOrWhiteSpace(bricksetSet.AgeMin) ? (byte?)null : byte.Parse(bricksetSet.AgeMin);
-            set.AgeMax = string.IsNullOrWhiteSpace(bricksetSet.AgeMax) ? (byte?)null : byte.Parse(bricksetSet.AgeMax);
-            set.Height = string.IsNullOrWhiteSpace(bricksetSet.Height) ? (float?)null : float.Parse(bricksetSet.Height, NumberStyles.Any, CultureInfo.InvariantCulture);
-            set.Width = string.IsNullOrWhiteSpace(bricksetSet.Width) ? (float?)null : float.Parse(bricksetSet.Width, NumberStyles.Any, CultureInfo.InvariantCulture);
-            set.Depth = string.IsNullOrWhiteSpace(bricksetSet.Depth) ? (float?)null : float.Parse(bricksetSet.Depth, NumberStyles.Any, CultureInfo.InvariantCulture);
-            set.Weight = string.IsNullOrWhiteSpace(bricksetSet.Weight) ? (float?)null : float.Parse(bricksetSet.Weight, NumberStyles.Any, CultureInfo.InvariantCulture);
-            set.Notes = bricksetSet.Notes?.SanitizeBricksetString();
 
             SetTagList(set, bricksetSet.Tags);
             SetPriceList(set, bricksetSet);
