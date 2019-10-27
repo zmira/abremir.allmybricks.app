@@ -82,7 +82,7 @@ namespace abremir.AllMyBricks.AssetManagement.Tests.Implementations
             var result = _assetUncompression.ClassUnderTest.UncompressAsset(new MemoryStream(), string.Empty);
 
             result.Should().BeTrue();
-            reader.Received(1).WriteEntryTo(Arg.Any<Stream>());
+            reader.Received().WriteEntryTo(Arg.Any<Stream>());
         }
     }
 }
