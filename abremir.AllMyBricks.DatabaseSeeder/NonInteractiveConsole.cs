@@ -10,7 +10,22 @@ namespace abremir.AllMyBricks.DatabaseSeeder
     {
         public static async Task Run(IList<string> synchronizationContext, bool compress)
         {
-            await IoC.IoCContainer.GetInstance<ISetSynchronizationService>().SynchronizeAllSets();
+            if (synchronizationContext.Contains(DatabaseSeederConstants.DatasetValueSets))
+            {
+                await IoC.IoCContainer.GetInstance<ISetSynchronizationService>().SynchronizeAllSets();
+            }
+
+            if (synchronizationContext.Contains(DatabaseSeederConstants.DatasetValuePrimaryUsers)
+                || synchronizationContext.Contains(DatabaseSeederConstants.DatasetValueAll))
+            {
+                await IoC.IoCContainer.GetInstance<IUserSynchronizationService>().SynchronizeBricksetPrimaryUsersSets();
+            }
+
+            if (synchronizationContext.Contains(DatabaseSeederConstants.DatasetValueFriends)
+                || synchronizationContext.Contains(DatabaseSeederConstants.DatasetValueAll))
+            {
+                await IoC.IoCContainer.GetInstance<IUserSynchronizationService>().SynchronizeBricksetFriendsSets();
+            }
 
             IoC.IoCContainer.GetInstance<IAssetManagementService>().CompactAllMyBricksDatabase();
 

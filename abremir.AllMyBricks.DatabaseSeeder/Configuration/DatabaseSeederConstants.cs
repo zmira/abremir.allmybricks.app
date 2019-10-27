@@ -13,5 +13,8 @@
         public const string CompressOption = "--compress";
         public const string DatasetOption = "--dataset";
         public const string DatasetValueSets = "sets";
+        public const string DatasetValuePrimaryUsers = "primaryUsers";
+        public const string DatasetValueFriends = "friends";
+        public const string DatasetValueAll = "all";
     }
 }
