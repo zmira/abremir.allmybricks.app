@@ -1,6 +1,5 @@
 ﻿using abremir.AllMyBricks.DatabaseSeeder.Loggers;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Console;
 using NReco.Logging.File;
 using System;
 using System.IO;
@@ -10,9 +9,9 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Configuration
 {
     public static class Logging
     {
-        public static ILoggerFactory LoggerFactory { get; } = new LoggerFactory();
+        public static ILoggerFactory Factory { get; private set; }
 
-        public static ILogger CreateLogger<T>() => LoggerFactory.CreateLogger<T>();
+        public static ILogger CreateLogger<T>() => Factory.CreateLogger<T>();
 
         public static LogVerbosityEnum LogVerbosity { get; set; }
         public static LogDestinationEnum LogDestination { get; set; }
@@ -40,6 +39,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Configuration
                 var setSynchronizerLogger = IoC.IoCContainer.GetInstance<SetSynchronizerLogger>();
                 var thumbnailSynchronizerLogger = IoC.IoCContainer.GetInstance<ThumbnailSynchronizerLogger>();
                 var assetUncompressionLogger = IoC.IoCContainer.GetInstance<AssetUncompressionLogger>();
+                var userSynchronizerLogger = IoC.IoCContainer.GetInstance<UserSynchronizerLogger>();
             }
         }
 
@@ -54,7 +54,9 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Configuration
 
             var logFile = Path.Combine(folderPath, $"{DateTime.Now.ToString("yyyyMMdd")}_{Assembly.GetExecutingAssembly().GetName().Name}.log");
 
-            LoggerFactory.AddProvider(new FileLoggerProvider(logFile, new FileLoggerOptions
+            Factory = new LoggerFactory();
+
+            Factory.AddProvider(new FileLoggerProvider(logFile, new FileLoggerOptions
             {
                 MaxRollingFiles = 5,
                 FileSizeLimitBytes = 5 * 1024 * 1024
@@ -63,7 +65,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Configuration
 
         private static void SetupConsoleLogging()
         {
-            LoggerFactory.AddProvider(new ConsoleLoggerProvider((_, __) => true, true));
+            Factory = LoggerFactory.Create(builder => builder.AddConsole());
         }
     }
 }

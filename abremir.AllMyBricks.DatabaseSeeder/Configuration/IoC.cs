@@ -19,6 +19,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Configuration
             ThirdParty.Brickset.Configuration.IoC.Configure(IoCContainer);
             Data.Configuration.IoC.Configure(IoCContainer);
             AssetManagement.Configuration.IoC.Configure(IoCContainer);
+            UserManagement.Configuration.IoC.Configure(IoCContainer);
 
             IoCContainer.Register<IPreferencesService, PreferencesService>(Lifestyle.Transient);
             IoCContainer.Register<ISecureStorageService, SecureStorageService>(Lifestyle.Transient);
@@ -28,7 +29,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Configuration
 
             IoCContainer.Register<IMessageHub, MessageHub>(Lifestyle.Singleton);
 
-            IoCContainer.Register(() => Logging.LoggerFactory, Lifestyle.Singleton);
+            IoCContainer.Register(() => Logging.Factory, Lifestyle.Singleton);
             IoCContainer.Collection.Register<IDatabaseSeederLogger>(Assembly.GetExecutingAssembly());
 
             Onboarding.Configuration.FlurlConfiguration.Configure();

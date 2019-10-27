@@ -26,6 +26,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Services
         [DataTestMethod]
         [DataRow("")]
         [DataRow(null)]
+        [DataRow(" ")]
         public async Task SynchronizeAllSets_InvalidApiKey_GetDataSynchronizationTimestampNotInvoked(string apiKey)
         {
             _dataSynchronizationService.Get<IOnboardingService>()

@@ -6,7 +6,6 @@ using abremir.AllMyBricks.DataSynchronizer.Interfaces;
 using abremir.AllMyBricks.DataSynchronizer.Synchronizers;
 using abremir.AllMyBricks.DataSynchronizer.Tests.Configuration;
 using abremir.AllMyBricks.DataSynchronizer.Tests.Shared;
-using abremir.AllMyBricks.Device.Interfaces;
 using abremir.AllMyBricks.ThirdParty.Brickset.Interfaces;
 using abremir.AllMyBricks.ThirdParty.Brickset.Models;
 using Easy.MessageHub;
@@ -75,7 +74,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 
             _themeRepository.AddOrUpdate(theme);
 
-            foreach(var subthemeItem in subthemesList)
+            foreach (var subthemeItem in subthemesList)
             {
                 var subthemeTheme = subthemeItem.ToSubtheme();
                 subthemeTheme.Theme = theme;
