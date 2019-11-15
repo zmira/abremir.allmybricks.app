@@ -47,7 +47,7 @@ namespace abremir.AllMyBricks.Device.Services
 
         public async Task SaveDeviceIdentification(Identification deviceIdentification)
         {
-            if(!await IsDeviceIdentificationCreated())
+            if (!await IsDeviceIdentificationCreated())
             {
                 await _secureStorage.SetAsync(Constants.DeviceIdentificationSecureStorageKey, JSON.ToJSON(deviceIdentification));
             }

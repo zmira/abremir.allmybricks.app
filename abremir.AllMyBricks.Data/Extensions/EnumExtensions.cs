@@ -12,7 +12,6 @@ namespace abremir.AllMyBricks.Data.Extensions
             FieldInfo fi = value.GetType().GetField(value.ToString());
             var attribute = (DescriptionAttribute)fi.GetCustomAttribute(typeof(DescriptionAttribute));
             return attribute.Description;
-
         }
     }
 }

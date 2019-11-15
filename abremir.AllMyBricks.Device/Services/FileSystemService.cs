@@ -38,7 +38,7 @@ namespace abremir.AllMyBricks.Device.Services
 
         public async Task SaveThumbnailToCache(string theme, string subtheme, string filename, byte[] thumbnail)
         {
-            if(string.IsNullOrWhiteSpace(filename) || thumbnail == null || thumbnail.Length == 0)
+            if (string.IsNullOrWhiteSpace(filename) || thumbnail == null || thumbnail.Length == 0)
             {
                 return;
             }

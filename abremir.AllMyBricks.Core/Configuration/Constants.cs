@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace abremir.AllMyBricks.Core.Configuration
+﻿namespace abremir.AllMyBricks.Core.Configuration
 {
     public static class Constants
     {

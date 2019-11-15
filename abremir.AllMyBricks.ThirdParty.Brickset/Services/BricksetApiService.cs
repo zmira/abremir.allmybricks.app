@@ -93,7 +93,7 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Services
             return (await BricksetHttpPostUrlEncodeAsync<ResultSetCollectionQtyOwned, ResultSetCollectionQtyOwned, ParameterSetCollectionQtyOwned>(setCollectionQtyOwnedParameters)).Value;
         }
 
-        private async Task<U> BricksetHttpPostUrlEncodeAsync<T, U, V>(V parameters) where T: class where U : class where V : class
+        private async Task<U> BricksetHttpPostUrlEncodeAsync<T, U, V>(V parameters) where T : class where U : class where V : class
         {
             return await Constants.BricksetApiUrl.AppendPathSegment(typeof(T).GetDescription()).PostUrlEncodedAsync(parameters).ReceiveXml<T>() as U;
         }

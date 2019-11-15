@@ -16,14 +16,14 @@ namespace abremir.AllMyBricks.Core.Models
 
         public override bool Equals(object obj)
         {
-            if(obj == null)
+            if (obj == null)
             {
                 return false;
             }
 
             var device = obj as Device;
 
-            if(device == null)
+            if (device == null)
             {
                 return false;
             }

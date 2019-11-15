@@ -22,22 +22,22 @@ namespace abremir.AllMyBricks.Device.Models
 
         public override string ToString()
         {
-            if(Terabytes > 1)
+            if (Terabytes > 1)
             {
                 return $"{Math.Round(Terabytes, 4)} TB";
             }
 
-            if(Gigabytes > 1)
+            if (Gigabytes > 1)
             {
                 return $"{Math.Round(Gigabytes, 3)} GB";
             }
 
-            if(Megabytes > 1)
+            if (Megabytes > 1)
             {
                 return $"{Math.Round(Megabytes, 2)} MB";
             }
 
-            if(Kilobytes > 1)
+            if (Kilobytes > 1)
             {
                 return $"{Math.Round(Kilobytes, 1)} KB";
             }

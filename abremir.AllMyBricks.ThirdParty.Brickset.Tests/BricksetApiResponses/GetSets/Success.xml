@@ -10,7 +10,7 @@
         <themeGroup>Model making</themeGroup>
         <subtheme>Brickstructures</subtheme>
         <pieces>68</pieces>
-        <minifigs/>
+        <minifigs />
         <image>true</image>
         <imageFilename>19710-1</imageFilename>
         <thumbnailURL>
@@ -28,12 +28,12 @@
         <ACMDataCount>0</ACMDataCount>
         <ownedByTotal>133</ownedByTotal>
         <wantedByTotal>637</wantedByTotal>
-        <UKRetailPrice/>
-        <USRetailPrice/>
-        <CARetailPrice/>
-        <EURetailPrice/>
-        <USDateAddedToSAH/>
-        <USDateRemovedFromSAH/>
+        <UKRetailPrice />
+        <USRetailPrice />
+        <CARetailPrice />
+        <EURetailPrice />
+        <USDateAddedToSAH />
+        <USDateRemovedFromSAH />
         <rating>0</rating>
         <reviewCount>0</reviewCount>
         <packagingType>Box</packagingType>
@@ -41,15 +41,15 @@
         <instructionsCount>0</instructionsCount>
         <additionalImageCount>0</additionalImageCount>
         <ageMin>10</ageMin>
-        <ageMax/>
-        <height/>
-        <width/>
-        <depth/>
-        <weight/>
+        <ageMax />
+        <height />
+        <width />
+        <depth />
+        <weight />
         <category>Normal</category>
         <userRating>0</userRating>
-        <EAN/>
-        <UPC/>
+        <EAN />
+        <UPC />
         <lastUpdated>2014-04-23T15:39:49.017</lastUpdated>
     </sets>
     <sets>
@@ -62,7 +62,7 @@
         <themeGroup>Model making</themeGroup>
         <subtheme>Brickstructures</subtheme>
         <pieces>69</pieces>
-        <minifigs/>
+        <minifigs />
         <image>true</image>
         <imageFilename>19720-1</imageFilename>
         <thumbnailURL>
@@ -80,12 +80,12 @@
         <ACMDataCount>0</ACMDataCount>
         <ownedByTotal>128</ownedByTotal>
         <wantedByTotal>625</wantedByTotal>
-        <UKRetailPrice/>
-        <USRetailPrice/>
-        <CARetailPrice/>
-        <EURetailPrice/>
-        <USDateAddedToSAH/>
-        <USDateRemovedFromSAH/>
+        <UKRetailPrice />
+        <USRetailPrice />
+        <CARetailPrice />
+        <EURetailPrice />
+        <USDateAddedToSAH />
+        <USDateRemovedFromSAH />
         <rating>0</rating>
         <reviewCount>0</reviewCount>
         <packagingType>Box</packagingType>
@@ -93,15 +93,15 @@
         <instructionsCount>0</instructionsCount>
         <additionalImageCount>0</additionalImageCount>
         <ageMin>10</ageMin>
-        <ageMax/>
-        <height/>
-        <width/>
-        <depth/>
-        <weight/>
+        <ageMax />
+        <height />
+        <width />
+        <depth />
+        <weight />
         <category>Normal</category>
         <userRating>0</userRating>
-        <EAN/>
-        <UPC/>
+        <EAN />
+        <UPC />
         <lastUpdated>2014-04-23T15:39:57.473</lastUpdated>
     </sets>
     <sets>
@@ -114,7 +114,7 @@
         <themeGroup>Model making</themeGroup>
         <subtheme>Landmark Series</subtheme>
         <pieces>69</pieces>
-        <minifigs/>
+        <minifigs />
         <image>true</image>
         <imageFilename>21000-1</imageFilename>
         <thumbnailURL>
@@ -144,15 +144,15 @@
         <availability>Retail - limited</availability>
         <instructionsCount>6</instructionsCount>
         <additionalImageCount>6</additionalImageCount>
-        <ageMin/>
-        <ageMax/>
-        <height/>
-        <width/>
-        <depth/>
-        <weight/>
+        <ageMin />
+        <ageMax />
+        <height />
+        <width />
+        <depth />
+        <weight />
         <category>Normal</category>
         <userRating>0</userRating>
-        <EAN/>
+        <EAN />
         <UPC>673419113274</UPC>
         <lastUpdated>2012-05-25T20:34:33.973</lastUpdated>
     </sets>
@@ -166,7 +166,7 @@
         <themeGroup>Model making</themeGroup>
         <subtheme>Landmark Series</subtheme>
         <pieces>69</pieces>
-        <minifigs/>
+        <minifigs />
         <image>true</image>
         <imageFilename>21000-2</imageFilename>
         <thumbnailURL>
@@ -197,15 +197,15 @@
         <instructionsCount>0</instructionsCount>
         <additionalImageCount>0</additionalImageCount>
         <ageMin>10</ageMin>
-        <ageMax/>
-        <height/>
-        <width/>
-        <depth/>
-        <weight/>
+        <ageMax />
+        <height />
+        <width />
+        <depth />
+        <weight />
         <category>Normal</category>
         <userRating>0</userRating>
         <EAN>5702014804265</EAN>
-        <UPC/>
+        <UPC />
         <lastUpdated>2012-05-25T20:34:42.71</lastUpdated>
     </sets>
     <sets>
@@ -218,7 +218,7 @@
         <themeGroup>Model making</themeGroup>
         <subtheme>Landmark Series</subtheme>
         <pieces>69</pieces>
-        <minifigs/>
+        <minifigs />
         <image>true</image>
         <imageFilename>21001-1</imageFilename>
         <thumbnailURL>
@@ -236,10 +236,10 @@
         <ACMDataCount>0</ACMDataCount>
         <ownedByTotal>1381</ownedByTotal>
         <wantedByTotal>1544</wantedByTotal>
-        <UKRetailPrice/>
+        <UKRetailPrice />
         <USRetailPrice>19.99</USRetailPrice>
         <CARetailPrice>29.99</CARetailPrice>
-        <EURetailPrice/>
+        <EURetailPrice />
         <USDateAddedToSAH>2008-11-10</USDateAddedToSAH>
         <USDateRemovedFromSAH>2011-11-26</USDateRemovedFromSAH>
         <rating>2.66666666666667</rating>
@@ -248,15 +248,15 @@
         <availability>Retail - limited</availability>
         <instructionsCount>2</instructionsCount>
         <additionalImageCount>0</additionalImageCount>
-        <ageMin/>
-        <ageMax/>
-        <height/>
-        <width/>
-        <depth/>
-        <weight/>
+        <ageMin />
+        <ageMax />
+        <height />
+        <width />
+        <depth />
+        <weight />
         <category>Normal</category>
         <userRating>0</userRating>
-        <EAN/>
+        <EAN />
         <UPC>673419113281</UPC>
         <lastUpdated>2012-05-25T20:34:54.117</lastUpdated>
     </sets>
@@ -270,7 +270,7 @@
         <themeGroup>Model making</themeGroup>
         <subtheme>Landmark Series</subtheme>
         <pieces>77</pieces>
-        <minifigs/>
+        <minifigs />
         <image>true</image>
         <imageFilename>21002-1</imageFilename>
         <thumbnailURL>
@@ -301,10 +301,10 @@
         <instructionsCount>4</instructionsCount>
         <additionalImageCount>7</additionalImageCount>
         <ageMin>10</ageMin>
-        <ageMax/>
-        <height/>
-        <width/>
-        <depth/>
+        <ageMax />
+        <height />
+        <width />
+        <depth />
         <weight>0.19</weight>
         <category>Normal</category>
         <userRating>0</userRating>
@@ -322,7 +322,7 @@
         <themeGroup>Model making</themeGroup>
         <subtheme>Landmark Series</subtheme>
         <pieces>57</pieces>
-        <minifigs/>
+        <minifigs />
         <image>true</image>
         <imageFilename>21003-1</imageFilename>
         <thumbnailURL>
@@ -353,11 +353,11 @@
         <instructionsCount>4</instructionsCount>
         <additionalImageCount>7</additionalImageCount>
         <ageMin>10</ageMin>
-        <ageMax/>
-        <height/>
-        <width/>
-        <depth/>
-        <weight/>
+        <ageMax />
+        <height />
+        <width />
+        <depth />
+        <weight />
         <category>Normal</category>
         <userRating>0</userRating>
         <EAN>5702014712843</EAN>
@@ -374,7 +374,7 @@
         <themeGroup>Model making</themeGroup>
         <subtheme>Architect Series</subtheme>
         <pieces>208</pieces>
-        <minifigs/>
+        <minifigs />
         <image>true</image>
         <imageFilename>21004-1</imageFilename>
         <thumbnailURL>
@@ -405,11 +405,11 @@
         <instructionsCount>5</instructionsCount>
         <additionalImageCount>8</additionalImageCount>
         <ageMin>10</ageMin>
-        <ageMax/>
-        <height/>
-        <width/>
-        <depth/>
-        <weight/>
+        <ageMax />
+        <height />
+        <width />
+        <depth />
+        <weight />
         <category>Normal</category>
         <userRating>0</userRating>
         <EAN>5702014712850</EAN>
@@ -426,7 +426,7 @@
         <themeGroup>Model making</themeGroup>
         <subtheme>Architect Series</subtheme>
         <pieces>811</pieces>
-        <minifigs/>
+        <minifigs />
         <image>true</image>
         <imageFilename>21005-1</imageFilename>
         <thumbnailURL>
@@ -457,11 +457,11 @@
         <instructionsCount>4</instructionsCount>
         <additionalImageCount>8</additionalImageCount>
         <ageMin>16</ageMin>
-        <ageMax/>
-        <height/>
-        <width/>
-        <depth/>
-        <weight/>
+        <ageMax />
+        <height />
+        <width />
+        <depth />
+        <weight />
         <category>Normal</category>
         <userRating>0</userRating>
         <EAN>5702014712881</EAN>
@@ -478,7 +478,7 @@
         <themeGroup>Model making</themeGroup>
         <subtheme>Landmark Series</subtheme>
         <pieces>560</pieces>
-        <minifigs/>
+        <minifigs />
         <image>true</image>
         <imageFilename>21006-1</imageFilename>
         <thumbnailURL>
@@ -509,10 +509,10 @@
         <instructionsCount>9</instructionsCount>
         <additionalImageCount>11</additionalImageCount>
         <ageMin>12</ageMin>
-        <ageMax/>
-        <height/>
-        <width/>
-        <depth/>
+        <ageMax />
+        <height />
+        <width />
+        <depth />
         <weight>0.7</weight>
         <category>Normal</category>
         <userRating>0</userRating>
@@ -530,7 +530,7 @@
         <themeGroup>Model making</themeGroup>
         <subtheme>Architect Series</subtheme>
         <pieces>240</pieces>
-        <minifigs/>
+        <minifigs />
         <image>true</image>
         <imageFilename>21007-1</imageFilename>
         <thumbnailURL>
@@ -561,15 +561,15 @@
         <instructionsCount>3</instructionsCount>
         <additionalImageCount>9</additionalImageCount>
         <ageMin>10</ageMin>
-        <ageMax/>
-        <height/>
-        <width/>
-        <depth/>
-        <weight/>
+        <ageMax />
+        <height />
+        <width />
+        <depth />
+        <weight />
         <category>Normal</category>
         <userRating>0</userRating>
         <EAN>5702014804258</EAN>
-        <UPC/>
+        <UPC />
         <lastUpdated>2012-05-25T20:36:07.833</lastUpdated>
     </sets>
     <sets>
@@ -582,7 +582,7 @@
         <themeGroup>Model making</themeGroup>
         <subtheme>Landmark Series</subtheme>
         <pieces>208</pieces>
-        <minifigs/>
+        <minifigs />
         <image>true</image>
         <imageFilename>21008-1</imageFilename>
         <thumbnailURL>
@@ -613,15 +613,15 @@
         <instructionsCount>2</instructionsCount>
         <additionalImageCount>11</additionalImageCount>
         <ageMin>12</ageMin>
-        <ageMax/>
-        <height/>
-        <width/>
-        <depth/>
-        <weight/>
+        <ageMax />
+        <height />
+        <width />
+        <depth />
+        <weight />
         <category>Normal</category>
         <userRating>0</userRating>
         <EAN>5702014802599</EAN>
-        <UPC/>
+        <UPC />
         <lastUpdated>2012-05-25T20:36:23.25</lastUpdated>
     </sets>
     <sets>
@@ -634,7 +634,7 @@
         <themeGroup>Model making</themeGroup>
         <subtheme>Architect Series</subtheme>
         <pieces>546</pieces>
-        <minifigs/>
+        <minifigs />
         <image>true</image>
         <imageFilename>21009-1</imageFilename>
         <thumbnailURL>
@@ -665,11 +665,11 @@
         <instructionsCount>2</instructionsCount>
         <additionalImageCount>11</additionalImageCount>
         <ageMin>12</ageMin>
-        <ageMax/>
-        <height/>
-        <width/>
-        <depth/>
-        <weight/>
+        <ageMax />
+        <height />
+        <width />
+        <depth />
+        <weight />
         <category>Normal</category>
         <userRating>0</userRating>
         <EAN>5702014802605</EAN>
@@ -686,7 +686,7 @@
         <themeGroup>Model making</themeGroup>
         <subtheme>Architect Series</subtheme>
         <pieces>2276</pieces>
-        <minifigs/>
+        <minifigs />
         <image>true</image>
         <imageFilename>21010-1</imageFilename>
         <thumbnailURL>
@@ -717,15 +717,15 @@
         <instructionsCount>2</instructionsCount>
         <additionalImageCount>16</additionalImageCount>
         <ageMin>16</ageMin>
-        <ageMax/>
-        <height/>
-        <width/>
-        <depth/>
-        <weight/>
+        <ageMax />
+        <height />
+        <width />
+        <depth />
+        <weight />
         <category>Normal</category>
         <userRating>0</userRating>
         <EAN>5702014802629</EAN>
-        <UPC/>
+        <UPC />
         <lastUpdated>2012-05-25T20:36:47.633</lastUpdated>
     </sets>
     <sets>
@@ -738,7 +738,7 @@
         <themeGroup>Model making</themeGroup>
         <subtheme>Landmark Series</subtheme>
         <pieces>363</pieces>
-        <minifigs/>
+        <minifigs />
         <image>true</image>
         <imageFilename>21011-1</imageFilename>
         <thumbnailURL>
@@ -769,15 +769,15 @@
         <instructionsCount>3</instructionsCount>
         <additionalImageCount>11</additionalImageCount>
         <ageMin>12</ageMin>
-        <ageMax/>
-        <height/>
-        <width/>
-        <depth/>
+        <ageMax />
+        <height />
+        <width />
+        <depth />
         <weight>0.45</weight>
         <category>Normal</category>
         <userRating>0</userRating>
         <EAN>5702014802636</EAN>
-        <UPC/>
+        <UPC />
         <lastUpdated>2012-05-25T20:36:59.433</lastUpdated>
     </sets>
     <sets>
@@ -790,7 +790,7 @@
         <themeGroup>Model making</themeGroup>
         <subtheme>Architect Series</subtheme>
         <pieces>270</pieces>
-        <minifigs/>
+        <minifigs />
         <image>true</image>
         <imageFilename>21012-1</imageFilename>
         <thumbnailURL>
@@ -821,15 +821,15 @@
         <instructionsCount>2</instructionsCount>
         <additionalImageCount>4</additionalImageCount>
         <ageMin>12</ageMin>
-        <ageMax/>
-        <height/>
-        <width/>
-        <depth/>
+        <ageMax />
+        <height />
+        <width />
+        <depth />
         <weight>0.43</weight>
         <category>Normal</category>
         <userRating>0</userRating>
         <EAN>5702014842373</EAN>
-        <UPC/>
+        <UPC />
         <lastUpdated>2012-05-25T20:37:11.307</lastUpdated>
     </sets>
     <sets>
@@ -842,7 +842,7 @@
         <themeGroup>Model making</themeGroup>
         <subtheme>Landmark Series</subtheme>
         <pieces>346</pieces>
-        <minifigs/>
+        <minifigs />
         <image>true</image>
         <imageFilename>21013-1</imageFilename>
         <thumbnailURL>
@@ -873,15 +873,15 @@
         <instructionsCount>4</instructionsCount>
         <additionalImageCount>4</additionalImageCount>
         <ageMin>12</ageMin>
-        <ageMax/>
-        <height/>
-        <width/>
-        <depth/>
+        <ageMax />
+        <height />
+        <width />
+        <depth />
         <weight>0.31</weight>
         <category>Normal</category>
         <userRating>0</userRating>
         <EAN>5702014842342</EAN>
-        <UPC/>
+        <UPC />
         <lastUpdated>2012-06-01T02:08:11.053</lastUpdated>
     </sets>
     <sets>
@@ -894,7 +894,7 @@
         <themeGroup>Model making</themeGroup>
         <subtheme>Architect Series</subtheme>
         <pieces>660</pieces>
-        <minifigs/>
+        <minifigs />
         <image>true</image>
         <imageFilename>21014-1</imageFilename>
         <thumbnailURL>
@@ -925,11 +925,11 @@
         <instructionsCount>2</instructionsCount>
         <additionalImageCount>5</additionalImageCount>
         <ageMin>12</ageMin>
-        <ageMax/>
-        <height/>
-        <width/>
-        <depth/>
-        <weight/>
+        <ageMax />
+        <height />
+        <width />
+        <depth />
+        <weight />
         <category>Normal</category>
         <userRating>0</userRating>
         <EAN>5702014842359</EAN>
@@ -946,7 +946,7 @@
         <themeGroup>Model making</themeGroup>
         <subtheme>Landmark Series</subtheme>
         <pieces>345</pieces>
-        <minifigs/>
+        <minifigs />
         <image>true</image>
         <imageFilename>21015-1</imageFilename>
         <thumbnailURL>
@@ -977,15 +977,15 @@
         <instructionsCount>2</instructionsCount>
         <additionalImageCount>2</additionalImageCount>
         <ageMin>12</ageMin>
-        <ageMax/>
-        <height/>
-        <width/>
-        <depth/>
+        <ageMax />
+        <height />
+        <width />
+        <depth />
         <weight>0.47</weight>
         <category>Normal</category>
         <userRating>0</userRating>
         <EAN>5702014842373</EAN>
-        <UPC/>
+        <UPC />
         <lastUpdated>2013-05-30T00:26:48.153</lastUpdated>
     </sets>
     <sets>
@@ -998,7 +998,7 @@
         <themeGroup>Model making</themeGroup>
         <subtheme>Landmark Series</subtheme>
         <pieces>325</pieces>
-        <minifigs/>
+        <minifigs />
         <image>true</image>
         <imageFilename>21016-1</imageFilename>
         <thumbnailURL>
@@ -1029,15 +1029,15 @@
         <instructionsCount>2</instructionsCount>
         <additionalImageCount>6</additionalImageCount>
         <ageMin>12</ageMin>
-        <ageMax/>
-        <height/>
-        <width/>
-        <depth/>
-        <weight/>
+        <ageMax />
+        <height />
+        <width />
+        <depth />
+        <weight />
         <category>Normal</category>
         <userRating>0</userRating>
         <EAN>5702014914223</EAN>
-        <UPC/>
+        <UPC />
         <lastUpdated>2012-12-19T15:54:50.77</lastUpdated>
     </sets>
 </ArrayOfSets>

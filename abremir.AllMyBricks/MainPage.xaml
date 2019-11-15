@@ -4,8 +4,7 @@
              xmlns:local="clr-namespace:abremir.AllMyBricks"
              x:Class="abremir.AllMyBricks.MainPage">
 
-	<Label Text="Welcome to Xamarin.Forms!" 
-           VerticalOptions="Center" 
+    <Label Text="Welcome to Xamarin.Forms!"
+           VerticalOptions="Center"
            HorizontalOptions="Center" />
-
 </ContentPage>
