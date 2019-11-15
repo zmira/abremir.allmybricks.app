@@ -19,28 +19,22 @@ namespace abremir.AllMyBricks.Core.Security
 
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
-            var content = request.Content as StringContent;
-
-            if(content == null)
+            if (request.Content == null)
             {
                 return null;
             }
 
-            var apiKeyRequest = JSON.ToObject<ApiKeyRequest>(await content.ReadAsStringAsync());
+            var apiKeyRequest = JSON.ToObject<ApiKeyRequest>(await request.Content.ReadAsStringAsync());
             var appId = apiKeyRequest.DeviceIdentification.DeviceHash;
             var apiKey = apiKeyRequest.RegistrationHash;
 
             var requestUri = UriHelper.Encode(request.RequestUri);
             var requestHttpMethod = request.Method.Method;
             var nonce = Guid.NewGuid().ToString("N");
-            var requestContentBase64String = string.Empty;
             var requestTimestamp = DateTime.UtcNow.TotalSecondsFromEpochStart().ToString();
 
-            if (request.Content != null)
-            {
-                var requestContentHash = SHA256Hash.ComputeHash(await request.Content.ReadAsStreamAsync().ConfigureAwait(false));
-                requestContentBase64String = Convert.ToBase64String(requestContentHash);
-            }
+            var requestContentHash = SHA256Hash.ComputeHash(await request.Content.ReadAsStreamAsync());
+            var requestContentBase64String = Convert.ToBase64String(requestContentHash);
 
             var signatureRawData = appId + requestHttpMethod + requestUri + requestTimestamp + nonce + requestContentBase64String;
 
@@ -56,7 +50,7 @@ namespace abremir.AllMyBricks.Core.Security
                 request.Headers.Authorization = new AuthenticationHeaderValue(Constants.HmacAuthenticationScheme, $"{appId}:{requestSignatureBase64String}:{nonce}:{requestTimestamp}");
             }
 
-            return await base.SendAsync(request, cancellationToken).ConfigureAwait(false);
+            return await base.SendAsync(request, cancellationToken);
         }
     }
 }
