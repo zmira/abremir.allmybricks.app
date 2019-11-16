@@ -39,6 +39,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Configuration
                 var setSynchronizerLogger = IoC.IoCContainer.GetInstance<SetSynchronizerLogger>();
                 var thumbnailSynchronizerLogger = IoC.IoCContainer.GetInstance<ThumbnailSynchronizerLogger>();
                 var assetUncompressionLogger = IoC.IoCContainer.GetInstance<AssetUncompressionLogger>();
+                var userSynchronizationServiceLogger = IoC.IoCContainer.GetInstance<UserSynchronizationServiceLogger>();
                 var userSynchronizerLogger = IoC.IoCContainer.GetInstance<UserSynchronizerLogger>();
             }
         }
