@@ -7,9 +7,9 @@ using System;
 
 namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
 {
-    public class DataSynchronizationServiceLogger : IDatabaseSeederLogger
+    public class SetSynchronizationServiceLogger : IDatabaseSeederLogger
     {
-        public DataSynchronizationServiceLogger(
+        public SetSynchronizationServiceLogger(
             ILoggerFactory loggerFactory,
             IMessageHub messageHub)
         {

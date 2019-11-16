@@ -33,7 +33,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Configuration
 
             if (LogVerbosity != LogVerbosityEnum.NoLogging)
             {
-                var dataSynchronizationServiceLogger = IoC.IoCContainer.GetInstance<DataSynchronizationServiceLogger>();
+                var setSynchronizationServiceLogger = IoC.IoCContainer.GetInstance<SetSynchronizationServiceLogger>();
                 var themeSynchronizerLogger = IoC.IoCContainer.GetInstance<ThemeSynchronizerLogger>();
                 var subthemeSynchronizerLogger = IoC.IoCContainer.GetInstance<SubthemeSynchronizerLogger>();
                 var setSynchronizerLogger = IoC.IoCContainer.GetInstance<SetSynchronizerLogger>();
