@@ -14,11 +14,11 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
         {
             var logger = loggerFactory.CreateLogger<AssetUncompression>();
 
-            messageHub.Subscribe<ReaderExtractionEventArgs<IEntry>>(ev =>
+            messageHub.Subscribe<ReaderExtractionEventArgs<IEntry>>(message =>
             {
                 if (Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
                 {
-                    logger.LogInformation($"Uncompressing {ev.Item.Key}: {ev.ReaderProgress.PercentageRead}%");
+                    logger.LogInformation($"Uncompressing {message.Item.Key}: {message.ReaderProgress.PercentageRead}%");
                 }
             });
         }

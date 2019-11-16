@@ -13,7 +13,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
         {
             var logger = loggerFactory.CreateLogger<UserSynchronizer>();
 
-            messageHub.Subscribe<UserSynchronizerStart>(ev =>
+            messageHub.Subscribe<UserSynchronizerStart>(message =>
             {
             });
 
@@ -21,15 +21,15 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
             {
             });
 
-            messageHub.Subscribe<UserSynchronizerSetsAcquired>(ev =>
+            messageHub.Subscribe<UserSynchronizerSetsAcquired>(message =>
             {
             });
 
-            messageHub.Subscribe<UserSynchronizerSynchronizingSet>(ev =>
+            messageHub.Subscribe<UserSynchronizerSynchronizingSet>(message =>
             {
             });
 
-            messageHub.Subscribe<UserSynchronizerSynchronizedSet>(ev =>
+            messageHub.Subscribe<UserSynchronizerSynchronizedSet>(message =>
             {
             });
 
@@ -45,11 +45,11 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
             {
             });
 
-            messageHub.Subscribe<UserSynchronizerException>(ev =>
+            messageHub.Subscribe<UserSynchronizerException>(message =>
             {
             });
 
-            messageHub.Subscribe<UserSynchronizerEnd>(ev =>
+            messageHub.Subscribe<UserSynchronizerEnd>(message =>
             {
             });
         }

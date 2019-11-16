@@ -31,36 +31,36 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
                 }
             });
 
-            messageHub.Subscribe<SubthemesAcquired>(ev =>
+            messageHub.Subscribe<SubthemesAcquired>(message =>
             {
                 _subthemeIndex = 0;
-                _subthemeCount = ev.Count;
+                _subthemeCount = message.Count;
 
-                logger.LogInformation($"Acquired {ev.Count} subthemes to process for theme '{ev.Theme}'");
+                logger.LogInformation($"Acquired {message.Count} subthemes to process for theme '{message.Theme}'");
             });
 
-            messageHub.Subscribe<SynchronizingSubtheme>(ev =>
+            messageHub.Subscribe<SynchronizingSubtheme>(message =>
             {
                 _subthemeIndex++;
                 _subthemeProgressFraction = _subthemeIndex / _subthemeCount;
 
                 if (Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
                 {
-                    logger.LogInformation(Invariant($"Synchronizing Subtheme '{ev.Theme}-{ev.Subtheme}': index {_subthemeIndex}, progress {_subthemeProgressFraction:##0.00%}"));
+                    logger.LogInformation(Invariant($"Synchronizing Subtheme '{message.Theme}-{message.Subtheme}': index {_subthemeIndex}, progress {_subthemeProgressFraction:##0.00%}"));
                 }
             });
 
-            messageHub.Subscribe<SynchronizingSubthemeException>(ev => logger.LogError(ev.Exception, $"Synchronizing Subtheme '{ev.Theme}-{ev.Subtheme}' Exception"));
+            messageHub.Subscribe<SynchronizingSubthemeException>(message => logger.LogError(message.Exception, $"Synchronizing Subtheme '{message.Theme}-{message.Subtheme}' Exception"));
 
-            messageHub.Subscribe<SynchronizedSubtheme>(ev =>
+            messageHub.Subscribe<SynchronizedSubtheme>(message =>
             {
                 if (Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
                 {
-                    logger.LogInformation($"Finished Synchronizing Subtheme '{ev.Theme}-{ev.Subtheme}'");
+                    logger.LogInformation($"Finished Synchronizing Subtheme '{message.Theme}-{message.Subtheme}'");
                 }
             });
 
-            messageHub.Subscribe<SubthemeSynchronizerException>(ev => logger.LogError(ev.Exception, $"Subtheme Synchronizer Exception for theme '{ev.Theme}'"));
+            messageHub.Subscribe<SubthemeSynchronizerException>(message => logger.LogError(message.Exception, $"Subtheme Synchronizer Exception for theme '{message.Theme}'"));
 
             messageHub.Subscribe<SubthemeSynchronizerEnd>(_ =>
             {

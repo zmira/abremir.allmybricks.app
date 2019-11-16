@@ -20,67 +20,67 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
         {
             var logger = loggerFactory.CreateLogger<SetSynchronizer>();
 
-            messageHub.Subscribe<SetSynchronizerStart>(ev =>
+            messageHub.Subscribe<SetSynchronizerStart>(message =>
             {
                 _setIndex = 0;
                 _setProgressFraction = 0;
 
                 if (Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
                 {
-                    logger.LogInformation($"Set Synchronizer Started{(ev.ForSubtheme ? " for subtheme" : string.Empty)}");
+                    logger.LogInformation($"Set Synchronizer Started{(message.ForSubtheme ? " for subtheme" : string.Empty)}");
                 }
             });
 
-            messageHub.Subscribe<AcquiringSets>(ev =>
+            messageHub.Subscribe<AcquiringSets>(message =>
             {
                 _setIndex = 0;
                 _setProgressFraction = 0;
 
                 if (Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
                 {
-                    logger.LogInformation($"Acquiring sets from '{ev.Theme}-{ev.Subtheme}' to process for year {ev.Year}");
+                    logger.LogInformation($"Acquiring sets from '{message.Theme}-{message.Subtheme}' to process for year {message.Year}");
                 }
             });
 
-            messageHub.Subscribe<SetsAcquired>(ev =>
+            messageHub.Subscribe<SetsAcquired>(message =>
             {
-                _setCount = ev.Count;
+                _setCount = message.Count;
                 _setIndex = 0;
 
-                logger.LogInformation($"Acquired {ev.Count} sets {(ev.Year.HasValue ? $"from '{ev.Theme}-{ev.Subtheme}' " : string.Empty)}to process{(ev.Year.HasValue ? $" for year {ev.Year}" : string.Empty)}");
+                logger.LogInformation($"Acquired {message.Count} sets {(message.Year.HasValue ? $"from '{message.Theme}-{message.Subtheme}' " : string.Empty)}to process{(message.Year.HasValue ? $" for year {message.Year}" : string.Empty)}");
             });
 
-            messageHub.Subscribe<SynchronizingSet>(ev =>
+            messageHub.Subscribe<SynchronizingSet>(message =>
             {
                 _setIndex++;
                 _setProgressFraction = _setIndex / _setCount;
 
-                if(Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
+                if (Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
                 {
-                    logger.LogInformation(Invariant($"Synchronizing Set '{ev.IdentifierLong}': index {_setIndex}, progress {_setProgressFraction:##0.00%}"));
+                    logger.LogInformation(Invariant($"Synchronizing Set '{message.IdentifierLong}': index {_setIndex}, progress {_setProgressFraction:##0.00%}"));
                 }
             });
 
-            messageHub.Subscribe<SynchronizingSetException>(ev => logger.LogError(ev.Exception, $"Synchronizing Set '{ev.IdentifierLong}' Exception"));
+            messageHub.Subscribe<SynchronizingSetException>(message => logger.LogError(message.Exception, $"Synchronizing Set '{message.IdentifierLong}' Exception"));
 
-            messageHub.Subscribe<SynchronizedSet>(ev =>
+            messageHub.Subscribe<SynchronizedSet>(message =>
             {
                 if (Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
                 {
-                    logger.LogInformation($"Finished Synchronizing Set '{ev.IdentifierLong}'");
+                    logger.LogInformation($"Finished Synchronizing Set '{message.IdentifierLong}'");
                 }
             });
 
-            messageHub.Subscribe<SetSynchronizerException>(ev => logger.LogError(ev.Exception, "Set Synchronizer Exception"));
+            messageHub.Subscribe<SetSynchronizerException>(message => logger.LogError(message.Exception, "Set Synchronizer Exception"));
 
-            messageHub.Subscribe<SetSynchronizerEnd>(ev =>
+            messageHub.Subscribe<SetSynchronizerEnd>(message =>
             {
                 _setIndex = 0;
                 _setProgressFraction = 0;
 
                 if (Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
                 {
-                    logger.LogInformation($"Finished Set Synchronizer {(ev.ForSubtheme ? " for subtheme" : string.Empty)}");
+                    logger.LogInformation($"Finished Set Synchronizer {(message.ForSubtheme ? " for subtheme" : string.Empty)}");
                 }
             });
         }

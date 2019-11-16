@@ -17,43 +17,43 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
 
             messageHub.Subscribe<SetSynchronizationServiceStart>(_ => logger.LogInformation($"Set Synchronization Started{(Logging.LogDestination == LogDestinationEnum.Console ? $" {DateTimeOffset.Now.ToString("yyyy-MM-dd hh:mm:ss")}" : string.Empty)}"));
 
-            messageHub.Subscribe<InsightsAcquired>(ev => logger.LogInformation($"Last Updated: {(ev.SynchronizationTimestamp.HasValue ? ev.SynchronizationTimestamp.Value.ToString("yyyy-MM-dd HH:mm:ss") : "Never")}"));
+            messageHub.Subscribe<InsightsAcquired>(message => logger.LogInformation($"Last Updated: {(message.SynchronizationTimestamp.HasValue ? message.SynchronizationTimestamp.Value.ToString("yyyy-MM-dd HH:mm:ss") : "Never")}"));
 
-            messageHub.Subscribe<ProcessingTheme>(ev =>
+            messageHub.Subscribe<ProcessingTheme>(message =>
             {
                 if (Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
                 {
-                    logger.LogInformation($"Processing theme: {ev.Name}");
+                    logger.LogInformation($"Processing theme: {message.Name}");
                 }
             });
 
-            messageHub.Subscribe<ProcessingSubtheme>(ev =>
+            messageHub.Subscribe<ProcessingSubtheme>(message =>
             {
                 if (Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
                 {
-                    logger.LogInformation($"Processing subtheme: {ev.Name}");
+                    logger.LogInformation($"Processing subtheme: {message.Name}");
                 }
             });
 
-            messageHub.Subscribe<ProcessedSubtheme>(ev =>
+            messageHub.Subscribe<ProcessedSubtheme>(message =>
             {
                 if (Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
                 {
-                    logger.LogInformation($"Finished processing subtheme: {ev.Name}");
+                    logger.LogInformation($"Finished processing subtheme: {message.Name}");
                 }
             });
 
-            messageHub.Subscribe<ProcessingThemeException>(ev => logger.LogError(ev.Exception, $"Processing Theme '{ev.Name}' Exception"));
+            messageHub.Subscribe<ProcessingThemeException>(message => logger.LogError(message.Exception, $"Processing Theme '{message.Name}' Exception"));
 
-            messageHub.Subscribe<ProcessedTheme>(ev =>
+            messageHub.Subscribe<ProcessedTheme>(message =>
             {
                 if (Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
                 {
-                    logger.LogInformation($"Finished processing theme: {ev.Name}");
+                    logger.LogInformation($"Finished processing theme: {message.Name}");
                 }
             });
 
-            messageHub.Subscribe<SetSynchronizationServiceException>(ev => logger.LogError(ev.Exception, "Set Synchronization Exception"));
+            messageHub.Subscribe<SetSynchronizationServiceException>(message => logger.LogError(message.Exception, "Set Synchronization Exception"));
 
             messageHub.Subscribe<SetSynchronizationServiceEnd>(_ => logger.LogInformation($"Finished Set Synchronization{(Logging.LogDestination == LogDestinationEnum.Console ? $" {DateTimeOffset.Now.ToString("yyyy-MM-dd HH:mm:ss")}" : string.Empty)}"));
         }

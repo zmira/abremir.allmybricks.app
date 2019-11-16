@@ -16,37 +16,37 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
 
             messageHub.Subscribe<ThumbnailSynchronizerStart>(_ =>
             {
-                if(Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
+                if (Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
                 {
                     logger.LogInformation("Thumbnail Synchronizer Started");
                 }
             });
 
-            messageHub.Subscribe<ThumbnailAcquired>(ev =>
+            messageHub.Subscribe<ThumbnailAcquired>(message =>
             {
                 if (Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
                 {
-                    logger.LogInformation($"Acquired thumbnail '{ev.Thumbnail}' to process");
+                    logger.LogInformation($"Acquired thumbnail '{message.Thumbnail}' to process");
                 }
             });
 
-            messageHub.Subscribe<SynchronizingThumbnail>(ev =>
+            messageHub.Subscribe<SynchronizingThumbnail>(message =>
             {
                 if (Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
                 {
-                    logger.LogInformation($"Synchronizing Thumbnail '{ev.Thumbnail}'");
+                    logger.LogInformation($"Synchronizing Thumbnail '{message.Thumbnail}'");
                 }
             });
 
-            messageHub.Subscribe<SynchronizedThumbnail>(ev =>
+            messageHub.Subscribe<SynchronizedThumbnail>(message =>
             {
                 if (Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
                 {
-                    logger.LogInformation($"Finished Synchronizing Thumbnail '{ev.Thumbnail}'");
+                    logger.LogInformation($"Finished Synchronizing Thumbnail '{message.Thumbnail}'");
                 }
             });
 
-            messageHub.Subscribe<ThumbnailSynchronizerException>(ev =>  logger.LogError(ev.Exception, "Thumbnail Synchronizer Exception"));
+            messageHub.Subscribe<ThumbnailSynchronizerException>(message => logger.LogError(message.Exception, "Thumbnail Synchronizer Exception"));
 
             messageHub.Subscribe<ThumbnailSynchronizerEnd>(_ =>
             {

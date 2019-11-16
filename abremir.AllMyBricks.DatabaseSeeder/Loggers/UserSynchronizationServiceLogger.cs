@@ -16,13 +16,13 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
         {
             var logger = loggerFactory.CreateLogger<UserSynchronizationService>();
 
-            messageHub.Subscribe<UserSynchronizationServiceStart>(ev => logger.LogInformation($"{ev.UserType} User Synchronization Started{(Logging.LogDestination == LogDestinationEnum.Console ? $" {DateTimeOffset.Now.ToString("yyyy-MM-dd hh:mm:ss")}" : string.Empty)}"));
+            messageHub.Subscribe<UserSynchronizationServiceStart>(message => logger.LogInformation($"{message.UserType} User Synchronization Started{(Logging.LogDestination == LogDestinationEnum.Console ? $" {DateTimeOffset.Now.ToString("yyyy-MM-dd hh:mm:ss")}" : string.Empty)}"));
 
-            messageHub.Subscribe<UsersAcquired>(ev => logger.LogInformation($"Synchronizing {ev.Count} {ev.UserType} Users"));
+            messageHub.Subscribe<UsersAcquired>(message => logger.LogInformation($"Synchronizing {message.Count} {message.UserType} Users"));
 
-            messageHub.Subscribe<UserSynchronizationServiceException>(ev => ev.Exceptions.ToList().ForEach(exception => logger.LogError(exception, $"{ev.UserType} User Synchronization Exception")));
+            messageHub.Subscribe<UserSynchronizationServiceException>(message => message.Exceptions.ToList().ForEach(exception => logger.LogError(exception, $"{message.UserType} User Synchronization Exception")));
 
-            messageHub.Subscribe<UserSynchronizationServiceEnd>(ev => logger.LogInformation($"Finished {ev.UserType} User Synchronization{(Logging.LogDestination == LogDestinationEnum.Console ? $" {DateTimeOffset.Now.ToString("yyyy-MM-dd HH:mm:ss")}" : string.Empty)}"));
+            messageHub.Subscribe<UserSynchronizationServiceEnd>(message => logger.LogInformation($"Finished {message.UserType} User Synchronization{(Logging.LogDestination == LogDestinationEnum.Console ? $" {DateTimeOffset.Now.ToString("yyyy-MM-dd HH:mm:ss")}" : string.Empty)}"));
         }
     }
 }

@@ -78,9 +78,9 @@ namespace abremir.AllMyBricks.DatabaseSeeder
 
                 stopwatch = Stopwatch.StartNew();
             });
-            messageHub.Subscribe<InsightsAcquired>(ev =>
+            messageHub.Subscribe<InsightsAcquired>(message =>
             {
-                lastUpdatedLabel.Text = $"Last Updated: {(ev.SynchronizationTimestamp.HasValue ? ev.SynchronizationTimestamp.Value.ToString("yyyy-MM-dd HH:mm:ss") : "Never")}";
+                lastUpdatedLabel.Text = $"Last Updated: {(message.SynchronizationTimestamp.HasValue ? message.SynchronizationTimestamp.Value.ToString("yyyy-MM-dd HH:mm:ss") : "Never")}";
 
                 Application.MainLoop.Invoke(lastUpdatedLabel.ChildNeedsDisplay);
             });
@@ -91,10 +91,10 @@ namespace abremir.AllMyBricks.DatabaseSeeder
 
                 Application.MainLoop.Invoke(themeProgress.ChildNeedsDisplay);
             });
-            messageHub.Subscribe<ThemesAcquired>(ev => themeCount = ev.Count);
-            messageHub.Subscribe<SynchronizingTheme>(ev =>
+            messageHub.Subscribe<ThemesAcquired>(message => themeCount = message.Count);
+            messageHub.Subscribe<SynchronizingTheme>(message =>
             {
-                themeLabel.Text = $"Theme: {ev.Theme}";
+                themeLabel.Text = $"Theme: {message.Theme}";
                 themeIndex++;
                 totalUpdatedThemes++;
                 themeProgress.Fraction = themeIndex / themeCount;
@@ -120,9 +120,9 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                 Application.MainLoop.Invoke(themeLabel.ChildNeedsDisplay);
                 Application.MainLoop.Invoke(themeProgress.ChildNeedsDisplay);
             });
-            messageHub.Subscribe<ProcessingTheme>(ev =>
+            messageHub.Subscribe<ProcessingTheme>(message =>
             {
-                themeLabel.Text = $"Theme: {ev.Name}";
+                themeLabel.Text = $"Theme: {message.Name}";
 
                 Application.MainLoop.Invoke(themeLabel.ChildNeedsDisplay);
             });
@@ -135,14 +135,14 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                 Application.MainLoop.Invoke(subthemeLabel.ChildNeedsDisplay);
                 Application.MainLoop.Invoke(subthemeProgress.ChildNeedsDisplay);
             });
-            messageHub.Subscribe<SubthemesAcquired>(ev =>
+            messageHub.Subscribe<SubthemesAcquired>(message =>
             {
-                subthemeCount = ev.Count;
+                subthemeCount = message.Count;
                 subthemeIndex = 0;
             });
-            messageHub.Subscribe<SynchronizingSubtheme>(ev =>
+            messageHub.Subscribe<SynchronizingSubtheme>(message =>
             {
-                subthemeLabel.Text = $"Subtheme: {ev.Subtheme}";
+                subthemeLabel.Text = $"Subtheme: {message.Subtheme}";
                 subthemeIndex++;
                 totalUpdatedSubthemes++;
                 subthemeProgress.Fraction = subthemeIndex / subthemeCount;
@@ -168,9 +168,9 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                 Application.MainLoop.Invoke(subthemeLabel.ChildNeedsDisplay);
                 Application.MainLoop.Invoke(subthemeProgress.ChildNeedsDisplay);
             });
-            messageHub.Subscribe<ProcessingSubtheme>(ev =>
+            messageHub.Subscribe<ProcessingSubtheme>(message =>
             {
-                subthemeLabel.Text = $"Subtheme: {ev.Name}";
+                subthemeLabel.Text = $"Subtheme: {message.Name}";
 
                 Application.MainLoop.Invoke(subthemeLabel.ChildNeedsDisplay);
             });
@@ -183,34 +183,34 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                 Application.MainLoop.Invoke(setLabel.ChildNeedsDisplay);
                 Application.MainLoop.Invoke(setProgress.ChildNeedsDisplay);
             });
-            messageHub.Subscribe<AcquiringSets>(ev =>
+            messageHub.Subscribe<AcquiringSets>(message =>
             {
                 setIndex = 0;
                 setProgress.Fraction = 0;
-                subthemeLabel.Text = $"Subtheme: {ev.Subtheme}, {ev.Year}";
+                subthemeLabel.Text = $"Subtheme: {message.Subtheme}, {message.Year}";
 
                 Application.MainLoop.Invoke(setProgress.ChildNeedsDisplay);
                 Application.MainLoop.Invoke(subthemeLabel.ChildNeedsDisplay);
             });
-            messageHub.Subscribe<SetsAcquired>(ev =>
+            messageHub.Subscribe<SetsAcquired>(message =>
             {
-                setCount = ev.Count;
+                setCount = message.Count;
                 setIndex = 0;
                 setProgress.Fraction = 0;
-                if (ev.Year.HasValue)
+                if (message.Year.HasValue)
                 {
-                    subthemeLabel.Text = $"Subtheme: {ev.Subtheme}, {ev.Year.Value}";
+                    subthemeLabel.Text = $"Subtheme: {message.Subtheme}, {message.Year.Value}";
 
                     Application.MainLoop.Invoke(subthemeLabel.ChildNeedsDisplay);
                 }
 
                 Application.MainLoop.Invoke(setProgress.ChildNeedsDisplay);
             });
-            messageHub.Subscribe<SynchronizingSet>(ev =>
+            messageHub.Subscribe<SynchronizingSet>(message =>
             {
-                themeLabel.Text = $"Theme: {ev.Theme}";
-                subthemeLabel.Text = $"Subtheme: {ev.Subtheme}{(ev.Year.HasValue ? $", {ev.Year.Value}" : string.Empty)}";
-                setLabel.Text = $"Set: {ev.IdentifierShort}";
+                themeLabel.Text = $"Theme: {message.Theme}";
+                subthemeLabel.Text = $"Subtheme: {message.Subtheme}{(message.Year.HasValue ? $", {message.Year.Value}" : string.Empty)}";
+                setLabel.Text = $"Set: {message.IdentifierShort}";
                 setIndex++;
                 totalUpdatedSets++;
                 setProgress.Fraction = setIndex / setCount;
@@ -229,9 +229,9 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                 Application.MainLoop.Invoke(setLabel.ChildNeedsDisplay);
                 Application.MainLoop.Invoke(totalUpdatedSetsLabel.ChildNeedsDisplay);
             });
-            messageHub.Subscribe<SetSynchronizerEnd>(ev =>
+            messageHub.Subscribe<SetSynchronizerEnd>(message =>
             {
-                if (!ev.ForSubtheme)
+                if (!message.ForSubtheme)
                 {
                     themeLabel.Text = string.Empty;
                     subthemeLabel.Text = string.Empty;
