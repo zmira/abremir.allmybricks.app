@@ -56,13 +56,13 @@ namespace abremir.AllMyBricks.DataSynchronizer.Services
                         .ToList()
                         .ForEach(bricksetUsername => tasks.Add(SynchronizeBricksetPrimaryUser(apiKey, bricksetUsername)));
 
-                    _messageHub.Publish(new UsersAcquired { Count = tasks.Count });
+                    _messageHub.Publish(new UsersAcquired { UserType = BricksetUserTypeEnum.Primary, Count = tasks.Count });
 
                     Task.WaitAll(tasks.ToArray());
                 }
                 else if (_bricksetUserRepository.Exists(username))
                 {
-                    _messageHub.Publish(new UsersAcquired { Count = 1 });
+                    _messageHub.Publish(new UsersAcquired { UserType = BricksetUserTypeEnum.Primary, Count = 1 });
 
                     await SynchronizeBricksetPrimaryUser(apiKey, username);
                 }
@@ -73,11 +73,11 @@ namespace abremir.AllMyBricks.DataSynchronizer.Services
             }
             catch (AggregateException aggEx)
             {
-                _messageHub.Publish(new UserSynchronizationServiceException { Exceptions = aggEx.InnerExceptions });
+                _messageHub.Publish(new UserSynchronizationServiceException { UserType = BricksetUserTypeEnum.Primary, Exceptions = aggEx.InnerExceptions });
             }
             catch (Exception ex)
             {
-                _messageHub.Publish(new UserSynchronizationServiceException { Exceptions = new[] { ex } });
+                _messageHub.Publish(new UserSynchronizationServiceException { UserType = BricksetUserTypeEnum.Primary, Exceptions = new[] { ex } });
             }
 
             _messageHub.Publish(new UserSynchronizationServiceEnd { UserType = BricksetUserTypeEnum.Primary });
@@ -105,13 +105,13 @@ namespace abremir.AllMyBricks.DataSynchronizer.Services
                         .ToList()
                         .ForEach(bricksetUsername => tasks.Add(SynchronizeBricksetFriend(apiKey, bricksetUsername)));
 
-                    _messageHub.Publish(new UsersAcquired { Count = tasks.Count });
+                    _messageHub.Publish(new UsersAcquired { UserType = BricksetUserTypeEnum.Friend, Count = tasks.Count });
 
                     await Task.WhenAll(tasks);
                 }
                 else if (_bricksetUserRepository.Exists(username))
                 {
-                    _messageHub.Publish(new UsersAcquired { Count = 1 });
+                    _messageHub.Publish(new UsersAcquired { UserType = BricksetUserTypeEnum.Friend, Count = 1 });
 
                     await SynchronizeBricksetFriend(apiKey, username);
                 }
@@ -122,7 +122,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Services
             }
             catch (Exception ex)
             {
-                _messageHub.Publish(new UserSynchronizationServiceException { Exceptions = new[] { ex } });
+                _messageHub.Publish(new UserSynchronizationServiceException { UserType = BricksetUserTypeEnum.Friend, Exceptions = new[] { ex } });
             }
 
             _messageHub.Publish(new UserSynchronizationServiceEnd { UserType = BricksetUserTypeEnum.Friend });
