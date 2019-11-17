@@ -104,11 +104,17 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
 
             try
             {
-                var bricksetUserSets = await GetAllUserSetsFromBrickset(apiKey, username);
+                var bricksetUserSets = (await GetAllUserSetsFromBrickset(apiKey, username)).ToList();
+
+                _messageHub.Publish(new UserSynchronizerSetsAcquired { Count = bricksetUserSets.Count });
 
                 foreach (var bricksetUserSet in bricksetUserSets)
                 {
+                    _messageHub.Publish(new UserSynchronizerSynchronizingSet { SetId = bricksetUserSet.SetId });
+
                     _bricksetUserRepository.AddOrUpdateSet(username, bricksetUserSet);
+
+                    _messageHub.Publish(new UserSynchronizerSynchronizedSet { SetId = bricksetUserSet.SetId });
                 }
 
                 _bricksetUserRepository.UpdateUserSynchronizationTimestamp(username, DateTimeOffset.Now);
