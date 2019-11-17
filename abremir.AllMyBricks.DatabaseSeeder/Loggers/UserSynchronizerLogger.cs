@@ -66,7 +66,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
 
                 if (Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
                 {
-                    logger.LogInformation($"Started synchronizing set '{message.SetId}': index {_setIndex}, progress {_setProgressFraction:##0.00%}");
+                    logger.LogInformation($"Started synchronizing set {message.SetId}: index {_setIndex}, progress {_setProgressFraction:##0.00%}");
                 }
             });
 
@@ -96,7 +96,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
 
                 if (Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
                 {
-                    logger.LogInformation("Started update of All My Bricks with missing user sets found in Brickset.com");
+                    logger.LogInformation("Started adding Brickset.com user sets missing in All My Bricks");
                 }
             });
 
@@ -126,7 +126,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
 
                 if (Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
                 {
-                    logger.LogInformation("Finished update of All My Bricks with missing user sets found in Brickset.com");
+                    logger.LogInformation("Finished adding Brickset.com user sets missing in All My Bricks");
                 }
             });
 
