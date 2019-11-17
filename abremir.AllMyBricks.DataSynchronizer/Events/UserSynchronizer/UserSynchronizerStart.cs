@@ -1,8 +1,10 @@
-﻿namespace abremir.AllMyBricks.DataSynchronizer.Events.UserSynchronizer
+﻿using abremir.AllMyBricks.Data.Enumerations;
+
+namespace abremir.AllMyBricks.DataSynchronizer.Events.UserSynchronizer
 {
     public class UserSynchronizerStart
     {
-        public string PrimaryUserUsername { get; set; }
-        public string FriendUsername { get; set; }
+        public BricksetUserTypeEnum UserType { get; set; }
+        public string Username { get; set; }
     }
 }
