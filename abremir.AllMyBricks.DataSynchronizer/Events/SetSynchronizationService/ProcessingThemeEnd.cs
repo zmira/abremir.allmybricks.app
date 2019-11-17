@@ -1,6 +1,6 @@
 ﻿namespace abremir.AllMyBricks.DataSynchronizer.Events.SetSynchronizationService
 {
-    public class ProcessedTheme
+    public class ProcessingThemeEnd
     {
         public string Name { get; set; }
     }

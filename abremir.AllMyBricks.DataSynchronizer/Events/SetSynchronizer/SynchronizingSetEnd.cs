@@ -1,6 +1,6 @@
 ﻿namespace abremir.AllMyBricks.DataSynchronizer.Events.SetSynchronizer
 {
-    public class SynchronizedSet
+    public class SynchronizingSetEnd
     {
         public string Theme { get; set; }
         public string Subtheme { get; set; }

@@ -50,7 +50,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
             {
                 try
                 {
-                    _messageHub.Publish(new AcquiringSets { Theme = theme.Name, Subtheme = subtheme.Name, Year = year });
+                    _messageHub.Publish(new AcquiringSetsStart { Theme = theme.Name, Subtheme = subtheme.Name, Year = year });
 
                     var getSetsParameters = new ParameterSets
                     {
@@ -62,7 +62,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
 
                     var bricksetSets = (await _bricksetApiService.GetSets(getSetsParameters)).ToList();
 
-                    _messageHub.Publish(new SetsAcquired { Theme = theme.Name, Subtheme = subtheme.Name, Count = bricksetSets.Count, Year = year });
+                    _messageHub.Publish(new AcquiringSetsEnd { Theme = theme.Name, Subtheme = subtheme.Name, Count = bricksetSets.Count, Year = year });
 
                     foreach (var bricksetSet in bricksetSets)
                     {
@@ -92,7 +92,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
 
                 var recentlyUpdatedSets = (await _bricksetApiService.GetRecentlyUpdatedSets(getRecentlyUpdatedSetsParameters)).ToList();
 
-                _messageHub.Publish(new SetsAcquired { Count = recentlyUpdatedSets.Count });
+                _messageHub.Publish(new AcquiringSetsEnd { Count = recentlyUpdatedSets.Count });
 
                 foreach (var themeGroup in recentlyUpdatedSets.GroupBy(bricksetSet => bricksetSet.Theme))
                 {
@@ -119,7 +119,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
 
         private async Task AddOrUpdateSet(string apiKey, Theme theme, Subtheme subtheme, Sets bricksetSet, short? year = null)
         {
-            _messageHub.Publish(new SynchronizingSet { Theme = theme.Name, Subtheme = subtheme?.Name, Name = bricksetSet.Name, Number = bricksetSet.Number, NumberVariant = bricksetSet.NumberVariant, Year = year });
+            _messageHub.Publish(new SynchronizingSetStart { Theme = theme.Name, Subtheme = subtheme?.Name, Name = bricksetSet.Name, Number = bricksetSet.Number, NumberVariant = bricksetSet.NumberVariant, Year = year });
 
             try
             {
@@ -147,7 +147,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                 _messageHub.Publish(new SynchronizingSetException { Theme = theme.Name, Subtheme = subtheme?.Name, Name = bricksetSet.Name, Number = bricksetSet.Number, NumberVariant = bricksetSet.NumberVariant, Exception = ex });
             }
 
-            _messageHub.Publish(new SynchronizedSet { Theme = theme.Name, Subtheme = subtheme?.Name, Name = bricksetSet.Name, Number = bricksetSet.Number, NumberVariant = bricksetSet.NumberVariant });
+            _messageHub.Publish(new SynchronizingSetEnd { Theme = theme.Name, Subtheme = subtheme?.Name, Name = bricksetSet.Name, Number = bricksetSet.Number, NumberVariant = bricksetSet.NumberVariant });
         }
 
         private async Task<Set> MapSet(string apiKey, Theme theme, Subtheme subtheme, Sets bricksetSet)

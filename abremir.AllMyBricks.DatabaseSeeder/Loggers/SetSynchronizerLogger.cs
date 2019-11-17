@@ -31,7 +31,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
                 }
             });
 
-            messageHub.Subscribe<AcquiringSets>(message =>
+            messageHub.Subscribe<AcquiringSetsStart>(message =>
             {
                 _setIndex = 0;
                 _setProgressFraction = 0;
@@ -42,7 +42,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
                 }
             });
 
-            messageHub.Subscribe<SetsAcquired>(message =>
+            messageHub.Subscribe<AcquiringSetsEnd>(message =>
             {
                 _setCount = message.Count;
                 _setIndex = 0;
@@ -50,7 +50,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
                 logger.LogInformation($"Acquired {message.Count} sets {(message.Year.HasValue ? $"from '{message.Theme}-{message.Subtheme}' " : string.Empty)}to process{(message.Year.HasValue ? $" for year {message.Year}" : string.Empty)}");
             });
 
-            messageHub.Subscribe<SynchronizingSet>(message =>
+            messageHub.Subscribe<SynchronizingSetStart>(message =>
             {
                 _setIndex++;
                 _setProgressFraction = _setIndex / _setCount;
@@ -63,7 +63,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
 
             messageHub.Subscribe<SynchronizingSetException>(message => logger.LogError(message.Exception, $"Synchronizing Set '{message.IdentifierLong}' Exception"));
 
-            messageHub.Subscribe<SynchronizedSet>(message =>
+            messageHub.Subscribe<SynchronizingSetEnd>(message =>
             {
                 if (Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
                 {

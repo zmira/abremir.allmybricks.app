@@ -61,11 +61,11 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                     return;
                 }
 
-                _messageHub.Publish(new SynchronizingThumbnail { Thumbnail = set.Images[0].ThumbnailUrl });
+                _messageHub.Publish(new SynchronizingThumbnailStart { Thumbnail = set.Images[0].ThumbnailUrl });
 
                 await _fileSystemService.SaveThumbnailToCache(set.Theme.Name, set.Subtheme.Name, set.NumberWithVariant, thumbnail);
 
-                _messageHub.Publish(new SynchronizedThumbnail { Thumbnail = set.Images[0].ThumbnailUrl });
+                _messageHub.Publish(new SynchronizingThumbnailEnd { Thumbnail = set.Images[0].ThumbnailUrl });
             }
             catch(Exception ex)
             {

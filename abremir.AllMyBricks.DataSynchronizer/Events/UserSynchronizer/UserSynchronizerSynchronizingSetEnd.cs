@@ -1,6 +1,6 @@
 ﻿namespace abremir.AllMyBricks.DataSynchronizer.Events.UserSynchronizer
 {
-    public class UserSynchronizerSynchronizingSet
+    public class UserSynchronizerSynchronizingSetEnd
     {
         public long SetId { get; set; }
     }

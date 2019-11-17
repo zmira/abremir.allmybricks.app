@@ -1,6 +1,6 @@
 ﻿namespace abremir.AllMyBricks.DataSynchronizer.Events.ThumbnailSynchronizer
 {
-    public class SynchronizingThumbnail
+    public class SynchronizingThumbnailStart
     {
         public string Thumbnail { get; set; }
     }

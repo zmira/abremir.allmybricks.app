@@ -39,7 +39,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
                 logger.LogInformation($"Acquired {message.Count} subthemes to process for theme '{message.Theme}'");
             });
 
-            messageHub.Subscribe<SynchronizingSubtheme>(message =>
+            messageHub.Subscribe<SynchronizingSubthemeStart>(message =>
             {
                 _subthemeIndex++;
                 _subthemeProgressFraction = _subthemeIndex / _subthemeCount;
@@ -52,7 +52,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
 
             messageHub.Subscribe<SynchronizingSubthemeException>(message => logger.LogError(message.Exception, $"Synchronizing Subtheme '{message.Theme}-{message.Subtheme}' Exception"));
 
-            messageHub.Subscribe<SynchronizedSubtheme>(message =>
+            messageHub.Subscribe<SynchronizingSubthemeEnd>(message =>
             {
                 if (Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
                 {

@@ -30,7 +30,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
                 }
             });
 
-            messageHub.Subscribe<SynchronizingThumbnail>(message =>
+            messageHub.Subscribe<SynchronizingThumbnailStart>(message =>
             {
                 if (Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
                 {
@@ -38,7 +38,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
                 }
             });
 
-            messageHub.Subscribe<SynchronizedThumbnail>(message =>
+            messageHub.Subscribe<SynchronizingThumbnailEnd>(message =>
             {
                 if (Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
                 {

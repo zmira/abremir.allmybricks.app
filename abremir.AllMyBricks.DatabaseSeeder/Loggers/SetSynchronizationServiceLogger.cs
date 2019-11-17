@@ -19,7 +19,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
 
             messageHub.Subscribe<InsightsAcquired>(message => logger.LogInformation($"Last Updated: {(message.SynchronizationTimestamp.HasValue ? message.SynchronizationTimestamp.Value.ToString("yyyy-MM-dd HH:mm:ss") : "Never")}"));
 
-            messageHub.Subscribe<ProcessingTheme>(message =>
+            messageHub.Subscribe<ProcessingThemeStart>(message =>
             {
                 if (Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
                 {
@@ -27,7 +27,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
                 }
             });
 
-            messageHub.Subscribe<ProcessingSubtheme>(message =>
+            messageHub.Subscribe<ProcessingSubthemeStart>(message =>
             {
                 if (Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
                 {
@@ -35,7 +35,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
                 }
             });
 
-            messageHub.Subscribe<ProcessedSubtheme>(message =>
+            messageHub.Subscribe<ProcessingSubthemeEnd>(message =>
             {
                 if (Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
                 {
@@ -45,7 +45,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
 
             messageHub.Subscribe<ProcessingThemeException>(message => logger.LogError(message.Exception, $"Processing Theme '{message.Name}' Exception"));
 
-            messageHub.Subscribe<ProcessedTheme>(message =>
+            messageHub.Subscribe<ProcessingThemeEnd>(message =>
             {
                 if (Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
                 {

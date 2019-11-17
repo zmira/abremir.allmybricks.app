@@ -48,7 +48,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
 
                 foreach (var bricksetTheme in bricksetThemes)
                 {
-                    _messageHub.Publish(new SynchronizingTheme { Theme = bricksetTheme.Theme });
+                    _messageHub.Publish(new SynchronizingThemeStart { Theme = bricksetTheme.Theme });
 
                     try
                     {
@@ -73,7 +73,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                         _messageHub.Publish(new SynchronizingThemeException { Theme = bricksetTheme.Theme, Exception = ex });
                     }
 
-                    _messageHub.Publish(new SynchronizedTheme { Theme = bricksetTheme.Theme });
+                    _messageHub.Publish(new SynchronizingThemeEnd { Theme = bricksetTheme.Theme });
                 }
             }
             catch(Exception ex)

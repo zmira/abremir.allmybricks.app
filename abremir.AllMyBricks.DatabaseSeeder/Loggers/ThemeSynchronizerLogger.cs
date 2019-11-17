@@ -38,7 +38,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
                 logger.LogInformation($"Acquired {message.Count} themes to process");
             });
 
-            messageHub.Subscribe<SynchronizingTheme>(message =>
+            messageHub.Subscribe<SynchronizingThemeStart>(message =>
             {
                 _themeIndex++;
                 _themeProgressFraction = _themeIndex / _themeCount;
@@ -51,7 +51,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
 
             messageHub.Subscribe<SynchronizingThemeException>(message => logger.LogError(message.Exception, $"Synchronizing Theme '{message.Theme}' Exception"));
 
-            messageHub.Subscribe<SynchronizedTheme>(message =>
+            messageHub.Subscribe<SynchronizingThemeEnd>(message =>
             {
                 if (Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
                 {

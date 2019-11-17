@@ -52,7 +52,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Services
 
                 foreach (var theme in await _themeSynchronizer.Synchronize(apiKey))
                 {
-                    _messageHub.Publish(new ProcessingTheme { Name = theme.Name });
+                    _messageHub.Publish(new ProcessingThemeStart { Name = theme.Name });
 
                     try
                     {
@@ -62,11 +62,11 @@ namespace abremir.AllMyBricks.DataSynchronizer.Services
                         {
                             foreach (var subtheme in subthemes)
                             {
-                                _messageHub.Publish(new ProcessingSubtheme { Name = subtheme.Name });
+                                _messageHub.Publish(new ProcessingSubthemeStart { Name = subtheme.Name });
 
                                 await _setSynchronizer.Synchronize(apiKey, theme, subtheme);
 
-                                _messageHub.Publish(new ProcessedSubtheme { Name = subtheme.Name });
+                                _messageHub.Publish(new ProcessingSubthemeEnd { Name = subtheme.Name });
                             }
                         }
                     }
@@ -75,7 +75,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Services
                         _messageHub.Publish(new ProcessingThemeException { Name = theme.Name, Exception = ex });
                     }
 
-                    _messageHub.Publish(new ProcessedTheme { Name = theme.Name });
+                    _messageHub.Publish(new ProcessingThemeEnd { Name = theme.Name });
                 }
 
                 if (dataSynchronizationTimestamp.HasValue)
