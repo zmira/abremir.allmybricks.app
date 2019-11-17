@@ -42,6 +42,8 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                 {
                     _messageHub.Publish(new AllMyBricksToBricksetStart());
 
+                    _messageHub.Publish(new AllMyBricksToBricksetAcquiringSetsStart());
+
                     var updatedSetsSinceLastSynchronization = user.Sets.Where(set => set.LastChangeTimestamp > user.UserSynchronizationTimestamp.Value).ToList();
 
                     _messageHub.Publish(new AllMyBricksToBricksetAcquiringSetsEnd { Count = updatedSetsSinceLastSynchronization.Count });
@@ -68,6 +70,8 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                 }
 
                 _messageHub.Publish(new BricksetToAllMyBricksStart());
+
+                _messageHub.Publish(new BricksetToAllMyBricksAcquiringSetsStart());
 
                 var bricksetUserSets = await GetAllUserSetsFromBrickset(apiKey, userHash: userHash);
 
@@ -104,6 +108,8 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
 
             try
             {
+                _messageHub.Publish(new BricksetToAllMyBricksAcquiringSetsStart());
+
                 var bricksetUserSets = (await GetAllUserSetsFromBrickset(apiKey, username)).ToList();
 
                 _messageHub.Publish(new BricksetToAllMyBricksAcquiringSetsEnd { Count = bricksetUserSets.Count });
