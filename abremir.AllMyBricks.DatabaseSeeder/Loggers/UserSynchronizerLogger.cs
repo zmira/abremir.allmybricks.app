@@ -25,7 +25,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
 
                 if (Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
                 {
-                    logger.LogInformation($"User Synchronizer Started for {message.UserType} user '{message.Username}'");
+                    logger.LogInformation($"Started user synchronizer for {message.UserType} user '{message.Username}'");
                 }
             });
 
@@ -56,10 +56,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
                 _setCount = message.Count;
                 _setIndex = 0;
 
-                if (Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
-                {
-                    logger.LogInformation($"Acquired {message.Count} All My Bricks user sets to update in Brickset.com");
-                }
+                logger.LogInformation($"Acquired {message.Count} All My Bricks user sets to update in Brickset.com");
             });
 
             messageHub.Subscribe<UserSynchronizerSynchronizingSetStart>(message =>
@@ -119,10 +116,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
                 _setCount = message.Count;
                 _setIndex = 0;
 
-                if (Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
-                {
-                    logger.LogInformation($"Acquired {message.Count} user sets from Brickset.com missing in All My Bricks");
-                }
+                logger.LogInformation($"Acquired {message.Count} user sets from Brickset.com missing in All My Bricks");
             });
 
             messageHub.Subscribe<BricksetToAllMyBricksEnd>(_ =>
@@ -145,7 +139,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
 
                 if (Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
                 {
-                    logger.LogInformation($"Finished User Synchronizer for {message.UserType} user '{message.Username}'");
+                    logger.LogInformation($"Finished user synchronizer for {message.UserType} user '{message.Username}'");
                 }
             });
         }

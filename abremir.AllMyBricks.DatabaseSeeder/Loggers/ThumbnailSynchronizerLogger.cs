@@ -18,7 +18,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
             {
                 if (Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
                 {
-                    logger.LogInformation("Thumbnail Synchronizer Started");
+                    logger.LogInformation("Started thumbnail synchronizer");
                 }
             });
 
@@ -34,7 +34,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
             {
                 if (Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
                 {
-                    logger.LogInformation($"Synchronizing Thumbnail '{message.Thumbnail}'");
+                    logger.LogInformation($"Started synchronizing thumbnail '{message.Thumbnail}'");
                 }
             });
 
@@ -42,7 +42,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
             {
                 if (Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
                 {
-                    logger.LogInformation($"Finished Synchronizing Thumbnail '{message.Thumbnail}'");
+                    logger.LogInformation($"Finished synchronizing thumbnail '{message.Thumbnail}'");
                 }
             });
 
@@ -52,7 +52,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
             {
                 if (Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
                 {
-                    logger.LogInformation("Finished Thumbnail Synchronizer");
+                    logger.LogInformation("Finished thumbnail synchronizer");
                 }
             });
         }

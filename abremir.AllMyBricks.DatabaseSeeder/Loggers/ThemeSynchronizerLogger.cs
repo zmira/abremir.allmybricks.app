@@ -27,7 +27,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
 
                 if (Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
                 {
-                    logger.LogInformation("Theme Synchronizer Started");
+                    logger.LogInformation("Started theme synchronizer");
                 }
             });
 
@@ -45,7 +45,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
 
                 if (Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
                 {
-                    logger.LogInformation(Invariant($"Synchronizing Theme '{message.Theme}': index {_themeIndex}, progress {_themeProgressFraction:##0.00%}"));
+                    logger.LogInformation(Invariant($"Started synchronizing theme '{message.Theme}': index {_themeIndex}, progress {_themeProgressFraction:##0.00%}"));
                 }
             });
 
@@ -55,7 +55,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
             {
                 if (Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
                 {
-                    logger.LogInformation($"Finished Synchronizing Theme '{message.Theme}'");
+                    logger.LogInformation($"Finished synchronizing theme '{message.Theme}'");
                 }
             });
 
@@ -66,7 +66,10 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
                 _themeIndex = 0;
                 _themeProgressFraction = 0;
 
-                logger.LogInformation("Finished Theme Synchronizer");
+                if (Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
+                {
+                    logger.LogInformation("Finished theme synchronizer");
+                }
             });
         }
     }

@@ -15,7 +15,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
         {
             var logger = loggerFactory.CreateLogger<SetSynchronizationService>();
 
-            messageHub.Subscribe<SetSynchronizationServiceStart>(_ => logger.LogInformation($"Set Synchronization Started{(Logging.LogDestination == LogDestinationEnum.Console ? $" {DateTimeOffset.Now.ToString("yyyy-MM-dd hh:mm:ss")}" : string.Empty)}"));
+            messageHub.Subscribe<SetSynchronizationServiceStart>(_ => logger.LogInformation($"Started set synchronization{(Logging.LogDestination == LogDestinationEnum.Console ? $" {DateTimeOffset.Now.ToString("yyyy-MM-dd hh:mm:ss")}" : string.Empty)}"));
 
             messageHub.Subscribe<InsightsAcquired>(message => logger.LogInformation($"Last Updated: {(message.SynchronizationTimestamp.HasValue ? message.SynchronizationTimestamp.Value.ToString("yyyy-MM-dd HH:mm:ss") : "Never")}"));
 
@@ -23,7 +23,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
             {
                 if (Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
                 {
-                    logger.LogInformation($"Processing theme: {message.Name}");
+                    logger.LogInformation($"Started processing theme: {message.Name}");
                 }
             });
 
@@ -31,7 +31,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
             {
                 if (Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
                 {
-                    logger.LogInformation($"Processing subtheme: {message.Name}");
+                    logger.LogInformation($"Started processing subtheme: {message.Name}");
                 }
             });
 
@@ -55,7 +55,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
 
             messageHub.Subscribe<SetSynchronizationServiceException>(message => logger.LogError(message.Exception, "Set Synchronization Exception"));
 
-            messageHub.Subscribe<SetSynchronizationServiceEnd>(_ => logger.LogInformation($"Finished Set Synchronization{(Logging.LogDestination == LogDestinationEnum.Console ? $" {DateTimeOffset.Now.ToString("yyyy-MM-dd HH:mm:ss")}" : string.Empty)}"));
+            messageHub.Subscribe<SetSynchronizationServiceEnd>(_ => logger.LogInformation($"Finished set synchronization{(Logging.LogDestination == LogDestinationEnum.Console ? $" {DateTimeOffset.Now.ToString("yyyy-MM-dd HH:mm:ss")}" : string.Empty)}"));
         }
     }
 }

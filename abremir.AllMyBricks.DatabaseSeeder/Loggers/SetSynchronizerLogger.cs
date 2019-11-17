@@ -27,7 +27,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
 
                 if (Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
                 {
-                    logger.LogInformation($"Set Synchronizer Started{(message.ForSubtheme ? " for subtheme" : string.Empty)}");
+                    logger.LogInformation($"Started set synchronizer{(message.ForSubtheme ? " for subtheme" : string.Empty)}");
                 }
             });
 
@@ -57,7 +57,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
 
                 if (Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
                 {
-                    logger.LogInformation(Invariant($"Synchronizing Set '{message.IdentifierLong}': index {_setIndex}, progress {_setProgressFraction:##0.00%}"));
+                    logger.LogInformation(Invariant($"Started synchronizing set '{message.IdentifierLong}': index {_setIndex}, progress {_setProgressFraction:##0.00%}"));
                 }
             });
 
@@ -67,7 +67,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
             {
                 if (Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
                 {
-                    logger.LogInformation($"Finished Synchronizing Set '{message.IdentifierLong}'");
+                    logger.LogInformation($"Finished synchronizing set '{message.IdentifierLong}'");
                 }
             });
 
@@ -80,7 +80,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
 
                 if (Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
                 {
-                    logger.LogInformation($"Finished Set Synchronizer {(message.ForSubtheme ? " for subtheme" : string.Empty)}");
+                    logger.LogInformation($"Finished set synchronizer{(message.ForSubtheme ? " for subtheme" : string.Empty)}");
                 }
             });
         }
