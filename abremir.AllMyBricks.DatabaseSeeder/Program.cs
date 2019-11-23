@@ -25,8 +25,8 @@ namespace abremir.AllMyBricks.DatabaseSeeder
             var compressOption = app
                 .Option(DatabaseSeederConstants.CompressOption, $"[this option is only valid when run with {DatabaseSeederConstants.UnattentedOption}] Compress the seeded database using LZip", CommandOptionType.NoValue);
             var datasetOption = app
-                .Option<string>(DatabaseSeederConstants.DatasetOption, $"[this option is only valid when run with {DatabaseSeederConstants.UnattentedOption}] Select which dataset(s) to synchronize: {DatabaseSeederConstants.DatasetValueSets}, {DatabaseSeederConstants.DatasetValuePrimaryUsers}, {DatabaseSeederConstants.DatasetValueFriends}, {DatabaseSeederConstants.DatasetValueAll}", CommandOptionType.MultipleValue)
-                .Accepts(builder => ValidationExtensions.Values(builder, true, DatabaseSeederConstants.DatasetValueSets, DatabaseSeederConstants.DatasetValuePrimaryUsers, DatabaseSeederConstants.DatasetValueFriends, DatabaseSeederConstants.DatasetValueAll));
+                .Option<string>(DatabaseSeederConstants.DatasetOption, $"[this option is only valid when run with {DatabaseSeederConstants.UnattentedOption}] Select which dataset(s) to synchronize: {DatabaseSeederConstants.DatasetValueSets}, {DatabaseSeederConstants.DatasetValuePrimaryUsers}, {DatabaseSeederConstants.DatasetValueFriends}, {DatabaseSeederConstants.DatasetValueAll}, {DatabaseSeederConstants.DatasetValueNone}", CommandOptionType.MultipleValue)
+                .Accepts(builder => ValidationExtensions.Values(builder, true, DatabaseSeederConstants.DatasetValueSets, DatabaseSeederConstants.DatasetValuePrimaryUsers, DatabaseSeederConstants.DatasetValueFriends, DatabaseSeederConstants.DatasetValueAll, DatabaseSeederConstants.DatasetValueNone));
 
             app.OnExecute(() =>
             {

@@ -16,5 +16,6 @@
         public const string DatasetValuePrimaryUsers = "primaryUsers";
         public const string DatasetValueFriends = "friends";
         public const string DatasetValueAll = "all";
+        public const string DatasetValueNone = "none";
     }
 }
