@@ -1,4 +1,6 @@
-﻿using abremir.AllMyBricks.DatabaseSeeder.Configuration;
+﻿using abremir.AllMyBricks.Data.Enumerations;
+using abremir.AllMyBricks.Data.Interfaces;
+using abremir.AllMyBricks.DatabaseSeeder.Configuration;
 using abremir.AllMyBricks.DatabaseSeeder.Services;
 using abremir.AllMyBricks.DataSynchronizer.Interfaces;
 using System.Collections.Generic;
@@ -21,6 +23,16 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                 if (synchronizationContext.Contains(DatabaseSeederConstants.DatasetValuePrimaryUsers)
                     || synchronizationContext.Contains(DatabaseSeederConstants.DatasetValueAll))
                 {
+                    var userRepository = IoC.IoCContainer.GetInstance<IBricksetUserRepository>();
+
+                    foreach (var primaryUser in Settings.BricksetPrimaryUsers)
+                    {
+                        if (userRepository.Get(primaryUser.Key) == null)
+                        {
+                            userRepository.Add(BricksetUserTypeEnum.Primary, primaryUser.Key);
+                        }
+                    }
+
                     await IoC.IoCContainer.GetInstance<IUserSynchronizationService>().SynchronizeBricksetPrimaryUsersSets();
                 }
 
