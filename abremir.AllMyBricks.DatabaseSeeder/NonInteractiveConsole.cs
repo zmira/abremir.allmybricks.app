@@ -12,7 +12,8 @@ namespace abremir.AllMyBricks.DatabaseSeeder
         {
             if (!synchronizationContext.Contains(DatabaseSeederConstants.DatasetValueNone))
             {
-                if (synchronizationContext.Contains(DatabaseSeederConstants.DatasetValueSets))
+                if (synchronizationContext.Contains(DatabaseSeederConstants.DatasetValueSets)
+                    || synchronizationContext.Contains(DatabaseSeederConstants.DatasetValueAll))
                 {
                     await IoC.IoCContainer.GetInstance<ISetSynchronizationService>().SynchronizeAllSets();
                 }
