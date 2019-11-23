@@ -10,13 +10,17 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Services
 
         private const string DataFolder = "data";
 
+        private string DataFolderOverride { get; set; }
+
         public bool ClearThumbnailCache()
         {
             return true;
         }
 
-        public void EnsureLocalDataFolder()
+        public void EnsureLocalDataFolder(string folder = null)
         {
+            DataFolderOverride = folder;
+
             var localDataFolder = GetLocalPathToDataFolder();
 
             if (!Directory.Exists(localDataFolder))
@@ -27,8 +31,11 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Services
 
         public string GetLocalPathToFile(string filename, string subfolder = null)
         {
-            return Path.Combine(Directory.GetCurrentDirectory(),
-                DataFolder,
+            var dataFolder = !string.IsNullOrEmpty(DataFolderOverride)
+                ? DataFolderOverride
+                : Path.Combine(Directory.GetCurrentDirectory(), DataFolder);
+
+            return Path.Combine(dataFolder,
                 string.IsNullOrWhiteSpace(subfolder?.Trim()) ? string.Empty : subfolder.Trim(),
                 (filename ?? string.Empty).Trim());
         }

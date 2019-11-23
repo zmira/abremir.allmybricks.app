@@ -66,7 +66,7 @@ namespace abremir.AllMyBricks.Device.Services
             }
         }
 
-        public void EnsureLocalDataFolder()
+        public void EnsureLocalDataFolder(string folder = null)
         {
             var localDataFolder = GetLocalPathToDataFolder();
 

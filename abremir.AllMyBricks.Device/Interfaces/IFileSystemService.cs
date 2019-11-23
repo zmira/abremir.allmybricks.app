@@ -4,7 +4,7 @@ namespace abremir.AllMyBricks.Device.Interfaces
 {
     public interface IFileSystemService
     {
-        void EnsureLocalDataFolder();
+        void EnsureLocalDataFolder(string folder = null);
         string ThumbnailCacheFolder { get; }
         string GetLocalPathToFile(string filename, string subfolder = null);
         string GetLocalPathToDataFolder();
