@@ -17,5 +17,6 @@
         public const string DatasetValueFriends = "friends";
         public const string DatasetValueAll = "all";
         public const string DatasetValueNone = "none";
+        public const string DataFolderOption = "--data-folder";
     }
 }
