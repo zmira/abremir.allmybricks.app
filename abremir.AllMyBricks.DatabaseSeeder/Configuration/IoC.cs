@@ -21,13 +21,13 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Configuration
             AssetManagement.Configuration.IoC.Configure(IoCContainer);
             UserManagement.Configuration.IoC.Configure(IoCContainer);
 
-            IoCContainer.Register<IPreferencesService, PreferencesService>(Lifestyle.Singleton);
-            IoCContainer.Register<ISecureStorageService, SecureStorageService>(Lifestyle.Singleton);
-            IoCContainer.Register<IDeviceInformationService, DeviceInformationService>(Lifestyle.Singleton);
-            IoCContainer.Register<IFileSystemService, FileSystemService>(Lifestyle.Singleton);
-            IoCContainer.Register<IAssetManagementService, AssetManagementService>(Lifestyle.Singleton);
-            IoCContainer.Register<IMessageHub, MessageHub>(Lifestyle.Singleton);
+            IoCContainer.Register<IPreferencesService, PreferencesService>(Lifestyle.Transient);
+            IoCContainer.Register<ISecureStorageService, SecureStorageService>(Lifestyle.Transient);
+            IoCContainer.Register<IDeviceInformationService, DeviceInformationService>(Lifestyle.Transient);
+            IoCContainer.Register<IAssetManagementService, AssetManagementService>(Lifestyle.Transient);
 
+            IoCContainer.Register<IFileSystemService, FileSystemService>(Lifestyle.Singleton);
+            IoCContainer.Register<IMessageHub, MessageHub>(Lifestyle.Singleton);
             IoCContainer.Register(() => Logging.Factory, Lifestyle.Singleton);
             IoCContainer.Collection.Register<IDatabaseSeederLogger>(Assembly.GetExecutingAssembly());
 
