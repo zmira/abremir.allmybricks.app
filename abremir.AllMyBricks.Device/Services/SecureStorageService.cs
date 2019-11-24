@@ -1,6 +1,6 @@
-﻿using abremir.AllMyBricks.Core.Models;
-using abremir.AllMyBricks.Device.Configuration;
+﻿using abremir.AllMyBricks.Device.Configuration;
 using abremir.AllMyBricks.Device.Interfaces;
+using abremir.AllMyBricks.Onboarding.Shared.Models;
 using fastJSON;
 using System.Collections.Generic;
 using System.Threading.Tasks;

@@ -1,8 +1,8 @@
-﻿using abremir.AllMyBricks.Core.Models;
-using abremir.AllMyBricks.Device.Interfaces;
+﻿using abremir.AllMyBricks.Device.Interfaces;
 using abremir.AllMyBricks.Device.Services;
 using abremir.AllMyBricks.Onboarding.Interfaces;
 using abremir.AllMyBricks.Onboarding.Services;
+using abremir.AllMyBricks.Onboarding.Shared.Models;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
@@ -49,7 +49,7 @@ namespace abremir.AllMyBricks.Onboarding.Tests
 
             var apiKey = await _apiKeyService.GetBricksetApiKey(identification);
 
-			apiKey.Should().NotBeNullOrEmpty();
+            apiKey.Should().NotBeNullOrEmpty();
 
             await _registrationService.Unregister(identification);
         }

@@ -1,13 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27130.2036
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29519.87
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "abremir.AllMyBricks.Device", "abremir.AllMyBricks.Device\abremir.AllMyBricks.Device.csproj", "{AA1EE416-F6AB-4B5B-B508-563534A72D36}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "abremir.AllMyBricks.Device.Tests", "abremir.AllMyBricks.Device.Tests\abremir.AllMyBricks.Device.Tests.csproj", "{D89E6EFF-7CC5-4355-891B-07E31080D3FD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "abremir.AllMyBricks.Core", "abremir.AllMyBricks.Core\abremir.AllMyBricks.Core.csproj", "{C4BCEFAA-1C80-4A61-8A03-EE8D28822887}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "abremir.AllMyBricks.Onboarding.Shared", "abremir.AllMyBricks.Onboarding.Shared\abremir.AllMyBricks.Onboarding.Shared.csproj", "{C4BCEFAA-1C80-4A61-8A03-EE8D28822887}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "abremir.AllMyBricks.Android", "abremir.AllMyBricks.Android\abremir.AllMyBricks.Android.csproj", "{E07C502C-D485-402A-8315-C2BFDCCA68C2}"
 EndProject

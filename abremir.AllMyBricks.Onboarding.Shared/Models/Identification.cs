@@ -1,7 +1,7 @@
-﻿using abremir.AllMyBricks.Core.Extensions;
+﻿using abremir.AllMyBricks.Onboarding.Shared.Extensions;
 using System;
 
-namespace abremir.AllMyBricks.Core.Models
+namespace abremir.AllMyBricks.Onboarding.Shared.Models
 {
     public class Identification
     {

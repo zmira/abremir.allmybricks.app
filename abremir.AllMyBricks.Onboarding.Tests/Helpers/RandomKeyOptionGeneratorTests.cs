@@ -1,5 +1,5 @@
-﻿using abremir.AllMyBricks.Core.Enumerations;
-using abremir.AllMyBricks.Onboarding.Helpers;
+﻿using abremir.AllMyBricks.Onboarding.Helpers;
+using abremir.AllMyBricks.Onboarding.Shared.Enumerations;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;

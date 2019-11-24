@@ -1,6 +1,6 @@
 ﻿using Jose;
 
-namespace abremir.AllMyBricks.Core.Enumerations
+namespace abremir.AllMyBricks.Onboarding.Shared.Enumerations
 {
     public enum AlgorithmTypeEnum
     {

@@ -1,7 +1,7 @@
-﻿using abremir.AllMyBricks.Core.Enumerations;
-using abremir.AllMyBricks.Core.Extensions;
+﻿using abremir.AllMyBricks.Onboarding.Shared.Enumerations;
+using abremir.AllMyBricks.Onboarding.Shared.Extensions;
 
-namespace abremir.AllMyBricks.Core.Models
+namespace abremir.AllMyBricks.Onboarding.Shared.Models
 {
     public class ApiKeyRequest : Identification
     {

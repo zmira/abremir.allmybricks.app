@@ -1,6 +1,6 @@
-﻿using abremir.AllMyBricks.Core.Configuration;
-using abremir.AllMyBricks.Core.Extensions;
-using abremir.AllMyBricks.Core.Models;
+﻿using abremir.AllMyBricks.Onboarding.Shared.Configuration;
+using abremir.AllMyBricks.Onboarding.Shared.Extensions;
+using abremir.AllMyBricks.Onboarding.Shared.Models;
 using fastJSON;
 using Microsoft.AspNetCore.Http.Extensions;
 using System;
@@ -11,7 +11,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace abremir.AllMyBricks.Core.Security
+namespace abremir.AllMyBricks.Onboarding.Shared.Security
 {
     public class HmacDelegatingHandler : DelegatingHandler
     {

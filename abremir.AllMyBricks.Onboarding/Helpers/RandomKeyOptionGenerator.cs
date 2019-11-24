@@ -1,4 +1,4 @@
-﻿using abremir.AllMyBricks.Core.Enumerations;
+﻿using abremir.AllMyBricks.Onboarding.Shared.Enumerations;
 using System;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography;

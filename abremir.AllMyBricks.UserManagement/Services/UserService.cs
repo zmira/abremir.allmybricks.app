@@ -1,8 +1,8 @@
-﻿using abremir.AllMyBricks.Core.Security;
-using abremir.AllMyBricks.Data.Enumerations;
+﻿using abremir.AllMyBricks.Data.Enumerations;
 using abremir.AllMyBricks.Data.Interfaces;
 using abremir.AllMyBricks.DataSynchronizer.Interfaces;
 using abremir.AllMyBricks.Device.Interfaces;
+using abremir.AllMyBricks.Onboarding.Shared.Security;
 using abremir.AllMyBricks.ThirdParty.Brickset.Interfaces;
 using abremir.AllMyBricks.ThirdParty.Brickset.Models;
 using abremir.AllMyBricks.UserManagement.Interfaces;
@@ -48,7 +48,7 @@ namespace abremir.AllMyBricks.UserManagement.Services
 
         public async Task<bool> AddBricksetPrimaryUser(string username, string password)
         {
-            if(string.IsNullOrWhiteSpace(username)
+            if (string.IsNullOrWhiteSpace(username)
                 || string.IsNullOrWhiteSpace(password)
                 || !await _secureStorageService.IsBricksetApiKeyAcquired()
                 || await _secureStorageService.IsBricksetPrimaryUsersDefined()
@@ -75,12 +75,12 @@ namespace abremir.AllMyBricks.UserManagement.Services
 
             await _userSynchronizationService.SynchronizeBricksetPrimaryUsersSets(username);
 
-            return  true;
+            return true;
         }
 
         public async Task<bool> AddBricksetFriend(string username)
         {
-            if(string.IsNullOrWhiteSpace(username)
+            if (string.IsNullOrWhiteSpace(username)
                 || !await _secureStorageService.IsBricksetApiKeyAcquired()
                 || _bricksetUserRepository.Exists(username))
             {

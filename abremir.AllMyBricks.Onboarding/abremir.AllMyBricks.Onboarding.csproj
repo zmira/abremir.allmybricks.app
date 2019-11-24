@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\abremir.AllMyBricks.Core\abremir.AllMyBricks.Core.csproj" />
+    <ProjectReference Include="..\abremir.AllMyBricks.Onboarding.Shared\abremir.AllMyBricks.Onboarding.Shared.csproj" />
     <ProjectReference Include="..\abremir.AllMyBricks.Device\abremir.AllMyBricks.Device.csproj" />
   </ItemGroup>
 

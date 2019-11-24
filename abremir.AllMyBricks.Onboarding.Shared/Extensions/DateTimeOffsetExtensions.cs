@@ -1,7 +1,7 @@
-﻿using abremir.AllMyBricks.Core.Configuration;
+﻿using abremir.AllMyBricks.Onboarding.Shared.Configuration;
 using System;
 
-namespace abremir.AllMyBricks.Core.Extensions
+namespace abremir.AllMyBricks.Onboarding.Shared.Extensions
 {
     public static class DateTimeOffsetExtensions
     {

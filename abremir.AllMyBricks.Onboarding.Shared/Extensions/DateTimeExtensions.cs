@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace abremir.AllMyBricks.Core.Extensions
+namespace abremir.AllMyBricks.Onboarding.Shared.Extensions
 {
     public static class DateTimeExtensions
     {

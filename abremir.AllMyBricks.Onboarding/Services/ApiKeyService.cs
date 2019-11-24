@@ -1,9 +1,9 @@
-﻿using abremir.AllMyBricks.Core.Models;
-using abremir.AllMyBricks.Onboarding.Configuration;
+﻿using abremir.AllMyBricks.Onboarding.Configuration;
 using abremir.AllMyBricks.Onboarding.Extensions;
 using abremir.AllMyBricks.Onboarding.Factories;
 using abremir.AllMyBricks.Onboarding.Helpers;
 using abremir.AllMyBricks.Onboarding.Interfaces;
+using abremir.AllMyBricks.Onboarding.Shared.Models;
 using Flurl;
 using Flurl.Http;
 using Jose;

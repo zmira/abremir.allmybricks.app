@@ -1,9 +1,10 @@
-﻿using System;
+﻿using abremir.AllMyBricks.Onboarding.Shared.Models;
+using System;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace abremir.AllMyBricks.Core.Security
+namespace abremir.AllMyBricks.Onboarding.Shared.Security
 {
     public static class SHA256Hash
     {
@@ -30,7 +31,7 @@ namespace abremir.AllMyBricks.Core.Security
             );
         }
 
-        public static string GetDeviceHash(Models.Device device)
+        public static string GetDeviceHash(Device device)
         {
             return Convert
                 .ToBase64String(

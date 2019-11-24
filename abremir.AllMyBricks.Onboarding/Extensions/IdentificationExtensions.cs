@@ -1,4 +1,4 @@
-﻿using abremir.AllMyBricks.Core.Models;
+﻿using abremir.AllMyBricks.Onboarding.Shared.Models;
 
 namespace abremir.AllMyBricks.Onboarding.Extensions
 {

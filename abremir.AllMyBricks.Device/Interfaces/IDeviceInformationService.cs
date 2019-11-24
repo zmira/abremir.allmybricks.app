@@ -2,6 +2,6 @@
 {
     public interface IDeviceInformationService
     {
-        Core.Models.Device GenerateNewDeviceIdentification();
+        Onboarding.Shared.Models.Device GenerateNewDeviceIdentification();
     }
 }

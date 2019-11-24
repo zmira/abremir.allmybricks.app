@@ -1,14 +1,14 @@
-﻿using abremir.AllMyBricks.Core.Security;
-using abremir.AllMyBricks.Device.Interfaces;
+﻿using abremir.AllMyBricks.Device.Interfaces;
+using abremir.AllMyBricks.Onboarding.Shared.Security;
 using System;
 
 namespace abremir.AllMyBricks.DatabaseSeeder.Services
 {
     public class DeviceInformationService : IDeviceInformationService
     {
-        public Core.Models.Device GenerateNewDeviceIdentification()
+        public Onboarding.Shared.Models.Device GenerateNewDeviceIdentification()
         {
-            var device = new Core.Models.Device
+            var device = new Onboarding.Shared.Models.Device
             {
                 AppId = Guid.NewGuid().ToString(),
                 Manufacturer = Environment.MachineName,

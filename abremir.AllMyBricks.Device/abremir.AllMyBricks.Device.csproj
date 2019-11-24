@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\abremir.AllMyBricks.Core\abremir.AllMyBricks.Core.csproj" />
+    <ProjectReference Include="..\abremir.AllMyBricks.Onboarding.Shared\abremir.AllMyBricks.Onboarding.Shared.csproj" />
   </ItemGroup>
 
 </Project>
