@@ -1,1 +1,1069 @@
-[{"$types":{"abremir.AllMyBricks.ThirdParty.Brickset.Models.Themes, abremir.AllMyBricks.ThirdParty.Brickset, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null":"1"},"$type":"1","Theme":"4 Juniors","SetCount":24,"SubthemeCount":5,"YearFrom":2003,"YearTo":2004},{"$type":"1","Theme":"Action Wheelers","SetCount":9,"SubthemeCount":0,"YearFrom":2000,"YearTo":2001},{"$type":"1","Theme":"Advanced Models","SetCount":61,"SubthemeCount":10,"YearFrom":2000,"YearTo":2018},{"$type":"1","Theme":"Adventurers","SetCount":72,"SubthemeCount":4,"YearFrom":1998,"YearTo":2003},{"$type":"1","Theme":"Agents","SetCount":13,"SubthemeCount":0,"YearFrom":2008,"YearTo":2009},{"$type":"1","Theme":"Alpha Team","SetCount":32,"SubthemeCount":3,"YearFrom":2001,"YearTo":2005},{"$type":"1","Theme":"Aqua Raiders","SetCount":7,"SubthemeCount":0,"YearFrom":2007,"YearTo":2007},{"$type":"1","Theme":"Aquazone","SetCount":28,"SubthemeCount":6,"YearFrom":1995,"YearTo":1999},{"$type":"1","Theme":"Architecture","SetCount":45,"SubthemeCount":4,"YearFrom":2008,"YearTo":2018},{"$type":"1","Theme":"Assorted","SetCount":8,"SubthemeCount":1,"YearFrom":1990,"YearTo":1995},{"$type":"1","Theme":"Atlantis","SetCount":24,"SubthemeCount":1,"YearFrom":2010,"YearTo":2011},{"$type":"1","Theme":"Avatar The Last Airbender","SetCount":2,"SubthemeCount":0,"YearFrom":2006,"YearTo":2006},{"$type":"1","Theme":"Baby","SetCount":44,"SubthemeCount":1,"YearFrom":2000,"YearTo":2005},{"$type":"1","Theme":"Basic","SetCount":406,"SubthemeCount":5,"YearFrom":1972,"YearTo":2003},{"$type":"1","Theme":"Batman","SetCount":15,"SubthemeCount":0,"YearFrom":2005,"YearTo":2008},{"$type":"1","Theme":"Belville","SetCount":82,"SubthemeCount":3,"YearFrom":1994,"YearTo":2008},{"$type":"1","Theme":"Ben 10: Alien Force","SetCount":6,"SubthemeCount":0,"YearFrom":2010,"YearTo":2010},{"$type":"1","Theme":"Bionicle","SetCount":389,"SubthemeCount":38,"YearFrom":2001,"YearTo":2016},{"$type":"1","Theme":"Boats","SetCount":12,"SubthemeCount":0,"YearFrom":1982,"YearTo":1996},{"$type":"1","Theme":"Books","SetCount":252,"SubthemeCount":36,"YearFrom":1968,"YearTo":2018},{"$type":"1","Theme":"Boost","SetCount":1,"SubthemeCount":0,"YearFrom":2017,"YearTo":2017},{"$type":"1","Theme":"BrickHeadz","SetCount":57,"SubthemeCount":6,"YearFrom":2016,"YearTo":2018},{"$type":"1","Theme":"Bricks and More","SetCount":67,"SubthemeCount":3,"YearFrom":2006,"YearTo":2014},{"$type":"1","Theme":"Building Set with People","SetCount":29,"SubthemeCount":0,"YearFrom":1974,"YearTo":1978},{"$type":"1","Theme":"Bulk Bricks","SetCount":141,"SubthemeCount":5,"YearFrom":2000,"YearTo":2006},{"$type":"1","Theme":"Cars","SetCount":28,"SubthemeCount":3,"YearFrom":2011,"YearTo":2012},{"$type":"1","Theme":"Castle","SetCount":281,"SubthemeCount":23,"YearFrom":1978,"YearTo":2016},{"$type":"1","Theme":"City","SetCount":548,"SubthemeCount":26,"YearFrom":2005,"YearTo":2018},{"$type":"1","Theme":"Classic","SetCount":50,"SubthemeCount":3,"YearFrom":1998,"YearTo":2018},{"$type":"1","Theme":"Clikits","SetCount":85,"SubthemeCount":2,"YearFrom":2003,"YearTo":2006},{"$type":"1","Theme":"Collectable Minifigures","SetCount":526,"SubthemeCount":28,"YearFrom":2010,"YearTo":2018},{"$type":"1","Theme":"Creator","SetCount":391,"SubthemeCount":7,"YearFrom":1995,"YearTo":2018},{"$type":"1","Theme":"Dacta","SetCount":161,"SubthemeCount":10,"YearFrom":1960,"YearTo":2003},{"$type":"1","Theme":"DC Comics Super Heroes","SetCount":89,"SubthemeCount":12,"YearFrom":2011,"YearTo":2018},{"$type":"1","Theme":"DC Super Hero Girls","SetCount":12,"SubthemeCount":1,"YearFrom":2016,"YearTo":2017},{"$type":"1","Theme":"Dimensions","SetCount":68,"SubthemeCount":6,"YearFrom":2015,"YearTo":2017},{"$type":"1","Theme":"Dino","SetCount":7,"SubthemeCount":0,"YearFrom":2012,"YearTo":2012},{"$type":"1","Theme":"Dino 2010","SetCount":5,"SubthemeCount":0,"YearFrom":2005,"YearTo":2005},{"$type":"1","Theme":"Dino Attack","SetCount":6,"SubthemeCount":0,"YearFrom":2005,"YearTo":2006},{"$type":"1","Theme":"Dinosaurs","SetCount":12,"SubthemeCount":0,"YearFrom":2001,"YearTo":2001},{"$type":"1","Theme":"Discovery","SetCount":6,"SubthemeCount":0,"YearFrom":2003,"YearTo":2003},{"$type":"1","Theme":"Disney","SetCount":42,"SubthemeCount":9,"YearFrom":2014,"YearTo":2018},{"$type":"1","Theme":"Duplo","SetCount":1165,"SubthemeCount":45,"YearFrom":1969,"YearTo":2018},{"$type":"1","Theme":"Education","SetCount":201,"SubthemeCount":10,"YearFrom":1998,"YearTo":2017},{"$type":"1","Theme":"Elves","SetCount":41,"SubthemeCount":1,"YearFrom":2015,"YearTo":2018},{"$type":"1","Theme":"Exo-Force","SetCount":44,"SubthemeCount":4,"YearFrom":2006,"YearTo":2008},{"$type":"1","Theme":"Explore","SetCount":127,"SubthemeCount":8,"YearFrom":2002,"YearTo":2004},{"$type":"1","Theme":"Fabuland","SetCount":107,"SubthemeCount":0,"YearFrom":1979,"YearTo":1989},{"$type":"1","Theme":"Factory","SetCount":7,"SubthemeCount":3,"YearFrom":2005,"YearTo":2008},{"$type":"1","Theme":"Freestyle","SetCount":75,"SubthemeCount":0,"YearFrom":1995,"YearTo":1999},{"$type":"1","Theme":"Friends","SetCount":293,"SubthemeCount":21,"YearFrom":2012,"YearTo":2018},{"$type":"1","Theme":"Fusion","SetCount":4,"SubthemeCount":0,"YearFrom":2014,"YearTo":2014},{"$type":"1","Theme":"Galidor","SetCount":20,"SubthemeCount":0,"YearFrom":2002,"YearTo":2002},{"$type":"1","Theme":"Games","SetCount":49,"SubthemeCount":2,"YearFrom":2009,"YearTo":2013},{"$type":"1","Theme":"Gear","SetCount":1994,"SubthemeCount":133,"YearFrom":1971,"YearTo":2018},{"$type":"1","Theme":"Ghostbusters","SetCount":2,"SubthemeCount":0,"YearFrom":2016,"YearTo":2016},{"$type":"1","Theme":"Harry Potter","SetCount":64,"SubthemeCount":10,"YearFrom":2001,"YearTo":2011},{"$type":"1","Theme":"HERO Factory","SetCount":106,"SubthemeCount":1,"YearFrom":2010,"YearTo":2014},{"$type":"1","Theme":"Hobby Set","SetCount":9,"SubthemeCount":0,"YearFrom":1975,"YearTo":2003},{"$type":"1","Theme":"Homemaker","SetCount":32,"SubthemeCount":0,"YearFrom":1971,"YearTo":1982},{"$type":"1","Theme":"Ideas","SetCount":22,"SubthemeCount":2,"YearFrom":2010,"YearTo":2018},{"$type":"1","Theme":"Indiana Jones","SetCount":18,"SubthemeCount":4,"YearFrom":2008,"YearTo":2009},{"$type":"1","Theme":"Island Xtreme Stunts","SetCount":13,"SubthemeCount":0,"YearFrom":2002,"YearTo":2003},{"$type":"1","Theme":"Jack Stone","SetCount":25,"SubthemeCount":0,"YearFrom":2001,"YearTo":2002},{"$type":"1","Theme":"Juniors","SetCount":66,"SubthemeCount":13,"YearFrom":2014,"YearTo":2018},{"$type":"1","Theme":"Jurassic World","SetCount":14,"SubthemeCount":1,"YearFrom":2015,"YearTo":2018},{"$type":"1","Theme":"Legends of Chima","SetCount":142,"SubthemeCount":11,"YearFrom":2013,"YearTo":2015},{"$type":"1","Theme":"LEGOLAND","SetCount":165,"SubthemeCount":6,"YearFrom":1969,"YearTo":1978},{"$type":"1","Theme":"Life of George","SetCount":2,"SubthemeCount":0,"YearFrom":2011,"YearTo":2012},{"$type":"1","Theme":"Make and Create","SetCount":44,"SubthemeCount":1,"YearFrom":2005,"YearTo":2012},{"$type":"1","Theme":"Marvel Super Heroes","SetCount":102,"SubthemeCount":17,"YearFrom":2012,"YearTo":2018},{"$type":"1","Theme":"Master Builder Academy","SetCount":17,"SubthemeCount":0,"YearFrom":2011,"YearTo":2013},{"$type":"1","Theme":"Mickey Mouse","SetCount":5,"SubthemeCount":0,"YearFrom":2000,"YearTo":2000},{"$type":"1","Theme":"Mindstorms","SetCount":67,"SubthemeCount":7,"YearFrom":1998,"YearTo":2015},{"$type":"1","Theme":"Minecraft","SetCount":41,"SubthemeCount":3,"YearFrom":2013,"YearTo":2018},{"$type":"1","Theme":"Minitalia","SetCount":21,"SubthemeCount":0,"YearFrom":1970,"YearTo":1977},{"$type":"1","Theme":"Miscellaneous","SetCount":137,"SubthemeCount":11,"YearFrom":1989,"YearTo":2018},{"$type":"1","Theme":"Mixels","SetCount":90,"SubthemeCount":9,"YearFrom":2014,"YearTo":2016},{"$type":"1","Theme":"Model Team","SetCount":16,"SubthemeCount":0,"YearFrom":1986,"YearTo":2004},{"$type":"1","Theme":"Monster Fighters","SetCount":13,"SubthemeCount":1,"YearFrom":2012,"YearTo":2012},{"$type":"1","Theme":"Nexo Knights","SetCount":99,"SubthemeCount":12,"YearFrom":2016,"YearTo":2018},{"$type":"1","Theme":"Ninjago","SetCount":251,"SubthemeCount":20,"YearFrom":2011,"YearTo":2018},{"$type":"1","Theme":"Pharaoh's Quest","SetCount":9,"SubthemeCount":0,"YearFrom":2011,"YearTo":2011},{"$type":"1","Theme":"Pirates","SetCount":84,"SubthemeCount":8,"YearFrom":1989,"YearTo":2015},{"$type":"1","Theme":"Pirates of the Caribbean","SetCount":15,"SubthemeCount":4,"YearFrom":2011,"YearTo":2017},{"$type":"1","Theme":"Power Functions","SetCount":18,"SubthemeCount":3,"YearFrom":2008,"YearTo":2013},{"$type":"1","Theme":"Power Miners","SetCount":22,"SubthemeCount":2,"YearFrom":2009,"YearTo":2010},{"$type":"1","Theme":"PreSchool","SetCount":14,"SubthemeCount":0,"YearFrom":1975,"YearTo":1978},{"$type":"1","Theme":"Primo","SetCount":52,"SubthemeCount":0,"YearFrom":1995,"YearTo":1999},{"$type":"1","Theme":"Prince of Persia","SetCount":6,"SubthemeCount":0,"YearFrom":2010,"YearTo":2010},{"$type":"1","Theme":"Promotional","SetCount":400,"SubthemeCount":15,"YearFrom":1977,"YearTo":2018},{"$type":"1","Theme":"Quatro","SetCount":10,"SubthemeCount":0,"YearFrom":2004,"YearTo":2006},{"$type":"1","Theme":"Racers","SetCount":248,"SubthemeCount":11,"YearFrom":1998,"YearTo":2013},{"$type":"1","Theme":"Rock Raiders","SetCount":16,"SubthemeCount":1,"YearFrom":1999,"YearTo":2000},{"$type":"1","Theme":"Samsonite","SetCount":268,"SubthemeCount":7,"YearFrom":1961,"YearTo":1979},{"$type":"1","Theme":"Scala","SetCount":75,"SubthemeCount":1,"YearFrom":1979,"YearTo":2001},{"$type":"1","Theme":"Scooby-Doo","SetCount":7,"SubthemeCount":0,"YearFrom":2015,"YearTo":2016},{"$type":"1","Theme":"Seasonal","SetCount":139,"SubthemeCount":10,"YearFrom":1999,"YearTo":2019},{"$type":"1","Theme":"Serious Play","SetCount":30,"SubthemeCount":0,"YearFrom":2007,"YearTo":2015},{"$type":"1","Theme":"Service Packs","SetCount":376,"SubthemeCount":16,"YearFrom":1977,"YearTo":1999},{"$type":"1","Theme":"Space","SetCount":322,"SubthemeCount":22,"YearFrom":1978,"YearTo":2015},{"$type":"1","Theme":"Speed Champions","SetCount":28,"SubthemeCount":8,"YearFrom":2015,"YearTo":2018},{"$type":"1","Theme":"Spider-Man","SetCount":11,"SubthemeCount":1,"YearFrom":2003,"YearTo":2004},{"$type":"1","Theme":"SpongeBob SquarePants","SetCount":14,"SubthemeCount":0,"YearFrom":2006,"YearTo":2012},{"$type":"1","Theme":"Sports","SetCount":130,"SubthemeCount":5,"YearFrom":2000,"YearTo":2007},{"$type":"1","Theme":"Spybotics","SetCount":4,"SubthemeCount":0,"YearFrom":2002,"YearTo":2002},{"$type":"1","Theme":"Star Wars","SetCount":643,"SubthemeCount":28,"YearFrom":1999,"YearTo":2018},{"$type":"1","Theme":"Studios","SetCount":55,"SubthemeCount":2,"YearFrom":2000,"YearTo":2002},{"$type":"1","Theme":"System","SetCount":433,"SubthemeCount":10,"YearFrom":1949,"YearTo":1970},{"$type":"1","Theme":"Technic","SetCount":402,"SubthemeCount":9,"YearFrom":1977,"YearTo":2018},{"$type":"1","Theme":"Teenage Mutant Ninja Turtles","SetCount":20,"SubthemeCount":3,"YearFrom":2012,"YearTo":2014},{"$type":"1","Theme":"The Angry Birds Movie","SetCount":6,"SubthemeCount":0,"YearFrom":2016,"YearTo":2016},{"$type":"1","Theme":"The Hobbit","SetCount":24,"SubthemeCount":4,"YearFrom":2012,"YearTo":2014},{"$type":"1","Theme":"The LEGO Batman Movie","SetCount":42,"SubthemeCount":4,"YearFrom":2017,"YearTo":2018},{"$type":"1","Theme":"The LEGO Movie","SetCount":32,"SubthemeCount":3,"YearFrom":2014,"YearTo":2015},{"$type":"1","Theme":"The LEGO Ninjago Movie","SetCount":33,"SubthemeCount":4,"YearFrom":2017,"YearTo":2018},{"$type":"1","Theme":"The Lone Ranger","SetCount":8,"SubthemeCount":0,"YearFrom":2013,"YearTo":2013},{"$type":"1","Theme":"The Lord of the Rings","SetCount":16,"SubthemeCount":4,"YearFrom":2012,"YearTo":2013},{"$type":"1","Theme":"The Powerpuff Girls","SetCount":2,"SubthemeCount":0,"YearFrom":2018,"YearTo":2018},{"$type":"1","Theme":"The Simpsons","SetCount":2,"SubthemeCount":0,"YearFrom":2014,"YearTo":2015},{"$type":"1","Theme":"Time Cruisers","SetCount":9,"SubthemeCount":1,"YearFrom":1996,"YearTo":1997},{"$type":"1","Theme":"Town","SetCount":644,"SubthemeCount":35,"YearFrom":1978,"YearTo":2004},{"$type":"1","Theme":"Toy Story","SetCount":15,"SubthemeCount":3,"YearFrom":2010,"YearTo":2010},{"$type":"1","Theme":"Trains","SetCount":205,"SubthemeCount":7,"YearFrom":1966,"YearTo":2006},{"$type":"1","Theme":"Ultra Agents","SetCount":14,"SubthemeCount":0,"YearFrom":2014,"YearTo":2015},{"$type":"1","Theme":"Unikitty!","SetCount":6,"SubthemeCount":0,"YearFrom":2018,"YearTo":2018},{"$type":"1","Theme":"Universal Building Set","SetCount":43,"SubthemeCount":3,"YearFrom":1969,"YearTo":1987},{"$type":"1","Theme":"Vikings","SetCount":7,"SubthemeCount":0,"YearFrom":2005,"YearTo":2006},{"$type":"1","Theme":"Western","SetCount":20,"SubthemeCount":2,"YearFrom":1996,"YearTo":2002},{"$type":"1","Theme":"Wizarding World","SetCount":6,"SubthemeCount":2,"YearFrom":2018,"YearTo":2018},{"$type":"1","Theme":"World City","SetCount":38,"SubthemeCount":4,"YearFrom":2003,"YearTo":2004},{"$type":"1","Theme":"World Racers","SetCount":9,"SubthemeCount":1,"YearFrom":2010,"YearTo":2010},{"$type":"1","Theme":"Znap","SetCount":20,"SubthemeCount":0,"YearFrom":1998,"YearTo":1999}]
+[
+  {
+    "$types": {
+      "abremir.AllMyBricks.ThirdParty.Brickset.Models.Themes, abremir.AllMyBricks.ThirdParty.Brickset, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "1"
+    },
+    "$type": "1",
+    "Theme": "4 Juniors",
+    "SetCount": 24,
+    "SubthemeCount": 5,
+    "YearFrom": 2003,
+    "YearTo": 2004
+  },
+  {
+    "$type": "1",
+    "Theme": "Action Wheelers",
+    "SetCount": 9,
+    "SubthemeCount": 0,
+    "YearFrom": 2000,
+    "YearTo": 2001
+  },
+  {
+    "$type": "1",
+    "Theme": "Advanced Models",
+    "SetCount": 61,
+    "SubthemeCount": 10,
+    "YearFrom": 2000,
+    "YearTo": 2018
+  },
+  {
+    "$type": "1",
+    "Theme": "Adventurers",
+    "SetCount": 72,
+    "SubthemeCount": 4,
+    "YearFrom": 1998,
+    "YearTo": 2003
+  },
+  {
+    "$type": "1",
+    "Theme": "Agents",
+    "SetCount": 13,
+    "SubthemeCount": 0,
+    "YearFrom": 2008,
+    "YearTo": 2009
+  },
+  {
+    "$type": "1",
+    "Theme": "Alpha Team",
+    "SetCount": 32,
+    "SubthemeCount": 3,
+    "YearFrom": 2001,
+    "YearTo": 2005
+  },
+  {
+    "$type": "1",
+    "Theme": "Aqua Raiders",
+    "SetCount": 7,
+    "SubthemeCount": 0,
+    "YearFrom": 2007,
+    "YearTo": 2007
+  },
+  {
+    "$type": "1",
+    "Theme": "Aquazone",
+    "SetCount": 28,
+    "SubthemeCount": 6,
+    "YearFrom": 1995,
+    "YearTo": 1999
+  },
+  {
+    "$type": "1",
+    "Theme": "Architecture",
+    "SetCount": 45,
+    "SubthemeCount": 4,
+    "YearFrom": 2008,
+    "YearTo": 2018
+  },
+  {
+    "$type": "1",
+    "Theme": "Assorted",
+    "SetCount": 8,
+    "SubthemeCount": 1,
+    "YearFrom": 1990,
+    "YearTo": 1995
+  },
+  {
+    "$type": "1",
+    "Theme": "Atlantis",
+    "SetCount": 24,
+    "SubthemeCount": 1,
+    "YearFrom": 2010,
+    "YearTo": 2011
+  },
+  {
+    "$type": "1",
+    "Theme": "Avatar The Last Airbender",
+    "SetCount": 2,
+    "SubthemeCount": 0,
+    "YearFrom": 2006,
+    "YearTo": 2006
+  },
+  {
+    "$type": "1",
+    "Theme": "Baby",
+    "SetCount": 44,
+    "SubthemeCount": 1,
+    "YearFrom": 2000,
+    "YearTo": 2005
+  },
+  {
+    "$type": "1",
+    "Theme": "Basic",
+    "SetCount": 406,
+    "SubthemeCount": 5,
+    "YearFrom": 1972,
+    "YearTo": 2003
+  },
+  {
+    "$type": "1",
+    "Theme": "Batman",
+    "SetCount": 15,
+    "SubthemeCount": 0,
+    "YearFrom": 2005,
+    "YearTo": 2008
+  },
+  {
+    "$type": "1",
+    "Theme": "Belville",
+    "SetCount": 82,
+    "SubthemeCount": 3,
+    "YearFrom": 1994,
+    "YearTo": 2008
+  },
+  {
+    "$type": "1",
+    "Theme": "Ben 10: Alien Force",
+    "SetCount": 6,
+    "SubthemeCount": 0,
+    "YearFrom": 2010,
+    "YearTo": 2010
+  },
+  {
+    "$type": "1",
+    "Theme": "Bionicle",
+    "SetCount": 389,
+    "SubthemeCount": 38,
+    "YearFrom": 2001,
+    "YearTo": 2016
+  },
+  {
+    "$type": "1",
+    "Theme": "Boats",
+    "SetCount": 12,
+    "SubthemeCount": 0,
+    "YearFrom": 1982,
+    "YearTo": 1996
+  },
+  {
+    "$type": "1",
+    "Theme": "Books",
+    "SetCount": 252,
+    "SubthemeCount": 36,
+    "YearFrom": 1968,
+    "YearTo": 2018
+  },
+  {
+    "$type": "1",
+    "Theme": "Boost",
+    "SetCount": 1,
+    "SubthemeCount": 0,
+    "YearFrom": 2017,
+    "YearTo": 2017
+  },
+  {
+    "$type": "1",
+    "Theme": "BrickHeadz",
+    "SetCount": 57,
+    "SubthemeCount": 6,
+    "YearFrom": 2016,
+    "YearTo": 2018
+  },
+  {
+    "$type": "1",
+    "Theme": "Bricks and More",
+    "SetCount": 67,
+    "SubthemeCount": 3,
+    "YearFrom": 2006,
+    "YearTo": 2014
+  },
+  {
+    "$type": "1",
+    "Theme": "Building Set with People",
+    "SetCount": 29,
+    "SubthemeCount": 0,
+    "YearFrom": 1974,
+    "YearTo": 1978
+  },
+  {
+    "$type": "1",
+    "Theme": "Bulk Bricks",
+    "SetCount": 141,
+    "SubthemeCount": 5,
+    "YearFrom": 2000,
+    "YearTo": 2006
+  },
+  {
+    "$type": "1",
+    "Theme": "Cars",
+    "SetCount": 28,
+    "SubthemeCount": 3,
+    "YearFrom": 2011,
+    "YearTo": 2012
+  },
+  {
+    "$type": "1",
+    "Theme": "Castle",
+    "SetCount": 281,
+    "SubthemeCount": 23,
+    "YearFrom": 1978,
+    "YearTo": 2016
+  },
+  {
+    "$type": "1",
+    "Theme": "City",
+    "SetCount": 548,
+    "SubthemeCount": 26,
+    "YearFrom": 2005,
+    "YearTo": 2018
+  },
+  {
+    "$type": "1",
+    "Theme": "Classic",
+    "SetCount": 50,
+    "SubthemeCount": 3,
+    "YearFrom": 1998,
+    "YearTo": 2018
+  },
+  {
+    "$type": "1",
+    "Theme": "Clikits",
+    "SetCount": 85,
+    "SubthemeCount": 2,
+    "YearFrom": 2003,
+    "YearTo": 2006
+  },
+  {
+    "$type": "1",
+    "Theme": "Collectable Minifigures",
+    "SetCount": 526,
+    "SubthemeCount": 28,
+    "YearFrom": 2010,
+    "YearTo": 2018
+  },
+  {
+    "$type": "1",
+    "Theme": "Creator",
+    "SetCount": 391,
+    "SubthemeCount": 7,
+    "YearFrom": 1995,
+    "YearTo": 2018
+  },
+  {
+    "$type": "1",
+    "Theme": "Dacta",
+    "SetCount": 161,
+    "SubthemeCount": 10,
+    "YearFrom": 1960,
+    "YearTo": 2003
+  },
+  {
+    "$type": "1",
+    "Theme": "DC Comics Super Heroes",
+    "SetCount": 89,
+    "SubthemeCount": 12,
+    "YearFrom": 2011,
+    "YearTo": 2018
+  },
+  {
+    "$type": "1",
+    "Theme": "DC Super Hero Girls",
+    "SetCount": 12,
+    "SubthemeCount": 1,
+    "YearFrom": 2016,
+    "YearTo": 2017
+  },
+  {
+    "$type": "1",
+    "Theme": "Dimensions",
+    "SetCount": 68,
+    "SubthemeCount": 6,
+    "YearFrom": 2015,
+    "YearTo": 2017
+  },
+  {
+    "$type": "1",
+    "Theme": "Dino",
+    "SetCount": 7,
+    "SubthemeCount": 0,
+    "YearFrom": 2012,
+    "YearTo": 2012
+  },
+  {
+    "$type": "1",
+    "Theme": "Dino 2010",
+    "SetCount": 5,
+    "SubthemeCount": 0,
+    "YearFrom": 2005,
+    "YearTo": 2005
+  },
+  {
+    "$type": "1",
+    "Theme": "Dino Attack",
+    "SetCount": 6,
+    "SubthemeCount": 0,
+    "YearFrom": 2005,
+    "YearTo": 2006
+  },
+  {
+    "$type": "1",
+    "Theme": "Dinosaurs",
+    "SetCount": 12,
+    "SubthemeCount": 0,
+    "YearFrom": 2001,
+    "YearTo": 2001
+  },
+  {
+    "$type": "1",
+    "Theme": "Discovery",
+    "SetCount": 6,
+    "SubthemeCount": 0,
+    "YearFrom": 2003,
+    "YearTo": 2003
+  },
+  {
+    "$type": "1",
+    "Theme": "Disney",
+    "SetCount": 42,
+    "SubthemeCount": 9,
+    "YearFrom": 2014,
+    "YearTo": 2018
+  },
+  {
+    "$type": "1",
+    "Theme": "Duplo",
+    "SetCount": 1165,
+    "SubthemeCount": 45,
+    "YearFrom": 1969,
+    "YearTo": 2018
+  },
+  {
+    "$type": "1",
+    "Theme": "Education",
+    "SetCount": 201,
+    "SubthemeCount": 10,
+    "YearFrom": 1998,
+    "YearTo": 2017
+  },
+  {
+    "$type": "1",
+    "Theme": "Elves",
+    "SetCount": 41,
+    "SubthemeCount": 1,
+    "YearFrom": 2015,
+    "YearTo": 2018
+  },
+  {
+    "$type": "1",
+    "Theme": "Exo-Force",
+    "SetCount": 44,
+    "SubthemeCount": 4,
+    "YearFrom": 2006,
+    "YearTo": 2008
+  },
+  {
+    "$type": "1",
+    "Theme": "Explore",
+    "SetCount": 127,
+    "SubthemeCount": 8,
+    "YearFrom": 2002,
+    "YearTo": 2004
+  },
+  {
+    "$type": "1",
+    "Theme": "Fabuland",
+    "SetCount": 107,
+    "SubthemeCount": 0,
+    "YearFrom": 1979,
+    "YearTo": 1989
+  },
+  {
+    "$type": "1",
+    "Theme": "Factory",
+    "SetCount": 7,
+    "SubthemeCount": 3,
+    "YearFrom": 2005,
+    "YearTo": 2008
+  },
+  {
+    "$type": "1",
+    "Theme": "Freestyle",
+    "SetCount": 75,
+    "SubthemeCount": 0,
+    "YearFrom": 1995,
+    "YearTo": 1999
+  },
+  {
+    "$type": "1",
+    "Theme": "Friends",
+    "SetCount": 293,
+    "SubthemeCount": 21,
+    "YearFrom": 2012,
+    "YearTo": 2018
+  },
+  {
+    "$type": "1",
+    "Theme": "Fusion",
+    "SetCount": 4,
+    "SubthemeCount": 0,
+    "YearFrom": 2014,
+    "YearTo": 2014
+  },
+  {
+    "$type": "1",
+    "Theme": "Galidor",
+    "SetCount": 20,
+    "SubthemeCount": 0,
+    "YearFrom": 2002,
+    "YearTo": 2002
+  },
+  {
+    "$type": "1",
+    "Theme": "Games",
+    "SetCount": 49,
+    "SubthemeCount": 2,
+    "YearFrom": 2009,
+    "YearTo": 2013
+  },
+  {
+    "$type": "1",
+    "Theme": "Gear",
+    "SetCount": 1994,
+    "SubthemeCount": 133,
+    "YearFrom": 1971,
+    "YearTo": 2018
+  },
+  {
+    "$type": "1",
+    "Theme": "Ghostbusters",
+    "SetCount": 2,
+    "SubthemeCount": 0,
+    "YearFrom": 2016,
+    "YearTo": 2016
+  },
+  {
+    "$type": "1",
+    "Theme": "Harry Potter",
+    "SetCount": 64,
+    "SubthemeCount": 10,
+    "YearFrom": 2001,
+    "YearTo": 2011
+  },
+  {
+    "$type": "1",
+    "Theme": "HERO Factory",
+    "SetCount": 106,
+    "SubthemeCount": 1,
+    "YearFrom": 2010,
+    "YearTo": 2014
+  },
+  {
+    "$type": "1",
+    "Theme": "Hobby Set",
+    "SetCount": 9,
+    "SubthemeCount": 0,
+    "YearFrom": 1975,
+    "YearTo": 2003
+  },
+  {
+    "$type": "1",
+    "Theme": "Homemaker",
+    "SetCount": 32,
+    "SubthemeCount": 0,
+    "YearFrom": 1971,
+    "YearTo": 1982
+  },
+  {
+    "$type": "1",
+    "Theme": "Ideas",
+    "SetCount": 22,
+    "SubthemeCount": 2,
+    "YearFrom": 2010,
+    "YearTo": 2018
+  },
+  {
+    "$type": "1",
+    "Theme": "Indiana Jones",
+    "SetCount": 18,
+    "SubthemeCount": 4,
+    "YearFrom": 2008,
+    "YearTo": 2009
+  },
+  {
+    "$type": "1",
+    "Theme": "Island Xtreme Stunts",
+    "SetCount": 13,
+    "SubthemeCount": 0,
+    "YearFrom": 2002,
+    "YearTo": 2003
+  },
+  {
+    "$type": "1",
+    "Theme": "Jack Stone",
+    "SetCount": 25,
+    "SubthemeCount": 0,
+    "YearFrom": 2001,
+    "YearTo": 2002
+  },
+  {
+    "$type": "1",
+    "Theme": "Juniors",
+    "SetCount": 66,
+    "SubthemeCount": 13,
+    "YearFrom": 2014,
+    "YearTo": 2018
+  },
+  {
+    "$type": "1",
+    "Theme": "Jurassic World",
+    "SetCount": 14,
+    "SubthemeCount": 1,
+    "YearFrom": 2015,
+    "YearTo": 2018
+  },
+  {
+    "$type": "1",
+    "Theme": "Legends of Chima",
+    "SetCount": 142,
+    "SubthemeCount": 11,
+    "YearFrom": 2013,
+    "YearTo": 2015
+  },
+  {
+    "$type": "1",
+    "Theme": "LEGOLAND",
+    "SetCount": 165,
+    "SubthemeCount": 6,
+    "YearFrom": 1969,
+    "YearTo": 1978
+  },
+  {
+    "$type": "1",
+    "Theme": "Life of George",
+    "SetCount": 2,
+    "SubthemeCount": 0,
+    "YearFrom": 2011,
+    "YearTo": 2012
+  },
+  {
+    "$type": "1",
+    "Theme": "Make and Create",
+    "SetCount": 44,
+    "SubthemeCount": 1,
+    "YearFrom": 2005,
+    "YearTo": 2012
+  },
+  {
+    "$type": "1",
+    "Theme": "Marvel Super Heroes",
+    "SetCount": 102,
+    "SubthemeCount": 17,
+    "YearFrom": 2012,
+    "YearTo": 2018
+  },
+  {
+    "$type": "1",
+    "Theme": "Master Builder Academy",
+    "SetCount": 17,
+    "SubthemeCount": 0,
+    "YearFrom": 2011,
+    "YearTo": 2013
+  },
+  {
+    "$type": "1",
+    "Theme": "Mickey Mouse",
+    "SetCount": 5,
+    "SubthemeCount": 0,
+    "YearFrom": 2000,
+    "YearTo": 2000
+  },
+  {
+    "$type": "1",
+    "Theme": "Mindstorms",
+    "SetCount": 67,
+    "SubthemeCount": 7,
+    "YearFrom": 1998,
+    "YearTo": 2015
+  },
+  {
+    "$type": "1",
+    "Theme": "Minecraft",
+    "SetCount": 41,
+    "SubthemeCount": 3,
+    "YearFrom": 2013,
+    "YearTo": 2018
+  },
+  {
+    "$type": "1",
+    "Theme": "Minitalia",
+    "SetCount": 21,
+    "SubthemeCount": 0,
+    "YearFrom": 1970,
+    "YearTo": 1977
+  },
+  {
+    "$type": "1",
+    "Theme": "Miscellaneous",
+    "SetCount": 137,
+    "SubthemeCount": 11,
+    "YearFrom": 1989,
+    "YearTo": 2018
+  },
+  {
+    "$type": "1",
+    "Theme": "Mixels",
+    "SetCount": 90,
+    "SubthemeCount": 9,
+    "YearFrom": 2014,
+    "YearTo": 2016
+  },
+  {
+    "$type": "1",
+    "Theme": "Model Team",
+    "SetCount": 16,
+    "SubthemeCount": 0,
+    "YearFrom": 1986,
+    "YearTo": 2004
+  },
+  {
+    "$type": "1",
+    "Theme": "Monster Fighters",
+    "SetCount": 13,
+    "SubthemeCount": 1,
+    "YearFrom": 2012,
+    "YearTo": 2012
+  },
+  {
+    "$type": "1",
+    "Theme": "Nexo Knights",
+    "SetCount": 99,
+    "SubthemeCount": 12,
+    "YearFrom": 2016,
+    "YearTo": 2018
+  },
+  {
+    "$type": "1",
+    "Theme": "Ninjago",
+    "SetCount": 251,
+    "SubthemeCount": 20,
+    "YearFrom": 2011,
+    "YearTo": 2018
+  },
+  {
+    "$type": "1",
+    "Theme": "Pharaoh's Quest",
+    "SetCount": 9,
+    "SubthemeCount": 0,
+    "YearFrom": 2011,
+    "YearTo": 2011
+  },
+  {
+    "$type": "1",
+    "Theme": "Pirates",
+    "SetCount": 84,
+    "SubthemeCount": 8,
+    "YearFrom": 1989,
+    "YearTo": 2015
+  },
+  {
+    "$type": "1",
+    "Theme": "Pirates of the Caribbean",
+    "SetCount": 15,
+    "SubthemeCount": 4,
+    "YearFrom": 2011,
+    "YearTo": 2017
+  },
+  {
+    "$type": "1",
+    "Theme": "Power Functions",
+    "SetCount": 18,
+    "SubthemeCount": 3,
+    "YearFrom": 2008,
+    "YearTo": 2013
+  },
+  {
+    "$type": "1",
+    "Theme": "Power Miners",
+    "SetCount": 22,
+    "SubthemeCount": 2,
+    "YearFrom": 2009,
+    "YearTo": 2010
+  },
+  {
+    "$type": "1",
+    "Theme": "PreSchool",
+    "SetCount": 14,
+    "SubthemeCount": 0,
+    "YearFrom": 1975,
+    "YearTo": 1978
+  },
+  {
+    "$type": "1",
+    "Theme": "Primo",
+    "SetCount": 52,
+    "SubthemeCount": 0,
+    "YearFrom": 1995,
+    "YearTo": 1999
+  },
+  {
+    "$type": "1",
+    "Theme": "Prince of Persia",
+    "SetCount": 6,
+    "SubthemeCount": 0,
+    "YearFrom": 2010,
+    "YearTo": 2010
+  },
+  {
+    "$type": "1",
+    "Theme": "Promotional",
+    "SetCount": 400,
+    "SubthemeCount": 15,
+    "YearFrom": 1977,
+    "YearTo": 2018
+  },
+  {
+    "$type": "1",
+    "Theme": "Quatro",
+    "SetCount": 10,
+    "SubthemeCount": 0,
+    "YearFrom": 2004,
+    "YearTo": 2006
+  },
+  {
+    "$type": "1",
+    "Theme": "Racers",
+    "SetCount": 248,
+    "SubthemeCount": 11,
+    "YearFrom": 1998,
+    "YearTo": 2013
+  },
+  {
+    "$type": "1",
+    "Theme": "Rock Raiders",
+    "SetCount": 16,
+    "SubthemeCount": 1,
+    "YearFrom": 1999,
+    "YearTo": 2000
+  },
+  {
+    "$type": "1",
+    "Theme": "Samsonite",
+    "SetCount": 268,
+    "SubthemeCount": 7,
+    "YearFrom": 1961,
+    "YearTo": 1979
+  },
+  {
+    "$type": "1",
+    "Theme": "Scala",
+    "SetCount": 75,
+    "SubthemeCount": 1,
+    "YearFrom": 1979,
+    "YearTo": 2001
+  },
+  {
+    "$type": "1",
+    "Theme": "Scooby-Doo",
+    "SetCount": 7,
+    "SubthemeCount": 0,
+    "YearFrom": 2015,
+    "YearTo": 2016
+  },
+  {
+    "$type": "1",
+    "Theme": "Seasonal",
+    "SetCount": 139,
+    "SubthemeCount": 10,
+    "YearFrom": 1999,
+    "YearTo": 2019
+  },
+  {
+    "$type": "1",
+    "Theme": "Serious Play",
+    "SetCount": 30,
+    "SubthemeCount": 0,
+    "YearFrom": 2007,
+    "YearTo": 2015
+  },
+  {
+    "$type": "1",
+    "Theme": "Service Packs",
+    "SetCount": 376,
+    "SubthemeCount": 16,
+    "YearFrom": 1977,
+    "YearTo": 1999
+  },
+  {
+    "$type": "1",
+    "Theme": "Space",
+    "SetCount": 322,
+    "SubthemeCount": 22,
+    "YearFrom": 1978,
+    "YearTo": 2015
+  },
+  {
+    "$type": "1",
+    "Theme": "Speed Champions",
+    "SetCount": 28,
+    "SubthemeCount": 8,
+    "YearFrom": 2015,
+    "YearTo": 2018
+  },
+  {
+    "$type": "1",
+    "Theme": "Spider-Man",
+    "SetCount": 11,
+    "SubthemeCount": 1,
+    "YearFrom": 2003,
+    "YearTo": 2004
+  },
+  {
+    "$type": "1",
+    "Theme": "SpongeBob SquarePants",
+    "SetCount": 14,
+    "SubthemeCount": 0,
+    "YearFrom": 2006,
+    "YearTo": 2012
+  },
+  {
+    "$type": "1",
+    "Theme": "Sports",
+    "SetCount": 130,
+    "SubthemeCount": 5,
+    "YearFrom": 2000,
+    "YearTo": 2007
+  },
+  {
+    "$type": "1",
+    "Theme": "Spybotics",
+    "SetCount": 4,
+    "SubthemeCount": 0,
+    "YearFrom": 2002,
+    "YearTo": 2002
+  },
+  {
+    "$type": "1",
+    "Theme": "Star Wars",
+    "SetCount": 643,
+    "SubthemeCount": 28,
+    "YearFrom": 1999,
+    "YearTo": 2018
+  },
+  {
+    "$type": "1",
+    "Theme": "Studios",
+    "SetCount": 55,
+    "SubthemeCount": 2,
+    "YearFrom": 2000,
+    "YearTo": 2002
+  },
+  {
+    "$type": "1",
+    "Theme": "System",
+    "SetCount": 433,
+    "SubthemeCount": 10,
+    "YearFrom": 1949,
+    "YearTo": 1970
+  },
+  {
+    "$type": "1",
+    "Theme": "Technic",
+    "SetCount": 402,
+    "SubthemeCount": 9,
+    "YearFrom": 1977,
+    "YearTo": 2018
+  },
+  {
+    "$type": "1",
+    "Theme": "Teenage Mutant Ninja Turtles",
+    "SetCount": 20,
+    "SubthemeCount": 3,
+    "YearFrom": 2012,
+    "YearTo": 2014
+  },
+  {
+    "$type": "1",
+    "Theme": "The Angry Birds Movie",
+    "SetCount": 6,
+    "SubthemeCount": 0,
+    "YearFrom": 2016,
+    "YearTo": 2016
+  },
+  {
+    "$type": "1",
+    "Theme": "The Hobbit",
+    "SetCount": 24,
+    "SubthemeCount": 4,
+    "YearFrom": 2012,
+    "YearTo": 2014
+  },
+  {
+    "$type": "1",
+    "Theme": "The LEGO Batman Movie",
+    "SetCount": 42,
+    "SubthemeCount": 4,
+    "YearFrom": 2017,
+    "YearTo": 2018
+  },
+  {
+    "$type": "1",
+    "Theme": "The LEGO Movie",
+    "SetCount": 32,
+    "SubthemeCount": 3,
+    "YearFrom": 2014,
+    "YearTo": 2015
+  },
+  {
+    "$type": "1",
+    "Theme": "The LEGO Ninjago Movie",
+    "SetCount": 33,
+    "SubthemeCount": 4,
+    "YearFrom": 2017,
+    "YearTo": 2018
+  },
+  {
+    "$type": "1",
+    "Theme": "The Lone Ranger",
+    "SetCount": 8,
+    "SubthemeCount": 0,
+    "YearFrom": 2013,
+    "YearTo": 2013
+  },
+  {
+    "$type": "1",
+    "Theme": "The Lord of the Rings",
+    "SetCount": 16,
+    "SubthemeCount": 4,
+    "YearFrom": 2012,
+    "YearTo": 2013
+  },
+  {
+    "$type": "1",
+    "Theme": "The Powerpuff Girls",
+    "SetCount": 2,
+    "SubthemeCount": 0,
+    "YearFrom": 2018,
+    "YearTo": 2018
+  },
+  {
+    "$type": "1",
+    "Theme": "The Simpsons",
+    "SetCount": 2,
+    "SubthemeCount": 0,
+    "YearFrom": 2014,
+    "YearTo": 2015
+  },
+  {
+    "$type": "1",
+    "Theme": "Time Cruisers",
+    "SetCount": 9,
+    "SubthemeCount": 1,
+    "YearFrom": 1996,
+    "YearTo": 1997
+  },
+  {
+    "$type": "1",
+    "Theme": "Town",
+    "SetCount": 644,
+    "SubthemeCount": 35,
+    "YearFrom": 1978,
+    "YearTo": 2004
+  },
+  {
+    "$type": "1",
+    "Theme": "Toy Story",
+    "SetCount": 15,
+    "SubthemeCount": 3,
+    "YearFrom": 2010,
+    "YearTo": 2010
+  },
+  {
+    "$type": "1",
+    "Theme": "Trains",
+    "SetCount": 205,
+    "SubthemeCount": 7,
+    "YearFrom": 1966,
+    "YearTo": 2006
+  },
+  {
+    "$type": "1",
+    "Theme": "Ultra Agents",
+    "SetCount": 14,
+    "SubthemeCount": 0,
+    "YearFrom": 2014,
+    "YearTo": 2015
+  },
+  {
+    "$type": "1",
+    "Theme": "Unikitty!",
+    "SetCount": 6,
+    "SubthemeCount": 0,
+    "YearFrom": 2018,
+    "YearTo": 2018
+  },
+  {
+    "$type": "1",
+    "Theme": "Universal Building Set",
+    "SetCount": 43,
+    "SubthemeCount": 3,
+    "YearFrom": 1969,
+    "YearTo": 1987
+  },
+  {
+    "$type": "1",
+    "Theme": "Vikings",
+    "SetCount": 7,
+    "SubthemeCount": 0,
+    "YearFrom": 2005,
+    "YearTo": 2006
+  },
+  {
+    "$type": "1",
+    "Theme": "Western",
+    "SetCount": 20,
+    "SubthemeCount": 2,
+    "YearFrom": 1996,
+    "YearTo": 2002
+  },
+  {
+    "$type": "1",
+    "Theme": "Wizarding World",
+    "SetCount": 6,
+    "SubthemeCount": 2,
+    "YearFrom": 2018,
+    "YearTo": 2018
+  },
+  {
+    "$type": "1",
+    "Theme": "World City",
+    "SetCount": 38,
+    "SubthemeCount": 4,
+    "YearFrom": 2003,
+    "YearTo": 2004
+  },
+  {
+    "$type": "1",
+    "Theme": "World Racers",
+    "SetCount": 9,
+    "SubthemeCount": 1,
+    "YearFrom": 2010,
+    "YearTo": 2010
+  },
+  {
+    "$type": "1",
+    "Theme": "Znap",
+    "SetCount": 20,
+    "SubthemeCount": 0,
+    "YearFrom": 1998,
+    "YearTo": 1999
+  }
+]

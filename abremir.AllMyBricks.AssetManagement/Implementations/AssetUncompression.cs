@@ -55,7 +55,7 @@ namespace abremir.AllMyBricks.AssetManagement.Implementations
 
             originStream.Position = 0;
 
-            using(var originReader = _readerFactory.Open(originStream))
+            using (var originReader = _readerFactory.Open(originStream))
             {
                 originReader.EntryExtractionProgress += OriginReader_EntryExtractionProgress;
 

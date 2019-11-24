@@ -24,7 +24,7 @@ namespace abremir.AllMyBricks.Data.Repositories
             var repository = _repositoryService.GetRepository();
             var insights = GetInsights();
 
-            if(insights == null)
+            if (insights == null)
             {
                 repository.Write(() =>
                 {
@@ -36,7 +36,7 @@ namespace abremir.AllMyBricks.Data.Repositories
             }
             else
             {
-                using(var transaction = repository.BeginWrite())
+                using (var transaction = repository.BeginWrite())
                 {
                     insights.DataSynchronizationTimestamp = dataSynchronizationTimestamp;
 

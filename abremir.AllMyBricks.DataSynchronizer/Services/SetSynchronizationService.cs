@@ -70,7 +70,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Services
                             }
                         }
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
                         _messageHub.Publish(new ProcessingThemeException { Name = theme.Name, Exception = ex });
                     }
@@ -85,7 +85,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Services
 
                 _insightsRepository.UpdateDataSynchronizationTimestamp(DateTimeOffset.Now);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _messageHub.Publish(new SetSynchronizationServiceException { Exception = ex });
             }

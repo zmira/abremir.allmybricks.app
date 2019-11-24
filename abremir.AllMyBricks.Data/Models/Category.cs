@@ -2,7 +2,7 @@
 
 namespace abremir.AllMyBricks.Data.Models
 {
-    public class Category: IReferenceData
+    public class Category : IReferenceData
     {
         public string Value { get; set; }
     }

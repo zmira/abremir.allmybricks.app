@@ -23,7 +23,7 @@ namespace abremir.AllMyBricks.Data.Repositories
 
         public Theme AddOrUpdate(Theme theme)
         {
-            if(theme == null
+            if (theme == null
                 || string.IsNullOrWhiteSpace(theme.Name)
                 || theme.YearFrom < Constants.MinimumSetYear)
             {
@@ -62,7 +62,7 @@ namespace abremir.AllMyBricks.Data.Repositories
 
         public IEnumerable<Theme> AllForYear(short year)
         {
-            if(year < Constants.MinimumSetYear)
+            if (year < Constants.MinimumSetYear)
             {
                 return EmptyEnumerable;
             }

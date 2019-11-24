@@ -5,11 +5,11 @@ using Microsoft.Extensions.Logging;
 
 namespace abremir.AllMyBricks.DatabaseSeeder
 {
-    class Program
+    internal class Program
     {
         private static ILogger Logger;
 
-        static int Main(string[] args)
+        private static int Main(string[] args)
         {
             var app = new CommandLineApplication();
             app.HelpOption();
@@ -82,10 +82,13 @@ namespace abremir.AllMyBricks.DatabaseSeeder
             {
                 case DatabaseSeederConstants.LogVerbosityValueNone:
                     return LogVerbosityEnum.NoLogging;
+
                 case DatabaseSeederConstants.LogVerbosityValueMinimal:
                     return LogVerbosityEnum.MinimalLogging;
+
                 case DatabaseSeederConstants.LogVerbosityValueFull:
                     return LogVerbosityEnum.FullLogging;
+
                 default:
                     return GetLogVerbosityBasedOnUnattendedCommand(unattendedCommand);
             }
@@ -114,6 +117,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder
             {
                 case DatabaseSeederConstants.LogDestinationValueFile:
                     return LogDestinationEnum.File;
+
                 default:
                     return LogDestinationEnum.Console;
             }

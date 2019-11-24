@@ -99,14 +99,14 @@ namespace abremir.AllMyBricks.Data.Repositories
 
             var bricksetUser = Get(username);
 
-            if(bricksetUser == null)
+            if (bricksetUser == null)
             {
                 return null;
             }
 
             var existingBricksetUserSet = bricksetUser.Sets.FirstOrDefault(set => set.SetId == bricksetUserSet.SetId);
 
-            if(existingBricksetUserSet != null)
+            if (existingBricksetUserSet != null)
             {
                 if (existingBricksetUserSet.Owned == bricksetUserSet.Owned
                     && existingBricksetUserSet.Wanted == bricksetUserSet.Wanted

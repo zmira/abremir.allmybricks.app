@@ -22,7 +22,7 @@ namespace abremir.AllMyBricks.Data.Repositories
 
         public Subtheme AddOrUpdate(Subtheme subtheme)
         {
-            if(subtheme == null
+            if (subtheme == null
                 || string.IsNullOrWhiteSpace(subtheme.Name)
                 || subtheme.Theme == null
                 || string.IsNullOrWhiteSpace(subtheme.Theme.Name)
@@ -95,7 +95,7 @@ namespace abremir.AllMyBricks.Data.Repositories
 
         public IEnumerable<Subtheme> AllForYear(short year)
         {
-            if(year < Constants.MinimumSetYear)
+            if (year < Constants.MinimumSetYear)
             {
                 return EmptyEnumerable;
             }

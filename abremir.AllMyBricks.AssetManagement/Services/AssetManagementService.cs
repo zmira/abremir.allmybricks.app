@@ -21,7 +21,7 @@ namespace abremir.AllMyBricks.AssetManagement.Services
 
         public async Task<bool> InstallAllMyBricksSeedDatabase(string databaseSeedUrl, string destinationFolderPath)
         {
-            if((!string.IsNullOrWhiteSpace(destinationFolderPath)
+            if ((!string.IsNullOrWhiteSpace(destinationFolderPath)
                     && !_directory.Exists(destinationFolderPath))
                 || string.IsNullOrWhiteSpace(databaseSeedUrl)
                 || !(Uri.TryCreate(databaseSeedUrl, UriKind.Absolute, out Uri uriResult)

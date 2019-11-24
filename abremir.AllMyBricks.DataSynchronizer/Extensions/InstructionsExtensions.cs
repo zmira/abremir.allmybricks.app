@@ -21,7 +21,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Extensions
         {
             foreach (var item in source)
             {
-                if(item.Description.Equals(Constants.InstructionNoLongerListedInLego, StringComparison.InvariantCultureIgnoreCase))
+                if (item.Description.Equals(Constants.InstructionNoLongerListedInLego, StringComparison.InvariantCultureIgnoreCase))
                 {
                     continue;
                 }

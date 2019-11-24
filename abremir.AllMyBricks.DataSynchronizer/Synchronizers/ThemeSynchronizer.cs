@@ -76,7 +76,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                     _messageHub.Publish(new SynchronizingThemeEnd { Theme = bricksetTheme.Theme });
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _messageHub.Publish(new ThemeSynchronizerException { Exception = ex });
             }

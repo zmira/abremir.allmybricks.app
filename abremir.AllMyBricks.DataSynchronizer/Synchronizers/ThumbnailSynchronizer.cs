@@ -67,7 +67,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
 
                 _messageHub.Publish(new SynchronizingThumbnailEnd { Thumbnail = set.Images[0].ThumbnailUrl });
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _messageHub.Publish(new ThumbnailSynchronizerException { Exception = ex });
             }

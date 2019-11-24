@@ -16,7 +16,8 @@ namespace abremir.AllMyBricks.Data.Models.Realm
         public DateTimeOffset? UserSynchronizationTimestamp { get; set; }
         public IList<BricksetUserSet> Sets { get; }
 
-        public BricksetUserTypeEnum UserType {
+        public BricksetUserTypeEnum UserType
+        {
             get => (BricksetUserTypeEnum)UserTypeRaw;
             set => UserTypeRaw = (byte)value;
         }

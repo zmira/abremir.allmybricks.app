@@ -3,7 +3,7 @@ using System;
 
 namespace abremir.AllMyBricks.Data.Models
 {
-    public class Tag: IReferenceData
+    public class Tag : IReferenceData
     {
         public string Value { get; set; }
 

@@ -26,6 +26,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Configuration
                 case LogDestinationEnum.File:
                     SetupFileLogging();
                     break;
+
                 case LogDestinationEnum.Console:
                     SetupConsoleLogging();
                     break;

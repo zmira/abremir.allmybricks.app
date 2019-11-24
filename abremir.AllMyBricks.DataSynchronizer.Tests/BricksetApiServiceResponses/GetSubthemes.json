@@ -1,1 +1,45 @@
-[{"$types":{"abremir.AllMyBricks.ThirdParty.Brickset.Models.Subthemes, abremir.AllMyBricks.ThirdParty.Brickset, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null":"1"},"$type":"1","Theme":"Architecture","Subtheme":"{None}","SetCount":5,"YearFrom":2013,"YearTo":2018},{"$type":"1","Theme":"Architecture","Subtheme":"Architect Series","SetCount":8,"YearFrom":2009,"YearTo":2013},{"$type":"1","Theme":"Architecture","Subtheme":"Brickstructures","SetCount":2,"YearFrom":2008,"YearTo":2008},{"$type":"1","Theme":"Architecture","Subtheme":"Landmark Series","SetCount":22,"YearFrom":2008,"YearTo":2017},{"$type":"1","Theme":"Architecture","Subtheme":"Skylines","SetCount":8,"YearFrom":2016,"YearTo":2018}]
+[
+  {
+    "$types": {
+      "abremir.AllMyBricks.ThirdParty.Brickset.Models.Subthemes, abremir.AllMyBricks.ThirdParty.Brickset, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "1"
+    },
+    "$type": "1",
+    "Theme": "Architecture",
+    "Subtheme": "{None}",
+    "SetCount": 5,
+    "YearFrom": 2013,
+    "YearTo": 2018
+  },
+  {
+    "$type": "1",
+    "Theme": "Architecture",
+    "Subtheme": "Architect Series",
+    "SetCount": 8,
+    "YearFrom": 2009,
+    "YearTo": 2013
+  },
+  {
+    "$type": "1",
+    "Theme": "Architecture",
+    "Subtheme": "Brickstructures",
+    "SetCount": 2,
+    "YearFrom": 2008,
+    "YearTo": 2008
+  },
+  {
+    "$type": "1",
+    "Theme": "Architecture",
+    "Subtheme": "Landmark Series",
+    "SetCount": 22,
+    "YearFrom": 2008,
+    "YearTo": 2017
+  },
+  {
+    "$type": "1",
+    "Theme": "Architecture",
+    "Subtheme": "Skylines",
+    "SetCount": 8,
+    "YearFrom": 2016,
+    "YearTo": 2018
+  }
+]

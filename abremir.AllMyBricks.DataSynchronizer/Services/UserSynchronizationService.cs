@@ -2,8 +2,8 @@
 using abremir.AllMyBricks.Data.Interfaces;
 using abremir.AllMyBricks.DataSynchronizer.Events.UserSynchronizationService;
 using abremir.AllMyBricks.DataSynchronizer.Interfaces;
-using abremir.AllMyBricks.Platform.Interfaces;
 using abremir.AllMyBricks.Onboarding.Interfaces;
+using abremir.AllMyBricks.Platform.Interfaces;
 using Easy.MessageHub;
 using System;
 using System.Collections.Generic;

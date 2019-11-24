@@ -73,7 +73,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Services
 
         public void UncompressDatabaseFile()
         {
-            if(!GetCompressedDatabaseFilePathIfExists(out var compressedFilePath))
+            if (!GetCompressedDatabaseFilePathIfExists(out var compressedFilePath))
             {
                 return;
             }

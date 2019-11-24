@@ -1,6 +1,6 @@
-﻿using abremir.AllMyBricks.Platform.Interfaces;
-using abremir.AllMyBricks.Onboarding.Interfaces;
+﻿using abremir.AllMyBricks.Onboarding.Interfaces;
 using abremir.AllMyBricks.Onboarding.Services;
+using abremir.AllMyBricks.Platform.Interfaces;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;

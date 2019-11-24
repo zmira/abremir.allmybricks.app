@@ -38,7 +38,7 @@ namespace abremir.AllMyBricks.AssetManagement.Implementations
 
             var destinationFilePath = Path.Combine(destinationFolderPath ?? string.Empty, GetCompressedAssetFileName(originFilePath));
 
-            if(!overwrite && _file.Exists(destinationFilePath))
+            if (!overwrite && _file.Exists(destinationFilePath))
             {
                 return false;
             }

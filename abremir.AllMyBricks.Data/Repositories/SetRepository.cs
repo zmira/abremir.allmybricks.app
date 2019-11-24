@@ -158,7 +158,6 @@ namespace abremir.AllMyBricks.Data.Repositories
                 .Filter($"Category.Value ==[c] \"{categoryName.Trim()}\"")
                 .AsEnumerable()
                 .ToPlainObjectEnumerable();
-
         }
 
         public IEnumerable<Set> AllForTag(string tagName)

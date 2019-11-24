@@ -1,5 +1,4 @@
-﻿using abremir.AllMyBricks.Data.Configuration;
-using abremir.AllMyBricks.Data.Extensions;
+﻿using abremir.AllMyBricks.Data.Extensions;
 using abremir.AllMyBricks.Data.Interfaces;
 using abremir.AllMyBricks.Data.Models;
 using abremir.AllMyBricks.Data.Repositories;
@@ -108,7 +107,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
             GetOrAddTestHelper<ThemeGroup, Managed.ThemeGroup>(ModelsSetup.ThemeGroupReferenceDataValue, ModelsSetup.ThemeGroupReferenceData.ToPlainObject(), exists: true);
         }
 
-        private void GetOrAddTestHelper<T, U>(string referenceDataValue, T expectedReferenceData, bool insert = false, bool exists = false) where T: IReferenceData where U: RealmObject, IReferenceData
+        private void GetOrAddTestHelper<T, U>(string referenceDataValue, T expectedReferenceData, bool insert = false, bool exists = false) where T : IReferenceData where U : RealmObject, IReferenceData
         {
             if (exists)
             {

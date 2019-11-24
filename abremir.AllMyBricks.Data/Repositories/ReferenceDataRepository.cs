@@ -12,34 +12,33 @@ namespace abremir.AllMyBricks.Data.Repositories
     {
         private readonly IRepositoryService _repositoryService;
 
-
         public ReferenceDataRepository(IRepositoryService repositoryService)
         {
             _repositoryService = repositoryService;
         }
 
-        public T GetOrAdd<T>(string value) where T: IReferenceData
+        public T GetOrAdd<T>(string value) where T : IReferenceData
         {
             var tType = typeof(T);
 
-            if(tType == typeof(Category))
+            if (tType == typeof(Category))
             {
-                return (T) Convert.ChangeType(GetOrAdd<Category, Managed.Category>(value), typeof(T));
+                return (T)Convert.ChangeType(GetOrAdd<Category, Managed.Category>(value), typeof(T));
             }
 
             if (tType == typeof(PackagingType))
             {
-                return (T) Convert.ChangeType(GetOrAdd<PackagingType, Managed.PackagingType>(value), typeof(T));
+                return (T)Convert.ChangeType(GetOrAdd<PackagingType, Managed.PackagingType>(value), typeof(T));
             }
 
             if (tType == typeof(Tag))
             {
-                return (T) Convert.ChangeType(GetOrAdd<Tag, Managed.Tag>(value), typeof(T));
+                return (T)Convert.ChangeType(GetOrAdd<Tag, Managed.Tag>(value), typeof(T));
             }
 
-            if(tType == typeof(ThemeGroup))
+            if (tType == typeof(ThemeGroup))
             {
-                return (T) Convert.ChangeType(GetOrAdd<ThemeGroup, Managed.ThemeGroup>(value), typeof(T));
+                return (T)Convert.ChangeType(GetOrAdd<ThemeGroup, Managed.ThemeGroup>(value), typeof(T));
             }
 
             return default(T);

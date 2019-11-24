@@ -1,5 +1,5 @@
-﻿using abremir.AllMyBricks.Platform.Interfaces;
-using abremir.AllMyBricks.Onboarding.Shared.Models;
+﻿using abremir.AllMyBricks.Onboarding.Shared.Models;
+using abremir.AllMyBricks.Platform.Interfaces;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

@@ -61,7 +61,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
 
                         _subthemeRepository.AddOrUpdate(subtheme);
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
                         _messageHub.Publish(new SynchronizingSubthemeException { Theme = theme.Name, Subtheme = bricksetSubtheme.Subtheme, Exception = ex });
                     }
@@ -69,7 +69,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                     _messageHub.Publish(new SynchronizingSubthemeEnd { Theme = theme.Name, Subtheme = bricksetSubtheme.Subtheme });
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _messageHub.Publish(new SubthemeSynchronizerException { Theme = theme.Name, Exception = ex });
             }

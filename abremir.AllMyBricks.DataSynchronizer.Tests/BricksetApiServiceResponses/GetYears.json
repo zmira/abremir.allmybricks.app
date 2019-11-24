@@ -1,1 +1,71 @@
-[{"$types":{"abremir.AllMyBricks.ThirdParty.Brickset.Models.Years, abremir.AllMyBricks.ThirdParty.Brickset, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null":"1"},"$type":"1","Theme":"Architecture","Year":"2008","SetCount":4},{"$type":"1","Theme":"Architecture","Year":"2009","SetCount":4},{"$type":"1","Theme":"Architecture","Year":"2010","SetCount":1},{"$type":"1","Theme":"Architecture","Year":"2011","SetCount":6},{"$type":"1","Theme":"Architecture","Year":"2012","SetCount":4},{"$type":"1","Theme":"Architecture","Year":"2013","SetCount":5},{"$type":"1","Theme":"Architecture","Year":"2014","SetCount":2},{"$type":"1","Theme":"Architecture","Year":"2015","SetCount":3},{"$type":"1","Theme":"Architecture","Year":"2016","SetCount":6},{"$type":"1","Theme":"Architecture","Year":"2017","SetCount":6},{"$type":"1","Theme":"Architecture","Year":"2018","SetCount":4}]
+[
+  {
+    "$types": {
+      "abremir.AllMyBricks.ThirdParty.Brickset.Models.Years, abremir.AllMyBricks.ThirdParty.Brickset, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "1"
+    },
+    "$type": "1",
+    "Theme": "Architecture",
+    "Year": "2008",
+    "SetCount": 4
+  },
+  {
+    "$type": "1",
+    "Theme": "Architecture",
+    "Year": "2009",
+    "SetCount": 4
+  },
+  {
+    "$type": "1",
+    "Theme": "Architecture",
+    "Year": "2010",
+    "SetCount": 1
+  },
+  {
+    "$type": "1",
+    "Theme": "Architecture",
+    "Year": "2011",
+    "SetCount": 6
+  },
+  {
+    "$type": "1",
+    "Theme": "Architecture",
+    "Year": "2012",
+    "SetCount": 4
+  },
+  {
+    "$type": "1",
+    "Theme": "Architecture",
+    "Year": "2013",
+    "SetCount": 5
+  },
+  {
+    "$type": "1",
+    "Theme": "Architecture",
+    "Year": "2014",
+    "SetCount": 2
+  },
+  {
+    "$type": "1",
+    "Theme": "Architecture",
+    "Year": "2015",
+    "SetCount": 3
+  },
+  {
+    "$type": "1",
+    "Theme": "Architecture",
+    "Year": "2016",
+    "SetCount": 6
+  },
+  {
+    "$type": "1",
+    "Theme": "Architecture",
+    "Year": "2017",
+    "SetCount": 6
+  },
+  {
+    "$type": "1",
+    "Theme": "Architecture",
+    "Year": "2018",
+    "SetCount": 4
+  }
+]
