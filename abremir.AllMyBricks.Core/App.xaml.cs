@@ -1,8 +1,8 @@
-﻿using abremir.AllMyBricks.Configuration;
+﻿using abremir.AllMyBricks.Core.Configuration;
 using abremir.AllMyBricks.Platform.Interfaces;
 using Xamarin.Forms;
 
-namespace abremir.AllMyBricks
+namespace abremir.AllMyBricks.Core
 {
     public partial class App : Application
     {

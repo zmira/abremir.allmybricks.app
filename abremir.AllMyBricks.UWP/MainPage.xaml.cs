@@ -6,7 +6,7 @@
         {
             this.InitializeComponent();
 
-            LoadApplication(new abremir.AllMyBricks.App());
+            LoadApplication(new Core.App());
         }
     }
 }

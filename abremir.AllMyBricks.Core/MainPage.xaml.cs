@@ -1,6 +1,6 @@
 ﻿using Xamarin.Forms;
 
-namespace abremir.AllMyBricks
+namespace abremir.AllMyBricks.Core
 {
     public partial class MainPage : ContentPage
     {

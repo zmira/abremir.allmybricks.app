@@ -1,6 +1,6 @@
 ﻿using SimpleInjector;
 
-namespace abremir.AllMyBricks.Configuration
+namespace abremir.AllMyBricks.Core.Configuration
 {
     public static class IoC
     {

@@ -15,7 +15,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "abremir.AllMyBricks.iOS", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "abremir.AllMyBricks.UWP", "abremir.AllMyBricks.UWP\abremir.AllMyBricks.UWP.csproj", "{6B8DF377-D93C-4CAE-9E3D-2632FD1151C9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "abremir.AllMyBricks", "abremir.AllMyBricks\abremir.AllMyBricks.csproj", "{B89C97CD-69A4-4336-9A70-D8223A79810F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "abremir.AllMyBricks.Core", "abremir.AllMyBricks.Core\abremir.AllMyBricks.Core.csproj", "{B89C97CD-69A4-4336-9A70-D8223A79810F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "abremir.AllMyBricks.ThirdParty.Brickset", "abremir.AllMyBricks.ThirdParty.Brickset\abremir.AllMyBricks.ThirdParty.Brickset.csproj", "{94D80FED-2C17-4A8A-B5FF-42CB3ABE38FD}"
 EndProject

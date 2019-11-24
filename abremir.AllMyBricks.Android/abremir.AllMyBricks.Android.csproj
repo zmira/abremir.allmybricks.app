@@ -74,7 +74,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="..\abremir.AllMyBricks\appsettings.json">
+    <AndroidAsset Include="..\abremir.AllMyBricks.Core\appsettings.json">
       <Link>Assets\appsettings.json</Link>
     </AndroidAsset>
     <None Include="Resources\AboutResources.txt" />
@@ -97,9 +97,9 @@
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\abremir.AllMyBricks\abremir.AllMyBricks.csproj">
-      <Project>{B4C77CB9-BE1D-4A23-B437-D9F9CD3BAA60}</Project>
-      <Name>abremir.AllMyBricks</Name>
+    <ProjectReference Include="..\abremir.AllMyBricks.Core\abremir.AllMyBricks.Core.csproj">
+      <Project>{B89C97CD-69A4-4336-9A70-D8223A79810F}</Project>
+      <Name>abremir.AllMyBricks.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
