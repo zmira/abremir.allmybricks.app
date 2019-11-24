@@ -1,5 +1,5 @@
 ﻿using abremir.AllMyBricks.AssetManagement.Interfaces;
-using abremir.AllMyBricks.Device.Interfaces;
+using abremir.AllMyBricks.Platform.Interfaces;
 using SharpCompress.Common;
 using SharpCompress.Writers;
 using SharpCompress.Writers.Tar;

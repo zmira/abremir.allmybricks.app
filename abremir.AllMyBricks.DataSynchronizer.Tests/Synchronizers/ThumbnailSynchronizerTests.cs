@@ -1,7 +1,7 @@
 ﻿using abremir.AllMyBricks.Data.Models;
 using abremir.AllMyBricks.DataSynchronizer.Synchronizers;
-using abremir.AllMyBricks.Device.Enumerations;
-using abremir.AllMyBricks.Device.Interfaces;
+using abremir.AllMyBricks.Platform.Enumerations;
+using abremir.AllMyBricks.Platform.Interfaces;
 using Flurl.Http.Testing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;

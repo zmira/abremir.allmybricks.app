@@ -1,6 +1,6 @@
 ﻿using abremir.AllMyBricks.AssetManagement.Interfaces;
 using abremir.AllMyBricks.AssetManagement.Services;
-using abremir.AllMyBricks.Device.Interfaces;
+using abremir.AllMyBricks.Platform.Interfaces;
 using FluentAssertions;
 using Flurl.Http.Testing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

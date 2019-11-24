@@ -1,7 +1,7 @@
 ﻿using abremir.AllMyBricks.Data.Enumerations;
 using abremir.AllMyBricks.Data.Interfaces;
 using abremir.AllMyBricks.DataSynchronizer.Interfaces;
-using abremir.AllMyBricks.Device.Interfaces;
+using abremir.AllMyBricks.Platform.Interfaces;
 using abremir.AllMyBricks.Onboarding.Shared.Security;
 using abremir.AllMyBricks.ThirdParty.Brickset.Interfaces;
 using abremir.AllMyBricks.ThirdParty.Brickset.Models;

@@ -18,7 +18,7 @@ namespace abremir.AllMyBricks.AssetManagement.Configuration
             container.Register<ITarWriter, TarWriterImplementation>(Lifestyle.Transient);
             container.Register<IReaderFactory, ReaderFactoryImplementation>(Lifestyle.Transient);
 
-            return Device.Configuration.IoC.ConfigureIO(container);
+            return Platform.Configuration.IoC.ConfigureIO(container);
         }
     }
 }

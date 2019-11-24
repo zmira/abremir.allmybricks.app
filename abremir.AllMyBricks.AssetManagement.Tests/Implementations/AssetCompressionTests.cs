@@ -1,6 +1,6 @@
 ﻿using abremir.AllMyBricks.AssetManagement.Implementations;
 using abremir.AllMyBricks.AssetManagement.Interfaces;
-using abremir.AllMyBricks.Device.Interfaces;
+using abremir.AllMyBricks.Platform.Interfaces;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;

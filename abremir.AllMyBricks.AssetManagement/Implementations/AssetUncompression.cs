@@ -1,5 +1,5 @@
 ﻿using abremir.AllMyBricks.AssetManagement.Interfaces;
-using abremir.AllMyBricks.Device.Interfaces;
+using abremir.AllMyBricks.Platform.Interfaces;
 using Easy.MessageHub;
 using SharpCompress.Common;
 using System.IO;

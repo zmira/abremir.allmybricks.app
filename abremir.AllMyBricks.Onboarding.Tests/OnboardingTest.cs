@@ -1,5 +1,5 @@
-﻿using abremir.AllMyBricks.Device.Interfaces;
-using abremir.AllMyBricks.Device.Services;
+﻿using abremir.AllMyBricks.Platform.Interfaces;
+using abremir.AllMyBricks.Platform.Services;
 using abremir.AllMyBricks.Onboarding.Interfaces;
 using abremir.AllMyBricks.Onboarding.Services;
 using abremir.AllMyBricks.Onboarding.Shared.Models;

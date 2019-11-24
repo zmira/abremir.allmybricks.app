@@ -1,4 +1,4 @@
-﻿using abremir.AllMyBricks.Device.Interfaces;
+﻿using abremir.AllMyBricks.Platform.Interfaces;
 using abremir.AllMyBricks.Onboarding.Interfaces;
 using abremir.AllMyBricks.Onboarding.Shared.Models;
 using System.Threading.Tasks;

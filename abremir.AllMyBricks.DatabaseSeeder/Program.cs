@@ -1,5 +1,5 @@
 ﻿using abremir.AllMyBricks.DatabaseSeeder.Configuration;
-using abremir.AllMyBricks.Device.Interfaces;
+using abremir.AllMyBricks.Platform.Interfaces;
 using McMaster.Extensions.CommandLineUtils;
 using Microsoft.Extensions.Logging;
 

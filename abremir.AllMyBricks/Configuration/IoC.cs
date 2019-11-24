@@ -10,7 +10,7 @@ namespace abremir.AllMyBricks.Configuration
         {
             IoCContainer = new Container();
 
-            Device.Configuration.IoC.Configure(IoCContainer);
+            Platform.Configuration.IoC.Configure(IoCContainer);
             Data.Configuration.IoC.Configure(IoCContainer);
             ThirdParty.Brickset.Configuration.IoC.Configure(IoCContainer);
             Onboarding.Configuration.IoC.Configure(allMyBricksOnboardingUrl, IoCContainer);

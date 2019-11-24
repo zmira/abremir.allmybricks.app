@@ -1,5 +1,5 @@
 ﻿using abremir.AllMyBricks.Configuration;
-using abremir.AllMyBricks.Device.Interfaces;
+using abremir.AllMyBricks.Platform.Interfaces;
 using Xamarin.Forms;
 
 namespace abremir.AllMyBricks

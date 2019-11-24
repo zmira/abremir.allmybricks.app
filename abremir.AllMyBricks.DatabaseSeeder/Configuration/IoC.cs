@@ -1,6 +1,6 @@
 ﻿using abremir.AllMyBricks.DatabaseSeeder.Loggers;
 using abremir.AllMyBricks.DatabaseSeeder.Services;
-using abremir.AllMyBricks.Device.Interfaces;
+using abremir.AllMyBricks.Platform.Interfaces;
 using Easy.MessageHub;
 using SimpleInjector;
 using System.Reflection;
