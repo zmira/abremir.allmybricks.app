@@ -58,7 +58,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Services
 
                     _messageHub.Publish(new UsersAcquired { UserType = BricksetUserTypeEnum.Primary, Count = tasks.Count });
 
-                    Task.WaitAll(tasks.ToArray());
+                    await Task.WhenAll(tasks);
                 }
                 else if (_bricksetUserRepository.Exists(username))
                 {
