@@ -42,7 +42,6 @@
     <PackageReference Include="NSubstitute" Version="4.2.1" />
     <PackageReference Include="NSubstituteAutoMocker.Standard" Version="1.0.0" />
     <PackageReference Include="Realm" Version="4.2.0" />
-    <PackageReference Include="Realm.DataBinding" Version="1.2.0" />
     <PackageReference Include="Realm.Fody" Version="4.2.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
