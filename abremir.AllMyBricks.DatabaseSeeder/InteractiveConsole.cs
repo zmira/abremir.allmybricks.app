@@ -1,13 +1,18 @@
-﻿using abremir.AllMyBricks.DatabaseSeeder.Configuration;
+﻿using abremir.AllMyBricks.Data.Enumerations;
+using abremir.AllMyBricks.Data.Interfaces;
+using abremir.AllMyBricks.DatabaseSeeder.Configuration;
 using abremir.AllMyBricks.DatabaseSeeder.Services;
 using abremir.AllMyBricks.DataSynchronizer.Events.SetSynchronizationService;
 using abremir.AllMyBricks.DataSynchronizer.Events.SetSynchronizer;
 using abremir.AllMyBricks.DataSynchronizer.Events.SubthemeSynchronizer;
 using abremir.AllMyBricks.DataSynchronizer.Events.ThemeSynchronizer;
+using abremir.AllMyBricks.DataSynchronizer.Events.UserSynchronizationService;
+using abremir.AllMyBricks.DataSynchronizer.Events.UserSynchronizer;
 using abremir.AllMyBricks.DataSynchronizer.Interfaces;
 using Easy.MessageHub;
 using System;
 using System.Diagnostics;
+using System.Linq;
 using Terminal.Gui;
 
 namespace abremir.AllMyBricks.DatabaseSeeder
@@ -15,6 +20,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder
     public static class InteractiveConsole
     {
         private static FrameView SetsSynchronizationProgressFrame;
+        private static FrameView PrimaryUsersSynchronizationProgressFrame;
         private static bool CanExit = true;
 
         public static void Run()
@@ -52,6 +58,25 @@ namespace abremir.AllMyBricks.DatabaseSeeder
             SetsSynchronizationProgressFrame.Add(totalUpdatedSubthemesLabel);
             SetsSynchronizationProgressFrame.Add(totalUpdatedSetsLabel);
 
+            PrimaryUsersSynchronizationProgressFrame = new FrameView(new Rect(10, 1, 99, topLevel.Frame.Height - 4), "Primary Users Synchronization Progress...");
+
+            var userCountLabel = new Label(4, 3, "".PadRight(70));
+
+            var userLabel = new Label(4, 5, "".PadRight(70));
+            var userProgress = new ProgressBar(new Rect(4, 6, 88, 1));
+
+            var syncTypeLabel = new Label(4, 8, "".PadRight(70));
+
+            var syncLabel = new Label(4, 10, "".PadRight(70));
+            var syncProgress = new ProgressBar(new Rect(4, 11, 88, 1));
+
+            PrimaryUsersSynchronizationProgressFrame.Add(userCountLabel);
+            PrimaryUsersSynchronizationProgressFrame.Add(userLabel);
+            PrimaryUsersSynchronizationProgressFrame.Add(userProgress);
+            PrimaryUsersSynchronizationProgressFrame.Add(syncTypeLabel);
+            PrimaryUsersSynchronizationProgressFrame.Add(syncLabel);
+            PrimaryUsersSynchronizationProgressFrame.Add(syncProgress);
+
             var themeCount = 0f;
             var themeIndex = 0f;
             var subthemeCount = 0f;
@@ -61,6 +86,11 @@ namespace abremir.AllMyBricks.DatabaseSeeder
             var totalUpdatedThemes = 0f;
             var totalUpdatedSubthemes = 0f;
             var totalUpdatedSets = 0f;
+
+            var userCount = 0f;
+            var userIndex = 0f;
+            var syncCount = 0f;
+            var syncIndex = 0f;
 
             var messageHub = IoC.IoCContainer.GetInstance<IMessageHub>();
 
@@ -317,7 +347,112 @@ namespace abremir.AllMyBricks.DatabaseSeeder
 
                 Application.Run(dialog);
             });
+            messageHub.Subscribe<UserSynchronizationServiceStart>(_ =>
+            {
+                PrimaryUsersSynchronizationProgressFrame.Clear();
 
+                Application.MainLoop.Invoke(PrimaryUsersSynchronizationProgressFrame.ChildNeedsDisplay);
+
+                stopwatch = Stopwatch.StartNew();
+            });
+            messageHub.Subscribe<UsersAcquired>(message =>
+            {
+                userCountLabel.Text = $"Found {message.Count} users to process";
+                userCount = message.Count;
+                userIndex = 0f;
+                userProgress.Fraction = 0f;
+
+                Application.MainLoop.Invoke(userCountLabel.ChildNeedsDisplay);
+                Application.MainLoop.Invoke(userProgress.ChildNeedsDisplay);
+            });
+            messageHub.Subscribe<UserSynchronizerStart>(message =>
+            {
+                userLabel.Text = $"Processing user {message.Username}";
+                userIndex++;
+                userProgress.Fraction = userIndex / userCount;
+
+                Application.MainLoop.Invoke(userLabel.ChildNeedsDisplay);
+                Application.MainLoop.Invoke(userProgress.ChildNeedsDisplay);
+            });
+            messageHub.Subscribe<AllMyBricksToBricksetStart>(_ =>
+            {
+                syncTypeLabel.Text = "Updating brickset.com with updated owned and wanted sets since previous sync";
+
+                Application.MainLoop.Invoke(syncTypeLabel.ChildNeedsDisplay);
+            });
+            messageHub.Subscribe<AllMyBricksToBricksetAcquiringSetsEnd>(message =>
+            {
+                syncLabel.Text = $"Uploading data of {message.Count} sets to brickset.com...";
+                syncCount = message.Count;
+                syncIndex = 0f;
+                syncProgress.Fraction = 0f;
+
+                Application.MainLoop.Invoke(syncLabel.ChildNeedsDisplay);
+                Application.MainLoop.Invoke(syncProgress.ChildNeedsDisplay);
+            });
+            messageHub.Subscribe<BricksetToAllMyBricksStart>(_ =>
+            {
+                syncTypeLabel.Text = "Downloading from brickset.com all owned and wanted sets missing in AllMyBricks";
+
+                Application.MainLoop.Invoke(syncTypeLabel.ChildNeedsDisplay);
+            });
+            messageHub.Subscribe<BricksetToAllMyBricksAcquiringSetsEnd>(message =>
+            {
+                syncLabel.Text = $"Adding {message.Count} sets to AllMyBricks";
+                syncCount = message.Count;
+                syncIndex = 0f;
+                syncProgress.Fraction = 0f;
+
+                Application.MainLoop.Invoke(syncLabel.ChildNeedsDisplay);
+                Application.MainLoop.Invoke(syncProgress.ChildNeedsDisplay);
+            });
+            messageHub.Subscribe<UserSynchronizerSynchronizingSetStart>(_ =>
+            {
+                syncIndex++;
+                syncProgress.Fraction = syncIndex / syncCount;
+
+                Application.MainLoop.Invoke(syncProgress.ChildNeedsDisplay);
+            });
+            messageHub.Subscribe<UserSynchronizationServiceEnd>(_ =>
+            {
+                userCountLabel.Text = string.Empty;
+                userProgress.Fraction = 0f;
+                userLabel.Text = string.Empty;
+                syncTypeLabel.Text = string.Empty;
+                syncLabel.Text = string.Empty;
+                syncProgress.Fraction = 0f;
+                userCount = 0f;
+                userIndex = 0f;
+                syncIndex = 0f;
+                syncCount = 0f;
+
+                stopwatch.Stop();
+
+                PrimaryUsersSynchronizationProgressFrame.Clear();
+
+                Application.MainLoop.Invoke(PrimaryUsersSynchronizationProgressFrame.ChildNeedsDisplay);
+
+                var dialog = new Dialog("Primary Users Synchronization finished", 50, 8, new Button("Ok")
+                {
+                    Clicked = () =>
+                    {
+                        topLevelWindow.Remove(PrimaryUsersSynchronizationProgressFrame);
+
+                        CanExit = true;
+
+                        Application.RequestStop();
+                    }
+                });
+
+                var totalTimeLabel = new Label($"Primary users synchronized in {stopwatch.Elapsed.ToString(@"hh\:mm\:ss")}")
+                {
+                    X = Pos.Center(),
+                    Y = 1
+                };
+                dialog.Add(totalTimeLabel);
+
+                Application.Run(dialog);
+            });
 
             AddMenuBar(topLevel, topLevelWindow);
 
@@ -328,6 +463,8 @@ namespace abremir.AllMyBricks.DatabaseSeeder
             AddUncompressDatabaseFileButton(topLevelWindow);
 
             AddCompactDatabaseButton(topLevelWindow);
+
+            AddPrimaryUsersList(topLevelWindow);
 
             Application.Run();
         }
@@ -372,6 +509,30 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                                 Application.MainLoop.AddTimeout(TimeSpan.FromMilliseconds(500), _ => true);
 
                                 IoC.IoCContainer.GetInstance<ISetSynchronizationService>().SynchronizeAllSets();
+                            }
+                        }),
+                        new MenuItem("_Primary Users' Sets", "", () =>
+                        {
+                            if (CanExit)
+                            {
+                                CanExit = false;
+
+                                var userRepository = IoC.IoCContainer.GetInstance<IBricksetUserRepository>();
+
+                                foreach (var primaryUser in Settings.BricksetPrimaryUsers)
+                                {
+                                    if (userRepository.Get(primaryUser.Key) == null)
+                                    {
+                                        userRepository.Add(BricksetUserTypeEnum.Primary, primaryUser.Key);
+                                    }
+                                }
+
+                                window.Add(PrimaryUsersSynchronizationProgressFrame);
+
+                                // HACK: since there is a bug in Application.MainLoop.Invoke(...) this is needed to force the UI to refresh!
+                                Application.MainLoop.AddTimeout(TimeSpan.FromMilliseconds(500), _ => true);
+
+                                IoC.IoCContainer.GetInstance<IUserSynchronizationService>().SynchronizeBricksetPrimaryUsersSets();
                             }
                         })
                     })
@@ -539,6 +700,134 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                     button
                 );
             }
+        }
+
+        private static void AddPrimaryUsersList(Window window)
+        {
+            var userRepository = IoC.IoCContainer.GetInstance<IBricksetUserRepository>();
+
+            var primaryUsersLabel = new Label(3, 10, "Primary Users");
+
+            var primaryUsersList = new ListView(new Rect(3, 11, 50, 14), Settings.BricksetPrimaryUsers.Select(keyValuePair => $"{keyValuePair.Key}/{keyValuePair.Value}").ToList());
+            primaryUsersList.ColorScheme = Colors.Dialog;
+            primaryUsersList.SelectedItem = 0;
+
+            var deletePrimaryUserButton = new Button("Delete primary user")
+            {
+                X = 3,
+                Y = 25,
+                Clicked = () =>
+                {
+                    var primaryUsers = Settings.BricksetPrimaryUsers;
+                    var selectedUser = primaryUsers.Skip(primaryUsersList.SelectedItem).Take(1).First();
+
+                    var dialog = new Dialog(
+                        "Delete primary user",
+                        50,
+                        8,
+                        new Button("Ok", false)
+                        {
+                            Clicked = () =>
+                            {
+                                primaryUsers.Remove(selectedUser.Key);
+                                Settings.BricksetPrimaryUsers = primaryUsers;
+
+                                primaryUsersList.SetSource(primaryUsers.Select(keyValuePair => $"{keyValuePair.Key}/{keyValuePair.Value}").ToList());
+
+                                Application.RequestStop();
+                            }
+                        },
+                        new Button("Cancel", false)
+                        {
+                            Clicked = Application.RequestStop
+                        });
+
+                    dialog.Add(
+                        new Label($"Do you want to delete primary user {selectedUser.Key}?")
+                        {
+                            Y = 1
+                        }
+                    );
+
+                    Application.Run(dialog);
+                }
+            };
+
+            primaryUsersList.SelectedChanged += () =>
+            {
+                if (primaryUsersList.SelectedItem == -1)
+                {
+                    window.Remove(deletePrimaryUserButton);
+                }
+                else
+                {
+                    window.Add(deletePrimaryUserButton);
+                }
+            };
+
+            var addPrimaryUserButton = new Button("Add primary user")
+            {
+                X = 33,
+                Y = 25,
+                Clicked = () =>
+                {
+                    var primaryUserUsername = new TextField(string.Empty)
+                    {
+                        Y = 2
+                    };
+                    var primaryUserUserHash = new TextField(string.Empty)
+                    {
+                        Y = 4
+                    };
+
+                    var dialog = new Dialog(
+                        "Add primary user",
+                        50,
+                        11,
+                        new Button("Ok", false)
+                        {
+                            Clicked = () =>
+                            {
+                                var username = primaryUserUsername.Text.ToString();
+                                var userHash = primaryUserUserHash.Text.ToString();
+
+                                var primaryUsers = Settings.BricksetPrimaryUsers;
+                                primaryUsers.Add(username, userHash);
+                                Settings.BricksetPrimaryUsers = primaryUsers;
+
+                                primaryUsersList.SetSource(primaryUsers.Select(keyValuePair => $"{keyValuePair.Key}/{keyValuePair.Value}").ToList());
+
+                                Application.RequestStop();
+                            }
+                        },
+                        new Button("Cancel", false)
+                        {
+                            Clicked = Application.RequestStop
+                        });
+
+                    dialog.Add(
+                        new Label("Username:")
+                        {
+                            Y = 1
+                        },
+                        primaryUserUsername,
+                        new Label("User hash:")
+                        {
+                            Y = 3
+                        },
+                        primaryUserUserHash
+                    );
+
+                    Application.Run(dialog);
+                }
+            };
+
+            window.Add(
+                primaryUsersLabel,
+                primaryUsersList,
+                deletePrimaryUserButton,
+                addPrimaryUserButton
+            );
         }
     }
 }
