@@ -41,9 +41,9 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                 {
                     await IoC.IoCContainer.GetInstance<IUserSynchronizationService>().SynchronizeBricksetFriendsSets();
                 }
-            }
 
-            IoC.IoCContainer.GetInstance<IAssetManagementService>().CompactAllMyBricksDatabase();
+                IoC.IoCContainer.GetInstance<IAssetManagementService>().CompactAllMyBricksDatabase();
+            }
 
             if (compress)
             {
