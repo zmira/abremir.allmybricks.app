@@ -26,21 +26,22 @@ namespace abremir.AllMyBricks.DatabaseSeeder
             var compressOption = app
                 .Option(DatabaseSeederConstants.CompressOption, $"[this option is only valid when run with {DatabaseSeederConstants.UnattentedOption}] Compress the seeded database using LZip", CommandOptionType.NoValue);
             var uncompressOption = app
-                .Option(DatabaseSeederConstants.UncompressOption, $"[this option is only valid when run with {DatabaseSeederConstants.UnattentedOption}] Uncompress the seeded database using LZip", CommandOptionType.NoValue)
-                .OnValidate((_) =>
-                {
-                    if (compressOption.HasValue())
-                    {
-                        return new ValidationResult($"{DatabaseSeederConstants.CompressOption} and {DatabaseSeederConstants.UncompressOption} are mutually exclusive.");
-                    }
-
-                    return ValidationResult.Success;
-                });
+                .Option(DatabaseSeederConstants.UncompressOption, $"[this option is only valid when run with {DatabaseSeederConstants.UnattentedOption}] Uncompress the seeded database using LZip", CommandOptionType.NoValue);
             var datasetOption = app
                 .Option<string>(DatabaseSeederConstants.DatasetOption, $"[this option is only valid when run with {DatabaseSeederConstants.UnattentedOption}] Select which dataset(s) to synchronize: {DatabaseSeederConstants.DatasetValueSets}, {DatabaseSeederConstants.DatasetValuePrimaryUsers}, {DatabaseSeederConstants.DatasetValueFriends}, {DatabaseSeederConstants.DatasetValueAll}, {DatabaseSeederConstants.DatasetValueNone}", CommandOptionType.MultipleValue)
                 .Accepts(builder => builder.Values(true, DatabaseSeederConstants.DatasetValueSets, DatabaseSeederConstants.DatasetValuePrimaryUsers, DatabaseSeederConstants.DatasetValueFriends, DatabaseSeederConstants.DatasetValueAll, DatabaseSeederConstants.DatasetValueNone));
             var dataFolderOption = app
                 .Option<string>(DatabaseSeederConstants.DataFolderOption, "Override the default folder path for the data file", CommandOptionType.SingleValue);
+
+            app.OnValidate(_ =>
+            {
+                if (compressOption.HasValue() && uncompressOption.HasValue())
+                {
+                    return new ValidationResult($"{DatabaseSeederConstants.CompressOption} and {DatabaseSeederConstants.UncompressOption} are mutually exclusive.");
+                }
+
+                return ValidationResult.Success;
+            });
 
             app.OnExecute(() =>
             {
