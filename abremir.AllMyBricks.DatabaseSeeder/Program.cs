@@ -75,8 +75,6 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                 }
             });
 
-            app.OnValidationError((validationResult) => Logger.LogError(validationResult.ErrorMessage));
-
             return app.Execute(args);
         }
 
