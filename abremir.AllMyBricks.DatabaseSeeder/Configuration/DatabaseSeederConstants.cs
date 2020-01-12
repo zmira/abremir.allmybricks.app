@@ -11,6 +11,7 @@
         public const string LogDestinationValueConsole = "console";
         public const string LogDestinationValueFile = "file";
         public const string CompressOption = "--compress";
+        public const string UncompressOption = "--uncompress";
         public const string DatasetOption = "--dataset";
         public const string DatasetValueSets = "sets";
         public const string DatasetValuePrimaryUsers = "primaryUsers";

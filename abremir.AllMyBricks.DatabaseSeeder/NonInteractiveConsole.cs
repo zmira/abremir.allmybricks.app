@@ -10,7 +10,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder
 {
     public static class NonInteractiveConsole
     {
-        public static async Task Run(IList<string> synchronizationContext, bool compress)
+        public static async Task Run(IList<string> synchronizationContext, bool compress, bool uncompress)
         {
             if (!synchronizationContext.Contains(DatabaseSeederConstants.DatasetValueNone))
             {
@@ -48,6 +48,11 @@ namespace abremir.AllMyBricks.DatabaseSeeder
             if (compress)
             {
                 IoC.IoCContainer.GetInstance<IAssetManagementService>().CompressDatabaseFile();
+            }
+
+            if (uncompress)
+            {
+                IoC.IoCContainer.GetInstance<IAssetManagementService>().UncompressDatabaseFile();
             }
         }
     }

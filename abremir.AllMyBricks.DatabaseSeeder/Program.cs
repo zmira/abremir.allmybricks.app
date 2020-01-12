@@ -2,6 +2,7 @@
 using abremir.AllMyBricks.Platform.Interfaces;
 using McMaster.Extensions.CommandLineUtils;
 using Microsoft.Extensions.Logging;
+using System.ComponentModel.DataAnnotations;
 
 namespace abremir.AllMyBricks.DatabaseSeeder
 {
@@ -24,6 +25,17 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                 .Accepts(builder => builder.Values(true, DatabaseSeederConstants.LogDestinationValueConsole, DatabaseSeederConstants.LogDestinationValueFile));
             var compressOption = app
                 .Option(DatabaseSeederConstants.CompressOption, $"[this option is only valid when run with {DatabaseSeederConstants.UnattentedOption}] Compress the seeded database using LZip", CommandOptionType.NoValue);
+            var uncompressOption = app
+                .Option(DatabaseSeederConstants.UncompressOption, $"[this option is only valid when run with {DatabaseSeederConstants.UnattentedOption}] Uncompress the seeded database using LZip", CommandOptionType.NoValue)
+                .OnValidate((_) =>
+                {
+                    if (compressOption.HasValue())
+                    {
+                        return new ValidationResult($"{DatabaseSeederConstants.CompressOption} and {DatabaseSeederConstants.UncompressOption} are mutually exclusive.");
+                    }
+
+                    return ValidationResult.Success;
+                });
             var datasetOption = app
                 .Option<string>(DatabaseSeederConstants.DatasetOption, $"[this option is only valid when run with {DatabaseSeederConstants.UnattentedOption}] Select which dataset(s) to synchronize: {DatabaseSeederConstants.DatasetValueSets}, {DatabaseSeederConstants.DatasetValuePrimaryUsers}, {DatabaseSeederConstants.DatasetValueFriends}, {DatabaseSeederConstants.DatasetValueAll}, {DatabaseSeederConstants.DatasetValueNone}", CommandOptionType.MultipleValue)
                 .Accepts(builder => builder.Values(true, DatabaseSeederConstants.DatasetValueSets, DatabaseSeederConstants.DatasetValuePrimaryUsers, DatabaseSeederConstants.DatasetValueFriends, DatabaseSeederConstants.DatasetValueAll, DatabaseSeederConstants.DatasetValueNone));
@@ -44,7 +56,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder
 
                 if (logVerbosity != LogVerbosityEnum.NoLogging)
                 {
-                    Logger.LogInformation($"Running All My Bricks database seeder with arguments: { (unattendeOption.HasValue() ? $" { DatabaseSeederConstants.UnattentedOption }" : string.Empty) }{ (logVerbosityOption.HasValue() ? $" { DatabaseSeederConstants.LogVerbosityOption }={ logVerbosityOption.Value() }" : string.Empty) }{ (logDestinationOption.HasValue() ? $" { DatabaseSeederConstants.LogDestinationOption }={ logDestinationOption.Value() }" : string.Empty) }{ (compressOption.HasValue() ? $" { DatabaseSeederConstants.CompressOption }" : string.Empty) }{ (datasetOption.HasValue() ? $" { DatabaseSeederConstants.DatasetOption }={ string.Join(", ", datasetOption.Values) }" : string.Empty) }{ (dataFolderOption.HasValue() ? $" { DatabaseSeederConstants.DataFolderOption }={ dataFolderOption.Value() }" : string.Empty) }");
+                    Logger.LogInformation($"Running All My Bricks database seeder with arguments: { (unattendeOption.HasValue() ? $" { DatabaseSeederConstants.UnattentedOption }" : string.Empty) }{ (logVerbosityOption.HasValue() ? $" { DatabaseSeederConstants.LogVerbosityOption }={ logVerbosityOption.Value() }" : string.Empty) }{ (logDestinationOption.HasValue() ? $" { DatabaseSeederConstants.LogDestinationOption }={ logDestinationOption.Value() }" : string.Empty) }{ (compressOption.HasValue() ? $" { DatabaseSeederConstants.CompressOption }" : string.Empty) }{ (uncompressOption.HasValue() ? $" { DatabaseSeederConstants.UncompressOption }" : string.Empty) }{ (datasetOption.HasValue() ? $" { DatabaseSeederConstants.DatasetOption }={ string.Join(", ", datasetOption.Values) }" : string.Empty) }{ (dataFolderOption.HasValue() ? $" { DatabaseSeederConstants.DataFolderOption }={ dataFolderOption.Value() }" : string.Empty) }");
                 }
 
                 var folderOverride = dataFolderOption.HasValue()
@@ -55,7 +67,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder
 
                 if (unattendeOption.HasValue())
                 {
-                    NonInteractiveConsole.Run(datasetOption.Values, compressOption.HasValue()).GetAwaiter().GetResult();
+                    NonInteractiveConsole.Run(datasetOption.Values, compressOption.HasValue(), uncompressOption.HasValue()).GetAwaiter().GetResult();
                 }
                 else
                 {
