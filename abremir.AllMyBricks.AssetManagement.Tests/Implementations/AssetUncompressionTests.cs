@@ -24,11 +24,11 @@ namespace abremir.AllMyBricks.AssetManagement.Tests.Implementations
         [DataTestMethod]
         [DataRow(false, true)]
         [DataRow(true, false)]
-        public void UncompressAsset_ForStreamAndInvalidParameters_ReturnsFalse(bool validStream, bool validDestinationFolder)
+        public void UncompressAsset_ForStreamAndInvalidParameters_ReturnsFalse(bool validStream, bool validTargetFolder)
         {
             _assetUncompression.Get<IFile>()
                 .GetAttributes(Arg.Any<string>())
-                .Returns(validDestinationFolder ? FileAttributes.Directory : FileAttributes.Archive);
+                .Returns(validTargetFolder ? FileAttributes.Directory : FileAttributes.Archive);
 
             var result = _assetUncompression.ClassUnderTest.UncompressAsset(validStream ? new MemoryStream() : null, string.Empty);
 
@@ -40,16 +40,16 @@ namespace abremir.AllMyBricks.AssetManagement.Tests.Implementations
         [DataRow("", true, true)]
         [DataRow("test_file.txt", false, true)]
         [DataRow("test_file.txt", true, false)]
-        public void UncompressAsset_ForFileAndInvalidParameters_ReturnsFalse(string originFilePath, bool originFileExists, bool originFileIsFile)
+        public void UncompressAsset_ForFileAndInvalidParameters_ReturnsFalse(string sourceFilePath, bool sourceFileExists, bool sourceFileIsFile)
         {
             _assetUncompression.Get<IFile>()
                 .Exists(Arg.Any<string>())
-                .Returns(originFileExists);
+                .Returns(sourceFileExists);
             _assetUncompression.Get<IFile>()
                 .GetAttributes(Arg.Any<string>())
-                .Returns(originFileIsFile ? FileAttributes.Archive : FileAttributes.Directory);
+                .Returns(sourceFileIsFile ? FileAttributes.Archive : FileAttributes.Directory);
 
-            var result = _assetUncompression.ClassUnderTest.UncompressAsset(originFilePath, string.Empty);
+            var result = _assetUncompression.ClassUnderTest.UncompressAsset(sourceFilePath, string.Empty);
 
             result.Should().BeFalse();
         }

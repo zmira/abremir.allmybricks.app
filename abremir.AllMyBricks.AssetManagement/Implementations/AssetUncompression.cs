@@ -25,54 +25,54 @@ namespace abremir.AllMyBricks.AssetManagement.Implementations
             _messageHub = messageHub;
         }
 
-        public bool UncompressAsset(string originFilePath, string destinationFolderPath, bool overwrite = true)
+        public bool UncompressAsset(string sourceFilePath, string targetFolderPath, bool overwrite = true)
         {
-            if (string.IsNullOrWhiteSpace(originFilePath)
-                || !_file.Exists(originFilePath)
-                || _file.GetAttributes(originFilePath).HasFlag(FileAttributes.Directory))
+            if (string.IsNullOrWhiteSpace(sourceFilePath)
+                || !_file.Exists(sourceFilePath)
+                || _file.GetAttributes(sourceFilePath).HasFlag(FileAttributes.Directory))
             {
                 return false;
             }
 
-            using (var originFileStream = _file.OpenRead(originFilePath))
+            using (var sourceFileStream = _file.OpenRead(sourceFilePath))
             {
-                return UncompressAsset(originFileStream, destinationFolderPath, overwrite);
+                return UncompressAsset(sourceFileStream, targetFolderPath, overwrite);
             }
         }
 
-        public bool UncompressAsset(Stream originStream, string destinationFolderPath, bool overwrite = true)
+        public bool UncompressAsset(Stream sourceStream, string targetFolderPath, bool overwrite = true)
         {
-            if (originStream == null
-                || !_file.GetAttributes(destinationFolderPath).HasFlag(FileAttributes.Directory))
+            if (sourceStream == null
+                || !_file.GetAttributes(targetFolderPath).HasFlag(FileAttributes.Directory))
             {
                 return false;
             }
 
-            if (!_directory.Exists(destinationFolderPath))
+            if (!_directory.Exists(targetFolderPath))
             {
-                _directory.CreateDirectory(destinationFolderPath);
+                _directory.CreateDirectory(targetFolderPath);
             }
 
-            originStream.Position = 0;
+            sourceStream.Position = 0;
 
-            using (var originReader = _readerFactory.Open(originStream))
+            using (var sourceReader = _readerFactory.Open(sourceStream))
             {
-                originReader.EntryExtractionProgress += OriginReader_EntryExtractionProgress;
+                sourceReader.EntryExtractionProgress += SourceReader_EntryExtractionProgress;
 
-                while (originReader.MoveToNextEntry())
+                while (sourceReader.MoveToNextEntry())
                 {
-                    if (!originReader.Entry.IsDirectory)
+                    if (!sourceReader.Entry.IsDirectory)
                     {
-                        var destinationFilePath = Path.Combine(destinationFolderPath, originReader.Entry.Key);
+                        var targetFilePath = Path.Combine(targetFolderPath, sourceReader.Entry.Key);
 
                         if (overwrite)
                         {
-                            _file.DeleteFileIfExists(destinationFilePath);
+                            _file.DeleteFileIfExists(targetFilePath);
                         }
 
-                        using (var destinationFileStream = _file.OpenWrite(destinationFilePath))
+                        using (var targetFileStream = _file.OpenWrite(targetFilePath))
                         {
-                            originReader.WriteEntryTo(destinationFileStream);
+                            sourceReader.WriteEntryTo(targetFileStream);
                         }
                     }
                 }
@@ -81,7 +81,7 @@ namespace abremir.AllMyBricks.AssetManagement.Implementations
             return true;
         }
 
-        private void OriginReader_EntryExtractionProgress(object sender, ReaderExtractionEventArgs<IEntry> entry)
+        private void SourceReader_EntryExtractionProgress(object sender, ReaderExtractionEventArgs<IEntry> entry)
         {
             _messageHub.Publish(entry);
         }

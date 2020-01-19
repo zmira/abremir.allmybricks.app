@@ -19,10 +19,10 @@ namespace abremir.AllMyBricks.AssetManagement.Services
             _directory = directory;
         }
 
-        public async Task<bool> InstallAllMyBricksSeedDatabase(string databaseSeedUrl, string destinationFolderPath)
+        public async Task<bool> InstallAllMyBricksSeedDatabase(string databaseSeedUrl, string targetFolderPath)
         {
-            if ((!string.IsNullOrWhiteSpace(destinationFolderPath)
-                    && !_directory.Exists(destinationFolderPath))
+            if ((!string.IsNullOrWhiteSpace(targetFolderPath)
+                    && !_directory.Exists(targetFolderPath))
                 || string.IsNullOrWhiteSpace(databaseSeedUrl)
                 || !(Uri.TryCreate(databaseSeedUrl, UriKind.Absolute, out Uri uriResult)
                     && (uriResult.Scheme == Uri.UriSchemeHttps || uriResult.Scheme == Uri.UriSchemeHttp)
@@ -31,7 +31,7 @@ namespace abremir.AllMyBricks.AssetManagement.Services
                 return false;
             }
 
-            return _assetUncompression.UncompressAsset(await databaseSeedUrl.GetStreamAsync(), destinationFolderPath ?? string.Empty);
+            return _assetUncompression.UncompressAsset(await databaseSeedUrl.GetStreamAsync(), targetFolderPath ?? string.Empty);
         }
     }
 }

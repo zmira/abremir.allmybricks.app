@@ -26,34 +26,34 @@ namespace abremir.AllMyBricks.AssetManagement.Implementations
             _tarWriter = tarWriter;
         }
 
-        public bool CompressAsset(string originFilePath, string destinationFolderPath, bool overwrite = true)
+        public bool CompressAsset(string sourceFilePath, string targetFolderPath, bool overwrite = true)
         {
-            if (string.IsNullOrWhiteSpace(originFilePath)
-                || !_file.Exists(originFilePath)
-                || (!string.IsNullOrWhiteSpace(destinationFolderPath)
-                    && !_file.GetAttributes(destinationFolderPath).HasFlag(FileAttributes.Directory)))
+            if (string.IsNullOrWhiteSpace(sourceFilePath)
+                || !_file.Exists(sourceFilePath)
+                || (!string.IsNullOrWhiteSpace(targetFolderPath)
+                    && !_file.GetAttributes(targetFolderPath).HasFlag(FileAttributes.Directory)))
             {
                 return false;
             }
 
-            var destinationFilePath = Path.Combine(destinationFolderPath ?? string.Empty, GetCompressedAssetFileName(originFilePath));
+            var targetFilePath = Path.Combine(targetFolderPath ?? string.Empty, GetCompressedAssetFileName(sourceFilePath));
 
-            if (!overwrite && _file.Exists(destinationFilePath))
+            if (!overwrite && _file.Exists(targetFilePath))
             {
                 return false;
             }
 
-            _file.DeleteFileIfExists(destinationFilePath);
+            _file.DeleteFileIfExists(targetFilePath);
 
-            using (var originFileStream = _fileStream.CreateFileStream(originFilePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+            using (var sourceFileStream = _fileStream.CreateFileStream(sourceFilePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
             {
-                using (var destinationFileStream = _file.OpenWrite(destinationFilePath))
+                using (var targetFileStream = _file.OpenWrite(targetFilePath))
                 {
                     var tarWriterOptions = new TarWriterOptions(CompressionType.LZip, true);
 
-                    using (var destinationWriter = _tarWriter.CreateTarWriter(destinationFileStream, tarWriterOptions))
+                    using (var targetWriter = _tarWriter.CreateTarWriter(targetFileStream, tarWriterOptions))
                     {
-                        destinationWriter.Write(Path.GetFileName(originFilePath), originFileStream);
+                        targetWriter.Write(Path.GetFileName(sourceFilePath), sourceFileStream);
                     }
                 }
             }

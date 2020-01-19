@@ -31,13 +31,13 @@ namespace abremir.AllMyBricks.AssetManagement.Tests.Services
         [DataRow("http://www.google", "C:\\", true)]
         [DataRow("http://www.google.com", "C:\\", true)]
         [DataRow("http://www.google.com/test.lz", "C:\\test.file", false)]
-        public async Task InstallAllMyBricksSeedDatabase_InvalidParameters_ResultIsFalse(string databaseSeedUrl, string destinationFolderPath, bool directoryExists)
+        public async Task InstallAllMyBricksSeedDatabase_InvalidParameters_ResultIsFalse(string databaseSeedUrl, string targetFolderPath, bool directoryExists)
         {
             _assetManagementService.Get<IDirectory>()
                 .Exists(Arg.Any<string>())
                 .Returns(directoryExists);
 
-            var result = await _assetManagementService.ClassUnderTest.InstallAllMyBricksSeedDatabase(databaseSeedUrl, destinationFolderPath);
+            var result = await _assetManagementService.ClassUnderTest.InstallAllMyBricksSeedDatabase(databaseSeedUrl, targetFolderPath);
 
             result.Should().BeFalse();
             _httpTest.ShouldNotHaveMadeACall();
