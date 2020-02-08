@@ -1,10 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using LiteDB;
+using System.Collections.Generic;
 
 namespace abremir.AllMyBricks.Data.Models
 {
     public class Theme
     {
+        [BsonId(false)]
         public string Name { get; set; }
+
         public short YearFrom { get; set; }
         public short YearTo { get; set; }
         public short SetCount { get; set; }

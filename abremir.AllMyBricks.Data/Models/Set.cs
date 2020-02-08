@@ -1,11 +1,14 @@
-﻿using System;
+﻿using LiteDB;
+using System;
 using System.Collections.Generic;
 
 namespace abremir.AllMyBricks.Data.Models
 {
     public class Set
     {
+        [BsonId(false)]
         public long SetId { get; set; }
+
         public string Number { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
