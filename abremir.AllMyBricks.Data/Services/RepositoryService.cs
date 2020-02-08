@@ -1,7 +1,7 @@
 ﻿using abremir.AllMyBricks.Data.Configuration;
 using abremir.AllMyBricks.Data.Interfaces;
 using abremir.AllMyBricks.Platform.Interfaces;
-using Realms;
+using LiteDB;
 
 namespace abremir.AllMyBricks.Data.Services
 {
@@ -14,14 +14,19 @@ namespace abremir.AllMyBricks.Data.Services
             _fileSystemService = fileSystemService;
         }
 
-        public Realm GetRepository()
+        public LiteRepository GetRepository()
         {
-            return Realm.GetInstance(_fileSystemService.GetLocalPathToFile(Constants.AllMyBricksDbFile));
+            var repository = new LiteRepository(_fileSystemService.GetLocalPathToFile(Constants.AllMyBricksDbFile));
+
+            return repository;
         }
 
-        public bool CompactRepository()
+        public long CompactRepository()
         {
-            return Realm.Compact(new RealmConfiguration(_fileSystemService.GetLocalPathToFile(Constants.AllMyBricksDbFile)));
+            return GetRepository().Database.Rebuild();
+        }
+
+        {
         }
     }
 }
