@@ -1,5 +1,4 @@
 ﻿using abremir.AllMyBricks.Data.Configuration;
-using abremir.AllMyBricks.Data.Extensions;
 using abremir.AllMyBricks.Data.Interfaces;
 using abremir.AllMyBricks.Data.Models;
 using abremir.AllMyBricks.Data.Repositories;
@@ -20,7 +19,9 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
         [ClassInitialize]
 #pragma warning disable RCS1163 // Unused parameter.
 #pragma warning disable RECS0154 // Parameter is never used
+#pragma warning disable IDE0060 // Remove unused parameter
         public static void ClassInitialize(TestContext testContext)
+#pragma warning restore IDE0060 // Remove unused parameter
 #pragma warning restore RECS0154 // Parameter is never used
 #pragma warning restore RCS1163 // Unused parameter.
         {
@@ -58,8 +59,8 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
         public void Get_SubthemeExists_ReturnModel()
         {
             var subthemeUnderTest = ModelsSetup.GetSubthemeUnderTest(Guid.NewGuid().ToString());
-            subthemeUnderTest.Theme = InsertData(ModelsSetup.GetThemeUnderTest(Guid.NewGuid().ToString()));
 
+            InsertData(subthemeUnderTest.Theme);
             InsertData(subthemeUnderTest);
 
             var subtheme = _subthemeRepository.Get(subthemeUnderTest.Theme.Name, subthemeUnderTest.Name);
@@ -241,7 +242,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
             var subthemeUnderTest = ModelsSetup.GetSubthemeUnderTest(Guid.NewGuid().ToString());
             subthemeUnderTest.YearFrom = Constants.MinimumSetYear - 1;
 
-            var subtheme = _subthemeRepository.AddOrUpdate(subthemeUnderTest.ToPlainObject());
+            var subtheme = _subthemeRepository.AddOrUpdate(subthemeUnderTest);
 
             subtheme.Should().BeNull();
         }
@@ -252,7 +253,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
             var subthemeUnderTest = ModelsSetup.GetSubthemeUnderTest(Guid.NewGuid().ToString());
             subthemeUnderTest.Theme.YearFrom = Constants.MinimumSetYear - 1;
 
-            var subtheme = _subthemeRepository.AddOrUpdate(subthemeUnderTest.ToPlainObject());
+            var subtheme = _subthemeRepository.AddOrUpdate(subthemeUnderTest);
 
             subtheme.Should().BeNull();
         }
@@ -261,9 +262,10 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
         public void AddOrUpdate_NewValidSubtheme_InsertsModel()
         {
             var subthemeUnderTest = ModelsSetup.GetSubthemeUnderTest(Guid.NewGuid().ToString());
-            subthemeUnderTest.Theme = InsertData(ModelsSetup.GetThemeUnderTest(Guid.NewGuid().ToString()));
 
-            _subthemeRepository.AddOrUpdate(subthemeUnderTest.ToPlainObject());
+            InsertData(subthemeUnderTest.Theme);
+
+            _subthemeRepository.AddOrUpdate(subthemeUnderTest);
 
             var subtheme = _subthemeRepository.Get(subthemeUnderTest.Theme.Name, subthemeUnderTest.Name);
 
@@ -274,9 +276,10 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
         public void AddOrUpdate_ExistingValidSubtheme_UpdatesModel()
         {
             var subtheme = ModelsSetup.GetSubthemeUnderTest(Guid.NewGuid().ToString());
-            subtheme.Theme = InsertData(ModelsSetup.GetThemeUnderTest(Guid.NewGuid().ToString()));
 
-            _subthemeRepository.AddOrUpdate(subtheme.ToPlainObject());
+            InsertData(subtheme.Theme);
+
+            _subthemeRepository.AddOrUpdate(subtheme);
 
             var subthemeUnderTest = _subthemeRepository.Get(subtheme.Theme.Name, subtheme.Name);
 

@@ -31,7 +31,9 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
         [ClassInitialize]
 #pragma warning disable RCS1163 // Unused parameter.
 #pragma warning disable RECS0154 // Parameter is never used
+#pragma warning disable IDE0060 // Remove unused parameter
         public static void ClassInitialize(TestContext testContext)
+#pragma warning restore IDE0060 // Remove unused parameter
 #pragma warning restore RECS0154 // Parameter is never used
 #pragma warning restore RCS1163 // Unused parameter.
         {
@@ -44,7 +46,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
         [TestMethod]
         public async Task SynchronizeBricksetPrimaryUser_UserSynchronizationTimestampNotSetAndDoesNotHaveRemoteSets_DoesNotUpdateLocalSetsAndUpdatesUserSynchronizationTimestamp()
         {
-            var testUser = "TESTUSER";
+            const string testUser = "TESTUSER";
             _bricksetUserRepository.Add(BricksetUserTypeEnum.Primary, testUser);
 
             var bricksetApiService = Substitute.For<IBricksetApiService>();
@@ -69,9 +71,9 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
         [TestMethod]
         public async Task SynchronizeBricksetPrimaryUser_SynchronizationTimestampNotSetAndHasRemoteSets_UpdatesLocalSetsAndUpdatesUserSynchronizationTimestamp()
         {
-            var apiKey = "APIKEY";
-            var userHash = "USERHASH";
-            var testUser = "TESTUSER";
+            const string apiKey = "APIKEY";
+            const string userHash = "USERHASH";
+            const string testUser = "TESTUSER";
             _bricksetUserRepository.Add(BricksetUserTypeEnum.Primary, testUser);
 
             var themesList = JSON.ToObject<List<Themes>>(GetResultFileFromResource(Constants.JsonFileGetThemes));
@@ -133,9 +135,9 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
         [TestMethod]
         public async Task SynchronizeBricksetPrimaryUser_SynchronizationTimestampSetAndDoesNotHaveSetsToUpdate_DoesNotUpdateRemoteCollection()
         {
-            var apiKey = "APIKEY";
-            var userHash = "USERHASH";
-            var testUser = "TESTUSER";
+            const string apiKey = "APIKEY";
+            const string userHash = "USERHASH";
+            const string testUser = "TESTUSER";
             _bricksetUserRepository.Add(BricksetUserTypeEnum.Primary, testUser);
 
             var themesList = JSON.ToObject<List<Themes>>(GetResultFileFromResource(Constants.JsonFileGetThemes));
@@ -192,9 +194,9 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
         [TestMethod]
         public async Task SynchronizeBricksetPrimaryUser_SynchronizationTimestampSetAndHasSetsToUpdate_UpdatesRemoteCollection()
         {
-            var apiKey = "APIKEY";
-            var userHash = "USERHASH";
-            var testUser = "TESTUSER";
+            const string apiKey = "APIKEY";
+            const string userHash = "USERHASH";
+            const string testUser = "TESTUSER";
             _bricksetUserRepository.Add(BricksetUserTypeEnum.Primary, testUser);
 
             var themesList = JSON.ToObject<List<Themes>>(GetResultFileFromResource(Constants.JsonFileGetThemes));
@@ -258,9 +260,9 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
         [TestMethod]
         public async Task SynchronizeBricksetPrimaryUser_SynchronizationTimestampSetAndHasSetsToUpdateAndHasNewRemoteSets_UpdatesRemoteCollectionAndAddRemoteSetToLocalExceptAlreadyLocalSets()
         {
-            var apiKey = "APIKEY";
-            var userHash = "USERHASH";
-            var testUser = "TESTUSER";
+            const string apiKey = "APIKEY";
+            const string userHash = "USERHASH";
+            const string testUser = "TESTUSER";
             _bricksetUserRepository.Add(BricksetUserTypeEnum.Primary, testUser);
 
             var themesList = JSON.ToObject<List<Themes>>(GetResultFileFromResource(Constants.JsonFileGetThemes));
@@ -338,7 +340,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
         [TestMethod]
         public async Task SynchronizeBricksetFriend_DoesNotHaveRemoteSets_DoesNotUpdateLocalSetsAndUpdatesUserSynchronizationTimestamp()
         {
-            var testUser = "TESTFRIEND";
+            const string testUser = "TESTFRIEND";
             _bricksetUserRepository.Add(BricksetUserTypeEnum.Friend, testUser);
 
             var bricksetApiService = Substitute.For<IBricksetApiService>();
@@ -363,9 +365,9 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
         [TestMethod]
         public async Task SynchronizeBricksetFriend_HasRemoteSets_UpdatesLocalSetsAndUpdatesUserSynchronizationTimestamp()
         {
-            var apiKey = "APIKEY";
-            var userHash = "USERHASH";
-            var testUser = "TESTFRIEND";
+            const string apiKey = "APIKEY";
+            const string userHash = "USERHASH";
+            const string testUser = "TESTFRIEND";
             _bricksetUserRepository.Add(BricksetUserTypeEnum.Friend, testUser);
 
             var themesList = JSON.ToObject<List<Themes>>(GetResultFileFromResource(Constants.JsonFileGetThemes));
@@ -426,7 +428,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 
         private UserSynchronizer CreateTarget(IBricksetApiService bricksetApiService = null)
         {
-            bricksetApiService = bricksetApiService ?? Substitute.For<IBricksetApiService>();
+            bricksetApiService ??= Substitute.For<IBricksetApiService>();
 
             return new UserSynchronizer(bricksetApiService, _bricksetUserRepository, Substitute.For<IMessageHub>());
         }

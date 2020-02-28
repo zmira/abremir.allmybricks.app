@@ -141,7 +141,9 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
             var subtheme = new Subtheme
             {
                 Name = "",
-                Theme = theme
+                Theme = theme,
+                YearFrom = theme.YearFrom,
+                YearTo = theme.YearTo
             };
 
             _subthemeRepository.AddOrUpdate(subtheme);

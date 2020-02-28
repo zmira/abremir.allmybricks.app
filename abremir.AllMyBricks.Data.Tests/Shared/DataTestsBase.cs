@@ -1,7 +1,6 @@
 ﻿using abremir.AllMyBricks.Data.Interfaces;
 using abremir.AllMyBricks.Data.Tests.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Realms;
 using System.Linq;
 
 namespace abremir.AllMyBricks.Data.Tests.Shared
@@ -21,22 +20,17 @@ namespace abremir.AllMyBricks.Data.Tests.Shared
             ResetDatabase();
         }
 
-        protected T InsertData<T>(T dataToInsert) where T : RealmObject
+        protected T InsertData<T>(T dataToInsert)
         {
             return InsertData(new[] { dataToInsert }).First();
         }
 
-        protected T[] InsertData<T>(T[] dataToInsert) where T : RealmObject
+        protected T[] InsertData<T>(T[] dataToInsert)
         {
-            var realm = MemoryRepositoryService.GetRepository();
-
-            realm.Write(() =>
+            using (var repository = MemoryRepositoryService.GetRepository())
             {
-                foreach (T data in dataToInsert)
-                {
-                    realm.Add(data);
-                }
-            });
+                repository.Insert<T>(dataToInsert);
+            }
 
             return dataToInsert;
         }
