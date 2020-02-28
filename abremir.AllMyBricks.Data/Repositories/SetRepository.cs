@@ -3,18 +3,15 @@ using abremir.AllMyBricks.Data.Enumerations;
 using abremir.AllMyBricks.Data.Extensions;
 using abremir.AllMyBricks.Data.Interfaces;
 using abremir.AllMyBricks.Data.Models;
-using Realms;
+using LiteDB;
 using System.Collections.Generic;
 using System.Linq;
-using Managed = abremir.AllMyBricks.Data.Models.Realm;
 
 namespace abremir.AllMyBricks.Data.Repositories
 {
     public class SetRepository : ISetRepository
     {
         private readonly IRepositoryService _repositoryService;
-
-        private IEnumerable<Set> EmptyEnumerable => new Set[] { };
 
         public SetRepository(IRepositoryService repositoryService)
         {
@@ -29,71 +26,22 @@ namespace abremir.AllMyBricks.Data.Repositories
                 return null;
             }
 
-            var existingSet = Get(set.SetId);
+            set.TrimAllStrings();
 
-            var repository = _repositoryService.GetRepository();
-
-            var managedSet = GetManagedSet(set);
-
-            repository.Write(() => repository.Add(managedSet, existingSet != null));
-
-            return managedSet.ToPlainObject();
-        }
-
-        private Managed.Set GetManagedSet(Set set)
-        {
-            var managedSet = set.ToRealmObject();
-
-            var repository = _repositoryService.GetRepository();
-
-            managedSet.Theme = set.Theme == null
-                ? null
-                : repository.All<Managed.Theme>()
-                    .Filter($"Name ==[c] \"{set.Theme.Name.Trim()}\"")
-                    .FirstOrDefault();
-            managedSet.Subtheme = set.Subtheme == null
-                ? null
-                : repository.All<Managed.Subtheme>()
-                    .Filter($"Name ==[c] \"{set.Subtheme.Name.Trim()}\" && Theme.Name ==[c] \"{set.Theme.Name.Trim()}\"")
-                    .FirstOrDefault();
-            managedSet.ThemeGroup = set.ThemeGroup == null
-                ? null
-                : repository.All<Managed.ThemeGroup>()
-                    .Filter($"Value ==[c] \"{set.ThemeGroup.Value.Trim()}\"")
-                    .FirstOrDefault();
-            managedSet.Category = set.Category == null
-                ? null
-                : repository.All<Managed.Category>()
-                    .Filter($"Value ==[c] \"{set.Category.Value.Trim()}\"")
-                    .FirstOrDefault();
-            managedSet.PackagingType = set.PackagingType == null
-                ? null
-                : repository.All<Managed.PackagingType>()
-                    .Filter($"Value ==[c] \"{set.PackagingType.Value.Trim()}\"")
-                    .FirstOrDefault();
-
-            managedSet.Tags.Clear();
-
-            foreach (var tag in (set.Tags ?? new List<Tag>())
-                .Where(tag => tag != null))
+            using (var repository = _repositoryService.GetRepository())
             {
-                var managedTag = repository.All<Managed.Tag>()
-                        .Filter($"Value ==[c] \"{tag.Value.Trim()}\"")
-                        .FirstOrDefault();
-                if (managedTag != null)
-                {
-                    managedSet.Tags.Add(managedTag);
-                }
+                repository.Upsert(set);
             }
 
-            return managedSet;
+            return set;
         }
 
         public IEnumerable<Set> All()
         {
-            return GetQueryable()
-                .AsEnumerable()
-                .ToPlainObjectEnumerable();
+            using (var repository = _repositoryService.GetRepository())
+            {
+                return GetQueryable(repository).ToList();
+            }
         }
 
         public Set Get(long setId)
@@ -103,153 +51,184 @@ namespace abremir.AllMyBricks.Data.Repositories
                 return null;
             }
 
-            return GetQueryable()
-                .FirstOrDefault(set => set.SetId == setId)
-                ?.ToPlainObject();
+            using (var repository = _repositoryService.GetRepository())
+            {
+                return GetQueryable(repository)
+                    .Where(set => set.SetId == setId)
+                    .FirstOrDefault();
+            }
         }
 
         public IEnumerable<Set> AllForTheme(string themeName)
         {
             if (string.IsNullOrWhiteSpace(themeName))
             {
-                return EmptyEnumerable;
+                return Enumerable.Empty<Set>();
             }
 
-            return GetQueryable()
-                .Filter($"Theme.Name ==[c] \"{themeName.Trim()}\"")
-                .AsEnumerable()
-                .ToPlainObjectEnumerable();
+            using (var repository = _repositoryService.GetRepository())
+            {
+                return GetQueryable(repository)
+                    .Where(set => set.Theme.Name == themeName.Trim())
+                    .ToList();
+            }
         }
 
         public IEnumerable<Set> AllForSubtheme(string themeName, string subthemeName)
         {
-            if (string.IsNullOrWhiteSpace(themeName) || string.IsNullOrWhiteSpace(subthemeName))
+            if (string.IsNullOrWhiteSpace(themeName)
+                || string.IsNullOrWhiteSpace(subthemeName))
             {
-                return EmptyEnumerable;
+                return Enumerable.Empty<Set>();
             }
 
-            return GetQueryable()
-                .Filter($"Theme.Name ==[c] \"{themeName.Trim()}\" && Subtheme.Name ==[c] \"{subthemeName.Trim()}\"")
-                .AsEnumerable()
-                .ToPlainObjectEnumerable();
+            using (var repository = _repositoryService.GetRepository())
+            {
+                return GetQueryable(repository)
+                    .Where(set => set.Theme.Name == themeName.Trim() && set.Subtheme.Name == subthemeName.Trim())
+                    .ToList();
+            }
         }
 
         public IEnumerable<Set> AllForThemeGroup(string themeGroupName)
         {
             if (string.IsNullOrWhiteSpace(themeGroupName))
             {
-                return EmptyEnumerable;
+                return Enumerable.Empty<Set>();
             }
 
-            return GetQueryable()
-                .Filter($"ThemeGroup.Value ==[c] \"{themeGroupName.Trim()}\"")
-                .AsEnumerable()
-                .ToPlainObjectEnumerable();
+            using (var repository = _repositoryService.GetRepository())
+            {
+                return GetQueryable(repository)
+                    .Where(set => set.ThemeGroup.Value == themeGroupName.Trim())
+                    .ToList();
+            }
         }
 
         public IEnumerable<Set> AllForCategory(string categoryName)
         {
             if (string.IsNullOrWhiteSpace(categoryName))
             {
-                return EmptyEnumerable;
+                return Enumerable.Empty<Set>();
             }
 
-            return GetQueryable()
-                .Filter($"Category.Value ==[c] \"{categoryName.Trim()}\"")
-                .AsEnumerable()
-                .ToPlainObjectEnumerable();
+            using (var repository = _repositoryService.GetRepository())
+            {
+                return GetQueryable(repository)
+                    .Where(set => set.Category.Value == categoryName.Trim())
+                    .ToList();
+            }
         }
 
         public IEnumerable<Set> AllForTag(string tagName)
         {
             if (string.IsNullOrWhiteSpace(tagName))
             {
-                return EmptyEnumerable;
+                return Enumerable.Empty<Set>();
             }
 
-            return GetQueryable()
-                .Filter($"Tags.Value ==[c] \"{tagName.Trim()}\"")
-                .AsEnumerable()
-                .ToPlainObjectEnumerable();
+            using (var repository = _repositoryService.GetRepository())
+            {
+                return GetQueryable(repository)
+                    .Where("Tags[*].Value ANY = @0", tagName.Trim())
+                    .ToList();
+            }
         }
 
         public IEnumerable<Set> AllForYear(short year)
         {
             if (year < Constants.MinimumSetYear)
             {
-                return EmptyEnumerable;
+                return Enumerable.Empty<Set>();
             }
 
-            return GetQueryable()
-                .Where(set => set.Year == year)
-                .AsEnumerable()
-                .ToPlainObjectEnumerable();
+            using (var repository = _repositoryService.GetRepository())
+            {
+                return GetQueryable(repository)
+                    .Where(set => set.Year == year)
+                    .ToList();
+            }
         }
 
         public IEnumerable<Set> AllForPriceRange(PriceRegionEnum priceRegion, float minimumPrice, float maximumPrice)
         {
             if (minimumPrice < 0 || maximumPrice < 0)
             {
-                return EmptyEnumerable;
+                return Enumerable.Empty<Set>();
             }
 
-            return GetQueryable()
-                .Filter($"Prices.RegionRaw == {(int)priceRegion} && Prices.Value >= {minimumPrice} && Prices.Value <= {maximumPrice}")
-                .AsEnumerable()
-                .ToPlainObjectEnumerable();
+            using (var repository = _repositoryService.GetRepository())
+            {
+                return GetQueryable(repository)
+                    .Where("Prices[*].Region ANY = @0", priceRegion.ToString())
+                    .Where("Prices[*].Value ANY >= @0", minimumPrice)
+                    .Where("Prices[*].Value ANY <= @0", maximumPrice)
+                    .ToList();
+            }
         }
 
         public IEnumerable<Set> SearchBy(string searchQuery)
         {
-            var realmQuery = BuildRealmQueryFromSearchQuery(searchQuery);
+            var queryBsonExpression = BuildBsonExpressionFromSearchQuery(searchQuery);
 
-            if (realmQuery == null)
+            if (queryBsonExpression == null)
             {
-                return EmptyEnumerable;
+                return Enumerable.Empty<Set>();
             }
 
-            return GetQueryable()
-                .Filter(realmQuery)
-                .AsEnumerable()
-                .ToPlainObjectEnumerable();
+            using (var repository = _repositoryService.GetRepository())
+            {
+                return GetQueryable(repository)
+                    .Where(queryBsonExpression)
+                    .ToList();
+            }
         }
 
-        private string BuildRealmQueryFromSearchQuery(string searchQuery)
+        private BsonExpression BuildBsonExpressionFromSearchQuery(string searchQuery)
         {
             if (string.IsNullOrWhiteSpace(searchQuery))
             {
                 return null;
             }
 
-            var queryList = new List<string>();
-
-            foreach (var searchTerm in searchQuery
+            var queryList = new Dictionary<string, string>();
+            var searchTerms = searchQuery
                 .Split(' ', '-')
                 .Where(term => (term?.Trim().Length ?? 0) >= Constants.MinimumSearchQuerySize)
-                .Distinct())
+                .Distinct()
+                .ToList();
+
+            for (int i = 0; i < searchTerms.Count; i++)
             {
-                queryList.Add($"Number CONTAINS[c] \"{searchTerm.Trim()}\"");
-                queryList.Add($"Name CONTAINS[c] \"{searchTerm.Trim()}\"");
-                queryList.Add($"Ean CONTAINS[c] \"{searchTerm.Trim()}\"");
-                queryList.Add($"Upc CONTAINS[c] \"{searchTerm.Trim()}\"");
-                queryList.Add($"Description CONTAINS[c] \"{searchTerm.Trim()}\"");
-                queryList.Add($"Theme.Name CONTAINS[c] \"{searchTerm.Trim()}\"");
-                queryList.Add($"Subtheme.Name CONTAINS[c] \"{searchTerm.Trim()}\"");
-                queryList.Add($"ThemeGroup.Value CONTAINS[c] \"{searchTerm.Trim()}\"");
-                queryList.Add($"Category.Value CONTAINS[c] \"{searchTerm.Trim()}\"");
-                queryList.Add($"Tags.Value CONTAINS[c] \"{searchTerm.Trim()}\"");
+                var queryString = $"Number LIKE @{i}" +
+                    $" OR Name LIKE @{i}" +
+                    $" OR Ean LIKE @{i}" +
+                    $" OR Upc LIKE @{i}" +
+                    $" OR Theme.Name LIKE @{i}" +
+                    $" OR Subtheme.Name LIKE @{i}" +
+                    $" OR ThemeGroup.Value LIKE @{i}" +
+                    $" OR PackagingType.Value LIKE @{i}" +
+                    $" OR Category.Value LIKE @{i}" +
+                    $" OR Tags[*].Value ANY LIKE @{i}";
+
+                queryList.Add($"%{searchTerms[i]}%", queryString);
             }
 
-            return queryList.Count == 0
+            return queryList.Keys.Count == 0
                 ? null
-                : string.Join(" OR ", queryList.ToArray());
+                : BsonExpression.Create(string.Join(" OR ", queryList.Values), queryList.Keys.Select(key => new BsonValue(key)).ToArray());
         }
 
-        private IQueryable<Managed.Set> GetQueryable()
+        private ILiteQueryable<Set> GetQueryable(ILiteRepository repository)
         {
-            return _repositoryService
-                .GetRepository()
-                .All<Managed.Set>();
+            return repository
+                .Query<Set>()
+                .Include(set => set.Theme)
+                .Include(set => set.ThemeGroup)
+                .Include(set => set.Subtheme)
+                .Include(set => set.PackagingType)
+                .Include(set => set.Category)
+                .Include(set => set.Tags);
         }
     }
 }
