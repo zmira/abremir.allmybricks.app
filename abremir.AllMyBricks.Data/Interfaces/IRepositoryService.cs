@@ -4,7 +4,7 @@ namespace abremir.AllMyBricks.Data.Interfaces
 {
     public interface IRepositoryService
     {
-        LiteRepository GetRepository();
+        ILiteRepository GetRepository();
         long CompactRepository();
     }
 }
