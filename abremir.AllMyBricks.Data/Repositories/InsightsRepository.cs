@@ -1,7 +1,7 @@
-﻿using abremir.AllMyBricks.Data.Interfaces;
-using abremir.AllMyBricks.Data.Models.Realm;
+﻿using abremir.AllMyBricks.Data.Extensions;
+using abremir.AllMyBricks.Data.Interfaces;
+using abremir.AllMyBricks.Data.Models;
 using System;
-using System.Linq;
 
 namespace abremir.AllMyBricks.Data.Repositories
 {
@@ -21,36 +21,21 @@ namespace abremir.AllMyBricks.Data.Repositories
 
         public void UpdateDataSynchronizationTimestamp(DateTimeOffset dataSynchronizationTimestamp)
         {
-            var repository = _repositoryService.GetRepository();
-            var insights = GetInsights();
+            var insights = GetInsights() ?? new Insights { Id = 1 };
+            insights.DataSynchronizationTimestamp = dataSynchronizationTimestamp.ToHundredthOfSecond();
 
-            if (insights == null)
+            using (var repository = _repositoryService.GetRepository())
             {
-                repository.Write(() =>
-                {
-                    repository.Add(new Insights
-                    {
-                        DataSynchronizationTimestamp = dataSynchronizationTimestamp
-                    });
-                });
-            }
-            else
-            {
-                using (var transaction = repository.BeginWrite())
-                {
-                    insights.DataSynchronizationTimestamp = dataSynchronizationTimestamp;
-
-                    transaction.Commit();
-                }
+                repository.Upsert(insights);
             }
         }
 
         private Insights GetInsights()
         {
-            return _repositoryService
-                .GetRepository()
-                .All<Insights>()
-                .SingleOrDefault();
+            using (var repository = _repositoryService.GetRepository())
+            {
+                return repository.FirstOrDefault<Insights>("1 = 1");
+            }
         }
     }
 }
