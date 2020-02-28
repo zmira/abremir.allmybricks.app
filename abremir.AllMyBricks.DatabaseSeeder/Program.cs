@@ -16,7 +16,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder
             app.HelpOption();
 
             var unattendeOption = app
-                .Option(DatabaseSeederConstants.UnattentedOption, "Run in unattended mode (non-interactive)", CommandOptionType.NoValue);
+                .Option(DatabaseSeederConstants.UnattendedOption, "Run in unattended mode (non-interactive)", CommandOptionType.NoValue);
             var logVerbosityOption = app
                 .Option<string>(DatabaseSeederConstants.LogVerbosityOption, $"Logging verbosity: {DatabaseSeederConstants.LogVerbosityValueNone}, {DatabaseSeederConstants.LogVerbosityValueMinimal}, {DatabaseSeederConstants.LogVerbosityValueFull}", CommandOptionType.SingleValue)
                 .Accepts(builder => builder.Values(true, DatabaseSeederConstants.LogVerbosityValueNone, DatabaseSeederConstants.LogVerbosityValueMinimal, DatabaseSeederConstants.LogVerbosityValueFull));

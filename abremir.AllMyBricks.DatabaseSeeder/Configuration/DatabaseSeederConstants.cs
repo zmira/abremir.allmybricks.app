@@ -2,7 +2,7 @@
 {
     public static class DatabaseSeederConstants
     {
-        public const string UnattentedOption = "--unattended";
+        public const string UnattendedOption = "--unattended";
         public const string LogVerbosityOption = "--log-verbosity";
         public const string LogVerbosityValueNone = "none";
         public const string LogVerbosityValueMinimal = "minimal";
