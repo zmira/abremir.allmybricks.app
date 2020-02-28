@@ -6,11 +6,15 @@ namespace abremir.AllMyBricks.Data.Models
 {
     public class Tag : IReferenceData
     {
-        [BsonId(false)]
+        [BsonId(true)]
+        public int Id { get; set; }
+
         public string Value { get; set; }
 
+        [BsonIgnore]
         public bool IsName => Value.EndsWith("|n", StringComparison.InvariantCultureIgnoreCase);
 
+        [BsonIgnore]
         public string TagValue => Value.Replace("|n", "");
     }
 }

@@ -5,7 +5,9 @@ namespace abremir.AllMyBricks.Data.Models
 {
     public class ThemeGroup : IReferenceData
     {
-        [BsonId(false)]
+        [BsonId(true)]
+        public int Id { get; set; }
+
         public string Value { get; set; }
     }
 }
