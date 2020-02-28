@@ -1,12 +1,10 @@
 ﻿using abremir.AllMyBricks.Data.Enumerations;
-using abremir.AllMyBricks.Data.Extensions;
 using abremir.AllMyBricks.Data.Interfaces;
 using abremir.AllMyBricks.Data.Models;
-using Realms;
+using LiteDB;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Managed = abremir.AllMyBricks.Data.Models.Realm;
 
 namespace abremir.AllMyBricks.Data.Repositories
 {
@@ -33,18 +31,19 @@ namespace abremir.AllMyBricks.Data.Repositories
                 return existingBricksetUser;
             }
 
-            var repository = _repositoryService.GetRepository();
-
-            var managedBricksetUser = new BricksetUser
+            var bricksetUser = new BricksetUser
             {
-                BricksetUsername = username,
+                BricksetUsername = username.Trim(),
                 UserType = userType,
                 Sets = new List<BricksetUserSet>()
-            }.ToRealmObject();
+            };
 
-            repository.Write(() => repository.Add(managedBricksetUser));
+            using (var repository = _repositoryService.GetRepository())
+            {
+                repository.Insert(bricksetUser);
+            }
 
-            return managedBricksetUser.ToPlainObject();
+            return bricksetUser;
         }
 
         public BricksetUser Get(string username)
@@ -54,16 +53,16 @@ namespace abremir.AllMyBricks.Data.Repositories
                 return null;
             }
 
-            return GetQueryable()
-                .FirstOrDefault(bricksetUser => bricksetUser.BricksetUsername.Equals(username, StringComparison.OrdinalIgnoreCase))
-                ?.ToPlainObject();
+            using (var repository = _repositoryService.GetRepository())
+            {
+                return repository
+                    .FirstOrDefault<BricksetUser>(bricksetUser => bricksetUser.BricksetUsername == username.Trim());
+            }
         }
 
         public bool Exists(string username)
         {
-            return !string.IsNullOrWhiteSpace(username)
-                && GetQueryable()
-                    .Any(bricksetUser => bricksetUser.BricksetUsername.Equals(username, StringComparison.OrdinalIgnoreCase));
+            return Get(username) != null;
         }
 
         public bool Remove(string username)
@@ -73,28 +72,28 @@ namespace abremir.AllMyBricks.Data.Repositories
                 return false;
             }
 
-            var repository = _repositoryService.GetRepository();
-
-            var bricksetUserToRemove = GetQueryable()
-                        .First(bricksetUser => bricksetUser.BricksetUsername.Equals(username, StringComparison.OrdinalIgnoreCase));
-
-            using (var transaction = repository.BeginWrite())
+            using (var repository = _repositoryService.GetRepository())
             {
-                repository.Remove(bricksetUserToRemove);
-                transaction.Commit();
+                return repository
+                    .Delete<BricksetUser>(username);
             }
-
-            return true;
         }
 
         public BricksetUserSet AddOrUpdateSet(string username, BricksetUserSet bricksetUserSet)
         {
             if (string.IsNullOrWhiteSpace(username)
                 || bricksetUserSet == null
-                || bricksetUserSet.SetId == 0
-                || _repositoryService.GetRepository().All<Managed.Set>().FirstOrDefault(set => set.SetId == bricksetUserSet.SetId) == null)
+                || bricksetUserSet.SetId == 0)
             {
                 return null;
+            }
+
+            using (var repository = _repositoryService.GetRepository())
+            {
+                if (repository.FirstOrDefault<Set>(set => set.SetId == bricksetUserSet.SetId) == null)
+                {
+                    return null;
+                }
             }
 
             var bricksetUser = Get(username);
@@ -121,16 +120,12 @@ namespace abremir.AllMyBricks.Data.Repositories
             bricksetUserSet.LastChangeTimestamp = bricksetUserSet.LastChangeTimestamp ?? DateTimeOffset.Now;
             bricksetUser.Sets.Add(bricksetUserSet);
 
-            var repository = _repositoryService.GetRepository();
+            using (var repository = _repositoryService.GetRepository())
+            {
+                repository.Update(bricksetUser);
+            }
 
-            var managedBricksetUser = bricksetUser.ToRealmObject();
-
-            repository.Write(() => repository.Add(managedBricksetUser, true));
-
-            return managedBricksetUser
-                .Sets
-                .FirstOrDefault(set => set.SetId == bricksetUserSet.SetId)
-                ?.ToPlainObject();
+            return bricksetUserSet;
         }
 
         public BricksetUserSet GetSet(string username, long setId)
@@ -141,19 +136,17 @@ namespace abremir.AllMyBricks.Data.Repositories
                 return null;
             }
 
-            return GetQueryable()
-                .Filter($"BricksetUsername ==[c] \"{username}\" && Sets.SetId == {setId}")
-                .FirstOrDefault()
-                ?.Sets[0]
-                .ToPlainObject();
+            return Get(username)?.Sets.FirstOrDefault(set => set.SetId == setId);
         }
 
         public IEnumerable<string> GetAllUsernames(BricksetUserTypeEnum userType)
         {
-            return GetQueryable()
-                .Filter($"UserTypeRaw == {(int)userType}")
-                .ToList()
-                .Select(bricksetUser => bricksetUser.BricksetUsername);
+            using (var repository = _repositoryService.GetRepository())
+            {
+                return repository
+                    .Fetch<BricksetUser>(bricksetUser => bricksetUser.UserType == userType)
+                    .Select(bricksetUser => bricksetUser.BricksetUsername);
+            }
         }
 
         public BricksetUser UpdateUserSynchronizationTimestamp(string username, DateTimeOffset userSynchronizationTimestamp)
@@ -172,20 +165,12 @@ namespace abremir.AllMyBricks.Data.Repositories
 
             bricksetUser.UserSynchronizationTimestamp = userSynchronizationTimestamp;
 
-            var repository = _repositoryService.GetRepository();
+            using (var repository = _repositoryService.GetRepository())
+            {
+                repository.Update(bricksetUser);
+            }
 
-            var managedBricksetUser = bricksetUser.ToRealmObject();
-
-            repository.Write(() => repository.Add(managedBricksetUser, true));
-
-            return managedBricksetUser.ToPlainObject();
-        }
-
-        private IQueryable<Managed.BricksetUser> GetQueryable()
-        {
-            return _repositoryService
-                .GetRepository()
-                .All<Managed.BricksetUser>();
+            return bricksetUser;
         }
     }
 }
