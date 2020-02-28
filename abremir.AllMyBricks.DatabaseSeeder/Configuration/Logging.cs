@@ -16,37 +16,39 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Configuration
         public static LogVerbosityEnum LogVerbosity { get; set; }
         public static LogDestinationEnum LogDestination { get; set; }
 
-        public static void Configure(LogDestinationEnum logDestination, LogVerbosityEnum logVerbosity)
+        public static void Configure(LogDestinationEnum? logDestination, LogVerbosityEnum logVerbosity)
         {
             LogVerbosity = logVerbosity;
-            LogDestination = logDestination;
 
-            switch (logDestination)
+            if (LogVerbosity == LogVerbosityEnum.NoLogging)
             {
-                case LogDestinationEnum.File:
-                    SetupFileLogging();
-                    break;
-
-                case LogDestinationEnum.Console:
-                    SetupConsoleLogging();
-                    break;
+                return;
             }
 
-            if (LogVerbosity != LogVerbosityEnum.NoLogging)
-            {
-                var setSynchronizationServiceLogger = IoC.IoCContainer.GetInstance<SetSynchronizationServiceLogger>();
-                var themeSynchronizerLogger = IoC.IoCContainer.GetInstance<ThemeSynchronizerLogger>();
-                var subthemeSynchronizerLogger = IoC.IoCContainer.GetInstance<SubthemeSynchronizerLogger>();
-                var setSynchronizerLogger = IoC.IoCContainer.GetInstance<SetSynchronizerLogger>();
-                var thumbnailSynchronizerLogger = IoC.IoCContainer.GetInstance<ThumbnailSynchronizerLogger>();
-                var assetUncompressionLogger = IoC.IoCContainer.GetInstance<AssetUncompressionLogger>();
-                var userSynchronizationServiceLogger = IoC.IoCContainer.GetInstance<UserSynchronizationServiceLogger>();
-                var userSynchronizerLogger = IoC.IoCContainer.GetInstance<UserSynchronizerLogger>();
-            }
+            LogDestination = logDestination.Value;
+
+            Factory = new LoggerFactory();
+
+            SetupConsoleLogging();
+            SetupFileLogging();
+
+            var setSynchronizationServiceLogger = IoC.IoCContainer.GetInstance<SetSynchronizationServiceLogger>();
+            var themeSynchronizerLogger = IoC.IoCContainer.GetInstance<ThemeSynchronizerLogger>();
+            var subthemeSynchronizerLogger = IoC.IoCContainer.GetInstance<SubthemeSynchronizerLogger>();
+            var setSynchronizerLogger = IoC.IoCContainer.GetInstance<SetSynchronizerLogger>();
+            var thumbnailSynchronizerLogger = IoC.IoCContainer.GetInstance<ThumbnailSynchronizerLogger>();
+            var assetUncompressionLogger = IoC.IoCContainer.GetInstance<AssetUncompressionLogger>();
+            var userSynchronizationServiceLogger = IoC.IoCContainer.GetInstance<UserSynchronizationServiceLogger>();
+            var userSynchronizerLogger = IoC.IoCContainer.GetInstance<UserSynchronizerLogger>();
         }
 
         private static void SetupFileLogging()
         {
+            if (!LogDestination.HasFlag(LogDestinationEnum.File))
+            {
+                return;
+            }
+
             var folderPath = Path.Combine(Directory.GetCurrentDirectory(), "logs");
 
             if (!Directory.Exists(folderPath))
@@ -55,8 +57,6 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Configuration
             }
 
             var logFile = Path.Combine(folderPath, $"{DateTime.Now.ToString("yyyyMMdd")}_{Assembly.GetExecutingAssembly().GetName().Name}.log");
-
-            Factory = new LoggerFactory();
 
             Factory.AddProvider(new FileLoggerProvider(logFile, new FileLoggerOptions
             {
@@ -67,6 +67,11 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Configuration
 
         private static void SetupConsoleLogging()
         {
+            if (!LogDestination.HasFlag(LogDestinationEnum.Console))
+            {
+                return;
+            }
+
             Factory = LoggerFactory.Create(builder => builder.AddConsole());
         }
     }
