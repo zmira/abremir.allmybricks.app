@@ -1,5 +1,6 @@
-﻿using abremir.AllMyBricks.Data.Interfaces;
-using abremir.AllMyBricks.Data.Models.Realm;
+﻿using abremir.AllMyBricks.Data.Extensions;
+using abremir.AllMyBricks.Data.Interfaces;
+using abremir.AllMyBricks.Data.Models;
 using abremir.AllMyBricks.Data.Repositories;
 using abremir.AllMyBricks.Data.Tests.Shared;
 using FluentAssertions;
@@ -36,7 +37,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
         {
             var insights = new Insights
             {
-                DataSynchronizationTimestamp = DateTimeOffset.Now.AddHours(-5)
+                DataSynchronizationTimestamp = DateTimeOffset.Now.AddHours(-5).ToHundredthOfSecond()
             };
 
             InsertData(insights);
@@ -55,7 +56,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
 
             var timestamp = _insightsRepository.GetDataSynchronizationTimestamp();
 
-            timestamp.Should().Be(dataSynchronizationTimestamp);
+            timestamp.Should().Be(dataSynchronizationTimestamp.ToHundredthOfSecond());
         }
 
         [TestMethod]
@@ -65,7 +66,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
 
             var insights = new Insights
             {
-                DataSynchronizationTimestamp = dataSynchronizationTimestamp
+                DataSynchronizationTimestamp = dataSynchronizationTimestamp.ToHundredthOfSecond()
             };
 
             InsertData(insights);
@@ -76,7 +77,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
 
             var timestamp = _insightsRepository.GetDataSynchronizationTimestamp();
 
-            timestamp.Should().Be(dataSynchronizationTimestamp);
+            timestamp.Should().Be(dataSynchronizationTimestamp.ToHundredthOfSecond());
         }
     }
 }

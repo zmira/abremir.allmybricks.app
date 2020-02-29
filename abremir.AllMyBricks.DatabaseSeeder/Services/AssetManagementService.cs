@@ -59,7 +59,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Services
 
             var compacted = _repositoryService.CompactRepository();
 
-            if (compacted)
+            if (compacted > 0)
             {
                 _file.DeleteFileIfExists($"{dbFilePath}.tmp_compaction_space");
 
@@ -67,7 +67,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Services
             }
             else
             {
-                _logger.LogError($"Failed to Compact AllMyBricks Database {Path.GetFileName(dbFilePath)}");
+                _logger.LogWarning($"Either Database did not need to be compacted or Failed to Compact AllMyBricks Database {Path.GetFileName(dbFilePath)}");
             }
         }
 

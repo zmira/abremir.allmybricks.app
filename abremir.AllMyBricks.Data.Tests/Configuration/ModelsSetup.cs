@@ -1,5 +1,5 @@
 ﻿using abremir.AllMyBricks.Data.Enumerations;
-using abremir.AllMyBricks.Data.Models.Realm;
+using abremir.AllMyBricks.Data.Models;
 using System;
 
 namespace abremir.AllMyBricks.Data.Tests.Configuration
@@ -77,8 +77,7 @@ namespace abremir.AllMyBricks.Data.Tests.Configuration
                 SetCount = 8,
                 Theme = theme,
                 YearFrom = FirstSubthemeYearFrom,
-                YearTo = theme.YearTo,
-                SubthemeKey = $"{subthemeName}-{theme.Name}"
+                YearTo = theme.YearTo
             };
         }
 
@@ -92,8 +91,7 @@ namespace abremir.AllMyBricks.Data.Tests.Configuration
                 SetCount = 7,
                 Theme = theme,
                 YearFrom = SecondSubthemeYearFrom,
-                YearTo = theme.YearTo,
-                SubthemeKey = $"{subthemeName}-{theme.Name}"
+                YearTo = theme.YearTo
             };
         }
 
@@ -144,8 +142,7 @@ namespace abremir.AllMyBricks.Data.Tests.Configuration
                 Name = $"SET NAME{suffix}",
                 Number = $"SET NUMBER{suffix}",
                 Ean = $"SET EAN{suffix}",
-                Upc = $"SET UPC{suffix}",
-                Description = $"SET DESCRIPTION{suffix}"
+                Upc = $"SET UPC{suffix}"
             };
         }
 

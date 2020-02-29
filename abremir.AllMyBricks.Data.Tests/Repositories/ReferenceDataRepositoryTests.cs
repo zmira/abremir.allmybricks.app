@@ -1,14 +1,11 @@
-﻿using abremir.AllMyBricks.Data.Extensions;
-using abremir.AllMyBricks.Data.Interfaces;
+﻿using abremir.AllMyBricks.Data.Interfaces;
 using abremir.AllMyBricks.Data.Models;
 using abremir.AllMyBricks.Data.Repositories;
 using abremir.AllMyBricks.Data.Tests.Configuration;
 using abremir.AllMyBricks.Data.Tests.Shared;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Realms;
 using System.Linq;
-using Managed = abremir.AllMyBricks.Data.Models.Realm;
 
 namespace abremir.AllMyBricks.Data.Tests.Repositories
 {
@@ -32,7 +29,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
         [DataRow(null)]
         public void GivenGetOrAdd_WhenInvalidCategoryReferenceDataValue_ThenReturnsNull(string referenceDataValue)
         {
-            GetOrAddTestHelper<Category, Managed.Category>(referenceDataValue, null);
+            GetOrAddTestHelper<Category>(referenceDataValue, null);
         }
 
         [DataTestMethod]
@@ -40,7 +37,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
         [DataRow(null)]
         public void GivenGetOrAdd_WhenInvalidPackagingTypeReferenceDataValue_ThenReturnsNull(string referenceDataValue)
         {
-            GetOrAddTestHelper<PackagingType, Managed.PackagingType>(referenceDataValue, null);
+            GetOrAddTestHelper<PackagingType>(referenceDataValue, null);
         }
 
         [DataTestMethod]
@@ -48,7 +45,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
         [DataRow(null)]
         public void GivenGetOrAdd_WhenInvalidTagReferenceDataValue_ThenReturnsNull(string referenceDataValue)
         {
-            GetOrAddTestHelper<Tag, Managed.Tag>(referenceDataValue, null);
+            GetOrAddTestHelper<Tag>(referenceDataValue, null);
         }
 
         [DataTestMethod]
@@ -56,58 +53,58 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
         [DataRow(null)]
         public void GivenGetOrAdd_WhenInvalidThemeGroupReferenceDataValue_ThenReturnsNull(string referenceDataValue)
         {
-            GetOrAddTestHelper<ThemeGroup, Managed.ThemeGroup>(referenceDataValue, null);
+            GetOrAddTestHelper<ThemeGroup>(referenceDataValue, null);
         }
 
         [TestMethod]
         public void GivenGetOrAdd_WhenCategoryReferenceDataDoesNotExist_ThenInsertsReferenceData()
         {
-            GetOrAddTestHelper<Category, Managed.Category>(ModelsSetup.CategoryReferenceDataValue, ModelsSetup.CategoryReferenceData.ToPlainObject(), insert: true);
+            GetOrAddTestHelper<Category>(ModelsSetup.CategoryReferenceDataValue, ModelsSetup.CategoryReferenceData, insert: true);
         }
 
         [TestMethod]
         public void GivenGetOrAdd_WhenPackaginTypeReferenceDataDoesNotExist_ThenInsertsReferenceData()
         {
-            GetOrAddTestHelper<PackagingType, Managed.PackagingType>(ModelsSetup.PackagingTypeReferenceDataValue, ModelsSetup.PackagingTypeReferenceData.ToPlainObject(), insert: true);
+            GetOrAddTestHelper<PackagingType>(ModelsSetup.PackagingTypeReferenceDataValue, ModelsSetup.PackagingTypeReferenceData, insert: true);
         }
 
         [TestMethod]
         public void GivenGetOrAdd_WhenTagReferenceDataDoesNotExist_ThenInsertsReferenceData()
         {
-            GetOrAddTestHelper<Tag, Managed.Tag>(ModelsSetup.TagReferenceDataValue, ModelsSetup.TagReferenceData.ToPlainObject(), insert: true);
+            GetOrAddTestHelper<Tag>(ModelsSetup.TagReferenceDataValue, ModelsSetup.TagReferenceData, insert: true);
         }
 
         [TestMethod]
         public void GivenGetOrAdd_WhenThemeGroupReferenceDataDoesNotExist_ThenInsertsReferenceData()
         {
-            GetOrAddTestHelper<ThemeGroup, Managed.ThemeGroup>(ModelsSetup.ThemeGroupReferenceDataValue, ModelsSetup.ThemeGroupReferenceData.ToPlainObject(), insert: true);
+            GetOrAddTestHelper<ThemeGroup>(ModelsSetup.ThemeGroupReferenceDataValue, ModelsSetup.ThemeGroupReferenceData, insert: true);
         }
 
         [TestMethod]
         public void GivenGetOrAdd_WhenCategoryReferenceDataExists_ThenDoesNotInsertReferenceData()
         {
-            GetOrAddTestHelper<Category, Managed.Category>(ModelsSetup.CategoryReferenceDataValue, ModelsSetup.CategoryReferenceData.ToPlainObject(), exists: true);
+            GetOrAddTestHelper<Category>(ModelsSetup.CategoryReferenceDataValue, ModelsSetup.CategoryReferenceData, exists: true);
         }
 
         [TestMethod]
         public void GivenGetOrAdd_WhenPackaginTypeReferenceDataExists_ThenDoesNotInsertReferenceData()
         {
-            GetOrAddTestHelper<PackagingType, Managed.PackagingType>(ModelsSetup.PackagingTypeReferenceDataValue, ModelsSetup.PackagingTypeReferenceData.ToPlainObject(), exists: true);
+            GetOrAddTestHelper<PackagingType>(ModelsSetup.PackagingTypeReferenceDataValue, ModelsSetup.PackagingTypeReferenceData, exists: true);
         }
 
         [TestMethod]
         public void GivenGetOrAdd_WhenTagReferenceDataExists_ThenDoesNotInsertReferenceData()
         {
-            GetOrAddTestHelper<Tag, Managed.Tag>(ModelsSetup.TagReferenceDataValue, ModelsSetup.TagReferenceData.ToPlainObject(), exists: true);
+            GetOrAddTestHelper<Tag>(ModelsSetup.TagReferenceDataValue, ModelsSetup.TagReferenceData, exists: true);
         }
 
         [TestMethod]
         public void GivenGetOrAdd_WhenThemeGroupReferenceDataExists_ThenDoesNotInsertReferenceData()
         {
-            GetOrAddTestHelper<ThemeGroup, Managed.ThemeGroup>(ModelsSetup.ThemeGroupReferenceDataValue, ModelsSetup.ThemeGroupReferenceData.ToPlainObject(), exists: true);
+            GetOrAddTestHelper<ThemeGroup>(ModelsSetup.ThemeGroupReferenceDataValue, ModelsSetup.ThemeGroupReferenceData, exists: true);
         }
 
-        private void GetOrAddTestHelper<T, U>(string referenceDataValue, T expectedReferenceData, bool insert = false, bool exists = false) where T : IReferenceData where U : RealmObject, IReferenceData
+        private void GetOrAddTestHelper<T>(string referenceDataValue, T expectedReferenceData, bool insert = false, bool exists = false) where T : IReferenceData, new()
         {
             if (exists)
             {
@@ -121,7 +118,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
 
             if (insert || exists)
             {
-                var referenceDataList = MemoryRepositoryService.GetRepository().All<U>();
+                var referenceDataList = MemoryRepositoryService.GetRepository().Query<T>().ToList();
 
                 referenceDataList.Should().ContainSingle();
                 referenceDataList.First().Value.Should().Be(referenceDataValue);

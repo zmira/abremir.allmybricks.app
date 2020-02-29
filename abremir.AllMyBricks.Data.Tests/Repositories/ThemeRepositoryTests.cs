@@ -1,5 +1,4 @@
 ﻿using abremir.AllMyBricks.Data.Configuration;
-using abremir.AllMyBricks.Data.Extensions;
 using abremir.AllMyBricks.Data.Interfaces;
 using abremir.AllMyBricks.Data.Models;
 using abremir.AllMyBricks.Data.Repositories;
@@ -131,7 +130,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
             var themeUnderTest = ModelsSetup.GetThemeUnderTest(Guid.NewGuid().ToString());
             themeUnderTest.YearFrom = Constants.MinimumSetYear - 1;
 
-            var theme = _themeRepository.AddOrUpdate(themeUnderTest.ToPlainObject());
+            var theme = _themeRepository.AddOrUpdate(themeUnderTest);
 
             theme.Should().BeNull();
         }
@@ -141,7 +140,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
         {
             var themeUnderTest = ModelsSetup.GetThemeUnderTest(Guid.NewGuid().ToString());
 
-            _themeRepository.AddOrUpdate(themeUnderTest.ToPlainObject());
+            _themeRepository.AddOrUpdate(themeUnderTest);
 
             var theme = _themeRepository.Get(themeUnderTest.Name);
 
@@ -153,7 +152,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
         {
             var themeUnderTest = ModelsSetup.GetThemeUnderTest(Guid.NewGuid().ToString());
 
-            _themeRepository.AddOrUpdate(themeUnderTest.ToPlainObject());
+            _themeRepository.AddOrUpdate(themeUnderTest);
 
             var themeFromDb = _themeRepository.Get(themeUnderTest.Name);
 

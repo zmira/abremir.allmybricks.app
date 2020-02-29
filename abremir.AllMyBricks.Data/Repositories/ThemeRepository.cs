@@ -2,19 +2,14 @@
 using abremir.AllMyBricks.Data.Extensions;
 using abremir.AllMyBricks.Data.Interfaces;
 using abremir.AllMyBricks.Data.Models;
-using Realms;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using Managed = abremir.AllMyBricks.Data.Models.Realm;
 
 namespace abremir.AllMyBricks.Data.Repositories
 {
     public class ThemeRepository : IThemeRepository
     {
         private readonly IRepositoryService _repositoryService;
-
-        private IEnumerable<Theme> EmptyEnumerable => new Theme[] { };
 
         public ThemeRepository(IRepositoryService repositoryService)
         {
@@ -30,22 +25,22 @@ namespace abremir.AllMyBricks.Data.Repositories
                 return null;
             }
 
-            var existingTheme = Get(theme.Name);
+            theme.TrimAllStrings();
 
-            var repository = _repositoryService.GetRepository();
+            using (var repository = _repositoryService.GetRepository())
+            {
+                repository.Upsert(theme);
+            }
 
-            var managedTheme = theme.ToRealmObject();
-
-            repository.Write(() => repository.Add(managedTheme, existingTheme != null));
-
-            return managedTheme.ToPlainObject();
+            return theme;
         }
 
         public IEnumerable<Theme> All()
         {
-            return GetQueryable()
-                .AsEnumerable()
-                .ToPlainObjectEnumerable();
+            using (var repository = _repositoryService.GetRepository())
+            {
+                return repository.Fetch<Theme>("1 = 1");
+            }
         }
 
         public Theme Get(string themeName)
@@ -55,29 +50,23 @@ namespace abremir.AllMyBricks.Data.Repositories
                 return null;
             }
 
-            return GetQueryable()
-                .FirstOrDefault(theme => theme.Name.Equals(themeName, StringComparison.OrdinalIgnoreCase))
-                ?.ToPlainObject();
+            using (var repository = _repositoryService.GetRepository())
+            {
+                return repository.FirstOrDefault<Theme>(theme => theme.Name == themeName.Trim());
+            }
         }
 
         public IEnumerable<Theme> AllForYear(short year)
         {
             if (year < Constants.MinimumSetYear)
             {
-                return EmptyEnumerable;
+                return Enumerable.Empty<Theme>();
             }
 
-            return GetQueryable()
-                    .Filter($"SetCountPerYear.Year == {year}")
-                    .AsEnumerable()
-                    .ToPlainObjectEnumerable();
-        }
-
-        private IQueryable<Managed.Theme> GetQueryable()
-        {
-            return _repositoryService
-                .GetRepository()
-                .All<Managed.Theme>();
+            using (var repository = _repositoryService.GetRepository())
+            {
+                return repository.Fetch<Theme>(theme => theme.YearFrom <= year && theme.YearTo >= year);
+            }
         }
     }
 }

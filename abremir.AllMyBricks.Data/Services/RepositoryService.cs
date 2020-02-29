@@ -1,7 +1,9 @@
 ﻿using abremir.AllMyBricks.Data.Configuration;
 using abremir.AllMyBricks.Data.Interfaces;
+using abremir.AllMyBricks.Data.Models;
 using abremir.AllMyBricks.Platform.Interfaces;
-using Realms;
+using LiteDB;
+using System.Linq;
 
 namespace abremir.AllMyBricks.Data.Services
 {
@@ -14,14 +16,52 @@ namespace abremir.AllMyBricks.Data.Services
             _fileSystemService = fileSystemService;
         }
 
-        public Realm GetRepository()
+        public ILiteRepository GetRepository()
         {
-            return Realm.GetInstance(_fileSystemService.GetLocalPathToFile(Constants.AllMyBricksDbFile));
+            var repository = new LiteRepository(_fileSystemService.GetLocalPathToFile(Constants.AllMyBricksDbFile));
+
+            SetupIndexes(repository.Database);
+
+            return repository;
         }
 
-        public bool CompactRepository()
+        public long CompactRepository()
         {
-            return Realm.Compact(new RealmConfiguration(_fileSystemService.GetLocalPathToFile(Constants.AllMyBricksDbFile)));
+            return GetRepository().Database.Rebuild();
+        }
+
+        private void SetupIndexes(ILiteDatabase liteDatabase)
+        {
+            if (liteDatabase.UserVersion == 0)
+            {
+                liteDatabase.GetCollection<Theme>().EnsureIndex(theme => theme.Name, true);
+                liteDatabase.GetCollection<Theme>().EnsureIndex(theme => theme.YearFrom);
+                liteDatabase.GetCollection<Theme>().EnsureIndex(theme => theme.YearTo);
+                liteDatabase.GetCollection<Subtheme>().EnsureIndex(subtheme => subtheme.SubthemeKey, true);
+                liteDatabase.GetCollection<Subtheme>().EnsureIndex(subtheme => subtheme.Name);
+                liteDatabase.GetCollection<Subtheme>().EnsureIndex(subtheme => subtheme.Theme.Name);
+                liteDatabase.GetCollection<Subtheme>().EnsureIndex(subtheme => subtheme.YearFrom);
+                liteDatabase.GetCollection<Subtheme>().EnsureIndex(subtheme => subtheme.YearTo);
+                liteDatabase.GetCollection<ThemeGroup>().EnsureIndex(themeGroup => themeGroup.Value, true);
+                liteDatabase.GetCollection<PackagingType>().EnsureIndex(packagingType => packagingType.Value, true);
+                liteDatabase.GetCollection<Category>().EnsureIndex(category => category.Value, true);
+                liteDatabase.GetCollection<Tag>().EnsureIndex(tag => tag.Value, true);
+                liteDatabase.GetCollection<Set>().EnsureIndex(set => set.Number);
+                liteDatabase.GetCollection<Set>().EnsureIndex(set => set.Name);
+                liteDatabase.GetCollection<Set>().EnsureIndex(set => set.Ean);
+                liteDatabase.GetCollection<Set>().EnsureIndex(set => set.Upc);
+                liteDatabase.GetCollection<Set>().EnsureIndex(set => set.Theme.Name);
+                liteDatabase.GetCollection<Set>().EnsureIndex(set => set.Subtheme.Name);
+                liteDatabase.GetCollection<Set>().EnsureIndex(set => set.ThemeGroup.Value);
+                liteDatabase.GetCollection<Set>().EnsureIndex(set => set.Category.Value);
+                liteDatabase.GetCollection<Set>().EnsureIndex(set => set.Year);
+                liteDatabase.GetCollection<Set>().EnsureIndex(set => set.Tags.Select(tag => tag.Value));
+                liteDatabase.GetCollection<Set>().EnsureIndex(set => set.Prices.Select(price => price.Region));
+                liteDatabase.GetCollection<Set>().EnsureIndex(set => set.Prices.Select(price => price.Value));
+                liteDatabase.GetCollection<BricksetUser>().EnsureIndex(bricksetUser => bricksetUser.UserType);
+
+                liteDatabase.UserVersion = 1;
+            }
         }
     }
 }

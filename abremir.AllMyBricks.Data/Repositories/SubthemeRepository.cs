@@ -2,18 +2,15 @@
 using abremir.AllMyBricks.Data.Extensions;
 using abremir.AllMyBricks.Data.Interfaces;
 using abremir.AllMyBricks.Data.Models;
-using Realms;
+using LiteDB;
 using System.Collections.Generic;
 using System.Linq;
-using Managed = abremir.AllMyBricks.Data.Models.Realm;
 
 namespace abremir.AllMyBricks.Data.Repositories
 {
     public class SubthemeRepository : ISubthemeRepository
     {
         private readonly IRepositoryService _repositoryService;
-
-        private IEnumerable<Subtheme> EmptyEnumerable => new Subtheme[] { };
 
         public SubthemeRepository(IRepositoryService repositoryService)
         {
@@ -23,7 +20,6 @@ namespace abremir.AllMyBricks.Data.Repositories
         public Subtheme AddOrUpdate(Subtheme subtheme)
         {
             if (subtheme == null
-                || string.IsNullOrWhiteSpace(subtheme.Name)
                 || subtheme.Theme == null
                 || string.IsNullOrWhiteSpace(subtheme.Theme.Name)
                 || subtheme.YearFrom < Constants.MinimumSetYear
@@ -33,84 +29,84 @@ namespace abremir.AllMyBricks.Data.Repositories
                 return null;
             }
 
-            var existingSubtheme = Get(subtheme.Theme.Name, subtheme.Name);
+            if (string.IsNullOrWhiteSpace(subtheme.Name))
+            {
+                subtheme.Name = "{None}";
+            }
 
-            var repository = _repositoryService.GetRepository();
+            subtheme.TrimAllStrings();
 
-            var managedSubtheme = GetManagedSubtheme(subtheme);
+            using (var repository = _repositoryService.GetRepository())
+            {
+                repository.Upsert(subtheme);
+            }
 
-            repository.Write(() => repository.Add(managedSubtheme, existingSubtheme != null));
-
-            return managedSubtheme.ToPlainObject();
-        }
-
-        private Managed.Subtheme GetManagedSubtheme(Subtheme subtheme)
-        {
-            var managedSubtheme = subtheme.ToRealmObject();
-
-            var repository = _repositoryService.GetRepository();
-
-            managedSubtheme.Theme = subtheme.Theme == null
-                ? null
-                : repository.All<Managed.Theme>()
-                    .Filter($"Name ==[c] \"{subtheme.Theme.Name.Trim()}\"")
-                    .FirstOrDefault();
-
-            return managedSubtheme;
+            return subtheme;
         }
 
         public IEnumerable<Subtheme> All()
         {
-            return GetQueryable()
-                .AsEnumerable()
-                .ToPlainObjectEnumerable();
+            using (var repository = _repositoryService.GetRepository())
+            {
+                return GetQueryable(repository).ToList();
+            }
         }
 
         public Subtheme Get(string themeName, string subthemeName)
         {
-            if (string.IsNullOrWhiteSpace(themeName)
-                || string.IsNullOrWhiteSpace(subthemeName))
+            if (string.IsNullOrWhiteSpace(themeName))
             {
                 return null;
             }
 
-            return GetQueryable()
-                .Filter($"Name ==[c] \"{subthemeName.Trim()}\" && Theme.Name ==[c] \"{themeName.Trim()}\"")
-                .FirstOrDefault()
-                ?.ToPlainObject();
+            if (string.IsNullOrWhiteSpace(subthemeName))
+            {
+                subthemeName = "{None}";
+            }
+
+            using (var repository = _repositoryService.GetRepository())
+            {
+                return GetQueryable(repository)
+                    .Where(subtheme => subtheme.Theme.Name == themeName.Trim() && subtheme.Name == subthemeName.Trim())
+                    .FirstOrDefault();
+            }
         }
 
         public IEnumerable<Subtheme> AllForTheme(string themeName)
         {
             if (string.IsNullOrWhiteSpace(themeName))
             {
-                return EmptyEnumerable;
+                return Enumerable.Empty<Subtheme>();
             }
 
-            return GetQueryable()
-                .Filter($"Theme.Name ==[c] \"{themeName.Trim()}\"")
-                .AsEnumerable()
-                .ToPlainObjectEnumerable();
+            using (var repository = _repositoryService.GetRepository())
+            {
+                return GetQueryable(repository)
+                    .Where(subtheme => subtheme.Theme.Name == themeName.Trim())
+                    .ToList();
+            }
         }
 
         public IEnumerable<Subtheme> AllForYear(short year)
         {
             if (year < Constants.MinimumSetYear)
             {
-                return EmptyEnumerable;
+                return Enumerable.Empty<Subtheme>();
             }
 
-            return GetQueryable()
-                .Where(subtheme => subtheme.YearFrom <= year && subtheme.YearTo >= year)
-                .AsEnumerable()
-                .ToPlainObjectEnumerable();
+            using (var repository = _repositoryService.GetRepository())
+            {
+                return GetQueryable(repository)
+                    .Where(subtheme => subtheme.YearFrom <= year && subtheme.YearTo >= year)
+                    .ToList();
+            }
         }
 
-        private IQueryable<Managed.Subtheme> GetQueryable()
+        private ILiteQueryable<Subtheme> GetQueryable(ILiteRepository repository)
         {
-            return _repositoryService
-                .GetRepository()
-                .All<Managed.Subtheme>();
+            return repository
+                .Query<Subtheme>()
+                .Include(subtheme => subtheme.Theme);
         }
     }
 }

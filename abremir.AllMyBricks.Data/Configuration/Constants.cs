@@ -2,8 +2,9 @@
 {
     public static class Constants
     {
-        public const string AllMyBricksDbFile = "allmybricks.realm";
+        public const string AllMyBricksDbFile = "allmybricks.litedb";
         public const ushort MinimumSetYear = 1949;
         public const ushort MinimumSearchQuerySize = 3;
+        public const long TicksPerHundredthOfSecond = 100000;
     }
 }

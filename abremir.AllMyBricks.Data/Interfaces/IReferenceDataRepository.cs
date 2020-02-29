@@ -2,6 +2,6 @@
 {
     public interface IReferenceDataRepository
     {
-        T GetOrAdd<T>(string value) where T : IReferenceData;
+        T GetOrAdd<T>(string value) where T : IReferenceData, new();
     }
 }

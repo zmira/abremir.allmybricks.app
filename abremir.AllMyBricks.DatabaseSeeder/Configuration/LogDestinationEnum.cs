@@ -1,9 +1,11 @@
-﻿namespace abremir.AllMyBricks.DatabaseSeeder.Configuration
+﻿using System;
+
+namespace abremir.AllMyBricks.DatabaseSeeder.Configuration
 {
+    [Flags]
     public enum LogDestinationEnum
     {
-        Console,
-        File,
-        DevNull
+        Console = 1 << 0,
+        File = 1 << 1
     }
 }
