@@ -27,7 +27,10 @@ namespace abremir.AllMyBricks.Data.Services
 
         public long CompactRepository()
         {
-            return GetRepository().Database.Rebuild();
+            using (var repository = GetRepository())
+            {
+                return repository.Database.Rebuild();
+            }
         }
 
         public static void SetupIndexes(ILiteDatabase liteDatabase)
