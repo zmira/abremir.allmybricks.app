@@ -4,7 +4,7 @@ using LiteDB.Engine;
 
 namespace abremir.AllMyBricks.Data.Tests.Configuration
 {
-    public class RepositoryService : IRepositoryService, IMemoryRepositoryService
+    public class TestRepositoryService : IRepositoryService, IMemoryRepositoryService
     {
         private TempStream _tempStream;
 
@@ -19,7 +19,10 @@ namespace abremir.AllMyBricks.Data.Tests.Configuration
             {
                 _tempStream = new TempStream("abremir.AllMyBricks.Data.Tests.litedb");
             }
-            return new LiteRepository(_tempStream);
+
+            var liteRepository = new LiteRepository(_tempStream);
+
+            return liteRepository;
         }
 
         public void ResetDatabase()

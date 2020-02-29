@@ -7,7 +7,7 @@ namespace abremir.AllMyBricks.Data.Tests.Shared
 {
     public class DataTestsBase
     {
-        protected static readonly IRepositoryService MemoryRepositoryService = new RepositoryService();
+        protected static readonly IRepositoryService MemoryRepositoryService = new TestRepositoryService();
 
         private void ResetDatabase()
         {
