@@ -65,6 +65,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
 
             var subtheme = _subthemeRepository.Get(subthemeUnderTest.Theme.Name, subthemeUnderTest.Name);
 
+            subtheme.Should().NotBeNull();
             subtheme.Name.Should().BeEquivalentTo(subthemeUnderTest.Name);
         }
 
@@ -269,6 +270,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
 
             var subtheme = _subthemeRepository.Get(subthemeUnderTest.Theme.Name, subthemeUnderTest.Name);
 
+            subtheme.Should().NotBeNull();
             subtheme.Name.Should().BeEquivalentTo(subthemeUnderTest.Name);
         }
 
@@ -290,6 +292,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
 
             var savedSubtheme = _subthemeRepository.Get(subtheme.Theme.Name, subtheme.Name);
 
+            savedSubtheme.Should().NotBeNull();
             savedSubtheme.SetCount.Should().Be(subthemeUnderTest.SetCount);
             savedSubtheme.YearTo.Should().Be(subthemeUnderTest.YearTo);
         }
