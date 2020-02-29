@@ -10,7 +10,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Shared
     {
         private readonly Assembly _assembly = Assembly.GetExecutingAssembly();
 
-        protected static readonly IRepositoryService MemoryRepositoryService = new RepositoryService();
+        protected static readonly IRepositoryService MemoryRepositoryService = new TestRepositoryService();
 
         [TestInitialize]
         public void TestInitialize()

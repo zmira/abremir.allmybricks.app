@@ -4,7 +4,7 @@ using LiteDB.Engine;
 
 namespace abremir.AllMyBricks.DataSynchronizer.Tests.Configuration
 {
-    public class RepositoryService : IRepositoryService, IMemoryRepositoryService
+    public class TestRepositoryService : IRepositoryService, IMemoryRepositoryService
     {
         private TempStream _tempStream;
 
