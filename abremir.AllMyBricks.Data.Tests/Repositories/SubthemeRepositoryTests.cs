@@ -288,10 +288,10 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
 
             _subthemeRepository.AddOrUpdate(subthemeUnderTest);
 
-            var saveSubtheme = _subthemeRepository.Get(subtheme.Theme.Name, subtheme.Name);
+            var savedSubtheme = _subthemeRepository.Get(subtheme.Theme.Name, subtheme.Name);
 
-            saveSubtheme.SetCount.Should().Be(subthemeUnderTest.SetCount);
-            saveSubtheme.YearTo.Should().Be(subthemeUnderTest.YearTo);
+            savedSubtheme.SetCount.Should().Be(subthemeUnderTest.SetCount);
+            savedSubtheme.YearTo.Should().Be(subthemeUnderTest.YearTo);
         }
     }
 }
