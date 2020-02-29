@@ -39,7 +39,7 @@ namespace abremir.AllMyBricks.Data.Services
                 liteDatabase.GetCollection<Theme>().EnsureIndex(theme => theme.YearTo);
                 liteDatabase.GetCollection<Subtheme>().EnsureIndex(subtheme => subtheme.SubthemeKey, true);
                 liteDatabase.GetCollection<Subtheme>().EnsureIndex(subtheme => subtheme.Name);
-                liteDatabase.GetCollection<Subtheme>().EnsureIndex(subtheme => subtheme.Theme.Name);
+                liteDatabase.GetCollection<Subtheme>().EnsureIndex(subtheme => subtheme.Theme);
                 liteDatabase.GetCollection<Subtheme>().EnsureIndex(subtheme => subtheme.YearFrom);
                 liteDatabase.GetCollection<Subtheme>().EnsureIndex(subtheme => subtheme.YearTo);
                 liteDatabase.GetCollection<ThemeGroup>().EnsureIndex(themeGroup => themeGroup.Value, true);
@@ -50,10 +50,10 @@ namespace abremir.AllMyBricks.Data.Services
                 liteDatabase.GetCollection<Set>().EnsureIndex(set => set.Name);
                 liteDatabase.GetCollection<Set>().EnsureIndex(set => set.Ean);
                 liteDatabase.GetCollection<Set>().EnsureIndex(set => set.Upc);
-                liteDatabase.GetCollection<Set>().EnsureIndex(set => set.Theme.Name);
-                liteDatabase.GetCollection<Set>().EnsureIndex(set => set.Subtheme.Name);
-                liteDatabase.GetCollection<Set>().EnsureIndex(set => set.ThemeGroup.Value);
-                liteDatabase.GetCollection<Set>().EnsureIndex(set => set.Category.Value);
+                liteDatabase.GetCollection<Set>().EnsureIndex(set => set.Theme);
+                liteDatabase.GetCollection<Set>().EnsureIndex(set => set.Subtheme);
+                liteDatabase.GetCollection<Set>().EnsureIndex(set => set.ThemeGroup);
+                liteDatabase.GetCollection<Set>().EnsureIndex(set => set.Category);
                 liteDatabase.GetCollection<Set>().EnsureIndex(set => set.Year);
                 liteDatabase.GetCollection<Set>().EnsureIndex(set => set.Tags.Select(tag => tag.Value));
                 liteDatabase.GetCollection<Set>().EnsureIndex(set => set.Prices.Select(price => price.Region));
