@@ -55,11 +55,18 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                     {
                         var subtheme = bricksetSubtheme.ToSubtheme();
 
-                        subthemes.Add(subtheme);
-
                         subtheme.Theme = theme;
 
+                        var persistedSubtheme = _subthemeRepository.Get(subtheme.Theme.Name, subtheme.Name);
+
+                        if (persistedSubtheme != null)
+                        {
+                            subtheme.Id = persistedSubtheme.Id;
+                        }
+
                         _subthemeRepository.AddOrUpdate(subtheme);
+
+                        subthemes.Add(subtheme);
                     }
                     catch (Exception ex)
                     {

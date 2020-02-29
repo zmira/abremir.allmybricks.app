@@ -64,9 +64,16 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                             .ToYearSetCountEnumerable()
                             .ToList();
 
-                        themeList.Add(theme);
+                        var persistedTheme = _themeRepository.Get(theme.Name);
+
+                        if (persistedTheme != null)
+                        {
+                            theme.Id = persistedTheme.Id;
+                        }
 
                         _themeRepository.AddOrUpdate(theme);
+
+                        themeList.Add(theme);
                     }
                     catch (Exception ex)
                     {
