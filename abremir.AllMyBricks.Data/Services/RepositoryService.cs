@@ -30,7 +30,7 @@ namespace abremir.AllMyBricks.Data.Services
             return GetRepository().Database.Rebuild();
         }
 
-        private void SetupIndexes(ILiteDatabase liteDatabase)
+        public static void SetupIndexes(ILiteDatabase liteDatabase)
         {
             if (liteDatabase.UserVersion == 0)
             {

@@ -1,4 +1,5 @@
 ﻿using abremir.AllMyBricks.Data.Interfaces;
+using abremir.AllMyBricks.Data.Services;
 using LiteDB;
 using LiteDB.Engine;
 
@@ -21,6 +22,8 @@ namespace abremir.AllMyBricks.Data.Tests.Configuration
             }
 
             var liteRepository = new LiteRepository(_tempStream);
+
+            RepositoryService.SetupIndexes(liteRepository.Database);
 
             return liteRepository;
         }
