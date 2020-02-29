@@ -22,6 +22,8 @@ namespace abremir.AllMyBricks.DatabaseSeeder
         private static FrameView SetsSynchronizationProgressFrame;
         private static FrameView PrimaryUsersSynchronizationProgressFrame;
         private static bool CanExit = true;
+        private static object synchronizeSetsApplicationMainLoopTimeoutToken;
+        private static object synchronizePrimaryUsersApplicationMainLoopTimeoutToken;
 
         public static void Run()
         {
@@ -323,6 +325,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                 SetsSynchronizationProgressFrame.Clear();
 
                 Application.MainLoop.Invoke(SetsSynchronizationProgressFrame.ChildNeedsDisplay);
+                Application.MainLoop.RemoveTimeout(synchronizeSetsApplicationMainLoopTimeoutToken);
 
                 var dialog = new Dialog("Sets Synchronization finished", 50, 8, new Button("Ok")
                 {
@@ -430,6 +433,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                 PrimaryUsersSynchronizationProgressFrame.Clear();
 
                 Application.MainLoop.Invoke(PrimaryUsersSynchronizationProgressFrame.ChildNeedsDisplay);
+                Application.MainLoop.RemoveTimeout(synchronizePrimaryUsersApplicationMainLoopTimeoutToken);
 
                 var dialog = new Dialog("Primary Users Synchronization finished", 50, 8, new Button("Ok")
                 {
@@ -505,7 +509,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                                 window.Add(SetsSynchronizationProgressFrame);
 
                                 // HACK: since there is a bug in Application.MainLoop.Invoke(...) this is needed to force the UI to refresh!
-                                Application.MainLoop.AddTimeout(TimeSpan.FromMilliseconds(500), _ => true);
+                                synchronizeSetsApplicationMainLoopTimeoutToken = Application.MainLoop.AddTimeout(TimeSpan.FromMilliseconds(10), _ => true);
 
                                 IoC.IoCContainer.GetInstance<ISetSynchronizationService>().SynchronizeAllSets();
                             }
@@ -529,7 +533,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                                 window.Add(PrimaryUsersSynchronizationProgressFrame);
 
                                 // HACK: since there is a bug in Application.MainLoop.Invoke(...) this is needed to force the UI to refresh!
-                                Application.MainLoop.AddTimeout(TimeSpan.FromMilliseconds(500), _ => true);
+                                synchronizePrimaryUsersApplicationMainLoopTimeoutToken = Application.MainLoop.AddTimeout(TimeSpan.FromMilliseconds(10), _ => true);
 
                                 IoC.IoCContainer.GetInstance<IUserSynchronizationService>().SynchronizeBricksetPrimaryUsersSets();
                             }
