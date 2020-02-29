@@ -20,7 +20,9 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
         [ClassInitialize]
 #pragma warning disable RCS1163 // Unused parameter.
 #pragma warning disable RECS0154 // Parameter is never used
+#pragma warning disable IDE0060 // Remove unused parameter
         public static void ClassInitialize(TestContext testContext)
+#pragma warning restore IDE0060 // Remove unused parameter
 #pragma warning restore RECS0154 // Parameter is never used
 #pragma warning restore RCS1163 // Unused parameter.
         {
@@ -342,7 +344,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
                 Value = 1
             });
 
-            var setUnderTest = InsertData(set);
+            InsertData(set);
 
             var allSetsForPriceRange = _setRepository.AllForPriceRange(PriceRegionEnum.CA, minPrice, maxPrice);
 
@@ -359,7 +361,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
                 Value = 1
             });
 
-            var setUnderTest = InsertData(set);
+            InsertData(set);
 
             var allSetsForPriceRange = _setRepository.AllForPriceRange(PriceRegionEnum.EU, 0, 10);
 
@@ -376,7 +378,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
                 Value = 10
             });
 
-            var setUnderTest = InsertData(set);
+            InsertData(set);
 
             var allSetsForPriceRange = _setRepository.AllForPriceRange(PriceRegionEnum.CA, 0, 5);
 
@@ -393,7 +395,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
                 Value = 1
             });
 
-            var setUnderTest = InsertData(set);
+            InsertData(set);
 
             var allSetsForPriceRange = _setRepository.AllForPriceRange(PriceRegionEnum.CA, 0, 5);
 
@@ -454,8 +456,8 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
         [TestMethod]
         public void SearchBy_MultipleSearchTerms_ReturnsSearchResult()
         {
-            var setUnderTest0 = SetupSetForSearch(0);
-            var setUnderTest1 = SetupSetForSearch(1);
+            SetupSetForSearch(0);
+            SetupSetForSearch(1);
 
             var searchResult = _setRepository.SearchBy("tag1 subtheme0");
             searchResult.Should().HaveCount(2);
