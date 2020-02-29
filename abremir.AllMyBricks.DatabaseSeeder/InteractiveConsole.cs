@@ -309,18 +309,16 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                 themeLabel.Text = string.Empty;
                 subthemeLabel.Text = string.Empty;
                 setLabel.Text = string.Empty;
+                themeProgress.Fraction = 0;
+                subthemeProgress.Fraction = 0;
+                setProgress.Fraction = 0;
 
                 themeCount = 0f;
                 subthemeCount = 0f;
                 setCount = 0f;
-
                 themeIndex = 0f;
                 subthemeIndex = 0f;
                 setIndex = 0f;
-
-                themeProgress.Fraction = 0;
-                subthemeProgress.Fraction = 0;
-                setProgress.Fraction = 0;
 
                 SetsSynchronizationProgressFrame.Clear();
 
@@ -415,18 +413,19 @@ namespace abremir.AllMyBricks.DatabaseSeeder
             });
             messageHub.Subscribe<UserSynchronizationServiceEnd>(_ =>
             {
+                stopwatch.Stop();
+
                 userCountLabel.Text = string.Empty;
                 userProgress.Fraction = 0f;
                 userLabel.Text = string.Empty;
                 syncTypeLabel.Text = string.Empty;
                 syncLabel.Text = string.Empty;
                 syncProgress.Fraction = 0f;
+
                 userCount = 0f;
                 userIndex = 0f;
                 syncIndex = 0f;
                 syncCount = 0f;
-
-                stopwatch.Stop();
 
                 PrimaryUsersSynchronizationProgressFrame.Clear();
 
