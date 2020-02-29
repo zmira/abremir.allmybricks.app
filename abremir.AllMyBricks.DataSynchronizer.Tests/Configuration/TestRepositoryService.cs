@@ -1,4 +1,5 @@
 ﻿using abremir.AllMyBricks.Data.Interfaces;
+using abremir.AllMyBricks.Data.Services;
 using LiteDB;
 using LiteDB.Engine;
 
@@ -19,7 +20,12 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Configuration
             {
                 _tempStream = new TempStream("abremir.AllMyBricks.DataSynchronizer.Tests.litedb");
             }
-            return new LiteRepository(_tempStream);
+
+            var liteRepository = new LiteRepository(_tempStream);
+
+            RepositoryService.SetupIndexes(liteRepository.Database);
+
+            return liteRepository;
         }
 
         public void ResetDatabase()
