@@ -85,30 +85,40 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
             testSetOwned.QtyOwned = 2;
 
             var ownedTheme = themesList.First(theme => theme.Theme == testSetOwned.Theme).ToTheme();
+
+            ownedTheme = _themeRepository.AddOrUpdate(ownedTheme);
+
             var ownedSubtheme = subthemesList.First(subtheme => subtheme.Theme == testSetOwned.Theme && subtheme.Subtheme == testSetOwned.Subtheme).ToSubtheme();
             ownedSubtheme.Theme = ownedTheme;
+
+            ownedSubtheme = _subthemeRepository.AddOrUpdate(ownedSubtheme);
 
             var ownedSet = testSetOwned.ToSet();
             ownedSet.Theme = ownedTheme;
             ownedSet.Subtheme = ownedSubtheme;
 
+            _setRepository.AddOrUpdate(ownedSet);
+
             var testSetWanted = setsList[1];
             testSetWanted.Wanted = true;
 
             var wantedTheme = themesList.First(theme => theme.Theme == testSetWanted.Theme).ToTheme();
+
+            wantedTheme = wantedTheme.Name == ownedTheme.Name
+                ? ownedTheme
+                : _themeRepository.AddOrUpdate(wantedTheme);
+
             var wantedSubtheme = subthemesList.First(subtheme => subtheme.Theme == testSetWanted.Theme && subtheme.Subtheme == testSetWanted.Subtheme).ToSubtheme();
             wantedSubtheme.Theme = wantedTheme;
+
+            wantedSubtheme = wantedSubtheme.Name == ownedSubtheme.Name && wantedSubtheme.Theme.Name == ownedSubtheme.Theme.Name
+                ? wantedSubtheme = ownedSubtheme
+                : _subthemeRepository.AddOrUpdate(wantedSubtheme);
 
             var wantedSet = testSetWanted.ToSet();
             wantedSet.Theme = wantedTheme;
             wantedSet.Subtheme = wantedSubtheme;
 
-            _themeRepository.AddOrUpdate(ownedTheme);
-            _subthemeRepository.AddOrUpdate(ownedSubtheme);
-            _setRepository.AddOrUpdate(ownedSet);
-
-            _themeRepository.AddOrUpdate(wantedTheme);
-            _subthemeRepository.AddOrUpdate(wantedSubtheme);
             _setRepository.AddOrUpdate(wantedSet);
 
             var bricksetApiService = Substitute.For<IBricksetApiService>();
@@ -271,30 +281,40 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 
             var testSetOwned = setsList[0];
             var ownedTheme = themesList.First(theme => theme.Theme == testSetOwned.Theme).ToTheme();
+
+            ownedTheme = _themeRepository.AddOrUpdate(ownedTheme);
+
             var ownedSubtheme = subthemesList.First(subtheme => subtheme.Theme == testSetOwned.Theme && subtheme.Subtheme == testSetOwned.Subtheme).ToSubtheme();
             ownedSubtheme.Theme = ownedTheme;
+
+            ownedSubtheme = _subthemeRepository.AddOrUpdate(ownedSubtheme);
 
             var ownedSet = testSetOwned.ToSet();
             ownedSet.Theme = ownedTheme;
             ownedSet.Subtheme = ownedSubtheme;
 
+            _setRepository.AddOrUpdate(ownedSet);
+
             var testSetWanted = setsList[1];
             testSetWanted.Wanted = true;
 
             var wantedTheme = themesList.First(theme => theme.Theme == testSetWanted.Theme).ToTheme();
+
+            wantedTheme = wantedTheme.Name == ownedTheme.Name
+                ? ownedTheme
+                : _themeRepository.AddOrUpdate(wantedTheme);
+
             var wantedSubtheme = subthemesList.First(subtheme => subtheme.Theme == testSetWanted.Theme && subtheme.Subtheme == testSetWanted.Subtheme).ToSubtheme();
             wantedSubtheme.Theme = wantedTheme;
+
+            wantedSubtheme = wantedSubtheme.Name == ownedSubtheme.Name && wantedSubtheme.Theme.Name == ownedSubtheme.Theme.Name
+                ? wantedSubtheme = ownedSubtheme
+                : _subthemeRepository.AddOrUpdate(wantedSubtheme);
 
             var wantedSet = testSetWanted.ToSet();
             wantedSet.Theme = wantedTheme;
             wantedSet.Subtheme = wantedSubtheme;
 
-            _themeRepository.AddOrUpdate(ownedTheme);
-            _subthemeRepository.AddOrUpdate(ownedSubtheme);
-            _setRepository.AddOrUpdate(ownedSet);
-
-            _themeRepository.AddOrUpdate(wantedTheme);
-            _subthemeRepository.AddOrUpdate(wantedSubtheme);
             _setRepository.AddOrUpdate(wantedSet);
 
             _bricksetUserRepository.AddOrUpdateSet(testUser, new BricksetUserSet
@@ -379,30 +399,40 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
             testSetOwned.QtyOwned = 2;
 
             var ownedTheme = themesList.First(theme => theme.Theme == testSetOwned.Theme).ToTheme();
+
+            ownedTheme = _themeRepository.AddOrUpdate(ownedTheme);
+
             var ownedSubtheme = subthemesList.First(subtheme => subtheme.Theme == testSetOwned.Theme && subtheme.Subtheme == testSetOwned.Subtheme).ToSubtheme();
             ownedSubtheme.Theme = ownedTheme;
+
+            ownedSubtheme = _subthemeRepository.AddOrUpdate(ownedSubtheme);
 
             var ownedSet = testSetOwned.ToSet();
             ownedSet.Theme = ownedTheme;
             ownedSet.Subtheme = ownedSubtheme;
 
+            _setRepository.AddOrUpdate(ownedSet);
+
             var testSetWanted = setsList[1];
             testSetWanted.Wanted = true;
 
             var wantedTheme = themesList.First(theme => theme.Theme == testSetWanted.Theme).ToTheme();
+
+            wantedTheme = wantedTheme.Name == ownedTheme.Name
+                ? ownedTheme
+                : _themeRepository.AddOrUpdate(wantedTheme);
+
             var wantedSubtheme = subthemesList.First(subtheme => subtheme.Theme == testSetWanted.Theme && subtheme.Subtheme == testSetWanted.Subtheme).ToSubtheme();
             wantedSubtheme.Theme = wantedTheme;
+
+            wantedSubtheme = wantedSubtheme.Name == ownedSubtheme.Name && wantedSubtheme.Theme.Name == ownedSubtheme.Theme.Name
+                ? wantedSubtheme = ownedSubtheme
+                : _subthemeRepository.AddOrUpdate(wantedSubtheme);
 
             var wantedSet = testSetWanted.ToSet();
             wantedSet.Theme = wantedTheme;
             wantedSet.Subtheme = wantedSubtheme;
 
-            _themeRepository.AddOrUpdate(ownedTheme);
-            _subthemeRepository.AddOrUpdate(ownedSubtheme);
-            _setRepository.AddOrUpdate(ownedSet);
-
-            _themeRepository.AddOrUpdate(wantedTheme);
-            _subthemeRepository.AddOrUpdate(wantedSubtheme);
             _setRepository.AddOrUpdate(wantedSet);
 
             var bricksetApiService = Substitute.For<IBricksetApiService>();
