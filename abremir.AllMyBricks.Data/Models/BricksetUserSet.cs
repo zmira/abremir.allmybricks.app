@@ -1,10 +1,13 @@
-﻿using System;
+﻿using LiteDB;
+using System;
 
 namespace abremir.AllMyBricks.Data.Models
 {
     public class BricksetUserSet
     {
-        public long SetId { get; set; }
+        [BsonRef]
+        public Set Set { get; set; }
+
         public bool Wanted { get; set; }
         public bool Owned { get; set; }
         public short QuantityOwned { get; set; }
