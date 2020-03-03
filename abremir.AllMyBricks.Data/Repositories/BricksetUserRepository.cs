@@ -67,7 +67,9 @@ namespace abremir.AllMyBricks.Data.Repositories
 
         public bool Remove(string username)
         {
-            if (!Exists(username))
+            var bricksetUser = Get(username);
+
+            if (bricksetUser == null)
             {
                 return false;
             }
@@ -81,14 +83,15 @@ namespace abremir.AllMyBricks.Data.Repositories
         {
             if (string.IsNullOrWhiteSpace(username)
                 || bricksetUserSet == null
-                || bricksetUserSet.SetId == 0)
+                || bricksetUserSet.Set == null
+                || bricksetUserSet.Set.SetId == 0)
             {
                 return null;
             }
 
             using (var repository = _repositoryService.GetRepository())
             {
-                if (repository.FirstOrDefault<Set>(set => set.SetId == bricksetUserSet.SetId) == null)
+                if (repository.FirstOrDefault<Set>(set => set.SetId == bricksetUserSet.Set.SetId) == null)
                 {
                     return null;
                 }
@@ -101,7 +104,7 @@ namespace abremir.AllMyBricks.Data.Repositories
                 return null;
             }
 
-            var existingBricksetUserSet = bricksetUser.Sets.FirstOrDefault(set => set.SetId == bricksetUserSet.SetId);
+            var existingBricksetUserSet = bricksetUser.Sets.FirstOrDefault(set => set.Set.SetId == bricksetUserSet.Set.SetId);
 
             if (existingBricksetUserSet != null)
             {
@@ -115,7 +118,7 @@ namespace abremir.AllMyBricks.Data.Repositories
                 bricksetUser.Sets.Remove(existingBricksetUserSet);
             }
 
-            bricksetUserSet.LastChangeTimestamp = bricksetUserSet.LastChangeTimestamp ?? DateTimeOffset.Now;
+            bricksetUserSet.LastChangeTimestamp ??= DateTimeOffset.Now;
             bricksetUser.Sets.Add(bricksetUserSet);
 
             using (var repository = _repositoryService.GetRepository())
@@ -134,7 +137,7 @@ namespace abremir.AllMyBricks.Data.Repositories
                 return null;
             }
 
-            return Get(username)?.Sets.FirstOrDefault(set => set.SetId == setId);
+            return Get(username)?.Sets.FirstOrDefault(set => set.Set.SetId == setId);
         }
 
         public IEnumerable<string> GetAllUsernames(BricksetUserTypeEnum userType)

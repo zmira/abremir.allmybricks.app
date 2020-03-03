@@ -60,7 +60,10 @@ namespace abremir.AllMyBricks.Data.Services
                 liteDatabase.GetCollection<Set>().EnsureIndex(set => set.Tags.Select(tag => tag.Value));
                 liteDatabase.GetCollection<Set>().EnsureIndex(set => set.Prices.Select(price => price.Region));
                 liteDatabase.GetCollection<Set>().EnsureIndex(set => set.Prices.Select(price => price.Value));
+                liteDatabase.GetCollection<BricksetUser>().EnsureIndex(bricksetUser => bricksetUser.BricksetUsername, true);
                 liteDatabase.GetCollection<BricksetUser>().EnsureIndex(bricksetUser => bricksetUser.UserType);
+                liteDatabase.GetCollection<BricksetUser>().EnsureIndex(bricksetUser => bricksetUser.Sets.Select(set => set.Wanted));
+                liteDatabase.GetCollection<BricksetUser>().EnsureIndex(bricksetUser => bricksetUser.Sets.Select(set => set.Owned));
 
                 liteDatabase.UserVersion = 1;
             }
