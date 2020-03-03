@@ -53,11 +53,11 @@ namespace abremir.AllMyBricks.Data.Repositories
                 return null;
             }
 
-            using (var repository = _repositoryService.GetRepository())
-            {
-                return repository
-                    .FirstOrDefault<BricksetUser>(bricksetUser => bricksetUser.BricksetUsername == username.Trim());
-            }
+            using var repository = _repositoryService.GetRepository();
+
+            return GetQueryable(repository)
+                .Where(bricksetUser => bricksetUser.BricksetUsername == username.Trim())
+                .FirstOrDefault();
         }
 
         public bool Exists(string username)
@@ -72,11 +72,9 @@ namespace abremir.AllMyBricks.Data.Repositories
                 return false;
             }
 
-            using (var repository = _repositoryService.GetRepository())
-            {
-                return repository
-                    .Delete<BricksetUser>(username);
-            }
+            using var repository = _repositoryService.GetRepository();
+
+            return repository.Delete<BricksetUser>(bricksetUser.Id);
         }
 
         public BricksetUserSet AddOrUpdateSet(string username, BricksetUserSet bricksetUserSet)
@@ -141,12 +139,11 @@ namespace abremir.AllMyBricks.Data.Repositories
 
         public IEnumerable<string> GetAllUsernames(BricksetUserTypeEnum userType)
         {
-            using (var repository = _repositoryService.GetRepository())
-            {
-                return repository
-                    .Fetch<BricksetUser>(bricksetUser => bricksetUser.UserType == userType)
-                    .Select(bricksetUser => bricksetUser.BricksetUsername);
-            }
+            using var repository = _repositoryService.GetRepository();
+
+            return repository
+                .Fetch<BricksetUser>(bricksetUser => bricksetUser.UserType == userType)
+                .Select(bricksetUser => bricksetUser.BricksetUsername);
         }
 
         public BricksetUser UpdateUserSynchronizationTimestamp(string username, DateTimeOffset userSynchronizationTimestamp)
@@ -165,10 +162,9 @@ namespace abremir.AllMyBricks.Data.Repositories
 
             bricksetUser.UserSynchronizationTimestamp = userSynchronizationTimestamp;
 
-            using (var repository = _repositoryService.GetRepository())
-            {
-                repository.Update(bricksetUser);
-            }
+            using var repository = _repositoryService.GetRepository();
+
+            repository.Update(bricksetUser);
 
             return bricksetUser;
         }

@@ -38,10 +38,9 @@ namespace abremir.AllMyBricks.Data.Repositories
 
         public IEnumerable<Set> All()
         {
-            using (var repository = _repositoryService.GetRepository())
-            {
-                return GetQueryable(repository).ToList();
-            }
+            using var repository = _repositoryService.GetRepository();
+
+            return GetQueryable(repository).ToList();
         }
 
         public Set Get(long setId)
@@ -51,12 +50,11 @@ namespace abremir.AllMyBricks.Data.Repositories
                 return null;
             }
 
-            using (var repository = _repositoryService.GetRepository())
-            {
-                return GetQueryable(repository)
-                    .Where(set => set.SetId == setId)
-                    .FirstOrDefault();
-            }
+            using var repository = _repositoryService.GetRepository();
+
+            return GetQueryable(repository)
+                .Where(set => set.SetId == setId)
+                .FirstOrDefault();
         }
 
         public IEnumerable<Set> AllForTheme(string themeName)
@@ -66,12 +64,11 @@ namespace abremir.AllMyBricks.Data.Repositories
                 return Enumerable.Empty<Set>();
             }
 
-            using (var repository = _repositoryService.GetRepository())
-            {
-                return GetQueryable(repository)
-                    .Where(set => set.Theme.Name == themeName.Trim())
-                    .ToList();
-            }
+            using var repository = _repositoryService.GetRepository();
+
+            return GetQueryable(repository)
+                .Where(set => set.Theme.Name == themeName.Trim())
+                .ToList();
         }
 
         public IEnumerable<Set> AllForSubtheme(string themeName, string subthemeName)
@@ -82,12 +79,11 @@ namespace abremir.AllMyBricks.Data.Repositories
                 return Enumerable.Empty<Set>();
             }
 
-            using (var repository = _repositoryService.GetRepository())
-            {
-                return GetQueryable(repository)
-                    .Where(set => set.Theme.Name == themeName.Trim() && set.Subtheme.Name == subthemeName.Trim())
-                    .ToList();
-            }
+            using var repository = _repositoryService.GetRepository();
+
+            return GetQueryable(repository)
+                .Where(set => set.Theme.Name == themeName.Trim() && set.Subtheme.Name == subthemeName.Trim())
+                .ToList();
         }
 
         public IEnumerable<Set> AllForThemeGroup(string themeGroupName)
@@ -97,12 +93,11 @@ namespace abremir.AllMyBricks.Data.Repositories
                 return Enumerable.Empty<Set>();
             }
 
-            using (var repository = _repositoryService.GetRepository())
-            {
-                return GetQueryable(repository)
-                    .Where(set => set.ThemeGroup.Value == themeGroupName.Trim())
-                    .ToList();
-            }
+            using var repository = _repositoryService.GetRepository();
+
+            return GetQueryable(repository)
+                .Where(set => set.ThemeGroup.Value == themeGroupName.Trim())
+                .ToList();
         }
 
         public IEnumerable<Set> AllForCategory(string categoryName)
@@ -112,12 +107,11 @@ namespace abremir.AllMyBricks.Data.Repositories
                 return Enumerable.Empty<Set>();
             }
 
-            using (var repository = _repositoryService.GetRepository())
-            {
-                return GetQueryable(repository)
-                    .Where(set => set.Category.Value == categoryName.Trim())
-                    .ToList();
-            }
+            using var repository = _repositoryService.GetRepository();
+
+            return GetQueryable(repository)
+                .Where(set => set.Category.Value == categoryName.Trim())
+                .ToList();
         }
 
         public IEnumerable<Set> AllForTag(string tagName)
@@ -127,12 +121,11 @@ namespace abremir.AllMyBricks.Data.Repositories
                 return Enumerable.Empty<Set>();
             }
 
-            using (var repository = _repositoryService.GetRepository())
-            {
-                return GetQueryable(repository)
-                    .Where("Tags[*].Value ANY = @0", tagName.Trim())
-                    .ToList();
-            }
+            using var repository = _repositoryService.GetRepository();
+
+            return GetQueryable(repository)
+                .Where("Tags[*].Value ANY = @0", tagName.Trim())
+                .ToList();
         }
 
         public IEnumerable<Set> AllForYear(short year)
@@ -142,12 +135,11 @@ namespace abremir.AllMyBricks.Data.Repositories
                 return Enumerable.Empty<Set>();
             }
 
-            using (var repository = _repositoryService.GetRepository())
-            {
-                return GetQueryable(repository)
-                    .Where(set => set.Year == year)
-                    .ToList();
-            }
+            using var repository = _repositoryService.GetRepository();
+
+            return GetQueryable(repository)
+                .Where(set => set.Year == year)
+                .ToList();
         }
 
         public IEnumerable<Set> AllForPriceRange(PriceRegionEnum priceRegion, float minimumPrice, float maximumPrice)
@@ -157,14 +149,13 @@ namespace abremir.AllMyBricks.Data.Repositories
                 return Enumerable.Empty<Set>();
             }
 
-            using (var repository = _repositoryService.GetRepository())
-            {
-                return GetQueryable(repository)
-                    .Where("Prices[*].Region ANY = @0", priceRegion.ToString())
-                    .Where("Prices[*].Value ANY >= @0", minimumPrice)
-                    .Where("Prices[*].Value ANY <= @0", maximumPrice)
-                    .ToList();
-            }
+            using var repository = _repositoryService.GetRepository();
+
+            return GetQueryable(repository)
+                .Where("Prices[*].Region ANY = @0", priceRegion.ToString())
+                .Where("Prices[*].Value ANY >= @0", minimumPrice)
+                .Where("Prices[*].Value ANY <= @0", maximumPrice)
+                .ToList();
         }
 
         public IEnumerable<Set> SearchBy(string searchQuery)
@@ -176,12 +167,11 @@ namespace abremir.AllMyBricks.Data.Repositories
                 return Enumerable.Empty<Set>();
             }
 
-            using (var repository = _repositoryService.GetRepository())
-            {
-                return GetQueryable(repository)
-                    .Where(queryBsonExpression)
-                    .ToList();
-            }
+            using var repository = _repositoryService.GetRepository();
+
+            return GetQueryable(repository)
+                .Where(queryBsonExpression)
+                .ToList();
         }
 
         private BsonExpression BuildBsonExpressionFromSearchQuery(string searchQuery)
