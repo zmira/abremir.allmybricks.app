@@ -137,8 +137,8 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
             var user = _bricksetUserRepository.Get(testUser);
 
             user.Sets.Should().NotBeEmpty();
-            user.Sets.Where(userSet => userSet.SetId == testSetOwned.SetId && userSet.Owned == testSetOwned.Owned && userSet.QuantityOwned == testSetOwned.QtyOwned).Should().NotBeEmpty();
-            user.Sets.Where(userSet => userSet.SetId == testSetWanted.SetId && userSet.Wanted == testSetWanted.Wanted).Should().NotBeEmpty();
+            user.Sets.Where(userSet => userSet.Set.SetId == testSetOwned.SetId && userSet.Owned == testSetOwned.Owned && userSet.QuantityOwned == testSetOwned.QtyOwned).Should().NotBeEmpty();
+            user.Sets.Where(userSet => userSet.Set.SetId == testSetWanted.SetId && userSet.Wanted == testSetWanted.Wanted).Should().NotBeEmpty();
             user.UserSynchronizationTimestamp.HasValue.Should().BeTrue();
         }
 
@@ -165,11 +165,11 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 
             _themeRepository.AddOrUpdate(ownedTheme);
             _subthemeRepository.AddOrUpdate(ownedSubtheme);
-            _setRepository.AddOrUpdate(ownedSet);
+            ownedSet = _setRepository.AddOrUpdate(ownedSet);
 
             var bricksetUserSet = new BricksetUserSet
             {
-                SetId = ownedSet.SetId,
+                Set = ownedSet,
                 Owned = true,
                 QuantityOwned = 2
             };
@@ -196,7 +196,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
             await bricksetApiService.DidNotReceive().SetCollection(Arg.Any<ParameterSetCollection>());
             user.Sets.Should().NotBeEmpty();
             user.Sets.Count.Should().Be(1);
-            user.Sets[0].SetId.Should().Be(bricksetUserSet.SetId);
+            user.Sets[0].Set.SetId.Should().Be(bricksetUserSet.Set.SetId);
             user.Sets[0].QuantityOwned.Should().Be(bricksetUserSet.QuantityOwned);
             user.UserSynchronizationTimestamp.HasValue.Should().BeTrue();
         }
@@ -224,11 +224,11 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 
             _themeRepository.AddOrUpdate(ownedTheme);
             _subthemeRepository.AddOrUpdate(ownedSubtheme);
-            _setRepository.AddOrUpdate(ownedSet);
+            ownedSet = _setRepository.AddOrUpdate(ownedSet);
 
             _bricksetUserRepository.AddOrUpdateSet(testUser, new BricksetUserSet
             {
-                SetId = ownedSet.SetId,
+                Set = ownedSet,
                 Owned = true,
                 QuantityOwned = 2
             });
@@ -237,7 +237,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 
             var bricksetUserSet = new BricksetUserSet
             {
-                SetId = ownedSet.SetId,
+                Set = ownedSet,
                 Owned = true,
                 QuantityOwned = 1
             };
@@ -262,7 +262,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
             await bricksetApiService.Received().SetCollection(Arg.Any<ParameterSetCollection>());
             user.Sets.Should().NotBeEmpty();
             user.Sets.Count.Should().Be(1);
-            user.Sets[0].SetId.Should().Be(bricksetUserSet.SetId);
+            user.Sets[0].Set.SetId.Should().Be(bricksetUserSet.Set.SetId);
             user.Sets[0].QuantityOwned.Should().Be(bricksetUserSet.QuantityOwned);
             user.UserSynchronizationTimestamp.HasValue.Should().BeTrue();
         }
@@ -293,7 +293,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
             ownedSet.Theme = ownedTheme;
             ownedSet.Subtheme = ownedSubtheme;
 
-            _setRepository.AddOrUpdate(ownedSet);
+            ownedSet = _setRepository.AddOrUpdate(ownedSet);
 
             var testSetWanted = setsList[1];
             testSetWanted.Wanted = true;
@@ -315,11 +315,11 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
             wantedSet.Theme = wantedTheme;
             wantedSet.Subtheme = wantedSubtheme;
 
-            _setRepository.AddOrUpdate(wantedSet);
+            wantedSet = _setRepository.AddOrUpdate(wantedSet);
 
             _bricksetUserRepository.AddOrUpdateSet(testUser, new BricksetUserSet
             {
-                SetId = ownedSet.SetId,
+                Set = ownedSet,
                 Owned = true,
                 QuantityOwned = 2
             });
@@ -328,7 +328,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 
             var bricksetUserSet = new BricksetUserSet
             {
-                SetId = ownedSet.SetId,
+                Set = ownedSet,
                 Owned = true,
                 QuantityOwned = 1
             };
@@ -352,8 +352,8 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 
             await bricksetApiService.Received().SetCollection(Arg.Any<ParameterSetCollection>());
             user.Sets.Should().NotBeEmpty();
-            user.Sets.Where(userSet => userSet.SetId == bricksetUserSet.SetId && userSet.Owned == bricksetUserSet.Owned && userSet.QuantityOwned == bricksetUserSet.QuantityOwned).Should().NotBeEmpty();
-            user.Sets.Where(userSet => userSet.SetId == testSetWanted.SetId && userSet.Wanted == testSetWanted.Wanted).Should().NotBeEmpty();
+            user.Sets.Where(userSet => userSet.Set.SetId == bricksetUserSet.Set.SetId && userSet.Owned == bricksetUserSet.Owned && userSet.QuantityOwned == bricksetUserSet.QuantityOwned).Should().NotBeEmpty();
+            user.Sets.Where(userSet => userSet.Set.SetId == testSetWanted.SetId && userSet.Wanted == testSetWanted.Wanted).Should().NotBeEmpty();
             user.UserSynchronizationTimestamp.HasValue.Should().BeTrue();
         }
 
@@ -451,8 +451,8 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
             var user = _bricksetUserRepository.Get(testUser);
 
             user.Sets.Should().NotBeEmpty();
-            user.Sets.Where(userSet => userSet.SetId == testSetOwned.SetId && userSet.Owned == testSetOwned.Owned && userSet.QuantityOwned == testSetOwned.QtyOwned).Should().NotBeEmpty();
-            user.Sets.Where(userSet => userSet.SetId == testSetWanted.SetId && userSet.Wanted == testSetWanted.Wanted).Should().NotBeEmpty();
+            user.Sets.Where(userSet => userSet.Set.SetId == testSetOwned.SetId && userSet.Owned == testSetOwned.Owned && userSet.QuantityOwned == testSetOwned.QtyOwned).Should().NotBeEmpty();
+            user.Sets.Where(userSet => userSet.Set.SetId == testSetWanted.SetId && userSet.Wanted == testSetWanted.Wanted).Should().NotBeEmpty();
             user.UserSynchronizationTimestamp.HasValue.Should().BeTrue();
         }
 
@@ -460,7 +460,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
         {
             bricksetApiService ??= Substitute.For<IBricksetApiService>();
 
-            return new UserSynchronizer(bricksetApiService, _bricksetUserRepository, Substitute.For<IMessageHub>());
+            return new UserSynchronizer(bricksetApiService, _bricksetUserRepository, Substitute.For<IMessageHub>(), _setRepository);
         }
     }
 }

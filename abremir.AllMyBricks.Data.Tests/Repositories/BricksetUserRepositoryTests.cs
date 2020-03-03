@@ -179,7 +179,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
             InsertData(set);
             InsertData(bricksetUser);
 
-            var bricksetUserSet = _bricksetUserRepository.AddOrUpdateSet(username, new BricksetUserSet { SetId = set.SetId });
+            var bricksetUserSet = _bricksetUserRepository.AddOrUpdateSet(username, new BricksetUserSet { Set = new Set { SetId = set.SetId } });
 
             bricksetUserSet.Should().BeNull();
         }
@@ -203,7 +203,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
 
             InsertData(bricksetUser);
 
-            var bricksetUserSet = _bricksetUserRepository.AddOrUpdateSet(bricksetUser.BricksetUsername, new BricksetUserSet { SetId = 0 });
+            var bricksetUserSet = _bricksetUserRepository.AddOrUpdateSet(bricksetUser.BricksetUsername, new BricksetUserSet { Set = new Set { SetId = 0 } });
 
             bricksetUserSet.Should().BeNull();
         }
@@ -215,7 +215,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
 
             InsertData(set);
 
-            var bricksetUserSet = _bricksetUserRepository.AddOrUpdateSet("username", new BricksetUserSet { SetId = set.SetId });
+            var bricksetUserSet = _bricksetUserRepository.AddOrUpdateSet("username", new BricksetUserSet { Set = new Set { SetId = set.SetId } });
 
             bricksetUserSet.Should().BeNull();
         }
@@ -223,11 +223,13 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
         [TestMethod]
         public void AddOrUpdateSet_BricksetUserSetLinkedSetDoesNotExist_ReturnsNull()
         {
+            var set = ModelsSetup.GetSetUnderTest();
             var bricksetUser = ModelsSetup.GetBricksetUserUnderTest();
 
+            set = InsertData(set);
             InsertData(bricksetUser);
 
-            var bricksetUserSet = _bricksetUserRepository.AddOrUpdateSet(bricksetUser.BricksetUsername, new BricksetUserSet { SetId = ModelsSetup.SetUnderTestSetId + 1 });
+            var bricksetUserSet = _bricksetUserRepository.AddOrUpdateSet(bricksetUser.BricksetUsername, new BricksetUserSet { Set = new Set { SetId = set.SetId + 1 } });
 
             bricksetUserSet.Should().BeNull();
         }
@@ -238,12 +240,12 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
             var set = ModelsSetup.GetSetUnderTest();
             var bricksetUser = ModelsSetup.GetBricksetUserUnderTest();
 
-            InsertData(set);
+            set = InsertData(set);
             InsertData(bricksetUser);
 
             var bricksetUserSetUnderTest = new BricksetUserSet
             {
-                SetId = set.SetId,
+                Set = set,
                 Wanted = false,
                 Owned = true,
                 QuantityOwned = 10
@@ -260,12 +262,12 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
             var set = ModelsSetup.GetSetUnderTest();
             var bricksetUser = ModelsSetup.GetBricksetUserUnderTest();
 
-            InsertData(set);
+            set = InsertData(set);
             InsertData(bricksetUser);
 
             var bricksetUserSetUnderTest = new BricksetUserSet
             {
-                SetId = set.SetId,
+                Set = set,
                 Wanted = true
             };
 
@@ -322,19 +324,21 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
         [TestMethod]
         public void GetSet_BricksetUserDoesNotHaveSetId_ReturnsNull()
         {
+            var set = ModelsSetup.GetSetUnderTest();
             var bricksetUser = ModelsSetup.GetBricksetUserUnderTest();
 
+            set = InsertData(set);
             InsertData(bricksetUser);
 
             var bricksetUserSetUnderTest = new BricksetUserSet
             {
-                SetId = 1,
+                Set = set,
                 Wanted = true
             };
 
             _bricksetUserRepository.AddOrUpdateSet(bricksetUser.BricksetUsername, bricksetUserSetUnderTest);
 
-            var bricksetUserSet = _bricksetUserRepository.GetSet(bricksetUser.BricksetUsername, bricksetUserSetUnderTest.SetId + 1);
+            var bricksetUserSet = _bricksetUserRepository.GetSet(bricksetUser.BricksetUsername, bricksetUserSetUnderTest.Set.SetId + 1);
 
             bricksetUserSet.Should().BeNull();
         }
@@ -345,20 +349,20 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
             var set = ModelsSetup.GetSetUnderTest();
             var bricksetUser = ModelsSetup.GetBricksetUserUnderTest();
 
-            InsertData(set);
+            set = InsertData(set);
             InsertData(bricksetUser);
 
             var bricksetUserSetUnderTest = new BricksetUserSet
             {
-                SetId = set.SetId,
+                Set = set,
                 Wanted = true
             };
 
             _bricksetUserRepository.AddOrUpdateSet(bricksetUser.BricksetUsername, bricksetUserSetUnderTest);
 
-            var bricksetUserSet = _bricksetUserRepository.GetSet(bricksetUser.BricksetUsername, bricksetUserSetUnderTest.SetId);
+            var bricksetUserSet = _bricksetUserRepository.GetSet(bricksetUser.BricksetUsername, bricksetUserSetUnderTest.Set.SetId);
 
-            bricksetUserSet.SetId.Should().Be(bricksetUserSetUnderTest.SetId);
+            bricksetUserSet.Set.SetId.Should().Be(bricksetUserSetUnderTest.Set.SetId);
         }
 
         [TestMethod]
