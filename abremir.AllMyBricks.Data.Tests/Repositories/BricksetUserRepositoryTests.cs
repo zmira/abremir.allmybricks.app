@@ -57,7 +57,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
 
             InsertData(bricksetUserUnderTest);
 
-            var newUsername = "new username";
+            const string newUsername = "new username";
 
             var bricksetUser = _bricksetUserRepository.Add(bricksetUserUnderTest.UserType, newUsername);
 
