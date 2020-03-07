@@ -426,5 +426,85 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
             bricksetUser.Should().NotBeNull();
             bricksetUser.UserSynchronizationTimestamp.Should().Be(synchronizationTimestamp);
         }
+
+        [TestMethod]
+        public void GetWantedSets_BricksetUserDoesNotExist_ReturnsEmptyList()
+        {
+            var bricksetUserSetList = _bricksetUserRepository.GetWantedSets(string.Empty);
+
+            bricksetUserSetList.Should().BeEmpty();
+        }
+
+        [TestMethod]
+        public void GetWantedSets_BricksetUserExists_ReturnsListOfWantedSets()
+        {
+            var wantedSet = ModelsSetup.GetSetUnderTest();
+            var ownedSet = ModelsSetup.GetSecondSetUnderTest();
+            var bricksetUser = ModelsSetup.GetBricksetUserUnderTest();
+
+            wantedSet = InsertData(wantedSet);
+            ownedSet = InsertData(ownedSet);
+            InsertData(bricksetUser);
+
+            var bricksetUserSetWanted = new BricksetUserSet
+            {
+                Set = wantedSet,
+                Wanted = true
+            };
+
+            var bricksetUserSetOwned = new BricksetUserSet
+            {
+                Set = ownedSet,
+                Owned = true
+            };
+
+            _bricksetUserRepository.AddOrUpdateSet(bricksetUser.BricksetUsername, bricksetUserSetWanted);
+            _bricksetUserRepository.AddOrUpdateSet(bricksetUser.BricksetUsername, bricksetUserSetOwned);
+
+            var bricksetUserSetList = _bricksetUserRepository.GetWantedSets(bricksetUser.BricksetUsername).ToList();
+
+            bricksetUserSetList.Count.Should().Be(1);
+            bricksetUserSetList.Select(bricksetUserSet => bricksetUserSet.Set.SetId).Should().Contain(bricksetUserSetWanted.Set.SetId);
+        }
+
+        [TestMethod]
+        public void GetOwnedSets_BricksetUserDoesNotExist_ReturnsEmptyList()
+        {
+            var bricksetUserSetList = _bricksetUserRepository.GetWantedSets(string.Empty);
+
+            bricksetUserSetList.Should().BeEmpty();
+        }
+
+        [TestMethod]
+        public void GetOwnedSets_BricksetUserExists_ReturnsListOfOwnedSets()
+        {
+            var wantedSet = ModelsSetup.GetSetUnderTest();
+            var ownedSet = ModelsSetup.GetSecondSetUnderTest();
+            var bricksetUser = ModelsSetup.GetBricksetUserUnderTest();
+
+            wantedSet = InsertData(wantedSet);
+            ownedSet = InsertData(ownedSet);
+            InsertData(bricksetUser);
+
+            var bricksetUserSetWanted = new BricksetUserSet
+            {
+                Set = wantedSet,
+                Wanted = true
+            };
+
+            var bricksetUserSetOwned = new BricksetUserSet
+            {
+                Set = ownedSet,
+                Owned = true
+            };
+
+            _bricksetUserRepository.AddOrUpdateSet(bricksetUser.BricksetUsername, bricksetUserSetWanted);
+            _bricksetUserRepository.AddOrUpdateSet(bricksetUser.BricksetUsername, bricksetUserSetOwned);
+
+            var bricksetUserSetList = _bricksetUserRepository.GetOwnedSets(bricksetUser.BricksetUsername).ToList();
+
+            bricksetUserSetList.Count.Should().Be(1);
+            bricksetUserSetList.Select(bricksetUserSet => bricksetUserSet.Set.SetId).Should().Contain(bricksetUserSetOwned.Set.SetId);
+        }
     }
 }

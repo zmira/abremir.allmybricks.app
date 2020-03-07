@@ -171,5 +171,36 @@ namespace abremir.AllMyBricks.Data.Repositories
 
             return bricksetUser;
         }
+
+        public IEnumerable<BricksetUserSet> GetWantedSets(string username)
+        {
+            var bricksetUser = Get(username);
+
+            if (bricksetUser == null)
+            {
+                return Enumerable.Empty<BricksetUserSet>();
+            }
+
+            return bricksetUser.Sets.Where(set => set.Wanted);
+        }
+
+        public IEnumerable<BricksetUserSet> GetOwnedSets(string username)
+        {
+            var bricksetUser = Get(username);
+
+            if (bricksetUser == null)
+            {
+                return Enumerable.Empty<BricksetUserSet>();
+            }
+
+            return bricksetUser.Sets.Where(set => set.Owned);
+        }
+
+        private ILiteQueryable<BricksetUser> GetQueryable(ILiteRepository repository)
+        {
+            return repository
+                .Query<BricksetUser>()
+                .Include(bricksetUser => bricksetUser.Sets);
+        }
     }
 }

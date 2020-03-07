@@ -15,5 +15,7 @@ namespace abremir.AllMyBricks.Data.Interfaces
         BricksetUserSet GetSet(string username, long setId);
         IEnumerable<string> GetAllUsernames(BricksetUserTypeEnum userType);
         BricksetUser UpdateUserSynchronizationTimestamp(string username, DateTimeOffset userSynchronizationTimestamp);
+        IEnumerable<BricksetUserSet> GetWantedSets(string username);
+        IEnumerable<BricksetUserSet> GetOwnedSets(string username);
     }
 }
