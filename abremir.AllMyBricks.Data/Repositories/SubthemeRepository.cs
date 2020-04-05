@@ -19,8 +19,8 @@ namespace abremir.AllMyBricks.Data.Repositories
 
         public Subtheme AddOrUpdate(Subtheme subtheme)
         {
-            if (subtheme == null
-                || subtheme.Theme == null
+            if (subtheme is null
+                || subtheme.Theme is null
                 || string.IsNullOrWhiteSpace(subtheme.Theme.Name)
                 || subtheme.YearFrom < Constants.MinimumSetYear
                 || subtheme.Theme.YearFrom < Constants.MinimumSetYear)

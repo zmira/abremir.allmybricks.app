@@ -27,7 +27,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder
 
                     foreach (var primaryUser in Settings.BricksetPrimaryUsers)
                     {
-                        if (userRepository.Get(primaryUser.Key) == null)
+                        if (userRepository.Get(primaryUser.Key) is null)
                         {
                             userRepository.Add(BricksetUserTypeEnum.Primary, primaryUser.Key);
                         }

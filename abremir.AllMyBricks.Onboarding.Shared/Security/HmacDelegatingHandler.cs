@@ -19,7 +19,7 @@ namespace abremir.AllMyBricks.Onboarding.Shared.Security
 
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
-            if (request.Content == null)
+            if (request.Content is null)
             {
                 return null;
             }

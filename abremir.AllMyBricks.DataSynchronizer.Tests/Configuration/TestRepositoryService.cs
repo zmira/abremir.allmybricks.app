@@ -16,7 +16,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Configuration
 
         public ILiteRepository GetRepository()
         {
-            if (_tempStream == null)
+            if (_tempStream is null)
             {
                 _tempStream = new TempStream("abremir.AllMyBricks.DataSynchronizer.Tests.litedb");
             }

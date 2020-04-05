@@ -131,7 +131,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
 
                 bricksetSet = await _bricksetApiService.GetSet(getSetParameters);
 
-                if (bricksetSet == null)
+                if (bricksetSet is null)
                 {
                     return;
                 }

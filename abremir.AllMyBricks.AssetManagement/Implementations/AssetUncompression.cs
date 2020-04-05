@@ -41,7 +41,7 @@ namespace abremir.AllMyBricks.AssetManagement.Implementations
 
         public bool UncompressAsset(Stream sourceStream, string targetFolderPath, bool overwrite = true)
         {
-            if (sourceStream == null
+            if (sourceStream is null
                 || !_file.GetAttributes(targetFolderPath).HasFlag(FileAttributes.Directory))
             {
                 return false;

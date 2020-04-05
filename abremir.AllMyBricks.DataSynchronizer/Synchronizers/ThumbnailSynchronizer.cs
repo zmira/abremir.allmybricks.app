@@ -34,7 +34,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
             if (_preferencesService.ThumbnailCachingStrategy == ThumbnailCachingStrategyEnum.NeverCache
                 || (_preferencesService.ThumbnailCachingStrategy == ThumbnailCachingStrategyEnum.OnlyCacheDisplayedThumbnails
                     && requestFromSynchronizer)
-                || set == null
+                || set is null
                 || string.IsNullOrWhiteSpace(set.Images.FirstOrDefault()?.ThumbnailUrl))
             {
                 _messageHub.Publish(new ThumbnailSynchronizerEnd());
@@ -55,7 +55,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                 catch { }
 #pragma warning restore RECS0022 // A catch clause that catches System.Exception and has an empty body
 
-                if (thumbnail == null || thumbnail.Length == 0)
+                if (thumbnail is null || thumbnail.Length == 0)
                 {
                     _messageHub.Publish(new ThumbnailSynchronizerEnd());
                     return;

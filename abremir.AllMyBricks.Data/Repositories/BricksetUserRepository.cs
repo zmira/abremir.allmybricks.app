@@ -68,7 +68,7 @@ namespace abremir.AllMyBricks.Data.Repositories
         {
             var bricksetUser = Get(username);
 
-            if (bricksetUser == null)
+            if (bricksetUser is null)
             {
                 return false;
             }
@@ -81,8 +81,8 @@ namespace abremir.AllMyBricks.Data.Repositories
         public BricksetUserSet AddOrUpdateSet(string username, BricksetUserSet bricksetUserSet)
         {
             if (string.IsNullOrWhiteSpace(username)
-                || bricksetUserSet == null
-                || bricksetUserSet.Set == null
+                || bricksetUserSet is null
+                || bricksetUserSet.Set is null
                 || bricksetUserSet.Set.SetId == 0)
             {
                 return null;
@@ -90,14 +90,14 @@ namespace abremir.AllMyBricks.Data.Repositories
 
             using var repository = _repositoryService.GetRepository();
 
-            if (repository.FirstOrDefault<Set>(set => set.SetId == bricksetUserSet.Set.SetId) == null)
+            if (repository.FirstOrDefault<Set>(set => set.SetId == bricksetUserSet.Set.SetId) is null)
             {
                 return null;
             }
 
             var bricksetUser = Get(username);
 
-            if (bricksetUser == null)
+            if (bricksetUser is null)
             {
                 return null;
             }
@@ -153,7 +153,7 @@ namespace abremir.AllMyBricks.Data.Repositories
 
             var bricksetUser = Get(username);
 
-            if (bricksetUser == null)
+            if (bricksetUser is null)
             {
                 return null;
             }
@@ -171,7 +171,7 @@ namespace abremir.AllMyBricks.Data.Repositories
         {
             var bricksetUser = Get(username);
 
-            if (bricksetUser == null)
+            if (bricksetUser is null)
             {
                 return Enumerable.Empty<BricksetUserSet>();
             }
@@ -183,7 +183,7 @@ namespace abremir.AllMyBricks.Data.Repositories
         {
             var bricksetUser = Get(username);
 
-            if (bricksetUser == null)
+            if (bricksetUser is null)
             {
                 return Enumerable.Empty<BricksetUserSet>();
             }

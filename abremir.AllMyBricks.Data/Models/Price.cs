@@ -19,7 +19,7 @@ namespace abremir.AllMyBricks.Data.Models
                             .Equals(Region.GetDescription(), StringComparison.InvariantCultureIgnoreCase) == true
                            select specificCulture).FirstOrDefault();
 
-            if (culture == null)
+            if (culture is null)
             {
                 return Value.ToString("0.00");
             }

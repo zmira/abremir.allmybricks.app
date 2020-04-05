@@ -20,7 +20,7 @@ namespace abremir.AllMyBricks.Data.Repositories
 
         public Set AddOrUpdate(Set set)
         {
-            if (set == null
+            if (set is null
                 || set.SetId == 0)
             {
                 return null;
@@ -161,7 +161,7 @@ namespace abremir.AllMyBricks.Data.Repositories
         {
             var queryBsonExpression = BuildBsonExpressionFromSearchQuery(searchQuery);
 
-            if (queryBsonExpression == null)
+            if (queryBsonExpression is null)
             {
                 return Enumerable.Empty<Set>();
             }
