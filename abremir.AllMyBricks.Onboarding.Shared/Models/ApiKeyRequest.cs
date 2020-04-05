@@ -14,9 +14,7 @@ namespace abremir.AllMyBricks.Onboarding.Shared.Models
                 return false;
             }
 
-            var model = obj as ApiKeyRequest;
-
-            if (model == null)
+            if (!(obj is ApiKeyRequest model))
             {
                 return false;
             }

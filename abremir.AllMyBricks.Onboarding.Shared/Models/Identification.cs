@@ -16,9 +16,7 @@ namespace abremir.AllMyBricks.Onboarding.Shared.Models
                 return false;
             }
 
-            var model = obj as Identification;
-
-            if (model == null)
+            if (!(obj is Identification model))
             {
                 return false;
             }
