@@ -34,10 +34,9 @@ namespace abremir.AllMyBricks.AssetManagement.Implementations
                 return false;
             }
 
-            using (var sourceFileStream = _file.OpenRead(sourceFilePath))
-            {
-                return UncompressAsset(sourceFileStream, targetFolderPath, overwrite);
-            }
+            using var sourceFileStream = _file.OpenRead(sourceFilePath);
+
+            return UncompressAsset(sourceFileStream, targetFolderPath, overwrite);
         }
 
         public bool UncompressAsset(Stream sourceStream, string targetFolderPath, bool overwrite = true)
@@ -55,26 +54,24 @@ namespace abremir.AllMyBricks.AssetManagement.Implementations
 
             sourceStream.Position = 0;
 
-            using (var sourceReader = _readerFactory.Open(sourceStream))
+            using var sourceReader = _readerFactory.Open(sourceStream);
+
+            sourceReader.EntryExtractionProgress += SourceReader_EntryExtractionProgress;
+
+            while (sourceReader.MoveToNextEntry())
             {
-                sourceReader.EntryExtractionProgress += SourceReader_EntryExtractionProgress;
-
-                while (sourceReader.MoveToNextEntry())
+                if (!sourceReader.Entry.IsDirectory)
                 {
-                    if (!sourceReader.Entry.IsDirectory)
+                    var targetFilePath = Path.Combine(targetFolderPath, sourceReader.Entry.Key);
+
+                    if (overwrite)
                     {
-                        var targetFilePath = Path.Combine(targetFolderPath, sourceReader.Entry.Key);
-
-                        if (overwrite)
-                        {
-                            _file.DeleteFileIfExists(targetFilePath);
-                        }
-
-                        using (var targetFileStream = _file.OpenWrite(targetFilePath))
-                        {
-                            sourceReader.WriteEntryTo(targetFileStream);
-                        }
+                        _file.DeleteFileIfExists(targetFilePath);
                     }
+
+                    using var targetFileStream = _file.OpenWrite(targetFilePath);
+
+                    sourceReader.WriteEntryTo(targetFileStream);
                 }
             }
 

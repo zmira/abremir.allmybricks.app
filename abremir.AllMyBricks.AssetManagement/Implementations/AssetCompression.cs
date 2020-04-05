@@ -45,18 +45,14 @@ namespace abremir.AllMyBricks.AssetManagement.Implementations
 
             _file.DeleteFileIfExists(targetFilePath);
 
-            using (var sourceFileStream = _fileStream.CreateFileStream(sourceFilePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
-            {
-                using (var targetFileStream = _file.OpenWrite(targetFilePath))
-                {
-                    var tarWriterOptions = new TarWriterOptions(CompressionType.LZip, true);
+            using var sourceFileStream = _fileStream.CreateFileStream(sourceFilePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            using var targetFileStream = _file.OpenWrite(targetFilePath);
 
-                    using (var targetWriter = _tarWriter.CreateTarWriter(targetFileStream, tarWriterOptions))
-                    {
-                        targetWriter.Write(Path.GetFileName(sourceFilePath), sourceFileStream);
-                    }
-                }
-            }
+            var tarWriterOptions = new TarWriterOptions(CompressionType.LZip, true);
+
+            using var targetWriter = _tarWriter.CreateTarWriter(targetFileStream, tarWriterOptions);
+
+            targetWriter.Write(Path.GetFileName(sourceFilePath), sourceFileStream);
 
             return true;
         }

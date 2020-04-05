@@ -54,10 +54,9 @@ namespace abremir.AllMyBricks.Platform.Implementations
 
         public async Task WriteAllBytes(string path, byte[] bytes)
         {
-            using (var stream = new FileStream(path, FileMode.Create))
-            {
-                await stream.WriteAsync(bytes, 0, bytes.Length);
-            }
+            using var stream = new FileStream(path, FileMode.Create);
+
+            await stream.WriteAsync(bytes, 0, bytes.Length);
         }
     }
 }

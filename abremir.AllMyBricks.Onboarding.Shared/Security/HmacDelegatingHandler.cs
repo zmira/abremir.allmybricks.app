@@ -42,13 +42,12 @@ namespace abremir.AllMyBricks.Onboarding.Shared.Security
 
             var signature = Encoding.UTF8.GetBytes(signatureRawData);
 
-            using (var hmac = new HMACSHA256(secretKeyByteArray))
-            {
-                var signatureBytes = hmac.ComputeHash(signature);
-                var requestSignatureBase64String = Convert.ToBase64String(signatureBytes);
+            using var hmac = new HMACSHA256(secretKeyByteArray);
 
-                request.Headers.Authorization = new AuthenticationHeaderValue(Constants.HmacAuthenticationScheme, $"{appId}:{requestSignatureBase64String}:{nonce}:{requestTimestamp}");
-            }
+            var signatureBytes = hmac.ComputeHash(signature);
+            var requestSignatureBase64String = Convert.ToBase64String(signatureBytes);
+
+            request.Headers.Authorization = new AuthenticationHeaderValue(Constants.HmacAuthenticationScheme, $"{appId}:{requestSignatureBase64String}:{nonce}:{requestTimestamp}");
 
             return await base.SendAsync(request, cancellationToken);
         }

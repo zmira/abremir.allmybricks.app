@@ -38,10 +38,9 @@ namespace abremir.AllMyBricks.Data.Repositories
                 Sets = new List<BricksetUserSet>()
             };
 
-            using (var repository = _repositoryService.GetRepository())
-            {
-                repository.Insert(bricksetUser);
-            }
+            using var repository = _repositoryService.GetRepository();
+
+            repository.Insert(bricksetUser);
 
             return bricksetUser;
         }
@@ -89,12 +88,11 @@ namespace abremir.AllMyBricks.Data.Repositories
                 return null;
             }
 
-            using (var repository = _repositoryService.GetRepository())
+            using var repository = _repositoryService.GetRepository();
+
+            if (repository.FirstOrDefault<Set>(set => set.SetId == bricksetUserSet.Set.SetId) == null)
             {
-                if (repository.FirstOrDefault<Set>(set => set.SetId == bricksetUserSet.Set.SetId) == null)
-                {
-                    return null;
-                }
+                return null;
             }
 
             var bricksetUser = Get(username);
@@ -121,10 +119,7 @@ namespace abremir.AllMyBricks.Data.Repositories
             bricksetUserSet.LastChangeTimestamp ??= DateTimeOffset.Now;
             bricksetUser.Sets.Add(bricksetUserSet);
 
-            using (var repository = _repositoryService.GetRepository())
-            {
-                repository.Update(bricksetUser);
-            }
+            repository.Update(bricksetUser);
 
             return bricksetUserSet;
         }

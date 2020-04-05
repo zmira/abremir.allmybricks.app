@@ -13,17 +13,17 @@ namespace abremir.AllMyBricks.Onboarding.Helpers
         {
             const int min = (int)AlgorithmTypeEnum.Type1;
             const int max = (int)AlgorithmTypeEnum.Type3 + 1;
-            using (var rng = new RNGCryptoServiceProvider())
-            {
-                var data = new byte[4];
-                rng.GetBytes(data);
 
-                int generatedValue = Math.Abs(BitConverter.ToInt32(data, startIndex: 0));
+            using var rng = new RNGCryptoServiceProvider();
 
-                const int diff = max - min;
-                int mod = generatedValue % diff;
-                return (AlgorithmTypeEnum)(min + mod);
-            }
+            var data = new byte[4];
+            rng.GetBytes(data);
+
+            int generatedValue = Math.Abs(BitConverter.ToInt32(data, startIndex: 0));
+
+            const int diff = max - min;
+            int mod = generatedValue % diff;
+            return (AlgorithmTypeEnum)(min + mod);
         }
     }
 }

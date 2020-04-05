@@ -28,10 +28,9 @@ namespace abremir.AllMyBricks.Data.Repositories
 
             set.TrimAllStrings();
 
-            using (var repository = _repositoryService.GetRepository())
-            {
-                repository.Upsert(set);
-            }
+            using var repository = _repositoryService.GetRepository();
+
+            repository.Upsert(set);
 
             return set;
         }

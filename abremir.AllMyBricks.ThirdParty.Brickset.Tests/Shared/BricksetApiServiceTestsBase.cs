@@ -28,11 +28,10 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Shared
         {
             var resourcePath = $"{GetAssemblyName()}.BricksetApiResponses.{GetType().GetDescription()}.{fileName}.xml";
 
-            using (Stream stream = _assembly.GetManifestResourceStream(resourcePath))
-            using (StreamReader reader = new StreamReader(stream))
-            {
-                return reader.ReadToEnd();
-            }
+            using Stream stream = _assembly.GetManifestResourceStream(resourcePath);
+            using var streamReader = new StreamReader(stream);
+
+            return streamReader.ReadToEnd();
         }
 
         private string GetAssemblyName()
