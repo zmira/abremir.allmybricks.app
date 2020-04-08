@@ -11,6 +11,6 @@ namespace abremir.AllMyBricks.Data.Enumerations
         [Description("CAD")]
         CA = 3,
         [Description("EUR")]
-        EU = 4
+        DE = 4
     }
 }

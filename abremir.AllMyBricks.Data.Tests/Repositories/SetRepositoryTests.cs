@@ -363,7 +363,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
 
             InsertData(set);
 
-            var allSetsForPriceRange = _setRepository.AllForPriceRange(PriceRegionEnum.EU, 0, 10);
+            var allSetsForPriceRange = _setRepository.AllForPriceRange(PriceRegionEnum.DE, 0, 10);
 
             allSetsForPriceRange.Should().BeEmpty();
         }

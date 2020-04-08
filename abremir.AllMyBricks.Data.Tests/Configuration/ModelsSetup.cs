@@ -141,8 +141,8 @@ namespace abremir.AllMyBricks.Data.Tests.Configuration
             {
                 Name = $"SET NAME{suffix}",
                 Number = $"SET NUMBER{suffix}",
-                Ean = $"SET EAN{suffix}",
-                Upc = $"SET UPC{suffix}"
+                EAN = $"SET EAN{suffix}",
+                UPC = $"SET UPC{suffix}"
             };
         }
 

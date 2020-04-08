@@ -30,10 +30,10 @@ namespace abremir.AllMyBricks.Data.Models
         public string Number { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public string Ean { get; set; }
-        public string Upc { get; set; }
+        public string EAN { get; set; }
+        public string UPC { get; set; }
         public byte NumberVariant { get; set; }
-        public short? Year { get; set; }
+        public short Year { get; set; }
         public short? Pieces { get; set; }
         public short? Minifigs { get; set; }
         public string BricksetUrl { get; set; }

@@ -50,8 +50,8 @@ namespace abremir.AllMyBricks.Data.Services
                 liteDatabase.GetCollection<Tag>().EnsureIndex(tag => tag.Value, true);
                 liteDatabase.GetCollection<Set>().EnsureIndex(set => set.Number);
                 liteDatabase.GetCollection<Set>().EnsureIndex(set => set.Name);
-                liteDatabase.GetCollection<Set>().EnsureIndex(set => set.Ean);
-                liteDatabase.GetCollection<Set>().EnsureIndex(set => set.Upc);
+                liteDatabase.GetCollection<Set>().EnsureIndex(set => set.EAN);
+                liteDatabase.GetCollection<Set>().EnsureIndex(set => set.UPC);
                 liteDatabase.GetCollection<Set>().EnsureIndex(set => set.Theme);
                 liteDatabase.GetCollection<Set>().EnsureIndex(set => set.Subtheme);
                 liteDatabase.GetCollection<Set>().EnsureIndex(set => set.ThemeGroup);
