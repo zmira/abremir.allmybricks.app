@@ -1,12 +1,13 @@
 ﻿using abremir.AllMyBricks.ThirdParty.Brickset.Configuration;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Xml.Serialization;
 
 namespace abremir.AllMyBricks.ThirdParty.Brickset.Models
 {
-    [XmlRoot(Namespace = Constants.BricksetApiNamespace), Description(Constants.MethodGetThemes)]
-    public class ArrayOfThemes : List<Themes>
+    [Description(Constants.MethodGetSets)]
+    public class ResultGetSets : ResultBase
     {
+        public IEnumerable<Sets> Sets { get; set; } = new List<Sets>();
+        public int Matches { get; set; }
     }
 }

@@ -1,12 +1,12 @@
 ﻿using abremir.AllMyBricks.ThirdParty.Brickset.Configuration;
+using abremir.AllMyBricks.ThirdParty.Brickset.Enumerations;
 using abremir.AllMyBricks.ThirdParty.Brickset.Extensions;
 using abremir.AllMyBricks.ThirdParty.Brickset.Interfaces;
 using abremir.AllMyBricks.ThirdParty.Brickset.Models;
+using abremir.AllMyBricks.ThirdParty.Brickset.Models.Parameters;
 using Flurl;
 using Flurl.Http;
-using Flurl.Http.Xml;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace abremir.AllMyBricks.ThirdParty.Brickset.Services
@@ -15,87 +15,57 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Services
     {
         public async Task<bool> CheckKey(ParameterApiKey checkKeyParameters)
         {
-            return (await BricksetHttpPostUrlEncodeAsync<ResultCheckKey, ResultCheckKey, ParameterApiKey>(checkKeyParameters)).Value.Equals(Constants.ResponseOk);
+            return (await BricksetHttpPostUrlEncodeAsync<ResultCheckKey, ParameterApiKey>(checkKeyParameters)).Status == ResultStatusEnum.Success;
         }
 
         public async Task<string> Login(ParameterLogin loginParameters)
         {
-            return (await BricksetHttpPostUrlEncodeAsync<ResultLogin, ResultLogin, ParameterLogin>(loginParameters)).Value;
+            return (await BricksetHttpPostUrlEncodeAsync<ResultLogin, ParameterLogin>(loginParameters)).Hash;
         }
 
-        public async Task<string> CheckUserHash(ParameterUserHash checkUserHashParameters)
+        public async Task<bool> CheckUserHash(ParameterApiKeyUserHash checkUserHashParameters)
         {
-            return (await BricksetHttpPostUrlEncodeAsync<ResultCheckUserHash, ResultCheckUserHash, ParameterUserHash>(checkUserHashParameters)).Value;
+            return (await BricksetHttpPostUrlEncodeAsync<ResultCheckUserHash, ParameterApiKeyUserHash>(checkUserHashParameters)).Status == ResultStatusEnum.Success;
         }
 
         public async Task<IEnumerable<Themes>> GetThemes(ParameterApiKey getThemesParameters)
         {
-            return await BricksetHttpPostUrlEncodeAsync<ArrayOfThemes, IEnumerable<Themes>, ParameterApiKey>(getThemesParameters);
+            return (await BricksetHttpPostUrlEncodeAsync<ResultGetThemes, ParameterApiKey>(getThemesParameters)).Themes;
         }
 
         public async Task<IEnumerable<Subthemes>> GetSubthemes(ParameterTheme getSubthemesParameters)
         {
-            return await BricksetHttpPostUrlEncodeAsync<ArrayOfSubthemes, IEnumerable<Subthemes>, ParameterTheme>(getSubthemesParameters);
+            return (await BricksetHttpPostUrlEncodeAsync<ResultGetSubthemes, ParameterTheme>(getSubthemesParameters)).Subthemes;
         }
 
         public async Task<IEnumerable<Years>> GetYears(ParameterTheme getYearsParameters)
         {
-            return await BricksetHttpPostUrlEncodeAsync<ArrayOfYears, IEnumerable<Years>, ParameterTheme>(getYearsParameters);
+            return (await BricksetHttpPostUrlEncodeAsync<ResultGetYears, ParameterTheme>(getYearsParameters)).Years;
         }
 
-        public async Task<IEnumerable<Sets>> GetSets(ParameterSets getSetsParameters)
+        public async Task<IEnumerable<Sets>> GetSets(GetSetsParameters getSetsParameters)
         {
-            return await BricksetHttpPostUrlEncodeAsync<ArrayOfSets, IEnumerable<Sets>, ParameterSets>(getSetsParameters);
-        }
-
-        public async Task<Sets> GetSet(ParameterUserHashSetId getSetParameters)
-        {
-            return (await BricksetHttpPostUrlEncodeAsync<ArrayOfSet, IEnumerable<Sets>, ParameterUserHashSetId>(getSetParameters)).FirstOrDefault();
-        }
-
-        public async Task<IEnumerable<Sets>> GetRecentlyUpdatedSets(ParameterMinutesAgo getRecentlyUpdatedSetsParameters)
-        {
-            return await BricksetHttpPostUrlEncodeAsync<ArrayOfRecentlyUpdatedSets, IEnumerable<Sets>, ParameterMinutesAgo>(getRecentlyUpdatedSetsParameters);
+            return (await BricksetHttpPostUrlEncodeAsync<ResultGetSets, ParameterSets>(getSetsParameters.ToParameterSets())).Sets;
         }
 
         public async Task<IEnumerable<Instructions>> GetInstructions(ParameterSetId getInstructionsParameters)
         {
-            return await BricksetHttpPostUrlEncodeAsync<ArrayOfInstructions, IEnumerable<Instructions>, ParameterSetId>(getInstructionsParameters);
+            return (await BricksetHttpPostUrlEncodeAsync<ResultGetInstructions, ParameterSetId>(getInstructionsParameters)).Instructions;
         }
 
-        public async Task<IEnumerable<AdditionalImages>> GetAdditionalImages(ParameterSetId getAdditionalImagesParameters)
+        public async Task<IEnumerable<SetImage>> GetAdditionalImages(ParameterSetId getAdditionalImagesParameters)
         {
-            return await BricksetHttpPostUrlEncodeAsync<ArrayOfAdditionalImages, IEnumerable<AdditionalImages>, ParameterSetId>(getAdditionalImagesParameters);
+            return (await BricksetHttpPostUrlEncodeAsync<ResultGetAdditionalImages, ParameterSetId>(getAdditionalImagesParameters)).AdditionalImages;
         }
 
-        public async Task<IEnumerable<Reviews>> GetReviews(ParameterSetId getReviewsParameters)
+        public async Task<bool> SetCollection(SetCollectionParameters setCollectionParameters)
         {
-            return await BricksetHttpPostUrlEncodeAsync<ArrayOfReviews, IEnumerable<Reviews>, ParameterSetId>(getReviewsParameters);
+            return (await BricksetHttpPostUrlEncodeAsync<ResultSetCollection, ParameterSetCollection>(setCollectionParameters.ToParameterSetCollection())).Status == ResultStatusEnum.Success;
         }
 
-        public async Task<string> SetCollection(ParameterSetCollection setCollectionParameters)
+        private async Task<T> BricksetHttpPostUrlEncodeAsync<T, U>(U parameters) where T : class where U : class
         {
-            return (await BricksetHttpPostUrlEncodeAsync<ResultSetCollection, ResultSetCollection, ParameterSetCollection>(setCollectionParameters)).Value;
-        }
-
-        public async Task<string> SetCollectionOwns(ParameterSetCollectionOwns setCollectionOwnsParameters)
-        {
-            return (await BricksetHttpPostUrlEncodeAsync<ResultSetCollectionOwns, ResultSetCollectionOwns, ParameterSetCollectionOwns>(setCollectionOwnsParameters)).Value;
-        }
-
-        public async Task<string> SetCollectionWants(ParameterSetCollectionWants setCollectionWantsParameters)
-        {
-            return (await BricksetHttpPostUrlEncodeAsync<ResultSetCollectionWants, ResultSetCollectionWants, ParameterSetCollectionWants>(setCollectionWantsParameters)).Value;
-        }
-
-        public async Task<string> SetCollectionQtyOwned(ParameterSetCollectionQtyOwned setCollectionQtyOwnedParameters)
-        {
-            return (await BricksetHttpPostUrlEncodeAsync<ResultSetCollectionQtyOwned, ResultSetCollectionQtyOwned, ParameterSetCollectionQtyOwned>(setCollectionQtyOwnedParameters)).Value;
-        }
-
-        private async Task<U> BricksetHttpPostUrlEncodeAsync<T, U, V>(V parameters) where T : class where U : class where V : class
-        {
-            return await Constants.BricksetApiUrl.AppendPathSegment(typeof(T).GetDescription()).PostUrlEncodedAsync(parameters).ReceiveXml<T>() as U;
+            return await Constants.BricksetApiUrl.AppendPathSegment(typeof(T).GetDescription()).PostUrlEncodedAsync(parameters).ReceiveJson<T>();
         }
     }
 }

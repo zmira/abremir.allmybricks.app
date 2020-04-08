@@ -1,4 +1,4 @@
-﻿namespace abremir.AllMyBricks.ThirdParty.Brickset.Models
+﻿namespace abremir.AllMyBricks.ThirdParty.Brickset.Models.Parameters
 {
     public class ParameterSetId : ParameterApiKey
     {
