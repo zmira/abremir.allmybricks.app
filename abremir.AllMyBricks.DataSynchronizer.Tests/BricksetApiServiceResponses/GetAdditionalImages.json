@@ -1,41 +1,35 @@
 [
   {
     "$types": {
-      "abremir.AllMyBricks.ThirdParty.Brickset.Models.AdditionalImages, abremir.AllMyBricks.ThirdParty.Brickset, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "1"
+      "abremir.AllMyBricks.ThirdParty.Brickset.Models.SetImage, abremir.AllMyBricks.ThirdParty.Brickset, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "1"
     },
     "$type": "1",
     "ThumbnailUrl": "\n            https://images.brickset.com/sets/AdditionalImages/21000-1/tn_21000-0000-xx-13-1_jpg.jpg\n        ",
-    "LargeThumbnailUrl": null,
     "ImageUrl": "\n            https://images.brickset.com/sets/AdditionalImages/21000-1/21000-0000-xx-13-1.jpg\n        "
   },
   {
     "$type": "1",
     "ThumbnailUrl": "\n            https://images.brickset.com/sets/AdditionalImages/21000-1/tn_21000-0000-xx-33-1_jpg.jpg\n        ",
-    "LargeThumbnailUrl": null,
     "ImageUrl": "\n            https://images.brickset.com/sets/AdditionalImages/21000-1/21000-0000-xx-33-1.jpg\n        "
   },
   {
     "$type": "1",
     "ThumbnailUrl": "\n            https://images.brickset.com/sets/AdditionalImages/21000-1/tn_21000_alt1_jpg.jpg\n        ",
-    "LargeThumbnailUrl": null,
     "ImageUrl": "\n            https://images.brickset.com/sets/AdditionalImages/21000-1/21000_alt1.jpg\n        "
   },
   {
     "$type": "1",
     "ThumbnailUrl": "\n            https://images.brickset.com/sets/AdditionalImages/21000-1/tn_21000_alt2_jpg.jpg\n        ",
-    "LargeThumbnailUrl": null,
     "ImageUrl": "\n            https://images.brickset.com/sets/AdditionalImages/21000-1/21000_alt2.jpg\n        "
   },
   {
     "$type": "1",
     "ThumbnailUrl": "\n            https://images.brickset.com/sets/AdditionalImages/21000-1/tn_21000_alt3_jpg.jpg\n        ",
-    "LargeThumbnailUrl": null,
     "ImageUrl": "\n            https://images.brickset.com/sets/AdditionalImages/21000-1/21000_alt3.jpg\n        "
   },
   {
     "$type": "1",
     "ThumbnailUrl": "\n            https://images.brickset.com/sets/AdditionalImages/21000-1/tn_21000_main_jpg.jpg\n        ",
-    "LargeThumbnailUrl": null,
     "ImageUrl": "\n            https://images.brickset.com/sets/AdditionalImages/21000-1/21000_main.jpg\n        "
   }
 ]

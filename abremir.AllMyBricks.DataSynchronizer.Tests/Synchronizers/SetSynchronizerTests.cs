@@ -8,6 +8,7 @@ using abremir.AllMyBricks.DataSynchronizer.Tests.Configuration;
 using abremir.AllMyBricks.DataSynchronizer.Tests.Shared;
 using abremir.AllMyBricks.ThirdParty.Brickset.Interfaces;
 using abremir.AllMyBricks.ThirdParty.Brickset.Models;
+using abremir.AllMyBricks.ThirdParty.Brickset.Models.Parameters;
 using Easy.MessageHub;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -48,7 +49,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
         {
             var bricksetApiService = Substitute.For<IBricksetApiService>();
             bricksetApiService
-                .GetSets(Arg.Any<ParameterSets>())
+                .GetSets(Arg.Any<GetSetsParameters>())
                 .Returns(Enumerable.Empty<Sets>());
 
             var setSynchronizer = CreateTarget(bricksetApiService);
@@ -89,19 +90,16 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 
             var bricksetApiService = Substitute.For<IBricksetApiService>();
             bricksetApiService
-                .GetSets(Arg.Any<ParameterSets>())
-                .Returns(ret => setsList.Where(setFromList => setFromList.Year == ((ParameterSets)ret.Args()[0]).Year
-                    && setFromList.Theme == ((ParameterSets)ret.Args()[0]).Theme
-                    && setFromList.Subtheme == ((ParameterSets)ret.Args()[0]).Subtheme));
+                .GetSets(Arg.Any<GetSetsParameters>())
+                .Returns(ret => setsList.Where(setFromList => setFromList.Year == ((GetSetsParameters)ret.Args()[0]).Year
+                    && setFromList.Theme == ((GetSetsParameters)ret.Args()[0]).Theme
+                    && setFromList.Subtheme == ((GetSetsParameters)ret.Args()[0]).Subtheme));
             bricksetApiService
                 .GetAdditionalImages(Arg.Is<ParameterSetId>(parameter => parameter.SetID == testSet.SetId))
                 .Returns(additionalImagesList);
             bricksetApiService
                 .GetInstructions(Arg.Is<ParameterSetId>(parameter => parameter.SetID == testSet.SetId))
                 .Returns(instructionsList);
-            bricksetApiService
-                .GetSet(Arg.Any<ParameterUserHashSetId>())
-                .Returns(ret => setsList.First(setFromList => setFromList.SetId == ((ParameterUserHashSetId)ret.Args()[0]).SetID));
 
             var setSynchronizer = CreateTarget(bricksetApiService);
 
@@ -120,7 +118,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
         {
             var bricksetApiService = Substitute.For<IBricksetApiService>();
             bricksetApiService
-                .GetRecentlyUpdatedSets(Arg.Any<ParameterMinutesAgo>())
+                .GetSets(Arg.Any<GetSetsParameters>())
                 .Returns(Enumerable.Empty<Sets>());
 
             var setSynchronizer = CreateTarget(bricksetApiService);
@@ -152,11 +150,8 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 
             var bricksetApiService = Substitute.For<IBricksetApiService>();
             bricksetApiService
-                .GetRecentlyUpdatedSets(Arg.Any<ParameterMinutesAgo>())
+                .GetSets(Arg.Any<GetSetsParameters>())
                 .Returns(recentlyUpdatedSetsList);
-            bricksetApiService
-                .GetSet(Arg.Any<ParameterUserHashSetId>())
-                .Returns(ret => recentlyUpdatedSetsList.First(setFromList => setFromList.SetId == ((ParameterUserHashSetId)ret.Args()[0]).SetID));
 
             var setSynchronizer = CreateTarget(bricksetApiService);
 

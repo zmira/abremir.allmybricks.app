@@ -4,7 +4,7 @@ using abremir.AllMyBricks.DataSynchronizer.Interfaces;
 using abremir.AllMyBricks.Onboarding.Shared.Security;
 using abremir.AllMyBricks.Platform.Interfaces;
 using abremir.AllMyBricks.ThirdParty.Brickset.Interfaces;
-using abremir.AllMyBricks.ThirdParty.Brickset.Models;
+using abremir.AllMyBricks.ThirdParty.Brickset.Models.Parameters;
 using abremir.AllMyBricks.UserManagement.Interfaces;
 using System;
 using System.Threading.Tasks;

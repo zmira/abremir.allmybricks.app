@@ -58,7 +58,8 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                         ApiKey = apiKey,
                         Theme = theme.Name,
                         Subtheme = subtheme.Name.Replace("{None}", ""),
-                        Year = year
+                        Year = year,
+                        ExtendedData = true
                     };
 
                     var bricksetSets = (await _bricksetApiService.GetSets(getSetsParameters)).ToList();
@@ -88,7 +89,8 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                 var getSetsParameters = new GetSetsParameters
                 {
                     ApiKey = apiKey,
-                    UpdatedSince = previousUpdateTimestamp.UtcDateTime
+                    UpdatedSince = previousUpdateTimestamp.UtcDateTime,
+                    ExtendedData = true
                 };
 
                 var recentlyUpdatedSets = (await _bricksetApiService.GetSets(getSetsParameters)).ToList();
@@ -124,19 +126,6 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
 
             try
             {
-                var getSetsParameters = new GetSetsParameters
-                {
-                    ApiKey = apiKey,
-                    SetId = bricksetSet.SetId
-                };
-
-                bricksetSet = (await _bricksetApiService.GetSets(getSetsParameters)).FirstOrDefault();
-
-                if (bricksetSet is null)
-                {
-                    return;
-                }
-
                 var set = await MapSet(apiKey, theme, subtheme, bricksetSet);
 
                 _setRepository.AddOrUpdate(set);

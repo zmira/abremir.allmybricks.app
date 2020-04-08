@@ -7,6 +7,7 @@ using abremir.AllMyBricks.DataSynchronizer.Tests.Configuration;
 using abremir.AllMyBricks.DataSynchronizer.Tests.Shared;
 using abremir.AllMyBricks.ThirdParty.Brickset.Interfaces;
 using abremir.AllMyBricks.ThirdParty.Brickset.Models;
+using abremir.AllMyBricks.ThirdParty.Brickset.Models.Parameters;
 using Easy.MessageHub;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
