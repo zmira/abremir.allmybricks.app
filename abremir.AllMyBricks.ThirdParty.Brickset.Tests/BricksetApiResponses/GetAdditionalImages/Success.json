@@ -1,0 +1,29 @@
+﻿{
+  "status": "success",
+  "additionalImages": [
+    {
+      "thumbnailURL": "https://images.brickset.com/sets/AdditionalImages/21000-1/tn_21000-0000-xx-13-1_jpg.jpg",
+      "imageURL": "https://images.brickset.com/sets/AdditionalImages/21000-1/21000-0000-xx-13-1.jpg"
+    },
+    {
+      "thumbnailURL": "https://images.brickset.com/sets/AdditionalImages/21000-1/tn_21000-0000-xx-33-1_jpg.jpg",
+      "imageURL": "https://images.brickset.com/sets/AdditionalImages/21000-1/21000-0000-xx-33-1.jpg"
+    },
+    {
+      "thumbnailURL": "https://images.brickset.com/sets/AdditionalImages/21000-1/tn_21000_alt1_jpg.jpg",
+      "imageURL": "https://images.brickset.com/sets/AdditionalImages/21000-1/21000_alt1.jpg"
+    },
+    {
+      "thumbnailURL": "https://images.brickset.com/sets/AdditionalImages/21000-1/tn_21000_alt2_jpg.jpg",
+      "imageURL": "https://images.brickset.com/sets/AdditionalImages/21000-1/21000_alt2.jpg"
+    },
+    {
+      "thumbnailURL": "https://images.brickset.com/sets/AdditionalImages/21000-1/tn_21000_alt3_jpg.jpg",
+      "imageURL": "https://images.brickset.com/sets/AdditionalImages/21000-1/21000_alt3.jpg"
+    },
+    {
+      "thumbnailURL": "https://images.brickset.com/sets/AdditionalImages/21000-1/tn_21000_main_jpg.jpg",
+      "imageURL": "https://images.brickset.com/sets/AdditionalImages/21000-1/21000_main.jpg"
+    }
+  ]
+}

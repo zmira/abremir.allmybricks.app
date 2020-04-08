@@ -1,4 +1,4 @@
-﻿using abremir.AllMyBricks.ThirdParty.Brickset.Models;
+﻿using abremir.AllMyBricks.ThirdParty.Brickset.Models.Parameters;
 using abremir.AllMyBricks.ThirdParty.Brickset.Services;
 using abremir.AllMyBricks.ThirdParty.Brickset.Tests.Configuration;
 using abremir.AllMyBricks.ThirdParty.Brickset.Tests.Shared;
@@ -36,24 +36,13 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
             var years = await _bricksetApiService.GetYears(new ParameterTheme());
 
             years.Count().Should()
-                .Be(11);
+                .Be(13);
         }
 
         [TestMethod]
-        public async Task NoYears()
+        public async Task NoMatches()
         {
-            _httpTestFake.RespondWith(GetResultFileFromResource(nameof(NoYears)));
-
-            var years = await _bricksetApiService.GetYears(new ParameterTheme());
-
-            years.Should()
-                .BeEmpty();
-        }
-
-        [TestMethod]
-        public async Task InvalidTheme()
-        {
-            _httpTestFake.RespondWith(GetResultFileFromResource(nameof(InvalidTheme)));
+            _httpTestFake.RespondWith(GetResultFileFromResource(nameof(NoMatches)));
 
             var years = await _bricksetApiService.GetYears(new ParameterTheme());
 

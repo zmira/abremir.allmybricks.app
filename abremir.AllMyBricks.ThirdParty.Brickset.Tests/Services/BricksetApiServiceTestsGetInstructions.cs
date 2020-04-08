@@ -1,4 +1,4 @@
-﻿using abremir.AllMyBricks.ThirdParty.Brickset.Models;
+﻿using abremir.AllMyBricks.ThirdParty.Brickset.Models.Parameters;
 using abremir.AllMyBricks.ThirdParty.Brickset.Services;
 using abremir.AllMyBricks.ThirdParty.Brickset.Tests.Configuration;
 using abremir.AllMyBricks.ThirdParty.Brickset.Tests.Shared;
@@ -36,24 +36,13 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
             var instructions = await _bricksetApiService.GetInstructions(new ParameterSetId());
 
             instructions.Count().Should()
-                .Be(2);
+                .Be(6);
         }
 
         [TestMethod]
-        public async Task NoInstructions()
+        public async Task NoMatches()
         {
-            _httpTestFake.RespondWith(GetResultFileFromResource(nameof(NoInstructions)));
-
-            var instructions = await _bricksetApiService.GetInstructions(new ParameterSetId());
-
-            instructions.Should()
-                .BeEmpty();
-        }
-
-        [TestMethod]
-        public async Task InvalidSetId()
-        {
-            _httpTestFake.RespondWith(GetResultFileFromResource(nameof(InvalidSetId)));
+            _httpTestFake.RespondWith(GetResultFileFromResource(nameof(NoMatches)));
 
             var instructions = await _bricksetApiService.GetInstructions(new ParameterSetId());
 

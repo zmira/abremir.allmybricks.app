@@ -1,4 +1,4 @@
-﻿using abremir.AllMyBricks.ThirdParty.Brickset.Models;
+﻿using abremir.AllMyBricks.ThirdParty.Brickset.Models.Parameters;
 using abremir.AllMyBricks.ThirdParty.Brickset.Services;
 using abremir.AllMyBricks.ThirdParty.Brickset.Tests.Configuration;
 using abremir.AllMyBricks.ThirdParty.Brickset.Tests.Shared;
@@ -40,20 +40,9 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
         }
 
         [TestMethod]
-        public async Task NoSubthemes()
+        public async Task NoMatches()
         {
-            _httpTestFake.RespondWith(GetResultFileFromResource(nameof(NoSubthemes)));
-
-            var subthemes = await _bricksetApiService.GetSubthemes(new ParameterTheme());
-
-            subthemes.Should()
-                .BeEmpty();
-        }
-
-        [TestMethod]
-        public async Task InvalidTheme()
-        {
-            _httpTestFake.RespondWith(GetResultFileFromResource(nameof(InvalidTheme)));
+            _httpTestFake.RespondWith(GetResultFileFromResource(nameof(NoMatches)));
 
             var subthemes = await _bricksetApiService.GetSubthemes(new ParameterTheme());
 
