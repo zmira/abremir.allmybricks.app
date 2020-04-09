@@ -1,5 +1,7 @@
-﻿using abremir.AllMyBricks.Data.Models;
+﻿using abremir.AllMyBricks.Data.Enumerations;
+using abremir.AllMyBricks.Data.Models;
 using abremir.AllMyBricks.ThirdParty.Brickset.Models;
+using System.Collections.Generic;
 
 namespace abremir.AllMyBricks.DataSynchronizer.Extensions
 {
@@ -7,7 +9,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Extensions
     {
         public static Set ToSet(this Sets source)
         {
-            return new Set
+            var set = new Set
             {
                 SetId = source.SetId,
                 Number = source.Number,
@@ -20,20 +22,40 @@ namespace abremir.AllMyBricks.DataSynchronizer.Extensions
                 BricksetUrl = source.BricksetUrl?.SanitizeBricksetString(),
                 Released = source.Released,
                 LastUpdated = source.LastUpdated,
-                OwnedByTotal = (short)(source.Collections?.OwnedBy ?? 0),
-                WantedByTotal = (short)(source.Collections?.WantedBy ?? 0),
                 Rating = source.Rating,
-                EAN = string.IsNullOrWhiteSpace(source.Barcode?.EAN) ? null : source.Barcode.EAN,
-                UPC = string.IsNullOrWhiteSpace(source.Barcode?.UPC) ? null : source.Barcode.UPC,
                 Availability = string.IsNullOrWhiteSpace(source.Availability) ? null : source.Availability,
-                AgeMin = (byte?)source.AgeRange?.Min,
-                AgeMax = (byte?)source.AgeRange?.Max,
-                Height = source.Dimensions?.Height,
-                Width = source.Dimensions?.Width,
-                Depth = source.Dimensions?.Depth,
-                Weight = source.Dimensions?.Weight,
-                Notes = source.ExtendedData?.Notes?.SanitizeBricksetString()
+                Notes = source.ExtendedData?.Notes?.SanitizeBricksetString(),
+                Totals = new SetTotals
+                {
+                    OwnedBy = (short)(source.Collections?.OwnedBy ?? 0),
+                    WantedBy = (short)(source.Collections?.WantedBy ?? 0)
+                },
+                AgeRange = new Data.Models.SetAgeRange
+                {
+                    Min = (byte?)source.AgeRange.Min,
+                    Max = (byte?)source.AgeRange.Max
+                },
+                Barcodes = new List<Barcode>(),
+                Dimensions = new Dimensions
+                {
+                    Height = source.Dimensions?.Height,
+                    Width = source.Dimensions?.Width,
+                    Depth = source.Dimensions?.Depth,
+                    Weight = source.Dimensions?.Weight
+                }
             };
+
+            if (!string.IsNullOrWhiteSpace(source.Barcode?.EAN))
+            {
+                set.Barcodes.Add(new Barcode { Type = BarcodeTypeEnum.EAN, Value = source.Barcode.EAN });
+            }
+
+            if (!string.IsNullOrWhiteSpace(source.Barcode?.UPC))
+            {
+                set.Barcodes.Add(new Barcode { Type = BarcodeTypeEnum.UPC, Value = source.Barcode.UPC });
+            }
+
+            return set;
         }
     }
 }

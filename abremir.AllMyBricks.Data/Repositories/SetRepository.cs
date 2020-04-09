@@ -191,13 +191,12 @@ namespace abremir.AllMyBricks.Data.Repositories
             {
                 var queryString = $"Number LIKE @{i}" +
                     $" OR Name LIKE @{i}" +
-                    $" OR Ean LIKE @{i}" +
-                    $" OR Upc LIKE @{i}" +
                     $" OR Theme.Name LIKE @{i}" +
                     $" OR Subtheme.Name LIKE @{i}" +
                     $" OR ThemeGroup.Value LIKE @{i}" +
                     $" OR PackagingType.Value LIKE @{i}" +
                     $" OR Category.Value LIKE @{i}" +
+                    $" OR Barcodes[*].Value ANY LIKE @{i}" +
                     $" OR Tags[*].Value ANY LIKE @{i}";
 
                 queryList.Add($"%{searchTerms[i]}%", queryString);

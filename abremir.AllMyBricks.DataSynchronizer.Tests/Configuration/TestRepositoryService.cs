@@ -23,7 +23,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Configuration
 
             var liteRepository = new LiteRepository(_tempStream);
 
-            RepositoryService.SetupIndexes(liteRepository.Database);
+            RepositoryService.RunMigrationsAndSetupIndexes(liteRepository.Database);
 
             return liteRepository;
         }

@@ -1,7 +1,9 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 
 namespace abremir.AllMyBricks.Data.Enumerations
 {
+    [Obsolete]
     public enum RatingItemEnum
     {
         [Description("Overall Rating")]
