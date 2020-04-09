@@ -25,11 +25,11 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Models.Parameters
         {
             dynamic @params = new JObject();
 
-            @params.Own = Own ? 1 : 0;
-            @params.Want = Want ? 1 : 0;
-            @params.QtyOwned = QtyOwned;
-            @params.Notes = Notes?.Substring(0, 200).Trim();
-            @params.Rating = Rating;
+            @params.own = Own ? 1 : 0;
+            @params.want = Want ? 1 : 0;
+            @params.qtyOwned = QtyOwned;
+            @params.notes = Notes?.Substring(0, 200).Trim();
+            @params.rating = Rating;
 
             return @params.ToString();
         }

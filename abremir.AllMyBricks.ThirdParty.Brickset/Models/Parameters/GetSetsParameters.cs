@@ -36,72 +36,72 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Models.Parameters
 
             if (SetId.HasValue)
             {
-                @params.SetID = SetId.Value;
+                @params.setID = SetId.Value;
             }
 
             if (!string.IsNullOrWhiteSpace(Query))
             {
-                @params.Query = Query.Trim();
+                @params.query = Query.Trim();
             }
 
             if (!string.IsNullOrWhiteSpace(Theme))
             {
-                @params.Theme = Theme.Trim();
+                @params.theme = Theme.Trim();
             }
 
             if (!string.IsNullOrWhiteSpace(Subtheme))
             {
-                @params.Subtheme = Subtheme.Trim();
+                @params.subtheme = Subtheme.Trim();
             }
 
             if (!string.IsNullOrWhiteSpace(SetNumber))
             {
-                @params.SetNumber = SetNumber.Trim();
+                @params.setNumber = SetNumber.Trim();
             }
 
             if (Year.HasValue)
             {
-                @params.Year = Year.Value.ToString();
+                @params.year = Year.Value.ToString();
             }
 
             if (!string.IsNullOrWhiteSpace(Tag))
             {
-                @params.Tag = Tag.Trim();
+                @params.tag = Tag.Trim();
             }
 
             if (Owned.HasValue)
             {
-                @params.Owned = Owned.Value ? 1 : 0;
+                @params.owned = Owned.Value ? 1 : 0;
             }
 
             if (Wanted.HasValue)
             {
-                @params.Wanted = Wanted.Value ? 1 : 0;
+                @params.wanted = Wanted.Value ? 1 : 0;
             }
 
             if (UpdatedSince.HasValue)
             {
-                @params.UpdatedSince = UpdatedSince.Value.ToString("yyyy-MM-dd HH:mm:ss");
+                @params.updatedSince = UpdatedSince.Value.ToString("yyyy-MM-dd HH:mm:ss");
             }
 
             if (!string.IsNullOrWhiteSpace(OrderBy))
             {
-                @params.OrderBy = OrderBy.Trim();
+                @params.orderBy = OrderBy.Trim();
             }
 
             if (PageSize.HasValue)
             {
-                @params.PageSize = PageSize.Value;
+                @params.pageSize = PageSize.Value;
             }
 
             if (PageNumber.HasValue)
             {
-                @params.PageNumber = PageNumber.Value;
+                @params.pageNumber = PageNumber.Value;
             }
 
             if (ExtendedData.HasValue)
             {
-                @params.ExtendedData = ExtendedData.Value ? 1 : 0;
+                @params.extendedData = ExtendedData.Value ? 1 : 0;
             }
 
             return @params.ToString();
