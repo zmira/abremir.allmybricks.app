@@ -38,9 +38,6 @@ namespace abremir.AllMyBricks.Data.Services
                 case 0:
                     MigrationsAndIndexes_V0.Apply(liteDatabase);
                     break;
-                case 1:
-                    MigrationsAndIndexes_V1.Apply(liteDatabase);
-                    break;
             }
         }
     }

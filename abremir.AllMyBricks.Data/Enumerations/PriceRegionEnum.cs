@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 
 namespace abremir.AllMyBricks.Data.Enumerations
 {
@@ -11,9 +10,6 @@ namespace abremir.AllMyBricks.Data.Enumerations
         US = 2,
         [Description("CAD")]
         CA = 3,
-        [Description("EUR")]
-        [Obsolete]
-        EU = 4,
         [Description("EUR")]
         DE = 5
     }
