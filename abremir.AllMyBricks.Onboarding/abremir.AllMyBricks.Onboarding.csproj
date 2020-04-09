@@ -8,7 +8,7 @@
   <ItemGroup>
     <PackageReference Include="Flurl.Http" Version="2.4.2" />
     <PackageReference Include="jose-jwt" Version="2.5.0" />
-    <PackageReference Include="SimpleInjector" Version="4.9.1" />
+    <PackageReference Include="SimpleInjector" Version="4.9.2" />
   </ItemGroup>
 
   <ItemGroup>
