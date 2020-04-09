@@ -53,7 +53,6 @@ namespace abremir.AllMyBricks.Data.Models
         public DateTimeOffset LastUpdated { get; set; }
         public IList<Image> Images { get; set; } = new List<Image>();
         public IList<Price> Prices { get; set; } = new List<Price>();
-        public IList<Review> Reviews { get; set; } = new List<Review>();
         public IList<Instruction> Instructions { get; set; } = new List<Instruction>();
 
         [BsonIgnore]
