@@ -1,6 +1,7 @@
 ﻿using abremir.AllMyBricks.Data.Enumerations;
 using abremir.AllMyBricks.Data.Interfaces;
 using abremir.AllMyBricks.Data.Models;
+using abremir.AllMyBricks.DataSynchronizer.Configuration;
 using abremir.AllMyBricks.DataSynchronizer.Events.SetSynchronizer;
 using abremir.AllMyBricks.DataSynchronizer.Extensions;
 using abremir.AllMyBricks.DataSynchronizer.Interfaces;
@@ -55,14 +56,12 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
 
                     var getSetsParameters = new GetSetsParameters
                     {
-                        ApiKey = apiKey,
                         Theme = theme.Name,
                         Subtheme = subtheme.Name.Replace("{None}", ""),
-                        Year = year,
-                        ExtendedData = true
+                        Year = year
                     };
 
-                    var bricksetSets = (await _bricksetApiService.GetSets(getSetsParameters)).ToList();
+                    var bricksetSets = await GetAllSetsFor(apiKey, getSetsParameters);
 
                     _messageHub.Publish(new AcquiringSetsEnd { Theme = theme.Name, Subtheme = subtheme.Name, Count = bricksetSets.Count, Year = year });
 
@@ -88,12 +87,10 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
             {
                 var getSetsParameters = new GetSetsParameters
                 {
-                    ApiKey = apiKey,
-                    UpdatedSince = previousUpdateTimestamp.UtcDateTime,
-                    ExtendedData = true
+                    UpdatedSince = previousUpdateTimestamp.UtcDateTime
                 };
 
-                var recentlyUpdatedSets = (await _bricksetApiService.GetSets(getSetsParameters)).ToList();
+                var recentlyUpdatedSets = await GetAllSetsFor(apiKey, getSetsParameters);
 
                 _messageHub.Publish(new AcquiringSetsEnd { Count = recentlyUpdatedSets.Count });
 
@@ -261,6 +258,30 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
             set.Instructions = (await _bricksetApiService.GetInstructions(getInstructionsParameters))
                     .ToInstructionEnumerable()
                     .ToList();
+        }
+
+        private async Task<IList<Sets>> GetAllSetsFor(string apiKey, GetSetsParameters getSetsParameters)
+        {
+            getSetsParameters.ApiKey = apiKey;
+            getSetsParameters.PageSize = Constants.BricksetPageSizeParameter;
+            getSetsParameters.ExtendedData = true;
+
+            var foundSets = new List<Sets>();
+            var pageNumber = 1;
+            var currentPageResults = new List<Sets>();
+
+            do
+            {
+                getSetsParameters.PageNumber = pageNumber;
+
+                currentPageResults = (await _bricksetApiService.GetSets(getSetsParameters)).ToList();
+
+                foundSets.AddRange(currentPageResults);
+
+                pageNumber++;
+            } while (currentPageResults.Count == Constants.BricksetPageSizeParameter);
+
+            return foundSets;
         }
     }
 }
