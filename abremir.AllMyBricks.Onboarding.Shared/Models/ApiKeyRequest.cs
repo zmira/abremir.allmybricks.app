@@ -9,14 +9,12 @@ namespace abremir.AllMyBricks.Onboarding.Shared.Models
 
         public override bool Equals(object obj)
         {
-            if (obj == null)
+            if (obj is null)
             {
                 return false;
             }
 
-            var model = obj as ApiKeyRequest;
-
-            if (model == null)
+            if (!(obj is ApiKeyRequest model))
             {
                 return false;
             }

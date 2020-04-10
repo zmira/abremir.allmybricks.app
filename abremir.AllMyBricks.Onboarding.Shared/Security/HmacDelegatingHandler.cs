@@ -1,8 +1,8 @@
 ﻿using abremir.AllMyBricks.Onboarding.Shared.Configuration;
 using abremir.AllMyBricks.Onboarding.Shared.Extensions;
 using abremir.AllMyBricks.Onboarding.Shared.Models;
-using fastJSON;
 using Microsoft.AspNetCore.Http.Extensions;
+using Newtonsoft.Json;
 using System;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -19,12 +19,12 @@ namespace abremir.AllMyBricks.Onboarding.Shared.Security
 
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
-            if (request.Content == null)
+            if (request.Content is null)
             {
                 return null;
             }
 
-            var apiKeyRequest = JSON.ToObject<ApiKeyRequest>(await request.Content.ReadAsStringAsync());
+            var apiKeyRequest = JsonConvert.DeserializeObject<ApiKeyRequest>(await request.Content.ReadAsStringAsync());
             var appId = apiKeyRequest.DeviceIdentification.DeviceHash;
             var apiKey = apiKeyRequest.RegistrationHash;
 
@@ -42,13 +42,12 @@ namespace abremir.AllMyBricks.Onboarding.Shared.Security
 
             var signature = Encoding.UTF8.GetBytes(signatureRawData);
 
-            using (var hmac = new HMACSHA256(secretKeyByteArray))
-            {
-                var signatureBytes = hmac.ComputeHash(signature);
-                var requestSignatureBase64String = Convert.ToBase64String(signatureBytes);
+            using var hmac = new HMACSHA256(secretKeyByteArray);
 
-                request.Headers.Authorization = new AuthenticationHeaderValue(Constants.HmacAuthenticationScheme, $"{appId}:{requestSignatureBase64String}:{nonce}:{requestTimestamp}");
-            }
+            var signatureBytes = hmac.ComputeHash(signature);
+            var requestSignatureBase64String = Convert.ToBase64String(signatureBytes);
+
+            request.Headers.Authorization = new AuthenticationHeaderValue(Constants.HmacAuthenticationScheme, $"{appId}:{requestSignatureBase64String}:{nonce}:{requestTimestamp}");
 
             return await base.SendAsync(request, cancellationToken);
         }

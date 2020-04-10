@@ -1,14 +1,16 @@
 ﻿using abremir.AllMyBricks.Data.Enumerations;
 using abremir.AllMyBricks.Data.Interfaces;
 using abremir.AllMyBricks.Data.Models;
+using abremir.AllMyBricks.DataSynchronizer.Configuration;
 using abremir.AllMyBricks.DataSynchronizer.Events.SetSynchronizer;
 using abremir.AllMyBricks.DataSynchronizer.Extensions;
 using abremir.AllMyBricks.DataSynchronizer.Interfaces;
 using abremir.AllMyBricks.ThirdParty.Brickset.Interfaces;
 using abremir.AllMyBricks.ThirdParty.Brickset.Models;
+using abremir.AllMyBricks.ThirdParty.Brickset.Models.Parameters;
 using Easy.MessageHub;
 using System;
-using System.Globalization;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -52,15 +54,14 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                 {
                     _messageHub.Publish(new AcquiringSetsStart { Theme = theme.Name, Subtheme = subtheme.Name, Year = year });
 
-                    var getSetsParameters = new ParameterSets
+                    var getSetsParameters = new GetSetsParameters
                     {
-                        ApiKey = apiKey,
                         Theme = theme.Name,
                         Subtheme = subtheme.Name.Replace("{None}", ""),
-                        Year = year.ToString()
+                        Year = year
                     };
 
-                    var bricksetSets = (await _bricksetApiService.GetSets(getSetsParameters)).ToList();
+                    var bricksetSets = await GetAllSetsFor(apiKey, getSetsParameters);
 
                     _messageHub.Publish(new AcquiringSetsEnd { Theme = theme.Name, Subtheme = subtheme.Name, Count = bricksetSets.Count, Year = year });
 
@@ -84,13 +85,12 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
 
             try
             {
-                var getRecentlyUpdatedSetsParameters = new ParameterMinutesAgo
+                var getSetsParameters = new GetSetsParameters
                 {
-                    ApiKey = apiKey,
-                    MinutesAgo = (int)(DateTimeOffset.Now - previousUpdateTimestamp).TotalMinutes
+                    UpdatedSince = previousUpdateTimestamp.UtcDateTime
                 };
 
-                var recentlyUpdatedSets = (await _bricksetApiService.GetRecentlyUpdatedSets(getRecentlyUpdatedSetsParameters)).ToList();
+                var recentlyUpdatedSets = await GetAllSetsFor(apiKey, getSetsParameters);
 
                 _messageHub.Publish(new AcquiringSetsEnd { Count = recentlyUpdatedSets.Count });
 
@@ -123,19 +123,6 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
 
             try
             {
-                var getSetParameters = new ParameterUserHashSetId
-                {
-                    ApiKey = apiKey,
-                    SetID = bricksetSet.SetId
-                };
-
-                bricksetSet = await _bricksetApiService.GetSet(getSetParameters);
-
-                if (bricksetSet == null)
-                {
-                    return;
-                }
-
                 var set = await MapSet(apiKey, theme, subtheme, bricksetSet);
 
                 _setRepository.AddOrUpdate(set);
@@ -160,8 +147,8 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
             set.PackagingType = _referenceDataRepository.GetOrAdd<PackagingType>(bricksetSet.PackagingType);
             set.ThemeGroup = _referenceDataRepository.GetOrAdd<ThemeGroup>(bricksetSet.ThemeGroup);
 
-            SetTagList(set, bricksetSet.Tags);
-            SetPriceList(set, bricksetSet);
+            SetTagList(set, bricksetSet.ExtendedData?.Tags);
+            SetPriceList(set, bricksetSet.LegoCom);
 
             await SetImageList(apiKey, set, bricksetSet);
             await SetInstructionList(apiKey, set, bricksetSet);
@@ -169,15 +156,14 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
             return set;
         }
 
-        private void SetTagList(Set set, string tags)
+        private void SetTagList(Set set, IEnumerable<string> tags)
         {
-            if (string.IsNullOrWhiteSpace(tags))
+            if (tags is null)
             {
                 return;
             }
 
             foreach (var tag in tags
-                .Split(',')
                 .Where(tag => !string.IsNullOrWhiteSpace(tag))
                 .Select(tag => tag))
             {
@@ -187,13 +173,12 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
 
         private async Task SetImageList(string apiKey, Set set, Sets bricksetSet)
         {
-            if (bricksetSet.Image)
+            if (!(bricksetSet.Image is null))
             {
                 set.Images.Add(new Image
                 {
-                    ImageUrl = bricksetSet.ImageUrl?.SanitizeBricksetString(),
-                    LargeThumbnailUrl = bricksetSet.LargeThumbnailUrl?.SanitizeBricksetString(),
-                    ThumbnailUrl = bricksetSet.ThumbnailUrl?.SanitizeBricksetString()
+                    ImageUrl = bricksetSet.Image.ImageUrl?.SanitizeBricksetString(),
+                    ThumbnailUrl = bricksetSet.Image.ThumbnailUrl?.SanitizeBricksetString()
                 });
             }
 
@@ -213,41 +198,46 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                     .ToList();
         }
 
-        private void SetPriceList(Set set, Sets bricksetSet)
+        private void SetPriceList(Set set, SetLegoCom legoCom)
         {
-            if (!string.IsNullOrWhiteSpace(bricksetSet.CaRetailPrice))
+            if (legoCom is null)
+            {
+                return;
+            }
+
+            if (legoCom.CA?.RetailPrice.HasValue == true)
             {
                 set.Prices.Add(new Price
                 {
                     Region = PriceRegionEnum.CA,
-                    Value = float.Parse(bricksetSet.CaRetailPrice, NumberStyles.Any, CultureInfo.InvariantCulture)
+                    Value = legoCom.CA.RetailPrice.Value
                 });
             }
 
-            if (!string.IsNullOrWhiteSpace(bricksetSet.EuRetailPrice))
+            if (legoCom.DE?.RetailPrice.HasValue == true)
             {
                 set.Prices.Add(new Price
                 {
-                    Region = PriceRegionEnum.EU,
-                    Value = float.Parse(bricksetSet.EuRetailPrice, NumberStyles.Any, CultureInfo.InvariantCulture)
+                    Region = PriceRegionEnum.DE,
+                    Value = legoCom.DE.RetailPrice.Value
                 });
             }
 
-            if (!string.IsNullOrWhiteSpace(bricksetSet.UkRetailPrice))
+            if (legoCom.UK?.RetailPrice.HasValue == true)
             {
                 set.Prices.Add(new Price
                 {
                     Region = PriceRegionEnum.UK,
-                    Value = float.Parse(bricksetSet.UkRetailPrice, NumberStyles.Any, CultureInfo.InvariantCulture)
+                    Value = legoCom.UK.RetailPrice.Value
                 });
             }
 
-            if (!string.IsNullOrWhiteSpace(bricksetSet.UsRetailPrice))
+            if (legoCom.US?.RetailPrice.HasValue == true)
             {
                 set.Prices.Add(new Price
                 {
                     Region = PriceRegionEnum.US,
-                    Value = float.Parse(bricksetSet.UsRetailPrice, NumberStyles.Any, CultureInfo.InvariantCulture)
+                    Value = legoCom.US.RetailPrice.Value
                 });
             }
         }
@@ -268,6 +258,30 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
             set.Instructions = (await _bricksetApiService.GetInstructions(getInstructionsParameters))
                     .ToInstructionEnumerable()
                     .ToList();
+        }
+
+        private async Task<IList<Sets>> GetAllSetsFor(string apiKey, GetSetsParameters getSetsParameters)
+        {
+            getSetsParameters.ApiKey = apiKey;
+            getSetsParameters.PageSize = Constants.BricksetPageSizeParameter;
+            getSetsParameters.ExtendedData = true;
+
+            var foundSets = new List<Sets>();
+            var pageNumber = 1;
+            var currentPageResults = new List<Sets>();
+
+            do
+            {
+                getSetsParameters.PageNumber = pageNumber;
+
+                currentPageResults = (await _bricksetApiService.GetSets(getSetsParameters)).ToList();
+
+                foundSets.AddRange(currentPageResults);
+
+                pageNumber++;
+            } while (currentPageResults.Count == Constants.BricksetPageSizeParameter);
+
+            return foundSets;
         }
     }
 }

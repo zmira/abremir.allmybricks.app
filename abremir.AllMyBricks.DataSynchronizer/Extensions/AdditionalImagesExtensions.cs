@@ -6,17 +6,16 @@ namespace abremir.AllMyBricks.DataSynchronizer.Extensions
 {
     public static class AdditionalImagesExtensions
     {
-        public static Image ToImage(this AdditionalImages source)
+        public static Image ToImage(this SetImage source)
         {
             return new Image
             {
                 ImageUrl = source.ImageUrl?.SanitizeBricksetString(),
-                LargeThumbnailUrl = source.LargeThumbnailUrl?.SanitizeBricksetString(),
                 ThumbnailUrl = source.ThumbnailUrl?.SanitizeBricksetString()
             };
         }
 
-        public static IEnumerable<Image> ToImageEnumerable(this IEnumerable<AdditionalImages> source)
+        public static IEnumerable<Image> ToImageEnumerable(this IEnumerable<SetImage> source)
         {
             foreach (var item in source)
             {

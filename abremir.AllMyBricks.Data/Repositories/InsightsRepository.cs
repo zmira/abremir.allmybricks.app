@@ -24,18 +24,16 @@ namespace abremir.AllMyBricks.Data.Repositories
             var insights = GetInsights() ?? new Insights { Id = 1 };
             insights.DataSynchronizationTimestamp = dataSynchronizationTimestamp.ToHundredthOfSecond();
 
-            using (var repository = _repositoryService.GetRepository())
-            {
-                repository.Upsert(insights);
-            }
+            using var repository = _repositoryService.GetRepository();
+
+            repository.Upsert(insights);
         }
 
         private Insights GetInsights()
         {
-            using (var repository = _repositoryService.GetRepository())
-            {
-                return repository.FirstOrDefault<Insights>("1 = 1");
-            }
+            using var repository = _repositoryService.GetRepository();
+
+            return repository.FirstOrDefault<Insights>("1 = 1");
         }
     }
 }

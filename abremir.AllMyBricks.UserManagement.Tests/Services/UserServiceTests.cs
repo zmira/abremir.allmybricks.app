@@ -3,7 +3,7 @@ using abremir.AllMyBricks.Data.Interfaces;
 using abremir.AllMyBricks.DataSynchronizer.Interfaces;
 using abremir.AllMyBricks.Platform.Interfaces;
 using abremir.AllMyBricks.ThirdParty.Brickset.Interfaces;
-using abremir.AllMyBricks.ThirdParty.Brickset.Models;
+using abremir.AllMyBricks.ThirdParty.Brickset.Models.Parameters;
 using abremir.AllMyBricks.UserManagement.Services;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

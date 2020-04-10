@@ -6,6 +6,7 @@ using abremir.AllMyBricks.DataSynchronizer.Events.UserSynchronizer;
 using abremir.AllMyBricks.DataSynchronizer.Interfaces;
 using abremir.AllMyBricks.ThirdParty.Brickset.Interfaces;
 using abremir.AllMyBricks.ThirdParty.Brickset.Models;
+using abremir.AllMyBricks.ThirdParty.Brickset.Models.Parameters;
 using Easy.MessageHub;
 using System;
 using System.Collections.Generic;
@@ -55,13 +56,14 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                     {
                         _messageHub.Publish(new UserSynchronizerSynchronizingSetStart { SetId = bricksetUserSet.Set.SetId });
 
-                        var setCollectionParameter = new ParameterSetCollection
+                        var setCollectionParameter = new SetCollectionParameters
                         {
                             ApiKey = apiKey,
                             UserHash = userHash,
                             SetID = bricksetUserSet.Set.SetId,
                             QtyOwned = bricksetUserSet.QuantityOwned,
-                            Wanted = bricksetUserSet.Wanted ? 1 : 0
+                            Want = bricksetUserSet.Wanted,
+                            Own = bricksetUserSet.Owned
                         };
 
                         _bricksetApiService.SetCollection(setCollectionParameter);
@@ -169,13 +171,12 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                 return new Dictionary<long, BricksetUserSet>();
             }
 
-            var getSetsParameter = new ParameterSets
+            var getSetsParameter = new GetSetsParameters
             {
                 ApiKey = apiKey,
                 UserHash = userHash ?? string.Empty,
-                UserName = !string.IsNullOrWhiteSpace(userHash) ? string.Empty : username,
-                Owned = "1",
-                PageSize = Constants.BricksetPageSizeParameter.ToString()
+                Owned = true,
+                PageSize = Constants.BricksetPageSizeParameter
             };
 
             var ownedSets = new List<BricksetUserSet>();
@@ -183,7 +184,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
             var currentPageResults = new List<Sets>();
             do
             {
-                getSetsParameter.PageNumber = pageNumber.ToString();
+                getSetsParameter.PageNumber = pageNumber;
 
                 currentPageResults = (await _bricksetApiService.GetSets(getSetsParameter)).ToList();
 
@@ -191,7 +192,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                 {
                     Set = _setRepository.Get(set.SetId),
                     Owned = true,
-                    QuantityOwned = (short)set.QtyOwned
+                    QuantityOwned = (short)(set.Collection?.QtyOwned ?? 0)
                 }));
 
                 pageNumber++;
@@ -209,13 +210,12 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                 return new List<int>();
             }
 
-            var getSetsParameter = new ParameterSets
+            var getSetsParameter = new GetSetsParameters
             {
                 ApiKey = apiKey,
                 UserHash = userHash ?? string.Empty,
-                UserName = !string.IsNullOrWhiteSpace(userHash) ? string.Empty : username,
-                Wanted = "1",
-                PageSize = Constants.BricksetPageSizeParameter.ToString()
+                Wanted = true,
+                PageSize = Constants.BricksetPageSizeParameter
             };
 
             var wantedSets = new List<int>();
@@ -223,7 +223,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
             var currentPageResults = new List<Sets>();
             do
             {
-                getSetsParameter.PageNumber = pageNumber.ToString();
+                getSetsParameter.PageNumber = pageNumber;
 
                 currentPageResults = (await _bricksetApiService.GetSets(getSetsParameter)).ToList();
 

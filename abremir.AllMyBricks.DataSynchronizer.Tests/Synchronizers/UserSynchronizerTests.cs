@@ -8,10 +8,11 @@ using abremir.AllMyBricks.DataSynchronizer.Tests.Configuration;
 using abremir.AllMyBricks.DataSynchronizer.Tests.Shared;
 using abremir.AllMyBricks.ThirdParty.Brickset.Interfaces;
 using abremir.AllMyBricks.ThirdParty.Brickset.Models;
+using abremir.AllMyBricks.ThirdParty.Brickset.Models.Parameters;
 using Easy.MessageHub;
-using fastJSON;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Newtonsoft.Json;
 using NSubstitute;
 using System;
 using System.Collections.Generic;
@@ -51,11 +52,11 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 
             var bricksetApiService = Substitute.For<IBricksetApiService>();
             bricksetApiService
-                .GetSets(Arg.Is<ParameterSets>(parameter => parameter.Owned == "1"))
+                .GetSets(Arg.Is<GetSetsParameters>(parameter => parameter.Owned.Value))
                 .Returns(new List<Sets>());
 
             bricksetApiService
-                .GetSets(Arg.Is<ParameterSets>(parameter => parameter.Wanted == "1"))
+                .GetSets(Arg.Is<GetSetsParameters>(parameter => parameter.Wanted.Value))
                 .Returns(new List<Sets>());
 
             var userSynchronizer = CreateTarget(bricksetApiService);
@@ -76,13 +77,16 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
             const string testUser = "TESTUSER";
             _bricksetUserRepository.Add(BricksetUserTypeEnum.Primary, testUser);
 
-            var themesList = JSON.ToObject<List<Themes>>(GetResultFileFromResource(Constants.JsonFileGetThemes));
-            var subthemesList = JSON.ToObject<List<Subthemes>>(GetResultFileFromResource(Constants.JsonFileGetSubthemes));
-            var setsList = JSON.ToObject<List<Sets>>(GetResultFileFromResource(Constants.JsonFileGetSets));
+            var themesList = JsonConvert.DeserializeObject<List<Themes>>(GetResultFileFromResource(Constants.JsonFileGetThemes));
+            var subthemesList = JsonConvert.DeserializeObject<List<Subthemes>>(GetResultFileFromResource(Constants.JsonFileGetSubthemes));
+            var setsList = JsonConvert.DeserializeObject<List<Sets>>(GetResultFileFromResource(Constants.JsonFileGetSets));
 
             var testSetOwned = setsList[0];
-            testSetOwned.Owned = true;
-            testSetOwned.QtyOwned = 2;
+            testSetOwned.Collection = new SetCollection
+            {
+                Owned = true,
+                QtyOwned = 2
+            };
 
             var ownedTheme = themesList.First(theme => theme.Theme == testSetOwned.Theme).ToTheme();
 
@@ -100,7 +104,10 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
             _setRepository.AddOrUpdate(ownedSet);
 
             var testSetWanted = setsList[1];
-            testSetWanted.Wanted = true;
+            testSetWanted.Collection = new SetCollection
+            {
+                Wanted = true
+            };
 
             var wantedTheme = themesList.First(theme => theme.Theme == testSetWanted.Theme).ToTheme();
 
@@ -123,11 +130,11 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 
             var bricksetApiService = Substitute.For<IBricksetApiService>();
             bricksetApiService
-                .GetSets(Arg.Is<ParameterSets>(parameter => parameter.Owned == "1"))
+                .GetSets(Arg.Is<GetSetsParameters>(parameter => parameter.Owned.Value))
                 .Returns(new List<Sets> { testSetOwned });
 
             bricksetApiService
-                .GetSets(Arg.Is<ParameterSets>(parameter => parameter.Wanted == "1"))
+                .GetSets(Arg.Is<GetSetsParameters>(parameter => parameter.Wanted.Value))
                 .Returns(new List<Sets> { testSetWanted });
 
             var userSynchronizer = CreateTarget(bricksetApiService);
@@ -137,8 +144,8 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
             var user = _bricksetUserRepository.Get(testUser);
 
             user.Sets.Should().NotBeEmpty();
-            user.Sets.Where(userSet => userSet.Set.SetId == testSetOwned.SetId && userSet.Owned == testSetOwned.Owned && userSet.QuantityOwned == testSetOwned.QtyOwned).Should().NotBeEmpty();
-            user.Sets.Where(userSet => userSet.Set.SetId == testSetWanted.SetId && userSet.Wanted == testSetWanted.Wanted).Should().NotBeEmpty();
+            user.Sets.Where(userSet => userSet.Set.SetId == testSetOwned.SetId && userSet.Owned == testSetOwned.Collection.Owned && userSet.QuantityOwned == testSetOwned.Collection.QtyOwned).Should().NotBeEmpty();
+            user.Sets.Where(userSet => userSet.Set.SetId == testSetWanted.SetId && userSet.Wanted == testSetWanted.Collection.Wanted).Should().NotBeEmpty();
             user.UserSynchronizationTimestamp.HasValue.Should().BeTrue();
         }
 
@@ -150,9 +157,9 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
             const string testUser = "TESTUSER";
             _bricksetUserRepository.Add(BricksetUserTypeEnum.Primary, testUser);
 
-            var themesList = JSON.ToObject<List<Themes>>(GetResultFileFromResource(Constants.JsonFileGetThemes));
-            var subthemesList = JSON.ToObject<List<Subthemes>>(GetResultFileFromResource(Constants.JsonFileGetSubthemes));
-            var setsList = JSON.ToObject<List<Sets>>(GetResultFileFromResource(Constants.JsonFileGetSets));
+            var themesList = JsonConvert.DeserializeObject<List<Themes>>(GetResultFileFromResource(Constants.JsonFileGetThemes));
+            var subthemesList = JsonConvert.DeserializeObject<List<Subthemes>>(GetResultFileFromResource(Constants.JsonFileGetSubthemes));
+            var setsList = JsonConvert.DeserializeObject<List<Sets>>(GetResultFileFromResource(Constants.JsonFileGetSets));
 
             var testSetOwned = setsList[0];
             var ownedTheme = themesList.First(theme => theme.Theme == testSetOwned.Theme).ToTheme();
@@ -180,11 +187,11 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 
             var bricksetApiService = Substitute.For<IBricksetApiService>();
             bricksetApiService
-                .GetSets(Arg.Is<ParameterSets>(parameter => parameter.Owned == "1"))
+                .GetSets(Arg.Is<GetSetsParameters>(parameter => parameter.Owned.Value))
                 .Returns(new List<Sets>());
 
             bricksetApiService
-                .GetSets(Arg.Is<ParameterSets>(parameter => parameter.Wanted == "1"))
+                .GetSets(Arg.Is<GetSetsParameters>(parameter => parameter.Wanted.Value))
                 .Returns(new List<Sets>());
 
             var userSynchronizer = CreateTarget(bricksetApiService);
@@ -193,7 +200,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 
             var user = _bricksetUserRepository.Get(testUser);
 
-            await bricksetApiService.DidNotReceive().SetCollection(Arg.Any<ParameterSetCollection>());
+            await bricksetApiService.DidNotReceive().SetCollection(Arg.Any<SetCollectionParameters>());
             user.Sets.Should().NotBeEmpty();
             user.Sets.Count.Should().Be(1);
             user.Sets[0].Set.SetId.Should().Be(bricksetUserSet.Set.SetId);
@@ -209,9 +216,9 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
             const string testUser = "TESTUSER";
             _bricksetUserRepository.Add(BricksetUserTypeEnum.Primary, testUser);
 
-            var themesList = JSON.ToObject<List<Themes>>(GetResultFileFromResource(Constants.JsonFileGetThemes));
-            var subthemesList = JSON.ToObject<List<Subthemes>>(GetResultFileFromResource(Constants.JsonFileGetSubthemes));
-            var setsList = JSON.ToObject<List<Sets>>(GetResultFileFromResource(Constants.JsonFileGetSets));
+            var themesList = JsonConvert.DeserializeObject<List<Themes>>(GetResultFileFromResource(Constants.JsonFileGetThemes));
+            var subthemesList = JsonConvert.DeserializeObject<List<Subthemes>>(GetResultFileFromResource(Constants.JsonFileGetSubthemes));
+            var setsList = JsonConvert.DeserializeObject<List<Sets>>(GetResultFileFromResource(Constants.JsonFileGetSets));
 
             var testSetOwned = setsList[0];
             var ownedTheme = themesList.First(theme => theme.Theme == testSetOwned.Theme).ToTheme();
@@ -246,11 +253,11 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 
             var bricksetApiService = Substitute.For<IBricksetApiService>();
             bricksetApiService
-                .GetSets(Arg.Is<ParameterSets>(parameter => parameter.Owned == "1"))
+                .GetSets(Arg.Is<GetSetsParameters>(parameter => parameter.Owned.Value))
                 .Returns(new List<Sets>());
 
             bricksetApiService
-                .GetSets(Arg.Is<ParameterSets>(parameter => parameter.Wanted == "1"))
+                .GetSets(Arg.Is<GetSetsParameters>(parameter => parameter.Wanted.Value))
                 .Returns(new List<Sets>());
 
             var userSynchronizer = CreateTarget(bricksetApiService);
@@ -259,7 +266,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 
             var user = _bricksetUserRepository.Get(testUser);
 
-            await bricksetApiService.Received().SetCollection(Arg.Any<ParameterSetCollection>());
+            await bricksetApiService.Received().SetCollection(Arg.Any<SetCollectionParameters>());
             user.Sets.Should().NotBeEmpty();
             user.Sets.Count.Should().Be(1);
             user.Sets[0].Set.SetId.Should().Be(bricksetUserSet.Set.SetId);
@@ -275,9 +282,9 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
             const string testUser = "TESTUSER";
             _bricksetUserRepository.Add(BricksetUserTypeEnum.Primary, testUser);
 
-            var themesList = JSON.ToObject<List<Themes>>(GetResultFileFromResource(Constants.JsonFileGetThemes));
-            var subthemesList = JSON.ToObject<List<Subthemes>>(GetResultFileFromResource(Constants.JsonFileGetSubthemes));
-            var setsList = JSON.ToObject<List<Sets>>(GetResultFileFromResource(Constants.JsonFileGetSets));
+            var themesList = JsonConvert.DeserializeObject<List<Themes>>(GetResultFileFromResource(Constants.JsonFileGetThemes));
+            var subthemesList = JsonConvert.DeserializeObject<List<Subthemes>>(GetResultFileFromResource(Constants.JsonFileGetSubthemes));
+            var setsList = JsonConvert.DeserializeObject<List<Sets>>(GetResultFileFromResource(Constants.JsonFileGetSets));
 
             var testSetOwned = setsList[0];
             var ownedTheme = themesList.First(theme => theme.Theme == testSetOwned.Theme).ToTheme();
@@ -296,7 +303,10 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
             ownedSet = _setRepository.AddOrUpdate(ownedSet);
 
             var testSetWanted = setsList[1];
-            testSetWanted.Wanted = true;
+            testSetWanted.Collection = new SetCollection
+            {
+                Wanted = true
+            };
 
             var wantedTheme = themesList.First(theme => theme.Theme == testSetWanted.Theme).ToTheme();
 
@@ -337,11 +347,11 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 
             var bricksetApiService = Substitute.For<IBricksetApiService>();
             bricksetApiService
-                .GetSets(Arg.Is<ParameterSets>(parameter => parameter.Owned == "1"))
+                .GetSets(Arg.Is<GetSetsParameters>(parameter => parameter.Owned.Value))
                 .Returns(new List<Sets>());
 
             bricksetApiService
-                .GetSets(Arg.Is<ParameterSets>(parameter => parameter.Wanted == "1"))
+                .GetSets(Arg.Is<GetSetsParameters>(parameter => parameter.Wanted.Value))
                 .Returns(new List<Sets> { testSetWanted });
 
             var userSynchronizer = CreateTarget(bricksetApiService);
@@ -350,10 +360,10 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 
             var user = _bricksetUserRepository.Get(testUser);
 
-            await bricksetApiService.Received().SetCollection(Arg.Any<ParameterSetCollection>());
+            await bricksetApiService.Received().SetCollection(Arg.Any<SetCollectionParameters>());
             user.Sets.Should().NotBeEmpty();
             user.Sets.Where(userSet => userSet.Set.SetId == bricksetUserSet.Set.SetId && userSet.Owned == bricksetUserSet.Owned && userSet.QuantityOwned == bricksetUserSet.QuantityOwned).Should().NotBeEmpty();
-            user.Sets.Where(userSet => userSet.Set.SetId == testSetWanted.SetId && userSet.Wanted == testSetWanted.Wanted).Should().NotBeEmpty();
+            user.Sets.Where(userSet => userSet.Set.SetId == testSetWanted.SetId && userSet.Wanted == testSetWanted.Collection.Wanted).Should().NotBeEmpty();
             user.UserSynchronizationTimestamp.HasValue.Should().BeTrue();
         }
 
@@ -365,11 +375,11 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 
             var bricksetApiService = Substitute.For<IBricksetApiService>();
             bricksetApiService
-                .GetSets(Arg.Is<ParameterSets>(parameter => parameter.Owned == "1"))
+                .GetSets(Arg.Is<GetSetsParameters>(parameter => parameter.Owned.Value))
                 .Returns(new List<Sets>());
 
             bricksetApiService
-                .GetSets(Arg.Is<ParameterSets>(parameter => parameter.Wanted == "1"))
+                .GetSets(Arg.Is<GetSetsParameters>(parameter => parameter.Wanted.Value))
                 .Returns(new List<Sets>());
 
             var userSynchronizer = CreateTarget(bricksetApiService);
@@ -390,13 +400,16 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
             const string testUser = "TESTFRIEND";
             _bricksetUserRepository.Add(BricksetUserTypeEnum.Friend, testUser);
 
-            var themesList = JSON.ToObject<List<Themes>>(GetResultFileFromResource(Constants.JsonFileGetThemes));
-            var subthemesList = JSON.ToObject<List<Subthemes>>(GetResultFileFromResource(Constants.JsonFileGetSubthemes));
-            var setsList = JSON.ToObject<List<Sets>>(GetResultFileFromResource(Constants.JsonFileGetSets));
+            var themesList = JsonConvert.DeserializeObject<List<Themes>>(GetResultFileFromResource(Constants.JsonFileGetThemes));
+            var subthemesList = JsonConvert.DeserializeObject<List<Subthemes>>(GetResultFileFromResource(Constants.JsonFileGetSubthemes));
+            var setsList = JsonConvert.DeserializeObject<List<Sets>>(GetResultFileFromResource(Constants.JsonFileGetSets));
 
             var testSetOwned = setsList[0];
-            testSetOwned.Owned = true;
-            testSetOwned.QtyOwned = 2;
+            testSetOwned.Collection = new SetCollection
+            {
+                Owned = true,
+                QtyOwned = 2
+            };
 
             var ownedTheme = themesList.First(theme => theme.Theme == testSetOwned.Theme).ToTheme();
 
@@ -414,7 +427,10 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
             _setRepository.AddOrUpdate(ownedSet);
 
             var testSetWanted = setsList[1];
-            testSetWanted.Wanted = true;
+            testSetWanted.Collection = new SetCollection
+            {
+                Wanted = true
+            };
 
             var wantedTheme = themesList.First(theme => theme.Theme == testSetWanted.Theme).ToTheme();
 
@@ -437,11 +453,11 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 
             var bricksetApiService = Substitute.For<IBricksetApiService>();
             bricksetApiService
-                .GetSets(Arg.Is<ParameterSets>(parameter => parameter.Owned == "1"))
+                .GetSets(Arg.Is<GetSetsParameters>(parameter => parameter.Owned.Value))
                 .Returns(new List<Sets> { testSetOwned });
 
             bricksetApiService
-                .GetSets(Arg.Is<ParameterSets>(parameter => parameter.Wanted == "1"))
+                .GetSets(Arg.Is<GetSetsParameters>(parameter => parameter.Wanted.Value))
                 .Returns(new List<Sets> { testSetWanted });
 
             var userSynchronizer = CreateTarget(bricksetApiService);
@@ -451,8 +467,8 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
             var user = _bricksetUserRepository.Get(testUser);
 
             user.Sets.Should().NotBeEmpty();
-            user.Sets.Where(userSet => userSet.Set.SetId == testSetOwned.SetId && userSet.Owned == testSetOwned.Owned && userSet.QuantityOwned == testSetOwned.QtyOwned).Should().NotBeEmpty();
-            user.Sets.Where(userSet => userSet.Set.SetId == testSetWanted.SetId && userSet.Wanted == testSetWanted.Wanted).Should().NotBeEmpty();
+            user.Sets.Where(userSet => userSet.Set.SetId == testSetOwned.SetId && userSet.Owned == testSetOwned.Collection.Owned && userSet.QuantityOwned == testSetOwned.Collection.QtyOwned).Should().NotBeEmpty();
+            user.Sets.Where(userSet => userSet.Set.SetId == testSetWanted.SetId && userSet.Wanted == testSetWanted.Collection.Wanted).Should().NotBeEmpty();
             user.UserSynchronizationTimestamp.HasValue.Should().BeTrue();
         }
 

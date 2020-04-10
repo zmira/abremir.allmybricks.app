@@ -1,11 +1,10 @@
-﻿using abremir.AllMyBricks.ThirdParty.Brickset.Models;
+﻿using abremir.AllMyBricks.ThirdParty.Brickset.Models.Parameters;
 using abremir.AllMyBricks.ThirdParty.Brickset.Services;
 using abremir.AllMyBricks.ThirdParty.Brickset.Tests.Configuration;
 using abremir.AllMyBricks.ThirdParty.Brickset.Tests.Shared;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Threading.Tasks;
-using BricksetApiConstants = abremir.AllMyBricks.ThirdParty.Brickset.Configuration.Constants;
 using ComponentModelDescription = System.ComponentModel.DescriptionAttribute;
 
 namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
@@ -29,25 +28,36 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
         }
 
         [TestMethod]
-        public async Task ValidUserHash()
+        public async Task Valid()
         {
-            _httpTestFake.RespondWith(GetResultFileFromResource(nameof(ValidUserHash)));
+            _httpTestFake.RespondWith(GetResultFileFromResource(nameof(Valid)));
 
-            var userHashValidity = await _bricksetApiService.CheckUserHash(new ParameterUserHash());
+            var userHashValidity = await _bricksetApiService.CheckUserHash(new ParameterApiKeyUserHash());
 
             userHashValidity.Should()
-                .NotBe(BricksetApiConstants.ResponseInvalid);
+                .BeTrue();
         }
 
         [TestMethod]
-        public async Task InvalidUserHash()
+        public async Task Invalid()
         {
-            _httpTestFake.RespondWith(GetResultFileFromResource(nameof(InvalidUserHash)));
+            _httpTestFake.RespondWith(GetResultFileFromResource(nameof(Invalid)));
 
-            var userHashValidity = await _bricksetApiService.CheckUserHash(new ParameterUserHash());
+            var userHashValidity = await _bricksetApiService.CheckUserHash(new ParameterApiKeyUserHash());
 
             userHashValidity.Should()
-                .Be(BricksetApiConstants.ResponseInvalid);
+                .BeFalse();
+        }
+
+        [TestMethod]
+        public async Task InvalidApiKey()
+        {
+            _httpTestFake.RespondWith(GetResultFileFromResource(nameof(InvalidApiKey)));
+
+            var userHashValidity = await _bricksetApiService.CheckUserHash(new ParameterApiKeyUserHash());
+
+            userHashValidity.Should()
+                .BeFalse();
         }
     }
 }

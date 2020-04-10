@@ -1,0 +1,29 @@
+﻿{
+  "status": "success",
+  "instructions": [
+    {
+      "URL": "https://www.lego.com/biassets/bi/4545753.pdf",
+      "description": "{No longer listed at LEGO.com}"
+    },
+    {
+      "URL": "https://www.lego.com/biassets/bi/4580893.pdf",
+      "description": "BI 3004/16,MODEL 21000 V.17"
+    },
+    {
+      "URL": "https://www.lego.com/biassets/bi/4585289.pdf",
+      "description": "{No longer listed at LEGO.com}"
+    },
+    {
+      "URL": "https://www.lego.com/biassets/bi/4644790.pdf",
+      "description": "BI 3004/16 - 115g - 21000 V29"
+    },
+    {
+      "URL": "https://www.lego.com/biassets/bi/4644791.pdf",
+      "description": "{No longer listed at LEGO.com}"
+    },
+    {
+      "URL": "https://www.lego.com/biassets/bi/4656134.pdf",
+      "description": "BI 3004/16-115g-21000 V.39"
+    }
+  ]
+}

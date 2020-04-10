@@ -27,10 +27,9 @@ namespace abremir.AllMyBricks.Data.Tests.Shared
 
         protected T[] InsertData<T>(T[] dataToInsert)
         {
-            using (var repository = MemoryRepositoryService.GetRepository())
-            {
-                repository.Insert<T>(dataToInsert);
-            }
+            using var repository = MemoryRepositoryService.GetRepository();
+
+            repository.Insert<T>(dataToInsert);
 
             return dataToInsert;
         }

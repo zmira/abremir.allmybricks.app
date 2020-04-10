@@ -1,11 +1,10 @@
-﻿using abremir.AllMyBricks.ThirdParty.Brickset.Models;
+﻿using abremir.AllMyBricks.ThirdParty.Brickset.Models.Parameters;
 using abremir.AllMyBricks.ThirdParty.Brickset.Services;
 using abremir.AllMyBricks.ThirdParty.Brickset.Tests.Configuration;
 using abremir.AllMyBricks.ThirdParty.Brickset.Tests.Shared;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Threading.Tasks;
-using BricksetApiConstants = abremir.AllMyBricks.ThirdParty.Brickset.Configuration.Constants;
 using ComponentModelDescription = System.ComponentModel.DescriptionAttribute;
 
 namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
@@ -33,10 +32,10 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
         {
             _httpTestFake.RespondWith(GetResultFileFromResource(nameof(InvalidApiKey)));
 
-            var setCollectionResult = await _bricksetApiService.SetCollection(new ParameterSetCollection());
+            var setCollectionResult = await _bricksetApiService.SetCollection(new SetCollectionParameters());
 
             setCollectionResult.Should()
-                .Be(BricksetApiConstants.ResponseInvalidKey);
+                .BeFalse();
         }
 
         [TestMethod]
@@ -44,10 +43,10 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
         {
             _httpTestFake.RespondWith(GetResultFileFromResource(nameof(InvalidUserHash)));
 
-            var setCollectionResult = await _bricksetApiService.SetCollection(new ParameterSetCollection());
+            var setCollectionResult = await _bricksetApiService.SetCollection(new SetCollectionParameters());
 
             setCollectionResult.Should()
-                .StartWith(BricksetApiConstants.ResponseError);
+                .BeFalse();
         }
 
         [TestMethod]
@@ -55,10 +54,10 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
         {
             _httpTestFake.RespondWith(GetResultFileFromResource(nameof(InvalidParameters)));
 
-            var setCollectionResult = await _bricksetApiService.SetCollection(new ParameterSetCollection());
+            var setCollectionResult = await _bricksetApiService.SetCollection(new SetCollectionParameters());
 
             setCollectionResult.Should()
-                .StartWith(BricksetApiConstants.ResponseError);
+                .BeFalse();
         }
 
         [TestMethod]
@@ -66,10 +65,10 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
         {
             _httpTestFake.RespondWith(GetResultFileFromResource(nameof(Success)));
 
-            var setCollectionResult = await _bricksetApiService.SetCollection(new ParameterSetCollection());
+            var setCollectionResult = await _bricksetApiService.SetCollection(new SetCollectionParameters());
 
             setCollectionResult.Should()
-                .Be(BricksetApiConstants.ResponseOk);
+                .BeTrue();
         }
     }
 }

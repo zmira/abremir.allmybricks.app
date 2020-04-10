@@ -1,4 +1,4 @@
-﻿using abremir.AllMyBricks.ThirdParty.Brickset.Models;
+﻿using abremir.AllMyBricks.ThirdParty.Brickset.Models.Parameters;
 using abremir.AllMyBricks.ThirdParty.Brickset.Services;
 using abremir.AllMyBricks.ThirdParty.Brickset.Tests.Configuration;
 using abremir.AllMyBricks.ThirdParty.Brickset.Tests.Shared;
@@ -40,20 +40,9 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
         }
 
         [TestMethod]
-        public async Task NoImages()
+        public async Task NoMatches()
         {
-            _httpTestFake.RespondWith(GetResultFileFromResource(nameof(NoImages)));
-
-            var additionalImages = await _bricksetApiService.GetAdditionalImages(new ParameterSetId());
-
-            additionalImages.Should()
-                .BeEmpty();
-        }
-
-        [TestMethod]
-        public async Task InvalidSetId()
-        {
-            _httpTestFake.RespondWith(GetResultFileFromResource(nameof(InvalidSetId)));
+            _httpTestFake.RespondWith(GetResultFileFromResource(nameof(NoMatches)));
 
             var additionalImages = await _bricksetApiService.GetAdditionalImages(new ParameterSetId());
 

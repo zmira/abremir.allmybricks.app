@@ -19,8 +19,8 @@ namespace abremir.AllMyBricks.Data.Repositories
 
         public Subtheme AddOrUpdate(Subtheme subtheme)
         {
-            if (subtheme == null
-                || subtheme.Theme == null
+            if (subtheme is null
+                || subtheme.Theme is null
                 || string.IsNullOrWhiteSpace(subtheme.Theme.Name)
                 || subtheme.YearFrom < Constants.MinimumSetYear
                 || subtheme.Theme.YearFrom < Constants.MinimumSetYear)
@@ -36,20 +36,18 @@ namespace abremir.AllMyBricks.Data.Repositories
 
             subtheme.TrimAllStrings();
 
-            using (var repository = _repositoryService.GetRepository())
-            {
-                repository.Upsert(subtheme);
-            }
+            using var repository = _repositoryService.GetRepository();
+
+            repository.Upsert(subtheme);
 
             return subtheme;
         }
 
         public IEnumerable<Subtheme> All()
         {
-            using (var repository = _repositoryService.GetRepository())
-            {
-                return GetQueryable(repository).ToList();
-            }
+            using var repository = _repositoryService.GetRepository();
+
+            return GetQueryable(repository).ToList();
         }
 
         public Subtheme Get(string themeName, string subthemeName)
@@ -64,12 +62,11 @@ namespace abremir.AllMyBricks.Data.Repositories
                 subthemeName = "{None}";
             }
 
-            using (var repository = _repositoryService.GetRepository())
-            {
-                return GetQueryable(repository)
-                    .Where(subtheme => subtheme.Theme.Name == themeName.Trim() && subtheme.Name == subthemeName.Trim())
-                    .FirstOrDefault();
-            }
+            using var repository = _repositoryService.GetRepository();
+
+            return GetQueryable(repository)
+                .Where(subtheme => subtheme.Theme.Name == themeName.Trim() && subtheme.Name == subthemeName.Trim())
+                .FirstOrDefault();
         }
 
         public IEnumerable<Subtheme> AllForTheme(string themeName)
@@ -79,12 +76,11 @@ namespace abremir.AllMyBricks.Data.Repositories
                 return Enumerable.Empty<Subtheme>();
             }
 
-            using (var repository = _repositoryService.GetRepository())
-            {
-                return GetQueryable(repository)
-                    .Where(subtheme => subtheme.Theme.Name == themeName.Trim())
-                    .ToList();
-            }
+            using var repository = _repositoryService.GetRepository();
+
+            return GetQueryable(repository)
+                .Where(subtheme => subtheme.Theme.Name == themeName.Trim())
+                .ToList();
         }
 
         public IEnumerable<Subtheme> AllForYear(short year)
@@ -94,12 +90,11 @@ namespace abremir.AllMyBricks.Data.Repositories
                 return Enumerable.Empty<Subtheme>();
             }
 
-            using (var repository = _repositoryService.GetRepository())
-            {
-                return GetQueryable(repository)
-                    .Where(subtheme => subtheme.YearFrom <= year && subtheme.YearTo >= year)
-                    .ToList();
-            }
+            using var repository = _repositoryService.GetRepository();
+
+            return GetQueryable(repository)
+                .Where(subtheme => subtheme.YearFrom <= year && subtheme.YearTo >= year)
+                .ToList();
         }
 
         private ILiteQueryable<Subtheme> GetQueryable(ILiteRepository repository)

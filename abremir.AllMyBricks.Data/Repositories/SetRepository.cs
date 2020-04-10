@@ -20,7 +20,7 @@ namespace abremir.AllMyBricks.Data.Repositories
 
         public Set AddOrUpdate(Set set)
         {
-            if (set == null
+            if (set is null
                 || set.SetId == 0)
             {
                 return null;
@@ -28,10 +28,9 @@ namespace abremir.AllMyBricks.Data.Repositories
 
             set.TrimAllStrings();
 
-            using (var repository = _repositoryService.GetRepository())
-            {
-                repository.Upsert(set);
-            }
+            using var repository = _repositoryService.GetRepository();
+
+            repository.Upsert(set);
 
             return set;
         }
@@ -162,7 +161,7 @@ namespace abremir.AllMyBricks.Data.Repositories
         {
             var queryBsonExpression = BuildBsonExpressionFromSearchQuery(searchQuery);
 
-            if (queryBsonExpression == null)
+            if (queryBsonExpression is null)
             {
                 return Enumerable.Empty<Set>();
             }
@@ -192,13 +191,12 @@ namespace abremir.AllMyBricks.Data.Repositories
             {
                 var queryString = $"Number LIKE @{i}" +
                     $" OR Name LIKE @{i}" +
-                    $" OR Ean LIKE @{i}" +
-                    $" OR Upc LIKE @{i}" +
                     $" OR Theme.Name LIKE @{i}" +
                     $" OR Subtheme.Name LIKE @{i}" +
                     $" OR ThemeGroup.Value LIKE @{i}" +
                     $" OR PackagingType.Value LIKE @{i}" +
                     $" OR Category.Value LIKE @{i}" +
+                    $" OR Barcodes[*].Value ANY LIKE @{i}" +
                     $" OR Tags[*].Value ANY LIKE @{i}";
 
                 queryList.Add($"%{searchTerms[i]}%", queryString);

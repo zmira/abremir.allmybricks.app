@@ -1,11 +1,10 @@
-﻿using abremir.AllMyBricks.ThirdParty.Brickset.Models;
+﻿using abremir.AllMyBricks.ThirdParty.Brickset.Models.Parameters;
 using abremir.AllMyBricks.ThirdParty.Brickset.Services;
 using abremir.AllMyBricks.ThirdParty.Brickset.Tests.Configuration;
 using abremir.AllMyBricks.ThirdParty.Brickset.Tests.Shared;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Threading.Tasks;
-using BricksetApiConstants = abremir.AllMyBricks.ThirdParty.Brickset.Configuration.Constants;
 using ComponentModelDescription = System.ComponentModel.DescriptionAttribute;
 
 namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
@@ -29,26 +28,25 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
         }
 
         [TestMethod]
-        public async Task ValidCredentials()
+        public async Task Valid()
         {
-            _httpTestFake.RespondWith(GetResultFileFromResource(nameof(ValidCredentials)));
+            _httpTestFake.RespondWith(GetResultFileFromResource(nameof(Valid)));
 
             var loginResult = await _bricksetApiService.Login(new ParameterLogin());
 
             loginResult.Should()
-                .NotStartWith(BricksetApiConstants.ResponseError)
-                .And.NotBe(BricksetApiConstants.ResponseInvalidKey);
+                .NotBeEmpty();
         }
 
         [TestMethod]
-        public async Task InvalidCredentials()
+        public async Task Invalid()
         {
-            _httpTestFake.RespondWith(GetResultFileFromResource(nameof(InvalidCredentials)));
+            _httpTestFake.RespondWith(GetResultFileFromResource(nameof(Invalid)));
 
             var loginResult = await _bricksetApiService.Login(new ParameterLogin());
 
             loginResult.Should()
-                .StartWith(BricksetApiConstants.ResponseError);
+                .BeNull();
         }
 
         [TestMethod]
@@ -59,7 +57,7 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
             var loginResult = await _bricksetApiService.Login(new ParameterLogin());
 
             loginResult.Should()
-                .Be(BricksetApiConstants.ResponseInvalidKey);
+                .BeNull();
         }
     }
 }

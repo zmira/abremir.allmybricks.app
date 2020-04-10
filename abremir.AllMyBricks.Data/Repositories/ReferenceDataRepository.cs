@@ -19,31 +19,30 @@ namespace abremir.AllMyBricks.Data.Repositories
                 return default(T);
             }
 
-            using (var repository = _repositoryService.GetRepository())
+            using var repository = _repositoryService.GetRepository();
+
+            var existingReferenceData = repository
+                .Database
+                .GetCollection<T>()
+                .FindOne(t => t.Value == referenceDataValue.Trim());
+
+            if (!EqualityComparer<T>.Default.Equals(existingReferenceData, default))
             {
-                var existingReferenceData = repository
-                    .Database
-                    .GetCollection<T>()
-                    .FindOne(t => t.Value == referenceDataValue.Trim());
-
-                if (!EqualityComparer<T>.Default.Equals(existingReferenceData, default))
+                return new T
                 {
-                    return new T
-                    {
-                        Id = existingReferenceData.Id,
-                        Value = existingReferenceData.Value
-                    };
-                }
-
-                var newReferenceData = new T
-                {
-                    Value = referenceDataValue.Trim()
+                    Id = existingReferenceData.Id,
+                    Value = existingReferenceData.Value
                 };
-
-                repository.Insert(newReferenceData);
-
-                return newReferenceData;
             }
+
+            var newReferenceData = new T
+            {
+                Value = referenceDataValue.Trim()
+            };
+
+            repository.Insert(newReferenceData);
+
+            return newReferenceData;
         }
     }
 }

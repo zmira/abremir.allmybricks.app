@@ -307,7 +307,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
         public void AllForYear_YearDoesNotExist_ReturnsEmpty()
         {
             var listOfSets = ModelsSetup.ListOfSetsUnderTest;
-            listOfSets[0].Year = (short?)Constants.MinimumSetYear;
+            listOfSets[0].Year = (short)Constants.MinimumSetYear;
             listOfSets[1].Year = Constants.MinimumSetYear + 1;
 
             InsertData(listOfSets);
@@ -321,7 +321,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
         public void AllForYear_YearExists_ReturnsModel()
         {
             var listOfSets = ModelsSetup.ListOfSetsUnderTest;
-            listOfSets[0].Year = (short?)Constants.MinimumSetYear;
+            listOfSets[0].Year = (short)Constants.MinimumSetYear;
             listOfSets[1].Year = Constants.MinimumSetYear + 1;
 
             InsertData(listOfSets);
@@ -363,7 +363,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
 
             InsertData(set);
 
-            var allSetsForPriceRange = _setRepository.AllForPriceRange(PriceRegionEnum.EU, 0, 10);
+            var allSetsForPriceRange = _setRepository.AllForPriceRange(PriceRegionEnum.DE, 0, 10);
 
             allSetsForPriceRange.Should().BeEmpty();
         }

@@ -16,14 +16,12 @@ namespace abremir.AllMyBricks.Onboarding.Shared.Models
 
         public override bool Equals(object obj)
         {
-            if (obj == null)
+            if (obj is null)
             {
                 return false;
             }
 
-            var device = obj as Device;
-
-            if (device == null)
+            if (!(obj is Device device))
             {
                 return false;
             }
@@ -40,7 +38,17 @@ namespace abremir.AllMyBricks.Onboarding.Shared.Models
 
         public override int GetHashCode()
         {
-            return new { AppId, Manufacturer, Model, Version, Platform, Idiom, DeviceHash, DeviceHashDate = DeviceHashDate?.ToHundredthOfSecond() }.GetHashCode();
+            return new
+            {
+                AppId,
+                Manufacturer,
+                Model,
+                Version,
+                Platform,
+                Idiom,
+                DeviceHash,
+                DeviceHashDate = DeviceHashDate?.ToHundredthOfSecond()
+            }.GetHashCode();
         }
     }
 }

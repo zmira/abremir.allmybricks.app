@@ -1,4 +1,4 @@
-﻿using abremir.AllMyBricks.ThirdParty.Brickset.Models;
+﻿using abremir.AllMyBricks.ThirdParty.Brickset.Models.Parameters;
 using abremir.AllMyBricks.ThirdParty.Brickset.Services;
 using abremir.AllMyBricks.ThirdParty.Brickset.Tests.Configuration;
 using abremir.AllMyBricks.ThirdParty.Brickset.Tests.Shared;
@@ -36,7 +36,7 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
             var themes = await _bricksetApiService.GetThemes(new ParameterApiKey());
 
             themes.Count().Should()
-                .Be(133);
+                .Be(144);
         }
 
         [TestMethod]

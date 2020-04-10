@@ -1,4 +1,4 @@
-﻿using abremir.AllMyBricks.ThirdParty.Brickset.Models;
+﻿using abremir.AllMyBricks.ThirdParty.Brickset.Models.Parameters;
 using abremir.AllMyBricks.ThirdParty.Brickset.Services;
 using abremir.AllMyBricks.ThirdParty.Brickset.Tests.Configuration;
 using abremir.AllMyBricks.ThirdParty.Brickset.Tests.Shared;
@@ -33,7 +33,7 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
         {
             _httpTestFake.RespondWith(GetResultFileFromResource(nameof(Success)));
 
-            var sets = await _bricksetApiService.GetSets(new ParameterSets());
+            var sets = await _bricksetApiService.GetSets(new GetSetsParameters());
 
             sets.Count().Should()
                 .Be(20);
@@ -44,7 +44,7 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
         {
             _httpTestFake.RespondWith(GetResultFileFromResource(nameof(InvalidApiKey)));
 
-            var sets = await _bricksetApiService.GetSets(new ParameterSets());
+            var sets = await _bricksetApiService.GetSets(new GetSetsParameters());
 
             sets.Should()
                 .BeEmpty();
@@ -55,7 +55,29 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
         {
             _httpTestFake.RespondWith(GetResultFileFromResource(nameof(NoMatches)));
 
-            var sets = await _bricksetApiService.GetSets(new ParameterSets());
+            var sets = await _bricksetApiService.GetSets(new GetSetsParameters());
+
+            sets.Should()
+                .BeEmpty();
+        }
+
+        [TestMethod]
+        public async Task InvalidParameters()
+        {
+            _httpTestFake.RespondWith(GetResultFileFromResource(nameof(InvalidParameters)));
+
+            var sets = await _bricksetApiService.GetSets(new GetSetsParameters());
+
+            sets.Should()
+                .BeEmpty();
+        }
+
+        [TestMethod]
+        public async Task InvalidUserHash()
+        {
+            _httpTestFake.RespondWith(GetResultFileFromResource(nameof(InvalidUserHash)));
+
+            var sets = await _bricksetApiService.GetSets(new GetSetsParameters());
 
             sets.Should()
                 .BeEmpty();

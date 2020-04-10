@@ -22,11 +22,10 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Shared
         {
             var resourcePath = $"{GetAssemblyName()}.BricksetApiServiceResponses.{fileName}.json";
 
-            using (Stream stream = _assembly.GetManifestResourceStream(resourcePath))
-            using (StreamReader reader = new StreamReader(stream))
-            {
-                return reader.ReadToEnd();
-            }
+            using Stream stream = _assembly.GetManifestResourceStream(resourcePath);
+            using var streamReader = new StreamReader(stream);
+
+            return streamReader.ReadToEnd();
         }
 
         private string GetAssemblyName()

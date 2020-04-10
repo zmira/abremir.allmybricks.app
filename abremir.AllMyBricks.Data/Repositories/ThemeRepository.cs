@@ -18,7 +18,7 @@ namespace abremir.AllMyBricks.Data.Repositories
 
         public Theme AddOrUpdate(Theme theme)
         {
-            if (theme == null
+            if (theme is null
                 || string.IsNullOrWhiteSpace(theme.Name)
                 || theme.YearFrom < Constants.MinimumSetYear)
             {
@@ -27,20 +27,18 @@ namespace abremir.AllMyBricks.Data.Repositories
 
             theme.TrimAllStrings();
 
-            using (var repository = _repositoryService.GetRepository())
-            {
-                repository.Upsert(theme);
-            }
+            using var repository = _repositoryService.GetRepository();
+
+            repository.Upsert(theme);
 
             return theme;
         }
 
         public IEnumerable<Theme> All()
         {
-            using (var repository = _repositoryService.GetRepository())
-            {
-                return repository.Fetch<Theme>("1 = 1");
-            }
+            using var repository = _repositoryService.GetRepository();
+
+            return repository.Fetch<Theme>("1 = 1");
         }
 
         public Theme Get(string themeName)
@@ -50,10 +48,9 @@ namespace abremir.AllMyBricks.Data.Repositories
                 return null;
             }
 
-            using (var repository = _repositoryService.GetRepository())
-            {
-                return repository.FirstOrDefault<Theme>(theme => theme.Name == themeName.Trim());
-            }
+            using var repository = _repositoryService.GetRepository();
+
+            return repository.FirstOrDefault<Theme>(theme => theme.Name == themeName.Trim());
         }
 
         public IEnumerable<Theme> AllForYear(short year)
@@ -63,10 +60,9 @@ namespace abremir.AllMyBricks.Data.Repositories
                 return Enumerable.Empty<Theme>();
             }
 
-            using (var repository = _repositoryService.GetRepository())
-            {
-                return repository.Fetch<Theme>(theme => theme.YearFrom <= year && theme.YearTo >= year);
-            }
+            using var repository = _repositoryService.GetRepository();
+
+            return repository.Fetch<Theme>(theme => theme.YearFrom <= year && theme.YearTo >= year);
         }
     }
 }

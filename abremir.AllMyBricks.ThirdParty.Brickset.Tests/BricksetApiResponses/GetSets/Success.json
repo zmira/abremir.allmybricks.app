@@ -1,0 +1,1300 @@
+﻿{
+  "status": "success",
+  "matches": 54,
+  "sets": [
+    {
+      "setID": 9290,
+      "number": "19710",
+      "numberVariant": 1,
+      "name": "Sears Tower",
+      "year": 2008,
+      "theme": "Architecture",
+      "themeGroup": "Model making",
+      "subtheme": "Brickstructures",
+      "category": "Normal",
+      "released": true,
+      "pieces": 68,
+      "image": {
+        "thumbnailURL": "https://images.brickset.com/sets/small/19710-1.jpg",
+        "imageURL": "https://images.brickset.com/sets/images/19710-1.jpg"
+      },
+      "bricksetURL": "https://brickset.com/sets/19710-1",
+      "collection": {},
+      "collections": {
+        "ownedBy": 154,
+        "wantedBy": 743
+      },
+      "LEGOCom": {
+        "US": {},
+        "UK": {},
+        "CA": {},
+        "DE": {}
+      },
+      "rating": 0.0,
+      "reviewCount": 0,
+      "packagingType": "Box",
+      "availability": "Retail - limited",
+      "instructionsCount": 0,
+      "additionalImageCount": 0,
+      "ageRange": {
+        "min": 10
+      },
+      "dimensions": {},
+      "barcode": {},
+      "extendedData": {
+        "notes": "Limited edition run of 1250 sets from Brickstructures.",
+        "tags": [
+          "Microscale",
+          "USA",
+          "Skyscraper",
+          "Chicago",
+          "International Style"
+        ]
+      },
+      "lastUpdated": "2014-04-23T15:39:49.017Z"
+    },
+    {
+      "setID": 9291,
+      "number": "19720",
+      "numberVariant": 1,
+      "name": "John Hancock Center",
+      "year": 2008,
+      "theme": "Architecture",
+      "themeGroup": "Model making",
+      "subtheme": "Brickstructures",
+      "category": "Normal",
+      "released": true,
+      "pieces": 69,
+      "image": {
+        "thumbnailURL": "https://images.brickset.com/sets/small/19720-1.jpg",
+        "imageURL": "https://images.brickset.com/sets/images/19720-1.jpg"
+      },
+      "bricksetURL": "https://brickset.com/sets/19720-1",
+      "collection": {},
+      "collections": {
+        "ownedBy": 153,
+        "wantedBy": 734
+      },
+      "LEGOCom": {
+        "US": {},
+        "UK": {},
+        "CA": {},
+        "DE": {}
+      },
+      "rating": 0.0,
+      "reviewCount": 0,
+      "packagingType": "Box",
+      "availability": "Retail - limited",
+      "instructionsCount": 0,
+      "additionalImageCount": 0,
+      "ageRange": {
+        "min": 10
+      },
+      "dimensions": {},
+      "barcode": {},
+      "extendedData": {
+        "notes": "Limited edition run of 1250 sets from Brickstructures.",
+        "tags": [
+          "Microscale",
+          "USA",
+          "Skyscraper",
+          "Chicago",
+          "Skidmore Owings And Merrill"
+        ]
+      },
+      "lastUpdated": "2014-04-23T15:39:57.473Z"
+    },
+    {
+      "setID": 6679,
+      "number": "21000",
+      "numberVariant": 1,
+      "name": "Sears Tower",
+      "year": 2008,
+      "theme": "Architecture",
+      "themeGroup": "Model making",
+      "subtheme": "Landmark Series",
+      "category": "Normal",
+      "released": true,
+      "pieces": 69,
+      "image": {
+        "thumbnailURL": "https://images.brickset.com/sets/small/21000-1.jpg",
+        "imageURL": "https://images.brickset.com/sets/images/21000-1.jpg"
+      },
+      "bricksetURL": "https://brickset.com/sets/21000-1",
+      "collection": {},
+      "collections": {
+        "ownedBy": 1650,
+        "wantedBy": 1388
+      },
+      "LEGOCom": {
+        "US": {
+          "retailPrice": 19.99,
+          "dateFirstAvailable": "2008-11-10T00:00:00Z",
+          "dateLastAvailable": "2011-10-09T00:00:00Z"
+        },
+        "UK": {
+          "retailPrice": 17.99,
+          "dateFirstAvailable": "2011-06-09T00:00:00Z",
+          "dateLastAvailable": "2011-10-09T00:00:00Z"
+        },
+        "CA": {
+          "retailPrice": 26.99,
+          "dateFirstAvailable": "2011-07-21T00:00:00Z",
+          "dateLastAvailable": "2011-10-09T00:00:00Z"
+        },
+        "DE": {}
+      },
+      "rating": 3.3,
+      "reviewCount": 3,
+      "packagingType": "Box",
+      "availability": "Retail - limited",
+      "instructionsCount": 6,
+      "additionalImageCount": 6,
+      "ageRange": {},
+      "dimensions": {},
+      "barcode": {
+        "EAN": "673419113274"
+      },
+      "extendedData": {
+        "tags": [
+          "Microscale",
+          "USA",
+          "Skyscraper",
+          "Chicago",
+          "International Style"
+        ],
+        "description": "Introducing the LEGO Architecture Landmark series of real-world construction models! This striking black-and-white replica of the famous Willis Tower in Chicago, U.S.A. measures 9\" (228 mm) tall and 3.1\" (80 mm) wide at its labeled base, and includes a booklet full of details about the building's design and history, plus facts about the real tower. A creative and eye-catching accent for any desk, shelf or mantelpiece!Replica of real-world architectural landmark Willis Tower!Booklet included with details on design and history!Measures 9\" (228 mm) tall and 3.1\" (80 mm) wide!"
+      },
+      "lastUpdated": "2012-05-25T20:34:33.973Z"
+    },
+    {
+      "setID": 8762,
+      "number": "21000",
+      "numberVariant": 2,
+      "name": "Willis Tower",
+      "year": 2011,
+      "theme": "Architecture",
+      "themeGroup": "Model making",
+      "subtheme": "Landmark Series",
+      "category": "Normal",
+      "released": true,
+      "pieces": 69,
+      "image": {
+        "thumbnailURL": "https://images.brickset.com/sets/small/21000-2.jpg",
+        "imageURL": "https://images.brickset.com/sets/images/21000-2.jpg"
+      },
+      "bricksetURL": "https://brickset.com/sets/21000-2",
+      "collection": {},
+      "collections": {
+        "ownedBy": 2008,
+        "wantedBy": 1334
+      },
+      "LEGOCom": {
+        "US": {
+          "retailPrice": 19.99,
+          "dateFirstAvailable": "2011-06-04T00:00:00Z",
+          "dateLastAvailable": "2013-12-04T00:00:00Z"
+        },
+        "UK": {
+          "retailPrice": 17.99,
+          "dateFirstAvailable": "2011-06-09T00:00:00Z",
+          "dateLastAvailable": "2013-12-25T00:00:00Z"
+        },
+        "CA": {
+          "retailPrice": 26.99,
+          "dateFirstAvailable": "2011-07-21T00:00:00Z",
+          "dateLastAvailable": "2013-12-05T00:00:00Z"
+        },
+        "DE": {}
+      },
+      "rating": 4.0,
+      "reviewCount": 1,
+      "packagingType": "Box",
+      "availability": "Retail - limited",
+      "instructionsCount": 0,
+      "additionalImageCount": 0,
+      "ageRange": {
+        "min": 10
+      },
+      "dimensions": {},
+      "barcode": {
+        "EAN": "5702014804265"
+      },
+      "extendedData": {
+        "notes": "Re-release of set 21000 Sears Tower, now renamed as Willis Tower to reflect change in ownership and name of the real building.",
+        "tags": [
+          "Microscale",
+          "USA",
+          "Skyscraper",
+          "Chicago",
+          "International Style",
+          "Skidmore Owings And Merrill"
+        ],
+        "description": "\t\t\t\t<p>\t\t\t\t\tBuild and display the Willis Tower!\t\t\t\t</p>\t\t\t\t<p>\t\t\t\t\t<p>Introducing the LEGO Architecture Landmark series of real-world construction models! This striking black-and-white replica of the famous Willis Tower in Chicago, U.S.A. measures 9\" (228 mm) tall and 3.1\" (80 mm) wide at its labeled base, and includes a booklet full of details about the buildingâ€™s design and history, plus facts about the real tower. A creative and eye-catching accent for any desk, shelf or mantelpiece!<br /></p><ul><li>Replica of real-world architectural landmark Willis Tower!</li><li>Booklet included with details on design and history!</li><li>Measures 9\" (228 mm) tall and 3.1\" (80 mm) wide!</li></ul>\t\t\t\t</p>\t\t\t\t\t\t\t\t\t\t\t"
+      },
+      "lastUpdated": "2012-05-25T20:34:42.71Z"
+    },
+    {
+      "setID": 6680,
+      "number": "21001",
+      "numberVariant": 1,
+      "name": "John Hancock Center",
+      "year": 2008,
+      "theme": "Architecture",
+      "themeGroup": "Model making",
+      "subtheme": "Landmark Series",
+      "category": "Normal",
+      "released": true,
+      "pieces": 69,
+      "image": {
+        "thumbnailURL": "https://images.brickset.com/sets/small/21001-1.jpg",
+        "imageURL": "https://images.brickset.com/sets/images/21001-1.jpg"
+      },
+      "bricksetURL": "https://brickset.com/sets/21001-1",
+      "collection": {},
+      "collections": {
+        "ownedBy": 1594,
+        "wantedBy": 1702
+      },
+      "LEGOCom": {
+        "US": {
+          "retailPrice": 19.99,
+          "dateFirstAvailable": "2008-11-10T00:00:00Z",
+          "dateLastAvailable": "2011-11-26T00:00:00Z"
+        },
+        "UK": {},
+        "CA": {
+          "retailPrice": 29.99,
+          "dateFirstAvailable": "2011-07-21T00:00:00Z",
+          "dateLastAvailable": "2011-11-26T00:00:00Z"
+        },
+        "DE": {}
+      },
+      "rating": 2.7,
+      "reviewCount": 3,
+      "packagingType": "Box",
+      "availability": "Retail - limited",
+      "instructionsCount": 2,
+      "additionalImageCount": 0,
+      "ageRange": {},
+      "dimensions": {},
+      "barcode": {
+        "EAN": "673419113281"
+      },
+      "extendedData": {
+        "tags": [
+          "Microscale",
+          "USA",
+          "Skyscraper",
+          "Chicago",
+          "Skidmore Owings And Merrill"
+        ],
+        "description": "Construct the John Hancock Center!"
+      },
+      "lastUpdated": "2012-05-25T20:34:54.117Z"
+    },
+    {
+      "setID": 6896,
+      "number": "21002",
+      "numberVariant": 1,
+      "name": "Empire State Building",
+      "year": 2009,
+      "theme": "Architecture",
+      "themeGroup": "Model making",
+      "subtheme": "Landmark Series",
+      "category": "Normal",
+      "released": true,
+      "pieces": 77,
+      "image": {
+        "thumbnailURL": "https://images.brickset.com/sets/small/21002-1.jpg",
+        "imageURL": "https://images.brickset.com/sets/images/21002-1.jpg"
+      },
+      "bricksetURL": "https://brickset.com/sets/21002-1",
+      "collection": {},
+      "collections": {
+        "ownedBy": 5231,
+        "wantedBy": 1566
+      },
+      "LEGOCom": {
+        "US": {
+          "retailPrice": 19.99,
+          "dateFirstAvailable": "2009-02-01T00:00:00Z",
+          "dateLastAvailable": "2014-10-02T00:00:00Z"
+        },
+        "UK": {
+          "retailPrice": 19.99,
+          "dateFirstAvailable": "2010-04-12T00:00:00Z",
+          "dateLastAvailable": "2014-10-30T00:00:00Z"
+        },
+        "CA": {
+          "retailPrice": 26.99,
+          "dateFirstAvailable": "2011-07-21T00:00:00Z",
+          "dateLastAvailable": "2014-10-02T00:00:00Z"
+        },
+        "DE": {}
+      },
+      "rating": 3.8,
+      "reviewCount": 9,
+      "packagingType": "Box",
+      "availability": "Retail - limited",
+      "instructionsCount": 4,
+      "additionalImageCount": 7,
+      "ageRange": {
+        "min": 10
+      },
+      "dimensions": {
+        "weight": 0.19
+      },
+      "barcode": {
+        "EAN": "673419113472"
+      },
+      "extendedData": {
+        "tags": [
+          "Microscale",
+          "USA",
+          "Skyscraper",
+          "New York",
+          "Art Deco"
+        ],
+        "description": "\t\t\t\t<p>\t\t\t\t\tBuild the Empire State Building!\t\t\t\t</p>\t\t\t\t<p>\t\t\t\t\tThe Empire State Building joins the LEGO Architecture Landmark series of real-world construction models!  Standing 7.4\" (188 mm) tall, New York Cityâ€™s famous skyscraper is built from tan bricks on a striking 3.1\" (80 mm) gray and black base with printed name label. Includes a booklet with details about the buildingâ€™s history and creation.  Perfect for any New Yorker, world tourist or architecture fan! <br><ul><li>Replica of real-world architectural landmark Empire State Building!</li><li>Booklet included with details on design and history! (English language only)</li><li>Measures 7.4\" (188 mm) tall and 3.1\" (80 mm) wide!</li></ul>\t\t\t\t</p>\t\t\t\t\t\t\t\t\t\t\t"
+      },
+      "lastUpdated": "2012-05-25T20:35:06.457Z"
+    },
+    {
+      "setID": 6897,
+      "number": "21003",
+      "numberVariant": 1,
+      "name": "Seattle Space Needle",
+      "year": 2009,
+      "theme": "Architecture",
+      "themeGroup": "Model making",
+      "subtheme": "Landmark Series",
+      "category": "Normal",
+      "released": true,
+      "pieces": 57,
+      "image": {
+        "thumbnailURL": "https://images.brickset.com/sets/small/21003-1.jpg",
+        "imageURL": "https://images.brickset.com/sets/images/21003-1.jpg"
+      },
+      "bricksetURL": "https://brickset.com/sets/21003-1",
+      "collection": {},
+      "collections": {
+        "ownedBy": 5974,
+        "wantedBy": 1724
+      },
+      "LEGOCom": {
+        "US": {
+          "retailPrice": 19.99,
+          "dateFirstAvailable": "2009-02-01T00:00:00Z",
+          "dateLastAvailable": "2015-12-26T00:00:00Z"
+        },
+        "UK": {
+          "retailPrice": 19.99,
+          "dateFirstAvailable": "2010-04-12T00:00:00Z",
+          "dateLastAvailable": "2015-12-09T00:00:00Z"
+        },
+        "CA": {
+          "retailPrice": 26.99,
+          "dateFirstAvailable": "2011-07-21T00:00:00Z",
+          "dateLastAvailable": "2015-12-26T00:00:00Z"
+        },
+        "DE": {
+          "retailPrice": 19.99,
+          "dateFirstAvailable": "2015-01-14T00:00:00Z",
+          "dateLastAvailable": "2015-12-10T00:00:00Z"
+        }
+      },
+      "rating": 3.8,
+      "reviewCount": 5,
+      "packagingType": "Box",
+      "availability": "Retail - limited",
+      "instructionsCount": 4,
+      "additionalImageCount": 7,
+      "ageRange": {
+        "min": 10
+      },
+      "dimensions": {},
+      "barcode": {
+        "EAN": "673419115100"
+      },
+      "extendedData": {
+        "tags": [
+          "Microscale",
+          "USA"
+        ],
+        "description": "\t\t\t\t<p>\t\t\t\t\tThe Seattle Space Needle can be yours!\t\t\t\t</p>\t\t\t\t<p>\t\t\t\t\tBuild Seattle, Washingtonâ€™s famous Space Needle!  Created for the 1962 Worldâ€™s Fair, this sweeping futuristic tower is the fourth in the LEGO Architecture Landmark series of real-world construction models.  Built out of gray bricks, the assembled Space Needle stands 8.7\" (222 mm) tall on a 3.1-inch (80 mm) base with a printed label and includes a booklet with facts about the building, its construction and its history.  A striking and imaginative display for your desk, bookshelf or mantelpiece! <br><ul> <li>Replica of real-world architectural landmark Seattle Space Needle!</li> <li>Booklet included with details on design and history! (English language only)</li> <li>Measures 8.7\" (222 mm) tall and 3.1\" (80 mm) wide</li></ul>\t\t\t\t</p>\t\t\t\t\t\t\t\t\t\t\t"
+      },
+      "lastUpdated": "2012-05-25T20:35:17.503Z"
+    },
+    {
+      "setID": 7130,
+      "number": "21004",
+      "numberVariant": 1,
+      "name": "Solomon Guggenheim Museum",
+      "year": 2009,
+      "theme": "Architecture",
+      "themeGroup": "Model making",
+      "subtheme": "Architect Series",
+      "category": "Normal",
+      "released": true,
+      "pieces": 208,
+      "image": {
+        "thumbnailURL": "https://images.brickset.com/sets/small/21004-1.jpg",
+        "imageURL": "https://images.brickset.com/sets/images/21004-1.jpg"
+      },
+      "bricksetURL": "https://brickset.com/sets/21004-1",
+      "collection": {},
+      "collections": {
+        "ownedBy": 3314,
+        "wantedBy": 1876
+      },
+      "LEGOCom": {
+        "US": {
+          "retailPrice": 39.99,
+          "dateFirstAvailable": "2009-07-18T00:00:00Z",
+          "dateLastAvailable": "2013-12-09T00:00:00Z"
+        },
+        "UK": {
+          "retailPrice": 34.99,
+          "dateFirstAvailable": "2010-04-12T00:00:00Z",
+          "dateLastAvailable": "2013-12-26T00:00:00Z"
+        },
+        "CA": {
+          "retailPrice": 49.99,
+          "dateFirstAvailable": "2011-07-21T00:00:00Z",
+          "dateLastAvailable": "2013-12-09T00:00:00Z"
+        },
+        "DE": {}
+      },
+      "rating": 3.7,
+      "reviewCount": 3,
+      "packagingType": "Box",
+      "availability": "Retail - limited",
+      "instructionsCount": 5,
+      "additionalImageCount": 8,
+      "ageRange": {
+        "min": 10
+      },
+      "dimensions": {},
+      "barcode": {
+        "EAN": "673419113489"
+      },
+      "extendedData": {
+        "tags": [
+          "Microscale",
+          "USA",
+          "Museum",
+          "Fine Arts",
+          "New York",
+          "Frank Lloyd Wright"
+        ],
+        "description": "\t\t\t\t<p>\t\t\t\t\tA landmark of organic architectural design!\t\t\t\t</p>\t\t\t\t<p>\t\t\t\t\t2009 marks the 50th anniversary of one of New York Cityâ€™s best-known museums, the Solomon R. GuggenheimÂ®. Designed by Frank Lloyd Wright, one of the greatest architects of the 20th century, the museum opened just six months after he passed away. This intricately built LEGOÂ® model, co-developed and designed by architect Adam Reed Tucker, celebrates Frank Lloyd Wrightâ€™s innovative vision and organic architectural style.  The assembled Solomon R. Guggenheim museum model stands 4\" (102 mm) tall on a gray and black base with printed name label and includes a booklet with facts about the building, its construction and its history.  Perfect for any New Yorker, world tourist or architecture fan! <br><ul> <li>Replica of real-world architectural landmark Solomon R. Guggenheim museum!</li> <li>Booklet included with details on design and history! (English language only)</li> <li>Measures 4\" (102 mm) tall</li></ul>\t\t\t\t</p>\t\t\t\t\t\t\t\t\t\t\t"
+      },
+      "lastUpdated": "2012-05-25T20:35:28.293Z"
+    },
+    {
+      "setID": 7131,
+      "number": "21005",
+      "numberVariant": 1,
+      "name": "Fallingwater",
+      "year": 2009,
+      "theme": "Architecture",
+      "themeGroup": "Model making",
+      "subtheme": "Architect Series",
+      "category": "Normal",
+      "released": true,
+      "pieces": 811,
+      "image": {
+        "thumbnailURL": "https://images.brickset.com/sets/small/21005-1.jpg",
+        "imageURL": "https://images.brickset.com/sets/images/21005-1.jpg"
+      },
+      "bricksetURL": "https://brickset.com/sets/21005-1",
+      "collection": {},
+      "collections": {
+        "ownedBy": 4335,
+        "wantedBy": 2847
+      },
+      "LEGOCom": {
+        "US": {
+          "retailPrice": 99.99,
+          "dateFirstAvailable": "2009-08-01T00:00:00Z",
+          "dateLastAvailable": "2015-02-08T00:00:00Z"
+        },
+        "UK": {
+          "retailPrice": 74.99,
+          "dateFirstAvailable": "2010-04-12T00:00:00Z",
+          "dateLastAvailable": "2015-01-08T00:00:00Z"
+        },
+        "CA": {
+          "retailPrice": 129.99,
+          "dateFirstAvailable": "2011-07-21T00:00:00Z",
+          "dateLastAvailable": "2015-02-08T00:00:00Z"
+        },
+        "DE": {
+          "retailPrice": 89.99,
+          "dateFirstAvailable": "2015-01-14T00:00:00Z",
+          "dateLastAvailable": "2015-01-16T00:00:00Z"
+        }
+      },
+      "rating": 4.8,
+      "reviewCount": 8,
+      "packagingType": "Box",
+      "availability": "Retail - limited",
+      "instructionsCount": 4,
+      "additionalImageCount": 8,
+      "ageRange": {
+        "min": 16
+      },
+      "dimensions": {},
+      "barcode": {
+        "EAN": "673419132466"
+      },
+      "extendedData": {
+        "tags": [
+          "Microscale",
+          "USA",
+          "Waterfall",
+          "Modern",
+          "Frank Lloyd Wright"
+        ],
+        "description": "\t\t\t\t<p>\t\t\t\t\tMerging man and nature into an architectural masterpiece!\t\t\t\t</p>\t\t\t\t<p>\t\t\t\t\tDesigned by Frank Lloyd Wright in 1934, FallingwaterÂ® is perhaps the most famous residential home in the world. Open to the public since 1963, this masterpiece exemplifies Frank Lloyd Wright's organic architectural style by intimately merging man with the surrounding landscape. This highly-detailed LEGOÂ® model, co-developed and designed by architect Adam Reed Tucker, captures all of the distinctive features that make Fallingwater an architectural landmark. The assembled Fallingwater model stands 10\" (256 mm) wide on a gray base with printed name label and includes a booklet with facts about the building, its construction and its history.  A striking and imaginative display for your desk, bookshelf or mantelpiece! <br><ul> <li>Replica of real-world architectural landmark Fallingwater!</li> <li>Booklet included with details on design and history! (English language only)</li> <li>Measures 10\" (256 mm) wide</li></ul>\t\t\t\t</p>\t\t\t\t\t\t\t\t\t\t\t"
+      },
+      "lastUpdated": "2012-05-25T20:35:44.15Z"
+    },
+    {
+      "setID": 8044,
+      "number": "21006",
+      "numberVariant": 1,
+      "name": "The White House",
+      "year": 2010,
+      "theme": "Architecture",
+      "themeGroup": "Model making",
+      "subtheme": "Landmark Series",
+      "category": "Normal",
+      "released": true,
+      "pieces": 560,
+      "image": {
+        "thumbnailURL": "https://images.brickset.com/sets/small/21006-1.jpg",
+        "imageURL": "https://images.brickset.com/sets/images/21006-1.jpg"
+      },
+      "bricksetURL": "https://brickset.com/sets/21006-1",
+      "collection": {},
+      "collections": {
+        "ownedBy": 6472,
+        "wantedBy": 2240
+      },
+      "LEGOCom": {
+        "US": {
+          "retailPrice": 49.99,
+          "dateFirstAvailable": "2010-07-04T00:00:00Z",
+          "dateLastAvailable": "2016-11-20T00:00:00Z"
+        },
+        "UK": {
+          "retailPrice": 39.99,
+          "dateFirstAvailable": "2011-06-09T00:00:00Z",
+          "dateLastAvailable": "2016-12-22T00:00:00Z"
+        },
+        "CA": {
+          "retailPrice": 64.99,
+          "dateFirstAvailable": "2011-07-21T00:00:00Z",
+          "dateLastAvailable": "2016-11-20T00:00:00Z"
+        },
+        "DE": {
+          "retailPrice": 54.99,
+          "dateFirstAvailable": "2015-01-14T00:00:00Z",
+          "dateLastAvailable": "2016-11-25T00:00:00Z"
+        }
+      },
+      "rating": 4.3,
+      "reviewCount": 6,
+      "packagingType": "Box",
+      "availability": "Retail - limited",
+      "instructionsCount": 9,
+      "additionalImageCount": 11,
+      "ageRange": {
+        "min": 12
+      },
+      "dimensions": {
+        "weight": 0.7
+      },
+      "barcode": {
+        "EAN": "673419160148"
+      },
+      "extendedData": {
+        "tags": [
+          "Microscale",
+          "USA",
+          "Neoclassical",
+          "Washington DC"
+        ],
+        "description": "\t\t\t\t<p>\t\t\t\t\tReplicate the home to the nation's Head of State.\t\t\t\t</p>\t\t\t\t<p>\t\t\t\t\tThere are few structures in the United States with the history and reverence of The White House, designed by James Hoban. On July 16, 1792, President George Washington chose this James Hoban design from six competing designs from renowned architects. This six-story Sandstone structure was meant to command respect for the nation from citizens and foreign visitors. Construction took place from 1792 - 1800 and it was rebuilt by Hoban following the fire of 1814. The assembled White House model stands 9\" (22 cm) wide on a base with printed name label and includes a booklet with facts about the building, its construction and its history.<br><br><ul><li>Architectural replica of the real-world White House</li><li>Booklet included with details on design and history (English language only)</li><li>Measures 9\" (22cm) wide</li></ul>\t\t\t\t</p>\t\t\t\t\t\t\t\t\t\t\t"
+      },
+      "lastUpdated": "2012-05-25T20:35:56.657Z"
+    },
+    {
+      "setID": 8338,
+      "number": "21007",
+      "numberVariant": 1,
+      "name": "Rockefeller Center",
+      "year": 2011,
+      "theme": "Architecture",
+      "themeGroup": "Model making",
+      "subtheme": "Architect Series",
+      "category": "Normal",
+      "released": true,
+      "pieces": 240,
+      "image": {
+        "thumbnailURL": "https://images.brickset.com/sets/small/21007-1.jpg",
+        "imageURL": "https://images.brickset.com/sets/images/21007-1.jpg"
+      },
+      "bricksetURL": "https://brickset.com/sets/21007-1",
+      "collection": {},
+      "collections": {
+        "ownedBy": 2549,
+        "wantedBy": 1919
+      },
+      "LEGOCom": {
+        "US": {
+          "retailPrice": 39.99,
+          "dateFirstAvailable": "2010-11-18T00:00:00Z",
+          "dateLastAvailable": "2013-12-01T00:00:00Z"
+        },
+        "UK": {
+          "retailPrice": 34.99,
+          "dateFirstAvailable": "2011-06-09T00:00:00Z",
+          "dateLastAvailable": "2013-12-26T00:00:00Z"
+        },
+        "CA": {
+          "retailPrice": 49.99,
+          "dateFirstAvailable": "2011-12-20T00:00:00Z",
+          "dateLastAvailable": "2013-11-30T00:00:00Z"
+        },
+        "DE": {}
+      },
+      "rating": 4.5,
+      "reviewCount": 2,
+      "packagingType": "Box",
+      "availability": "Retail - limited",
+      "instructionsCount": 3,
+      "additionalImageCount": 9,
+      "ageRange": {
+        "min": 10
+      },
+      "dimensions": {},
+      "barcode": {
+        "EAN": "5702014804258"
+      },
+      "extendedData": {
+        "tags": [
+          "Microscale",
+          "USA",
+          "Skyscraper",
+          "Modern",
+          "New York",
+          "Art Deco"
+        ],
+        "description": "\t\t\t\t<p>\t\t\t\t\tReplicate an icon of art deco design- the world famous Rockefeller Center!\t\t\t\t</p>\t\t\t\t<p>\t\t\t\t\tRockefeller Center, located in the center of Midtown Manhattan, New York City, represents the largest private building project ever undertaken in modern times. Developed and financed by the Rockefeller family in the 1930s, this 19-building complex is an example of Art Deco and is famous for the many works of art integrated into its design. This LEGOÂ® Architecture series interpretation of Rockefeller Center was designed by architectural artist Adam Reed Tucker.<br><ul> <li>Rockefeller Center measures 5\" (138mm)</li> <li>Collect the whole series: Frank Lloyd Wrightâ€™s Guggenheim Museum, the Space Needle in Seattle, the Sears Tower and John Hancock Center in Chicago, New Yorkâ€™s Empire State Building and Rockefeller Center, and The White House in Washington D.C.</li> <li>Includes information booklet with details on design and detailed history of landmark (English language only)</li> <li>Architectural replica of the real-world Rockefeller Center</li> <li>LEGOÂ® Architecture inspires future architects, engineers and designers as well as architecture fans around the world using the LEGO brick as a medium for reproducing esteemed structures</li> </ul>\t\t\t\t</p>\t\t\t\t\t\t\t\t\t\t\t"
+      },
+      "lastUpdated": "2012-05-25T20:36:07.833Z"
+    },
+    {
+      "setID": 8707,
+      "number": "21008",
+      "numberVariant": 1,
+      "name": "Burj Khalifa",
+      "year": 2011,
+      "theme": "Architecture",
+      "themeGroup": "Model making",
+      "subtheme": "Landmark Series",
+      "category": "Normal",
+      "released": true,
+      "pieces": 208,
+      "image": {
+        "thumbnailURL": "https://images.brickset.com/sets/small/21008-1.jpg",
+        "imageURL": "https://images.brickset.com/sets/images/21008-1.jpg"
+      },
+      "bricksetURL": "https://brickset.com/sets/21008-1",
+      "collection": {},
+      "collections": {
+        "ownedBy": 2742,
+        "wantedBy": 1508
+      },
+      "LEGOCom": {
+        "US": {
+          "retailPrice": 24.99,
+          "dateFirstAvailable": "2011-06-04T00:00:00Z",
+          "dateLastAvailable": "2013-12-12T00:00:00Z"
+        },
+        "UK": {
+          "retailPrice": 22.99,
+          "dateFirstAvailable": "2011-06-04T00:00:00Z",
+          "dateLastAvailable": "2013-12-26T00:00:00Z"
+        },
+        "CA": {
+          "retailPrice": 29.99,
+          "dateFirstAvailable": "2011-07-21T00:00:00Z",
+          "dateLastAvailable": "2013-12-12T00:00:00Z"
+        },
+        "DE": {}
+      },
+      "rating": 4.2,
+      "reviewCount": 4,
+      "packagingType": "Box",
+      "availability": "Retail - limited",
+      "instructionsCount": 2,
+      "additionalImageCount": 11,
+      "ageRange": {
+        "min": 12
+      },
+      "dimensions": {},
+      "barcode": {
+        "EAN": "5702014802599"
+      },
+      "extendedData": {
+        "tags": [
+          "Microscale",
+          "Skyscraper",
+          "Dubai",
+          "United Arab Emirates"
+        ],
+        "description": "\t\t\t\t<p>\t\t\t\t\tBuild a LEGOÂ® replica of the worldâ€™s tallest man-made structure!\t\t\t\t</p>\t\t\t\t<p>\t\t\t\t\t<p>Burj Khalifa is the tallest man-made structure ever built, at 2,716.5 ft. This steel, glass and reinforced concrete tower was constructed between 2004 and 2010, led by Skidmore, Owings &#38; Merrill architects. Burj Khalifa was commissioned to help Dubai diversify from an oil-based economy to one that is service and tourism focused. The assembled Burj Khalifa model is over 10â€ (25cm) tall and 4â€ (10cm) wide on a base with a printed name label. Includes a booklet with facts about the building, its construction and history. This detailed LEGO model was designed by architect Adam Reed Tucker.<br /></p><ul><li>Architectural replica of the real-world Burj Khalifa</li><li>Booklet included with details on design and history. (English language only)</li><li>Measures over 10â€ (25cm) tall and 4â€ (10cm) wide</li></ul>\t\t\t\t</p>\t\t\t\t\t\t\t\t\t\t\t"
+      },
+      "lastUpdated": "2012-05-25T20:36:23.25Z"
+    },
+    {
+      "setID": 8721,
+      "number": "21009",
+      "numberVariant": 1,
+      "name": "Farnsworth House",
+      "year": 2011,
+      "theme": "Architecture",
+      "themeGroup": "Model making",
+      "subtheme": "Architect Series",
+      "category": "Normal",
+      "released": true,
+      "pieces": 546,
+      "image": {
+        "thumbnailURL": "https://images.brickset.com/sets/small/21009-1.jpg",
+        "imageURL": "https://images.brickset.com/sets/images/21009-1.jpg"
+      },
+      "bricksetURL": "https://brickset.com/sets/21009-1",
+      "collection": {},
+      "collections": {
+        "ownedBy": 3017,
+        "wantedBy": 2113
+      },
+      "LEGOCom": {
+        "US": {
+          "retailPrice": 59.99,
+          "dateFirstAvailable": "2011-04-06T00:00:00Z",
+          "dateLastAvailable": "2014-04-30T00:00:00Z"
+        },
+        "UK": {
+          "retailPrice": 54.99,
+          "dateFirstAvailable": "2011-04-06T00:00:00Z",
+          "dateLastAvailable": "2014-06-25T00:00:00Z"
+        },
+        "CA": {
+          "retailPrice": 69.99,
+          "dateFirstAvailable": "2011-05-31T00:00:00Z",
+          "dateLastAvailable": "2014-04-30T00:00:00Z"
+        },
+        "DE": {}
+      },
+      "rating": 4.4,
+      "reviewCount": 5,
+      "packagingType": "Box",
+      "availability": "Retail - limited",
+      "instructionsCount": 2,
+      "additionalImageCount": 11,
+      "ageRange": {
+        "min": 12
+      },
+      "dimensions": {},
+      "barcode": {
+        "EAN": "673419159678"
+      },
+      "extendedData": {
+        "tags": [
+          "Microscale",
+          "House",
+          "USA",
+          "Modernist",
+          "International Style"
+        ],
+        "description": "\t\t\t\t<p>\t\t\t\t\tReplicate a modern marvel with the famed Farnsworth Houseâ„¢!\t\t\t\t</p>\t\t\t\t<p>\t\t\t\t\tFew one-room homes are as strikingly modern and instantly recognizable as the Farnsworth Houseâ„¢, designed by Ludwig Mies van der Rohe. This single-story steel structure with floor-to-ceiling glass walls was meant to open a minimalist interior to nature in an extreme way. Construction took place from 1945â€“1951 on a 60-acre estate beside the Fox River in Plano, Illinois, where it still stands today. The assembled Farnsworth House model is over 10â€ (25cm) wide on a base with printed name label and includes a booklet with facts about the building, its construction and history.<br><ul> <li>Architectural replica of the real-world Farnsworth Houseâ„¢</li> <li>Booklet included with details on design and history. (English language only)</li> <li>Measures over 10â€ (25cm) wide and 3â€ (7cm) tall</li></ul>\t\t\t\t</p>\t\t\t\t\t\t\t\t\t\t\t"
+      },
+      "lastUpdated": "2012-05-25T20:36:34.517Z"
+    },
+    {
+      "setID": 8795,
+      "number": "21010",
+      "numberVariant": 1,
+      "name": "Robie House",
+      "year": 2011,
+      "theme": "Architecture",
+      "themeGroup": "Model making",
+      "subtheme": "Architect Series",
+      "category": "Normal",
+      "released": true,
+      "pieces": 2276,
+      "image": {
+        "thumbnailURL": "https://images.brickset.com/sets/small/21010-1.jpg",
+        "imageURL": "https://images.brickset.com/sets/images/21010-1.jpg"
+      },
+      "bricksetURL": "https://brickset.com/sets/21010-1",
+      "collection": {},
+      "collections": {
+        "ownedBy": 2335,
+        "wantedBy": 2738
+      },
+      "LEGOCom": {
+        "US": {
+          "retailPrice": 199.99,
+          "dateFirstAvailable": "2011-09-08T00:00:00Z",
+          "dateLastAvailable": "2013-12-14T00:00:00Z"
+        },
+        "UK": {
+          "retailPrice": 169.99,
+          "dateFirstAvailable": "2011-09-08T00:00:00Z",
+          "dateLastAvailable": "2013-12-09T00:00:00Z"
+        },
+        "CA": {
+          "retailPrice": 249.99,
+          "dateFirstAvailable": "2011-09-02T00:00:00Z",
+          "dateLastAvailable": "2013-12-14T00:00:00Z"
+        },
+        "DE": {}
+      },
+      "rating": 4.6,
+      "reviewCount": 7,
+      "packagingType": "Box",
+      "availability": "Retail - limited",
+      "instructionsCount": 2,
+      "additionalImageCount": 16,
+      "ageRange": {
+        "min": 16
+      },
+      "dimensions": {},
+      "barcode": {
+        "EAN": "5702014802629"
+      },
+      "extendedData": {
+        "tags": [
+          "Microscale",
+          "House",
+          "USA",
+          "Chicago",
+          "Frank Lloyd Wright"
+        ],
+        "description": "\t\t\t\t<p>\t\t\t\t\tBuild a LEGOÂ® replica of the Robieâ„¢ House!\t\t\t\t</p>\t\t\t\t<p>\t\t\t\t\t<p>Completed in 1910, the Frederick C. Robieâ„¢ House, located in Chicagoâ€™s Hyde Park neighborhood, is considered to be Frank Lloyd Wrightâ€™s most accomplished Prairie-style work. Prairie style is acknowledged as the first truly American style, characterized by dominating horizontal lines, banded rows of windows and spacious, open floor plans. F.C. Robie wanted a home that would provide beautiful vistas of the surrounding neighborhood while maintaining privacy for his family. Combined with the long, narrow size and shape, the views inspired Wrightâ€™s vision for the 9,062 square foot residence. This highly detailed LEGO model was designed by architect Adam Reed Tucker.<br /></p><ul><li>Architectural replica of the real-world Robieâ„¢ House</li><li>Booklet included with details on design and history. (English language only)</li><li>Measures over 16.5â€ (42cm) wide and 5â€ (13cm) tall</li></ul>\t\t\t\t</p>\t\t\t\t\t\t\t\t\t\t\t"
+      },
+      "lastUpdated": "2012-05-25T20:36:47.633Z"
+    },
+    {
+      "setID": 8794,
+      "number": "21011",
+      "numberVariant": 1,
+      "name": "Brandenburg Gate",
+      "year": 2011,
+      "theme": "Architecture",
+      "themeGroup": "Model making",
+      "subtheme": "Landmark Series",
+      "category": "Normal",
+      "released": true,
+      "pieces": 363,
+      "image": {
+        "thumbnailURL": "https://images.brickset.com/sets/small/21011-1.jpg",
+        "imageURL": "https://images.brickset.com/sets/images/21011-1.jpg"
+      },
+      "bricksetURL": "https://brickset.com/sets/21011-1",
+      "collection": {},
+      "collections": {
+        "ownedBy": 4566,
+        "wantedBy": 1824
+      },
+      "LEGOCom": {
+        "US": {
+          "retailPrice": 34.99,
+          "dateFirstAvailable": "2011-09-08T00:00:00Z",
+          "dateLastAvailable": "2015-12-04T00:00:00Z"
+        },
+        "UK": {
+          "retailPrice": 34.99,
+          "dateFirstAvailable": "2011-09-08T00:00:00Z",
+          "dateLastAvailable": "2015-12-03T00:00:00Z"
+        },
+        "CA": {
+          "retailPrice": 44.99,
+          "dateFirstAvailable": "2011-09-02T00:00:00Z",
+          "dateLastAvailable": "2015-12-04T00:00:00Z"
+        },
+        "DE": {
+          "retailPrice": 34.99,
+          "dateFirstAvailable": "2015-01-14T00:00:00Z",
+          "dateLastAvailable": "2015-12-03T00:00:00Z"
+        }
+      },
+      "rating": 5.0,
+      "reviewCount": 3,
+      "packagingType": "Box",
+      "availability": "Retail - limited",
+      "instructionsCount": 3,
+      "additionalImageCount": 11,
+      "ageRange": {
+        "min": 12
+      },
+      "dimensions": {
+        "weight": 0.45
+      },
+      "barcode": {
+        "EAN": "5702014802636"
+      },
+      "extendedData": {
+        "tags": [
+          "Microscale",
+          "Statue",
+          "Germany",
+          "Neoclassical"
+        ],
+        "description": "\t\t\t\t<p>\t\t\t\t\tBuild a LEGOÂ® replica of the Brandenburg Gate!\t\t\t\t</p>\t\t\t\t<p>\t\t\t\t\t<p>Commissioned by King Frederick William II of Prussia as a sign of peace, the Brandenburg Gate is one of Berlinâ€™s most important monuments â€“ both as an architectural landmark and historic symbol â€“ for over 200 years. The grandest of a series of 18 gates through which the city was accessed, the Brandenburg Gate was constructed between 1788 and 1791 from the designs of architect Carl Gotthard Langhans and was inspired by the Propylaea in Athens. Built in sandstone and comprised of 12 Doric columns, the gateâ€™s crown jewel is the Quadriga, a sculpture of a chariot and 4 horses depicting Victoria, the Roman goddess of victory, created by Johann Gottfried Schadow. This detailed LEGO model was designed by architect Adam Reed Tucker.<br /></p><ul><li>Architectural replica of the real-world Brandenburg Gate</li><li>Booklet included with details on design and history. (English language only)</li></ul><p>&#160;</p>\t\t\t\t</p>\t\t\t\t\t\t\t\t\t\t\t"
+      },
+      "lastUpdated": "2012-05-25T20:36:59.433Z"
+    },
+    {
+      "setID": 9284,
+      "number": "21012",
+      "numberVariant": 1,
+      "name": "Sydney Opera House",
+      "year": 2012,
+      "theme": "Architecture",
+      "themeGroup": "Model making",
+      "subtheme": "Architect Series",
+      "category": "Normal",
+      "released": true,
+      "pieces": 270,
+      "image": {
+        "thumbnailURL": "https://images.brickset.com/sets/small/21012-1.jpg",
+        "imageURL": "https://images.brickset.com/sets/images/21012-1.jpg"
+      },
+      "bricksetURL": "https://brickset.com/sets/21012-1",
+      "collection": {},
+      "collections": {
+        "ownedBy": 3459,
+        "wantedBy": 2049
+      },
+      "LEGOCom": {
+        "US": {
+          "retailPrice": 39.99,
+          "dateFirstAvailable": "2012-03-03T00:00:00Z",
+          "dateLastAvailable": "2014-12-13T00:00:00Z"
+        },
+        "UK": {
+          "retailPrice": 34.99,
+          "dateFirstAvailable": "2012-03-03T00:00:00Z",
+          "dateLastAvailable": "2014-11-08T00:00:00Z"
+        },
+        "CA": {
+          "retailPrice": 49.99,
+          "dateFirstAvailable": "2012-03-01T00:00:00Z",
+          "dateLastAvailable": "2014-12-13T00:00:00Z"
+        },
+        "DE": {}
+      },
+      "rating": 3.3,
+      "reviewCount": 3,
+      "packagingType": "Box",
+      "availability": "Retail - limited",
+      "instructionsCount": 2,
+      "additionalImageCount": 4,
+      "ageRange": {
+        "min": 12
+      },
+      "dimensions": {
+        "weight": 0.43
+      },
+      "barcode": {
+        "EAN": "5702014842328"
+      },
+      "extendedData": {
+        "tags": [
+          "Microscale",
+          "Australia",
+          "Sydney"
+        ],
+        "description": "\t\t\t\t<p>\t\t\t\t\tRecreate the Sydney Opera Houseâ„¢ â€“ a truly iconic landmark!\t\t\t\t</p>\t\t\t\t<p>\t\t\t\t\t<p>Introducing the world-renowned Sydney Opera Houseâ„¢. This masterpiece of expressionist architecture is the vision of young Danish architect, JÃ¸rn Utzon, whose unique interlocking vaulted â€˜shellâ€™ design beat 933 competitors from 28 countries to win an international design competition held by the New South Wales government in 1959. Combined with the beautiful setting of Sydney Harbour, the opera house has become a true symbol of late modern architecture and one of the most iconic buildings of the 20th century. This LEGOÂ® Architecture series interpretation of the Sydney Opera House was designed by US architect Adam Reed Tucker in collaboration with the LEGO design team.<br /></p><ul><li>Interpretation of real-world architectural landmark Sydney Opera Houseâ„¢</li><li>Booklet included with details on design and history (English language only. Other languages available for download)</li><li>Collect the entire landmark series</li><li>LEGOÂ® Architecture inspires future architects, engineers and designers as well as architecture fans around the world using the LEGO brick as a medium for reproducing esteemed structures</li><li>Measures 4.3â€ (10.7cm) tall, 6.2â€ (15.7cm) wide and 2.6â€ (6.6cm) deep</li></ul>\t\t\t\t</p>\t\t\t\t\t\t\t\t\t\t\t"
+      },
+      "lastUpdated": "2012-05-25T20:37:11.307Z"
+    },
+    {
+      "setID": 9346,
+      "number": "21013",
+      "numberVariant": 1,
+      "name": "Big Ben",
+      "year": 2012,
+      "theme": "Architecture",
+      "themeGroup": "Model making",
+      "subtheme": "Landmark Series",
+      "category": "Normal",
+      "released": true,
+      "pieces": 346,
+      "image": {
+        "thumbnailURL": "https://images.brickset.com/sets/small/21013-1.jpg",
+        "imageURL": "https://images.brickset.com/sets/images/21013-1.jpg"
+      },
+      "bricksetURL": "https://brickset.com/sets/21013-1",
+      "collection": {},
+      "collections": {
+        "ownedBy": 7323,
+        "wantedBy": 1950
+      },
+      "LEGOCom": {
+        "US": {
+          "retailPrice": 29.99,
+          "dateFirstAvailable": "2012-06-02T00:00:00Z",
+          "dateLastAvailable": "2016-11-26T00:00:00Z"
+        },
+        "UK": {
+          "retailPrice": 24.99,
+          "dateFirstAvailable": "2012-06-02T00:00:00Z",
+          "dateLastAvailable": "2016-12-08T00:00:00Z"
+        },
+        "CA": {
+          "retailPrice": 39.99,
+          "dateFirstAvailable": "2012-06-02T00:00:00Z",
+          "dateLastAvailable": "2016-11-26T00:00:00Z"
+        },
+        "DE": {
+          "retailPrice": 29.99,
+          "dateFirstAvailable": "2015-01-14T00:00:00Z",
+          "dateLastAvailable": "2016-12-09T00:00:00Z"
+        }
+      },
+      "rating": 3.0,
+      "reviewCount": 3,
+      "packagingType": "Box",
+      "availability": "Retail - limited",
+      "instructionsCount": 4,
+      "additionalImageCount": 4,
+      "ageRange": {
+        "min": 12
+      },
+      "dimensions": {
+        "weight": 0.31
+      },
+      "barcode": {
+        "EAN": "5702014842342"
+      },
+      "extendedData": {
+        "tags": [
+          "Microscale",
+          "London",
+          "United Kingdom"
+        ],
+        "description": "\t\t\t\t<p>\t\t\t\t\tRecreate the world's most iconic timepieces â€“ the Big Ben Clock Tower!\t\t\t\t</p>\t\t\t\t<p>\t\t\t\t\t<p>Presenting the Big Ben Clock Tower, one of the world's most instantly recognizable landmarks. Standing at the northeast corner of the Palace of Westminster in London, England, the Big Ben Clock Tower was erected from 1843â€“1859 following a fire that burned down much of the original palace. The clock tower features classical design with a distinct gothic influence. The clockwork itself was designed by Edward John Dent shortly after construction of the tower began. This LEGOÂ® Architecture series interpretation of the Big Ben Clock Tower was designed by Slovenian architect Roc Z. Kobe in collaboration with the LEGO design team.</p><ul><li>Interpretation of real-world architectural landmark, the Big Ben Clock Tower</li><li>Booklet included with details on design and history (English language only. Other languages available for download.)</li><li>Collect the entire landmark series!</li><li>LEGOÂ® Architecture inspires future architects, engineers and designers as well as architecture fans around the world using the LEGO brick as a medium for reproducing esteemed structures</li><li>Measures 7.7â€ (19.4cm) tall, 3.8â€ (9.6cm) wide and 3.1â€ (8cm) deep</li></ul>\t\t\t\t</p>\t\t\t\t\t\t\t\t\t\t\t"
+      },
+      "lastUpdated": "2012-06-01T02:08:11.053Z"
+    },
+    {
+      "setID": 9363,
+      "number": "21014",
+      "numberVariant": 1,
+      "name": "Villa Savoye",
+      "year": 2012,
+      "theme": "Architecture",
+      "themeGroup": "Model making",
+      "subtheme": "Architect Series",
+      "category": "Normal",
+      "released": true,
+      "pieces": 660,
+      "image": {
+        "thumbnailURL": "https://images.brickset.com/sets/small/21014-1.jpg",
+        "imageURL": "https://images.brickset.com/sets/images/21014-1.jpg"
+      },
+      "bricksetURL": "https://brickset.com/sets/21014-1",
+      "collection": {},
+      "collections": {
+        "ownedBy": 3029,
+        "wantedBy": 1896
+      },
+      "LEGOCom": {
+        "US": {
+          "retailPrice": 69.99,
+          "dateFirstAvailable": "2012-09-04T00:00:00Z",
+          "dateLastAvailable": "2015-12-26T00:00:00Z"
+        },
+        "UK": {
+          "retailPrice": 59.99,
+          "dateFirstAvailable": "2012-09-04T00:00:00Z",
+          "dateLastAvailable": "2015-10-21T00:00:00Z"
+        },
+        "CA": {
+          "retailPrice": 89.99,
+          "dateFirstAvailable": "2012-09-02T00:00:00Z",
+          "dateLastAvailable": "2015-12-26T00:00:00Z"
+        },
+        "DE": {
+          "retailPrice": 69.99,
+          "dateFirstAvailable": "2015-01-14T00:00:00Z",
+          "dateLastAvailable": "2015-10-27T00:00:00Z"
+        }
+      },
+      "rating": 4.6,
+      "reviewCount": 5,
+      "packagingType": "Box",
+      "availability": "Retail - limited",
+      "instructionsCount": 2,
+      "additionalImageCount": 5,
+      "ageRange": {
+        "min": 12
+      },
+      "dimensions": {},
+      "barcode": {
+        "EAN": "673419168397"
+      },
+      "extendedData": {
+        "tags": [
+          "Microscale",
+          "House",
+          "France",
+          "Modernist",
+          "International Style"
+        ],
+        "description": "\t\t\t\t<p>\t\t\t\t\tBuild the famous French blend of modern architecture with nature!\t\t\t\t</p>\t\t\t\t<p>\t\t\t\t\t<p>Build a LEGOÂ® brick model of this famous modernist-style country house residence! Situated on the outskirts of Paris, France Villa Savoye was designed by Le Corbusier in the 1920s as the perfect embodiment of Le Corbusierâ€™s 'Five Points' construction principles. This fusion of modern architecture and nature was intended to create harmony with Villa Savoyeâ€™s woodland surroundings. Just like the real thing, this set features columns, functional roof space, open floor planning, long horizontal windows, and a free faÃ§ade. This LEGO Architecture series interpretation of Villa Savoye was designed by German architect Michael Hepp in collaboration with the LEGO design team.</p><ul><li>Interpretation of real-world architectural icon Villa Savoye</li><li>Booklet included with details on design and history (English language only. Other languages available for download)</li><li>Collect the entire Landmark and Architect series!</li><li>LEGOÂ® Architecture inspires future architects, engineers and designers as well as architecture fans around the world using the LEGO brick as a medium for reproducing esteemed structures</li><li>Measures 3.6â€ (9.2cm) tall, 7.5â€ (19.2cm) wide and 6.7â€ (17.6cm) deep</li></ul>\t\t\t\t</p>\t\t\t\t\t\t\t\t\t\t\t"
+      },
+      "lastUpdated": "2012-08-31T20:25:05.293Z"
+    },
+    {
+      "setID": 9364,
+      "number": "21015",
+      "numberVariant": 1,
+      "name": "The Leaning Tower of Pisa",
+      "year": 2013,
+      "theme": "Architecture",
+      "themeGroup": "Model making",
+      "subtheme": "Landmark Series",
+      "category": "Normal",
+      "released": true,
+      "pieces": 345,
+      "image": {
+        "thumbnailURL": "https://images.brickset.com/sets/small/21015-1.jpg",
+        "imageURL": "https://images.brickset.com/sets/images/21015-1.jpg"
+      },
+      "bricksetURL": "https://brickset.com/sets/21015-1",
+      "collection": {},
+      "collections": {
+        "ownedBy": 4345,
+        "wantedBy": 2064
+      },
+      "LEGOCom": {
+        "US": {
+          "retailPrice": 34.99,
+          "dateFirstAvailable": "2013-06-01T00:00:00Z",
+          "dateLastAvailable": "2015-12-26T00:00:00Z"
+        },
+        "UK": {
+          "retailPrice": 29.99,
+          "dateFirstAvailable": "2013-05-30T00:00:00Z",
+          "dateLastAvailable": "2015-12-06T00:00:00Z"
+        },
+        "CA": {
+          "retailPrice": 44.99,
+          "dateFirstAvailable": "2013-06-01T00:00:00Z",
+          "dateLastAvailable": "2015-12-26T00:00:00Z"
+        },
+        "DE": {
+          "retailPrice": 34.99,
+          "dateFirstAvailable": "2015-01-14T00:00:00Z",
+          "dateLastAvailable": "2015-12-15T00:00:00Z"
+        }
+      },
+      "rating": 3.7,
+      "reviewCount": 3,
+      "packagingType": "Box",
+      "availability": "Retail - limited",
+      "instructionsCount": 2,
+      "additionalImageCount": 2,
+      "ageRange": {
+        "min": 12
+      },
+      "dimensions": {
+        "weight": 0.47
+      },
+      "barcode": {
+        "EAN": "5702014842373"
+      },
+      "extendedData": {
+        "tags": [
+          "Microscale",
+          "Italy"
+        ],
+        "description": "\t\t\t\t<p>\t\t\t\t\tCreate one of historyâ€™s most fascinating and unusual buildings!\t\t\t\t</p>\t\t\t\t<p>\t\t\t\t\t<p>The Leaning Tower of Pisa has a trademark tilt that has seen it reproduced on postcards and souvenirs all over the world. Now you can make this unusual building in LEGOÂ® bricks! Construction was started over 800 years ago when the Widow Berta of Bernado left 60 gold coins in her will that paid for the first stones and started the building of the Tower. Now you can build historyâ€™s most famous bell tower and learn how the famous lean started. The instructions and enclosed booklet tell the story of the Towerâ€™s fascinating history and how the 56 metre building began its journey into architectural history. This LEGO Architecture model makes a distinctive and fascinating addition to any desk, living room or bookshelf!</p><p>â€¢ Fascinating LEGOÂ® reproduction of the iconic Leaning Tower of Pisa<br />â€¢ Includes a booklet that gives design and historical details on this amazing building in English and Italian. The booklet can be downloaded in other languages from LEGO.com/architecture<br />â€¢ Collect all of the models in the LEGO Landmark and Architect series!<br />â€¢ LEGO Architecture inspires future architects, builders and designers as well as architecture enthusiasts everywhere by using LEGO bricks to interpret famous structures<br />â€¢ Measures 10.1â€ (25.9cm) tall, 4.4â€ (11.2cm) wide and 4.4â€ (11.2cm) deep<br />â€¢ Designed by architectural modeler Adam Reed Tucker</p>\t\t\t\t</p>\t\t\t\t\t\t\t\t\t\t\t"
+      },
+      "lastUpdated": "2013-05-30T00:26:48.153Z"
+    },
+    {
+      "setID": 9347,
+      "number": "21016",
+      "numberVariant": 1,
+      "name": "Sungnyemun",
+      "year": 2012,
+      "theme": "Architecture",
+      "themeGroup": "Model making",
+      "subtheme": "Landmark Series",
+      "category": "Normal",
+      "released": true,
+      "pieces": 325,
+      "image": {
+        "thumbnailURL": "https://images.brickset.com/sets/small/21016-1.jpg",
+        "imageURL": "https://images.brickset.com/sets/images/21016-1.jpg"
+      },
+      "bricksetURL": "https://brickset.com/sets/21016-1",
+      "collection": {},
+      "collections": {
+        "ownedBy": 1678,
+        "wantedBy": 2214
+      },
+      "LEGOCom": {
+        "US": {
+          "retailPrice": 34.99,
+          "dateFirstAvailable": "2012-06-27T00:00:00Z",
+          "dateLastAvailable": "2013-02-19T00:00:00Z"
+        },
+        "UK": {
+          "retailPrice": 29.99,
+          "dateFirstAvailable": "2012-06-02T00:00:00Z",
+          "dateLastAvailable": "2012-12-28T00:00:00Z"
+        },
+        "CA": {
+          "retailPrice": 44.99,
+          "dateFirstAvailable": "2012-06-27T00:00:00Z",
+          "dateLastAvailable": "2013-02-19T00:00:00Z"
+        },
+        "DE": {}
+      },
+      "rating": 4.5,
+      "reviewCount": 2,
+      "packagingType": "Box",
+      "availability": "Retail - limited",
+      "instructionsCount": 2,
+      "additionalImageCount": 6,
+      "ageRange": {
+        "min": 12
+      },
+      "dimensions": {},
+      "barcode": {
+        "EAN": "5702014914223"
+      },
+      "extendedData": {
+        "notes": "Initially named Namdaemun Gate.",
+        "tags": [
+          "Microscale",
+          "Asia",
+          "Korea"
+        ],
+        "description": "\t\t\t\t<p>\t\t\t\t\tRecreate a piece of Korean history with the majestic Sungnyemun!\t\t\t\t</p>\t\t\t\t<p>\t\t\t\t\t<p>Presenting one of South Korea's most treasured monuments â€“ Sungnyemun. Also known as the Great Southern Gate, this majestic gateway to the South Korean capital of Seoul is the last remaining of four gateways constructed in the late 14th century to protect the country's capital. In 1962, this impressive Joseon Dynasty monument was declared South Korea's first national treasure, but in 2008 was almost completely destroyed by a fire. Fortunately, a restoration project, due for completion in 2012, will return the South Korean people's coveted treasure to its former glory once again. This LEGO Landmark series interpretation of Sungnyemun was designed by US architect Adam Reed Tucker in collaboration with the LEGO design team.</p><p>â€¢ Interpretation of real-world architectural landmark Sungnyemun<br />â€¢ Booklet included with details on design and history (English language only. Other languages available for download)<br />â€¢ Measures 4.2â€ (10.7cm) tall, 6.9â€ (17.6cm) wide and 3.1â€ (8cm) deep<br />â€¢ Collect the entire Landmark and Architect series sets<br />â€¢ LEGO Architecture inspires future architects, engineers and designers as well as architecture fans around the world using the LEGO brick as a medium for reproducing esteemed structures</p><p>&#160;</p>\t\t\t\t</p>\t\t\t\t\t\t\t\t\t\t\t"
+      },
+      "lastUpdated": "2012-12-19T15:54:50.77Z"
+    }
+  ]
+}
