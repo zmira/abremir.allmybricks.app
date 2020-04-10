@@ -2,9 +2,8 @@
 using abremir.AllMyBricks.ThirdParty.Brickset.Services;
 using abremir.AllMyBricks.ThirdParty.Brickset.Tests.Configuration;
 using abremir.AllMyBricks.ThirdParty.Brickset.Tests.Shared;
-using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Linq;
+using NFluent;
 using System.Threading.Tasks;
 using ComponentModelDescription = System.ComponentModel.DescriptionAttribute;
 
@@ -29,36 +28,13 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
         }
 
         [TestMethod]
-        public async Task Success()
-        {
-            _httpTestFake.RespondWith(GetResultFileFromResource(nameof(Success)));
-
-            var sets = await _bricksetApiService.GetSets(new GetSetsParameters());
-
-            sets.Count().Should()
-                .Be(20);
-        }
-
-        [TestMethod]
         public async Task InvalidApiKey()
         {
             _httpTestFake.RespondWith(GetResultFileFromResource(nameof(InvalidApiKey)));
 
             var sets = await _bricksetApiService.GetSets(new GetSetsParameters());
 
-            sets.Should()
-                .BeEmpty();
-        }
-
-        [TestMethod]
-        public async Task NoMatches()
-        {
-            _httpTestFake.RespondWith(GetResultFileFromResource(nameof(NoMatches)));
-
-            var sets = await _bricksetApiService.GetSets(new GetSetsParameters());
-
-            sets.Should()
-                .BeEmpty();
+            Check.That(sets).IsEmpty();
         }
 
         [TestMethod]
@@ -68,8 +44,7 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
 
             var sets = await _bricksetApiService.GetSets(new GetSetsParameters());
 
-            sets.Should()
-                .BeEmpty();
+            Check.That(sets).IsEmpty();
         }
 
         [TestMethod]
@@ -79,8 +54,27 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
 
             var sets = await _bricksetApiService.GetSets(new GetSetsParameters());
 
-            sets.Should()
-                .BeEmpty();
+            Check.That(sets).IsEmpty();
+        }
+
+        [TestMethod]
+        public async Task NoMatches()
+        {
+            _httpTestFake.RespondWith(GetResultFileFromResource(nameof(NoMatches)));
+
+            var sets = await _bricksetApiService.GetSets(new GetSetsParameters());
+
+            Check.That(sets).IsEmpty();
+        }
+
+        [TestMethod]
+        public async Task Success()
+        {
+            _httpTestFake.RespondWith(GetResultFileFromResource(nameof(Success)));
+
+            var sets = await _bricksetApiService.GetSets(new GetSetsParameters());
+
+            Check.That(sets).CountIs(20);
         }
     }
 }

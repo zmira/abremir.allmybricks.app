@@ -1,8 +1,8 @@
 ﻿using abremir.AllMyBricks.AssetManagement.Implementations;
 using abremir.AllMyBricks.AssetManagement.Interfaces;
 using abremir.AllMyBricks.Platform.Interfaces;
-using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NFluent;
 using NSubstitute;
 using NSubstituteAutoMocker.Standard;
 using SharpCompress.Common;
@@ -38,7 +38,7 @@ namespace abremir.AllMyBricks.AssetManagement.Tests.Implementations
 
             var result = _assetCompression.ClassUnderTest.CompressAsset(sourceFilePath, targetFolderPath);
 
-            result.Should().BeFalse();
+            Check.That(result).IsFalse();
         }
 
         [TestMethod]
@@ -54,7 +54,7 @@ namespace abremir.AllMyBricks.AssetManagement.Tests.Implementations
 
             var result = _assetCompression.ClassUnderTest.CompressAsset(sourceFilePath, string.Empty, overwrite: false);
 
-            result.Should().BeFalse();
+            Check.That(result).IsFalse();
         }
 
         [TestMethod]
@@ -70,7 +70,7 @@ namespace abremir.AllMyBricks.AssetManagement.Tests.Implementations
 
             var result = _assetCompression.ClassUnderTest.CompressAsset(sourceFilePath, string.Empty);
 
-            result.Should().BeTrue();
+            Check.That(result).IsTrue();
         }
 
         [DataTestMethod]
@@ -80,7 +80,7 @@ namespace abremir.AllMyBricks.AssetManagement.Tests.Implementations
         {
             var result = AssetCompression.GetCompressedAssetFileName(fileName);
 
-            result.Should().BeNull();
+            Check.That(result).IsNull();
         }
 
         [DataTestMethod]
@@ -90,8 +90,9 @@ namespace abremir.AllMyBricks.AssetManagement.Tests.Implementations
         {
             var result = AssetCompression.GetCompressedAssetFileName(fileName);
 
-            result.Should().NotBeNull();
-            result.Should().Be("this_is_a_file.lz");
+            Check.That(result)
+                .IsNotNull()
+                .And.IsEqualTo("this_is_a_file.lz");
         }
     }
 }

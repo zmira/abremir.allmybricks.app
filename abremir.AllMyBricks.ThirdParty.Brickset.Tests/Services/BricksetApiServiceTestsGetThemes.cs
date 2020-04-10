@@ -2,9 +2,8 @@
 using abremir.AllMyBricks.ThirdParty.Brickset.Services;
 using abremir.AllMyBricks.ThirdParty.Brickset.Tests.Configuration;
 using abremir.AllMyBricks.ThirdParty.Brickset.Tests.Shared;
-using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Linq;
+using NFluent;
 using System.Threading.Tasks;
 using ComponentModelDescription = System.ComponentModel.DescriptionAttribute;
 
@@ -29,25 +28,23 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
         }
 
         [TestMethod]
-        public async Task Success()
-        {
-            _httpTestFake.RespondWith(GetResultFileFromResource(nameof(Success)));
-
-            var themes = await _bricksetApiService.GetThemes(new ParameterApiKey());
-
-            themes.Count().Should()
-                .Be(144);
-        }
-
-        [TestMethod]
         public async Task InvalidApiKey()
         {
             _httpTestFake.RespondWith(GetResultFileFromResource(nameof(InvalidApiKey)));
 
             var themes = await _bricksetApiService.GetThemes(new ParameterApiKey());
 
-            themes.Should()
-                .BeEmpty();
+            Check.That(themes).IsEmpty();
+        }
+
+        [TestMethod]
+        public async Task Success()
+        {
+            _httpTestFake.RespondWith(GetResultFileFromResource(nameof(Success)));
+
+            var themes = await _bricksetApiService.GetThemes(new ParameterApiKey());
+
+            Check.That(themes).CountIs(144);
         }
     }
 }

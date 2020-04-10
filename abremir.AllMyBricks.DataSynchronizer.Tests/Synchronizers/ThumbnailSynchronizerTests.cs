@@ -122,7 +122,9 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
             });
 
             _httpTest.ShouldHaveMadeACall();
-            await _thumbnailSynchronizer.Get<IFileSystemService>().DidNotReceiveWithAnyArgs().SaveThumbnailToCache(null, null, null, null);
+            await _thumbnailSynchronizer.Get<IFileSystemService>()
+                .DidNotReceiveWithAnyArgs()
+                .SaveThumbnailToCache(null, null, null, null);
         }
 
         [TestMethod]
@@ -145,7 +147,9 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
             });
 
             _httpTest.ShouldHaveMadeACall();
-            await _thumbnailSynchronizer.Get<IFileSystemService>().DidNotReceiveWithAnyArgs().SaveThumbnailToCache(null, null, null, null);
+            await _thumbnailSynchronizer.Get<IFileSystemService>()
+                .DidNotReceiveWithAnyArgs()
+                .SaveThumbnailToCache(null, null, null, null);
         }
 
         [TestMethod]
@@ -170,7 +174,9 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
             });
 
             _httpTest.ShouldHaveMadeACall();
-            await _thumbnailSynchronizer.Get<IFileSystemService>().ReceivedWithAnyArgs().SaveThumbnailToCache(null, null, null, null);
+            await _thumbnailSynchronizer.Get<IFileSystemService>()
+                .ReceivedWithAnyArgs()
+                .SaveThumbnailToCache(null, null, null, null);
         }
     }
 }

@@ -7,9 +7,9 @@ using abremir.AllMyBricks.ThirdParty.Brickset.Interfaces;
 using abremir.AllMyBricks.ThirdParty.Brickset.Models;
 using abremir.AllMyBricks.ThirdParty.Brickset.Models.Parameters;
 using Easy.MessageHub;
-using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
+using NFluent;
 using NSubstitute;
 using System.Collections.Generic;
 using System.Linq;
@@ -46,8 +46,8 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 
             var themes = await themeSynchronizer.Synchronize(string.Empty);
 
-            themes.Should().BeEmpty();
-            _themeRepository.All().Should().BeEmpty();
+            Check.That(themes).IsEmpty();
+            Check.That(_themeRepository.All()).IsEmpty();
         }
 
         [TestMethod]
@@ -68,9 +68,9 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 
             var themes = await themeSynchronizer.Synchronize(string.Empty);
 
-            themes.Count().Should().Be(themesList.Count);
-            _themeRepository.All().Count().Should().Be(themesList.Count);
-            _themeRepository.Get(Constants.TestThemeArchitecture).SetCountPerYear.Should().NotBeEmpty();
+            Check.That(themes).CountIs(themesList.Count);
+            Check.That(_themeRepository.All()).CountIs(themesList.Count);
+            Check.That(_themeRepository.Get(Constants.TestThemeArchitecture).SetCountPerYear).Not.IsEmpty();
         }
 
         private ThemeSynchronizer CreateTarget(IBricksetApiService bricksetApiService = null)

@@ -2,9 +2,8 @@
 using abremir.AllMyBricks.ThirdParty.Brickset.Services;
 using abremir.AllMyBricks.ThirdParty.Brickset.Tests.Configuration;
 using abremir.AllMyBricks.ThirdParty.Brickset.Tests.Shared;
-using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Linq;
+using NFluent;
 using System.Threading.Tasks;
 using ComponentModelDescription = System.ComponentModel.DescriptionAttribute;
 
@@ -29,14 +28,13 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
         }
 
         [TestMethod]
-        public async Task Success()
+        public async Task InvalidApiKey()
         {
-            _httpTestFake.RespondWith(GetResultFileFromResource(nameof(Success)));
+            _httpTestFake.RespondWith(GetResultFileFromResource(nameof(InvalidApiKey)));
 
             var subthemes = await _bricksetApiService.GetSubthemes(new ParameterTheme());
 
-            subthemes.Count().Should()
-                .Be(5);
+            Check.That(subthemes).IsEmpty();
         }
 
         [TestMethod]
@@ -46,19 +44,17 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
 
             var subthemes = await _bricksetApiService.GetSubthemes(new ParameterTheme());
 
-            subthemes.Should()
-                .BeEmpty();
+            Check.That(subthemes).IsEmpty();
         }
 
         [TestMethod]
-        public async Task InvalidApiKey()
+        public async Task Success()
         {
-            _httpTestFake.RespondWith(GetResultFileFromResource(nameof(InvalidApiKey)));
+            _httpTestFake.RespondWith(GetResultFileFromResource(nameof(Success)));
 
             var subthemes = await _bricksetApiService.GetSubthemes(new ParameterTheme());
 
-            subthemes.Should()
-                .BeEmpty();
+            Check.That(subthemes).CountIs(5);
         }
     }
 }

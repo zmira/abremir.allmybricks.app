@@ -4,8 +4,8 @@ using abremir.AllMyBricks.Data.Models;
 using abremir.AllMyBricks.Data.Repositories;
 using abremir.AllMyBricks.Data.Tests.Configuration;
 using abremir.AllMyBricks.Data.Tests.Shared;
-using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NFluent;
 using System;
 using System.Linq;
 
@@ -37,7 +37,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
         {
             var subtheme = _subthemeRepository.Get(themeName, subthemeName);
 
-            subtheme.Should().BeNull();
+            Check.That(subtheme).IsNull();
         }
 
         [DataTestMethod]
@@ -52,7 +52,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
 
             var subtheme = _subthemeRepository.Get(themeName, subthemeName);
 
-            subtheme.Should().BeNull();
+            Check.That(subtheme).IsNull();
         }
 
         [TestMethod]
@@ -65,8 +65,8 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
 
             var subtheme = _subthemeRepository.Get(subthemeUnderTest.Theme.Name, subthemeUnderTest.Name);
 
-            subtheme.Should().NotBeNull();
-            subtheme.Name.Should().BeEquivalentTo(subthemeUnderTest.Name);
+            Check.That(subtheme).IsNotNull();
+            Check.That(subtheme.Name).IsEqualTo(subthemeUnderTest.Name);
         }
 
         [TestMethod]
@@ -74,7 +74,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
         {
             var allSubthemes = _subthemeRepository.All();
 
-            allSubthemes.Should().BeEmpty();
+            Check.That(allSubthemes).IsEmpty();
         }
 
         [TestMethod]
@@ -90,7 +90,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
 
             var allSubthemes = _subthemeRepository.All();
 
-            allSubthemes.Select(subtheme => subtheme.Name).Should().BeEquivalentTo(listOfSubthemesUnderTest.Select(subtheme => subtheme.Name));
+            Check.That(allSubthemes.Select(subtheme => subtheme.Name)).IsEquivalentTo(listOfSubthemesUnderTest.Select(subtheme => subtheme.Name));
         }
 
         [TestMethod]
@@ -106,7 +106,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
 
             var allSubthemesForYear = _subthemeRepository.AllForYear(ModelsSetup.FirstThemeYearTo + 1);
 
-            allSubthemesForYear.Should().BeEmpty();
+            Check.That(allSubthemesForYear).IsEmpty();
         }
 
         [TestMethod]
@@ -122,7 +122,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
 
             var allSubthemesForYear = _subthemeRepository.AllForYear(Constants.MinimumSetYear - 1);
 
-            allSubthemesForYear.Should().BeEmpty();
+            Check.That(allSubthemesForYear).IsEmpty();
         }
 
         [DataTestMethod]
@@ -140,7 +140,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
 
             var allSubthemesForYear = _subthemeRepository.AllForYear(year);
 
-            allSubthemesForYear.Should().HaveCount(expectedCount);
+            Check.That(allSubthemesForYear).CountIs(expectedCount);
         }
 
         [DataTestMethod]
@@ -158,7 +158,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
 
             var allSubthemesForTheme = _subthemeRepository.AllForTheme(themeName);
 
-            allSubthemesForTheme.Should().BeEmpty();
+            Check.That(allSubthemesForTheme).IsEmpty();
         }
 
         [TestMethod]
@@ -174,7 +174,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
 
             var allSubthemesForTheme = _subthemeRepository.AllForTheme(ModelsSetup.NonExistentThemeName);
 
-            allSubthemesForTheme.Should().BeEmpty();
+            Check.That(allSubthemesForTheme).IsEmpty();
         }
 
         [TestMethod]
@@ -190,7 +190,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
 
             var allSubthemesForTheme = _subthemeRepository.AllForTheme(listOfThemesUnderTest[0].Name);
 
-            allSubthemesForTheme.Should().HaveCount(listOfSubthemesUnderTest.Length);
+            Check.That(allSubthemesForTheme).CountIs(listOfSubthemesUnderTest.Length);
         }
 
         [TestMethod]
@@ -200,7 +200,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
 
             var subtheme = _subthemeRepository.AddOrUpdate(subthemeUnderTest);
 
-            subtheme.Should().BeNull();
+            Check.That(subtheme).IsNull();
         }
 
         [DataTestMethod]
@@ -212,7 +212,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
 
             var subtheme = _subthemeRepository.AddOrUpdate(subthemeUnderTest);
 
-            subtheme.Should().BeNull();
+            Check.That(subtheme).IsNull();
         }
 
         [TestMethod]
@@ -222,7 +222,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
 
             var subtheme = _subthemeRepository.AddOrUpdate(subthemeUnderTest);
 
-            subtheme.Should().BeNull();
+            Check.That(subtheme).IsNull();
         }
 
         [DataTestMethod]
@@ -234,7 +234,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
 
             var subtheme = _subthemeRepository.AddOrUpdate(subthemeUnderTest);
 
-            subtheme.Should().BeNull();
+            Check.That(subtheme).IsNull();
         }
 
         [TestMethod]
@@ -245,7 +245,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
 
             var subtheme = _subthemeRepository.AddOrUpdate(subthemeUnderTest);
 
-            subtheme.Should().BeNull();
+            Check.That(subtheme).IsNull();
         }
 
         [TestMethod]
@@ -256,7 +256,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
 
             var subtheme = _subthemeRepository.AddOrUpdate(subthemeUnderTest);
 
-            subtheme.Should().BeNull();
+            Check.That(subtheme).IsNull();
         }
 
         [TestMethod]
@@ -270,8 +270,8 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
 
             var subtheme = _subthemeRepository.Get(subthemeUnderTest.Theme.Name, subthemeUnderTest.Name);
 
-            subtheme.Should().NotBeNull();
-            subtheme.Name.Should().BeEquivalentTo(subthemeUnderTest.Name);
+            Check.That(subtheme).IsNotNull();
+            Check.That(subtheme.Name).IsEqualTo(subthemeUnderTest.Name);
         }
 
         [TestMethod]
@@ -292,9 +292,9 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
 
             var savedSubtheme = _subthemeRepository.Get(subtheme.Theme.Name, subtheme.Name);
 
-            savedSubtheme.Should().NotBeNull();
-            savedSubtheme.SetCount.Should().Be(subthemeUnderTest.SetCount);
-            savedSubtheme.YearTo.Should().Be(subthemeUnderTest.YearTo);
+            Check.That(savedSubtheme).IsNotNull();
+            Check.That(savedSubtheme.SetCount).IsEqualTo(subthemeUnderTest.SetCount);
+            Check.That(savedSubtheme.YearTo).IsEqualTo(subthemeUnderTest.YearTo);
         }
     }
 }

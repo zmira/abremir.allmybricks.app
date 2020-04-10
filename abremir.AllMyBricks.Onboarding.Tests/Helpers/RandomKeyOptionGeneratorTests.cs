@@ -1,7 +1,7 @@
 ﻿using abremir.AllMyBricks.Onboarding.Helpers;
 using abremir.AllMyBricks.Onboarding.Shared.Enumerations;
-using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NFluent;
 using System.Collections.Generic;
 
 namespace abremir.AllMyBricks.Onboarding.Tests.Helpers
@@ -21,8 +21,10 @@ namespace abremir.AllMyBricks.Onboarding.Tests.Helpers
                 algorithmTypeEnumList.Add(next);
             }
 
-            algorithmTypeEnumList.Should().HaveCount(count);
-            algorithmTypeEnumList.Should().OnlyContain(algoType => algoType != 0);
+            Check.That(algorithmTypeEnumList)
+                .CountIs(count)
+                .And
+                .ContainsOnlyElementsThatMatch(algoType => algoType != 0);
         }
     }
 }

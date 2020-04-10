@@ -4,8 +4,8 @@ using abremir.AllMyBricks.Data.Models;
 using abremir.AllMyBricks.Data.Repositories;
 using abremir.AllMyBricks.Data.Tests.Configuration;
 using abremir.AllMyBricks.Data.Tests.Shared;
-using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NFluent;
 using System;
 using System.Linq;
 
@@ -35,7 +35,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
         {
             var theme = _themeRepository.Get(themeName);
 
-            theme.Should().BeNull();
+            Check.That(theme).IsNull();
         }
 
         [TestMethod]
@@ -45,7 +45,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
 
             var theme = _themeRepository.Get(ModelsSetup.NonExistentThemeName);
 
-            theme.Should().BeNull();
+            Check.That(theme).IsNull();
         }
 
         [TestMethod]
@@ -55,7 +55,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
 
             var theme = _themeRepository.Get(themeUnderTest.Name);
 
-            theme.Name.Should().BeEquivalentTo(themeUnderTest.Name);
+            Check.That(theme.Name).IsEqualTo(themeUnderTest.Name);
         }
 
         [TestMethod]
@@ -63,7 +63,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
         {
             var allThemes = _themeRepository.All();
 
-            allThemes.Should().BeEmpty();
+            Check.That(allThemes).IsEmpty();
         }
 
         [TestMethod]
@@ -73,7 +73,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
 
             var allThemes = _themeRepository.All();
 
-            allThemes.Select(theme => theme.Name).Should().BeEquivalentTo(listOfThemesUnderTest.Select(theme => theme.Name));
+            Check.That(allThemes.Select(theme => theme.Name)).IsEquivalentTo(listOfThemesUnderTest.Select(theme => theme.Name));
         }
 
         [TestMethod]
@@ -83,7 +83,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
 
             var allThemesForYear = _themeRepository.AllForYear(Constants.MinimumSetYear - 1);
 
-            allThemesForYear.Should().BeEmpty();
+            Check.That(allThemesForYear).IsEmpty();
         }
 
         [TestMethod]
@@ -93,7 +93,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
 
             var allThemesForYear = _themeRepository.AllForYear(ModelsSetup.SecondThemeYearTo + 1);
 
-            allThemesForYear.Should().BeEmpty();
+            Check.That(allThemesForYear).IsEmpty();
         }
 
         [DataTestMethod]
@@ -105,7 +105,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
 
             var allThemesForYear = _themeRepository.AllForYear(year).ToList();
 
-            allThemesForYear.Should().HaveCount(expectedCount);
+            Check.That(allThemesForYear).CountIs(expectedCount);
         }
 
         [TestMethod]
@@ -113,7 +113,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
         {
             var theme = _themeRepository.AddOrUpdate(null);
 
-            theme.Should().BeNull();
+            Check.That(theme).IsNull();
         }
 
         [DataTestMethod]
@@ -123,7 +123,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
         {
             var theme = _themeRepository.AddOrUpdate(new Theme { Name = themeName });
 
-            theme.Should().BeNull();
+            Check.That(theme).IsNull();
         }
 
         [TestMethod]
@@ -134,7 +134,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
 
             var theme = _themeRepository.AddOrUpdate(themeUnderTest);
 
-            theme.Should().BeNull();
+            Check.That(theme).IsNull();
         }
 
         [TestMethod]
@@ -146,7 +146,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
 
             var theme = _themeRepository.Get(themeUnderTest.Name);
 
-            theme.Name.Should().BeEquivalentTo(themeUnderTest.Name);
+            Check.That(theme.Name).IsEqualTo(themeUnderTest.Name);
         }
 
         [TestMethod]
@@ -165,7 +165,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
 
             var theme = _themeRepository.Get(themeFromDb.Name);
 
-            theme.Should().BeEquivalentTo(themeFromDb);
+            Check.That(theme).HasFieldsWithSameValues(themeFromDb);
         }
     }
 }

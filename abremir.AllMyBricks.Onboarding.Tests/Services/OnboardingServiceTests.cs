@@ -1,8 +1,8 @@
 ﻿using abremir.AllMyBricks.Onboarding.Interfaces;
 using abremir.AllMyBricks.Onboarding.Services;
 using abremir.AllMyBricks.Platform.Interfaces;
-using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NFluent;
 using NSubstitute;
 using NSubstituteAutoMocker.Standard;
 using System.Threading.Tasks;
@@ -29,8 +29,10 @@ namespace abremir.AllMyBricks.Onboarding.Tests.Services
 
             var apiKey = await _onboardingService.ClassUnderTest.GetBricksetApiKey();
 
-            apiKey.Should().NotBeNullOrWhiteSpace();
-            await _onboardingService.Get<ISecureStorageService>().DidNotReceive().SaveBricksetApiKey(Arg.Any<string>());
+            Check.That(apiKey).Not.IsNullOrWhiteSpace();
+            await _onboardingService.Get<ISecureStorageService>()
+                .DidNotReceive()
+                .SaveBricksetApiKey(Arg.Any<string>());
         }
 
         [TestMethod]
@@ -51,9 +53,13 @@ namespace abremir.AllMyBricks.Onboarding.Tests.Services
 
             var apiKey = await _onboardingService.ClassUnderTest.GetBricksetApiKey();
 
-            apiKey.Should().NotBeNullOrWhiteSpace();
-            await _onboardingService.Get<IApiKeyService>().Received().GetBricksetApiKey(Arg.Any<Shared.Models.Identification>());
-            await _onboardingService.Get<ISecureStorageService>().DidNotReceive().SaveDeviceIdentification(Arg.Any<Shared.Models.Identification>());
+            Check.That(apiKey).Not.IsNullOrWhiteSpace();
+            await _onboardingService.Get<IApiKeyService>()
+                .Received()
+                .GetBricksetApiKey(Arg.Any<Shared.Models.Identification>());
+            await _onboardingService.Get<ISecureStorageService>()
+                .DidNotReceive()
+                .SaveDeviceIdentification(Arg.Any<Shared.Models.Identification>());
         }
 
         [TestMethod]
@@ -74,9 +80,13 @@ namespace abremir.AllMyBricks.Onboarding.Tests.Services
 
             var apiKey = await _onboardingService.ClassUnderTest.GetBricksetApiKey();
 
-            apiKey.Should().NotBeNullOrWhiteSpace();
-            await _onboardingService.Get<IApiKeyService>().Received().GetBricksetApiKey(Arg.Any<Shared.Models.Identification>());
-            await _onboardingService.Get<ISecureStorageService>().Received().SaveDeviceIdentification(Arg.Any<Shared.Models.Identification>());
+            Check.That(apiKey).Not.IsNullOrWhiteSpace();
+            await _onboardingService.Get<IApiKeyService>()
+                .Received()
+                .GetBricksetApiKey(Arg.Any<Shared.Models.Identification>());
+            await _onboardingService.Get<ISecureStorageService>()
+                .Received()
+                .SaveDeviceIdentification(Arg.Any<Shared.Models.Identification>());
         }
     }
 }

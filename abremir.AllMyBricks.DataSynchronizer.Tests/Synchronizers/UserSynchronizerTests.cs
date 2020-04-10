@@ -10,9 +10,9 @@ using abremir.AllMyBricks.ThirdParty.Brickset.Interfaces;
 using abremir.AllMyBricks.ThirdParty.Brickset.Models;
 using abremir.AllMyBricks.ThirdParty.Brickset.Models.Parameters;
 using Easy.MessageHub;
-using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
+using NFluent;
 using NSubstitute;
 using System;
 using System.Collections.Generic;
@@ -65,8 +65,8 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 
             var user = _bricksetUserRepository.Get(testUser);
 
-            user.Sets.Should().BeEmpty();
-            user.UserSynchronizationTimestamp.HasValue.Should().BeTrue();
+            Check.That(user.Sets).IsEmpty();
+            Check.That(user.UserSynchronizationTimestamp).HasAValue();
         }
 
         [TestMethod]
@@ -143,10 +143,10 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 
             var user = _bricksetUserRepository.Get(testUser);
 
-            user.Sets.Should().NotBeEmpty();
-            user.Sets.Where(userSet => userSet.Set.SetId == testSetOwned.SetId && userSet.Owned == testSetOwned.Collection.Owned && userSet.QuantityOwned == testSetOwned.Collection.QtyOwned).Should().NotBeEmpty();
-            user.Sets.Where(userSet => userSet.Set.SetId == testSetWanted.SetId && userSet.Wanted == testSetWanted.Collection.Wanted).Should().NotBeEmpty();
-            user.UserSynchronizationTimestamp.HasValue.Should().BeTrue();
+            Check.That(user.Sets).Not.IsEmpty();
+            Check.That(user.Sets.Where(userSet => userSet.Set.SetId == testSetOwned.SetId && userSet.Owned == testSetOwned.Collection.Owned && userSet.QuantityOwned == testSetOwned.Collection.QtyOwned)).Not.IsEmpty();
+            Check.That(user.Sets.Where(userSet => userSet.Set.SetId == testSetWanted.SetId && userSet.Wanted == testSetWanted.Collection.Wanted)).Not.IsEmpty();
+            Check.That(user.UserSynchronizationTimestamp).HasAValue();
         }
 
         [TestMethod]
@@ -200,12 +200,15 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 
             var user = _bricksetUserRepository.Get(testUser);
 
-            await bricksetApiService.DidNotReceive().SetCollection(Arg.Any<SetCollectionParameters>());
-            user.Sets.Should().NotBeEmpty();
-            user.Sets.Count.Should().Be(1);
-            user.Sets[0].Set.SetId.Should().Be(bricksetUserSet.Set.SetId);
-            user.Sets[0].QuantityOwned.Should().Be(bricksetUserSet.QuantityOwned);
-            user.UserSynchronizationTimestamp.HasValue.Should().BeTrue();
+            await bricksetApiService
+                .DidNotReceive()
+                .SetCollection(Arg.Any<SetCollectionParameters>());
+            Check.That(user.Sets)
+                .Not.IsEmpty()
+                .And.CountIs(1);
+            Check.That(user.Sets[0].Set.SetId).IsEqualTo(bricksetUserSet.Set.SetId);
+            Check.That(user.Sets[0].QuantityOwned).IsEqualTo(bricksetUserSet.QuantityOwned);
+            Check.That(user.UserSynchronizationTimestamp).HasAValue();
         }
 
         [TestMethod]
@@ -266,12 +269,15 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 
             var user = _bricksetUserRepository.Get(testUser);
 
-            await bricksetApiService.Received().SetCollection(Arg.Any<SetCollectionParameters>());
-            user.Sets.Should().NotBeEmpty();
-            user.Sets.Count.Should().Be(1);
-            user.Sets[0].Set.SetId.Should().Be(bricksetUserSet.Set.SetId);
-            user.Sets[0].QuantityOwned.Should().Be(bricksetUserSet.QuantityOwned);
-            user.UserSynchronizationTimestamp.HasValue.Should().BeTrue();
+            await bricksetApiService
+                .Received()
+                .SetCollection(Arg.Any<SetCollectionParameters>());
+            Check.That(user.Sets)
+                .Not.IsEmpty()
+                .And.CountIs(1);
+            Check.That(user.Sets[0].Set.SetId).IsEqualTo(bricksetUserSet.Set.SetId);
+            Check.That(user.Sets[0].QuantityOwned).IsEqualTo(bricksetUserSet.QuantityOwned);
+            Check.That(user.UserSynchronizationTimestamp).HasAValue();
         }
 
         [TestMethod]
@@ -360,11 +366,13 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 
             var user = _bricksetUserRepository.Get(testUser);
 
-            await bricksetApiService.Received().SetCollection(Arg.Any<SetCollectionParameters>());
-            user.Sets.Should().NotBeEmpty();
-            user.Sets.Where(userSet => userSet.Set.SetId == bricksetUserSet.Set.SetId && userSet.Owned == bricksetUserSet.Owned && userSet.QuantityOwned == bricksetUserSet.QuantityOwned).Should().NotBeEmpty();
-            user.Sets.Where(userSet => userSet.Set.SetId == testSetWanted.SetId && userSet.Wanted == testSetWanted.Collection.Wanted).Should().NotBeEmpty();
-            user.UserSynchronizationTimestamp.HasValue.Should().BeTrue();
+            await bricksetApiService
+                .Received().
+                SetCollection(Arg.Any<SetCollectionParameters>());
+            Check.That(user.Sets).Not.IsEmpty();
+            Check.That(user.Sets.Where(userSet => userSet.Set.SetId == bricksetUserSet.Set.SetId && userSet.Owned == bricksetUserSet.Owned && userSet.QuantityOwned == bricksetUserSet.QuantityOwned)).Not.IsEmpty();
+            Check.That(user.Sets.Where(userSet => userSet.Set.SetId == testSetWanted.SetId && userSet.Wanted == testSetWanted.Collection.Wanted)).Not.IsEmpty();
+            Check.That(user.UserSynchronizationTimestamp).HasAValue();
         }
 
         [TestMethod]
@@ -388,8 +396,8 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 
             var user = _bricksetUserRepository.Get(testUser);
 
-            user.Sets.Should().BeEmpty();
-            user.UserSynchronizationTimestamp.HasValue.Should().BeTrue();
+            Check.That(user.Sets).IsEmpty();
+            Check.That(user.UserSynchronizationTimestamp).HasAValue();
         }
 
         [TestMethod]
@@ -466,10 +474,10 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 
             var user = _bricksetUserRepository.Get(testUser);
 
-            user.Sets.Should().NotBeEmpty();
-            user.Sets.Where(userSet => userSet.Set.SetId == testSetOwned.SetId && userSet.Owned == testSetOwned.Collection.Owned && userSet.QuantityOwned == testSetOwned.Collection.QtyOwned).Should().NotBeEmpty();
-            user.Sets.Where(userSet => userSet.Set.SetId == testSetWanted.SetId && userSet.Wanted == testSetWanted.Collection.Wanted).Should().NotBeEmpty();
-            user.UserSynchronizationTimestamp.HasValue.Should().BeTrue();
+            Check.That(user.Sets).Not.IsEmpty();
+            Check.That(user.Sets.Where(userSet => userSet.Set.SetId == testSetOwned.SetId && userSet.Owned == testSetOwned.Collection.Owned && userSet.QuantityOwned == testSetOwned.Collection.QtyOwned)).Not.IsEmpty();
+            Check.That(user.Sets.Where(userSet => userSet.Set.SetId == testSetWanted.SetId && userSet.Wanted == testSetWanted.Collection.Wanted)).Not.IsEmpty();
+            Check.That(user.UserSynchronizationTimestamp).HasAValue();
         }
 
         private UserSynchronizer CreateTarget(IBricksetApiService bricksetApiService = null)

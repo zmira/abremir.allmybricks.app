@@ -3,8 +3,8 @@ using abremir.AllMyBricks.Data.Interfaces;
 using abremir.AllMyBricks.Data.Models;
 using abremir.AllMyBricks.Data.Repositories;
 using abremir.AllMyBricks.Data.Tests.Shared;
-using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NFluent;
 using System;
 
 namespace abremir.AllMyBricks.Data.Tests.Repositories
@@ -31,7 +31,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
         {
             var timestamp = _insightsRepository.GetDataSynchronizationTimestamp();
 
-            timestamp.Should().BeNull();
+            Check.That(timestamp).IsNull();
         }
 
         [TestMethod]
@@ -46,7 +46,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
 
             var timestamp = _insightsRepository.GetDataSynchronizationTimestamp();
 
-            timestamp.Should().Be(insights.DataSynchronizationTimestamp);
+            Check.That(timestamp).IsEqualTo(insights.DataSynchronizationTimestamp);
         }
 
         [TestMethod]
@@ -58,7 +58,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
 
             var timestamp = _insightsRepository.GetDataSynchronizationTimestamp();
 
-            timestamp.Should().Be(dataSynchronizationTimestamp.ToHundredthOfSecond());
+            Check.That(timestamp).IsEqualTo(dataSynchronizationTimestamp.ToHundredthOfSecond());
         }
 
         [TestMethod]
@@ -79,7 +79,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
 
             var timestamp = _insightsRepository.GetDataSynchronizationTimestamp();
 
-            timestamp.Should().Be(dataSynchronizationTimestamp.ToHundredthOfSecond());
+            Check.That(timestamp).IsEqualTo(dataSynchronizationTimestamp.ToHundredthOfSecond());
         }
     }
 }

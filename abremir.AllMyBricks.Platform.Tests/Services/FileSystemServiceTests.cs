@@ -1,8 +1,8 @@
 ﻿using abremir.AllMyBricks.Platform.Configuration;
 using abremir.AllMyBricks.Platform.Interfaces;
 using abremir.AllMyBricks.Platform.Services;
-using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NFluent;
 using NSubstitute;
 using NSubstituteAutoMocker.Standard;
 using System.Text.RegularExpressions;
@@ -45,17 +45,18 @@ namespace abremir.AllMyBricks.Platform.Tests.Services
         {
             var localPathToFile = _fileSystemService.ClassUnderTest.GetLocalPathToFile(filename, folder);
 
-            localPathToFile.Should().NotBeNullOrWhiteSpace();
-            localPathToFile.Should().Contain(Constants.AllMyBricksDataFolder);
+            Check.That(localPathToFile)
+                .Not.IsNullOrWhiteSpace()
+                .And.Contains(Constants.AllMyBricksDataFolder);
 
             if (!string.IsNullOrWhiteSpace(filename))
             {
-                localPathToFile.Should().EndWith(filename);
+                Check.That(localPathToFile).EndsWith(filename);
             }
 
             if (!string.IsNullOrWhiteSpace(folder))
             {
-                localPathToFile.Should().Contain(folder);
+                Check.That(localPathToFile).Contains(folder);
             }
         }
 
@@ -71,11 +72,12 @@ namespace abremir.AllMyBricks.Platform.Tests.Services
         {
             var thumbnailFolder = _fileSystemService.ClassUnderTest.GetThumbnailFolder(theme, subtheme);
 
-            thumbnailFolder.Should().NotBeNullOrWhiteSpace();
-            thumbnailFolder.Should().Contain(Constants.AllMyBricksDataFolder);
-            thumbnailFolder.Should().Contain(Constants.ThumbnailCacheFolder);
+            Check.That(thumbnailFolder)
+                .Not.IsNullOrWhiteSpace()
+                .And.Contains(Constants.AllMyBricksDataFolder)
+                .And.Contains(Constants.ThumbnailCacheFolder);
 
-            Regex.Matches(thumbnailFolder, Constants.FallbackFolderName).Count.Should().Be(countOfFallbackFolderName);
+            Check.That(Regex.Matches(thumbnailFolder, Constants.FallbackFolderName).Count).IsEqualTo(countOfFallbackFolderName);
         }
 
         [DataTestMethod]
@@ -94,11 +96,15 @@ namespace abremir.AllMyBricks.Platform.Tests.Services
 
             if (invokesWriteAllBytes)
             {
-                await _fileSystemService.Get<IFile>().Received().WriteAllBytes(Arg.Any<string>(), Arg.Any<byte[]>());
+                await _fileSystemService.Get<IFile>()
+                    .Received()
+                    .WriteAllBytes(Arg.Any<string>(), Arg.Any<byte[]>());
             }
             else
             {
-                await _fileSystemService.Get<IFile>().DidNotReceive().WriteAllBytes(Arg.Any<string>(), Arg.Any<byte[]>());
+                await _fileSystemService.Get<IFile>()
+                    .DidNotReceive()
+                    .WriteAllBytes(Arg.Any<string>(), Arg.Any<byte[]>());
             }
         }
     }

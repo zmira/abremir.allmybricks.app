@@ -3,8 +3,8 @@ using abremir.AllMyBricks.Data.Models;
 using abremir.AllMyBricks.Data.Repositories;
 using abremir.AllMyBricks.Data.Tests.Configuration;
 using abremir.AllMyBricks.Data.Tests.Shared;
-using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NFluent;
 using System.Linq;
 
 namespace abremir.AllMyBricks.Data.Tests.Repositories
@@ -115,15 +115,19 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
 
             T referenceData = _referenceDataRepository.GetOrAdd<T>(referenceDataValue);
 
-            referenceData?.GetType().Should().Be(typeof(T));
-            referenceData?.Value.Should().Be(expectedReferenceData?.Value);
+            if (!(expectedReferenceData is null))
+            {
+                Check.That(referenceData?.GetType()).IsEqualTo(typeof(T));
+            }
+
+            Check.That(referenceData?.Value).IsEqualTo(expectedReferenceData?.Value);
 
             if (insert || exists)
             {
                 var referenceDataList = MemoryRepositoryService.GetRepository().Query<T>().ToList();
 
-                referenceDataList.Should().ContainSingle();
-                referenceDataList.First().Value.Should().Be(referenceDataValue);
+                Check.That(referenceDataList).CountIs(1);
+                Check.That(referenceDataList.First().Value).IsEqualTo(referenceDataValue);
             }
         }
     }

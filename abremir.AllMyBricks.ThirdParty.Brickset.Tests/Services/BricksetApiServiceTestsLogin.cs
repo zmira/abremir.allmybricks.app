@@ -2,8 +2,8 @@
 using abremir.AllMyBricks.ThirdParty.Brickset.Services;
 using abremir.AllMyBricks.ThirdParty.Brickset.Tests.Configuration;
 using abremir.AllMyBricks.ThirdParty.Brickset.Tests.Shared;
-using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NFluent;
 using System.Threading.Tasks;
 using ComponentModelDescription = System.ComponentModel.DescriptionAttribute;
 
@@ -28,25 +28,13 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
         }
 
         [TestMethod]
-        public async Task Valid()
-        {
-            _httpTestFake.RespondWith(GetResultFileFromResource(nameof(Valid)));
-
-            var loginResult = await _bricksetApiService.Login(new ParameterLogin());
-
-            loginResult.Should()
-                .NotBeEmpty();
-        }
-
-        [TestMethod]
         public async Task Invalid()
         {
             _httpTestFake.RespondWith(GetResultFileFromResource(nameof(Invalid)));
 
             var loginResult = await _bricksetApiService.Login(new ParameterLogin());
 
-            loginResult.Should()
-                .BeNull();
+            Check.That(loginResult).IsNull();
         }
 
         [TestMethod]
@@ -56,8 +44,17 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
 
             var loginResult = await _bricksetApiService.Login(new ParameterLogin());
 
-            loginResult.Should()
-                .BeNull();
+            Check.That(loginResult).IsNull();
+        }
+
+        [TestMethod]
+        public async Task Valid()
+        {
+            _httpTestFake.RespondWith(GetResultFileFromResource(nameof(Valid)));
+
+            var loginResult = await _bricksetApiService.Login(new ParameterLogin());
+
+            Check.That(loginResult).Not.IsEmpty();
         }
     }
 }

@@ -5,8 +5,8 @@ using abremir.AllMyBricks.Platform.Interfaces;
 using abremir.AllMyBricks.ThirdParty.Brickset.Interfaces;
 using abremir.AllMyBricks.ThirdParty.Brickset.Models.Parameters;
 using abremir.AllMyBricks.UserManagement.Services;
-using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NFluent;
 using NSubstitute;
 using NSubstituteAutoMocker.Standard;
 using System;
@@ -32,9 +32,13 @@ namespace abremir.AllMyBricks.UserManagement.Tests.Services
 
             var addedDefaultUser = await _userService.ClassUnderTest.AddDefaultUser();
 
-            await _userService.Get<ISecureStorageService>().DidNotReceive().SaveDefaultUsername(Arg.Any<string>());
-            _userService.Get<IBricksetUserRepository>().DidNotReceive().Add(BricksetUserTypeEnum.None, Arg.Any<string>());
-            addedDefaultUser.Should().BeFalse();
+            await _userService.Get<ISecureStorageService>()
+                .DidNotReceive()
+                .SaveDefaultUsername(Arg.Any<string>());
+            _userService.Get<IBricksetUserRepository>()
+                .DidNotReceive()
+                .Add(BricksetUserTypeEnum.None, Arg.Any<string>());
+            Check.That(addedDefaultUser).IsFalse();
         }
 
         [TestMethod]
@@ -44,9 +48,13 @@ namespace abremir.AllMyBricks.UserManagement.Tests.Services
 
             var addedDefaultUser = await _userService.ClassUnderTest.AddDefaultUser();
 
-            await _userService.Get<ISecureStorageService>().Received().SaveDefaultUsername(Arg.Any<string>());
-            _userService.Get<IBricksetUserRepository>().Received().Add(BricksetUserTypeEnum.None, Arg.Any<string>());
-            addedDefaultUser.Should().BeTrue();
+            await _userService.Get<ISecureStorageService>()
+                .Received()
+                .SaveDefaultUsername(Arg.Any<string>());
+            _userService.Get<IBricksetUserRepository>()
+                .Received()
+                .Add(BricksetUserTypeEnum.None, Arg.Any<string>());
+            Check.That(addedDefaultUser).IsTrue();
         }
 
         [DataTestMethod]
@@ -67,12 +75,19 @@ namespace abremir.AllMyBricks.UserManagement.Tests.Services
 
             var addedPrimaryUser = await _userService.ClassUnderTest.AddBricksetPrimaryUser(username, password);
 
-            await _userService.Get<IBricksetApiService>().DidNotReceive().Login(Arg.Any<ParameterLogin>());
-            await _userService.Get<ISecureStorageService>().DidNotReceive().SaveBricksetPrimaryUser(Arg.Any<string>(), Arg.Any<string>());
-            _userService.Get<IBricksetUserRepository>().DidNotReceive().Add(BricksetUserTypeEnum.Primary, Arg.Any<string>());
-            await _userService.Get<IUserSynchronizationService>().DidNotReceive().SynchronizeBricksetPrimaryUsersSets(Arg.Any<string>());
-            addedPrimaryUser.Should().BeFalse();
-            addedPrimaryUser.Should().BeFalse();
+            await _userService.Get<IBricksetApiService>()
+                .DidNotReceive()
+                .Login(Arg.Any<ParameterLogin>());
+            await _userService.Get<ISecureStorageService>()
+                .DidNotReceive()
+                .SaveBricksetPrimaryUser(Arg.Any<string>(), Arg.Any<string>());
+            _userService.Get<IBricksetUserRepository>()
+                .DidNotReceive()
+                .Add(BricksetUserTypeEnum.Primary, Arg.Any<string>());
+            await _userService.Get<IUserSynchronizationService>()
+                .DidNotReceive()
+                .SynchronizeBricksetPrimaryUsersSets(Arg.Any<string>());
+            Check.That(addedPrimaryUser).IsFalse();
         }
 
         [DataTestMethod]
@@ -88,11 +103,19 @@ namespace abremir.AllMyBricks.UserManagement.Tests.Services
 
             var addedPrimaryUser = await _userService.ClassUnderTest.AddBricksetPrimaryUser(Guid.NewGuid().ToString(), Guid.NewGuid().ToString());
 
-            await _userService.Get<IBricksetApiService>().Received().Login(Arg.Any<ParameterLogin>());
-            await _userService.Get<ISecureStorageService>().DidNotReceive().SaveBricksetPrimaryUser(Arg.Any<string>(), Arg.Any<string>());
-            _userService.Get<IBricksetUserRepository>().DidNotReceive().Add(BricksetUserTypeEnum.Primary, Arg.Any<string>());
-            await _userService.Get<IUserSynchronizationService>().DidNotReceive().SynchronizeBricksetPrimaryUsersSets(Arg.Any<string>());
-            addedPrimaryUser.Should().BeFalse();
+            await _userService.Get<IBricksetApiService>()
+                .Received()
+                .Login(Arg.Any<ParameterLogin>());
+            await _userService.Get<ISecureStorageService>()
+                .DidNotReceive()
+                .SaveBricksetPrimaryUser(Arg.Any<string>(), Arg.Any<string>());
+            _userService.Get<IBricksetUserRepository>()
+                .DidNotReceive()
+                .Add(BricksetUserTypeEnum.Primary, Arg.Any<string>());
+            await _userService.Get<IUserSynchronizationService>()
+                .DidNotReceive()
+                .SynchronizeBricksetPrimaryUsersSets(Arg.Any<string>());
+            Check.That(addedPrimaryUser).IsFalse();
         }
 
         [TestMethod]
@@ -105,11 +128,19 @@ namespace abremir.AllMyBricks.UserManagement.Tests.Services
 
             var addedPrimaryUser = await _userService.ClassUnderTest.AddBricksetPrimaryUser(Guid.NewGuid().ToString(), Guid.NewGuid().ToString());
 
-            await _userService.Get<IBricksetApiService>().Received().Login(Arg.Any<ParameterLogin>());
-            await _userService.Get<ISecureStorageService>().Received().SaveBricksetPrimaryUser(Arg.Any<string>(), Arg.Any<string>());
-            _userService.Get<IBricksetUserRepository>().Received().Add(BricksetUserTypeEnum.Primary, Arg.Any<string>());
-            await _userService.Get<IUserSynchronizationService>().Received().SynchronizeBricksetPrimaryUsersSets(Arg.Any<string>());
-            addedPrimaryUser.Should().BeTrue();
+            await _userService.Get<IBricksetApiService>()
+                .Received()
+                .Login(Arg.Any<ParameterLogin>());
+            await _userService.Get<ISecureStorageService>()
+                .Received()
+                .SaveBricksetPrimaryUser(Arg.Any<string>(), Arg.Any<string>());
+            _userService.Get<IBricksetUserRepository>()
+                .Received()
+                .Add(BricksetUserTypeEnum.Primary, Arg.Any<string>());
+            await _userService.Get<IUserSynchronizationService>()
+                .Received()
+                .SynchronizeBricksetPrimaryUsersSets(Arg.Any<string>());
+            Check.That(addedPrimaryUser).IsTrue();
         }
 
         [DataTestMethod]
@@ -125,9 +156,13 @@ namespace abremir.AllMyBricks.UserManagement.Tests.Services
 
             var addedFriend = await _userService.ClassUnderTest.AddBricksetFriend(username);
 
-            _userService.Get<IBricksetUserRepository>().DidNotReceive().Add(BricksetUserTypeEnum.Friend, Arg.Any<string>());
-            await _userService.Get<IUserSynchronizationService>().DidNotReceive().SynchronizeBricksetFriendsSets(Arg.Any<string>());
-            addedFriend.Should().BeFalse();
+            _userService.Get<IBricksetUserRepository>()
+                .DidNotReceive()
+                .Add(BricksetUserTypeEnum.Friend, Arg.Any<string>());
+            await _userService.Get<IUserSynchronizationService>()
+                .DidNotReceive()
+                .SynchronizeBricksetFriendsSets(Arg.Any<string>());
+            Check.That(addedFriend).IsFalse();
         }
 
         [TestMethod]
@@ -138,9 +173,13 @@ namespace abremir.AllMyBricks.UserManagement.Tests.Services
 
             var addedFriend = await _userService.ClassUnderTest.AddBricksetFriend(Guid.NewGuid().ToString());
 
-            _userService.Get<IBricksetUserRepository>().Received().Add(BricksetUserTypeEnum.Friend, Arg.Any<string>());
-            await _userService.Get<IUserSynchronizationService>().Received().SynchronizeBricksetFriendsSets(Arg.Any<string>());
-            addedFriend.Should().BeTrue();
+            _userService.Get<IBricksetUserRepository>()
+                .Received()
+                .Add(BricksetUserTypeEnum.Friend, Arg.Any<string>());
+            await _userService.Get<IUserSynchronizationService>()
+                .Received()
+                .SynchronizeBricksetFriendsSets(Arg.Any<string>());
+            Check.That(addedFriend).IsTrue();
         }
 
         [DataTestMethod]
@@ -154,9 +193,13 @@ namespace abremir.AllMyBricks.UserManagement.Tests.Services
 
             var bricksetPrimaryUserRemoved = await _userService.ClassUnderTest.RemoveBricksetPrimaryUser(username);
 
-            _userService.Get<IBricksetUserRepository>().DidNotReceive().Remove(Arg.Any<string>());
-            await _userService.Get<ISecureStorageService>().DidNotReceive().ClearBricksetPrimaryUser(Arg.Any<string>());
-            bricksetPrimaryUserRemoved.Should().BeFalse();
+            _userService.Get<IBricksetUserRepository>()
+                .DidNotReceive()
+                .Remove(Arg.Any<string>());
+            await _userService.Get<ISecureStorageService>()
+                .DidNotReceive()
+                .ClearBricksetPrimaryUser(Arg.Any<string>());
+            Check.That(bricksetPrimaryUserRemoved).IsFalse();
         }
 
         [TestMethod]
@@ -167,9 +210,13 @@ namespace abremir.AllMyBricks.UserManagement.Tests.Services
 
             var bricksetPrimaryUserRemoved = await _userService.ClassUnderTest.RemoveBricksetPrimaryUser(Guid.NewGuid().ToString());
 
-            _userService.Get<IBricksetUserRepository>().Received().Remove(Arg.Any<string>());
-            await _userService.Get<ISecureStorageService>().Received().ClearBricksetPrimaryUser(Arg.Any<string>());
-            bricksetPrimaryUserRemoved.Should().BeTrue();
+            _userService.Get<IBricksetUserRepository>()
+                .Received()
+                .Remove(Arg.Any<string>());
+            await _userService.Get<ISecureStorageService>()
+                .Received()
+                .ClearBricksetPrimaryUser(Arg.Any<string>());
+            Check.That(bricksetPrimaryUserRemoved).IsTrue();
         }
 
         [DataTestMethod]
@@ -183,8 +230,10 @@ namespace abremir.AllMyBricks.UserManagement.Tests.Services
 
             var bricksetFriendRemoved = _userService.ClassUnderTest.RemoveBricksetFriend(username);
 
-            _userService.Get<IBricksetUserRepository>().DidNotReceive().Remove(Arg.Any<string>());
-            bricksetFriendRemoved.Should().BeFalse();
+            _userService.Get<IBricksetUserRepository>()
+                .DidNotReceive()
+                .Remove(Arg.Any<string>());
+            Check.That(bricksetFriendRemoved).IsFalse();
         }
 
         [TestMethod]
@@ -194,8 +243,10 @@ namespace abremir.AllMyBricks.UserManagement.Tests.Services
 
             var bricksetFriendRemoved = _userService.ClassUnderTest.RemoveBricksetFriend(Guid.NewGuid().ToString());
 
-            _userService.Get<IBricksetUserRepository>().Received().Remove(Arg.Any<string>());
-            bricksetFriendRemoved.Should().BeTrue();
+            _userService.Get<IBricksetUserRepository>()
+                .Received()
+                .Remove(Arg.Any<string>());
+            Check.That(bricksetFriendRemoved).IsTrue();
         }
     }
 }

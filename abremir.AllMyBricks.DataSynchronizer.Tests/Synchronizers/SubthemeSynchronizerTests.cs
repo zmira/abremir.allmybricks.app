@@ -9,9 +9,9 @@ using abremir.AllMyBricks.ThirdParty.Brickset.Interfaces;
 using abremir.AllMyBricks.ThirdParty.Brickset.Models;
 using abremir.AllMyBricks.ThirdParty.Brickset.Models.Parameters;
 using Easy.MessageHub;
-using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
+using NFluent;
 using NSubstitute;
 using System.Collections.Generic;
 using System.Linq;
@@ -50,8 +50,8 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 
             var subthemes = await subthemeSynchronizer.Synchronize(string.Empty, new Theme { Name = string.Empty });
 
-            subthemes.Should().BeEmpty();
-            _subthemeRepository.All().Should().BeEmpty();
+            Check.That(subthemes).IsEmpty();
+            Check.That(_subthemeRepository.All()).IsEmpty();
         }
 
         [TestMethod]
@@ -75,8 +75,8 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 
             var subthemes = await subthemeSynchronizer.Synchronize(string.Empty, theme);
 
-            subthemes.Count().Should().Be(subthemesList.Count);
-            _subthemeRepository.All().Count().Should().Be(subthemesList.Count);
+            Check.That(subthemes).CountIs(subthemesList.Count);
+            Check.That(_subthemeRepository.All()).CountIs(subthemesList.Count);
         }
 
         private SubthemeSynchronizer CreateTarget(IBricksetApiService bricksetApiService = null)

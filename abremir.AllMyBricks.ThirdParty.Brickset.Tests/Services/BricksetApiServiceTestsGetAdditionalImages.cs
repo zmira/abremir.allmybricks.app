@@ -2,9 +2,8 @@
 using abremir.AllMyBricks.ThirdParty.Brickset.Services;
 using abremir.AllMyBricks.ThirdParty.Brickset.Tests.Configuration;
 using abremir.AllMyBricks.ThirdParty.Brickset.Tests.Shared;
-using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Linq;
+using NFluent;
 using System.Threading.Tasks;
 using ComponentModelDescription = System.ComponentModel.DescriptionAttribute;
 
@@ -29,14 +28,13 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
         }
 
         [TestMethod]
-        public async Task Success()
+        public async Task InvalidApiKey()
         {
-            _httpTestFake.RespondWith(GetResultFileFromResource(nameof(Success)));
+            _httpTestFake.RespondWith(GetResultFileFromResource(nameof(InvalidApiKey)));
 
             var additionalImages = await _bricksetApiService.GetAdditionalImages(new ParameterSetId());
 
-            additionalImages.Count().Should()
-                .Be(6);
+            Check.That(additionalImages).IsEmpty();
         }
 
         [TestMethod]
@@ -46,19 +44,17 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
 
             var additionalImages = await _bricksetApiService.GetAdditionalImages(new ParameterSetId());
 
-            additionalImages.Should()
-                .BeEmpty();
+            Check.That(additionalImages).IsEmpty();
         }
 
         [TestMethod]
-        public async Task InvalidApiKey()
+        public async Task Success()
         {
-            _httpTestFake.RespondWith(GetResultFileFromResource(nameof(InvalidApiKey)));
+            _httpTestFake.RespondWith(GetResultFileFromResource(nameof(Success)));
 
             var additionalImages = await _bricksetApiService.GetAdditionalImages(new ParameterSetId());
 
-            additionalImages.Should()
-                .BeEmpty();
+            Check.That(additionalImages).CountIs(6);
         }
     }
 }

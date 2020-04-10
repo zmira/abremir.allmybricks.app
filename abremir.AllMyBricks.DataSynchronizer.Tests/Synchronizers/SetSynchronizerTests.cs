@@ -10,9 +10,9 @@ using abremir.AllMyBricks.ThirdParty.Brickset.Interfaces;
 using abremir.AllMyBricks.ThirdParty.Brickset.Models;
 using abremir.AllMyBricks.ThirdParty.Brickset.Models.Parameters;
 using Easy.MessageHub;
-using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
+using NFluent;
 using NSubstitute;
 using System;
 using System.Collections.Generic;
@@ -56,7 +56,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 
             await setSynchronizer.Synchronize(string.Empty, new Theme { Name = string.Empty, YearFrom = 0, YearTo = 1 }, new Subtheme { Name = string.Empty });
 
-            _setRepository.All().Should().BeEmpty();
+            Check.That(_setRepository.All()).IsEmpty();
         }
 
         [TestMethod]
@@ -107,10 +107,10 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 
             var expectedSets = setsList.Where(bricksetSets => bricksetSets.Subtheme == subtheme.Name).ToList();
 
-            _setRepository.All().Count().Should().Be(expectedSets.Count);
+            Check.That(_setRepository.All()).CountIs(expectedSets.Count);
             var persistedSet = _setRepository.Get(testSet.SetId);
-            persistedSet.Images.Count.Should().BeGreaterOrEqualTo(additionalImagesList.Count);
-            persistedSet.Instructions.Count.Should().Be(instructionsList.Count);
+            Check.That(persistedSet.Images).CountIs(additionalImagesList.Count);
+            Check.That(persistedSet.Instructions).CountIs(instructionsList.Count);
         }
 
         [TestMethod]
@@ -125,7 +125,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 
             await setSynchronizer.Synchronize(string.Empty, DateTimeOffset.Now.Date);
 
-            _setRepository.All().Should().BeEmpty();
+            Check.That(_setRepository.All()).IsEmpty();
         }
 
         [TestMethod]
@@ -157,7 +157,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 
             await setSynchronizer.Synchronize(string.Empty, DateTimeOffset.Now);
 
-            _setRepository.All().Count().Should().Be(recentlyUpdatedSetsList.Count);
+            Check.That(_setRepository.All()).CountIs(recentlyUpdatedSetsList.Count);
         }
 
         private SetSynchronizer CreateTarget(IBricksetApiService bricksetApiService = null)

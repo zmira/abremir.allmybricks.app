@@ -1,8 +1,8 @@
 ﻿using abremir.AllMyBricks.AssetManagement.Implementations;
 using abremir.AllMyBricks.AssetManagement.Interfaces;
 using abremir.AllMyBricks.Platform.Interfaces;
-using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NFluent;
 using NSubstitute;
 using NSubstituteAutoMocker.Standard;
 using SharpCompress.Readers;
@@ -32,7 +32,7 @@ namespace abremir.AllMyBricks.AssetManagement.Tests.Implementations
 
             var result = _assetUncompression.ClassUnderTest.UncompressAsset(validStream ? new MemoryStream() : null, string.Empty);
 
-            result.Should().BeFalse();
+            Check.That(result).IsFalse();
         }
 
         [DataTestMethod]
@@ -51,7 +51,7 @@ namespace abremir.AllMyBricks.AssetManagement.Tests.Implementations
 
             var result = _assetUncompression.ClassUnderTest.UncompressAsset(sourceFilePath, string.Empty);
 
-            result.Should().BeFalse();
+            Check.That(result).IsFalse();
         }
 
         [TestMethod]
@@ -81,8 +81,9 @@ namespace abremir.AllMyBricks.AssetManagement.Tests.Implementations
 
             var result = _assetUncompression.ClassUnderTest.UncompressAsset(new MemoryStream(), string.Empty);
 
-            result.Should().BeTrue();
-            reader.Received().WriteEntryTo(Arg.Any<Stream>());
+            Check.That(result).IsTrue();
+            reader.Received()
+                .WriteEntryTo(Arg.Any<Stream>());
         }
     }
 }

@@ -1,9 +1,9 @@
 ﻿using abremir.AllMyBricks.AssetManagement.Interfaces;
 using abremir.AllMyBricks.AssetManagement.Services;
 using abremir.AllMyBricks.Platform.Interfaces;
-using FluentAssertions;
 using Flurl.Http.Testing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NFluent;
 using NSubstitute;
 using NSubstituteAutoMocker.Standard;
 using System.IO;
@@ -39,9 +39,11 @@ namespace abremir.AllMyBricks.AssetManagement.Tests.Services
 
             var result = await _assetManagementService.ClassUnderTest.InstallAllMyBricksSeedDatabase(databaseSeedUrl, targetFolderPath);
 
-            result.Should().BeFalse();
+            Check.That(result).IsFalse();
             _httpTest.ShouldNotHaveMadeACall();
-            _assetManagementService.Get<IAssetUncompression>().DidNotReceiveWithAnyArgs().UncompressAsset(Arg.Any<Stream>(), Arg.Any<string>());
+            _assetManagementService.Get<IAssetUncompression>()
+                .DidNotReceiveWithAnyArgs()
+                .UncompressAsset(Arg.Any<Stream>(), Arg.Any<string>());
         }
 
         [TestMethod]
@@ -56,9 +58,11 @@ namespace abremir.AllMyBricks.AssetManagement.Tests.Services
 
             var result = await _assetManagementService.ClassUnderTest.InstallAllMyBricksSeedDatabase("http://www.google.com/test.lz", "C:\\");
 
-            result.Should().BeTrue();
+            Check.That(result).IsTrue();
             _httpTest.ShouldHaveMadeACall();
-            _assetManagementService.Get<IAssetUncompression>().ReceivedWithAnyArgs().UncompressAsset(Arg.Any<Stream>(), Arg.Any<string>());
+            _assetManagementService.Get<IAssetUncompression>()
+                .ReceivedWithAnyArgs()
+                .UncompressAsset(Arg.Any<Stream>(), Arg.Any<string>());
         }
     }
 }

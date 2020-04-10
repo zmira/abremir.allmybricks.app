@@ -5,8 +5,8 @@ using abremir.AllMyBricks.Data.Models;
 using abremir.AllMyBricks.Data.Repositories;
 using abremir.AllMyBricks.Data.Tests.Configuration;
 using abremir.AllMyBricks.Data.Tests.Shared;
-using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NFluent;
 using System;
 using System.Linq;
 
@@ -34,7 +34,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
         {
             var set = _setRepository.Get(0);
 
-            set.Should().BeNull();
+            Check.That(set).IsNull();
         }
 
         [TestMethod]
@@ -46,7 +46,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
 
             var set = _setRepository.Get(setUnderTest.SetId + 1);
 
-            set.Should().BeNull();
+            Check.That(set).IsNull();
         }
 
         [TestMethod]
@@ -58,7 +58,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
 
             var set = _setRepository.Get(setUnderTest.SetId);
 
-            set.SetId.Should().Be(setUnderTest.SetId);
+            Check.That(set.SetId).IsEqualTo(setUnderTest.SetId);
         }
 
         [TestMethod]
@@ -66,7 +66,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
         {
             var allSets = _setRepository.All();
 
-            allSets.Should().BeEmpty();
+            Check.That(allSets).IsEmpty();
         }
 
         [TestMethod]
@@ -78,7 +78,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
 
             var allSets = _setRepository.All();
 
-            allSets.Select(set => set.SetId).Should().BeEquivalentTo(listOfSetsUnderTest.Select(set => set.SetId));
+            Check.That(allSets.Select(set => set.SetId)).IsEquivalentTo(listOfSetsUnderTest.Select(set => set.SetId));
         }
 
         [DataTestMethod]
@@ -88,7 +88,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
         {
             var allSetsForTheme = _setRepository.AllForTheme(themeName);
 
-            allSetsForTheme.Should().BeEmpty();
+            Check.That(allSetsForTheme).IsEmpty();
         }
 
         [TestMethod]
@@ -101,7 +101,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
 
             var allSetsForTheme = _setRepository.AllForTheme(ModelsSetup.NonExistentThemeName);
 
-            allSetsForTheme.Should().BeEmpty();
+            Check.That(allSetsForTheme).IsEmpty();
         }
 
         [TestMethod]
@@ -117,8 +117,8 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
 
             var allSetsForTheme = _setRepository.AllForTheme(listOfThemes[0].Name);
 
-            allSetsForTheme.Should().HaveCount(1);
-            allSetsForTheme.First().SetId.Should().Be(listOfSets[0].SetId);
+            Check.That(allSetsForTheme).CountIs(1);
+            Check.That(allSetsForTheme.First().SetId).IsEqualTo(listOfSets[0].SetId);
         }
 
         [DataTestMethod]
@@ -130,7 +130,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
         {
             var allSetsForSubtheme = _setRepository.AllForSubtheme(themeName, subthemeName);
 
-            allSetsForSubtheme.Should().BeEmpty();
+            Check.That(allSetsForSubtheme).IsEmpty();
         }
 
         [TestMethod]
@@ -154,7 +154,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
 
             var allSetsForSubtheme = _setRepository.AllForSubtheme(listOfSets[0].Theme.Name, ModelsSetup.NonExistentSubthemeName);
 
-            allSetsForSubtheme.Should().BeEmpty();
+            Check.That(allSetsForSubtheme).IsEmpty();
         }
 
         [TestMethod]
@@ -178,8 +178,8 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
 
             var allSetsForSubtheme = _setRepository.AllForSubtheme(listOfSets[0].Theme.Name, listOfSets[0].Subtheme.Name);
 
-            allSetsForSubtheme.Should().HaveCount(1);
-            allSetsForSubtheme.First().SetId.Should().Be(listOfSets[0].SetId);
+            Check.That(allSetsForSubtheme).CountIs(1);
+            Check.That(allSetsForSubtheme.First().SetId).IsEqualTo(listOfSets[0].SetId);
         }
 
         [DataTestMethod]
@@ -189,7 +189,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
         {
             var allSetsForThemeGroup = _setRepository.AllForThemeGroup(themeGroupName);
 
-            allSetsForThemeGroup.Should().BeEmpty();
+            Check.That(allSetsForThemeGroup).IsEmpty();
         }
 
         [TestMethod]
@@ -202,7 +202,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
 
             var allSetsForThemeGroup = _setRepository.AllForThemeGroup($"{ModelsSetup.ThemeGroupReferenceDataValue}_NON-EXISTENT");
 
-            allSetsForThemeGroup.Should().BeEmpty();
+            Check.That(allSetsForThemeGroup).IsEmpty();
         }
 
         [TestMethod]
@@ -215,8 +215,8 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
 
             var allSetsForThemeGroup = _setRepository.AllForThemeGroup(ModelsSetup.ThemeGroupReferenceDataValue);
 
-            allSetsForThemeGroup.Should().HaveCount(1);
-            allSetsForThemeGroup.First().SetId.Should().Be(listOfSets[0].SetId);
+            Check.That(allSetsForThemeGroup).CountIs(1);
+            Check.That(allSetsForThemeGroup.First().SetId).IsEqualTo(listOfSets[0].SetId);
         }
 
         [DataTestMethod]
@@ -226,7 +226,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
         {
             var allSetsForCategory = _setRepository.AllForCategory(categoryName);
 
-            allSetsForCategory.Should().BeEmpty();
+            Check.That(allSetsForCategory).IsEmpty();
         }
 
         [TestMethod]
@@ -241,7 +241,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
 
             var allSetsForCategory = _setRepository.AllForCategory($"{ModelsSetup.CategoryReferenceDataValue}_NON-EXISTENT");
 
-            allSetsForCategory.Should().BeEmpty();
+            Check.That(allSetsForCategory).IsEmpty();
         }
 
         [TestMethod]
@@ -254,8 +254,8 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
 
             var allSetsForCategory = _setRepository.AllForCategory(ModelsSetup.CategoryReferenceDataValue);
 
-            allSetsForCategory.Should().HaveCount(1);
-            allSetsForCategory.First().SetId.Should().Be(listOfSets[0].SetId);
+            Check.That(allSetsForCategory).CountIs(1);
+            Check.That(allSetsForCategory.First().SetId).IsEqualTo(listOfSets[0].SetId);
         }
 
         [DataTestMethod]
@@ -265,7 +265,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
         {
             var allSetsForTag = _setRepository.AllForTag(tagName);
 
-            allSetsForTag.Should().BeEmpty();
+            Check.That(allSetsForTag).IsEmpty();
         }
 
         [TestMethod]
@@ -278,7 +278,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
 
             var allSetsForTag = _setRepository.AllForTag($"{ModelsSetup.TagReferenceDataValue}_NON-EXISTENT");
 
-            allSetsForTag.Should().BeEmpty();
+            Check.That(allSetsForTag).IsEmpty();
         }
 
         [TestMethod]
@@ -291,8 +291,8 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
 
             var allSetsForTag = _setRepository.AllForTag(ModelsSetup.TagReferenceDataValue);
 
-            allSetsForTag.Should().HaveCount(1);
-            allSetsForTag.First().SetId.Should().Be(listOfSets[0].SetId);
+            Check.That(allSetsForTag).CountIs(1);
+            Check.That(allSetsForTag.First().SetId).IsEqualTo(listOfSets[0].SetId);
         }
 
         [TestMethod]
@@ -300,7 +300,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
         {
             var allSetsForYear = _setRepository.AllForYear(Constants.MinimumSetYear - 1);
 
-            allSetsForYear.Should().BeEmpty();
+            Check.That(allSetsForYear).IsEmpty();
         }
 
         [TestMethod]
@@ -314,7 +314,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
 
             var allSetsForYear = _setRepository.AllForYear((short)Constants.MinimumSetYear + 2);
 
-            allSetsForYear.Should().BeEmpty();
+            Check.That(allSetsForYear).IsEmpty();
         }
 
         [TestMethod]
@@ -328,8 +328,8 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
 
             var allSetsForYear = _setRepository.AllForYear((short)Constants.MinimumSetYear);
 
-            allSetsForYear.Should().HaveCount(1);
-            allSetsForYear.First().SetId.Should().Be(listOfSets[0].SetId);
+            Check.That(allSetsForYear).CountIs(1);
+            Check.That(allSetsForYear.First().SetId).IsEqualTo(listOfSets[0].SetId);
         }
 
         [DataTestMethod]
@@ -348,7 +348,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
 
             var allSetsForPriceRange = _setRepository.AllForPriceRange(PriceRegionEnum.CA, minPrice, maxPrice);
 
-            allSetsForPriceRange.Should().BeEmpty();
+            Check.That(allSetsForPriceRange).IsEmpty();
         }
 
         [TestMethod]
@@ -365,7 +365,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
 
             var allSetsForPriceRange = _setRepository.AllForPriceRange(PriceRegionEnum.DE, 0, 10);
 
-            allSetsForPriceRange.Should().BeEmpty();
+            Check.That(allSetsForPriceRange).IsEmpty();
         }
 
         [TestMethod]
@@ -382,7 +382,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
 
             var allSetsForPriceRange = _setRepository.AllForPriceRange(PriceRegionEnum.CA, 0, 5);
 
-            allSetsForPriceRange.Should().BeEmpty();
+            Check.That(allSetsForPriceRange).IsEmpty();
         }
 
         [TestMethod]
@@ -399,8 +399,8 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
 
             var allSetsForPriceRange = _setRepository.AllForPriceRange(PriceRegionEnum.CA, 0, 5);
 
-            allSetsForPriceRange.Should().HaveCount(1);
-            allSetsForPriceRange.First().SetId.Should().Be(set.SetId);
+            Check.That(allSetsForPriceRange).CountIs(1);
+            Check.That(allSetsForPriceRange.First().SetId).IsEqualTo(set.SetId);
         }
 
         [DataTestMethod]
@@ -416,7 +416,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
         {
             var searchResult = _setRepository.SearchBy(searchTerm);
 
-            searchResult.Should().BeEmpty();
+            Check.That(searchResult).IsEmpty();
         }
 
         [TestMethod]
@@ -429,7 +429,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
 
             var searchResult = _setRepository.SearchBy($"{setUnderTest.Name}_NONEXISTANT");
 
-            searchResult.Should().BeEmpty();
+            Check.That(searchResult).IsEmpty();
         }
 
         [DataTestMethod]
@@ -449,8 +449,8 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
 
             var searchResult = _setRepository.SearchBy(searchTerm);
 
-            searchResult.Should().HaveCount(1);
-            searchResult.First().SetId.Should().Be(setUnderTest.SetId);
+            Check.That(searchResult).CountIs(1);
+            Check.That(searchResult.First().SetId).IsEqualTo(setUnderTest.SetId);
         }
 
         [TestMethod]
@@ -460,7 +460,54 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
             SetupSetForSearch(1);
 
             var searchResult = _setRepository.SearchBy("tag1 subtheme0");
-            searchResult.Should().HaveCount(2);
+            Check.That(searchResult).CountIs(2);
+        }
+
+        [TestMethod]
+        public void AddOrUpdate_NullSet_ReturnsNull()
+        {
+            var set = _setRepository.AddOrUpdate(null);
+
+            Check.That(set).IsNull();
+        }
+
+        [TestMethod]
+        public void AddOrUpdate_InvalidSet_ReturnsNull()
+        {
+            var set = _setRepository.AddOrUpdate(new Set { SetId = 0 });
+
+            Check.That(set).IsNull();
+        }
+
+        [TestMethod]
+        public void AddOrUpdate_NewValidSet_InsertsModel()
+        {
+            var setUnderTest = ModelsSetup.GetSetUnderTest();
+
+            _setRepository.AddOrUpdate(setUnderTest);
+
+            var set = _setRepository.Get(setUnderTest.SetId);
+
+            Check.That(set).IsNotNull();
+            Check.That(set.SetId).IsEqualTo(setUnderTest.SetId);
+        }
+
+        [TestMethod]
+        public void AddOrUpdate_ExistingValidSet_UpdatesModel()
+        {
+            var setUnderTest = ModelsSetup.GetSetUnderTest();
+
+            _setRepository.AddOrUpdate(setUnderTest);
+
+            var setFromDb = _setRepository.Get(setUnderTest.SetId);
+
+            setFromDb.Name = "NEW NAME";
+
+            _setRepository.AddOrUpdate(setFromDb);
+
+            var set = _setRepository.Get(setUnderTest.SetId);
+
+            Check.That(set).HasFieldsWithSameValues(setFromDb);
         }
 
         private Set SetupSetForSearch(int suffix)
@@ -482,53 +529,6 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
             set.Tags.Add(InsertData(new Tag { Value = $"SET TAG{suffix}" }));
 
             return InsertData(set);
-        }
-
-        [TestMethod]
-        public void AddOrUpdate_NullSet_ReturnsNull()
-        {
-            var set = _setRepository.AddOrUpdate(null);
-
-            set.Should().BeNull();
-        }
-
-        [TestMethod]
-        public void AddOrUpdate_InvalidSet_ReturnsNull()
-        {
-            var set = _setRepository.AddOrUpdate(new Set { SetId = 0 });
-
-            set.Should().BeNull();
-        }
-
-        [TestMethod]
-        public void AddOrUpdate_NewValidSet_InsertsModel()
-        {
-            var setUnderTest = ModelsSetup.GetSetUnderTest();
-
-            _setRepository.AddOrUpdate(setUnderTest);
-
-            var set = _setRepository.Get(setUnderTest.SetId);
-
-            set.Should().NotBeNull();
-            set.SetId.Should().Be(setUnderTest.SetId);
-        }
-
-        [TestMethod]
-        public void AddOrUpdate_ExistingValidSet_UpdatesModel()
-        {
-            var setUnderTest = ModelsSetup.GetSetUnderTest();
-
-            _setRepository.AddOrUpdate(setUnderTest);
-
-            var setFromDb = _setRepository.Get(setUnderTest.SetId);
-
-            setFromDb.Name = "NEW NAME";
-
-            _setRepository.AddOrUpdate(setFromDb);
-
-            var set = _setRepository.Get(setUnderTest.SetId);
-
-            set.Should().BeEquivalentTo(setFromDb);
         }
     }
 }
