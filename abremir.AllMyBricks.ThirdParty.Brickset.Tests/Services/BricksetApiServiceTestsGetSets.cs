@@ -38,9 +38,19 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
         }
 
         [TestMethod]
-        public async Task InvalidParameters()
+        public async Task ParameterError()
         {
-            _httpTestFake.RespondWith(GetResultFileFromResource(nameof(InvalidParameters)));
+            _httpTestFake.RespondWith(GetResultFileFromResource(nameof(ParameterError)));
+
+            var sets = await _bricksetApiService.GetSets(new GetSetsParameters());
+
+            Check.That(sets).IsEmpty();
+        }
+
+        [TestMethod]
+        public async Task NoValidParameters()
+        {
+            _httpTestFake.RespondWith(GetResultFileFromResource(nameof(NoValidParameters)));
 
             var sets = await _bricksetApiService.GetSets(new GetSetsParameters());
 
@@ -58,9 +68,9 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
         }
 
         [TestMethod]
-        public async Task NoMatches()
+        public async Task DailyApiLimitExceeded()
         {
-            _httpTestFake.RespondWith(GetResultFileFromResource(nameof(NoMatches)));
+            _httpTestFake.RespondWith(GetResultFileFromResource(nameof(DailyApiLimitExceeded)));
 
             var sets = await _bricksetApiService.GetSets(new GetSetsParameters());
 

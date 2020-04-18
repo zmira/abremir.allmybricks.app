@@ -18,10 +18,11 @@
     <None Remove="BricksetApiResponses\GetInstructions\InvalidApiKey.json" />
     <None Remove="BricksetApiResponses\GetInstructions\NoMatches.json" />
     <None Remove="BricksetApiResponses\GetInstructions\Success.json" />
+    <None Remove="BricksetApiResponses\GetSets\DailyApiLimitExceeded.json" />
     <None Remove="BricksetApiResponses\GetSets\InvalidApiKey.json" />
-    <None Remove="BricksetApiResponses\GetSets\InvalidParameters.json" />
     <None Remove="BricksetApiResponses\GetSets\InvalidUserHash.json" />
-    <None Remove="BricksetApiResponses\GetSets\NoMatches.json" />
+    <None Remove="BricksetApiResponses\GetSets\NoValidParameters.json" />
+    <None Remove="BricksetApiResponses\GetSets\ParameterError.json" />
     <None Remove="BricksetApiResponses\GetSets\Success.json" />
     <None Remove="BricksetApiResponses\GetSubthemes\InvalidApiKey.json" />
     <None Remove="BricksetApiResponses\GetSubthemes\NoMatches.json" />
@@ -52,10 +53,11 @@
     <EmbeddedResource Include="BricksetApiResponses\GetInstructions\InvalidApiKey.json" />
     <EmbeddedResource Include="BricksetApiResponses\GetInstructions\NoMatches.json" />
     <EmbeddedResource Include="BricksetApiResponses\GetInstructions\Success.json" />
-    <EmbeddedResource Include="BricksetApiResponses\GetSets\InvalidParameters.json" />
+    <EmbeddedResource Include="BricksetApiResponses\GetSets\DailyApiLimitExceeded.json" />
+    <EmbeddedResource Include="BricksetApiResponses\GetSets\NoValidParameters.json" />
+    <EmbeddedResource Include="BricksetApiResponses\GetSets\ParameterError.json" />
     <EmbeddedResource Include="BricksetApiResponses\GetSets\InvalidUserHash.json" />
     <EmbeddedResource Include="BricksetApiResponses\GetSets\InvalidApiKey.json" />
-    <EmbeddedResource Include="BricksetApiResponses\GetSets\NoMatches.json" />
     <EmbeddedResource Include="BricksetApiResponses\GetSets\Success.json" />
     <EmbeddedResource Include="BricksetApiResponses\GetSubthemes\InvalidApiKey.json" />
     <EmbeddedResource Include="BricksetApiResponses\GetSubthemes\NoMatches.json" />
