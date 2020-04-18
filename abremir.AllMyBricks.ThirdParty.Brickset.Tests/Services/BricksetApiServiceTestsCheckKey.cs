@@ -1,4 +1,5 @@
-﻿using abremir.AllMyBricks.ThirdParty.Brickset.Models.Parameters;
+﻿using abremir.AllMyBricks.ThirdParty.Brickset.Models;
+using abremir.AllMyBricks.ThirdParty.Brickset.Models.Parameters;
 using abremir.AllMyBricks.ThirdParty.Brickset.Services;
 using abremir.AllMyBricks.ThirdParty.Brickset.Tests.Configuration;
 using abremir.AllMyBricks.ThirdParty.Brickset.Tests.Shared;
@@ -28,13 +29,11 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
         }
 
         [TestMethod]
-        public async Task Invalid()
+        public void Invalid()
         {
             _httpTestFake.RespondWith(GetResultFileFromResource(nameof(Invalid)));
 
-            var keyValidity = await _bricksetApiService.CheckKey(new ParameterApiKey());
-
-            Check.That(keyValidity).IsFalse();
+            Check.ThatAsyncCode(() => _bricksetApiService.CheckKey(new ParameterApiKey())).Throws<BricksetRequestException>();
         }
 
         [TestMethod]

@@ -1,4 +1,5 @@
-﻿using abremir.AllMyBricks.ThirdParty.Brickset.Models.Parameters;
+﻿using abremir.AllMyBricks.ThirdParty.Brickset.Models;
+using abremir.AllMyBricks.ThirdParty.Brickset.Models.Parameters;
 using abremir.AllMyBricks.ThirdParty.Brickset.Services;
 using abremir.AllMyBricks.ThirdParty.Brickset.Tests.Configuration;
 using abremir.AllMyBricks.ThirdParty.Brickset.Tests.Shared;
@@ -28,33 +29,27 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
         }
 
         [TestMethod]
-        public async Task InvalidApiKey()
+        public void InvalidApiKey()
         {
             _httpTestFake.RespondWith(GetResultFileFromResource(nameof(InvalidApiKey)));
 
-            var setCollectionResult = await _bricksetApiService.SetCollection(new SetCollectionParameters());
-
-            Check.That(setCollectionResult).IsFalse();
+            Check.ThatAsyncCode(() => _bricksetApiService.SetCollection(new SetCollectionParameters())).Throws<BricksetRequestException>();
         }
 
         [TestMethod]
-        public async Task InvalidUserHash()
+        public void InvalidUserHash()
         {
             _httpTestFake.RespondWith(GetResultFileFromResource(nameof(InvalidUserHash)));
 
-            var setCollectionResult = await _bricksetApiService.SetCollection(new SetCollectionParameters());
-
-            Check.That(setCollectionResult).IsFalse();
+            Check.ThatAsyncCode(() => _bricksetApiService.SetCollection(new SetCollectionParameters())).Throws<BricksetRequestException>();
         }
 
         [TestMethod]
-        public async Task InvalidParameters()
+        public void InvalidParameters()
         {
             _httpTestFake.RespondWith(GetResultFileFromResource(nameof(InvalidParameters)));
 
-            var setCollectionResult = await _bricksetApiService.SetCollection(new SetCollectionParameters());
-
-            Check.That(setCollectionResult).IsFalse();
+            Check.ThatAsyncCode(() => _bricksetApiService.SetCollection(new SetCollectionParameters())).Throws<BricksetRequestException>();
         }
 
         [TestMethod]

@@ -1,4 +1,5 @@
-﻿using abremir.AllMyBricks.ThirdParty.Brickset.Models.Parameters;
+﻿using abremir.AllMyBricks.ThirdParty.Brickset.Models;
+using abremir.AllMyBricks.ThirdParty.Brickset.Models.Parameters;
 using abremir.AllMyBricks.ThirdParty.Brickset.Services;
 using abremir.AllMyBricks.ThirdParty.Brickset.Tests.Configuration;
 using abremir.AllMyBricks.ThirdParty.Brickset.Tests.Shared;
@@ -28,53 +29,43 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
         }
 
         [TestMethod]
-        public async Task InvalidApiKey()
+        public void InvalidApiKey()
         {
             _httpTestFake.RespondWith(GetResultFileFromResource(nameof(InvalidApiKey)));
 
-            var sets = await _bricksetApiService.GetSets(new GetSetsParameters());
-
-            Check.That(sets).IsEmpty();
+            Check.ThatAsyncCode(() => _bricksetApiService.GetSets(new GetSetsParameters())).Throws<BricksetRequestException>();
         }
 
         [TestMethod]
-        public async Task ParameterError()
+        public void ParameterError()
         {
             _httpTestFake.RespondWith(GetResultFileFromResource(nameof(ParameterError)));
 
-            var sets = await _bricksetApiService.GetSets(new GetSetsParameters());
-
-            Check.That(sets).IsEmpty();
+            Check.ThatAsyncCode(() => _bricksetApiService.GetSets(new GetSetsParameters())).Throws<BricksetRequestException>();
         }
 
         [TestMethod]
-        public async Task NoValidParameters()
+        public void NoValidParameters()
         {
             _httpTestFake.RespondWith(GetResultFileFromResource(nameof(NoValidParameters)));
 
-            var sets = await _bricksetApiService.GetSets(new GetSetsParameters());
-
-            Check.That(sets).IsEmpty();
+            Check.ThatAsyncCode(() => _bricksetApiService.GetSets(new GetSetsParameters())).Throws<BricksetRequestException>();
         }
 
         [TestMethod]
-        public async Task InvalidUserHash()
+        public void InvalidUserHash()
         {
             _httpTestFake.RespondWith(GetResultFileFromResource(nameof(InvalidUserHash)));
 
-            var sets = await _bricksetApiService.GetSets(new GetSetsParameters());
-
-            Check.That(sets).IsEmpty();
+            Check.ThatAsyncCode(() => _bricksetApiService.GetSets(new GetSetsParameters())).Throws<BricksetRequestException>();
         }
 
         [TestMethod]
-        public async Task DailyApiLimitExceeded()
+        public void DailyApiLimitExceeded()
         {
             _httpTestFake.RespondWith(GetResultFileFromResource(nameof(DailyApiLimitExceeded)));
 
-            var sets = await _bricksetApiService.GetSets(new GetSetsParameters());
-
-            Check.That(sets).IsEmpty();
+            Check.ThatAsyncCode(() => _bricksetApiService.GetSets(new GetSetsParameters())).Throws<BricksetRequestException>();
         }
 
         [TestMethod]
