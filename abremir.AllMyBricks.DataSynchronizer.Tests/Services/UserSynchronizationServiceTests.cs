@@ -70,7 +70,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Services
         }
 
         [TestMethod]
-        public async Task SynchronizeBricksetPrimaryUsersSets_NoUserProvidedAndPrimaryUsersDoNotHaveUserHash_ThrowsExceptionForEachUser()
+        public async Task SynchronizeBricksetPrimaryUsersSets_NoUserProvidedAndPrimaryUsersDoNotHaveUserHash_PublishesExceptionMessageForEachUser()
         {
             const string apiKey = "APIKEY";
 
@@ -149,7 +149,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Services
         }
 
         [TestMethod]
-        public async Task SynchronizeBricksetPrimaryUsersSets_UserProvidedAndDoesNotExist_ThrowsArgumentException()
+        public async Task SynchronizeBricksetPrimaryUsersSets_UserProvidedAndDoesNotExist_PublishesExceptionMessage()
         {
             const string username = "USERNAME";
             const string apiKey = "APIKEY";
@@ -170,7 +170,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Services
         }
 
         [TestMethod]
-        public async Task SynchronizeBricksetPrimaryUsersSets_UserProvidedAndDoesNotHaveUserHash_ThrowsException()
+        public async Task SynchronizeBricksetPrimaryUsersSets_UserProvidedAndDoesNotHaveUserHash_PublishesExceptionMessage()
         {
             const string username = "USERNAME";
             const string apiKey = "APIKEY";
@@ -328,7 +328,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Services
         }
 
         [TestMethod]
-        public async Task SynchronizeBricksetFriendsSets_UserProvidedAndDoesNotExist_ThrowsArgumentException()
+        public async Task SynchronizeBricksetFriendsSets_UserProvidedAndDoesNotExist_PublishesExceptionMessage()
         {
             const string username = "USERNAME";
             const string apiKey = "APIKEY";
