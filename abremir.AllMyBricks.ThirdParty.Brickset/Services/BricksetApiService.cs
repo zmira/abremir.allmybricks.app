@@ -63,9 +63,16 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Services
             return (await BricksetHttpPostUrlEncodeAsync<ResultSetCollection, ParameterSetCollection>(setCollectionParameters.ToParameterSetCollection())).Status == ResultStatusEnum.Success;
         }
 
-        private async Task<T> BricksetHttpPostUrlEncodeAsync<T, U>(U parameters) where T : class where U : class
+        private async Task<T> BricksetHttpPostUrlEncodeAsync<T, U>(U parameters) where T : ResultBase where U : ParameterApiKey
         {
-            return await Constants.BricksetApiUrl.AppendPathSegment(typeof(T).GetDescription()).PostUrlEncodedAsync(parameters).ReceiveJson<T>();
+            var requestResult = await Constants.BricksetApiUrl.AppendPathSegment(typeof(T).GetDescription()).PostUrlEncodedAsync(parameters).ReceiveJson<T>();
+
+            if (requestResult.Status == ResultStatusEnum.Error)
+            {
+                throw new BricksetRequestException(requestResult.Message);
+            }
+
+            return requestResult;
         }
     }
 }
