@@ -29,7 +29,6 @@ namespace abremir.AllMyBricks.Data.Migrations
             liteDatabase.GetCollection<Set>().EnsureIndex(set => set.Year);
             liteDatabase.GetCollection<Set>().EnsureIndex(set => set.Barcodes.Select(barcode => barcode.Type));
             liteDatabase.GetCollection<Set>().EnsureIndex(set => set.Barcodes.Select(barcode => barcode.Value));
-            liteDatabase.GetCollection<Set>().EnsureIndex(set => set.Tags.Select(tag => tag.Value));
             liteDatabase.GetCollection<Set>().EnsureIndex(set => set.Prices.Select(price => price.Region));
             liteDatabase.GetCollection<Set>().EnsureIndex(set => set.Prices.Select(price => price.Value));
             liteDatabase.GetCollection<BricksetUser>().EnsureIndex(bricksetUser => bricksetUser.BricksetUsername, true);
