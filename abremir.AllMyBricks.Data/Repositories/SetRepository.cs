@@ -211,12 +211,7 @@ namespace abremir.AllMyBricks.Data.Repositories
         {
             return repository
                 .Query<Set>()
-                .Include(set => set.Theme)
-                .Include(set => set.ThemeGroup)
-                .Include(set => set.Subtheme)
-                .Include(set => set.PackagingType)
-                .Include(set => set.Category)
-                .Include(set => set.Tags);
+                .IncludeAll();
         }
     }
 }

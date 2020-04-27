@@ -1,4 +1,5 @@
 ﻿using abremir.AllMyBricks.Data.Enumerations;
+using abremir.AllMyBricks.Data.Extensions;
 using abremir.AllMyBricks.Data.Interfaces;
 using abremir.AllMyBricks.Data.Models;
 using LiteDB;
@@ -195,7 +196,7 @@ namespace abremir.AllMyBricks.Data.Repositories
         {
             return repository
                 .Query<BricksetUser>()
-                .Include(bricksetUser => bricksetUser.Sets);
+                .IncludeAll();
         }
     }
 }

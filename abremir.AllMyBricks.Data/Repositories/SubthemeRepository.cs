@@ -101,7 +101,7 @@ namespace abremir.AllMyBricks.Data.Repositories
         {
             return repository
                 .Query<Subtheme>()
-                .Include(subtheme => subtheme.Theme);
+                .IncludeAll();
         }
     }
 }
