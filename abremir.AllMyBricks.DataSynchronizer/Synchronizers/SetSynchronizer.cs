@@ -268,8 +268,8 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
 
             var foundSets = new List<Sets>();
             var pageNumber = 1;
-            var currentPageResults = new List<Sets>();
 
+            List<Sets> currentPageResults;
             do
             {
                 getSetsParameters.PageNumber = pageNumber;

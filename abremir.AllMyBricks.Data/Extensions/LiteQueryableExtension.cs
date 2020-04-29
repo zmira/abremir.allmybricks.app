@@ -20,7 +20,7 @@ namespace abremir.AllMyBricks.Data.Extensions
                 .Where(property =>
                     !property.PropertyType.IsValueType
                     && (property.GetCustomAttribute<BsonRefAttribute>() != null
-                        || typeof(IEnumerable).IsAssignableFrom(property.PropertyType) && property.PropertyType != typeof(string)));
+                        || (typeof(IEnumerable).IsAssignableFrom(property.PropertyType) && property.PropertyType != typeof(string))));
 
             var paths = new List<BsonExpression>();
 
