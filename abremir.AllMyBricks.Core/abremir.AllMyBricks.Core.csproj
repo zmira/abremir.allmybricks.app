@@ -17,7 +17,7 @@
 
   <ItemGroup>
     <PackageReference Include="SimpleInjector" Version="4.10.2" />
-    <PackageReference Include="Xamarin.Forms" Version="4.5.0.657" />
+    <PackageReference Include="Xamarin.Forms" Version="4.6.0.726" />
   </ItemGroup>
 
   <ItemGroup>
