@@ -32,6 +32,9 @@ namespace abremir.AllMyBricks.AssetManagement.Tests.Implementations
             _assetCompression.Get<IFile>()
                 .Exists(Arg.Any<string>())
                 .Returns(sourceFileExists);
+            _assetCompression.Get<IDirectory>()
+                .Exists(Arg.Any<string>())
+                .Returns(!targetFolderPathIsFolder);
             _assetCompression.Get<IFile>()
                 .GetAttributes(Arg.Any<string>())
                 .Returns(targetFolderPathIsFolder ? FileAttributes.Directory : FileAttributes.Archive);

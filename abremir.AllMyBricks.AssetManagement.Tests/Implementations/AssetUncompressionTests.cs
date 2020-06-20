@@ -29,8 +29,11 @@ namespace abremir.AllMyBricks.AssetManagement.Tests.Implementations
             _assetUncompression.Get<IFile>()
                 .GetAttributes(Arg.Any<string>())
                 .Returns(validTargetFolder ? FileAttributes.Directory : FileAttributes.Archive);
+            _assetUncompression.Get<IDirectory>()
+                .Exists(Arg.Any<string>())
+                .Returns(!validTargetFolder);
 
-            var result = _assetUncompression.ClassUnderTest.UncompressAsset(validStream ? new MemoryStream() : null, string.Empty);
+            var result = _assetUncompression.ClassUnderTest.UncompressAsset(validStream ? new MemoryStream() : null, ".");
 
             Check.That(result).IsFalse();
         }

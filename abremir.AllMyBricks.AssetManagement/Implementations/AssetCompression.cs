@@ -31,9 +31,16 @@ namespace abremir.AllMyBricks.AssetManagement.Implementations
             if (string.IsNullOrWhiteSpace(sourceFilePath)
                 || !_file.Exists(sourceFilePath)
                 || (!string.IsNullOrWhiteSpace(targetFolderPath)
+                    && _directory.Exists(targetFolderPath)
                     && !_file.GetAttributes(targetFolderPath).HasFlag(FileAttributes.Directory)))
             {
                 return false;
+            }
+
+            if (!string.IsNullOrWhiteSpace(targetFolderPath)
+                && !_directory.Exists(targetFolderPath))
+            {
+                _directory.CreateDirectory(targetFolderPath);
             }
 
             var targetFilePath = Path.Combine(targetFolderPath ?? string.Empty, GetCompressedAssetFileName(sourceFilePath));

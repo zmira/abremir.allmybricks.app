@@ -42,12 +42,15 @@ namespace abremir.AllMyBricks.AssetManagement.Implementations
         public bool UncompressAsset(Stream sourceStream, string targetFolderPath, bool overwrite = true)
         {
             if (sourceStream is null
-                || !_file.GetAttributes(targetFolderPath).HasFlag(FileAttributes.Directory))
+                || (!string.IsNullOrWhiteSpace(targetFolderPath)
+                    && _directory.Exists(targetFolderPath)
+                    && !_file.GetAttributes(targetFolderPath).HasFlag(FileAttributes.Directory)))
             {
                 return false;
             }
 
-            if (!_directory.Exists(targetFolderPath))
+            if (!string.IsNullOrWhiteSpace(targetFolderPath)
+                && !_directory.Exists(targetFolderPath))
             {
                 _directory.CreateDirectory(targetFolderPath);
             }
@@ -62,7 +65,7 @@ namespace abremir.AllMyBricks.AssetManagement.Implementations
             {
                 if (!sourceReader.Entry.IsDirectory)
                 {
-                    var targetFilePath = Path.Combine(targetFolderPath, sourceReader.Entry.Key);
+                    var targetFilePath = Path.Combine(targetFolderPath ?? string.Empty, sourceReader.Entry.Key);
 
                     if (overwrite)
                     {
