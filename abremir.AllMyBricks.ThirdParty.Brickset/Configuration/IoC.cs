@@ -8,7 +8,7 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Configuration
     {
         public static Container Configure(Container container = null)
         {
-            container = container ?? new Container();
+            container ??= new Container();
 
             container.Register<IBricksetApiService, BricksetApiService>(Lifestyle.Transient);
 

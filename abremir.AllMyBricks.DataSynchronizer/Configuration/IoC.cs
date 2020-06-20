@@ -9,7 +9,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Configuration
     {
         public static Container Configure(Container container = null)
         {
-            container = container ?? new Container();
+            container ??= new Container();
 
             container.Register<ISetSynchronizationService, SetSynchronizationService>(Lifestyle.Transient);
             container.Register<IThemeSynchronizer, ThemeSynchronizer>(Lifestyle.Transient);

@@ -11,7 +11,7 @@ namespace abremir.AllMyBricks.Platform.Configuration
     {
         public static Container Configure(Container container = null)
         {
-            container = container ?? new Container();
+            container ??= new Container();
 
             container.Register<IFileSystem, FileSystemImplementation>(Lifestyle.Transient);
             container.Register<IVersionTracking, VersionTrackingImplementation>(Lifestyle.Transient);
@@ -32,7 +32,7 @@ namespace abremir.AllMyBricks.Platform.Configuration
 
         public static Container ConfigureIO(Container container = null)
         {
-            container = container ?? new Container();
+            container ??= new Container();
 
             container.Register<IFile, FileImplementation>(Lifestyle.Transient);
             container.Register<IDirectory, DirectoryImplementation>(Lifestyle.Transient);

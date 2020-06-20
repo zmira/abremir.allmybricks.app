@@ -9,7 +9,7 @@ namespace abremir.AllMyBricks.Data.Configuration
     {
         public static Container Configure(Container container = null)
         {
-            container = container ?? new Container();
+            container ??= new Container();
 
             container.Register<IRepositoryService, RepositoryService>(Lifestyle.Transient);
             container.Register<IThemeRepository, ThemeRepository>(Lifestyle.Transient);

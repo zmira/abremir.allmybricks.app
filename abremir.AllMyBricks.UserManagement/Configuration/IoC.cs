@@ -8,7 +8,7 @@ namespace abremir.AllMyBricks.UserManagement.Configuration
     {
         public static Container Configure(Container container = null)
         {
-            container = container ?? new Container();
+            container ??= new Container();
 
             container.Register<IUserService, UserService>(Lifestyle.Transient);
 

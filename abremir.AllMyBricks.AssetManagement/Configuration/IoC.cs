@@ -9,7 +9,7 @@ namespace abremir.AllMyBricks.AssetManagement.Configuration
     {
         public static Container Configure(Container container = null)
         {
-            container = container ?? new Container();
+            container ??= new Container();
 
             container.Register<IAssetCompression, AssetCompression>(Lifestyle.Transient);
             container.Register<IAssetUncompression, AssetUncompression>(Lifestyle.Transient);
