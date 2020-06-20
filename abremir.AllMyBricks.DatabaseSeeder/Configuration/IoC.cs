@@ -3,7 +3,6 @@ using abremir.AllMyBricks.DatabaseSeeder.Services;
 using abremir.AllMyBricks.Platform.Interfaces;
 using Easy.MessageHub;
 using SimpleInjector;
-using System.Reflection;
 
 namespace abremir.AllMyBricks.DatabaseSeeder.Configuration
 {
@@ -29,7 +28,23 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Configuration
             IoCContainer.Register<IFileSystemService, FileSystemService>(Lifestyle.Singleton);
             IoCContainer.Register<IMessageHub, MessageHub>(Lifestyle.Singleton);
             IoCContainer.Register(() => Logging.Factory, Lifestyle.Singleton);
-            IoCContainer.Collection.Register<IDatabaseSeederLogger>(Assembly.GetExecutingAssembly());
+            IoCContainer.Register<AssetUncompressionLogger>(Lifestyle.Singleton);
+            IoCContainer.Register<SetSynchronizationServiceLogger>(Lifestyle.Singleton);
+            IoCContainer.Register<SetSynchronizerLogger>(Lifestyle.Singleton);
+            IoCContainer.Register<SubthemeSynchronizerLogger>(Lifestyle.Singleton);
+            IoCContainer.Register<ThemeSynchronizerLogger>(Lifestyle.Singleton);
+            IoCContainer.Register<ThumbnailSynchronizerLogger>(Lifestyle.Singleton);
+            IoCContainer.Register<UserSynchronizationServiceLogger>(Lifestyle.Singleton);
+            IoCContainer.Register<UserSynchronizerLogger>(Lifestyle.Singleton);
+            IoCContainer.Collection.Register<IDatabaseSeederLogger>(
+                typeof(AssetUncompressionLogger),
+                typeof(SetSynchronizationServiceLogger),
+                typeof(SetSynchronizerLogger),
+                typeof(SubthemeSynchronizerLogger),
+                typeof(ThemeSynchronizerLogger),
+                typeof(ThumbnailSynchronizerLogger),
+                typeof(UserSynchronizationServiceLogger),
+                typeof(UserSynchronizerLogger));
 
             Onboarding.Configuration.FlurlConfiguration.Configure();
         }
