@@ -15,7 +15,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Services
         private readonly IFile _file;
         private readonly IRepositoryService _repositoryService;
         private readonly ILogger _logger;
-        private readonly IAssetUncompression _assedUncompression;
+        private readonly IAssetUncompression _assetUncompression;
 
         public AssetManagementService(
             IFileSystemService fileSystemService,
@@ -23,14 +23,14 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Services
             IFile file,
             IRepositoryService repositoryService,
             ILoggerFactory loggerFactory,
-            IAssetUncompression assedUncompression)
+            IAssetUncompression assetUncompression)
         {
             _fileSystemService = fileSystemService;
             _assetCompression = assetCompression;
             _file = file;
             _repositoryService = repositoryService;
             _logger = loggerFactory.CreateLogger<AssetManagementService>();
-            _assedUncompression = assedUncompression;
+            _assetUncompression = assetUncompression;
         }
 
         public void CompressDatabaseFile()
@@ -80,7 +80,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Services
 
             _logger.LogInformation($"Uncompressing AllMyBricks Database {Path.GetFileName(compressedFilePath)} {_file.GetFileSize(compressedFilePath)}");
 
-            _assedUncompression.UncompressAsset(compressedFilePath, _fileSystemService.GetLocalPathToDataFolder(), true);
+            _assetUncompression.UncompressAsset(compressedFilePath, _fileSystemService.GetLocalPathToDataFolder(), true);
 
             GetDatabaseFilePathIfExists(out var dbFilePath);
             _logger.LogInformation($"Uncompressed AllMyBricks Database {Path.GetFileName(dbFilePath)} {_file.GetFileSize(dbFilePath)}");
