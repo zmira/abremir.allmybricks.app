@@ -35,6 +35,12 @@ namespace abremir.AllMyBricks.DatabaseSeeder
             set => Store.ReplaceItemAsync<Dictionary<string, string>>(nameof(BricksetPrimaryUsers), value, true);
         }
 
+        public static bool CompressedFileIsEncrypted
+        {
+            get => Store.GetItem<bool>(nameof(CompressedFileIsEncrypted));
+            set => Store.ReplaceItemAsync<bool>(nameof(CompressedFileIsEncrypted), value, true);
+        }
+
         private Settings() { }
     }
 }

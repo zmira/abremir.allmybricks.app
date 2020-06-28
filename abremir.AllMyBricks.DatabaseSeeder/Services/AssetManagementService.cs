@@ -33,19 +33,19 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Services
             _assetUncompression = assetUncompression;
         }
 
-        public void CompressDatabaseFile()
+        public void CompressDatabaseFile(bool encrypted)
         {
             if (!GetDatabaseFilePathIfExists(out var dbFilePath))
             {
                 return;
             }
 
-            _logger.LogInformation($"Compressing AllMyBricks Database {Path.GetFileName(dbFilePath)} {_file.GetFileSize(dbFilePath)}");
+            _logger.LogInformation($"Compressing {(encrypted ? "and Encrypting " : string.Empty)}AllMyBricks Database {Path.GetFileName(dbFilePath)} {_file.GetFileSize(dbFilePath)}");
 
-            _assetCompression.CompressAsset(dbFilePath, _fileSystemService.GetLocalPathToDataFolder());
+            _assetCompression.CompressAsset(dbFilePath, _fileSystemService.GetLocalPathToDataFolder(), encryptionKey: encrypted ? Settings.BricksetApiKey : null);
 
-            GetCompressedDatabaseFilePathIfExists(out var compressedFilePath);
-            _logger.LogInformation($"Compressed AllMyBricks Database {Path.GetFileName(compressedFilePath)} {_file.GetFileSize(compressedFilePath)}");
+            GetCompressedDatabaseFilePathIfExists(out var compressedFilePath, encrypted);
+            _logger.LogInformation($"Compressed {(encrypted ? "and Encrypted " : string.Empty)}AllMyBricks Database {Path.GetFileName(compressedFilePath)} {_file.GetFileSize(compressedFilePath)}");
         }
 
         public void CompactAllMyBricksDatabase()
@@ -71,19 +71,19 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Services
             }
         }
 
-        public void UncompressDatabaseFile()
+        public void UncompressDatabaseFile(bool encrypted)
         {
-            if (!GetCompressedDatabaseFilePathIfExists(out var compressedFilePath))
+            if (!GetCompressedDatabaseFilePathIfExists(out var compressedFilePath, encrypted))
             {
                 return;
             }
 
-            _logger.LogInformation($"Uncompressing AllMyBricks Database {Path.GetFileName(compressedFilePath)} {_file.GetFileSize(compressedFilePath)}");
+            _logger.LogInformation($"Uncompressing {(encrypted ? "Encrypted " : string.Empty)}AllMyBricks Database {Path.GetFileName(compressedFilePath)} {_file.GetFileSize(compressedFilePath)}");
 
-            _assetUncompression.UncompressAsset(compressedFilePath, _fileSystemService.GetLocalPathToDataFolder(), true);
+            _assetUncompression.UncompressAsset(compressedFilePath, _fileSystemService.GetLocalPathToDataFolder(), encryptionKey: encrypted ? Settings.BricksetApiKey : null);
 
             GetDatabaseFilePathIfExists(out var dbFilePath);
-            _logger.LogInformation($"Uncompressed AllMyBricks Database {Path.GetFileName(dbFilePath)} {_file.GetFileSize(dbFilePath)}");
+            _logger.LogInformation($"Uncompressed {(encrypted ? "Encrypted " : string.Empty)}AllMyBricks Database {Path.GetFileName(dbFilePath)} {_file.GetFileSize(dbFilePath)}");
         }
 
         public bool DatabaseFilePathExists()
@@ -91,9 +91,9 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Services
             return GetDatabaseFilePathIfExists(out _);
         }
 
-        public bool CompressedDatabaseFilePathExists()
+        public bool CompressedDatabaseFilePathExists(bool encrypted)
         {
-            return GetCompressedDatabaseFilePathIfExists(out _);
+            return GetCompressedDatabaseFilePathIfExists(out _, encrypted);
         }
 
         private bool GetDatabaseFilePathIfExists(out string dbFilePath)
@@ -103,9 +103,9 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Services
             return _file.Exists(dbFilePath);
         }
 
-        private bool GetCompressedDatabaseFilePathIfExists(out string compressedFilePath)
+        private bool GetCompressedDatabaseFilePathIfExists(out string compressedFilePath, bool encrypted)
         {
-            compressedFilePath = Path.Combine(_fileSystemService.GetLocalPathToDataFolder(), AssetCompression.GetCompressedAssetFileName(Constants.AllMyBricksDbFile));
+            compressedFilePath = Path.Combine(_fileSystemService.GetLocalPathToDataFolder(), AssetCompression.GetCompressedAssetFileName(Constants.AllMyBricksDbFile, encrypted));
 
             return _file.Exists(compressedFilePath);
         }

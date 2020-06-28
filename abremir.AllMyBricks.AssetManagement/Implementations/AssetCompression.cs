@@ -4,6 +4,9 @@ using SharpCompress.Common;
 using SharpCompress.Writers;
 using SharpCompress.Writers.Tar;
 using System.IO;
+using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace abremir.AllMyBricks.AssetManagement.Implementations
 {
@@ -26,7 +29,7 @@ namespace abremir.AllMyBricks.AssetManagement.Implementations
             _tarWriter = tarWriter;
         }
 
-        public bool CompressAsset(string sourceFilePath, string targetFolderPath, bool overwrite = true)
+        public bool CompressAsset(string sourceFilePath, string targetFolderPath, bool overwrite = true, string encryptionKey = null)
         {
             if (string.IsNullOrWhiteSpace(sourceFilePath)
                 || !_file.Exists(sourceFilePath)
@@ -43,35 +46,93 @@ namespace abremir.AllMyBricks.AssetManagement.Implementations
                 _directory.CreateDirectory(targetFolderPath);
             }
 
-            var targetFilePath = Path.Combine(targetFolderPath ?? string.Empty, GetCompressedAssetFileName(sourceFilePath));
+            var targetCompressedFilePath = Path.Combine(targetFolderPath ?? string.Empty, GetCompressedAssetFileName(sourceFilePath, false));
+            var targetEncryptedFilePath = Path.Combine(targetFolderPath ?? string.Empty, GetCompressedAssetFileName(sourceFilePath, true));
+            var encrypted = !string.IsNullOrWhiteSpace(encryptionKey);
 
-            if (!overwrite && _file.Exists(targetFilePath))
+            if (!overwrite
+                && ((_file.Exists(targetCompressedFilePath) && !encrypted)
+                    || (_file.Exists(targetEncryptedFilePath) && encrypted)))
             {
                 return false;
             }
 
-            _file.DeleteFileIfExists(targetFilePath);
+            _file.DeleteFileIfExists(targetCompressedFilePath);
 
-            using var sourceFileStream = _fileStream.CreateFileStream(sourceFilePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-            using var targetFileStream = _file.OpenWrite(targetFilePath);
-
-            var tarWriterOptions = new TarWriterOptions(CompressionType.LZip, true);
-
-            using var targetWriter = _tarWriter.CreateTarWriter(targetFileStream, tarWriterOptions);
-
-            targetWriter.Write(Path.GetFileName(sourceFilePath), sourceFileStream);
+            SaveCompressedFile(sourceFilePath, targetCompressedFilePath);
+            EncryptCompressedFileIfRequired(encrypted, targetEncryptedFilePath, targetCompressedFilePath, encryptionKey);
 
             return true;
         }
 
-        public static string GetCompressedAssetFileName(string uncompressedFilePath)
+        private void SaveCompressedFile(string sourceFilePath, string compressedFilePath)
+        {
+            using var sourceFileStream = _fileStream.CreateFileStream(sourceFilePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            using var targetCompressedFileStream = _file.OpenWrite(compressedFilePath);
+
+            var tarWriterOptions = new TarWriterOptions(CompressionType.LZip, true);
+
+            using var targetWriter = _tarWriter.CreateTarWriter(targetCompressedFileStream, tarWriterOptions);
+
+            targetWriter.Write(Path.GetFileName(sourceFilePath), sourceFileStream);
+        }
+
+        private void EncryptCompressedFileIfRequired(bool encrypted, string encryptedFilePath, string compressedFilePath, string encryptionKey)
+        {
+            if (encrypted)
+            {
+                _file.DeleteFileIfExists(encryptedFilePath);
+
+                using var compressedFileStream = GetEncryptedStream(compressedFilePath, encryptionKey);
+                using var targetEncryptedFileStream = _file.OpenWrite(encryptedFilePath);
+
+                compressedFileStream.CopyTo(targetEncryptedFileStream);
+                compressedFileStream.Flush();
+                compressedFileStream.Close();
+                targetEncryptedFileStream.Flush();
+                targetEncryptedFileStream.Close();
+
+                _file.DeleteFileIfExists(compressedFilePath);
+            }
+        }
+
+        private Stream GetEncryptedStream(string sourceFilePath, string encryptionKey)
+        {
+            var inputStream = _fileStream.CreateFileStream(sourceFilePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+
+            using var outputStream = new MemoryStream();
+
+            var hash = SHA256.Create().ComputeHash(Encoding.ASCII.GetBytes(encryptionKey));
+            using var rijndael = new RijndaelManaged
+            {
+                Key = hash.Take(32).ToArray(),
+                IV = hash.Take(16).ToArray()
+            };
+
+            using var cryptoStreamEncryptor = new CryptoStream(outputStream, rijndael.CreateEncryptor(), CryptoStreamMode.Write);
+
+            var byteArrayInput = new byte[inputStream.Length];
+
+            inputStream.Read(byteArrayInput, 0, byteArrayInput.Length);
+            cryptoStreamEncryptor.Write(byteArrayInput, 0, byteArrayInput.Length);
+
+            inputStream.Close();
+            cryptoStreamEncryptor.FlushFinalBlock();
+
+            outputStream.Flush();
+            outputStream.Position = 0;
+
+            return new MemoryStream(outputStream.ToArray());
+        }
+
+        public static string GetCompressedAssetFileName(string uncompressedFilePath, bool encrypted)
         {
             if (string.IsNullOrWhiteSpace(uncompressedFilePath))
             {
                 return null;
             }
 
-            return $"{Path.GetFileNameWithoutExtension(uncompressedFilePath)}.lz";
+            return $"{Path.GetFileNameWithoutExtension(uncompressedFilePath)}.lz{(encrypted ? "c" : string.Empty)}";
         }
     }
 }

@@ -32,6 +32,8 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                 .Accepts(builder => builder.Values(true, DatabaseSeederConstants.DatasetValueSets, DatabaseSeederConstants.DatasetValuePrimaryUsers, DatabaseSeederConstants.DatasetValueFriends, DatabaseSeederConstants.DatasetValueAll, DatabaseSeederConstants.DatasetValueNone));
             var dataFolderOption = app
                 .Option<string>(DatabaseSeederConstants.DataFolderOption, "Override the default folder path for the data file", CommandOptionType.SingleValue);
+            var encryptedOption = app
+                .Option(DatabaseSeederConstants.EncryptedOption, $"[this option is only valid when run with {DatabaseSeederConstants.UnattendedOption}] Compressed file is encrypted", CommandOptionType.NoValue);
 
             app.OnValidate(_ =>
             {
@@ -57,7 +59,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder
 
                 if (logVerbosity != LogVerbosityEnum.NoLogging)
                 {
-                    Logger.LogInformation($"Running All My Bricks database seeder with arguments: { (unattendeOption.HasValue() ? $" { DatabaseSeederConstants.UnattendedOption }" : string.Empty) }{ (logVerbosityOption.HasValue() ? $" { DatabaseSeederConstants.LogVerbosityOption }={ logVerbosityOption.Value() }" : string.Empty) }{ (logDestinationOption.HasValue() ? $" { DatabaseSeederConstants.LogDestinationOption }={ string.Join(", ", logDestinationOption.Values) }" : string.Empty) }{ (compressOption.HasValue() ? $" { DatabaseSeederConstants.CompressOption }" : string.Empty) }{ (uncompressOption.HasValue() ? $" { DatabaseSeederConstants.UncompressOption }" : string.Empty) }{ (datasetOption.HasValue() ? $" { DatabaseSeederConstants.DatasetOption }={ string.Join(", ", datasetOption.Values) }" : string.Empty) }{ (dataFolderOption.HasValue() ? $" { DatabaseSeederConstants.DataFolderOption }={ dataFolderOption.Value() }" : string.Empty) }");
+                    Logger.LogInformation($"Running All My Bricks database seeder with arguments: { (unattendeOption.HasValue() ? $" { DatabaseSeederConstants.UnattendedOption }" : string.Empty) }{ (logVerbosityOption.HasValue() ? $" { DatabaseSeederConstants.LogVerbosityOption }={ logVerbosityOption.Value() }" : string.Empty) }{ (logDestinationOption.HasValue() ? $" { DatabaseSeederConstants.LogDestinationOption }={ string.Join(", ", logDestinationOption.Values) }" : string.Empty) }{ (compressOption.HasValue() ? $" { DatabaseSeederConstants.CompressOption }" : string.Empty) }{ (uncompressOption.HasValue() ? $" { DatabaseSeederConstants.UncompressOption }" : string.Empty) }{ (datasetOption.HasValue() ? $" { DatabaseSeederConstants.DatasetOption }={ string.Join(", ", datasetOption.Values) }" : string.Empty) }{ (dataFolderOption.HasValue() ? $" { DatabaseSeederConstants.DataFolderOption }={ dataFolderOption.Value() }" : string.Empty) }{ (encryptedOption.HasValue() ? $" { DatabaseSeederConstants.EncryptedOption }" : string.Empty) }");
                 }
 
                 var folderOverride = dataFolderOption.HasValue()
@@ -68,7 +70,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder
 
                 if (unattendeOption.HasValue())
                 {
-                    NonInteractiveConsole.Run(datasetOption.Values, compressOption.HasValue(), uncompressOption.HasValue()).GetAwaiter().GetResult();
+                    NonInteractiveConsole.Run(datasetOption.Values, compressOption.HasValue(), uncompressOption.HasValue(), encryptedOption.HasValue()).GetAwaiter().GetResult();
                 }
                 else
                 {

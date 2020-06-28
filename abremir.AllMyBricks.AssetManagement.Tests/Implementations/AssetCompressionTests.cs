@@ -52,7 +52,7 @@ namespace abremir.AllMyBricks.AssetManagement.Tests.Implementations
                 .Exists(sourceFilePath)
                 .Returns(true);
             _assetCompression.Get<IFile>()
-                .Exists(AssetCompression.GetCompressedAssetFileName(sourceFilePath))
+                .Exists(AssetCompression.GetCompressedAssetFileName(sourceFilePath, false))
                 .Returns(true);
 
             var result = _assetCompression.ClassUnderTest.CompressAsset(sourceFilePath, string.Empty, overwrite: false);
@@ -81,7 +81,7 @@ namespace abremir.AllMyBricks.AssetManagement.Tests.Implementations
         [DataRow("")]
         public void GetCompressedAssetFileName_InvalidFilePath_ReturnsNull(string fileName)
         {
-            var result = AssetCompression.GetCompressedAssetFileName(fileName);
+            var result = AssetCompression.GetCompressedAssetFileName(fileName, false);
 
             Check.That(result).IsNull();
         }
@@ -91,7 +91,7 @@ namespace abremir.AllMyBricks.AssetManagement.Tests.Implementations
         [DataRow(@"C:\this_is_a_file")]
         public void GetCompressedAssetFileName_ValidFilePath_ReturnsNewFilename(string fileName)
         {
-            var result = AssetCompression.GetCompressedAssetFileName(fileName);
+            var result = AssetCompression.GetCompressedAssetFileName(fileName, false);
 
             Check.That(result)
                 .IsNotNull()

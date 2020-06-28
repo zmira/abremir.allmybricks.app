@@ -461,6 +461,8 @@ namespace abremir.AllMyBricks.DatabaseSeeder
 
             AddOnboardingUrl(topLevelWindow);
 
+            AddCompressedFileIsEncryptedCheckbox(topLevelWindow);
+
             AddCompressDatabaseFileButton(topLevelWindow);
 
             AddUncompressDatabaseFileButton(topLevelWindow);
@@ -597,6 +599,26 @@ namespace abremir.AllMyBricks.DatabaseSeeder
             );
         }
 
+        private static void AddCompressedFileIsEncryptedCheckbox(Window window)
+        {
+            var checkBox = new CheckBox("Compressed file is encrypted", Settings.CompressedFileIsEncrypted)
+            {
+                X = 3,
+                Y = 4
+            };
+
+            checkBox.Toggled += CheckBox_Toggled;
+
+            window.Add(
+                checkBox
+            );
+        }
+
+        private static void CheckBox_Toggled(object sender, EventArgs e)
+        {
+            Settings.CompressedFileIsEncrypted = ((CheckBox)sender).Checked;
+        }
+
         private static void AddCompressDatabaseFileButton(Window window)
         {
             var assetManagementService = IoC.IoCContainer.GetInstance<IAssetManagementService>();
@@ -606,14 +628,14 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                 var button = new Button("Compress Database File")
                 {
                     X = 3,
-                    Y = 4,
+                    Y = 6,
                     Clicked = () =>
                     {
                         CanExit = false;
 
-                        assetManagementService.CompressDatabaseFile();
+                        assetManagementService.CompressDatabaseFile(Settings.CompressedFileIsEncrypted);
 
-                        var dialog = new Dialog("Database File Compressed", 50, 6, new Button("Ok")
+                        var dialog = new Dialog($"Database File Compressed{(Settings.CompressedFileIsEncrypted ? " and Encrypted" : string.Empty)}", 50, 6, new Button("Ok")
                         {
                             Clicked = () =>
                             {
@@ -637,19 +659,19 @@ namespace abremir.AllMyBricks.DatabaseSeeder
         {
             var assetManagementService = IoC.IoCContainer.GetInstance<IAssetManagementService>();
 
-            if (assetManagementService.CompressedDatabaseFilePathExists())
+            if (assetManagementService.CompressedDatabaseFilePathExists(Settings.CompressedFileIsEncrypted))
             {
                 var button = new Button("Uncompress Database File")
                 {
                     X = 3,
-                    Y = 6,
+                    Y = 8,
                     Clicked = () =>
                     {
                         CanExit = false;
 
-                        assetManagementService.UncompressDatabaseFile();
+                        assetManagementService.UncompressDatabaseFile(Settings.CompressedFileIsEncrypted);
 
-                        var dialog = new Dialog("Database File Uncompressed", 50, 6, new Button("Ok")
+                        var dialog = new Dialog($"{(Settings.CompressedFileIsEncrypted ? "Encrypted " : string.Empty)}Database File Uncompressed", 50, 6, new Button("Ok")
                         {
                             Clicked = () =>
                             {
@@ -678,7 +700,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                 var button = new Button("Compact AllMyBricks Database")
                 {
                     X = 3,
-                    Y = 8,
+                    Y = 10,
                     Clicked = () =>
                     {
                         CanExit = false;
@@ -709,7 +731,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder
         {
             var userRepository = IoC.IoCContainer.GetInstance<IBricksetUserRepository>();
 
-            var primaryUsersLabel = new Label(3, 10, "Primary Users");
+            var primaryUsersLabel = new Label(3, 12, "Primary Users");
 
             var primaryUsersList = new ListView(new Rect(3, 11, 50, 14), Settings.BricksetPrimaryUsers.Select(keyValuePair => $"{keyValuePair.Key}/{keyValuePair.Value}").ToList());
             primaryUsersList.ColorScheme = Colors.Dialog;

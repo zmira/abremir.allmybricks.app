@@ -2,10 +2,10 @@
 {
     public interface IAssetManagementService
     {
-        void CompressDatabaseFile();
-        void UncompressDatabaseFile();
+        void CompressDatabaseFile(bool encrypted);
+        void UncompressDatabaseFile(bool encrypted);
         void CompactAllMyBricksDatabase();
         bool DatabaseFilePathExists();
-        bool CompressedDatabaseFilePathExists();
+        bool CompressedDatabaseFilePathExists(bool encrypted);
     }
 }

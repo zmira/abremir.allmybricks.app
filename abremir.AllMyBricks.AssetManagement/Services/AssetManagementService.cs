@@ -10,13 +10,16 @@ namespace abremir.AllMyBricks.AssetManagement.Services
     {
         private readonly IAssetUncompression _assetUncompression;
         private readonly IDirectory _directory;
+        private readonly ISecureStorageService _secureStorageService;
 
         public AssetManagementService(
             IAssetUncompression assetUncompression,
-            IDirectory directory)
+            IDirectory directory,
+            ISecureStorageService secureStorageService)
         {
             _assetUncompression = assetUncompression;
             _directory = directory;
+            _secureStorageService = secureStorageService;
         }
 
         public async Task<bool> InstallAllMyBricksSeedDatabase(string databaseSeedUrl, string targetFolderPath)
@@ -31,7 +34,7 @@ namespace abremir.AllMyBricks.AssetManagement.Services
                 return false;
             }
 
-            return _assetUncompression.UncompressAsset(await databaseSeedUrl.GetStreamAsync(), targetFolderPath ?? string.Empty);
+            return _assetUncompression.UncompressAsset(await databaseSeedUrl.GetStreamAsync(), targetFolderPath ?? string.Empty, encryptionKey: await _secureStorageService.GetBricksetApiKey());
         }
     }
 }
