@@ -11,6 +11,7 @@ using abremir.AllMyBricks.DataSynchronizer.Events.UserSynchronizer;
 using abremir.AllMyBricks.DataSynchronizer.Interfaces;
 using Easy.MessageHub;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using Terminal.Gui;
@@ -339,7 +340,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                     }
                 });
 
-                var totalTimeLabel = new Label($"Sets synchronized in {stopwatch.Elapsed.ToString(@"hh\:mm\:ss")}")
+                var totalTimeLabel = new Label($"Sets synchronized in {stopwatch.Elapsed:hh\\:mm\\:ss}")
                 {
                     X = Pos.Center(),
                     Y = 1
@@ -447,7 +448,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                     }
                 });
 
-                var totalTimeLabel = new Label($"Primary users synchronized in {stopwatch.Elapsed.ToString(@"hh\:mm\:ss")}")
+                var totalTimeLabel = new Label($"Primary users synchronized in {stopwatch.Elapsed:hh\\:mm\\:ss}")
                 {
                     X = Pos.Center(),
                     Y = 1
@@ -733,9 +734,10 @@ namespace abremir.AllMyBricks.DatabaseSeeder
 
             var primaryUsersLabel = new Label(3, 12, "Primary Users");
 
-            var primaryUsersList = new ListView(new Rect(3, 11, 50, 14), Settings.BricksetPrimaryUsers.Select(keyValuePair => $"{keyValuePair.Key}/{keyValuePair.Value}").ToList());
-            primaryUsersList.ColorScheme = Colors.Dialog;
-            primaryUsersList.SelectedItem = 0;
+            var primaryUsersList = new ListView(new Rect(3, 13, 50, 12), Settings.BricksetPrimaryUsers?.Select(keyValuePair => $"{keyValuePair.Key}/{keyValuePair.Value}").ToList() ?? new List<string>())
+            {
+                ColorScheme = Colors.Dialog
+            };
 
             var deletePrimaryUserButton = new Button("Delete primary user")
             {
