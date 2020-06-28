@@ -23,8 +23,9 @@ namespace abremir.AllMyBricks.DatabaseSeeder
         private static FrameView SetsSynchronizationProgressFrame;
         private static FrameView PrimaryUsersSynchronizationProgressFrame;
         private static bool CanExit = true;
-        private static object synchronizeSetsApplicationMainLoopTimeoutToken;
-        private static object synchronizePrimaryUsersApplicationMainLoopTimeoutToken;
+        private static object SynchronizeSetsApplicationMainLoopTimeoutToken;
+        private static object SynchronizePrimaryUsersApplicationMainLoopTimeoutToken;
+        private static MenuBar MenuBar;
 
         public static void Run()
         {
@@ -326,7 +327,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                 SetsSynchronizationProgressFrame.Clear();
 
                 Application.MainLoop.Invoke(SetsSynchronizationProgressFrame.ChildNeedsDisplay);
-                Application.MainLoop.RemoveTimeout(synchronizeSetsApplicationMainLoopTimeoutToken);
+                Application.MainLoop.RemoveTimeout(SynchronizeSetsApplicationMainLoopTimeoutToken);
 
                 var dialog = new Dialog("Sets Synchronization finished", 50, 8, new Button("Ok")
                 {
@@ -434,7 +435,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                 PrimaryUsersSynchronizationProgressFrame.Clear();
 
                 Application.MainLoop.Invoke(PrimaryUsersSynchronizationProgressFrame.ChildNeedsDisplay);
-                Application.MainLoop.RemoveTimeout(synchronizePrimaryUsersApplicationMainLoopTimeoutToken);
+                Application.MainLoop.RemoveTimeout(SynchronizePrimaryUsersApplicationMainLoopTimeoutToken);
 
                 var dialog = new Dialog("Primary Users Synchronization finished", 50, 8, new Button("Ok")
                 {
@@ -460,7 +461,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder
 
             AddMenuBar(topLevel, topLevelWindow);
 
-            AddOnboardingUrl(topLevelWindow);
+            AddBricksetApiKey(topLevelWindow);
 
             AddCompressedFileIsEncryptedCheckbox(topLevelWindow);
 
@@ -494,109 +495,141 @@ namespace abremir.AllMyBricks.DatabaseSeeder
 
         private static void AddMenuBar(Toplevel topLevel, Window window)
         {
-            topLevel.Add(
-                new MenuBar(new MenuBarItem[]
+            MenuBar = new MenuBar(new MenuBarItem[]
+            {
+                new MenuBarItem("_File", new MenuItem[]
                 {
-                    new MenuBarItem("_File", new MenuItem[]
-                    {
-                        new MenuItem("E_xit", "", () => topLevel.Running &= !CanExit)
-                    }),
-                    new MenuBarItem("_Synchronize", new MenuItem[]
-                    {
-                        new MenuItem("S_ets", "", () =>
-                        {
-                            if (CanExit)
-                            {
-                                CanExit = false;
-
-                                window.Add(SetsSynchronizationProgressFrame);
-
-                                // HACK: since there is a bug in Application.MainLoop.Invoke(...) this is needed to force the UI to refresh!
-                                synchronizeSetsApplicationMainLoopTimeoutToken = Application.MainLoop.AddTimeout(TimeSpan.FromMilliseconds(10), _ => true);
-
-                                IoC.IoCContainer.GetInstance<ISetSynchronizationService>().SynchronizeAllSets();
-                            }
-                        }),
-                        new MenuItem("_Primary Users' Sets", "", () =>
-                        {
-                            if (CanExit)
-                            {
-                                CanExit = false;
-
-                                var userRepository = IoC.IoCContainer.GetInstance<IBricksetUserRepository>();
-
-                                foreach (var primaryUser in Settings.BricksetPrimaryUsers)
-                                {
-                                    if (userRepository.Get(primaryUser.Key) is null)
-                                    {
-                                        userRepository.Add(BricksetUserTypeEnum.Primary, primaryUser.Key);
-                                    }
-                                }
-
-                                window.Add(PrimaryUsersSynchronizationProgressFrame);
-
-                                // HACK: since there is a bug in Application.MainLoop.Invoke(...) this is needed to force the UI to refresh!
-                                synchronizePrimaryUsersApplicationMainLoopTimeoutToken = Application.MainLoop.AddTimeout(TimeSpan.FromMilliseconds(10), _ => true);
-
-                                IoC.IoCContainer.GetInstance<IUserSynchronizationService>().SynchronizeBricksetPrimaryUsersSets();
-                            }
-                        })
-                    })
+                    new MenuItem("E_xit", "", () => topLevel.Running &= !CanExit)
                 })
+            });
+
+            UpdateSynchronizationMenuView(window);
+
+            topLevel.Add(
+                MenuBar
             );
         }
 
-        private static void AddOnboardingUrl(Window window)
+        private static void UpdateSynchronizationMenuView(Window window)
         {
-            var onboardingUrlLabel = new Label(3, 2, "Onboarding URL:");
-            var onboardingUrlValue = new Label(Settings.OnboardingUrl)
+            var bricksetApiKey = Settings.BricksetApiKey;
+            var synchronizeMenuTitle = "_Synchronize";
+
+            if (string.IsNullOrWhiteSpace(bricksetApiKey)
+                && !MenuBar.Menus.Any(menu => menu.Title == synchronizeMenuTitle))
             {
-                X = Pos.Right(onboardingUrlLabel) + 1,
-                Y = onboardingUrlLabel.Frame.Y
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(bricksetApiKey))
+            {
+                MenuBar.Menus = MenuBar.Menus.Where(menu => menu.Title != synchronizeMenuTitle).ToArray();
+
+                return;
+            }
+
+            var menuBarItem = new MenuBarItem("_Synchronize", new MenuItem[]
+            {
+                new MenuItem("S_ets", "", () =>
+                {
+                    if (CanExit)
+                    {
+                        CanExit = false;
+
+                        window.Add(SetsSynchronizationProgressFrame);
+
+                        // HACK: since there is a bug in Application.MainLoop.Invoke(...) this is needed to force the UI to refresh!
+                        SynchronizeSetsApplicationMainLoopTimeoutToken = Application.MainLoop.AddTimeout(TimeSpan.FromMilliseconds(10), _ => true);
+
+                        IoC.IoCContainer.GetInstance<ISetSynchronizationService>().SynchronizeAllSets();
+                    }
+                }),
+                new MenuItem("_Primary Users' Sets", "", () =>
+                {
+                    if (CanExit)
+                    {
+                        CanExit = false;
+
+                        var userRepository = IoC.IoCContainer.GetInstance<IBricksetUserRepository>();
+
+                        foreach (var primaryUser in Settings.BricksetPrimaryUsers)
+                        {
+                            if (userRepository.Get(primaryUser.Key) is null)
+                            {
+                                userRepository.Add(BricksetUserTypeEnum.Primary, primaryUser.Key);
+                            }
+                        }
+
+                        window.Add(PrimaryUsersSynchronizationProgressFrame);
+
+                        // HACK: since there is a bug in Application.MainLoop.Invoke(...) this is needed to force the UI to refresh!
+                        SynchronizePrimaryUsersApplicationMainLoopTimeoutToken = Application.MainLoop.AddTimeout(TimeSpan.FromMilliseconds(10), _ => true);
+
+                        IoC.IoCContainer.GetInstance<IUserSynchronizationService>().SynchronizeBricksetPrimaryUsersSets();
+                    }
+                })
+            });
+
+            MenuBar.Menus = MenuBar.Menus.Append(menuBarItem).ToArray();
+        }
+
+        private static void AddBricksetApiKey(Window window)
+        {
+            var bricksetApiKeyEditButton = new Button("Edit")
+            {
+                X = 3,
+                Y = 2
+            };
+
+            var bricksetApiKeyLabel = new Label("Brickset API Key:")
+            {
+                X = Pos.Right(bricksetApiKeyEditButton) + 1,
+                Y = 2
+            };
+
+            var bricksetApiKeyValue = new Label(Settings.BricksetApiKey)
+            {
+                X = Pos.Right(bricksetApiKeyLabel) + 4,
+                Y = 2
+            };
+
+            bricksetApiKeyEditButton.Clicked = () =>
+            {
+                var bricksetApiKeyTextField = new TextField(Settings.BricksetApiKey);
+
+                var dialog = new Dialog(
+                    "Brickset API Key",
+                    50,
+                    7,
+                    new Button("Ok", false)
+                    {
+                        Clicked = () =>
+                        {
+                            var bricksetApiKey = bricksetApiKeyTextField.Text.ToString();
+
+                            Settings.BricksetApiKey = bricksetApiKey;
+                            bricksetApiKeyValue.Text = bricksetApiKey;
+
+                            UpdateSynchronizationMenuView(window);
+
+                            Application.RequestStop();
+                        }
+                    },
+                    new Button("Cancel", false)
+                    {
+                        Clicked = Application.RequestStop
+                    })
+                        {
+                            bricksetApiKeyTextField
+                        };
+
+                Application.Run(dialog);
             };
 
             window.Add(
-                onboardingUrlLabel,
-                onboardingUrlValue,
-                new Button("Edit")
-                {
-                    X = Pos.Right(onboardingUrlValue) + 5,
-                    Y = onboardingUrlLabel.Frame.Y,
-                    Clicked = () =>
-                    {
-                        var onboardingUrlTextField = new TextField(Settings.OnboardingUrl);
-
-                        var dialog = new Dialog(
-                            "Onboarding URL",
-                            50,
-                            7,
-                            new Button("Ok", false)
-                            {
-                                Clicked = () =>
-                                {
-                                    var onboardingUrl = onboardingUrlTextField.Text.ToString();
-
-                                    Settings.OnboardingUrl = onboardingUrl;
-                                    onboardingUrlValue.Text = onboardingUrl;
-
-                                    IoC.ReplaceOnboarding(onboardingUrl);
-
-                                    AddCompressDatabaseFileButton(window);
-
-                                    Application.RequestStop();
-                                }
-                            },
-                            new Button("Cancel", false)
-                            {
-                                Clicked = Application.RequestStop
-                            })
-                        {
-                            onboardingUrlTextField
-                        };
-
-                        Application.Run(dialog);
-                    }
-                }
+                bricksetApiKeyEditButton,
+                bricksetApiKeyLabel,
+                bricksetApiKeyValue
             );
         }
 

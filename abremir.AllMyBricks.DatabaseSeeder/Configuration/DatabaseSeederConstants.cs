@@ -20,5 +20,6 @@
         public const string DatasetValueNone = "none";
         public const string DataFolderOption = "--data-folder";
         public const string EncryptedOption = "--encrypted";
+        public const string BricksetApiKey = "--bricksetApiKey";
     }
 }

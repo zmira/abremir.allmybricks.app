@@ -19,6 +19,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Configuration
             Data.Configuration.IoC.Configure(IoCContainer);
             AssetManagement.Configuration.IoC.Configure(IoCContainer);
             UserManagement.Configuration.IoC.Configure(IoCContainer);
+            Onboarding.Configuration.IoC.Configure(string.Empty, IoCContainer);
 
             IoCContainer.Register<IPreferencesService, PreferencesService>(Lifestyle.Transient);
             IoCContainer.Register<ISecureStorageService, SecureStorageService>(Lifestyle.Transient);
@@ -47,20 +48,6 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Configuration
                 typeof(UserSynchronizerLogger));
 
             Onboarding.Configuration.FlurlConfiguration.Configure();
-        }
-
-        public static void ConfigureOnboarding(string allMyBricksOnboardingUrl)
-        {
-            Onboarding.Configuration.IoC.Configure(allMyBricksOnboardingUrl, IoCContainer);
-        }
-
-        public static void ReplaceOnboarding(string allMyBricksOnboardingUrl)
-        {
-            IoCContainer.Options.AllowOverridingRegistrations = true;
-
-            ConfigureOnboarding(allMyBricksOnboardingUrl);
-
-            IoCContainer.Options.AllowOverridingRegistrations = false;
         }
     }
 }

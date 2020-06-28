@@ -1,5 +1,6 @@
 ﻿using abremir.AllMyBricks.Onboarding.Shared.Models;
 using abremir.AllMyBricks.Platform.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -22,19 +23,19 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Services
             await Task.Run(() => Settings.BricksetApiKey = bricksetApiKey);
         }
 
-        public async Task<Identification> GetDeviceIdentification()
+        public Task<Identification> GetDeviceIdentification()
         {
-            return await Task.Run(() => Settings.DeviceIdentification);
+            throw new NotImplementedException();
         }
 
-        public async Task<bool> IsDeviceIdentificationCreated()
+        public Task<bool> IsDeviceIdentificationCreated()
         {
-            return await GetDeviceIdentification() != null;
+            throw new NotImplementedException();
         }
 
-        public async Task SaveDeviceIdentification(Identification deviceIdentification)
+        public Task SaveDeviceIdentification(Identification deviceIdentification)
         {
-            await Task.Run(() => Settings.DeviceIdentification = deviceIdentification);
+            throw new NotImplementedException();
         }
 
         public async Task<string> GetBricksetUserHash(string username)
@@ -75,17 +76,17 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Services
 
         public Task<string> GetDefaultUsername()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public Task<bool> IsDefaultUsernameDefined()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public Task SaveDefaultUsername(string username)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
     }
 }

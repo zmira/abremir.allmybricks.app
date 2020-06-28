@@ -34,9 +34,16 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                 .Option<string>(DatabaseSeederConstants.DataFolderOption, "Override the default folder path for the data file", CommandOptionType.SingleValue);
             var encryptedOption = app
                 .Option(DatabaseSeederConstants.EncryptedOption, $"[this option is only valid when run with {DatabaseSeederConstants.UnattendedOption}] Compressed file is encrypted", CommandOptionType.NoValue);
+            var bricksetApiKeyOption = app
+                .Option<string>(DatabaseSeederConstants.BricksetApiKey, $"[this option is only valid when run with {DatabaseSeederConstants.UnattendedOption}] Brickset API key", CommandOptionType.SingleValue);
 
             app.OnValidate(_ =>
             {
+                if (!bricksetApiKeyOption.HasValue())
+                {
+                    return new ValidationResult($"{DatabaseSeederConstants.BricksetApiKey} is required!");
+                }
+
                 if (compressOption.HasValue() && uncompressOption.HasValue())
                 {
                     return new ValidationResult($"{DatabaseSeederConstants.CompressOption} and {DatabaseSeederConstants.UncompressOption} are mutually exclusive.");
@@ -48,7 +55,6 @@ namespace abremir.AllMyBricks.DatabaseSeeder
             app.OnExecute(() =>
             {
                 IoC.Configure();
-                IoC.ConfigureOnboarding(Settings.OnboardingUrl);
 
                 var logVerbosity = GetLogVerbosity(logVerbosityOption, unattendeOption);
                 var logDestination = GetLogDestination(logVerbosityOption, unattendeOption, logDestinationOption);
@@ -59,7 +65,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder
 
                 if (logVerbosity != LogVerbosityEnum.NoLogging)
                 {
-                    Logger.LogInformation($"Running All My Bricks database seeder with arguments: { (unattendeOption.HasValue() ? $" { DatabaseSeederConstants.UnattendedOption }" : string.Empty) }{ (logVerbosityOption.HasValue() ? $" { DatabaseSeederConstants.LogVerbosityOption }={ logVerbosityOption.Value() }" : string.Empty) }{ (logDestinationOption.HasValue() ? $" { DatabaseSeederConstants.LogDestinationOption }={ string.Join(", ", logDestinationOption.Values) }" : string.Empty) }{ (compressOption.HasValue() ? $" { DatabaseSeederConstants.CompressOption }" : string.Empty) }{ (uncompressOption.HasValue() ? $" { DatabaseSeederConstants.UncompressOption }" : string.Empty) }{ (datasetOption.HasValue() ? $" { DatabaseSeederConstants.DatasetOption }={ string.Join(", ", datasetOption.Values) }" : string.Empty) }{ (dataFolderOption.HasValue() ? $" { DatabaseSeederConstants.DataFolderOption }={ dataFolderOption.Value() }" : string.Empty) }{ (encryptedOption.HasValue() ? $" { DatabaseSeederConstants.EncryptedOption }" : string.Empty) }");
+                    Logger.LogInformation($"Running All My Bricks database seeder with arguments: { (unattendeOption.HasValue() ? $" { DatabaseSeederConstants.UnattendedOption }" : string.Empty) }{ (logVerbosityOption.HasValue() ? $" { DatabaseSeederConstants.LogVerbosityOption }={ logVerbosityOption.Value() }" : string.Empty) }{ (logDestinationOption.HasValue() ? $" { DatabaseSeederConstants.LogDestinationOption }={ string.Join(", ", logDestinationOption.Values) }" : string.Empty) }{ (compressOption.HasValue() ? $" { DatabaseSeederConstants.CompressOption }" : string.Empty) }{ (uncompressOption.HasValue() ? $" { DatabaseSeederConstants.UncompressOption }" : string.Empty) }{ (datasetOption.HasValue() ? $" { DatabaseSeederConstants.DatasetOption }={ string.Join(", ", datasetOption.Values) }" : string.Empty) }{ (dataFolderOption.HasValue() ? $" { DatabaseSeederConstants.DataFolderOption }={ dataFolderOption.Value() }" : string.Empty) }{ (encryptedOption.HasValue() ? $" { DatabaseSeederConstants.EncryptedOption }" : string.Empty) }{ (bricksetApiKeyOption.HasValue() ? $" { DatabaseSeederConstants.BricksetApiKey }" : string.Empty) }");
                 }
 
                 var folderOverride = dataFolderOption.HasValue()
@@ -67,6 +73,12 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                     : null;
                 var fileSystem = IoC.IoCContainer.GetInstance<IFileSystemService>();
                 fileSystem.EnsureLocalDataFolder(folderOverride);
+
+                if (unattendeOption.HasValue()
+                    && bricksetApiKeyOption.HasValue())
+                {
+                    Settings.BricksetApiKey = bricksetApiKeyOption.Value();
+                }
 
                 if (unattendeOption.HasValue())
                 {

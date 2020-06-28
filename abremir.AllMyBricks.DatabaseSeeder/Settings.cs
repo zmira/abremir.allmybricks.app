@@ -1,5 +1,4 @@
-﻿using abremir.AllMyBricks.Onboarding.Shared.Models;
-using JsonFlatFileDataStore;
+﻿using JsonFlatFileDataStore;
 using System;
 using System.Collections.Generic;
 
@@ -11,34 +10,22 @@ namespace abremir.AllMyBricks.DatabaseSeeder
 
         private static DataStore Store => _store.Value;
 
-        public static string OnboardingUrl
-        {
-            get => Store.GetItem<string>(nameof(OnboardingUrl));
-            set => Store.ReplaceItemAsync<string>(nameof(OnboardingUrl), value, true);
-        }
-
         public static string BricksetApiKey
         {
             get => Store.GetItem<string>(nameof(BricksetApiKey));
-            set => Store.ReplaceItemAsync<string>(nameof(BricksetApiKey), value, true);
-        }
-
-        public static Identification DeviceIdentification
-        {
-            get => Store.GetItem<Identification>(nameof(DeviceIdentification));
-            set => Store.ReplaceItemAsync<Identification>(nameof(DeviceIdentification), value, true);
+            set => Store.ReplaceItem<string>(nameof(BricksetApiKey), value, true);
         }
 
         public static Dictionary<string, string> BricksetPrimaryUsers
         {
             get => Store.GetItem<Dictionary<string, string>>(nameof(BricksetPrimaryUsers));
-            set => Store.ReplaceItemAsync<Dictionary<string, string>>(nameof(BricksetPrimaryUsers), value, true);
+            set => Store.ReplaceItem<Dictionary<string, string>>(nameof(BricksetPrimaryUsers), value, true);
         }
 
         public static bool CompressedFileIsEncrypted
         {
             get => Store.GetItem<bool>(nameof(CompressedFileIsEncrypted));
-            set => Store.ReplaceItemAsync<bool>(nameof(CompressedFileIsEncrypted), value, true);
+            set => Store.ReplaceItem<bool>(nameof(CompressedFileIsEncrypted), value, true);
         }
 
         private Settings() { }
