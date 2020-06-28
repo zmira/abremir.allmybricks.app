@@ -39,12 +39,14 @@ namespace abremir.AllMyBricks.DatabaseSeeder
 
             app.OnValidate(_ =>
             {
-                if (!bricksetApiKeyOption.HasValue())
+                if (unattendeOption.HasValue()
+                    && !bricksetApiKeyOption.HasValue())
                 {
                     return new ValidationResult($"{DatabaseSeederConstants.BricksetApiKey} is required!");
                 }
 
-                if (compressOption.HasValue() && uncompressOption.HasValue())
+                if (compressOption.HasValue()
+                    && uncompressOption.HasValue())
                 {
                     return new ValidationResult($"{DatabaseSeederConstants.CompressOption} and {DatabaseSeederConstants.UncompressOption} are mutually exclusive.");
                 }
@@ -74,14 +76,10 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                 var fileSystem = IoC.IoCContainer.GetInstance<IFileSystemService>();
                 fileSystem.EnsureLocalDataFolder(folderOverride);
 
-                if (unattendeOption.HasValue()
-                    && bricksetApiKeyOption.HasValue())
-                {
-                    Settings.BricksetApiKey = bricksetApiKeyOption.Value();
-                }
-
                 if (unattendeOption.HasValue())
                 {
+                    Settings.BricksetApiKey = bricksetApiKeyOption.Value();
+
                     NonInteractiveConsole.Run(datasetOption.Values, compressOption.HasValue(), uncompressOption.HasValue(), encryptedOption.HasValue()).GetAwaiter().GetResult();
                 }
                 else
