@@ -1,16 +1,16 @@
 ﻿using abremir.AllMyBricks.ThirdParty.Brickset.Interfaces;
 using abremir.AllMyBricks.ThirdParty.Brickset.Services;
-using SimpleInjector;
+using LightInject;
 
 namespace abremir.AllMyBricks.ThirdParty.Brickset.Configuration
 {
     public static class IoC
     {
-        public static Container Configure(Container container = null)
+        public static IServiceRegistry Configure(IServiceRegistry container = null)
         {
-            container ??= new Container();
+            container ??= new ServiceContainer();
 
-            container.Register<IBricksetApiService, BricksetApiService>(Lifestyle.Transient);
+            container.Register<IBricksetApiService, BricksetApiService>();
 
             return container;
         }

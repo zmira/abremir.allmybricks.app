@@ -1,14 +1,14 @@
-﻿using SimpleInjector;
+﻿using LightInject;
 
 namespace abremir.AllMyBricks.Core.Configuration
 {
     public static class IoC
     {
-        public static Container IoCContainer { get; private set; }
+        public static ServiceContainer IoCContainer { get; private set; }
 
-        public static Container Configure(string allMyBricksOnboardingUrl)
+        public static IServiceRegistry Configure(string allMyBricksOnboardingUrl)
         {
-            IoCContainer = new Container();
+            IoCContainer = new ServiceContainer();
 
             Platform.Configuration.IoC.Configure(IoCContainer);
             Data.Configuration.IoC.Configure(IoCContainer);

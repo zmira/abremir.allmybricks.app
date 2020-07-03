@@ -1,18 +1,18 @@
 ﻿using abremir.AllMyBricks.Onboarding.Interfaces;
 using abremir.AllMyBricks.Onboarding.Services;
-using SimpleInjector;
+using LightInject;
 
 namespace abremir.AllMyBricks.Onboarding.Configuration
 {
     public static class IoC
     {
-        public static Container Configure(string allMyBricksOnboardingUrl, Container container = null)
+        public static IServiceRegistry Configure(string allMyBricksOnboardingUrl, IServiceRegistry container = null)
         {
-            container ??= new Container();
+            container ??= new ServiceContainer();
 
-            container.Register<IApiKeyService>(() => new ApiKeyService(allMyBricksOnboardingUrl), Lifestyle.Transient);
-            container.Register<IRegistrationService>(() => new RegistrationService(allMyBricksOnboardingUrl), Lifestyle.Transient);
-            container.Register<IOnboardingService, OnboardingService>(Lifestyle.Transient);
+            container.Register<IApiKeyService>((_) => new ApiKeyService(allMyBricksOnboardingUrl));
+            container.Register<IRegistrationService>((_) => new RegistrationService(allMyBricksOnboardingUrl));
+            container.Register<IOnboardingService, OnboardingService>();
 
             return container;
         }

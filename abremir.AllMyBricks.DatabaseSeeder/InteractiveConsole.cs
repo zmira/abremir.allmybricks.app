@@ -10,6 +10,7 @@ using abremir.AllMyBricks.DataSynchronizer.Events.UserSynchronizationService;
 using abremir.AllMyBricks.DataSynchronizer.Events.UserSynchronizer;
 using abremir.AllMyBricks.DataSynchronizer.Interfaces;
 using Easy.MessageHub;
+using LightInject;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;

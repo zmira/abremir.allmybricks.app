@@ -1,23 +1,23 @@
 ﻿using abremir.AllMyBricks.DataSynchronizer.Interfaces;
 using abremir.AllMyBricks.DataSynchronizer.Services;
 using abremir.AllMyBricks.DataSynchronizer.Synchronizers;
-using SimpleInjector;
+using LightInject;
 
 namespace abremir.AllMyBricks.DataSynchronizer.Configuration
 {
     public static class IoC
     {
-        public static Container Configure(Container container = null)
+        public static IServiceRegistry Configure(IServiceRegistry container = null)
         {
-            container ??= new Container();
+            container ??= new ServiceContainer();
 
-            container.Register<ISetSynchronizationService, SetSynchronizationService>(Lifestyle.Transient);
-            container.Register<IThemeSynchronizer, ThemeSynchronizer>(Lifestyle.Transient);
-            container.Register<ISubthemeSynchronizer, SubthemeSynchronizer>(Lifestyle.Transient);
-            container.Register<ISetSynchronizer, SetSynchronizer>(Lifestyle.Transient);
-            container.Register<IThumbnailSynchronizer, ThumbnailSynchronizer>(Lifestyle.Transient);
-            container.Register<IUserSynchronizationService, UserSynchronizationService>(Lifestyle.Transient);
-            container.Register<IUserSynchronizer, UserSynchronizer>(Lifestyle.Transient);
+            container.Register<ISetSynchronizationService, SetSynchronizationService>();
+            container.Register<IThemeSynchronizer, ThemeSynchronizer>();
+            container.Register<ISubthemeSynchronizer, SubthemeSynchronizer>();
+            container.Register<ISetSynchronizer, SetSynchronizer>();
+            container.Register<IThumbnailSynchronizer, ThumbnailSynchronizer>();
+            container.Register<IUserSynchronizationService, UserSynchronizationService>();
+            container.Register<IUserSynchronizer, UserSynchronizer>();
 
             return container;
         }

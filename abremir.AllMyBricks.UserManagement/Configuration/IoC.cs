@@ -1,16 +1,16 @@
 ﻿using abremir.AllMyBricks.UserManagement.Interfaces;
 using abremir.AllMyBricks.UserManagement.Services;
-using SimpleInjector;
+using LightInject;
 
 namespace abremir.AllMyBricks.UserManagement.Configuration
 {
     public static class IoC
     {
-        public static Container Configure(Container container = null)
+        public static IServiceRegistry Configure(IServiceRegistry container = null)
         {
-            container ??= new Container();
+            container ??= new ServiceContainer();
 
-            container.Register<IUserService, UserService>(Lifestyle.Transient);
+            container.Register<IUserService, UserService>();
 
             return container;
         }

@@ -2,17 +2,17 @@
 using abremir.AllMyBricks.DatabaseSeeder.Services;
 using abremir.AllMyBricks.Platform.Interfaces;
 using Easy.MessageHub;
-using SimpleInjector;
+using LightInject;
 
 namespace abremir.AllMyBricks.DatabaseSeeder.Configuration
 {
     public static class IoC
     {
-        public static Container IoCContainer { get; private set; }
+        public static ServiceContainer IoCContainer { get; private set; }
 
         public static void Configure()
         {
-            IoCContainer = new Container();
+            IoCContainer = new ServiceContainer();
 
             DataSynchronizer.Configuration.IoC.Configure(IoCContainer);
             ThirdParty.Brickset.Configuration.IoC.Configure(IoCContainer);
@@ -21,31 +21,21 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Configuration
             UserManagement.Configuration.IoC.Configure(IoCContainer);
             Onboarding.Configuration.IoC.Configure(string.Empty, IoCContainer);
 
-            IoCContainer.Register<IPreferencesService, PreferencesService>(Lifestyle.Transient);
-            IoCContainer.Register<ISecureStorageService, SecureStorageService>(Lifestyle.Transient);
-            IoCContainer.Register<IDeviceInformationService, DeviceInformationService>(Lifestyle.Transient);
-            IoCContainer.Register<IAssetManagementService, AssetManagementService>(Lifestyle.Transient);
+            IoCContainer.Register<IPreferencesService, PreferencesService>();
+            IoCContainer.Register<ISecureStorageService, SecureStorageService>();
+            IoCContainer.Register<IDeviceInformationService, DeviceInformationService>();
+            IoCContainer.Register<IAssetManagementService, AssetManagementService>();
 
-            IoCContainer.Register<IFileSystemService, FileSystemService>(Lifestyle.Singleton);
-            IoCContainer.Register<IMessageHub, MessageHub>(Lifestyle.Singleton);
-            IoCContainer.Register(() => Logging.Factory, Lifestyle.Singleton);
-            IoCContainer.Register<AssetUncompressionLogger>(Lifestyle.Singleton);
-            IoCContainer.Register<SetSynchronizationServiceLogger>(Lifestyle.Singleton);
-            IoCContainer.Register<SetSynchronizerLogger>(Lifestyle.Singleton);
-            IoCContainer.Register<SubthemeSynchronizerLogger>(Lifestyle.Singleton);
-            IoCContainer.Register<ThemeSynchronizerLogger>(Lifestyle.Singleton);
-            IoCContainer.Register<ThumbnailSynchronizerLogger>(Lifestyle.Singleton);
-            IoCContainer.Register<UserSynchronizationServiceLogger>(Lifestyle.Singleton);
-            IoCContainer.Register<UserSynchronizerLogger>(Lifestyle.Singleton);
-            IoCContainer.Collection.Register<IDatabaseSeederLogger>(
-                typeof(AssetUncompressionLogger),
-                typeof(SetSynchronizationServiceLogger),
-                typeof(SetSynchronizerLogger),
-                typeof(SubthemeSynchronizerLogger),
-                typeof(ThemeSynchronizerLogger),
-                typeof(ThumbnailSynchronizerLogger),
-                typeof(UserSynchronizationServiceLogger),
-                typeof(UserSynchronizerLogger));
+            IoCContainer.Register<IFileSystemService, FileSystemService>(new PerContainerLifetime());
+            IoCContainer.Register<IMessageHub, MessageHub>(new PerContainerLifetime());
+            IoCContainer.Register<AssetUncompressionLogger>(new PerContainerLifetime());
+            IoCContainer.Register<SetSynchronizationServiceLogger>(new PerContainerLifetime());
+            IoCContainer.Register<SetSynchronizerLogger>(new PerContainerLifetime());
+            IoCContainer.Register<SubthemeSynchronizerLogger>(new PerContainerLifetime());
+            IoCContainer.Register<ThemeSynchronizerLogger>(new PerContainerLifetime());
+            IoCContainer.Register<ThumbnailSynchronizerLogger>(new PerContainerLifetime());
+            IoCContainer.Register<UserSynchronizationServiceLogger>(new PerContainerLifetime());
+            IoCContainer.Register<UserSynchronizerLogger>(new PerContainerLifetime());
 
             Onboarding.Configuration.FlurlConfiguration.Configure();
         }

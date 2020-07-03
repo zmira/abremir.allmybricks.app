@@ -1,23 +1,23 @@
 ﻿using abremir.AllMyBricks.Data.Interfaces;
 using abremir.AllMyBricks.Data.Repositories;
 using abremir.AllMyBricks.Data.Services;
-using SimpleInjector;
+using LightInject;
 
 namespace abremir.AllMyBricks.Data.Configuration
 {
     public static class IoC
     {
-        public static Container Configure(Container container = null)
+        public static IServiceRegistry Configure(IServiceRegistry container = null)
         {
-            container ??= new Container();
+            container ??= new ServiceContainer();
 
-            container.Register<IRepositoryService, RepositoryService>(Lifestyle.Transient);
-            container.Register<IThemeRepository, ThemeRepository>(Lifestyle.Transient);
-            container.Register<ISubthemeRepository, SubthemeRepository>(Lifestyle.Transient);
-            container.Register<IReferenceDataRepository, ReferenceDataRepository>(Lifestyle.Transient);
-            container.Register<ISetRepository, SetRepository>(Lifestyle.Transient);
-            container.Register<IInsightsRepository, InsightsRepository>(Lifestyle.Transient);
-            container.Register<IBricksetUserRepository, BricksetUserRepository>(Lifestyle.Transient);
+            container.Register<IRepositoryService, RepositoryService>();
+            container.Register<IThemeRepository, ThemeRepository>();
+            container.Register<ISubthemeRepository, SubthemeRepository>();
+            container.Register<IReferenceDataRepository, ReferenceDataRepository>();
+            container.Register<ISetRepository, SetRepository>();
+            container.Register<IInsightsRepository, InsightsRepository>();
+            container.Register<IBricksetUserRepository, BricksetUserRepository>();
 
             return container;
         }

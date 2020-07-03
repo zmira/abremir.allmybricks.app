@@ -1,5 +1,6 @@
 ﻿using abremir.AllMyBricks.DatabaseSeeder.Configuration;
 using abremir.AllMyBricks.Platform.Interfaces;
+using LightInject;
 using McMaster.Extensions.CommandLineUtils;
 using Microsoft.Extensions.Logging;
 using System.ComponentModel.DataAnnotations;

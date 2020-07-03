@@ -1,22 +1,22 @@
 ﻿using abremir.AllMyBricks.AssetManagement.Implementations;
 using abremir.AllMyBricks.AssetManagement.Interfaces;
 using abremir.AllMyBricks.AssetManagement.Services;
-using SimpleInjector;
+using LightInject;
 
 namespace abremir.AllMyBricks.AssetManagement.Configuration
 {
     public static class IoC
     {
-        public static Container Configure(Container container = null)
+        public static IServiceRegistry Configure(IServiceRegistry container = null)
         {
-            container ??= new Container();
+            container ??= new ServiceContainer();
 
-            container.Register<IAssetCompression, AssetCompression>(Lifestyle.Transient);
-            container.Register<IAssetUncompression, AssetUncompression>(Lifestyle.Transient);
-            container.Register<IAssetManagementService, AssetManagementService>(Lifestyle.Transient);
-            container.Register<IFileStream, FileStreamImplementation>(Lifestyle.Transient);
-            container.Register<ITarWriter, TarWriterImplementation>(Lifestyle.Transient);
-            container.Register<IReaderFactory, ReaderFactoryImplementation>(Lifestyle.Transient);
+            container.Register<IAssetCompression, AssetCompression>();
+            container.Register<IAssetUncompression, AssetUncompression>();
+            container.Register<IAssetManagementService, AssetManagementService>();
+            container.Register<IFileStream, FileStreamImplementation>();
+            container.Register<ITarWriter, TarWriterImplementation>();
+            container.Register<IReaderFactory, ReaderFactoryImplementation>();
 
             return Platform.Configuration.IoC.ConfigureIO(container);
         }

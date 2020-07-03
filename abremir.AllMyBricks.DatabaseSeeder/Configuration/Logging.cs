@@ -1,4 +1,5 @@
 ﻿using abremir.AllMyBricks.DatabaseSeeder.Loggers;
+using LightInject;
 using Microsoft.Extensions.Logging;
 using NReco.Logging.File;
 using System;
@@ -9,7 +10,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Configuration
 {
     public static class Logging
     {
-        public static ILoggerFactory Factory { get; private set; }
+        public static ILoggerFactory Factory { get; private set; } = new LoggerFactory();
 
         public static ILogger CreateLogger<T>() => Factory.CreateLogger<T>();
 
@@ -27,19 +28,19 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Configuration
 
             LogDestination = logDestination.Value;
 
-            Factory = new LoggerFactory();
-
             SetupConsoleLogging();
             SetupFileLogging();
 
-            var setSynchronizationServiceLogger = IoC.IoCContainer.GetInstance<SetSynchronizationServiceLogger>();
-            var themeSynchronizerLogger = IoC.IoCContainer.GetInstance<ThemeSynchronizerLogger>();
-            var subthemeSynchronizerLogger = IoC.IoCContainer.GetInstance<SubthemeSynchronizerLogger>();
-            var setSynchronizerLogger = IoC.IoCContainer.GetInstance<SetSynchronizerLogger>();
-            var thumbnailSynchronizerLogger = IoC.IoCContainer.GetInstance<ThumbnailSynchronizerLogger>();
-            var assetUncompressionLogger = IoC.IoCContainer.GetInstance<AssetUncompressionLogger>();
-            var userSynchronizationServiceLogger = IoC.IoCContainer.GetInstance<UserSynchronizationServiceLogger>();
-            var userSynchronizerLogger = IoC.IoCContainer.GetInstance<UserSynchronizerLogger>();
+            IoC.IoCContainer.RegisterInstance<ILoggerFactory>(Logging.Factory);
+
+            IoC.IoCContainer.GetInstance<SetSynchronizationServiceLogger>();
+            IoC.IoCContainer.GetInstance<ThemeSynchronizerLogger>();
+            IoC.IoCContainer.GetInstance<SubthemeSynchronizerLogger>();
+            IoC.IoCContainer.GetInstance<SetSynchronizerLogger>();
+            IoC.IoCContainer.GetInstance<ThumbnailSynchronizerLogger>();
+            IoC.IoCContainer.GetInstance<AssetUncompressionLogger>();
+            IoC.IoCContainer.GetInstance<UserSynchronizationServiceLogger>();
+            IoC.IoCContainer.GetInstance<UserSynchronizerLogger>();
         }
 
         private static void SetupFileLogging()

@@ -1,5 +1,6 @@
 ﻿using abremir.AllMyBricks.Core.Configuration;
 using abremir.AllMyBricks.Platform.Interfaces;
+using LightInject;
 using Xamarin.Forms;
 
 namespace abremir.AllMyBricks.Core

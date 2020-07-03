@@ -6,8 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="LightInject" Version="6.3.4" />
     <PackageReference Include="LiteDB" Version="5.0.8" />
-    <PackageReference Include="SimpleInjector" Version="5.0.1" />
   </ItemGroup>
 
   <ItemGroup>
