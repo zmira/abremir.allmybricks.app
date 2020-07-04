@@ -4,7 +4,7 @@ namespace abremir.AllMyBricks.Platform.Models
 {
     public class FileSize
     {
-        public long Bytes { get; private set; }
+        public long Bytes { get; }
         public double Kilobytes => (double)Bytes / 1024;
         public double Megabytes => Kilobytes / 1024;
         public double Gigabytes => Megabytes / 1024;

@@ -81,7 +81,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 
         private SubthemeSynchronizer CreateTarget(IBricksetApiService bricksetApiService = null)
         {
-            bricksetApiService = bricksetApiService ?? Substitute.For<IBricksetApiService>();
+            bricksetApiService ??= Substitute.For<IBricksetApiService>();
 
             return new SubthemeSynchronizer(bricksetApiService, _subthemeRepository, Substitute.For<IMessageHub>());
         }

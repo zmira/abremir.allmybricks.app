@@ -12,10 +12,7 @@ namespace abremir.AllMyBricks.Onboarding.Configuration
                 DateFormatString = "yyyy-MM-ddTHH:mm:ss.fffffffK"
             };
 
-            FlurlHttp.Configure(configuration =>
-            {
-                configuration.JsonSerializer = new Flurl.Http.Configuration.NewtonsoftJsonSerializer(settings);
-            });
+            FlurlHttp.Configure(configuration => configuration.JsonSerializer = new Flurl.Http.Configuration.NewtonsoftJsonSerializer(settings));
         }
     }
 }

@@ -514,7 +514,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder
         private static void UpdateSynchronizationMenuView(Window window)
         {
             var bricksetApiKey = Settings.BricksetApiKey;
-            var synchronizeMenuTitle = "_Synchronize";
+            const string synchronizeMenuTitle = "_Synchronize";
 
             if (string.IsNullOrWhiteSpace(bricksetApiKey)
                 && !MenuBar.Menus.Any(menu => menu.Title == synchronizeMenuTitle))

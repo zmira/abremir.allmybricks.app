@@ -57,7 +57,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Configuration
                 Directory.CreateDirectory(folderPath);
             }
 
-            var logFile = Path.Combine(folderPath, $"{DateTime.Now.ToString("yyyyMMdd")}_{Assembly.GetExecutingAssembly().GetName().Name}.log");
+            var logFile = Path.Combine(folderPath, $"{DateTime.Now:yyyyMMdd}_{Assembly.GetExecutingAssembly().GetName().Name}.log");
 
             Factory.AddProvider(new FileLoggerProvider(logFile, new FileLoggerOptions
             {

@@ -19,7 +19,7 @@ namespace abremir.AllMyBricks.Data.Extensions
                 }
                 else
                 {
-                    BindingFlags flags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.FlattenHierarchy;
+                    const BindingFlags flags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.FlattenHierarchy;
 
                     foreach (PropertyInfo p in obj.GetType().GetProperties(flags))
                     {

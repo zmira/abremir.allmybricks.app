@@ -1,7 +1,6 @@
 ﻿using abremir.AllMyBricks.Data.Interfaces;
 using abremir.AllMyBricks.Data.Tests.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Linq;
 
 namespace abremir.AllMyBricks.Data.Tests.Shared
 {
@@ -20,12 +19,12 @@ namespace abremir.AllMyBricks.Data.Tests.Shared
             ResetDatabase();
         }
 
-        protected T InsertData<T>(T dataToInsert)
+        protected static T InsertData<T>(T dataToInsert)
         {
-            return InsertData(new[] { dataToInsert }).First();
+            return InsertData(new[] { dataToInsert })[0];
         }
 
-        protected T[] InsertData<T>(T[] dataToInsert)
+        protected static T[] InsertData<T>(T[] dataToInsert)
         {
             using var repository = MemoryRepositoryService.GetRepository();
 

@@ -5,7 +5,6 @@ using abremir.AllMyBricks.Data.Tests.Configuration;
 using abremir.AllMyBricks.Data.Tests.Shared;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NFluent;
-using System.Linq;
 
 namespace abremir.AllMyBricks.Data.Tests.Repositories
 {
@@ -127,7 +126,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
                 var referenceDataList = MemoryRepositoryService.GetRepository().Query<T>().ToList();
 
                 Check.That(referenceDataList).CountIs(1);
-                Check.That(referenceDataList.First().Value).IsEqualTo(referenceDataValue);
+                Check.That(referenceDataList[0].Value).IsEqualTo(referenceDataValue);
             }
         }
     }

@@ -16,7 +16,7 @@ namespace abremir.AllMyBricks.Data.Repositories
         {
             if (string.IsNullOrWhiteSpace(referenceDataValue))
             {
-                return default(T);
+                return default;
             }
 
             using var repository = _repositoryService.GetRepository();

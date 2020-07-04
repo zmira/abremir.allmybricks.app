@@ -162,7 +162,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 
         private SetSynchronizer CreateTarget(IBricksetApiService bricksetApiService = null)
         {
-            bricksetApiService = bricksetApiService ?? Substitute.For<IBricksetApiService>();
+            bricksetApiService ??= Substitute.For<IBricksetApiService>();
 
             var thumbnailSynchronizer = Substitute.For<IThumbnailSynchronizer>();
 

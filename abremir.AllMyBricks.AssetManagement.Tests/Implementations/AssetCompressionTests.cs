@@ -47,7 +47,7 @@ namespace abremir.AllMyBricks.AssetManagement.Tests.Implementations
         [TestMethod]
         public void CompressAsset_InvalidTargetFilePath_ReturnsFalse()
         {
-            var sourceFilePath = "test_file.txt";
+            const string sourceFilePath = "test_file.txt";
             _assetCompression.Get<IFile>()
                 .Exists(sourceFilePath)
                 .Returns(true);
@@ -63,7 +63,7 @@ namespace abremir.AllMyBricks.AssetManagement.Tests.Implementations
         [TestMethod]
         public void CompressAsset_ValidData_ReturnsTrue()
         {
-            var sourceFilePath = "test_file.txt";
+            const string sourceFilePath = "test_file.txt";
             _assetCompression.Get<IFile>()
                 .Exists(sourceFilePath)
                 .Returns(true);

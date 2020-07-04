@@ -40,7 +40,7 @@ namespace abremir.AllMyBricks.Onboarding.Services
 
         private async Task<string> GetApiKeyFromOnboardingServiceEndpoint()
         {
-            Identification identification = null;
+            Identification identification;
 
             if (!await _secureStorageService.IsDeviceIdentificationCreated())
             {
