@@ -15,57 +15,57 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Services
     {
         public async Task<bool> CheckKey(ParameterApiKey checkKeyParameters)
         {
-            return (await BricksetHttpPostUrlEncodeAsync<ResultCheckKey, ParameterApiKey>(checkKeyParameters)).Status == ResultStatusEnum.Success;
+            return (await BricksetHttpPostUrlEncodeAsync<ResultCheckKey, ParameterApiKey>(checkKeyParameters).ConfigureAwait(false)).Status == ResultStatusEnum.Success;
         }
 
         public async Task<string> Login(ParameterLogin loginParameters)
         {
-            return (await BricksetHttpPostUrlEncodeAsync<ResultLogin, ParameterLogin>(loginParameters)).Hash;
+            return (await BricksetHttpPostUrlEncodeAsync<ResultLogin, ParameterLogin>(loginParameters).ConfigureAwait(false)).Hash;
         }
 
         public async Task<bool> CheckUserHash(ParameterApiKeyUserHash checkUserHashParameters)
         {
-            return (await BricksetHttpPostUrlEncodeAsync<ResultCheckUserHash, ParameterApiKeyUserHash>(checkUserHashParameters)).Status == ResultStatusEnum.Success;
+            return (await BricksetHttpPostUrlEncodeAsync<ResultCheckUserHash, ParameterApiKeyUserHash>(checkUserHashParameters).ConfigureAwait(false)).Status == ResultStatusEnum.Success;
         }
 
         public async Task<IEnumerable<Themes>> GetThemes(ParameterApiKey getThemesParameters)
         {
-            return (await BricksetHttpPostUrlEncodeAsync<ResultGetThemes, ParameterApiKey>(getThemesParameters)).Themes;
+            return (await BricksetHttpPostUrlEncodeAsync<ResultGetThemes, ParameterApiKey>(getThemesParameters).ConfigureAwait(false)).Themes;
         }
 
         public async Task<IEnumerable<Subthemes>> GetSubthemes(ParameterTheme getSubthemesParameters)
         {
-            return (await BricksetHttpPostUrlEncodeAsync<ResultGetSubthemes, ParameterTheme>(getSubthemesParameters)).Subthemes;
+            return (await BricksetHttpPostUrlEncodeAsync<ResultGetSubthemes, ParameterTheme>(getSubthemesParameters).ConfigureAwait(false)).Subthemes;
         }
 
         public async Task<IEnumerable<Years>> GetYears(ParameterTheme getYearsParameters)
         {
-            return (await BricksetHttpPostUrlEncodeAsync<ResultGetYears, ParameterTheme>(getYearsParameters)).Years;
+            return (await BricksetHttpPostUrlEncodeAsync<ResultGetYears, ParameterTheme>(getYearsParameters).ConfigureAwait(false)).Years;
         }
 
         public async Task<IEnumerable<Sets>> GetSets(GetSetsParameters getSetsParameters)
         {
-            return (await BricksetHttpPostUrlEncodeAsync<ResultGetSets, ParameterSets>(getSetsParameters.ToParameterSets())).Sets;
+            return (await BricksetHttpPostUrlEncodeAsync<ResultGetSets, ParameterSets>(getSetsParameters.ToParameterSets()).ConfigureAwait(false)).Sets;
         }
 
         public async Task<IEnumerable<Instructions>> GetInstructions(ParameterSetId getInstructionsParameters)
         {
-            return (await BricksetHttpPostUrlEncodeAsync<ResultGetInstructions, ParameterSetId>(getInstructionsParameters)).Instructions;
+            return (await BricksetHttpPostUrlEncodeAsync<ResultGetInstructions, ParameterSetId>(getInstructionsParameters).ConfigureAwait(false)).Instructions;
         }
 
         public async Task<IEnumerable<SetImage>> GetAdditionalImages(ParameterSetId getAdditionalImagesParameters)
         {
-            return (await BricksetHttpPostUrlEncodeAsync<ResultGetAdditionalImages, ParameterSetId>(getAdditionalImagesParameters)).AdditionalImages;
+            return (await BricksetHttpPostUrlEncodeAsync<ResultGetAdditionalImages, ParameterSetId>(getAdditionalImagesParameters).ConfigureAwait(false)).AdditionalImages;
         }
 
         public async Task<bool> SetCollection(SetCollectionParameters setCollectionParameters)
         {
-            return (await BricksetHttpPostUrlEncodeAsync<ResultSetCollection, ParameterSetCollection>(setCollectionParameters.ToParameterSetCollection())).Status == ResultStatusEnum.Success;
+            return (await BricksetHttpPostUrlEncodeAsync<ResultSetCollection, ParameterSetCollection>(setCollectionParameters.ToParameterSetCollection()).ConfigureAwait(false)).Status == ResultStatusEnum.Success;
         }
 
         private async Task<T> BricksetHttpPostUrlEncodeAsync<T, U>(U parameters) where T : ResultBase where U : ParameterApiKey
         {
-            var requestResult = await Constants.BricksetApiUrl.AppendPathSegment(typeof(T).GetDescription()).PostUrlEncodedAsync(parameters).ReceiveJson<T>();
+            var requestResult = await Constants.BricksetApiUrl.AppendPathSegment(typeof(T).GetDescription()).PostUrlEncodedAsync(parameters).ReceiveJson<T>().ConfigureAwait(false);
 
             if (requestResult.Status == ResultStatusEnum.Error)
             {

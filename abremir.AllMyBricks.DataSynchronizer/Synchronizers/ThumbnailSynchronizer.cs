@@ -47,7 +47,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
 
                 try
                 {
-                    thumbnail = await set.Images[0].ThumbnailUrl.GetBytesAsync();
+                    thumbnail = await set.Images[0].ThumbnailUrl.GetBytesAsync().ConfigureAwait(false);
 
                     _messageHub.Publish(new ThumbnailAcquired { Thumbnail = set.Images[0].ThumbnailUrl });
                 }
@@ -63,7 +63,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
 
                 _messageHub.Publish(new SynchronizingThumbnailStart { Thumbnail = set.Images[0].ThumbnailUrl });
 
-                await _fileSystemService.SaveThumbnailToCache(set.Theme.Name, set.Subtheme.Name, set.NumberWithVariant, thumbnail);
+                await _fileSystemService.SaveThumbnailToCache(set.Theme.Name, set.Subtheme.Name, set.NumberWithVariant, thumbnail).ConfigureAwait(false);
 
                 _messageHub.Publish(new SynchronizingThumbnailEnd { Thumbnail = set.Images[0].ThumbnailUrl });
             }

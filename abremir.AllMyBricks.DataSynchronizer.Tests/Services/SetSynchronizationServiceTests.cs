@@ -33,7 +33,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Services
                 .GetBricksetApiKey()
                 .Returns(apiKey);
 
-            await _dataSynchronizationService.ClassUnderTest.SynchronizeAllSets();
+            await _dataSynchronizationService.ClassUnderTest.SynchronizeAllSets().ConfigureAwait(false);
 
             _dataSynchronizationService.Get<IInsightsRepository>().DidNotReceive().GetDataSynchronizationTimestamp();
         }
@@ -54,12 +54,12 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Services
                 .Synchronize(Arg.Any<string>(), Arg.Any<Theme>())
                 .Returns(new List<Subtheme> { new Subtheme() });
 
-            await _dataSynchronizationService.ClassUnderTest.SynchronizeAllSets();
+            await _dataSynchronizationService.ClassUnderTest.SynchronizeAllSets().ConfigureAwait(false);
 
-            await _dataSynchronizationService.Get<IThemeSynchronizer>().Received(1).Synchronize(Arg.Any<string>());
-            await _dataSynchronizationService.Get<ISubthemeSynchronizer>().Received(1).Synchronize(Arg.Any<string>(), Arg.Any<Theme>());
-            await _dataSynchronizationService.Get<ISetSynchronizer>().Received(1).Synchronize(Arg.Any<string>(), Arg.Any<Theme>(), Arg.Any<Subtheme>());
-            await _dataSynchronizationService.Get<ISetSynchronizer>().DidNotReceive().Synchronize(Arg.Any<string>(), Arg.Any<DateTimeOffset>());
+            await _dataSynchronizationService.Get<IThemeSynchronizer>().Received(1).Synchronize(Arg.Any<string>()).ConfigureAwait(false);
+            await _dataSynchronizationService.Get<ISubthemeSynchronizer>().Received(1).Synchronize(Arg.Any<string>(), Arg.Any<Theme>()).ConfigureAwait(false);
+            await _dataSynchronizationService.Get<ISetSynchronizer>().Received(1).Synchronize(Arg.Any<string>(), Arg.Any<Theme>(), Arg.Any<Subtheme>()).ConfigureAwait(false);
+            await _dataSynchronizationService.Get<ISetSynchronizer>().DidNotReceive().Synchronize(Arg.Any<string>(), Arg.Any<DateTimeOffset>()).ConfigureAwait(false);
             _dataSynchronizationService.Get<IInsightsRepository>().Received(1).UpdateDataSynchronizationTimestamp(Arg.Any<DateTimeOffset>());
         }
 
@@ -79,12 +79,12 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Services
                 .Synchronize(Arg.Any<string>(), Arg.Any<Theme>())
                 .Returns(new List<Subtheme> { new Subtheme() });
 
-            await _dataSynchronizationService.ClassUnderTest.SynchronizeAllSets();
+            await _dataSynchronizationService.ClassUnderTest.SynchronizeAllSets().ConfigureAwait(false);
 
-            await _dataSynchronizationService.Get<IThemeSynchronizer>().Received(1).Synchronize(Arg.Any<string>());
-            await _dataSynchronizationService.Get<ISubthemeSynchronizer>().Received(1).Synchronize(Arg.Any<string>(), Arg.Any<Theme>());
-            await _dataSynchronizationService.Get<ISetSynchronizer>().DidNotReceive().Synchronize(Arg.Any<string>(), Arg.Any<Theme>(), Arg.Any<Subtheme>());
-            await _dataSynchronizationService.Get<ISetSynchronizer>().Received(1).Synchronize(Arg.Any<string>(), Arg.Any<DateTimeOffset>());
+            await _dataSynchronizationService.Get<IThemeSynchronizer>().Received(1).Synchronize(Arg.Any<string>()).ConfigureAwait(false);
+            await _dataSynchronizationService.Get<ISubthemeSynchronizer>().Received(1).Synchronize(Arg.Any<string>(), Arg.Any<Theme>()).ConfigureAwait(false);
+            await _dataSynchronizationService.Get<ISetSynchronizer>().DidNotReceive().Synchronize(Arg.Any<string>(), Arg.Any<Theme>(), Arg.Any<Subtheme>()).ConfigureAwait(false);
+            await _dataSynchronizationService.Get<ISetSynchronizer>().Received(1).Synchronize(Arg.Any<string>(), Arg.Any<DateTimeOffset>()).ConfigureAwait(false);
             _dataSynchronizationService.Get<IInsightsRepository>().Received(1).UpdateDataSynchronizationTimestamp(Arg.Any<DateTimeOffset>());
         }
     }

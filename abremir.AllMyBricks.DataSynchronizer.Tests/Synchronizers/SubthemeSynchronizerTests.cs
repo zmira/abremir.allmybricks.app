@@ -48,7 +48,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 
             var subthemeSynchronizer = CreateTarget(bricksetApiService);
 
-            var subthemes = await subthemeSynchronizer.Synchronize(string.Empty, new Theme { Name = string.Empty });
+            var subthemes = await subthemeSynchronizer.Synchronize(string.Empty, new Theme { Name = string.Empty }).ConfigureAwait(false);
 
             Check.That(subthemes).IsEmpty();
             Check.That(_subthemeRepository.All()).IsEmpty();
@@ -73,7 +73,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 
             var subthemeSynchronizer = CreateTarget(bricksetApiService);
 
-            var subthemes = await subthemeSynchronizer.Synchronize(string.Empty, theme);
+            var subthemes = await subthemeSynchronizer.Synchronize(string.Empty, theme).ConfigureAwait(false);
 
             Check.That(subthemes).CountIs(subthemesList.Count);
             Check.That(_subthemeRepository.All()).CountIs(subthemesList.Count);

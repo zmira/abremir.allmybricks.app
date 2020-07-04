@@ -32,14 +32,14 @@ namespace abremir.AllMyBricks.UserManagement.Services
 
         public async Task<bool> AddDefaultUser()
         {
-            if (await _secureStorageService.IsDefaultUsernameDefined())
+            if (await _secureStorageService.IsDefaultUsernameDefined().ConfigureAwait(false))
             {
                 return false;
             }
 
             var defaultUsername = Convert.ToBase64String(SHA256Hash.ComputeHash(Guid.NewGuid().ToString()));
 
-            await _secureStorageService.SaveDefaultUsername(defaultUsername);
+            await _secureStorageService.SaveDefaultUsername(defaultUsername).ConfigureAwait(false);
 
             _bricksetUserRepository.Add(BricksetUserTypeEnum.None, defaultUsername);
 
@@ -50,8 +50,8 @@ namespace abremir.AllMyBricks.UserManagement.Services
         {
             if (string.IsNullOrWhiteSpace(username)
                 || string.IsNullOrWhiteSpace(password)
-                || !await _secureStorageService.IsBricksetApiKeyAcquired()
-                || await _secureStorageService.IsBricksetPrimaryUsersDefined()
+                || !await _secureStorageService.IsBricksetApiKeyAcquired().ConfigureAwait(false)
+                || await _secureStorageService.IsBricksetPrimaryUsersDefined().ConfigureAwait(false)
                 || _bricksetUserRepository.Exists(username))
             {
                 return false;
@@ -61,19 +61,19 @@ namespace abremir.AllMyBricks.UserManagement.Services
             {
                 Username = username,
                 Password = password,
-                ApiKey = await _secureStorageService.GetBricksetApiKey()
-            });
+                ApiKey = await _secureStorageService.GetBricksetApiKey().ConfigureAwait(false)
+            }).ConfigureAwait(false);
 
             if (string.IsNullOrWhiteSpace(bricksetUserHash))
             {
                 return false;
             }
 
-            await _secureStorageService.SaveBricksetPrimaryUser(username, bricksetUserHash);
+            await _secureStorageService.SaveBricksetPrimaryUser(username, bricksetUserHash).ConfigureAwait(false);
 
             _bricksetUserRepository.Add(BricksetUserTypeEnum.Primary, username);
 
-            await _userSynchronizationService.SynchronizeBricksetPrimaryUsersSets(username);
+            await _userSynchronizationService.SynchronizeBricksetPrimaryUsersSets(username).ConfigureAwait(false);
 
             return true;
         }
@@ -81,7 +81,7 @@ namespace abremir.AllMyBricks.UserManagement.Services
         public async Task<bool> AddBricksetFriend(string username)
         {
             if (string.IsNullOrWhiteSpace(username)
-                || !await _secureStorageService.IsBricksetApiKeyAcquired()
+                || !await _secureStorageService.IsBricksetApiKeyAcquired().ConfigureAwait(false)
                 || _bricksetUserRepository.Exists(username))
             {
                 return false;
@@ -89,7 +89,7 @@ namespace abremir.AllMyBricks.UserManagement.Services
 
             _bricksetUserRepository.Add(BricksetUserTypeEnum.Friend, username);
 
-            await _userSynchronizationService.SynchronizeBricksetFriendsSets(username);
+            await _userSynchronizationService.SynchronizeBricksetFriendsSets(username).ConfigureAwait(false);
 
             return true;
         }
@@ -98,7 +98,7 @@ namespace abremir.AllMyBricks.UserManagement.Services
         {
             if (RemoveBricksetUser(username))
             {
-                return await _secureStorageService.ClearBricksetPrimaryUser(username);
+                return await _secureStorageService.ClearBricksetPrimaryUser(username).ConfigureAwait(false);
             }
 
             return false;

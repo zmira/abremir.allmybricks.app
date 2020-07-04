@@ -42,7 +42,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                     ApiKey = apiKey
                 };
 
-                var bricksetThemes = (await _bricksetApiService.GetThemes(getThemesParameters)).ToList();
+                var bricksetThemes = (await _bricksetApiService.GetThemes(getThemesParameters).ConfigureAwait(false)).ToList();
 
                 _messageHub.Publish(new ThemesAcquired { Count = bricksetThemes.Count });
 
@@ -60,7 +60,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                             Theme = bricksetTheme.Theme
                         };
 
-                        theme.SetCountPerYear = (await _bricksetApiService.GetYears(getYearsParameters))
+                        theme.SetCountPerYear = (await _bricksetApiService.GetYears(getYearsParameters).ConfigureAwait(false))
                             .ToYearSetCountEnumerable()
                             .ToList();
 

@@ -41,7 +41,7 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
         {
             _httpTestFake.RespondWith(GetResultFileFromResource(nameof(Success)));
 
-            var themes = await _bricksetApiService.GetThemes(new ParameterApiKey());
+            var themes = await _bricksetApiService.GetThemes(new ParameterApiKey()).ConfigureAwait(false);
 
             Check.That(themes).CountIs(144);
         }

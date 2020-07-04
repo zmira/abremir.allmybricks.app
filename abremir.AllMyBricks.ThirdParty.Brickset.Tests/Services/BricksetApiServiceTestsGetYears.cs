@@ -41,7 +41,7 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
         {
             _httpTestFake.RespondWith(GetResultFileFromResource(nameof(NoMatches)));
 
-            var years = await _bricksetApiService.GetYears(new ParameterTheme());
+            var years = await _bricksetApiService.GetYears(new ParameterTheme()).ConfigureAwait(false);
 
             Check.That(years).IsEmpty();
         }
@@ -51,7 +51,7 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
         {
             _httpTestFake.RespondWith(GetResultFileFromResource(nameof(Success)));
 
-            var years = await _bricksetApiService.GetYears(new ParameterTheme());
+            var years = await _bricksetApiService.GetYears(new ParameterTheme()).ConfigureAwait(false);
 
             Check.That(years).CountIs(13);
         }

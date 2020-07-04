@@ -50,7 +50,7 @@ namespace abremir.AllMyBricks.Platform.Services
                 Directory.CreateDirectory(thumbnailFolder);
             }
 
-            await _file.WriteAllBytes(Path.Combine(thumbnailFolder, filename), thumbnail);
+            await _file.WriteAllBytes(Path.Combine(thumbnailFolder, filename), thumbnail).ConfigureAwait(false);
         }
 
         public bool ClearThumbnailCache()

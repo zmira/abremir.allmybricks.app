@@ -56,7 +56,7 @@ namespace abremir.AllMyBricks.Platform.Implementations
         {
             using var stream = new FileStream(path, FileMode.Create);
 
-            await stream.WriteAsync(bytes, 0, bytes.Length);
+            await stream.WriteAsync(bytes, 0, bytes.Length).ConfigureAwait(false);
         }
     }
 }

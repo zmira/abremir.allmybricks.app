@@ -10,17 +10,17 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Services
     {
         public async Task<string> GetBricksetApiKey()
         {
-            return await Task.Run(() => Settings.BricksetApiKey);
+            return await Task.Run(() => Settings.BricksetApiKey).ConfigureAwait(false);
         }
 
         public async Task<bool> IsBricksetApiKeyAcquired()
         {
-            return !string.IsNullOrWhiteSpace(await GetBricksetApiKey());
+            return !string.IsNullOrWhiteSpace(await GetBricksetApiKey().ConfigureAwait(false));
         }
 
         public async Task SaveBricksetApiKey(string bricksetApiKey)
         {
-            await Task.Run(() => Settings.BricksetApiKey = bricksetApiKey);
+            await Task.Run(() => Settings.BricksetApiKey = bricksetApiKey).ConfigureAwait(false);
         }
 
         public Task<Identification> GetDeviceIdentification()
@@ -40,12 +40,12 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Services
 
         public async Task<string> GetBricksetUserHash(string username)
         {
-            return await Task.Run(() => Settings.BricksetPrimaryUsers[username]);
+            return await Task.Run(() => Settings.BricksetPrimaryUsers[username]).ConfigureAwait(false);
         }
 
         public async Task<bool> IsBricksetPrimaryUsersDefined()
         {
-            return await Task.Run(() => Settings.BricksetPrimaryUsers != null);
+            return await Task.Run(() => Settings.BricksetPrimaryUsers != null).ConfigureAwait(false);
         }
 
         public async Task SaveBricksetPrimaryUser(string username, string userHash)
@@ -56,7 +56,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Services
             {
                 bricksetPrimaryUsers.Add(username, userHash);
 
-                await Task.Run(() => Settings.BricksetPrimaryUsers = bricksetPrimaryUsers);
+                await Task.Run(() => Settings.BricksetPrimaryUsers = bricksetPrimaryUsers).ConfigureAwait(false);
             }
         }
 
@@ -68,7 +68,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Services
             {
                 bricksetPrimaryUsers.Remove(username);
 
-                await Task.Run(() => Settings.BricksetPrimaryUsers = bricksetPrimaryUsers);
+                await Task.Run(() => Settings.BricksetPrimaryUsers = bricksetPrimaryUsers).ConfigureAwait(false);
             }
 
             return bricksetPrimaryUsers.ContainsKey(username);

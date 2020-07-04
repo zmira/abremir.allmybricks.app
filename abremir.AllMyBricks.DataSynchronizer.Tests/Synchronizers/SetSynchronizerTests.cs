@@ -54,7 +54,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 
             var setSynchronizer = CreateTarget(bricksetApiService);
 
-            await setSynchronizer.Synchronize(string.Empty, new Theme { Name = string.Empty, YearFrom = 0, YearTo = 1 }, new Subtheme { Name = string.Empty });
+            await setSynchronizer.Synchronize(string.Empty, new Theme { Name = string.Empty, YearFrom = 0, YearTo = 1 }, new Subtheme { Name = string.Empty }).ConfigureAwait(false);
 
             Check.That(_setRepository.All()).IsEmpty();
         }
@@ -103,7 +103,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 
             var setSynchronizer = CreateTarget(bricksetApiService);
 
-            await setSynchronizer.Synchronize(string.Empty, theme, subtheme);
+            await setSynchronizer.Synchronize(string.Empty, theme, subtheme).ConfigureAwait(false);
 
             var expectedSets = setsList.Where(bricksetSets => bricksetSets.Subtheme == subtheme.Name).ToList();
 
@@ -123,7 +123,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 
             var setSynchronizer = CreateTarget(bricksetApiService);
 
-            await setSynchronizer.Synchronize(string.Empty, DateTimeOffset.Now.Date);
+            await setSynchronizer.Synchronize(string.Empty, DateTimeOffset.Now.Date).ConfigureAwait(false);
 
             Check.That(_setRepository.All()).IsEmpty();
         }
@@ -155,7 +155,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 
             var setSynchronizer = CreateTarget(bricksetApiService);
 
-            await setSynchronizer.Synchronize(string.Empty, DateTimeOffset.Now);
+            await setSynchronizer.Synchronize(string.Empty, DateTimeOffset.Now).ConfigureAwait(false);
 
             Check.That(_setRepository.All()).CountIs(recentlyUpdatedSetsList.Count);
         }

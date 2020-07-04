@@ -21,14 +21,14 @@ namespace abremir.AllMyBricks.Onboarding.Services
             return await _allMyBricksOnboardingRegistrationServiceUrl
                 .AppendPathSegment(Constants.AllMyBricksOnboardingRegistrationServiceRegisterMethod)
                 .PostJsonAsync(allMyBricksIdentification)
-                .ReceiveJson<Identification>();
+                .ReceiveJson<Identification>().ConfigureAwait(false);
         }
 
         public async Task Unregister(Identification allMyBricksIdentification)
         {
             await _allMyBricksOnboardingRegistrationServiceUrl
                 .AppendPathSegment(Constants.AllMyBricksOnboardingRegistrationServiceUnregisterMethod)
-                .PostJsonAsync(allMyBricksIdentification);
+                .PostJsonAsync(allMyBricksIdentification).ConfigureAwait(false);
         }
     }
 }

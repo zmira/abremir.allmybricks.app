@@ -57,7 +57,7 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
         {
             _httpTestFake.RespondWith(GetResultFileFromResource(nameof(Success)));
 
-            var setCollectionResult = await _bricksetApiService.SetCollection(new SetCollectionParameters());
+            var setCollectionResult = await _bricksetApiService.SetCollection(new SetCollectionParameters()).ConfigureAwait(false);
 
             Check.That(setCollectionResult).IsTrue();
         }

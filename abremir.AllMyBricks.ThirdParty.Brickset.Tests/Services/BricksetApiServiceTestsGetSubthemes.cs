@@ -41,7 +41,7 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
         {
             _httpTestFake.RespondWith(GetResultFileFromResource(nameof(NoMatches)));
 
-            var subthemes = await _bricksetApiService.GetSubthemes(new ParameterTheme());
+            var subthemes = await _bricksetApiService.GetSubthemes(new ParameterTheme()).ConfigureAwait(false);
 
             Check.That(subthemes).IsEmpty();
         }
@@ -51,7 +51,7 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
         {
             _httpTestFake.RespondWith(GetResultFileFromResource(nameof(Success)));
 
-            var subthemes = await _bricksetApiService.GetSubthemes(new ParameterTheme());
+            var subthemes = await _bricksetApiService.GetSubthemes(new ParameterTheme()).ConfigureAwait(false);
 
             Check.That(subthemes).CountIs(5);
         }

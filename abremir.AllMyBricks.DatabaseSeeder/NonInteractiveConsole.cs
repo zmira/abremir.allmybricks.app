@@ -18,7 +18,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                 if (synchronizationContext.Contains(DatabaseSeederConstants.DatasetValueSets)
                     || synchronizationContext.Contains(DatabaseSeederConstants.DatasetValueAll))
                 {
-                    await IoC.IoCContainer.GetInstance<ISetSynchronizationService>().SynchronizeAllSets();
+                    await IoC.IoCContainer.GetInstance<ISetSynchronizationService>().SynchronizeAllSets().ConfigureAwait(false);
                 }
 
                 if (synchronizationContext.Contains(DatabaseSeederConstants.DatasetValuePrimaryUsers)
@@ -34,13 +34,13 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                         }
                     }
 
-                    await IoC.IoCContainer.GetInstance<IUserSynchronizationService>().SynchronizeBricksetPrimaryUsersSets();
+                    await IoC.IoCContainer.GetInstance<IUserSynchronizationService>().SynchronizeBricksetPrimaryUsersSets().ConfigureAwait(false);
                 }
 
                 if (synchronizationContext.Contains(DatabaseSeederConstants.DatasetValueFriends)
                     || synchronizationContext.Contains(DatabaseSeederConstants.DatasetValueAll))
                 {
-                    await IoC.IoCContainer.GetInstance<IUserSynchronizationService>().SynchronizeBricksetFriendsSets();
+                    await IoC.IoCContainer.GetInstance<IUserSynchronizationService>().SynchronizeBricksetFriendsSets().ConfigureAwait(false);
                 }
 
                 IoC.IoCContainer.GetInstance<IAssetManagementService>().CompactAllMyBricksDatabase();

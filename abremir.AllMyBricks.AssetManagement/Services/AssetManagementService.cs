@@ -34,7 +34,7 @@ namespace abremir.AllMyBricks.AssetManagement.Services
                 return false;
             }
 
-            return _assetUncompression.UncompressAsset(await databaseSeedUrl.GetStreamAsync(), targetFolderPath ?? string.Empty, encryptionKey: await _secureStorageService.GetBricksetApiKey());
+            return _assetUncompression.UncompressAsset(await databaseSeedUrl.GetStreamAsync().ConfigureAwait(false), targetFolderPath ?? string.Empty, encryptionKey: await _secureStorageService.GetBricksetApiKey().ConfigureAwait(false));
         }
     }
 }

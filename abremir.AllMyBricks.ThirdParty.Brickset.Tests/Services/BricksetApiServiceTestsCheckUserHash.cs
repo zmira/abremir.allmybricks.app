@@ -49,7 +49,7 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
         {
             _httpTestFake.RespondWith(GetResultFileFromResource(nameof(Valid)));
 
-            var userHashValidity = await _bricksetApiService.CheckUserHash(new ParameterApiKeyUserHash());
+            var userHashValidity = await _bricksetApiService.CheckUserHash(new ParameterApiKeyUserHash()).ConfigureAwait(false);
 
             Check.That(userHashValidity).IsTrue();
         }

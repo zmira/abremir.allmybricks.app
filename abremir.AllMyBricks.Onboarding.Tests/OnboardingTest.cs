@@ -45,13 +45,13 @@ namespace abremir.AllMyBricks.Onboarding.Tests
                 DeviceIdentification = _deviceInformationService.GenerateNewDeviceIdentification()
             };
 
-            identification = await _registrationService.Register(identification);
+            identification = await _registrationService.Register(identification).ConfigureAwait(false);
 
-            var apiKey = await _apiKeyService.GetBricksetApiKey(identification);
+            var apiKey = await _apiKeyService.GetBricksetApiKey(identification).ConfigureAwait(false);
 
             Check.That(apiKey).Not.IsNullOrEmpty();
 
-            await _registrationService.Unregister(identification);
+            await _registrationService.Unregister(identification).ConfigureAwait(false);
         }
     }
 }

@@ -78,7 +78,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
 
                 _messageHub.Publish(new BricksetToAllMyBricksAcquiringSetsStart());
 
-                var bricksetUserSets = await GetAllUserSetsFromBrickset(apiKey, userHash: userHash);
+                var bricksetUserSets = await GetAllUserSetsFromBrickset(apiKey, userHash: userHash).ConfigureAwait(false);
 
                 var allMyBricksUserSetIds = user.Sets.Select(bricksetUserSet => bricksetUserSet.Set.SetId);
                 var bricksetUserSetIds = bricksetUserSets.Select(bricksetUserSet => bricksetUserSet.Set.SetId);
@@ -115,7 +115,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
             {
                 _messageHub.Publish(new BricksetToAllMyBricksAcquiringSetsStart());
 
-                var bricksetUserSets = (await GetAllUserSetsFromBrickset(apiKey, username)).ToList();
+                var bricksetUserSets = (await GetAllUserSetsFromBrickset(apiKey, username).ConfigureAwait(false)).ToList();
 
                 _messageHub.Publish(new BricksetToAllMyBricksAcquiringSetsEnd { Count = bricksetUserSets.Count });
 
@@ -140,8 +140,8 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
 
         private async Task<IEnumerable<BricksetUserSet>> GetAllUserSetsFromBrickset(string apiKey, string username = null, string userHash = null)
         {
-            var allUserSets = await GetAllOwnedSets(apiKey, username, userHash);
-            var allWantedSetIds = await GetAllWantedSetIds(apiKey, username, userHash);
+            var allUserSets = await GetAllOwnedSets(apiKey, username, userHash).ConfigureAwait(false);
+            var allWantedSetIds = await GetAllWantedSetIds(apiKey, username, userHash).ConfigureAwait(false);
 
             foreach (var wantedSetId in allWantedSetIds)
             {
@@ -186,7 +186,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
             {
                 getSetsParameter.PageNumber = pageNumber;
 
-                currentPageResults = (await _bricksetApiService.GetSets(getSetsParameter)).ToList();
+                currentPageResults = (await _bricksetApiService.GetSets(getSetsParameter).ConfigureAwait(false)).ToList();
 
                 ownedSets.AddRange(currentPageResults.Select(set => new BricksetUserSet
                 {
@@ -225,7 +225,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
             {
                 getSetsParameter.PageNumber = pageNumber;
 
-                currentPageResults = (await _bricksetApiService.GetSets(getSetsParameter)).ToList();
+                currentPageResults = (await _bricksetApiService.GetSets(getSetsParameter).ConfigureAwait(false)).ToList();
 
                 wantedSets.AddRange(currentPageResults.Select(set => set.SetId));
 

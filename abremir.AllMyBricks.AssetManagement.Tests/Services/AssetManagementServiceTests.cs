@@ -38,7 +38,7 @@ namespace abremir.AllMyBricks.AssetManagement.Tests.Services
                 .Exists(Arg.Any<string>())
                 .Returns(directoryExists);
 
-            var result = await _assetManagementService.ClassUnderTest.InstallAllMyBricksSeedDatabase(databaseSeedUrl, targetFolderPath);
+            var result = await _assetManagementService.ClassUnderTest.InstallAllMyBricksSeedDatabase(databaseSeedUrl, targetFolderPath).ConfigureAwait(false);
 
             Check.That(result).IsFalse();
             _httpTest.ShouldNotHaveMadeACall();
@@ -57,7 +57,7 @@ namespace abremir.AllMyBricks.AssetManagement.Tests.Services
                 .Exists(Arg.Any<string>())
                 .Returns(true);
 
-            var result = await _assetManagementService.ClassUnderTest.InstallAllMyBricksSeedDatabase("http://www.google.com/test.lzc", "C:\\");
+            var result = await _assetManagementService.ClassUnderTest.InstallAllMyBricksSeedDatabase("http://www.google.com/test.lzc", "C:\\").ConfigureAwait(false);
 
             Check.That(result).IsTrue();
             _httpTest.ShouldHaveMadeACall();

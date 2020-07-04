@@ -33,7 +33,7 @@ namespace abremir.AllMyBricks.Onboarding.Services
                 .AppendPathSegment(Constants.AllMyBricksOnboardingApiKeyServiceBricksetMethod)
                 .WithClient(client)
                 .PostJsonAsync(apiKeyRequest)
-                .ReceiveString();
+                .ReceiveString().ConfigureAwait(false);
 
             return JWT.Decode(responseApiKeyResult, Encoding.UTF8.GetBytes(allMyBricksIdentification.RegistrationHash.ToCharArray()), (JwsAlgorithm)apiKeyRequest.KeyOption);
         }

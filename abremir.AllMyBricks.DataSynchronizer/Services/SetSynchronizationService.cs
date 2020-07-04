@@ -39,7 +39,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Services
 
             try
             {
-                var apiKey = await _onboardingService.GetBricksetApiKey();
+                var apiKey = await _onboardingService.GetBricksetApiKey().ConfigureAwait(false);
 
                 if (string.IsNullOrWhiteSpace(apiKey))
                 {
@@ -50,13 +50,13 @@ namespace abremir.AllMyBricks.DataSynchronizer.Services
 
                 _messageHub.Publish(new InsightsAcquired { SynchronizationTimestamp = dataSynchronizationTimestamp });
 
-                foreach (var theme in await _themeSynchronizer.Synchronize(apiKey))
+                foreach (var theme in await _themeSynchronizer.Synchronize(apiKey).ConfigureAwait(false))
                 {
                     _messageHub.Publish(new ProcessingThemeStart { Name = theme.Name });
 
                     try
                     {
-                        var subthemes = await _subthemeSynchronizer.Synchronize(apiKey, theme);
+                        var subthemes = await _subthemeSynchronizer.Synchronize(apiKey, theme).ConfigureAwait(false);
 
                         if (!dataSynchronizationTimestamp.HasValue)
                         {
@@ -64,7 +64,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Services
                             {
                                 _messageHub.Publish(new ProcessingSubthemeStart { Name = subtheme.Name });
 
-                                await _setSynchronizer.Synchronize(apiKey, theme, subtheme);
+                                await _setSynchronizer.Synchronize(apiKey, theme, subtheme).ConfigureAwait(false);
 
                                 _messageHub.Publish(new ProcessingSubthemeEnd { Name = subtheme.Name });
                             }
@@ -80,7 +80,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Services
 
                 if (dataSynchronizationTimestamp.HasValue)
                 {
-                    await _setSynchronizer.Synchronize(apiKey, dataSynchronizationTimestamp.Value);
+                    await _setSynchronizer.Synchronize(apiKey, dataSynchronizationTimestamp.Value).ConfigureAwait(false);
                 }
 
                 _insightsRepository.UpdateDataSynchronizationTimestamp(DateTimeOffset.Now);

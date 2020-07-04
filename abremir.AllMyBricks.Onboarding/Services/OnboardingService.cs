@@ -26,13 +26,13 @@ namespace abremir.AllMyBricks.Onboarding.Services
 
         public async Task<string> GetBricksetApiKey()
         {
-            var bricksetApiKey = await _secureStorageService.GetBricksetApiKey();
+            var bricksetApiKey = await _secureStorageService.GetBricksetApiKey().ConfigureAwait(false);
 
             if (string.IsNullOrWhiteSpace(bricksetApiKey))
             {
-                bricksetApiKey = await GetApiKeyFromOnboardingServiceEndpoint();
+                bricksetApiKey = await GetApiKeyFromOnboardingServiceEndpoint().ConfigureAwait(false);
 
-                await _secureStorageService.SaveBricksetApiKey(bricksetApiKey);
+                await _secureStorageService.SaveBricksetApiKey(bricksetApiKey).ConfigureAwait(false);
             }
 
             return bricksetApiKey;
@@ -42,21 +42,21 @@ namespace abremir.AllMyBricks.Onboarding.Services
         {
             Identification identification;
 
-            if (!await _secureStorageService.IsDeviceIdentificationCreated())
+            if (!await _secureStorageService.IsDeviceIdentificationCreated().ConfigureAwait(false))
             {
                 identification = await _registrationService.Register(new Identification
                 {
                     DeviceIdentification = _deviceInformationService.GenerateNewDeviceIdentification()
-                });
+                }).ConfigureAwait(false);
 
-                await _secureStorageService.SaveDeviceIdentification(identification);
+                await _secureStorageService.SaveDeviceIdentification(identification).ConfigureAwait(false);
             }
             else
             {
-                identification = await _secureStorageService.GetDeviceIdentification();
+                identification = await _secureStorageService.GetDeviceIdentification().ConfigureAwait(false);
             }
 
-            return await _apiKeyService.GetBricksetApiKey(identification);
+            return await _apiKeyService.GetBricksetApiKey(identification).ConfigureAwait(false);
         }
     }
 }

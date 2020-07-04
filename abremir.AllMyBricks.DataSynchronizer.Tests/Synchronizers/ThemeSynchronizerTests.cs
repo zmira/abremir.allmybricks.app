@@ -44,7 +44,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 
             var themeSynchronizer = CreateTarget(bricksetApiService);
 
-            var themes = await themeSynchronizer.Synchronize(string.Empty);
+            var themes = await themeSynchronizer.Synchronize(string.Empty).ConfigureAwait(false);
 
             Check.That(themes).IsEmpty();
             Check.That(_themeRepository.All()).IsEmpty();
@@ -66,7 +66,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 
             var themeSynchronizer = CreateTarget(bricksetApiService);
 
-            var themes = await themeSynchronizer.Synchronize(string.Empty);
+            var themes = await themeSynchronizer.Synchronize(string.Empty).ConfigureAwait(false);
 
             Check.That(themes).CountIs(themesList.Count);
             Check.That(_themeRepository.All()).CountIs(themesList.Count);

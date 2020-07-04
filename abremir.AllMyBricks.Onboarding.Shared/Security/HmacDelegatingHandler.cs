@@ -24,7 +24,7 @@ namespace abremir.AllMyBricks.Onboarding.Shared.Security
                 return null;
             }
 
-            var apiKeyRequest = JsonConvert.DeserializeObject<ApiKeyRequest>(await request.Content.ReadAsStringAsync());
+            var apiKeyRequest = JsonConvert.DeserializeObject<ApiKeyRequest>(await request.Content.ReadAsStringAsync().ConfigureAwait(false));
             var appId = apiKeyRequest.DeviceIdentification.DeviceHash;
             var apiKey = apiKeyRequest.RegistrationHash;
 
@@ -33,7 +33,7 @@ namespace abremir.AllMyBricks.Onboarding.Shared.Security
             var nonce = Guid.NewGuid().ToString("N");
             var requestTimestamp = DateTime.UtcNow.TotalSecondsFromEpochStart().ToString();
 
-            var requestContentHash = SHA256Hash.ComputeHash(await request.Content.ReadAsStreamAsync());
+            var requestContentHash = SHA256Hash.ComputeHash(await request.Content.ReadAsStreamAsync().ConfigureAwait(false));
             var requestContentBase64String = Convert.ToBase64String(requestContentHash);
 
             var signatureRawData = appId + requestHttpMethod + requestUri + requestTimestamp + nonce + requestContentBase64String;
@@ -49,7 +49,7 @@ namespace abremir.AllMyBricks.Onboarding.Shared.Security
 
             request.Headers.Authorization = new AuthenticationHeaderValue(Constants.HmacAuthenticationScheme, $"{appId}:{requestSignatureBase64String}:{nonce}:{requestTimestamp}");
 
-            return await base.SendAsync(request, cancellationToken);
+            return await base.SendAsync(request, cancellationToken).ConfigureAwait(false);
         }
     }
 }
