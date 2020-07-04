@@ -97,5 +97,17 @@ namespace abremir.AllMyBricks.AssetManagement.Tests.Implementations
                 .IsNotNull()
                 .And.IsEqualTo("this_is_a_file.lz");
         }
+
+        [DataTestMethod]
+        [DataRow(@"F:\test\this_is_a_file.txt")]
+        [DataRow(@"C:\this_is_a_file")]
+        public void GetCompressedAssetFileName_ValidFilePathAndEncrypted_ReturnsNewFilename(string fileName)
+        {
+            var result = AssetCompression.GetCompressedAssetFileName(fileName, true);
+
+            Check.That(result)
+                .IsNotNull()
+                .And.IsEqualTo("this_is_a_file.lzc");
+        }
     }
 }

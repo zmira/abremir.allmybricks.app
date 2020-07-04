@@ -31,6 +31,7 @@ namespace abremir.AllMyBricks.AssetManagement.Tests.Services
         [DataRow("http://www.google", "C:\\", true)]
         [DataRow("http://www.google.com", "C:\\", true)]
         [DataRow("http://www.google.com/test.lz", "C:\\test.file", false)]
+        [DataRow("http://www.google.com/test.lzc", "C:\\test.file", false)]
         public async Task InstallAllMyBricksSeedDatabase_InvalidParameters_ResultIsFalse(string databaseSeedUrl, string targetFolderPath, bool directoryExists)
         {
             _assetManagementService.Get<IDirectory>()
