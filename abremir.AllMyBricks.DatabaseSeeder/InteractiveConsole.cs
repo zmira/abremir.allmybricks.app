@@ -801,14 +801,13 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                         new Button("Cancel", false)
                         {
                             Clicked = Application.RequestStop
-                        });
-
-                    dialog.Add(
+                        })
+                    {
                         new Label($"Do you want to delete primary user {selectedUser.Key}?")
                         {
                             Y = 1
                         }
-                    );
+                    };
 
                     Application.Run(dialog);
                 }
@@ -864,20 +863,21 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                         new Button("Cancel", false)
                         {
                             Clicked = Application.RequestStop
-                        });
-
-                    dialog.Add(
-                        new Label("Username:")
+                        })
+                    {
                         {
-                            Y = 1
-                        },
-                        primaryUserUsername,
-                        new Label("User hash:")
-                        {
-                            Y = 3
-                        },
-                        primaryUserUserHash
-                    );
+                            new Label("Username:")
+                            {
+                                Y = 1
+                            },
+                            primaryUserUsername,
+                            new Label("User hash:")
+                            {
+                                Y = 3
+                            },
+                            primaryUserUserHash
+                        }
+                    };
 
                     Application.Run(dialog);
                 }
