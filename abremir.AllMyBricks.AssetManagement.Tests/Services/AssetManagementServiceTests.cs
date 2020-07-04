@@ -50,7 +50,7 @@ namespace abremir.AllMyBricks.AssetManagement.Tests.Services
         public async Task InstallAllMyBricksSeedDatabase_ValidParameters_ResultIsTrue()
         {
             _assetManagementService.Get<IAssetUncompression>()
-                .UncompressAsset(Arg.Any<Stream>(), Arg.Any<string>(), Arg.Any<bool>())
+                .UncompressAsset(Arg.Any<Stream>(), Arg.Any<string>(), Arg.Any<bool>(), Arg.Any<string>())
                 .Returns(true);
             _assetManagementService.Get<IDirectory>()
                 .Exists(Arg.Any<string>())
