@@ -17,7 +17,7 @@ namespace abremir.AllMyBricks.Core
         protected override void OnStart()
         {
             // Handle when your app starts
-            var allMyBricksOnboardingUrl = string.Empty;
+            var allMyBricksOnboardingUrl = Settings.AllMyBricksOnboardingUrl;
 
             IoC.Configure(allMyBricksOnboardingUrl);
 
