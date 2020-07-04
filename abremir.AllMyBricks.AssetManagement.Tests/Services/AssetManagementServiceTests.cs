@@ -57,7 +57,7 @@ namespace abremir.AllMyBricks.AssetManagement.Tests.Services
                 .Exists(Arg.Any<string>())
                 .Returns(true);
 
-            var result = await _assetManagementService.ClassUnderTest.InstallAllMyBricksSeedDatabase("http://www.google.com/test.lz", "C:\\");
+            var result = await _assetManagementService.ClassUnderTest.InstallAllMyBricksSeedDatabase("http://www.google.com/test.lzc", "C:\\");
 
             Check.That(result).IsTrue();
             _httpTest.ShouldHaveMadeACall();
