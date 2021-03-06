@@ -330,17 +330,17 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                 Application.MainLoop.Invoke(SetsSynchronizationProgressFrame.ChildNeedsDisplay);
                 Application.MainLoop.RemoveTimeout(SynchronizeSetsApplicationMainLoopTimeoutToken);
 
-                var dialog = new Dialog("Sets Synchronization finished", 50, 8, new Button("Ok")
+                var buttonOk = new Button("Ok");
+                buttonOk.Clicked += () =>
                 {
-                    Clicked = () =>
-                    {
-                        topLevelWindow.Remove(SetsSynchronizationProgressFrame);
+                    topLevelWindow.Remove(SetsSynchronizationProgressFrame);
 
-                        CanExit = true;
+                    CanExit = true;
 
-                        Application.RequestStop();
-                    }
-                });
+                    Application.RequestStop();
+                };
+
+                var dialog = new Dialog("Sets Synchronization finished", 50, 8, buttonOk);
 
                 var totalTimeLabel = new Label($"Sets synchronized in {stopwatch.Elapsed:hh\\:mm\\:ss}")
                 {
@@ -438,17 +438,17 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                 Application.MainLoop.Invoke(PrimaryUsersSynchronizationProgressFrame.ChildNeedsDisplay);
                 Application.MainLoop.RemoveTimeout(SynchronizePrimaryUsersApplicationMainLoopTimeoutToken);
 
-                var dialog = new Dialog("Primary Users Synchronization finished", 50, 8, new Button("Ok")
+                var buttonOk = new Button("Ok");
+                buttonOk.Clicked += () =>
                 {
-                    Clicked = () =>
-                    {
-                        topLevelWindow.Remove(PrimaryUsersSynchronizationProgressFrame);
+                    topLevelWindow.Remove(PrimaryUsersSynchronizationProgressFrame);
 
-                        CanExit = true;
+                    CanExit = true;
 
-                        Application.RequestStop();
-                    }
-                });
+                    Application.RequestStop();
+                };
+
+                var dialog = new Dialog("Primary Users Synchronization finished", 50, 8, buttonOk);
 
                 var totalTimeLabel = new Label($"Primary users synchronized in {stopwatch.Elapsed:hh\\:mm\\:ss}")
                 {
@@ -594,35 +594,35 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                 Y = 2
             };
 
-            bricksetApiKeyEditButton.Clicked = () =>
+            bricksetApiKeyEditButton.Clicked += () =>
             {
                 var bricksetApiKeyTextField = new TextField(Settings.BricksetApiKey);
+
+                var buttonOk = new Button("Ok", false);
+                buttonOk.Clicked += () =>
+                {
+                    var bricksetApiKey = bricksetApiKeyTextField.Text.ToString();
+
+                    Settings.BricksetApiKey = bricksetApiKey;
+                    bricksetApiKeyValue.Text = bricksetApiKey;
+
+                    UpdateSynchronizationMenuView(window);
+
+                    Application.RequestStop();
+                };
+
+                var buttonCancel = new Button("Cancel", false);
+                buttonCancel.Clicked += () => Application.RequestStop();
 
                 var dialog = new Dialog(
                     "Brickset API Key",
                     50,
                     7,
-                    new Button("Ok", false)
+                    buttonOk,
+                    buttonCancel)
                     {
-                        Clicked = () =>
-                        {
-                            var bricksetApiKey = bricksetApiKeyTextField.Text.ToString();
-
-                            Settings.BricksetApiKey = bricksetApiKey;
-                            bricksetApiKeyValue.Text = bricksetApiKey;
-
-                            UpdateSynchronizationMenuView(window);
-
-                            Application.RequestStop();
-                        }
-                    },
-                    new Button("Cancel", false)
-                    {
-                        Clicked = Application.RequestStop
-                    })
-                        {
-                            bricksetApiKeyTextField
-                        };
+                        bricksetApiKeyTextField
+                    };
 
                 Application.Run(dialog);
             };
@@ -649,9 +649,9 @@ namespace abremir.AllMyBricks.DatabaseSeeder
             );
         }
 
-        private static void CheckBox_Toggled(object sender, EventArgs e)
+        private static void CheckBox_Toggled(bool previousValue)
         {
-            Settings.CompressedFileIsEncrypted = ((CheckBox)sender).Checked;
+            Settings.CompressedFileIsEncrypted = !previousValue;
         }
 
         private static void AddCompressDatabaseFileButton(Window window)
@@ -663,25 +663,26 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                 var button = new Button("Compress Database File")
                 {
                     X = 3,
-                    Y = 6,
-                    Clicked = () =>
+                    Y = 6
+                };
+
+                button.Clicked += () =>
+                {
+                    CanExit = false;
+
+                    assetManagementService.CompressDatabaseFile(Settings.CompressedFileIsEncrypted);
+
+                    var buttonOk = new Button("Ok");
+                    buttonOk.Clicked += () =>
                     {
-                        CanExit = false;
+                        CanExit = true;
 
-                        assetManagementService.CompressDatabaseFile(Settings.CompressedFileIsEncrypted);
+                        Application.RequestStop();
+                    };
 
-                        var dialog = new Dialog($"Database File Compressed{(Settings.CompressedFileIsEncrypted ? " and Encrypted" : string.Empty)}", 50, 6, new Button("Ok")
-                        {
-                            Clicked = () =>
-                            {
-                                CanExit = true;
+                    var dialog = new Dialog($"Database File Compressed{(Settings.CompressedFileIsEncrypted ? " and Encrypted" : string.Empty)}", 50, 6, buttonOk);
 
-                                Application.RequestStop();
-                            }
-                        });
-
-                        Application.Run(dialog);
-                    }
+                    Application.Run(dialog);
                 };
 
                 window.Add(
@@ -699,25 +700,26 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                 var button = new Button("Uncompress Database File")
                 {
                     X = 3,
-                    Y = 8,
-                    Clicked = () =>
+                    Y = 8
+                };
+
+                button.Clicked += () =>
+                {
+                    CanExit = false;
+
+                    assetManagementService.UncompressDatabaseFile(Settings.CompressedFileIsEncrypted);
+
+                    var buttonOk = new Button("Ok");
+                    buttonOk.Clicked += () =>
                     {
-                        CanExit = false;
+                        CanExit = true;
 
-                        assetManagementService.UncompressDatabaseFile(Settings.CompressedFileIsEncrypted);
+                        Application.RequestStop();
+                    };
 
-                        var dialog = new Dialog($"{(Settings.CompressedFileIsEncrypted ? "Encrypted " : string.Empty)}Database File Uncompressed", 50, 6, new Button("Ok")
-                        {
-                            Clicked = () =>
-                            {
-                                CanExit = true;
+                    var dialog = new Dialog($"{(Settings.CompressedFileIsEncrypted ? "Encrypted " : string.Empty)}Database File Uncompressed", 50, 6, buttonOk);
 
-                                Application.RequestStop();
-                            }
-                        });
-
-                        Application.Run(dialog);
-                    }
+                    Application.Run(dialog);
                 };
 
                 window.Add(
@@ -735,25 +737,26 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                 var button = new Button("Compact AllMyBricks Database")
                 {
                     X = 3,
-                    Y = 10,
-                    Clicked = () =>
+                    Y = 10
+                };
+
+                button.Clicked += () =>
+                {
+                    CanExit = false;
+
+                    assetManagementService.CompactAllMyBricksDatabase();
+
+                    var buttonOk = new Button("Ok");
+                    buttonOk.Clicked += () =>
                     {
-                        CanExit = false;
+                        CanExit = true;
 
-                        assetManagementService.CompactAllMyBricksDatabase();
+                        Application.RequestStop();
+                    };
 
-                        var dialog = new Dialog("AllMyBricks Database Compacted", 50, 6, new Button("Ok")
-                        {
-                            Clicked = () =>
-                            {
-                                CanExit = true;
+                    var dialog = new Dialog("AllMyBricks Database Compacted", 50, 6, buttonOk);
 
-                                Application.RequestStop();
-                            }
-                        });
-
-                        Application.Run(dialog);
-                    }
+                    Application.Run(dialog);
                 };
 
                 window.Add(
@@ -770,38 +773,42 @@ namespace abremir.AllMyBricks.DatabaseSeeder
 
             var primaryUsersList = new ListView(new Rect(3, 13, 50, 12), Settings.BricksetPrimaryUsers?.Select(keyValuePair => $"{keyValuePair.Key}/{keyValuePair.Value}").ToList() ?? new List<string>())
             {
-                ColorScheme = Colors.Dialog
+                ColorScheme = Colors.Dialog,
+                AllowsMultipleSelection = false,
+                AllowsMarking = false
             };
 
             var deletePrimaryUserButton = new Button("Delete primary user")
             {
                 X = 3,
-                Y = 25,
-                Clicked = () =>
+                Y = 25
+            };
+
+            deletePrimaryUserButton.Clicked += () =>
+            {
+                var primaryUsers = Settings.BricksetPrimaryUsers;
+                var selectedUser = primaryUsers.Skip(primaryUsersList.SelectedItem).Take(1).First();
+
+                var buttonOk = new Button("Ok", false);
+                buttonOk.Clicked += () =>
                 {
-                    var primaryUsers = Settings.BricksetPrimaryUsers;
-                    var selectedUser = primaryUsers.Skip(primaryUsersList.SelectedItem).Take(1).First();
+                    primaryUsers.Remove(selectedUser.Key);
+                    Settings.BricksetPrimaryUsers = primaryUsers;
 
-                    var dialog = new Dialog(
-                        "Delete primary user",
-                        50,
-                        8,
-                        new Button("Ok", false)
-                        {
-                            Clicked = () =>
-                            {
-                                primaryUsers.Remove(selectedUser.Key);
-                                Settings.BricksetPrimaryUsers = primaryUsers;
+                    primaryUsersList.SetSource(primaryUsers.Select(keyValuePair => $"{keyValuePair.Key}/{keyValuePair.Value}").ToList());
 
-                                primaryUsersList.SetSource(primaryUsers.Select(keyValuePair => $"{keyValuePair.Key}/{keyValuePair.Value}").ToList());
+                    Application.RequestStop();
+                };
 
-                                Application.RequestStop();
-                            }
-                        },
-                        new Button("Cancel", false)
-                        {
-                            Clicked = Application.RequestStop
-                        })
+                var buttonCancel = new Button("Cancel", false);
+                buttonCancel.Clicked += () => Application.RequestStop();
+
+                var dialog = new Dialog(
+                    "Delete primary user",
+                    50,
+                    8,
+                    buttonOk,
+                    buttonCancel)
                     {
                         new Label($"Do you want to delete primary user {selectedUser.Key}?")
                         {
@@ -809,11 +816,10 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                         }
                     };
 
-                    Application.Run(dialog);
-                }
+                Application.Run(dialog);
             };
 
-            primaryUsersList.SelectedChanged += () =>
+            primaryUsersList.SelectedItemChanged += (_) =>
             {
                 if (primaryUsersList.SelectedItem == -1)
                 {
@@ -828,42 +834,43 @@ namespace abremir.AllMyBricks.DatabaseSeeder
             var addPrimaryUserButton = new Button("Add primary user")
             {
                 X = 33,
-                Y = 25,
-                Clicked = () =>
+                Y = 25
+            };
+            addPrimaryUserButton.Clicked += () =>
+            {
+                var primaryUserUsername = new TextField(string.Empty)
                 {
-                    var primaryUserUsername = new TextField(string.Empty)
-                    {
-                        Y = 2
-                    };
-                    var primaryUserUserHash = new TextField(string.Empty)
-                    {
-                        Y = 4
-                    };
+                    Y = 2
+                };
+                var primaryUserUserHash = new TextField(string.Empty)
+                {
+                    Y = 4
+                };
 
-                    var dialog = new Dialog(
-                        "Add primary user",
-                        50,
-                        11,
-                        new Button("Ok", false)
-                        {
-                            Clicked = () =>
-                            {
-                                var username = primaryUserUsername.Text.ToString();
-                                var userHash = primaryUserUserHash.Text.ToString();
+                var buttonOk = new Button("Ok", false);
+                buttonOk.Clicked += () =>
+                {
+                    var username = primaryUserUsername.Text.ToString();
+                    var userHash = primaryUserUserHash.Text.ToString();
 
-                                var primaryUsers = Settings.BricksetPrimaryUsers;
-                                primaryUsers.Add(username, userHash);
-                                Settings.BricksetPrimaryUsers = primaryUsers;
+                    var primaryUsers = Settings.BricksetPrimaryUsers;
+                    primaryUsers.Add(username, userHash);
+                    Settings.BricksetPrimaryUsers = primaryUsers;
 
-                                primaryUsersList.SetSource(primaryUsers.Select(keyValuePair => $"{keyValuePair.Key}/{keyValuePair.Value}").ToList());
+                    primaryUsersList.SetSource(primaryUsers.Select(keyValuePair => $"{keyValuePair.Key}/{keyValuePair.Value}").ToList());
 
-                                Application.RequestStop();
-                            }
-                        },
-                        new Button("Cancel", false)
-                        {
-                            Clicked = Application.RequestStop
-                        })
+                    Application.RequestStop();
+                };
+
+                var buttonCancel = new Button("Cancel", false);
+                buttonCancel.Clicked += () => Application.RequestStop();
+
+                var dialog = new Dialog(
+                    "Add primary user",
+                    50,
+                    11,
+                    buttonOk,
+                    buttonCancel)
                     {
                         {
                             new Label("Username:")
@@ -879,8 +886,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                         }
                     };
 
-                    Application.Run(dialog);
-                }
+                Application.Run(dialog);
             };
 
             window.Add(
