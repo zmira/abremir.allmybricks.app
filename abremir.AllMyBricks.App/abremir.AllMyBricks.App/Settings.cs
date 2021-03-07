@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 
-namespace abremir.AllMyBricks.Core
+namespace abremir.AllMyBricks.App
 {
     public sealed class Settings
     {

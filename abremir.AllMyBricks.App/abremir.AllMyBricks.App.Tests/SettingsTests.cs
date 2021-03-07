@@ -1,7 +1,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NFluent;
 
-namespace abremir.AllMyBricks.Core.Tests
+namespace abremir.AllMyBricks.App.Tests
 {
     [TestClass]
     public class SettingsTests

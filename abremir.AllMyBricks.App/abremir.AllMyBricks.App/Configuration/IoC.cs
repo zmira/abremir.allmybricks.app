@@ -1,6 +1,6 @@
 ﻿using LightInject;
 
-namespace abremir.AllMyBricks.Core.Configuration
+namespace abremir.AllMyBricks.App.Configuration
 {
     public static class IoC
     {
