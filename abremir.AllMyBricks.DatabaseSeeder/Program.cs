@@ -40,16 +40,27 @@ namespace abremir.AllMyBricks.DatabaseSeeder
 
             app.OnValidate(_ =>
             {
-                if (unattendeOption.HasValue()
-                    && !bricksetApiKeyOption.HasValue())
+                if (unattendeOption.HasValue())
                 {
-                    return new ValidationResult($"{DatabaseSeederConstants.BricksetApiKey} is required!");
-                }
+                    if (uncompressOption.HasValue()
+                        && datasetOption.HasValue()
+                        && !datasetOption.Values.Contains(DatabaseSeederConstants.DatasetValueNone))
+                    {
+                        return new ValidationResult($"{DatabaseSeederConstants.DatasetOption} invalid with {DatabaseSeederConstants.UncompressOption}.");
+                    }
 
-                if (compressOption.HasValue()
-                    && uncompressOption.HasValue())
-                {
-                    return new ValidationResult($"{DatabaseSeederConstants.CompressOption} and {DatabaseSeederConstants.UncompressOption} are mutually exclusive.");
+                    if (datasetOption.HasValue()
+                        && !datasetOption.Values.Contains(DatabaseSeederConstants.DatasetValueNone)
+                        && !bricksetApiKeyOption.HasValue())
+                    {
+                        return new ValidationResult($"{DatabaseSeederConstants.BricksetApiKey} is required with {DatabaseSeederConstants.DatasetOption}");
+                    }
+
+                    if (compressOption.HasValue()
+                        && uncompressOption.HasValue())
+                    {
+                        return new ValidationResult($"{DatabaseSeederConstants.CompressOption} invalid with {DatabaseSeederConstants.UncompressOption}.");
+                    }
                 }
 
                 return ValidationResult.Success;
@@ -66,9 +77,16 @@ namespace abremir.AllMyBricks.DatabaseSeeder
 
                 Logger = Logging.CreateLogger<Program>();
 
+                var datasetOptions = datasetOption.Values;
+
+                if (datasetOptions.Count == 0)
+                {
+                    datasetOptions.Add(DatabaseSeederConstants.DatasetValueNone);
+                }
+
                 if (logVerbosity != LogVerbosityEnum.NoLogging)
                 {
-                    Logger.LogInformation($"Running All My Bricks database seeder with arguments: { (unattendeOption.HasValue() ? $" { DatabaseSeederConstants.UnattendedOption }" : string.Empty) }{ (logVerbosityOption.HasValue() ? $" { DatabaseSeederConstants.LogVerbosityOption }={ logVerbosityOption.Value() }" : string.Empty) }{ (logDestinationOption.HasValue() ? $" { DatabaseSeederConstants.LogDestinationOption }={ string.Join(", ", logDestinationOption.Values) }" : string.Empty) }{ (compressOption.HasValue() ? $" { DatabaseSeederConstants.CompressOption }" : string.Empty) }{ (uncompressOption.HasValue() ? $" { DatabaseSeederConstants.UncompressOption }" : string.Empty) }{ (datasetOption.HasValue() ? $" { DatabaseSeederConstants.DatasetOption }={ string.Join(", ", datasetOption.Values) }" : string.Empty) }{ (dataFolderOption.HasValue() ? $" { DatabaseSeederConstants.DataFolderOption }={ dataFolderOption.Value() }" : string.Empty) }{ (encryptedOption.HasValue() ? $" { DatabaseSeederConstants.EncryptedOption }" : string.Empty) }{ (bricksetApiKeyOption.HasValue() ? $" { DatabaseSeederConstants.BricksetApiKey }" : string.Empty) }");
+                    Logger.LogInformation($"Running All My Bricks database seeder with arguments: { (unattendeOption.HasValue() ? $" { DatabaseSeederConstants.UnattendedOption }" : string.Empty) }{ (logVerbosityOption.HasValue() ? $" { DatabaseSeederConstants.LogVerbosityOption }={ logVerbosityOption.Value() }" : string.Empty) }{ (logDestinationOption.HasValue() ? $" { DatabaseSeederConstants.LogDestinationOption }={ string.Join(", ", logDestinationOption.Values) }" : string.Empty) }{ (compressOption.HasValue() ? $" { DatabaseSeederConstants.CompressOption }" : string.Empty) }{ (uncompressOption.HasValue() ? $" { DatabaseSeederConstants.UncompressOption }" : string.Empty) }{ $" { DatabaseSeederConstants.DatasetOption }={ string.Join(", ", datasetOptions) }" }{ (dataFolderOption.HasValue() ? $" { DatabaseSeederConstants.DataFolderOption }={ dataFolderOption.Value() }" : string.Empty) }{ (encryptedOption.HasValue() ? $" { DatabaseSeederConstants.EncryptedOption }" : string.Empty) }{ (bricksetApiKeyOption.HasValue() ? $" { DatabaseSeederConstants.BricksetApiKey }" : string.Empty) }");
                 }
 
                 var folderOverride = dataFolderOption.HasValue()
@@ -79,9 +97,9 @@ namespace abremir.AllMyBricks.DatabaseSeeder
 
                 if (unattendeOption.HasValue())
                 {
-                    Settings.BricksetApiKey = bricksetApiKeyOption.Value();
+                    Settings.BricksetApiKey = bricksetApiKeyOption.Value() ?? string.Empty;
 
-                    NonInteractiveConsole.Run(datasetOption.Values, compressOption.HasValue(), uncompressOption.HasValue(), encryptedOption.HasValue()).GetAwaiter().GetResult();
+                    NonInteractiveConsole.Run(datasetOptions, compressOption.HasValue(), uncompressOption.HasValue(), encryptedOption.HasValue()).GetAwaiter().GetResult();
                 }
                 else
                 {
