@@ -61,6 +61,12 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                     {
                         return new ValidationResult($"{DatabaseSeederConstants.CompressOption} invalid with {DatabaseSeederConstants.UncompressOption}.");
                     }
+
+                    if (encryptedOption.HasValue()
+                        && !bricksetApiKeyOption.HasValue())
+                    {
+                        return new ValidationResult($"{DatabaseSeederConstants.EncryptedOption} invalid without {DatabaseSeederConstants.BricksetApiKey}.");
+                    }
                 }
 
                 return ValidationResult.Success;
