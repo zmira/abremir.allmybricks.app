@@ -1,4 +1,5 @@
 ﻿using abremir.AllMyBricks.Platform.Interfaces;
+using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -33,7 +34,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Services
         {
             var dataFolder = !string.IsNullOrEmpty(DataFolderOverride)
                 ? DataFolderOverride
-                : Path.Combine(Directory.GetCurrentDirectory(), DataFolder);
+                : Path.Combine(Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName), DataFolder);
 
             return Path.Combine(dataFolder,
                 string.IsNullOrWhiteSpace(subfolder?.Trim()) ? string.Empty : subfolder.Trim(),
