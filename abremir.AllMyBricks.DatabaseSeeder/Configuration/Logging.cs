@@ -1,4 +1,5 @@
-﻿using abremir.AllMyBricks.DatabaseSeeder.Loggers;
+﻿using abremir.AllMyBricks.DatabaseSeeder.Enumerations;
+using abremir.AllMyBricks.DatabaseSeeder.Loggers;
 using LightInject;
 using Microsoft.Extensions.Logging;
 using NReco.Logging.File;
@@ -14,14 +15,14 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Configuration
 
         public static ILogger CreateLogger<T>() => Factory.CreateLogger<T>();
 
-        public static LogVerbosityEnum LogVerbosity { get; set; }
-        public static LogDestinationEnum LogDestination { get; set; }
+        public static LogVerbosity LogVerbosity { get; set; }
+        public static LogDestinations LogDestination { get; set; }
 
-        public static void Configure(LogDestinationEnum? logDestination, LogVerbosityEnum logVerbosity)
+        public static void Configure(LogDestinations? logDestination, LogVerbosity logVerbosity)
         {
             LogVerbosity = logVerbosity;
 
-            if (LogVerbosity == LogVerbosityEnum.NoLogging)
+            if (LogVerbosity == LogVerbosity.NoLogging)
             {
                 return;
             }
@@ -45,7 +46,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Configuration
 
         private static void SetupFileLogging()
         {
-            if (!LogDestination.HasFlag(LogDestinationEnum.File))
+            if (!LogDestination.HasFlag(LogDestinations.File))
             {
                 return;
             }
@@ -68,7 +69,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Configuration
 
         private static void SetupConsoleLogging()
         {
-            if (!LogDestination.HasFlag(LogDestinationEnum.Console))
+            if (!LogDestination.HasFlag(LogDestinations.Console))
             {
                 return;
             }

@@ -41,7 +41,7 @@ namespace abremir.AllMyBricks.UserManagement.Services
 
             await _secureStorageService.SaveDefaultUsername(defaultUsername).ConfigureAwait(false);
 
-            _bricksetUserRepository.Add(BricksetUserTypeEnum.None, defaultUsername);
+            _bricksetUserRepository.Add(BricksetUserType.None, defaultUsername);
 
             return true;
         }
@@ -71,7 +71,7 @@ namespace abremir.AllMyBricks.UserManagement.Services
 
             await _secureStorageService.SaveBricksetPrimaryUser(username, bricksetUserHash).ConfigureAwait(false);
 
-            _bricksetUserRepository.Add(BricksetUserTypeEnum.Primary, username);
+            _bricksetUserRepository.Add(BricksetUserType.Primary, username);
 
             await _userSynchronizationService.SynchronizeBricksetPrimaryUsersSets(username).ConfigureAwait(false);
 
@@ -87,7 +87,7 @@ namespace abremir.AllMyBricks.UserManagement.Services
                 return false;
             }
 
-            _bricksetUserRepository.Add(BricksetUserTypeEnum.Friend, username);
+            _bricksetUserRepository.Add(BricksetUserType.Friend, username);
 
             await _userSynchronizationService.SynchronizeBricksetFriendsSets(username).ConfigureAwait(false);
 

@@ -8,7 +8,7 @@ namespace abremir.AllMyBricks.Data.Models
 {
     public class Price
     {
-        public PriceRegionEnum Region { get; set; }
+        public PriceRegion Region { get; set; }
         public float Value { get; set; }
 
         public override string ToString()

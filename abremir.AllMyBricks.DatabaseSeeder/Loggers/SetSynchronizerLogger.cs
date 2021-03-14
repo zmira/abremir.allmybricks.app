@@ -1,4 +1,5 @@
 ﻿using abremir.AllMyBricks.DatabaseSeeder.Configuration;
+using abremir.AllMyBricks.DatabaseSeeder.Enumerations;
 using abremir.AllMyBricks.DataSynchronizer.Events.SetSynchronizer;
 using abremir.AllMyBricks.DataSynchronizer.Synchronizers;
 using Easy.MessageHub;
@@ -25,7 +26,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
                 _setIndex = 0;
                 _setProgressFraction = 0;
 
-                if (Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
+                if (Logging.LogVerbosity == LogVerbosity.FullLogging)
                 {
                     logger.LogInformation($"Started set synchronizer{(message.ForSubtheme ? " for subtheme" : string.Empty)}");
                 }
@@ -36,7 +37,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
                 _setIndex = 0;
                 _setProgressFraction = 0;
 
-                if (Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
+                if (Logging.LogVerbosity == LogVerbosity.FullLogging)
                 {
                     logger.LogInformation($"Acquiring sets from '{message.Theme}-{message.Subtheme}' to process for year {message.Year}");
                 }
@@ -55,7 +56,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
                 _setIndex++;
                 _setProgressFraction = _setIndex / _setCount;
 
-                if (Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
+                if (Logging.LogVerbosity == LogVerbosity.FullLogging)
                 {
                     logger.LogInformation(Invariant($"Started synchronizing set '{message.IdentifierLong}': index {_setIndex}, progress {_setProgressFraction:##0.00%}"));
                 }
@@ -65,7 +66,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
 
             messageHub.Subscribe<SynchronizingSetEnd>(message =>
             {
-                if (Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
+                if (Logging.LogVerbosity == LogVerbosity.FullLogging)
                 {
                     logger.LogInformation($"Finished synchronizing set '{message.IdentifierLong}'");
                 }
@@ -78,7 +79,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
                 _setIndex = 0;
                 _setProgressFraction = 0;
 
-                if (Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
+                if (Logging.LogVerbosity == LogVerbosity.FullLogging)
                 {
                     logger.LogInformation($"Finished set synchronizer{(message.ForSubtheme ? " for subtheme" : string.Empty)}");
                 }

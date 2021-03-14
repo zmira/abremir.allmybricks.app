@@ -2,7 +2,7 @@
 
 namespace abremir.AllMyBricks.Data.Enumerations
 {
-    public enum PriceRegionEnum
+    public enum PriceRegion
     {
         [Description("GBP")]
         UK = 1,

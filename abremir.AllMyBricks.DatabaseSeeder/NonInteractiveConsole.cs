@@ -30,7 +30,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                     {
                         if (userRepository.Get(primaryUser.Key) is null)
                         {
-                            userRepository.Add(BricksetUserTypeEnum.Primary, primaryUser.Key);
+                            userRepository.Add(BricksetUserType.Primary, primaryUser.Key);
                         }
                     }
 

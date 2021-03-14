@@ -33,7 +33,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
         [DataRow(ModelsSetup.StringEmpty)]
         public void Add_InvalidUsername_ReturnsNull(string username)
         {
-            var bricksetUser = _bricksetUserRepository.Add(BricksetUserTypeEnum.None, username);
+            var bricksetUser = _bricksetUserRepository.Add(BricksetUserType.None, username);
 
             Check.That(bricksetUser).IsNull();
         }
@@ -372,7 +372,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
 
             InsertData(bricksetUser);
 
-            var usernameList = _bricksetUserRepository.GetAllUsernames(BricksetUserTypeEnum.Friend);
+            var usernameList = _bricksetUserRepository.GetAllUsernames(BricksetUserType.Friend);
 
             Check.That(usernameList).IsEmpty();
         }

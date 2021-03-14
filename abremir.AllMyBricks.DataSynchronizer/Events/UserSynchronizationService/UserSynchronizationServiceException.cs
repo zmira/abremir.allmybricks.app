@@ -6,7 +6,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Events.UserSynchronizationService
 {
     public class UserSynchronizationServiceException
     {
-        public BricksetUserTypeEnum UserType { get; set; }
+        public BricksetUserType UserType { get; set; }
         public IEnumerable<Exception> Exceptions { get; set; }
     }
 }

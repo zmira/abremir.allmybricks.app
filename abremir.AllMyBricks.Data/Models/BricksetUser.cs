@@ -11,7 +11,7 @@ namespace abremir.AllMyBricks.Data.Models
         public int Id { get; set; }
 
         public string BricksetUsername { get; set; }
-        public BricksetUserTypeEnum UserType { get; set; }
+        public BricksetUserType UserType { get; set; }
         public DateTimeOffset? UserSynchronizationTimestamp { get; set; }
 
         public IList<BricksetUserSet> Sets { get; set; } = new List<BricksetUserSet>();

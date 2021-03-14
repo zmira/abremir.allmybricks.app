@@ -5,7 +5,7 @@ namespace abremir.AllMyBricks.Onboarding.Shared.Models
 {
     public class ApiKeyRequest : Identification
     {
-        public AlgorithmTypeEnum KeyOption { get; set; }
+        public AlgorithmType KeyOption { get; set; }
 
         public override bool Equals(object obj)
         {

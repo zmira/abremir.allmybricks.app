@@ -1,6 +1,6 @@
 ﻿namespace abremir.AllMyBricks.Data.Enumerations
 {
-    public enum BricksetUserTypeEnum
+    public enum BricksetUserType
     {
         None,
         Primary,

@@ -48,7 +48,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
         public async Task SynchronizeBricksetPrimaryUser_UserSynchronizationTimestampNotSetAndDoesNotHaveRemoteSets_DoesNotUpdateLocalSetsAndUpdatesUserSynchronizationTimestamp()
         {
             const string testUser = "TESTUSER";
-            _bricksetUserRepository.Add(BricksetUserTypeEnum.Primary, testUser);
+            _bricksetUserRepository.Add(BricksetUserType.Primary, testUser);
 
             var bricksetApiService = Substitute.For<IBricksetApiService>();
             bricksetApiService
@@ -75,7 +75,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
             const string apiKey = "APIKEY";
             const string userHash = "USERHASH";
             const string testUser = "TESTUSER";
-            _bricksetUserRepository.Add(BricksetUserTypeEnum.Primary, testUser);
+            _bricksetUserRepository.Add(BricksetUserType.Primary, testUser);
 
             var themesList = JsonConvert.DeserializeObject<List<Themes>>(GetResultFileFromResource(Constants.JsonFileGetThemes));
             var subthemesList = JsonConvert.DeserializeObject<List<Subthemes>>(GetResultFileFromResource(Constants.JsonFileGetSubthemes));
@@ -155,7 +155,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
             const string apiKey = "APIKEY";
             const string userHash = "USERHASH";
             const string testUser = "TESTUSER";
-            _bricksetUserRepository.Add(BricksetUserTypeEnum.Primary, testUser);
+            _bricksetUserRepository.Add(BricksetUserType.Primary, testUser);
 
             var themesList = JsonConvert.DeserializeObject<List<Themes>>(GetResultFileFromResource(Constants.JsonFileGetThemes));
             var subthemesList = JsonConvert.DeserializeObject<List<Subthemes>>(GetResultFileFromResource(Constants.JsonFileGetSubthemes));
@@ -217,7 +217,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
             const string apiKey = "APIKEY";
             const string userHash = "USERHASH";
             const string testUser = "TESTUSER";
-            _bricksetUserRepository.Add(BricksetUserTypeEnum.Primary, testUser);
+            _bricksetUserRepository.Add(BricksetUserType.Primary, testUser);
 
             var themesList = JsonConvert.DeserializeObject<List<Themes>>(GetResultFileFromResource(Constants.JsonFileGetThemes));
             var subthemesList = JsonConvert.DeserializeObject<List<Subthemes>>(GetResultFileFromResource(Constants.JsonFileGetSubthemes));
@@ -286,7 +286,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
             const string apiKey = "APIKEY";
             const string userHash = "USERHASH";
             const string testUser = "TESTUSER";
-            _bricksetUserRepository.Add(BricksetUserTypeEnum.Primary, testUser);
+            _bricksetUserRepository.Add(BricksetUserType.Primary, testUser);
 
             var themesList = JsonConvert.DeserializeObject<List<Themes>>(GetResultFileFromResource(Constants.JsonFileGetThemes));
             var subthemesList = JsonConvert.DeserializeObject<List<Subthemes>>(GetResultFileFromResource(Constants.JsonFileGetSubthemes));
@@ -379,7 +379,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
         public async Task SynchronizeBricksetFriend_DoesNotHaveRemoteSets_DoesNotUpdateLocalSetsAndUpdatesUserSynchronizationTimestamp()
         {
             const string testUser = "TESTFRIEND";
-            _bricksetUserRepository.Add(BricksetUserTypeEnum.Friend, testUser);
+            _bricksetUserRepository.Add(BricksetUserType.Friend, testUser);
 
             var bricksetApiService = Substitute.For<IBricksetApiService>();
             bricksetApiService
@@ -406,7 +406,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
             const string apiKey = "APIKEY";
             const string userHash = "USERHASH";
             const string testUser = "TESTFRIEND";
-            _bricksetUserRepository.Add(BricksetUserTypeEnum.Friend, testUser);
+            _bricksetUserRepository.Add(BricksetUserType.Friend, testUser);
 
             var themesList = JsonConvert.DeserializeObject<List<Themes>>(GetResultFileFromResource(Constants.JsonFileGetThemes));
             var subthemesList = JsonConvert.DeserializeObject<List<Subthemes>>(GetResultFileFromResource(Constants.JsonFileGetSubthemes));

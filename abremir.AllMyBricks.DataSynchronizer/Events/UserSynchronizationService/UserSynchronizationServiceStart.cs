@@ -4,6 +4,6 @@ namespace abremir.AllMyBricks.DataSynchronizer.Events.UserSynchronizationService
 {
     public class UserSynchronizationServiceStart
     {
-        public BricksetUserTypeEnum UserType { get; set; }
+        public BricksetUserType UserType { get; set; }
     }
 }

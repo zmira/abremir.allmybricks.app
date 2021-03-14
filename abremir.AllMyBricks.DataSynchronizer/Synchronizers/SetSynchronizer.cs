@@ -209,7 +209,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
             {
                 set.Prices.Add(new Price
                 {
-                    Region = PriceRegionEnum.CA,
+                    Region = PriceRegion.CA,
                     Value = legoCom.CA.RetailPrice.Value
                 });
             }
@@ -218,7 +218,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
             {
                 set.Prices.Add(new Price
                 {
-                    Region = PriceRegionEnum.DE,
+                    Region = PriceRegion.DE,
                     Value = legoCom.DE.RetailPrice.Value
                 });
             }
@@ -227,7 +227,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
             {
                 set.Prices.Add(new Price
                 {
-                    Region = PriceRegionEnum.UK,
+                    Region = PriceRegion.UK,
                     Value = legoCom.UK.RetailPrice.Value
                 });
             }
@@ -236,7 +236,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
             {
                 set.Prices.Add(new Price
                 {
-                    Region = PriceRegionEnum.US,
+                    Region = PriceRegion.US,
                     Value = legoCom.US.RetailPrice.Value
                 });
             }

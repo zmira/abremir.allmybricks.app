@@ -37,7 +37,7 @@ namespace abremir.AllMyBricks.UserManagement.Tests.Services
                 .SaveDefaultUsername(Arg.Any<string>()).ConfigureAwait(false);
             _userService.Get<IBricksetUserRepository>()
                 .DidNotReceive()
-                .Add(BricksetUserTypeEnum.None, Arg.Any<string>());
+                .Add(BricksetUserType.None, Arg.Any<string>());
             Check.That(addedDefaultUser).IsFalse();
         }
 
@@ -53,7 +53,7 @@ namespace abremir.AllMyBricks.UserManagement.Tests.Services
                 .SaveDefaultUsername(Arg.Any<string>()).ConfigureAwait(false);
             _userService.Get<IBricksetUserRepository>()
                 .Received()
-                .Add(BricksetUserTypeEnum.None, Arg.Any<string>());
+                .Add(BricksetUserType.None, Arg.Any<string>());
             Check.That(addedDefaultUser).IsTrue();
         }
 
@@ -83,7 +83,7 @@ namespace abremir.AllMyBricks.UserManagement.Tests.Services
                 .SaveBricksetPrimaryUser(Arg.Any<string>(), Arg.Any<string>()).ConfigureAwait(false);
             _userService.Get<IBricksetUserRepository>()
                 .DidNotReceive()
-                .Add(BricksetUserTypeEnum.Primary, Arg.Any<string>());
+                .Add(BricksetUserType.Primary, Arg.Any<string>());
             await _userService.Get<IUserSynchronizationService>()
                 .DidNotReceive()
                 .SynchronizeBricksetPrimaryUsersSets(Arg.Any<string>()).ConfigureAwait(false);
@@ -111,7 +111,7 @@ namespace abremir.AllMyBricks.UserManagement.Tests.Services
                 .SaveBricksetPrimaryUser(Arg.Any<string>(), Arg.Any<string>()).ConfigureAwait(false);
             _userService.Get<IBricksetUserRepository>()
                 .DidNotReceive()
-                .Add(BricksetUserTypeEnum.Primary, Arg.Any<string>());
+                .Add(BricksetUserType.Primary, Arg.Any<string>());
             await _userService.Get<IUserSynchronizationService>()
                 .DidNotReceive()
                 .SynchronizeBricksetPrimaryUsersSets(Arg.Any<string>()).ConfigureAwait(false);
@@ -136,7 +136,7 @@ namespace abremir.AllMyBricks.UserManagement.Tests.Services
                 .SaveBricksetPrimaryUser(Arg.Any<string>(), Arg.Any<string>()).ConfigureAwait(false);
             _userService.Get<IBricksetUserRepository>()
                 .Received()
-                .Add(BricksetUserTypeEnum.Primary, Arg.Any<string>());
+                .Add(BricksetUserType.Primary, Arg.Any<string>());
             await _userService.Get<IUserSynchronizationService>()
                 .Received()
                 .SynchronizeBricksetPrimaryUsersSets(Arg.Any<string>()).ConfigureAwait(false);
@@ -158,7 +158,7 @@ namespace abremir.AllMyBricks.UserManagement.Tests.Services
 
             _userService.Get<IBricksetUserRepository>()
                 .DidNotReceive()
-                .Add(BricksetUserTypeEnum.Friend, Arg.Any<string>());
+                .Add(BricksetUserType.Friend, Arg.Any<string>());
             await _userService.Get<IUserSynchronizationService>()
                 .DidNotReceive()
                 .SynchronizeBricksetFriendsSets(Arg.Any<string>()).ConfigureAwait(false);
@@ -175,7 +175,7 @@ namespace abremir.AllMyBricks.UserManagement.Tests.Services
 
             _userService.Get<IBricksetUserRepository>()
                 .Received()
-                .Add(BricksetUserTypeEnum.Friend, Arg.Any<string>());
+                .Add(BricksetUserType.Friend, Arg.Any<string>());
             await _userService.Get<IUserSynchronizationService>()
                 .Received()
                 .SynchronizeBricksetFriendsSets(Arg.Any<string>()).ConfigureAwait(false);

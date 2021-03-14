@@ -2,7 +2,7 @@
 
 namespace abremir.AllMyBricks.Platform.Enumerations
 {
-    public enum ThumbnailCachingStrategyEnum
+    public enum ThumbnailCachingStrategy
     {
         [Description("Never cache thumbnails")]
         NeverCache,

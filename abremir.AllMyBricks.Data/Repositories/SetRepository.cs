@@ -141,7 +141,7 @@ namespace abremir.AllMyBricks.Data.Repositories
                 .ToList();
         }
 
-        public IEnumerable<Set> AllForPriceRange(PriceRegionEnum priceRegion, float minimumPrice, float maximumPrice)
+        public IEnumerable<Set> AllForPriceRange(PriceRegion priceRegion, float minimumPrice, float maximumPrice)
         {
             if (minimumPrice < 0 || maximumPrice < 0)
             {

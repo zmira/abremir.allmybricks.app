@@ -36,7 +36,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
 
         public async Task SynchronizeBricksetPrimaryUser(string apiKey, string username, string userHash)
         {
-            _messageHub.Publish(new UserSynchronizerStart { UserType = BricksetUserTypeEnum.Primary, Username = username });
+            _messageHub.Publish(new UserSynchronizerStart { UserType = BricksetUserType.Primary, Username = username });
 
             try
             {
@@ -101,15 +101,15 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
             }
             catch (Exception ex)
             {
-                _messageHub.Publish(new UserSynchronizerException { UserType = BricksetUserTypeEnum.Primary, Username = username, Exception = ex });
+                _messageHub.Publish(new UserSynchronizerException { UserType = BricksetUserType.Primary, Username = username, Exception = ex });
             }
 
-            _messageHub.Publish(new UserSynchronizerEnd { UserType = BricksetUserTypeEnum.Primary, Username = username });
+            _messageHub.Publish(new UserSynchronizerEnd { UserType = BricksetUserType.Primary, Username = username });
         }
 
         public async Task SynchronizeBricksetFriend(string apiKey, string username)
         {
-            _messageHub.Publish(new UserSynchronizerStart { UserType = BricksetUserTypeEnum.Friend, Username = username });
+            _messageHub.Publish(new UserSynchronizerStart { UserType = BricksetUserType.Friend, Username = username });
 
             try
             {
@@ -132,10 +132,10 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
             }
             catch (Exception ex)
             {
-                _messageHub.Publish(new UserSynchronizerException { UserType = BricksetUserTypeEnum.Friend, Username = username, Exception = ex });
+                _messageHub.Publish(new UserSynchronizerException { UserType = BricksetUserType.Friend, Username = username, Exception = ex });
             }
 
-            _messageHub.Publish(new UserSynchronizerEnd { UserType = BricksetUserTypeEnum.Friend, Username = username });
+            _messageHub.Publish(new UserSynchronizerEnd { UserType = BricksetUserType.Friend, Username = username });
         }
 
         private async Task<IEnumerable<BricksetUserSet>> GetAllUserSetsFromBrickset(string apiKey, string username = null, string userHash = null)

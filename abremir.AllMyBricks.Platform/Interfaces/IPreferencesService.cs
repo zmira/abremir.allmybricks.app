@@ -4,9 +4,9 @@ namespace abremir.AllMyBricks.Platform.Interfaces
 {
     public interface IPreferencesService
     {
-        ThumbnailCachingStrategyEnum ThumbnailCachingStrategy { get; set; }
+        ThumbnailCachingStrategy ThumbnailCachingStrategy { get; set; }
         bool ClearThumbnailCache { get; set; }
-        AutomaticDataSynchronizationOverConnectionEnum AutomaticDataSynchronization { get; set; }
+        AutomaticDataSynchronizationOverConnection AutomaticDataSynchronization { get; set; }
         bool AllowDataSynchronizationInBackground { get; set; }
     }
 }

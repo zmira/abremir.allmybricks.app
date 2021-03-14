@@ -1,4 +1,5 @@
 ﻿using abremir.AllMyBricks.DatabaseSeeder.Configuration;
+using abremir.AllMyBricks.DatabaseSeeder.Enumerations;
 using abremir.AllMyBricks.DataSynchronizer.Events.UserSynchronizer;
 using abremir.AllMyBricks.DataSynchronizer.Synchronizers;
 using Easy.MessageHub;
@@ -23,7 +24,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
                 _setIndex = 0;
                 _setProgressFraction = 0;
 
-                if (Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
+                if (Logging.LogVerbosity == LogVerbosity.FullLogging)
                 {
                     logger.LogInformation($"Started user synchronizer for {message.UserType} user '{message.Username}'");
                 }
@@ -34,7 +35,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
                 _setIndex = 0;
                 _setProgressFraction = 0;
 
-                if (Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
+                if (Logging.LogVerbosity == LogVerbosity.FullLogging)
                 {
                     logger.LogInformation("Started update of Brickset.com with changes made in All My Bricks");
                 }
@@ -45,7 +46,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
                 _setIndex = 0;
                 _setProgressFraction = 0;
 
-                if (Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
+                if (Logging.LogVerbosity == LogVerbosity.FullLogging)
                 {
                     logger.LogInformation("Acquiring All My Bricks user sets to update in Brickset.com");
                 }
@@ -64,7 +65,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
                 _setIndex++;
                 _setProgressFraction = _setIndex / _setCount;
 
-                if (Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
+                if (Logging.LogVerbosity == LogVerbosity.FullLogging)
                 {
                     logger.LogInformation($"Started synchronizing set {message.SetId}: index {_setIndex}, progress {_setProgressFraction:##0.00%}");
                 }
@@ -72,7 +73,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
 
             messageHub.Subscribe<UserSynchronizerSynchronizingSetEnd>(message =>
             {
-                if (Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
+                if (Logging.LogVerbosity == LogVerbosity.FullLogging)
                 {
                     logger.LogInformation($"Finished synchronizing set {message.SetId}");
                 }
@@ -83,7 +84,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
                 _setIndex = 0;
                 _setProgressFraction = 0;
 
-                if (Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
+                if (Logging.LogVerbosity == LogVerbosity.FullLogging)
                 {
                     logger.LogInformation("Finished update of Brickset.com with changes made in All My Bricks");
                 }
@@ -94,7 +95,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
                 _setIndex = 0;
                 _setProgressFraction = 0;
 
-                if (Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
+                if (Logging.LogVerbosity == LogVerbosity.FullLogging)
                 {
                     logger.LogInformation("Started adding Brickset.com user sets missing in All My Bricks");
                 }
@@ -105,7 +106,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
                 _setIndex = 0;
                 _setProgressFraction = 0;
 
-                if (Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
+                if (Logging.LogVerbosity == LogVerbosity.FullLogging)
                 {
                     logger.LogInformation("Acquiring Brickset.com user sets missing in All My Bricks");
                 }
@@ -124,7 +125,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
                 _setIndex = 0;
                 _setProgressFraction = 0;
 
-                if (Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
+                if (Logging.LogVerbosity == LogVerbosity.FullLogging)
                 {
                     logger.LogInformation("Finished adding Brickset.com user sets missing in All My Bricks");
                 }
@@ -137,7 +138,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
                 _setIndex = 0;
                 _setProgressFraction = 0;
 
-                if (Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
+                if (Logging.LogVerbosity == LogVerbosity.FullLogging)
                 {
                     logger.LogInformation($"Finished user synchronizer for {message.UserType} user '{message.Username}'");
                 }

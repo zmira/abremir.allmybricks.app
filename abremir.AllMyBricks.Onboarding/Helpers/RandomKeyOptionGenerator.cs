@@ -9,10 +9,10 @@ namespace abremir.AllMyBricks.Onboarding.Helpers
 {
     internal static class RandomKeyOptionGenerator
     {
-        internal static AlgorithmTypeEnum GetRandomKeyOption()
+        internal static AlgorithmType GetRandomKeyOption()
         {
-            const int min = (int)AlgorithmTypeEnum.Type1;
-            const int max = (int)AlgorithmTypeEnum.Type3 + 1;
+            const int min = (int)AlgorithmType.Type1;
+            const int max = (int)AlgorithmType.Type3 + 1;
 
             using var rng = new RNGCryptoServiceProvider();
 
@@ -23,7 +23,7 @@ namespace abremir.AllMyBricks.Onboarding.Helpers
 
             const int diff = max - min;
             int mod = generatedValue % diff;
-            return (AlgorithmTypeEnum)(min + mod);
+            return (AlgorithmType)(min + mod);
         }
     }
 }

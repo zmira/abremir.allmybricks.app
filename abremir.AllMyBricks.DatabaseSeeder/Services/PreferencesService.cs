@@ -6,9 +6,9 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Services
 {
     public class PreferencesService : IPreferencesService
     {
-        public ThumbnailCachingStrategyEnum ThumbnailCachingStrategy
+        public ThumbnailCachingStrategy ThumbnailCachingStrategy
         {
-            get => ThumbnailCachingStrategyEnum.NeverCache;
+            get => ThumbnailCachingStrategy.NeverCache;
             set => throw new NotImplementedException();
         }
 
@@ -18,9 +18,9 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Services
             set => throw new NotImplementedException();
         }
 
-        public AutomaticDataSynchronizationOverConnectionEnum AutomaticDataSynchronization
+        public AutomaticDataSynchronizationOverConnection AutomaticDataSynchronization
         {
-            get => AutomaticDataSynchronizationOverConnectionEnum.Never;
+            get => AutomaticDataSynchronizationOverConnection.Never;
             set => throw new NotImplementedException();
         }
 

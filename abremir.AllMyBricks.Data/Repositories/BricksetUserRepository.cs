@@ -18,7 +18,7 @@ namespace abremir.AllMyBricks.Data.Repositories
             _repositoryService = repositoryService;
         }
 
-        public BricksetUser Add(BricksetUserTypeEnum userType, string username)
+        public BricksetUser Add(BricksetUserType userType, string username)
         {
             if (string.IsNullOrWhiteSpace(username))
             {
@@ -136,7 +136,7 @@ namespace abremir.AllMyBricks.Data.Repositories
             return Get(username)?.Sets.FirstOrDefault(set => set.Set.SetId == setId);
         }
 
-        public IEnumerable<string> GetAllUsernames(BricksetUserTypeEnum userType)
+        public IEnumerable<string> GetAllUsernames(BricksetUserType userType)
         {
             using var repository = _repositoryService.GetRepository();
 

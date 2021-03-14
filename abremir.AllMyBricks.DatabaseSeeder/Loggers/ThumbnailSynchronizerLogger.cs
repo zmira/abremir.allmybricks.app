@@ -1,4 +1,5 @@
 ﻿using abremir.AllMyBricks.DatabaseSeeder.Configuration;
+using abremir.AllMyBricks.DatabaseSeeder.Enumerations;
 using abremir.AllMyBricks.DataSynchronizer.Events.ThumbnailSynchronizer;
 using abremir.AllMyBricks.DataSynchronizer.Synchronizers;
 using Easy.MessageHub;
@@ -16,7 +17,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
 
             messageHub.Subscribe<ThumbnailSynchronizerStart>(_ =>
             {
-                if (Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
+                if (Logging.LogVerbosity == LogVerbosity.FullLogging)
                 {
                     logger.LogInformation("Started thumbnail synchronizer");
                 }
@@ -24,7 +25,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
 
             messageHub.Subscribe<ThumbnailAcquired>(message =>
             {
-                if (Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
+                if (Logging.LogVerbosity == LogVerbosity.FullLogging)
                 {
                     logger.LogInformation($"Acquired thumbnail '{message.Thumbnail}' to process");
                 }
@@ -32,7 +33,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
 
             messageHub.Subscribe<SynchronizingThumbnailStart>(message =>
             {
-                if (Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
+                if (Logging.LogVerbosity == LogVerbosity.FullLogging)
                 {
                     logger.LogInformation($"Started synchronizing thumbnail '{message.Thumbnail}'");
                 }
@@ -40,7 +41,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
 
             messageHub.Subscribe<SynchronizingThumbnailEnd>(message =>
             {
-                if (Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
+                if (Logging.LogVerbosity == LogVerbosity.FullLogging)
                 {
                     logger.LogInformation($"Finished synchronizing thumbnail '{message.Thumbnail}'");
                 }
@@ -50,7 +51,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
 
             messageHub.Subscribe<ThumbnailSynchronizerEnd>(_ =>
             {
-                if (Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
+                if (Logging.LogVerbosity == LogVerbosity.FullLogging)
                 {
                     logger.LogInformation("Finished thumbnail synchronizer");
                 }

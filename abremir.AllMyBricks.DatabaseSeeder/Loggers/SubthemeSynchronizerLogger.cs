@@ -1,4 +1,5 @@
 ﻿using abremir.AllMyBricks.DatabaseSeeder.Configuration;
+using abremir.AllMyBricks.DatabaseSeeder.Enumerations;
 using abremir.AllMyBricks.DataSynchronizer.Events.SubthemeSynchronizer;
 using abremir.AllMyBricks.DataSynchronizer.Synchronizers;
 using Easy.MessageHub;
@@ -25,7 +26,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
                 _subthemeIndex = 0;
                 _subthemeProgressFraction = 0;
 
-                if (Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
+                if (Logging.LogVerbosity == LogVerbosity.FullLogging)
                 {
                     logger.LogInformation("Started subtheme synchronizer");
                 }
@@ -44,7 +45,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
                 _subthemeIndex++;
                 _subthemeProgressFraction = _subthemeIndex / _subthemeCount;
 
-                if (Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
+                if (Logging.LogVerbosity == LogVerbosity.FullLogging)
                 {
                     logger.LogInformation(Invariant($"Started synchronizing subtheme '{message.Theme}-{message.Subtheme}': index {_subthemeIndex}, progress {_subthemeProgressFraction:##0.00%}"));
                 }
@@ -54,7 +55,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
 
             messageHub.Subscribe<SynchronizingSubthemeEnd>(message =>
             {
-                if (Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
+                if (Logging.LogVerbosity == LogVerbosity.FullLogging)
                 {
                     logger.LogInformation($"Finished synchronizing subtheme '{message.Theme}-{message.Subtheme}'");
                 }
@@ -67,7 +68,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
                 _subthemeIndex = 0;
                 _subthemeProgressFraction = 0;
 
-                if (Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
+                if (Logging.LogVerbosity == LogVerbosity.FullLogging)
                 {
                     logger.LogInformation("Finished subtheme synchronizer");
                 }

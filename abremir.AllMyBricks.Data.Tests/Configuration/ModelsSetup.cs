@@ -144,8 +144,8 @@ namespace abremir.AllMyBricks.Data.Tests.Configuration
                 Number = $"SET NUMBER{suffix}",
                 Barcodes = new List<Barcode>
                 {
-                    new Barcode { Type = BarcodeTypeEnum.EAN, Value = $"SET EAN{suffix}" },
-                    new Barcode { Type = BarcodeTypeEnum.UPC, Value = $"SET UPC{suffix}" }
+                    new Barcode { Type = BarcodeType.EAN, Value = $"SET EAN{suffix}" },
+                    new Barcode { Type = BarcodeType.UPC, Value = $"SET UPC{suffix}" }
                 }
             };
         }
@@ -155,7 +155,7 @@ namespace abremir.AllMyBricks.Data.Tests.Configuration
             return new BricksetUser
             {
                 BricksetUsername = Guid.NewGuid().ToString(),
-                UserType = BricksetUserTypeEnum.Primary
+                UserType = BricksetUserType.Primary
             };
         }
     }

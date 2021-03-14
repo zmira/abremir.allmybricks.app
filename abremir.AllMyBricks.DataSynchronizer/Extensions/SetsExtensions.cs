@@ -47,12 +47,12 @@ namespace abremir.AllMyBricks.DataSynchronizer.Extensions
 
             if (!string.IsNullOrWhiteSpace(source.Barcode?.EAN))
             {
-                set.Barcodes.Add(new Barcode { Type = BarcodeTypeEnum.EAN, Value = source.Barcode.EAN });
+                set.Barcodes.Add(new Barcode { Type = BarcodeType.EAN, Value = source.Barcode.EAN });
             }
 
             if (!string.IsNullOrWhiteSpace(source.Barcode?.UPC))
             {
-                set.Barcodes.Add(new Barcode { Type = BarcodeTypeEnum.UPC, Value = source.Barcode.UPC });
+                set.Barcodes.Add(new Barcode { Type = BarcodeType.UPC, Value = source.Barcode.UPC });
             }
 
             return set;

@@ -15,7 +15,7 @@ namespace abremir.AllMyBricks.Data.Interfaces
         IEnumerable<Set> AllForCategory(string categoryName);
         IEnumerable<Set> AllForTag(string tagName);
         IEnumerable<Set> AllForYear(short year);
-        IEnumerable<Set> AllForPriceRange(PriceRegionEnum priceRegion, float minimumPrice, float maximumPrice);
+        IEnumerable<Set> AllForPriceRange(PriceRegion priceRegion, float minimumPrice, float maximumPrice);
         IEnumerable<Set> SearchBy(string searchQuery);
     }
 }

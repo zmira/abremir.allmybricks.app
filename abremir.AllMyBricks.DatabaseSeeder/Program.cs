@@ -1,4 +1,5 @@
 ﻿using abremir.AllMyBricks.DatabaseSeeder.Configuration;
+using abremir.AllMyBricks.DatabaseSeeder.Enumerations;
 using abremir.AllMyBricks.Platform.Interfaces;
 using LightInject;
 using McMaster.Extensions.CommandLineUtils;
@@ -90,7 +91,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                     datasetOptions.Add(DatabaseSeederConstants.DatasetValueNone);
                 }
 
-                if (logVerbosity != LogVerbosityEnum.NoLogging)
+                if (logVerbosity != LogVerbosity.NoLogging)
                 {
                     Logger.LogInformation($"Running All My Bricks database seeder with arguments: { (unattendeOption.HasValue() ? $" { DatabaseSeederConstants.UnattendedOption }" : string.Empty) }{ (logVerbosityOption.HasValue() ? $" { DatabaseSeederConstants.LogVerbosityOption }={ logVerbosityOption.Value() }" : string.Empty) }{ (logDestinationOption.HasValue() ? $" { DatabaseSeederConstants.LogDestinationOption }={ string.Join(", ", logDestinationOption.Values) }" : string.Empty) }{ (compressOption.HasValue() ? $" { DatabaseSeederConstants.CompressOption }" : string.Empty) }{ (uncompressOption.HasValue() ? $" { DatabaseSeederConstants.UncompressOption }" : string.Empty) }{ $" { DatabaseSeederConstants.DatasetOption }={ string.Join(", ", datasetOptions) }" }{ (dataFolderOption.HasValue() ? $" { DatabaseSeederConstants.DataFolderOption }={ dataFolderOption.Value() }" : string.Empty) }{ (encryptedOption.HasValue() ? $" { DatabaseSeederConstants.EncryptedOption }" : string.Empty) }{ (bricksetApiKeyOption.HasValue() ? $" { DatabaseSeederConstants.BricksetApiKey }" : string.Empty) }");
                 }
@@ -116,52 +117,52 @@ namespace abremir.AllMyBricks.DatabaseSeeder
             return app.Execute(args);
         }
 
-        private static LogVerbosityEnum GetLogVerbosity(CommandOption logVerbosityCommand, CommandOption unattendedCommand)
+        private static LogVerbosity GetLogVerbosity(CommandOption logVerbosityCommand, CommandOption unattendedCommand)
         {
             if (!logVerbosityCommand.HasValue())
             {
                 return GetLogVerbosityBasedOnUnattendedCommand(unattendedCommand);
             }
 
-            return (logVerbosityCommand.Value()) switch
+            return logVerbosityCommand.Value() switch
             {
-                DatabaseSeederConstants.LogVerbosityValueNone => LogVerbosityEnum.NoLogging,
-                DatabaseSeederConstants.LogVerbosityValueMinimal => LogVerbosityEnum.MinimalLogging,
-                DatabaseSeederConstants.LogVerbosityValueFull => LogVerbosityEnum.FullLogging,
+                DatabaseSeederConstants.LogVerbosityValueNone => LogVerbosity.NoLogging,
+                DatabaseSeederConstants.LogVerbosityValueMinimal => LogVerbosity.MinimalLogging,
+                DatabaseSeederConstants.LogVerbosityValueFull => LogVerbosity.FullLogging,
                 _ => GetLogVerbosityBasedOnUnattendedCommand(unattendedCommand),
             };
         }
 
-        private static LogVerbosityEnum GetLogVerbosityBasedOnUnattendedCommand(CommandOption unattendedCommand)
+        private static LogVerbosity GetLogVerbosityBasedOnUnattendedCommand(CommandOption unattendedCommand)
         {
             return unattendedCommand.HasValue()
-                ? LogVerbosityEnum.MinimalLogging
-                : LogVerbosityEnum.FullLogging;
+                ? LogVerbosity.MinimalLogging
+                : LogVerbosity.FullLogging;
         }
 
-        private static LogDestinationEnum? GetLogDestination(CommandOption logVerbosityCommand, CommandOption unattendedCommand, CommandOption logDestinationCommand)
+        private static LogDestinations? GetLogDestination(CommandOption logVerbosityCommand, CommandOption unattendedCommand, CommandOption logDestinationCommand)
         {
-            if (GetLogVerbosity(logVerbosityCommand, unattendedCommand) == LogVerbosityEnum.NoLogging)
+            if (GetLogVerbosity(logVerbosityCommand, unattendedCommand) == LogVerbosity.NoLogging)
             {
                 return null;
             }
 
             if (!unattendedCommand.HasValue())
             {
-                return LogDestinationEnum.File;
+                return LogDestinations.File;
             }
 
-            var logDestination = (LogDestinationEnum)0;
+            var logDestination = (LogDestinations)0;
 
             if (logDestinationCommand.Values.Contains(DatabaseSeederConstants.LogDestinationValueFile))
             {
-                logDestination |= LogDestinationEnum.File;
+                logDestination |= LogDestinations.File;
             }
 
             if (logDestinationCommand.Values.Contains(DatabaseSeederConstants.LogDestinationValueConsole)
                 || logDestination == 0)
             {
-                logDestination |= LogDestinationEnum.Console;
+                logDestination |= LogDestinations.Console;
             }
 
             return logDestination;

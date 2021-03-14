@@ -340,13 +340,13 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
             var set = ModelsSetup.GetSetUnderTest();
             set.Prices.Add(new Price
             {
-                Region = PriceRegionEnum.CA,
+                Region = PriceRegion.CA,
                 Value = 1
             });
 
             InsertData(set);
 
-            var allSetsForPriceRange = _setRepository.AllForPriceRange(PriceRegionEnum.CA, minPrice, maxPrice);
+            var allSetsForPriceRange = _setRepository.AllForPriceRange(PriceRegion.CA, minPrice, maxPrice);
 
             Check.That(allSetsForPriceRange).IsEmpty();
         }
@@ -357,13 +357,13 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
             var set = ModelsSetup.GetSetUnderTest();
             set.Prices.Add(new Price
             {
-                Region = PriceRegionEnum.CA,
+                Region = PriceRegion.CA,
                 Value = 1
             });
 
             InsertData(set);
 
-            var allSetsForPriceRange = _setRepository.AllForPriceRange(PriceRegionEnum.DE, 0, 10);
+            var allSetsForPriceRange = _setRepository.AllForPriceRange(PriceRegion.DE, 0, 10);
 
             Check.That(allSetsForPriceRange).IsEmpty();
         }
@@ -374,13 +374,13 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
             var set = ModelsSetup.GetSetUnderTest();
             set.Prices.Add(new Price
             {
-                Region = PriceRegionEnum.CA,
+                Region = PriceRegion.CA,
                 Value = 10
             });
 
             InsertData(set);
 
-            var allSetsForPriceRange = _setRepository.AllForPriceRange(PriceRegionEnum.CA, 0, 5);
+            var allSetsForPriceRange = _setRepository.AllForPriceRange(PriceRegion.CA, 0, 5);
 
             Check.That(allSetsForPriceRange).IsEmpty();
         }
@@ -391,13 +391,13 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
             var set = ModelsSetup.GetSetUnderTest();
             set.Prices.Add(new Price
             {
-                Region = PriceRegionEnum.CA,
+                Region = PriceRegion.CA,
                 Value = 1
             });
 
             InsertData(set);
 
-            var allSetsForPriceRange = _setRepository.AllForPriceRange(PriceRegionEnum.CA, 0, 5);
+            var allSetsForPriceRange = _setRepository.AllForPriceRange(PriceRegion.CA, 0, 5);
 
             Check.That(allSetsForPriceRange).CountIs(1);
             Check.That(allSetsForPriceRange.First().SetId).IsEqualTo(set.SetId);

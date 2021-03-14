@@ -1,4 +1,5 @@
 ﻿using abremir.AllMyBricks.DatabaseSeeder.Configuration;
+using abremir.AllMyBricks.DatabaseSeeder.Enumerations;
 using abremir.AllMyBricks.DataSynchronizer.Events.ThemeSynchronizer;
 using abremir.AllMyBricks.DataSynchronizer.Synchronizers;
 using Easy.MessageHub;
@@ -25,7 +26,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
                 _themeIndex = 0;
                 _themeProgressFraction = 0;
 
-                if (Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
+                if (Logging.LogVerbosity == LogVerbosity.FullLogging)
                 {
                     logger.LogInformation("Started theme synchronizer");
                 }
@@ -43,7 +44,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
                 _themeIndex++;
                 _themeProgressFraction = _themeIndex / _themeCount;
 
-                if (Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
+                if (Logging.LogVerbosity == LogVerbosity.FullLogging)
                 {
                     logger.LogInformation(Invariant($"Started synchronizing theme '{message.Theme}': index {_themeIndex}, progress {_themeProgressFraction:##0.00%}"));
                 }
@@ -53,7 +54,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
 
             messageHub.Subscribe<SynchronizingThemeEnd>(message =>
             {
-                if (Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
+                if (Logging.LogVerbosity == LogVerbosity.FullLogging)
                 {
                     logger.LogInformation($"Finished synchronizing theme '{message.Theme}'");
                 }
@@ -66,7 +67,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
                 _themeIndex = 0;
                 _themeProgressFraction = 0;
 
-                if (Logging.LogVerbosity == LogVerbosityEnum.FullLogging)
+                if (Logging.LogVerbosity == LogVerbosity.FullLogging)
                 {
                     logger.LogInformation("Finished theme synchronizer");
                 }

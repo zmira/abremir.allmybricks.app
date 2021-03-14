@@ -2,7 +2,7 @@
 
 namespace abremir.AllMyBricks.Platform.Enumerations
 {
-    public enum AutomaticDataSynchronizationOverConnectionEnum
+    public enum AutomaticDataSynchronizationOverConnection
     {
         [Description("Never")]
         Never,

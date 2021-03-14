@@ -14,15 +14,15 @@ namespace abremir.AllMyBricks.Platform.Services
             _preferences = preferences;
         }
 
-        public ThumbnailCachingStrategyEnum ThumbnailCachingStrategy
+        public ThumbnailCachingStrategy ThumbnailCachingStrategy
         {
             get
             {
-                return (ThumbnailCachingStrategyEnum)_preferences.Get(nameof(ThumbnailCachingStrategy), (int)ThumbnailCachingStrategyEnum.NeverCache, Constants.PreferencesSharedName);
+                return (ThumbnailCachingStrategy)_preferences.Get(nameof(ThumbnailCachingStrategy), (int)ThumbnailCachingStrategy.NeverCache, Constants.PreferencesSharedName);
             }
             set
             {
-                ClearThumbnailCache |= (value == ThumbnailCachingStrategyEnum.NeverCache && ThumbnailCachingStrategy != value);
+                ClearThumbnailCache |= (value == ThumbnailCachingStrategy.NeverCache && ThumbnailCachingStrategy != value);
 
                 _preferences.Set(nameof(ThumbnailCachingStrategy), (int)value, Constants.PreferencesSharedName);
             }
@@ -40,11 +40,11 @@ namespace abremir.AllMyBricks.Platform.Services
             }
         }
 
-        public AutomaticDataSynchronizationOverConnectionEnum AutomaticDataSynchronization
+        public AutomaticDataSynchronizationOverConnection AutomaticDataSynchronization
         {
             get
             {
-                return (AutomaticDataSynchronizationOverConnectionEnum)_preferences.Get(nameof(AutomaticDataSynchronization), (int)AutomaticDataSynchronizationOverConnectionEnum.OnlyOverWiFiConnection, Constants.PreferencesSharedName);
+                return (AutomaticDataSynchronizationOverConnection)_preferences.Get(nameof(AutomaticDataSynchronization), (int)AutomaticDataSynchronizationOverConnection.OnlyOverWiFiConnection, Constants.PreferencesSharedName);
             }
             set
             {

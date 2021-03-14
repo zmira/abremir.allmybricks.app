@@ -31,8 +31,8 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
         {
             _messageHub.Publish(new ThumbnailSynchronizerStart());
 
-            if (_preferencesService.ThumbnailCachingStrategy == ThumbnailCachingStrategyEnum.NeverCache
-                || (_preferencesService.ThumbnailCachingStrategy == ThumbnailCachingStrategyEnum.OnlyCacheDisplayedThumbnails
+            if (_preferencesService.ThumbnailCachingStrategy == ThumbnailCachingStrategy.NeverCache
+                || (_preferencesService.ThumbnailCachingStrategy == ThumbnailCachingStrategy.OnlyCacheDisplayedThumbnails
                     && requestFromSynchronizer)
                 || set is null
                 || string.IsNullOrWhiteSpace(set.Images.FirstOrDefault()?.ThumbnailUrl))

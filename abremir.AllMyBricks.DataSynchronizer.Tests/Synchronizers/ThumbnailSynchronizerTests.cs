@@ -36,7 +36,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
         {
             _thumbnailSynchronizer.Get<IPreferencesService>()
                 .ThumbnailCachingStrategy
-                .Returns(ThumbnailCachingStrategyEnum.NeverCache);
+                .Returns(ThumbnailCachingStrategy.NeverCache);
 
             await _thumbnailSynchronizer.ClassUnderTest.Synchronize(new Set
             {
@@ -57,7 +57,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
         {
             _thumbnailSynchronizer.Get<IPreferencesService>()
                 .ThumbnailCachingStrategy
-                .Returns(ThumbnailCachingStrategyEnum.CacheAllThumbnailsWhenSynchronizing);
+                .Returns(ThumbnailCachingStrategy.CacheAllThumbnailsWhenSynchronizing);
 
             await _thumbnailSynchronizer.ClassUnderTest.Synchronize(null).ConfigureAwait(false);
 
@@ -69,7 +69,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
         {
             _thumbnailSynchronizer.Get<IPreferencesService>()
                 .ThumbnailCachingStrategy
-                .Returns(ThumbnailCachingStrategyEnum.CacheAllThumbnailsWhenSynchronizing);
+                .Returns(ThumbnailCachingStrategy.CacheAllThumbnailsWhenSynchronizing);
 
             await _thumbnailSynchronizer.ClassUnderTest.Synchronize(new Set
             {
@@ -86,7 +86,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
         {
             _thumbnailSynchronizer.Get<IPreferencesService>()
                 .ThumbnailCachingStrategy
-                .Returns(ThumbnailCachingStrategyEnum.CacheAllThumbnailsWhenSynchronizing);
+                .Returns(ThumbnailCachingStrategy.CacheAllThumbnailsWhenSynchronizing);
 
             await _thumbnailSynchronizer.ClassUnderTest.Synchronize(new Set
             {
@@ -107,7 +107,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
         {
             _thumbnailSynchronizer.Get<IPreferencesService>()
                 .ThumbnailCachingStrategy
-                .Returns(ThumbnailCachingStrategyEnum.CacheAllThumbnailsWhenSynchronizing);
+                .Returns(ThumbnailCachingStrategy.CacheAllThumbnailsWhenSynchronizing);
             _httpTest.RespondWith(string.Empty);
 
             await _thumbnailSynchronizer.ClassUnderTest.Synchronize(new Set
@@ -132,7 +132,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
         {
             _thumbnailSynchronizer.Get<IPreferencesService>()
                 .ThumbnailCachingStrategy
-                .Returns(ThumbnailCachingStrategyEnum.CacheAllThumbnailsWhenSynchronizing);
+                .Returns(ThumbnailCachingStrategy.CacheAllThumbnailsWhenSynchronizing);
             _httpTest.RespondWith(status: (int)HttpStatusCode.NotFound);
 
             await _thumbnailSynchronizer.ClassUnderTest.Synchronize(new Set
@@ -157,7 +157,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
         {
             _thumbnailSynchronizer.Get<IPreferencesService>()
                 .ThumbnailCachingStrategy
-                .Returns(ThumbnailCachingStrategyEnum.CacheAllThumbnailsWhenSynchronizing);
+                .Returns(ThumbnailCachingStrategy.CacheAllThumbnailsWhenSynchronizing);
             _httpTest.RespondWith("THUMBNAIL_IMAGE");
 
             await _thumbnailSynchronizer.ClassUnderTest.Synchronize(new Set
