@@ -15,13 +15,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
         private static IInsightsRepository _insightsRepository;
 
         [ClassInitialize]
-#pragma warning disable RCS1163 // Unused parameter.
-#pragma warning disable RECS0154 // Parameter is never used
-#pragma warning disable IDE0060 // Remove unused parameter
-        public static void ClassInitialize(TestContext testContext)
-#pragma warning restore IDE0060 // Remove unused parameter
-#pragma warning restore RECS0154 // Parameter is never used
-#pragma warning restore RCS1163 // Unused parameter.
+        public static void ClassInitialize(TestContext _)
         {
             _insightsRepository = new InsightsRepository(MemoryRepositoryService);
         }
