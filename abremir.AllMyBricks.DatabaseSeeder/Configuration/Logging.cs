@@ -46,7 +46,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Configuration
 
         private static void SetupFileLogging()
         {
-            if (!LogDestination.HasFlag(LogDestinations.File))
+            if ((LogDestination & LogDestinations.File) == 0)
             {
                 return;
             }
@@ -69,7 +69,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Configuration
 
         private static void SetupConsoleLogging()
         {
-            if (!LogDestination.HasFlag(LogDestinations.Console))
+            if ((LogDestination & LogDestinations.Console) == 0)
             {
                 return;
             }

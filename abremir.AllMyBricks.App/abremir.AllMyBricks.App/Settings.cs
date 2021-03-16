@@ -9,7 +9,7 @@ namespace abremir.AllMyBricks.App
 {
     public sealed class Settings
     {
-        private static readonly Lazy<Dictionary<string, string>> _store = new Lazy<Dictionary<string, string>>(LoadEmbeddedSettings);
+        private static readonly Lazy<Dictionary<string, string>> _store = new(LoadEmbeddedSettings);
         private static Dictionary<string, string> Store => _store.Value;
 
         public static string AllMyBricksOnboardingUrl => Store[nameof(AllMyBricksOnboardingUrl)];

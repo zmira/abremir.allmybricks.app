@@ -35,7 +35,7 @@ namespace abremir.AllMyBricks.AssetManagement.Implementations
                 || !_file.Exists(sourceFilePath)
                 || (!string.IsNullOrWhiteSpace(targetFolderPath)
                     && _directory.Exists(targetFolderPath)
-                    && !_file.GetAttributes(targetFolderPath).HasFlag(FileAttributes.Directory)))
+                    && (_file.GetAttributes(targetFolderPath) & FileAttributes.Directory) == 0))
             {
                 return false;
             }
