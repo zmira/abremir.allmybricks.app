@@ -121,8 +121,8 @@ namespace abremir.AllMyBricks.DatabaseSeeder
             });
             messageHub.Subscribe<ThemeSynchronizerStart>(_ =>
             {
-                themeIndex = 0;
-                themeProgress.Fraction = 0;
+                themeIndex = 0f;
+                themeProgress.Fraction = 0f;
 
                 Application.MainLoop.Invoke(themeProgress.ChildNeedsDisplay);
             });
@@ -150,7 +150,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder
             {
                 themeLabel.Text = string.Empty;
                 themeIndex = 0f;
-                themeProgress.Fraction = 0;
+                themeProgress.Fraction = 0f;
 
                 Application.MainLoop.Invoke(themeLabel.ChildNeedsDisplay);
                 Application.MainLoop.Invoke(themeProgress.ChildNeedsDisplay);
@@ -164,8 +164,8 @@ namespace abremir.AllMyBricks.DatabaseSeeder
             messageHub.Subscribe<SubthemeSynchronizerStart>(_ =>
             {
                 subthemeLabel.Text = string.Empty;
-                subthemeIndex = 0;
-                subthemeProgress.Fraction = 0;
+                subthemeIndex = 0f;
+                subthemeProgress.Fraction = 0f;
 
                 Application.MainLoop.Invoke(subthemeLabel.ChildNeedsDisplay);
                 Application.MainLoop.Invoke(subthemeProgress.ChildNeedsDisplay);
@@ -173,7 +173,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder
             messageHub.Subscribe<SubthemesAcquired>(message =>
             {
                 subthemeCount = message.Count;
-                subthemeIndex = 0;
+                subthemeIndex = 0f;
             });
             messageHub.Subscribe<SynchronizingSubthemeStart>(message =>
             {
@@ -198,7 +198,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder
             {
                 subthemeLabel.Text = string.Empty;
                 subthemeIndex = 0f;
-                subthemeProgress.Fraction = 0;
+                subthemeProgress.Fraction = 0f;
 
                 Application.MainLoop.Invoke(subthemeLabel.ChildNeedsDisplay);
                 Application.MainLoop.Invoke(subthemeProgress.ChildNeedsDisplay);
@@ -212,16 +212,16 @@ namespace abremir.AllMyBricks.DatabaseSeeder
             messageHub.Subscribe<SetSynchronizerStart>(_ =>
             {
                 setLabel.Text = string.Empty;
-                setIndex = 0;
-                setProgress.Fraction = 0;
+                setIndex = 0f;
+                setProgress.Fraction = 0f;
 
                 Application.MainLoop.Invoke(setLabel.ChildNeedsDisplay);
                 Application.MainLoop.Invoke(setProgress.ChildNeedsDisplay);
             });
             messageHub.Subscribe<AcquiringSetsStart>(message =>
             {
-                setIndex = 0;
-                setProgress.Fraction = 0;
+                setIndex = 0f;
+                setProgress.Fraction = 0f;
                 subthemeLabel.Text = $"Subtheme: {message.Subtheme}, {message.Year}";
 
                 Application.MainLoop.Invoke(setProgress.ChildNeedsDisplay);
@@ -230,8 +230,8 @@ namespace abremir.AllMyBricks.DatabaseSeeder
             messageHub.Subscribe<AcquiringSetsEnd>(message =>
             {
                 setCount = message.Count;
-                setIndex = 0;
-                setProgress.Fraction = 0;
+                setIndex = 0f;
+                setProgress.Fraction = 0f;
                 if (message.Year.HasValue)
                 {
                     subthemeLabel.Text = $"Subtheme: {message.Subtheme}, {message.Year.Value}";
@@ -275,8 +275,8 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                     Application.MainLoop.Invoke(subthemeLabel.ChildNeedsDisplay);
                 }
                 setLabel.Text = string.Empty;
-                setIndex = 0;
-                setProgress.Fraction = 0;
+                setIndex = 0f;
+                setProgress.Fraction = 0f;
 
                 Application.MainLoop.Invoke(setLabel.ChildNeedsDisplay);
                 Application.MainLoop.Invoke(setProgress.ChildNeedsDisplay);
@@ -314,9 +314,9 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                 themeLabel.Text = string.Empty;
                 subthemeLabel.Text = string.Empty;
                 setLabel.Text = string.Empty;
-                themeProgress.Fraction = 0;
-                subthemeProgress.Fraction = 0;
-                setProgress.Fraction = 0;
+                themeProgress.Fraction = 0f;
+                subthemeProgress.Fraction = 0f;
+                setProgress.Fraction = 0f;
 
                 themeCount = 0f;
                 subthemeCount = 0f;
