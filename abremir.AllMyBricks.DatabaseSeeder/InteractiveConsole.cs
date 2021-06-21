@@ -109,7 +109,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder
 
                 SetsSynchronizationProgressFrame.Clear();
 
-                Application.MainLoop.Invoke(SetsSynchronizationProgressFrame.ChildNeedsDisplay);
+                Application.MainLoop.Invoke(SetsSynchronizationProgressFrame.SetChildNeedsDisplay);
 
                 stopwatch = Stopwatch.StartNew();
             });
@@ -117,14 +117,14 @@ namespace abremir.AllMyBricks.DatabaseSeeder
             {
                 lastUpdatedLabel.Text = $"Last Updated: {(message.SynchronizationTimestamp.HasValue ? message.SynchronizationTimestamp.Value.ToString("yyyy-MM-dd HH:mm:ss") : "Never")}";
 
-                Application.MainLoop.Invoke(lastUpdatedLabel.ChildNeedsDisplay);
+                Application.MainLoop.Invoke(lastUpdatedLabel.SetChildNeedsDisplay);
             });
             messageHub.Subscribe<ThemeSynchronizerStart>(_ =>
             {
                 themeIndex = 0f;
                 themeProgress.Fraction = 0f;
 
-                Application.MainLoop.Invoke(themeProgress.ChildNeedsDisplay);
+                Application.MainLoop.Invoke(themeProgress.SetChildNeedsDisplay);
             });
             messageHub.Subscribe<ThemesAcquired>(message => themeCount = message.Count);
             messageHub.Subscribe<SynchronizingThemeStart>(message =>
@@ -134,8 +134,8 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                 totalUpdatedThemes++;
                 themeProgress.Fraction = themeIndex / themeCount;
 
-                Application.MainLoop.Invoke(themeLabel.ChildNeedsDisplay);
-                Application.MainLoop.Invoke(themeProgress.ChildNeedsDisplay);
+                Application.MainLoop.Invoke(themeLabel.SetChildNeedsDisplay);
+                Application.MainLoop.Invoke(themeProgress.SetChildNeedsDisplay);
             });
             messageHub.Subscribe<SynchronizingThemeEnd>(_ =>
             {
@@ -143,8 +143,8 @@ namespace abremir.AllMyBricks.DatabaseSeeder
 
                 totalUpdatedThemesLabel.Text = $"Total Updated Themes: {totalUpdatedThemes}";
 
-                Application.MainLoop.Invoke(themeLabel.ChildNeedsDisplay);
-                Application.MainLoop.Invoke(totalUpdatedThemesLabel.ChildNeedsDisplay);
+                Application.MainLoop.Invoke(themeLabel.SetChildNeedsDisplay);
+                Application.MainLoop.Invoke(totalUpdatedThemesLabel.SetChildNeedsDisplay);
             });
             messageHub.Subscribe<ThemeSynchronizerEnd>(_ =>
             {
@@ -152,14 +152,14 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                 themeIndex = 0f;
                 themeProgress.Fraction = 0f;
 
-                Application.MainLoop.Invoke(themeLabel.ChildNeedsDisplay);
-                Application.MainLoop.Invoke(themeProgress.ChildNeedsDisplay);
+                Application.MainLoop.Invoke(themeLabel.SetChildNeedsDisplay);
+                Application.MainLoop.Invoke(themeProgress.SetChildNeedsDisplay);
             });
             messageHub.Subscribe<ProcessingThemeStart>(message =>
             {
                 themeLabel.Text = $"Theme: {message.Name}";
 
-                Application.MainLoop.Invoke(themeLabel.ChildNeedsDisplay);
+                Application.MainLoop.Invoke(themeLabel.SetChildNeedsDisplay);
             });
             messageHub.Subscribe<SubthemeSynchronizerStart>(_ =>
             {
@@ -167,8 +167,8 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                 subthemeIndex = 0f;
                 subthemeProgress.Fraction = 0f;
 
-                Application.MainLoop.Invoke(subthemeLabel.ChildNeedsDisplay);
-                Application.MainLoop.Invoke(subthemeProgress.ChildNeedsDisplay);
+                Application.MainLoop.Invoke(subthemeLabel.SetChildNeedsDisplay);
+                Application.MainLoop.Invoke(subthemeProgress.SetChildNeedsDisplay);
             });
             messageHub.Subscribe<SubthemesAcquired>(message =>
             {
@@ -182,8 +182,8 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                 totalUpdatedSubthemes++;
                 subthemeProgress.Fraction = subthemeIndex / subthemeCount;
 
-                Application.MainLoop.Invoke(subthemeLabel.ChildNeedsDisplay);
-                Application.MainLoop.Invoke(subthemeProgress.ChildNeedsDisplay);
+                Application.MainLoop.Invoke(subthemeLabel.SetChildNeedsDisplay);
+                Application.MainLoop.Invoke(subthemeProgress.SetChildNeedsDisplay);
             });
             messageHub.Subscribe<SynchronizingSubthemeEnd>(_ =>
             {
@@ -191,8 +191,8 @@ namespace abremir.AllMyBricks.DatabaseSeeder
 
                 totalUpdatedSubthemesLabel.Text = $"Total Updated Subthemes: {totalUpdatedSubthemes}";
 
-                Application.MainLoop.Invoke(subthemeLabel.ChildNeedsDisplay);
-                Application.MainLoop.Invoke(totalUpdatedSubthemesLabel.ChildNeedsDisplay);
+                Application.MainLoop.Invoke(subthemeLabel.SetChildNeedsDisplay);
+                Application.MainLoop.Invoke(totalUpdatedSubthemesLabel.SetChildNeedsDisplay);
             });
             messageHub.Subscribe<SubthemeSynchronizerEnd>(_ =>
             {
@@ -200,14 +200,14 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                 subthemeIndex = 0f;
                 subthemeProgress.Fraction = 0f;
 
-                Application.MainLoop.Invoke(subthemeLabel.ChildNeedsDisplay);
-                Application.MainLoop.Invoke(subthemeProgress.ChildNeedsDisplay);
+                Application.MainLoop.Invoke(subthemeLabel.SetChildNeedsDisplay);
+                Application.MainLoop.Invoke(subthemeProgress.SetChildNeedsDisplay);
             });
             messageHub.Subscribe<ProcessingSubthemeStart>(message =>
             {
                 subthemeLabel.Text = $"Subtheme: {message.Name}";
 
-                Application.MainLoop.Invoke(subthemeLabel.ChildNeedsDisplay);
+                Application.MainLoop.Invoke(subthemeLabel.SetChildNeedsDisplay);
             });
             messageHub.Subscribe<SetSynchronizerStart>(_ =>
             {
@@ -215,8 +215,8 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                 setIndex = 0f;
                 setProgress.Fraction = 0f;
 
-                Application.MainLoop.Invoke(setLabel.ChildNeedsDisplay);
-                Application.MainLoop.Invoke(setProgress.ChildNeedsDisplay);
+                Application.MainLoop.Invoke(setLabel.SetChildNeedsDisplay);
+                Application.MainLoop.Invoke(setProgress.SetChildNeedsDisplay);
             });
             messageHub.Subscribe<AcquiringSetsStart>(message =>
             {
@@ -224,8 +224,8 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                 setProgress.Fraction = 0f;
                 subthemeLabel.Text = $"Subtheme: {message.Subtheme}, {message.Year}";
 
-                Application.MainLoop.Invoke(setProgress.ChildNeedsDisplay);
-                Application.MainLoop.Invoke(subthemeLabel.ChildNeedsDisplay);
+                Application.MainLoop.Invoke(setProgress.SetChildNeedsDisplay);
+                Application.MainLoop.Invoke(subthemeLabel.SetChildNeedsDisplay);
             });
             messageHub.Subscribe<AcquiringSetsEnd>(message =>
             {
@@ -236,10 +236,10 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                 {
                     subthemeLabel.Text = $"Subtheme: {message.Subtheme}, {message.Year.Value}";
 
-                    Application.MainLoop.Invoke(subthemeLabel.ChildNeedsDisplay);
+                    Application.MainLoop.Invoke(subthemeLabel.SetChildNeedsDisplay);
                 }
 
-                Application.MainLoop.Invoke(setProgress.ChildNeedsDisplay);
+                Application.MainLoop.Invoke(setProgress.SetChildNeedsDisplay);
             });
             messageHub.Subscribe<SynchronizingSetStart>(message =>
             {
@@ -250,10 +250,10 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                 totalUpdatedSets++;
                 setProgress.Fraction = setIndex / setCount;
 
-                Application.MainLoop.Invoke(themeLabel.ChildNeedsDisplay);
-                Application.MainLoop.Invoke(subthemeLabel.ChildNeedsDisplay);
-                Application.MainLoop.Invoke(setLabel.ChildNeedsDisplay);
-                Application.MainLoop.Invoke(setProgress.ChildNeedsDisplay);
+                Application.MainLoop.Invoke(themeLabel.SetChildNeedsDisplay);
+                Application.MainLoop.Invoke(subthemeLabel.SetChildNeedsDisplay);
+                Application.MainLoop.Invoke(setLabel.SetChildNeedsDisplay);
+                Application.MainLoop.Invoke(setProgress.SetChildNeedsDisplay);
             });
             messageHub.Subscribe<SynchronizingSetEnd>(_ =>
             {
@@ -261,8 +261,8 @@ namespace abremir.AllMyBricks.DatabaseSeeder
 
                 totalUpdatedSetsLabel.Text = $"Total Updated Sets: {totalUpdatedSets}";
 
-                Application.MainLoop.Invoke(setLabel.ChildNeedsDisplay);
-                Application.MainLoop.Invoke(totalUpdatedSetsLabel.ChildNeedsDisplay);
+                Application.MainLoop.Invoke(setLabel.SetChildNeedsDisplay);
+                Application.MainLoop.Invoke(totalUpdatedSetsLabel.SetChildNeedsDisplay);
             });
             messageHub.Subscribe<SetSynchronizerEnd>(message =>
             {
@@ -271,15 +271,15 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                     themeLabel.Text = string.Empty;
                     subthemeLabel.Text = string.Empty;
 
-                    Application.MainLoop.Invoke(themeLabel.ChildNeedsDisplay);
-                    Application.MainLoop.Invoke(subthemeLabel.ChildNeedsDisplay);
+                    Application.MainLoop.Invoke(themeLabel.SetChildNeedsDisplay);
+                    Application.MainLoop.Invoke(subthemeLabel.SetChildNeedsDisplay);
                 }
                 setLabel.Text = string.Empty;
                 setIndex = 0f;
                 setProgress.Fraction = 0f;
 
-                Application.MainLoop.Invoke(setLabel.ChildNeedsDisplay);
-                Application.MainLoop.Invoke(setProgress.ChildNeedsDisplay);
+                Application.MainLoop.Invoke(setLabel.SetChildNeedsDisplay);
+                Application.MainLoop.Invoke(setProgress.SetChildNeedsDisplay);
             });
             messageHub.Subscribe<ProcessingSubthemeEnd>(_ =>
             {
@@ -287,8 +287,8 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                 subthemeIndex++;
                 subthemeProgress.Fraction = subthemeIndex / subthemeCount;
 
-                Application.MainLoop.Invoke(subthemeLabel.ChildNeedsDisplay);
-                Application.MainLoop.Invoke(subthemeProgress.ChildNeedsDisplay);
+                Application.MainLoop.Invoke(subthemeLabel.SetChildNeedsDisplay);
+                Application.MainLoop.Invoke(subthemeProgress.SetChildNeedsDisplay);
             });
             messageHub.Subscribe<ProcessingThemeEnd>(_ =>
             {
@@ -301,11 +301,11 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                     themeProgress.Fraction = 0f;
                     subthemeProgress.Fraction = 0f;
 
-                    Application.MainLoop.Invoke(subthemeProgress.ChildNeedsDisplay);
+                    Application.MainLoop.Invoke(subthemeProgress.SetChildNeedsDisplay);
                 }
 
-                Application.MainLoop.Invoke(themeLabel.ChildNeedsDisplay);
-                Application.MainLoop.Invoke(themeProgress.ChildNeedsDisplay);
+                Application.MainLoop.Invoke(themeLabel.SetChildNeedsDisplay);
+                Application.MainLoop.Invoke(themeProgress.SetChildNeedsDisplay);
             });
             messageHub.Subscribe<SetSynchronizationServiceEnd>(_ =>
             {
@@ -327,7 +327,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder
 
                 SetsSynchronizationProgressFrame.Clear();
 
-                Application.MainLoop.Invoke(SetsSynchronizationProgressFrame.ChildNeedsDisplay);
+                Application.MainLoop.Invoke(SetsSynchronizationProgressFrame.SetChildNeedsDisplay);
                 Application.MainLoop.RemoveTimeout(SynchronizeSetsApplicationMainLoopTimeoutToken);
 
                 var buttonOk = new Button("Ok");
@@ -340,7 +340,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                     Application.RequestStop();
                 };
 
-                var dialog = new Dialog("Sets Synchronization finished", 50, 8, buttonOk);
+                var dialog = new Dialog("Sets Synchronization finished", 60, 6, buttonOk);
 
                 var totalTimeLabel = new Label($"Sets synchronized in {stopwatch.Elapsed:hh\\:mm\\:ss}")
                 {
@@ -355,7 +355,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder
             {
                 PrimaryUsersSynchronizationProgressFrame.Clear();
 
-                Application.MainLoop.Invoke(PrimaryUsersSynchronizationProgressFrame.ChildNeedsDisplay);
+                Application.MainLoop.Invoke(PrimaryUsersSynchronizationProgressFrame.SetChildNeedsDisplay);
 
                 stopwatch = Stopwatch.StartNew();
             });
@@ -366,8 +366,8 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                 userIndex = 0f;
                 userProgress.Fraction = 0f;
 
-                Application.MainLoop.Invoke(userCountLabel.ChildNeedsDisplay);
-                Application.MainLoop.Invoke(userProgress.ChildNeedsDisplay);
+                Application.MainLoop.Invoke(userCountLabel.SetChildNeedsDisplay);
+                Application.MainLoop.Invoke(userProgress.SetChildNeedsDisplay);
             });
             messageHub.Subscribe<UserSynchronizerStart>(message =>
             {
@@ -375,14 +375,14 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                 userIndex++;
                 userProgress.Fraction = userIndex / userCount;
 
-                Application.MainLoop.Invoke(userLabel.ChildNeedsDisplay);
-                Application.MainLoop.Invoke(userProgress.ChildNeedsDisplay);
+                Application.MainLoop.Invoke(userLabel.SetChildNeedsDisplay);
+                Application.MainLoop.Invoke(userProgress.SetChildNeedsDisplay);
             });
             messageHub.Subscribe<AllMyBricksToBricksetStart>(_ =>
             {
                 syncTypeLabel.Text = "Updating brickset.com with updated owned and wanted sets since previous sync";
 
-                Application.MainLoop.Invoke(syncTypeLabel.ChildNeedsDisplay);
+                Application.MainLoop.Invoke(syncTypeLabel.SetChildNeedsDisplay);
             });
             messageHub.Subscribe<AllMyBricksToBricksetAcquiringSetsEnd>(message =>
             {
@@ -391,14 +391,14 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                 syncIndex = 0f;
                 syncProgress.Fraction = 0f;
 
-                Application.MainLoop.Invoke(syncLabel.ChildNeedsDisplay);
-                Application.MainLoop.Invoke(syncProgress.ChildNeedsDisplay);
+                Application.MainLoop.Invoke(syncLabel.SetChildNeedsDisplay);
+                Application.MainLoop.Invoke(syncProgress.SetChildNeedsDisplay);
             });
             messageHub.Subscribe<BricksetToAllMyBricksStart>(_ =>
             {
                 syncTypeLabel.Text = "Downloading from brickset.com all owned and wanted sets missing in AllMyBricks";
 
-                Application.MainLoop.Invoke(syncTypeLabel.ChildNeedsDisplay);
+                Application.MainLoop.Invoke(syncTypeLabel.SetChildNeedsDisplay);
             });
             messageHub.Subscribe<BricksetToAllMyBricksAcquiringSetsEnd>(message =>
             {
@@ -407,15 +407,15 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                 syncIndex = 0f;
                 syncProgress.Fraction = 0f;
 
-                Application.MainLoop.Invoke(syncLabel.ChildNeedsDisplay);
-                Application.MainLoop.Invoke(syncProgress.ChildNeedsDisplay);
+                Application.MainLoop.Invoke(syncLabel.SetChildNeedsDisplay);
+                Application.MainLoop.Invoke(syncProgress.SetChildNeedsDisplay);
             });
             messageHub.Subscribe<UserSynchronizerSynchronizingSetStart>(_ =>
             {
                 syncIndex++;
                 syncProgress.Fraction = syncIndex / syncCount;
 
-                Application.MainLoop.Invoke(syncProgress.ChildNeedsDisplay);
+                Application.MainLoop.Invoke(syncProgress.SetChildNeedsDisplay);
             });
             messageHub.Subscribe<UserSynchronizationServiceEnd>(_ =>
             {
@@ -435,7 +435,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder
 
                 PrimaryUsersSynchronizationProgressFrame.Clear();
 
-                Application.MainLoop.Invoke(PrimaryUsersSynchronizationProgressFrame.ChildNeedsDisplay);
+                Application.MainLoop.Invoke(PrimaryUsersSynchronizationProgressFrame.SetChildNeedsDisplay);
                 Application.MainLoop.RemoveTimeout(SynchronizePrimaryUsersApplicationMainLoopTimeoutToken);
 
                 var buttonOk = new Button("Ok");
@@ -448,7 +448,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                     Application.RequestStop();
                 };
 
-                var dialog = new Dialog("Primary Users Synchronization finished", 50, 8, buttonOk);
+                var dialog = new Dialog("Primary Users Synchronization finished", 60, 8, buttonOk);
 
                 var totalTimeLabel = new Label($"Primary users synchronized in {stopwatch.Elapsed:hh\\:mm\\:ss}")
                 {
@@ -591,12 +591,18 @@ namespace abremir.AllMyBricks.DatabaseSeeder
             var bricksetApiKeyValue = new Label(Settings.BricksetApiKey)
             {
                 X = Pos.Right(bricksetApiKeyLabel) + 4,
-                Y = 2
+                Y = 2,
+                Width = 40
             };
 
             bricksetApiKeyEditButton.Clicked += () =>
             {
-                var bricksetApiKeyTextField = new TextField(Settings.BricksetApiKey);
+                var bricksetApiKeyTextField = new TextField(Settings.BricksetApiKey)
+                {
+                    X = Pos.Center(),
+                    Y = 1,
+                    Width = 40
+                };
 
                 var buttonOk = new Button("Ok", false);
                 buttonOk.Clicked += () =>
@@ -614,15 +620,8 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                 var buttonCancel = new Button("Cancel", false);
                 buttonCancel.Clicked += () => Application.RequestStop();
 
-                var dialog = new Dialog(
-                    "Brickset API Key",
-                    50,
-                    7,
-                    buttonOk,
-                    buttonCancel)
-                    {
-                        bricksetApiKeyTextField
-                    };
+                var dialog = new Dialog("Brickset API Key", 60, 6, buttonOk, buttonCancel);
+                dialog.Add(bricksetApiKeyTextField);
 
                 Application.Run(dialog);
             };
@@ -668,19 +667,37 @@ namespace abremir.AllMyBricks.DatabaseSeeder
 
                 button.Clicked += () =>
                 {
-                    CanExit = false;
-
-                    assetManagementService.CompressDatabaseFile(Settings.CompressedFileIsEncrypted);
-
                     var buttonOk = new Button("Ok");
-                    buttonOk.Clicked += () =>
+
+                    Dialog dialog = new Dialog("Compress Database File", 60, 6, buttonOk);
+                    Label compressDatabaseFileLabel;
+
+                    if (Settings.CompressedFileIsEncrypted
+                        && string.IsNullOrWhiteSpace(Settings.BricksetApiKey))
                     {
-                        CanExit = true;
+                        buttonOk.Clicked += () => Application.RequestStop();
 
-                        Application.RequestStop();
-                    };
+                        compressDatabaseFileLabel = new Label("The brickset API key is required");
+                    }
+                    else
+                    {
+                        CanExit = false;
 
-                    var dialog = new Dialog($"Database File Compressed{(Settings.CompressedFileIsEncrypted ? " and Encrypted" : string.Empty)}", 50, 6, buttonOk);
+                        assetManagementService.CompressDatabaseFile(Settings.CompressedFileIsEncrypted);
+
+                        buttonOk.Clicked += () =>
+                        {
+                            CanExit = true;
+
+                            Application.RequestStop();
+                        };
+
+                        compressDatabaseFileLabel = new Label($"Database file has been compressed{(Settings.CompressedFileIsEncrypted ? " and encrypted" : string.Empty)}");
+                    }
+
+                    compressDatabaseFileLabel.X = Pos.Center();
+                    compressDatabaseFileLabel.Y = 1;
+                    dialog.Add(compressDatabaseFileLabel);
 
                     Application.Run(dialog);
                 };
@@ -705,19 +722,37 @@ namespace abremir.AllMyBricks.DatabaseSeeder
 
                 button.Clicked += () =>
                 {
-                    CanExit = false;
-
-                    assetManagementService.UncompressDatabaseFile(Settings.CompressedFileIsEncrypted);
-
                     var buttonOk = new Button("Ok");
-                    buttonOk.Clicked += () =>
+
+                    Dialog dialog = new Dialog("Uncompress Database File", 60, 6, buttonOk);
+                    Label uncompressDatabaseFileLabel;
+
+                    if (Settings.CompressedFileIsEncrypted
+                        && string.IsNullOrWhiteSpace(Settings.BricksetApiKey))
                     {
-                        CanExit = true;
+                        buttonOk.Clicked += () => Application.RequestStop();
 
-                        Application.RequestStop();
-                    };
+                        uncompressDatabaseFileLabel = new Label("The brickset API key is required");
+                    }
+                    else
+                    {
+                        CanExit = false;
 
-                    var dialog = new Dialog($"{(Settings.CompressedFileIsEncrypted ? "Encrypted " : string.Empty)}Database File Uncompressed", 50, 6, buttonOk);
+                        assetManagementService.UncompressDatabaseFile(Settings.CompressedFileIsEncrypted);
+
+                        buttonOk.Clicked += () =>
+                        {
+                            CanExit = true;
+
+                            Application.RequestStop();
+                        };
+
+                        uncompressDatabaseFileLabel = new Label($"Database file has been{(Settings.CompressedFileIsEncrypted ? " decrypted and" : string.Empty)} uncompressed");
+                    }
+
+                    uncompressDatabaseFileLabel.X = Pos.Center();
+                    uncompressDatabaseFileLabel.Y = 1;
+                    dialog.Add(uncompressDatabaseFileLabel);
 
                     Application.Run(dialog);
                 };
@@ -734,7 +769,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder
 
             if (assetManagementService.DatabaseFilePathExists())
             {
-                var button = new Button("Compact AllMyBricks Database")
+                var button = new Button("Compact Database File")
                 {
                     X = 3,
                     Y = 10
@@ -754,7 +789,15 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                         Application.RequestStop();
                     };
 
-                    var dialog = new Dialog("AllMyBricks Database Compacted", 50, 6, buttonOk);
+                    var dialog = new Dialog("Compact Database File", 60, 6, buttonOk);
+
+                    var compactDatabaseFileLabel = new Label("Database file has been compacted")
+                    {
+                        X = Pos.Center(),
+                        Y = 1
+                    };
+
+                    dialog.Add(compactDatabaseFileLabel);
 
                     Application.Run(dialog);
                 };
@@ -786,7 +829,13 @@ namespace abremir.AllMyBricks.DatabaseSeeder
 
             deletePrimaryUserButton.Clicked += () =>
             {
-                var primaryUsers = Settings.BricksetPrimaryUsers;
+                var primaryUsers = Settings.BricksetPrimaryUsers ?? new Dictionary<string, string>();
+
+                if (primaryUsers.Count == 0)
+                {
+                    return;
+                }
+
                 var selectedUser = primaryUsers.Skip(primaryUsersList.SelectedItem).Take(1).First();
 
                 var buttonOk = new Button("Ok", false);
@@ -803,18 +852,12 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                 var buttonCancel = new Button("Cancel", false);
                 buttonCancel.Clicked += () => Application.RequestStop();
 
-                var dialog = new Dialog(
-                    "Delete primary user",
-                    50,
-                    8,
-                    buttonOk,
-                    buttonCancel)
-                    {
-                        new Label($"Do you want to delete primary user {selectedUser.Key}?")
-                        {
-                            Y = 1
-                        }
-                    };
+                var dialog = new Dialog("Delete primary user", 60, 6, buttonOk, buttonCancel);
+                dialog.Add(new Label($"Do you want to delete primary user {selectedUser.Key}?")
+                {
+                    X = Pos.Center(),
+                    Y = 1
+                });
 
                 Application.Run(dialog);
             };
@@ -838,13 +881,27 @@ namespace abremir.AllMyBricks.DatabaseSeeder
             };
             addPrimaryUserButton.Clicked += () =>
             {
+                var usernameLabel = new Label("Username:")
+                {
+                    X = 13,
+                    Y = 1
+                };
+                var passwordLabel = new Label("User hash:")
+                {
+                    X = 13,
+                    Y = 3
+                };
                 var primaryUserUsername = new TextField(string.Empty)
                 {
-                    Y = 2
+                    Y = Pos.Top(usernameLabel),
+                    X = Pos.Right(usernameLabel) + 2,
+                    Width = 20
                 };
                 var primaryUserUserHash = new TextField(string.Empty)
                 {
-                    Y = 4
+                    X = Pos.Right(passwordLabel) + 1,
+                    Y = Pos.Top(passwordLabel),
+                    Width = 20
                 };
 
                 var buttonOk = new Button("Ok", false);
@@ -853,7 +910,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                     var username = primaryUserUsername.Text.ToString();
                     var userHash = primaryUserUserHash.Text.ToString();
 
-                    var primaryUsers = Settings.BricksetPrimaryUsers;
+                    var primaryUsers = Settings.BricksetPrimaryUsers ?? new Dictionary<string, string>();
                     primaryUsers.Add(username, userHash);
                     Settings.BricksetPrimaryUsers = primaryUsers;
 
@@ -865,26 +922,13 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                 var buttonCancel = new Button("Cancel", false);
                 buttonCancel.Clicked += () => Application.RequestStop();
 
-                var dialog = new Dialog(
-                    "Add primary user",
-                    50,
-                    11,
-                    buttonOk,
-                    buttonCancel)
-                    {
-                        {
-                            new Label("Username:")
-                            {
-                                Y = 1
-                            },
-                            primaryUserUsername,
-                            new Label("User hash:")
-                            {
-                                Y = 3
-                            },
-                            primaryUserUserHash
-                        }
-                    };
+                var dialog = new Dialog("Add primary user", 60, 8, buttonOk, buttonCancel);
+                dialog.Add(
+                    usernameLabel,
+                    primaryUserUsername,
+                    passwordLabel,
+                    primaryUserUserHash
+                );
 
                 Application.Run(dialog);
             };
