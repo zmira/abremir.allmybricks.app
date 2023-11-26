@@ -1,5 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
-using System;
+﻿using System;
+using Newtonsoft.Json.Linq;
 
 namespace abremir.AllMyBricks.ThirdParty.Brickset.Models.Parameters
 {

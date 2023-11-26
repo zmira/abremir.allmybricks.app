@@ -1,4 +1,6 @@
-﻿using abremir.AllMyBricks.ThirdParty.Brickset.Configuration;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using abremir.AllMyBricks.ThirdParty.Brickset.Configuration;
 using abremir.AllMyBricks.ThirdParty.Brickset.Enumerations;
 using abremir.AllMyBricks.ThirdParty.Brickset.Extensions;
 using abremir.AllMyBricks.ThirdParty.Brickset.Interfaces;
@@ -6,8 +8,6 @@ using abremir.AllMyBricks.ThirdParty.Brickset.Models;
 using abremir.AllMyBricks.ThirdParty.Brickset.Models.Parameters;
 using Flurl;
 using Flurl.Http;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace abremir.AllMyBricks.ThirdParty.Brickset.Services
 {

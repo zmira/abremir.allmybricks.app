@@ -1,4 +1,6 @@
-﻿using abremir.AllMyBricks.AssetManagement.Interfaces;
+﻿using System.IO;
+using System.Threading.Tasks;
+using abremir.AllMyBricks.AssetManagement.Interfaces;
 using abremir.AllMyBricks.AssetManagement.Services;
 using abremir.AllMyBricks.Platform.Interfaces;
 using Flurl.Http.Testing;
@@ -6,8 +8,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NFluent;
 using NSubstitute;
 using NSubstituteAutoMocker.Standard;
-using System.IO;
-using System.Threading.Tasks;
 
 namespace abremir.AllMyBricks.AssetManagement.Tests.Services
 {

@@ -1,7 +1,7 @@
-﻿using abremir.AllMyBricks.Onboarding.Shared.Models;
+﻿using System;
+using abremir.AllMyBricks.Onboarding.Shared.Models;
 using abremir.AllMyBricks.Onboarding.Shared.Security;
 using abremir.AllMyBricks.Platform.Interfaces;
-using System;
 
 namespace abremir.AllMyBricks.DatabaseSeeder.Services
 {

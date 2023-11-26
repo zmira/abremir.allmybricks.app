@@ -1,4 +1,6 @@
-﻿using abremir.AllMyBricks.Onboarding.Configuration;
+﻿using System.Text;
+using System.Threading.Tasks;
+using abremir.AllMyBricks.Onboarding.Configuration;
 using abremir.AllMyBricks.Onboarding.Extensions;
 using abremir.AllMyBricks.Onboarding.Factories;
 using abremir.AllMyBricks.Onboarding.Helpers;
@@ -7,8 +9,6 @@ using abremir.AllMyBricks.Onboarding.Shared.Models;
 using Flurl;
 using Flurl.Http;
 using Jose;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace abremir.AllMyBricks.Onboarding.Services
 {

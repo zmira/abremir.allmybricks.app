@@ -1,8 +1,8 @@
-﻿using abremir.AllMyBricks.Onboarding.Shared.Models;
-using System;
+﻿using System;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
+using abremir.AllMyBricks.Onboarding.Shared.Models;
 
 namespace abremir.AllMyBricks.Onboarding.Shared.Security
 {

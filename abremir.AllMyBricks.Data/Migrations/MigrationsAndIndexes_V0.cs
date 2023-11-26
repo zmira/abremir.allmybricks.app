@@ -1,6 +1,6 @@
-﻿using abremir.AllMyBricks.Data.Models;
+﻿using System.Linq;
+using abremir.AllMyBricks.Data.Models;
 using LiteDB;
-using System.Linq;
 
 namespace abremir.AllMyBricks.Data.Migrations
 {

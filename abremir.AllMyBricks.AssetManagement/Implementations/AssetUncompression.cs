@@ -1,11 +1,11 @@
-﻿using abremir.AllMyBricks.AssetManagement.Interfaces;
-using abremir.AllMyBricks.Platform.Interfaces;
-using Easy.MessageHub;
-using SharpCompress.Common;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
+using abremir.AllMyBricks.AssetManagement.Interfaces;
+using abremir.AllMyBricks.Platform.Interfaces;
+using Easy.MessageHub;
+using SharpCompress.Common;
 
 namespace abremir.AllMyBricks.AssetManagement.Implementations
 {
@@ -92,7 +92,7 @@ namespace abremir.AllMyBricks.AssetManagement.Implementations
         {
             inputStream.Position = 0;
 
-            if(encryptionKey is null)
+            if (encryptionKey is null)
             {
                 return inputStream;
             }

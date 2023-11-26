@@ -1,10 +1,10 @@
-﻿using abremir.AllMyBricks.Data.Interfaces;
+﻿using System;
+using System.Threading.Tasks;
+using abremir.AllMyBricks.Data.Interfaces;
 using abremir.AllMyBricks.DataSynchronizer.Events.SetSynchronizationService;
 using abremir.AllMyBricks.DataSynchronizer.Interfaces;
 using abremir.AllMyBricks.Onboarding.Interfaces;
 using Easy.MessageHub;
-using System;
-using System.Threading.Tasks;
 
 namespace abremir.AllMyBricks.DataSynchronizer.Services
 {

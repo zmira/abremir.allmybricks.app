@@ -1,4 +1,6 @@
-﻿using abremir.AllMyBricks.Data.Configuration;
+﻿using System;
+using System.Linq;
+using abremir.AllMyBricks.Data.Configuration;
 using abremir.AllMyBricks.Data.Interfaces;
 using abremir.AllMyBricks.Data.Models;
 using abremir.AllMyBricks.Data.Repositories;
@@ -6,8 +8,6 @@ using abremir.AllMyBricks.Data.Tests.Configuration;
 using abremir.AllMyBricks.Data.Tests.Shared;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NFluent;
-using System;
-using System.Linq;
 
 namespace abremir.AllMyBricks.Data.Tests.Repositories
 {

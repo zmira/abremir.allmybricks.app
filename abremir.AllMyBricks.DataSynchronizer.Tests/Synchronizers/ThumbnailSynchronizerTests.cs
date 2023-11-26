@@ -1,4 +1,7 @@
-﻿using abremir.AllMyBricks.Data.Models;
+﻿using System.Collections.Generic;
+using System.Net;
+using System.Threading.Tasks;
+using abremir.AllMyBricks.Data.Models;
 using abremir.AllMyBricks.DataSynchronizer.Synchronizers;
 using abremir.AllMyBricks.Platform.Enumerations;
 using abremir.AllMyBricks.Platform.Interfaces;
@@ -6,9 +9,6 @@ using Flurl.Http.Testing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
 using NSubstituteAutoMocker.Standard;
-using System.Collections.Generic;
-using System.Net;
-using System.Threading.Tasks;
 
 namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 {
@@ -42,8 +42,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
             {
                 Images = new List<Image>
                 {
-                    new Image
-                    {
+                    new() {
                         ThumbnailUrl = "THUMBNAIL_URL"
                     }
                 }
@@ -92,8 +91,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
             {
                 Images = new List<Image>
                 {
-                    new Image
-                    {
+                    new() {
                         ThumbnailUrl = thumbnailUrl
                     }
                 }
@@ -114,8 +112,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
             {
                 Images = new List<Image>
                 {
-                    new Image
-                    {
+                    new() {
                         ThumbnailUrl = "http://www.url.com/thumbnails/thumbnail.jpg"
                     }
                 }
@@ -139,8 +136,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
             {
                 Images = new List<Image>
                 {
-                    new Image
-                    {
+                    new() {
                         ThumbnailUrl = "http://www.url.com/thumbnails/thumbnail.jpg"
                     }
                 }
@@ -164,8 +160,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
             {
                 Images = new List<Image>
                 {
-                    new Image
-                    {
+                    new() {
                         ThumbnailUrl = "http://www.url.com/thumbnails/thumbnail.jpg"
                     }
                 },

@@ -1,4 +1,6 @@
-﻿using abremir.AllMyBricks.Data.Enumerations;
+﻿using System;
+using System.Threading.Tasks;
+using abremir.AllMyBricks.Data.Enumerations;
 using abremir.AllMyBricks.Data.Interfaces;
 using abremir.AllMyBricks.DataSynchronizer.Interfaces;
 using abremir.AllMyBricks.Platform.Interfaces;
@@ -9,8 +11,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NFluent;
 using NSubstitute;
 using NSubstituteAutoMocker.Standard;
-using System;
-using System.Threading.Tasks;
 
 namespace abremir.AllMyBricks.UserManagement.Tests.Services
 {

@@ -1,7 +1,7 @@
-﻿using abremir.AllMyBricks.Onboarding.Shared.Enumerations;
-using System;
+﻿using System;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
+using abremir.AllMyBricks.Onboarding.Shared.Enumerations;
 
 [assembly: InternalsVisibleTo("abremir.AllMyBricks.Onboarding.Tests")]
 

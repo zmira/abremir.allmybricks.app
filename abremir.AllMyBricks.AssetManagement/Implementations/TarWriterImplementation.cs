@@ -1,6 +1,6 @@
-﻿using abremir.AllMyBricks.AssetManagement.Interfaces;
+﻿using System.IO;
+using abremir.AllMyBricks.AssetManagement.Interfaces;
 using SharpCompress.Writers.Tar;
-using System.IO;
 
 namespace abremir.AllMyBricks.AssetManagement.Implementations
 {

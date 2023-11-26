@@ -1,8 +1,8 @@
-﻿using abremir.AllMyBricks.Onboarding.Helpers;
+﻿using System.Collections.Generic;
+using abremir.AllMyBricks.Onboarding.Helpers;
 using abremir.AllMyBricks.Onboarding.Shared.Enumerations;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NFluent;
-using System.Collections.Generic;
 
 namespace abremir.AllMyBricks.Onboarding.Tests.Helpers
 {

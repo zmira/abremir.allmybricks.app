@@ -1,6 +1,6 @@
-﻿using abremir.AllMyBricks.Onboarding.Shared.Security;
+﻿using System.Net.Http;
+using abremir.AllMyBricks.Onboarding.Shared.Security;
 using Flurl.Http.Configuration;
-using System.Net.Http;
 
 namespace abremir.AllMyBricks.Onboarding.Factories
 {

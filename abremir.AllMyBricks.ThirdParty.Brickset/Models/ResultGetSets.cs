@@ -1,6 +1,6 @@
-﻿using abremir.AllMyBricks.ThirdParty.Brickset.Configuration;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
+using abremir.AllMyBricks.ThirdParty.Brickset.Configuration;
 
 namespace abremir.AllMyBricks.ThirdParty.Brickset.Models
 {

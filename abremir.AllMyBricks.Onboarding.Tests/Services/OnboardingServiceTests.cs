@@ -1,11 +1,11 @@
-﻿using abremir.AllMyBricks.Onboarding.Interfaces;
+﻿using System.Threading.Tasks;
+using abremir.AllMyBricks.Onboarding.Interfaces;
 using abremir.AllMyBricks.Onboarding.Services;
 using abremir.AllMyBricks.Platform.Interfaces;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NFluent;
 using NSubstitute;
 using NSubstituteAutoMocker.Standard;
-using System.Threading.Tasks;
 
 namespace abremir.AllMyBricks.Onboarding.Tests.Services
 {

@@ -500,9 +500,9 @@ namespace abremir.AllMyBricks.DatabaseSeeder
         {
             MenuBar = new MenuBar(new MenuBarItem[]
             {
-                new MenuBarItem("_File", new MenuItem[]
+                new("_File", new MenuItem[]
                 {
-                    new MenuItem("E_xit", "", () => topLevel.Running &= !CanExit)
+                    new("E_xit", "", () => topLevel.Running &= !CanExit)
                 })
             });
 
@@ -533,7 +533,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder
 
             var menuBarItem = new MenuBarItem("_Synchronize", new MenuItem[]
             {
-                new MenuItem("S_ets", "", () =>
+                new("S_ets", "", () =>
                 {
                     if (CanExit)
                     {
@@ -547,7 +547,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                         _host.Services.GetService<ISetSynchronizationService>().SynchronizeAllSets();
                     }
                 }),
-                new MenuItem("_Primary Users' Sets", "", () =>
+                new("_Primary Users' Sets", "", () =>
                 {
                     if (CanExit)
                     {
@@ -671,7 +671,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                 {
                     var buttonOk = new Button("Ok");
 
-                    Dialog dialog = new Dialog("Compress Database File", 60, 6, buttonOk);
+                    Dialog dialog = new("Compress Database File", 60, 6, buttonOk);
                     Label compressDatabaseFileLabel;
 
                     if (Settings.CompressedFileIsEncrypted
@@ -726,7 +726,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                 {
                     var buttonOk = new Button("Ok");
 
-                    Dialog dialog = new Dialog("Uncompress Database File", 60, 6, buttonOk);
+                    Dialog dialog = new("Uncompress Database File", 60, 6, buttonOk);
                     Label uncompressDatabaseFileLabel;
 
                     if (Settings.CompressedFileIsEncrypted
@@ -816,7 +816,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder
 
             var primaryUsersLabel = new Label(3, 12, "Primary Users");
 
-            var primaryUsersList = new ListView(new Rect(3, 13, 50, 12), Settings.BricksetPrimaryUsers?.Select(keyValuePair => $"{keyValuePair.Key}/{keyValuePair.Value}").ToList() ?? new List<string>())
+            var primaryUsersList = new ListView(new Rect(3, 13, 50, 12), Settings.BricksetPrimaryUsers?.Select(keyValuePair => $"{keyValuePair.Key}/{keyValuePair.Value}").ToList() ?? [])
             {
                 ColorScheme = Colors.Dialog,
                 AllowsMultipleSelection = false,
@@ -831,7 +831,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder
 
             deletePrimaryUserButton.Clicked += () =>
             {
-                var primaryUsers = Settings.BricksetPrimaryUsers ?? new Dictionary<string, string>();
+                var primaryUsers = Settings.BricksetPrimaryUsers ?? [];
 
                 if (primaryUsers.Count == 0)
                 {
@@ -912,7 +912,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                     var username = primaryUserUsername.Text.ToString();
                     var userHash = primaryUserUserHash.Text.ToString();
 
-                    var primaryUsers = Settings.BricksetPrimaryUsers ?? new Dictionary<string, string>();
+                    var primaryUsers = Settings.BricksetPrimaryUsers ?? [];
                     primaryUsers.Add(username, userHash);
                     Settings.BricksetPrimaryUsers = primaryUsers;
 

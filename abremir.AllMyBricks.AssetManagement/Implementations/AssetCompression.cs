@@ -1,12 +1,12 @@
-﻿using abremir.AllMyBricks.AssetManagement.Interfaces;
+﻿using System.IO;
+using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
+using abremir.AllMyBricks.AssetManagement.Interfaces;
 using abremir.AllMyBricks.Platform.Interfaces;
 using SharpCompress.Common;
 using SharpCompress.Writers;
 using SharpCompress.Writers.Tar;
-using System.IO;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
 
 namespace abremir.AllMyBricks.AssetManagement.Implementations
 {

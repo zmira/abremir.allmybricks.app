@@ -1,6 +1,6 @@
-﻿using abremir.AllMyBricks.Platform.Enumerations;
+﻿using System;
+using abremir.AllMyBricks.Platform.Enumerations;
 using abremir.AllMyBricks.Platform.Interfaces;
-using System;
 
 namespace abremir.AllMyBricks.DatabaseSeeder.Services
 {

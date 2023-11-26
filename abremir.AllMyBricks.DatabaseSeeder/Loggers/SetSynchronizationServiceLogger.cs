@@ -1,10 +1,10 @@
-﻿using abremir.AllMyBricks.DatabaseSeeder.Configuration;
+﻿using System;
+using abremir.AllMyBricks.DatabaseSeeder.Configuration;
 using abremir.AllMyBricks.DatabaseSeeder.Enumerations;
 using abremir.AllMyBricks.DataSynchronizer.Events.SetSynchronizationService;
 using abremir.AllMyBricks.DataSynchronizer.Services;
 using Easy.MessageHub;
 using Microsoft.Extensions.Logging;
-using System;
 
 namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
 {

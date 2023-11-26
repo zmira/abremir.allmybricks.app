@@ -1,7 +1,7 @@
-﻿using abremir.AllMyBricks.Onboarding.Interfaces;
+﻿using System.Threading.Tasks;
+using abremir.AllMyBricks.Onboarding.Interfaces;
 using abremir.AllMyBricks.Onboarding.Shared.Models;
 using abremir.AllMyBricks.Platform.Interfaces;
-using System.Threading.Tasks;
 
 namespace abremir.AllMyBricks.Onboarding.Services
 {
