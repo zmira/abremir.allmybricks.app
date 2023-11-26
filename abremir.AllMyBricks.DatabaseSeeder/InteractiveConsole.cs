@@ -1,6 +1,8 @@
-﻿using abremir.AllMyBricks.Data.Enumerations;
+﻿using System;
+using System.Diagnostics;
+using System.Linq;
+using abremir.AllMyBricks.Data.Enumerations;
 using abremir.AllMyBricks.Data.Interfaces;
-using abremir.AllMyBricks.DatabaseSeeder.Configuration;
 using abremir.AllMyBricks.DatabaseSeeder.Services;
 using abremir.AllMyBricks.DataSynchronizer.Events.SetSynchronizationService;
 using abremir.AllMyBricks.DataSynchronizer.Events.SetSynchronizer;
@@ -10,11 +12,8 @@ using abremir.AllMyBricks.DataSynchronizer.Events.UserSynchronizationService;
 using abremir.AllMyBricks.DataSynchronizer.Events.UserSynchronizer;
 using abremir.AllMyBricks.DataSynchronizer.Interfaces;
 using Easy.MessageHub;
-using LightInject;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Terminal.Gui;
 
 namespace abremir.AllMyBricks.DatabaseSeeder
@@ -27,9 +26,12 @@ namespace abremir.AllMyBricks.DatabaseSeeder
         private static object SynchronizeSetsApplicationMainLoopTimeoutToken;
         private static object SynchronizePrimaryUsersApplicationMainLoopTimeoutToken;
         private static MenuBar MenuBar;
+        private static IHost _host;
 
-        public static void Run()
+        public static void Run(IHost host)
         {
+            _host = host;
+
             Application.Init();
 
             var topLevel = Application.Top;
@@ -97,7 +99,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder
             var syncCount = 0f;
             var syncIndex = 0f;
 
-            var messageHub = IoC.IoCContainer.GetInstance<IMessageHub>();
+            var messageHub = _host.Services.GetService<IMessageHub>();
 
             Stopwatch stopwatch = null;
 
@@ -542,7 +544,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                         // HACK: since there is a bug in Application.MainLoop.Invoke(...) this is needed to force the UI to refresh!
                         SynchronizeSetsApplicationMainLoopTimeoutToken = Application.MainLoop.AddTimeout(TimeSpan.FromMilliseconds(10), _ => true);
 
-                        IoC.IoCContainer.GetInstance<ISetSynchronizationService>().SynchronizeAllSets();
+                        _host.Services.GetService<ISetSynchronizationService>().SynchronizeAllSets();
                     }
                 }),
                 new MenuItem("_Primary Users' Sets", "", () =>
@@ -551,7 +553,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                     {
                         CanExit = false;
 
-                        var userRepository = IoC.IoCContainer.GetInstance<IBricksetUserRepository>();
+                        var userRepository = _host.Services.GetService<IBricksetUserRepository>();
 
                         foreach (var primaryUser in Settings.BricksetPrimaryUsers)
                         {
@@ -566,7 +568,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                         // HACK: since there is a bug in Application.MainLoop.Invoke(...) this is needed to force the UI to refresh!
                         SynchronizePrimaryUsersApplicationMainLoopTimeoutToken = Application.MainLoop.AddTimeout(TimeSpan.FromMilliseconds(10), _ => true);
 
-                        IoC.IoCContainer.GetInstance<IUserSynchronizationService>().SynchronizeBricksetPrimaryUsersSets();
+                        _host.Services.GetService<IUserSynchronizationService>().SynchronizeBricksetPrimaryUsersSets();
                     }
                 })
             });
@@ -655,7 +657,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder
 
         private static void AddCompressDatabaseFileButton(Window window)
         {
-            var assetManagementService = IoC.IoCContainer.GetInstance<IAssetManagementService>();
+            var assetManagementService = _host.Services.GetService<IAssetManagementService>();
 
             if (assetManagementService.DatabaseFilePathExists())
             {
@@ -710,7 +712,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder
 
         private static void AddUncompressDatabaseFileButton(Window window)
         {
-            var assetManagementService = IoC.IoCContainer.GetInstance<IAssetManagementService>();
+            var assetManagementService = _host.Services.GetService<IAssetManagementService>();
 
             if (assetManagementService.CompressedDatabaseFilePathExists(Settings.CompressedFileIsEncrypted))
             {
@@ -765,7 +767,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder
 
         private static void AddCompactDatabaseButton(Window window)
         {
-            var assetManagementService = IoC.IoCContainer.GetInstance<IAssetManagementService>();
+            var assetManagementService = _host.Services.GetService<IAssetManagementService>();
 
             if (assetManagementService.DatabaseFilePathExists())
             {
@@ -810,7 +812,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder
 
         private static void AddPrimaryUsersList(Window window)
         {
-            var userRepository = IoC.IoCContainer.GetInstance<IBricksetUserRepository>();
+            var userRepository = _host.Services.GetService<IBricksetUserRepository>();
 
             var primaryUsersLabel = new Label(3, 12, "Primary Users");
 
