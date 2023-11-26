@@ -33,16 +33,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "abremir.AllMyBricks.UserMan
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "abremir.AllMyBricks.UserManagement.Tests", "abremir.AllMyBricks.UserManagement.Tests\abremir.AllMyBricks.UserManagement.Tests.csproj", "{EBF234F0-FCB2-4851-87DE-8E24AF87FE83}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "abremir.AllMyBricks.App.Tests", "abremir.AllMyBricks.App\abremir.AllMyBricks.App.Tests\abremir.AllMyBricks.App.Tests.csproj", "{A9B7DE7D-71EA-4F90-A680-C01ED51C43D2}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "abremir.AllMyBricks.App.Android", "abremir.AllMyBricks.App\abremir.AllMyBricks.App.Android\abremir.AllMyBricks.App.Android.csproj", "{BD9ED3A9-87C0-4080-BB7E-AA11B04F10B8}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "abremir.AllMyBricks.App.iOS", "abremir.AllMyBricks.App\abremir.AllMyBricks.App.iOS\abremir.AllMyBricks.App.iOS.csproj", "{CF80431F-F185-4F12-B66E-3599DDC37DAC}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "abremir.AllMyBricks.App", "abremir.AllMyBricks.App\abremir.AllMyBricks.App\abremir.AllMyBricks.App.csproj", "{35C316CA-62AC-47FD-9F32-B6CB4D31FA95}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "abremir.AllMyBricks.App.UWP", "abremir.AllMyBricks.App\abremir.AllMyBricks.App.UWP\abremir.AllMyBricks.App.UWP.csproj", "{9B1CFA25-875C-49A9-BF3B-B8788FDC31D1}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "abremir.AllMyBricks.DatabaseSeeder", "abremir.AllMyBricks.DatabaseSeeder\abremir.AllMyBricks.DatabaseSeeder.csproj", "{11273FCC-6152-4D6C-9D5E-020C9E08DF7B}"
 EndProject
 Global
