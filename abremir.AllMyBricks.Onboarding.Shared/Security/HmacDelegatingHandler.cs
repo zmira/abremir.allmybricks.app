@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 using abremir.AllMyBricks.Onboarding.Shared.Configuration;
 using abremir.AllMyBricks.Onboarding.Shared.Extensions;
 using abremir.AllMyBricks.Onboarding.Shared.Models;
-using Microsoft.AspNetCore.Http.Extensions;
 
 namespace abremir.AllMyBricks.Onboarding.Shared.Security
 {
@@ -28,7 +27,7 @@ namespace abremir.AllMyBricks.Onboarding.Shared.Security
             var appId = apiKeyRequest.DeviceIdentification.DeviceHash;
             var apiKey = apiKeyRequest.RegistrationHash;
 
-            var requestUri = UriHelper.Encode(request.RequestUri);
+            var requestUri = Uri.EscapeDataString(request.RequestUri.ToString());
             var requestHttpMethod = request.Method.Method;
             var nonce = Guid.NewGuid().ToString("N");
             var requestTimestamp = DateTime.UtcNow.TotalSecondsFromEpochStart().ToString();
