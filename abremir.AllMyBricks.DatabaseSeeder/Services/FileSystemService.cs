@@ -48,7 +48,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Services
 
         public Task SaveThumbnailToCache(string theme, string subtheme, string filename, byte[] thumbnail)
         {
-            return null;
+            return Task.CompletedTask;
         }
 
         public string GetLocalPathToDataFolder()
