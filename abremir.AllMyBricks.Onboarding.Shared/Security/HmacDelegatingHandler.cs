@@ -1,15 +1,15 @@
-﻿using abremir.AllMyBricks.Onboarding.Shared.Configuration;
-using abremir.AllMyBricks.Onboarding.Shared.Extensions;
-using abremir.AllMyBricks.Onboarding.Shared.Models;
-using Microsoft.AspNetCore.Http.Extensions;
-using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
+using abremir.AllMyBricks.Onboarding.Shared.Configuration;
+using abremir.AllMyBricks.Onboarding.Shared.Extensions;
+using abremir.AllMyBricks.Onboarding.Shared.Models;
+using Microsoft.AspNetCore.Http.Extensions;
 
 namespace abremir.AllMyBricks.Onboarding.Shared.Security
 {
@@ -24,7 +24,7 @@ namespace abremir.AllMyBricks.Onboarding.Shared.Security
                 return null;
             }
 
-            var apiKeyRequest = JsonConvert.DeserializeObject<ApiKeyRequest>(await request.Content.ReadAsStringAsync().ConfigureAwait(false));
+            var apiKeyRequest = JsonSerializer.Deserialize<ApiKeyRequest>(await request.Content.ReadAsStringAsync().ConfigureAwait(false));
             var appId = apiKeyRequest.DeviceIdentification.DeviceHash;
             var apiKey = apiKeyRequest.RegistrationHash;
 
