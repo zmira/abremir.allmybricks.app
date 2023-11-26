@@ -27,7 +27,7 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
         {
             _httpTestFake.RespondWith(GetResultFileFromResource(nameof(InvalidApiKey)));
 
-            Check.ThatAsyncCode(() => _bricksetApiService.GetSubthemes(new ParameterTheme())).Throws<BricksetRequestException>();
+            Check.ThatCode(() => _bricksetApiService.GetSubthemes(new ParameterTheme())).Throws<BricksetRequestException>();
         }
 
         [TestMethod]

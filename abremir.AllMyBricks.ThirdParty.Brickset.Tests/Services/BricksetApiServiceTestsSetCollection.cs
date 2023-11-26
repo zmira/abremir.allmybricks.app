@@ -27,7 +27,7 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
         {
             _httpTestFake.RespondWith(GetResultFileFromResource(nameof(InvalidApiKey)));
 
-            Check.ThatAsyncCode(() => _bricksetApiService.SetCollection(new SetCollectionParameters())).Throws<BricksetRequestException>();
+            Check.ThatCode(() => _bricksetApiService.SetCollection(new SetCollectionParameters())).Throws<BricksetRequestException>();
         }
 
         [TestMethod]
@@ -35,7 +35,7 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
         {
             _httpTestFake.RespondWith(GetResultFileFromResource(nameof(InvalidUserHash)));
 
-            Check.ThatAsyncCode(() => _bricksetApiService.SetCollection(new SetCollectionParameters())).Throws<BricksetRequestException>();
+            Check.ThatCode(() => _bricksetApiService.SetCollection(new SetCollectionParameters())).Throws<BricksetRequestException>();
         }
 
         [TestMethod]
@@ -43,7 +43,7 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
         {
             _httpTestFake.RespondWith(GetResultFileFromResource(nameof(InvalidParameters)));
 
-            Check.ThatAsyncCode(() => _bricksetApiService.SetCollection(new SetCollectionParameters())).Throws<BricksetRequestException>();
+            Check.ThatCode(() => _bricksetApiService.SetCollection(new SetCollectionParameters())).Throws<BricksetRequestException>();
         }
 
         [TestMethod]

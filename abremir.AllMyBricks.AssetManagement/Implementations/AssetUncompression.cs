@@ -98,14 +98,13 @@ namespace abremir.AllMyBricks.AssetManagement.Implementations
             }
 
             var hash = SHA256.Create().ComputeHash(Encoding.ASCII.GetBytes(encryptionKey));
-            var rijndael = new RijndaelManaged
-            {
-                Key = hash.Take(32).ToArray(),
-                IV = hash.Take(16).ToArray()
-            };
+
+            using var aes = Aes.Create();
+            aes.Key = hash.Take(32).ToArray();
+            aes.IV = hash.Take(16).ToArray();
 
             using var outputStream = new MemoryStream();
-            using var cryptoStreamDecryptor = new CryptoStream(inputStream, rijndael.CreateDecryptor(), CryptoStreamMode.Read);
+            using var cryptoStreamDecryptor = new CryptoStream(inputStream, aes.CreateDecryptor(), CryptoStreamMode.Read);
 
             var byteArrayInput = new byte[inputStream.Length];
 

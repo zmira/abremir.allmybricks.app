@@ -27,7 +27,7 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
         {
             _httpTestFake.RespondWith(GetResultFileFromResource(nameof(Invalid)));
 
-            Check.ThatAsyncCode(() => _bricksetApiService.Login(new ParameterLogin())).Throws<BricksetRequestException>();
+            Check.ThatCode(() => _bricksetApiService.Login(new ParameterLogin())).Throws<BricksetRequestException>();
         }
 
         [TestMethod]
@@ -35,7 +35,7 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
         {
             _httpTestFake.RespondWith(GetResultFileFromResource(nameof(InvalidApiKey)));
 
-            Check.ThatAsyncCode(() => _bricksetApiService.Login(new ParameterLogin())).Throws<BricksetRequestException>();
+            Check.ThatCode(() => _bricksetApiService.Login(new ParameterLogin())).Throws<BricksetRequestException>();
         }
 
         [TestMethod]

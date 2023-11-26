@@ -27,7 +27,7 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
         {
             _httpTestFake.RespondWith(GetResultFileFromResource(nameof(InvalidApiKey)));
 
-            Check.ThatAsyncCode(() => _bricksetApiService.GetSets(new GetSetsParameters())).Throws<BricksetRequestException>();
+            Check.ThatCode(() => _bricksetApiService.GetSets(new GetSetsParameters())).Throws<BricksetRequestException>();
         }
 
         [TestMethod]
@@ -35,7 +35,7 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
         {
             _httpTestFake.RespondWith(GetResultFileFromResource(nameof(ParameterError)));
 
-            Check.ThatAsyncCode(() => _bricksetApiService.GetSets(new GetSetsParameters())).Throws<BricksetRequestException>();
+            Check.ThatCode(() => _bricksetApiService.GetSets(new GetSetsParameters())).Throws<BricksetRequestException>();
         }
 
         [TestMethod]
@@ -43,7 +43,7 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
         {
             _httpTestFake.RespondWith(GetResultFileFromResource(nameof(NoValidParameters)));
 
-            Check.ThatAsyncCode(() => _bricksetApiService.GetSets(new GetSetsParameters())).Throws<BricksetRequestException>();
+            Check.ThatCode(() => _bricksetApiService.GetSets(new GetSetsParameters())).Throws<BricksetRequestException>();
         }
 
         [TestMethod]
@@ -51,7 +51,7 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
         {
             _httpTestFake.RespondWith(GetResultFileFromResource(nameof(InvalidUserHash)));
 
-            Check.ThatAsyncCode(() => _bricksetApiService.GetSets(new GetSetsParameters())).Throws<BricksetRequestException>();
+            Check.ThatCode(() => _bricksetApiService.GetSets(new GetSetsParameters())).Throws<BricksetRequestException>();
         }
 
         [TestMethod]
@@ -59,7 +59,7 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
         {
             _httpTestFake.RespondWith(GetResultFileFromResource(nameof(DailyApiLimitExceeded)));
 
-            Check.ThatAsyncCode(() => _bricksetApiService.GetSets(new GetSetsParameters())).Throws<BricksetRequestException>();
+            Check.ThatCode(() => _bricksetApiService.GetSets(new GetSetsParameters())).Throws<BricksetRequestException>();
         }
 
         [TestMethod]
