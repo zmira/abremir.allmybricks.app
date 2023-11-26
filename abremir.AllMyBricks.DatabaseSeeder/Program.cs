@@ -1,10 +1,11 @@
-﻿using abremir.AllMyBricks.DatabaseSeeder.Configuration;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using abremir.AllMyBricks.DatabaseSeeder.Configuration;
 using abremir.AllMyBricks.DatabaseSeeder.Enumerations;
 using abremir.AllMyBricks.Platform.Interfaces;
 using LightInject;
 using McMaster.Extensions.CommandLineUtils;
 using Microsoft.Extensions.Logging;
-using System.ComponentModel.DataAnnotations;
 
 namespace abremir.AllMyBricks.DatabaseSeeder
 {
@@ -84,7 +85,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder
 
                 Logger = Logging.CreateLogger<Program>();
 
-                var datasetOptions = datasetOption.Values;
+                var datasetOptions = datasetOption.Values.ToList();
 
                 if (datasetOptions.Count == 0)
                 {
@@ -93,7 +94,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder
 
                 if (logVerbosity != LogVerbosity.NoLogging)
                 {
-                    Logger.LogInformation($"Running All My Bricks database seeder with arguments: { (unattendeOption.HasValue() ? $" { DatabaseSeederConstants.UnattendedOption }" : string.Empty) }{ (logVerbosityOption.HasValue() ? $" { DatabaseSeederConstants.LogVerbosityOption }={ logVerbosityOption.Value() }" : string.Empty) }{ (logDestinationOption.HasValue() ? $" { DatabaseSeederConstants.LogDestinationOption }={ string.Join(", ", logDestinationOption.Values) }" : string.Empty) }{ (compressOption.HasValue() ? $" { DatabaseSeederConstants.CompressOption }" : string.Empty) }{ (uncompressOption.HasValue() ? $" { DatabaseSeederConstants.UncompressOption }" : string.Empty) }{ $" { DatabaseSeederConstants.DatasetOption }={ string.Join(", ", datasetOptions) }" }{ (dataFolderOption.HasValue() ? $" { DatabaseSeederConstants.DataFolderOption }={ dataFolderOption.Value() }" : string.Empty) }{ (encryptedOption.HasValue() ? $" { DatabaseSeederConstants.EncryptedOption }" : string.Empty) }{ (bricksetApiKeyOption.HasValue() ? $" { DatabaseSeederConstants.BricksetApiKey }" : string.Empty) }");
+                    Logger.LogInformation($"Running All My Bricks database seeder with arguments: {(unattendeOption.HasValue() ? $" {DatabaseSeederConstants.UnattendedOption}" : string.Empty)}{(logVerbosityOption.HasValue() ? $" {DatabaseSeederConstants.LogVerbosityOption}={logVerbosityOption.Value()}" : string.Empty)}{(logDestinationOption.HasValue() ? $" {DatabaseSeederConstants.LogDestinationOption}={string.Join(", ", logDestinationOption.Values)}" : string.Empty)}{(compressOption.HasValue() ? $" {DatabaseSeederConstants.CompressOption}" : string.Empty)}{(uncompressOption.HasValue() ? $" {DatabaseSeederConstants.UncompressOption}" : string.Empty)}{$" {DatabaseSeederConstants.DatasetOption}={string.Join(", ", datasetOptions)}"}{(dataFolderOption.HasValue() ? $" {DatabaseSeederConstants.DataFolderOption}={dataFolderOption.Value()}" : string.Empty)}{(encryptedOption.HasValue() ? $" {DatabaseSeederConstants.EncryptedOption}" : string.Empty)}{(bricksetApiKeyOption.HasValue() ? $" {DatabaseSeederConstants.BricksetApiKey}" : string.Empty)}");
                 }
 
                 var folderOverride = dataFolderOption.HasValue()
