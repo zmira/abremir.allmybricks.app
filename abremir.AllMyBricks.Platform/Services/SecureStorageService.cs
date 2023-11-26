@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using abremir.AllMyBricks.Onboarding.Shared.Models;
 using abremir.AllMyBricks.Platform.Configuration;
 using abremir.AllMyBricks.Platform.Interfaces;
-using Xamarin.Essentials.Interfaces;
+using Microsoft.Maui.Storage;
 
 namespace abremir.AllMyBricks.Platform.Services
 {

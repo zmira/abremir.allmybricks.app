@@ -2,8 +2,10 @@
 using abremir.AllMyBricks.Platform.Interfaces;
 using abremir.AllMyBricks.Platform.Services;
 using LightInject;
-using Xamarin.Essentials.Implementation;
-using Xamarin.Essentials.Interfaces;
+using Microsoft.Maui.ApplicationModel;
+using Microsoft.Maui.Devices;
+using Microsoft.Maui.Networking;
+using Microsoft.Maui.Storage;
 
 namespace abremir.AllMyBricks.Platform.Configuration
 {
@@ -13,12 +15,12 @@ namespace abremir.AllMyBricks.Platform.Configuration
         {
             container ??= new ServiceContainer();
 
-            container.Register<IFileSystem, FileSystemImplementation>();
-            container.Register<IVersionTracking, VersionTrackingImplementation>();
-            container.Register<IConnectivity, ConnectivityImplementation>();
-            container.Register<ISecureStorage, SecureStorageImplementation>();
-            container.Register<IDeviceInfo, DeviceInfoImplementation>();
-            container.Register<IPreferences, PreferencesImplementation>();
+            container.RegisterSingleton<IFileSystem>((_) => FileSystem.Current);
+            container.RegisterSingleton<IVersionTracking>((_) => VersionTracking.Default);
+            container.RegisterSingleton<IConnectivity>((_) => Connectivity.Current);
+            container.RegisterSingleton<ISecureStorage>((_) => SecureStorage.Default);
+            container.RegisterSingleton<IDeviceInfo>((_) => DeviceInfo.Current);
+            container.RegisterSingleton<IPreferences>((_) => Preferences.Default);
 
             container.Register<IFileSystemService, FileSystemService>();
             container.Register<IVersionTrackingService, VersionTrackingService>();

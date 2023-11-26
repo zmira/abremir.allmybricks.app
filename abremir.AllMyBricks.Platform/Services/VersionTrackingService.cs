@@ -1,5 +1,5 @@
 ﻿using abremir.AllMyBricks.Platform.Interfaces;
-using Xamarin.Essentials.Interfaces;
+using Microsoft.Maui.ApplicationModel;
 
 namespace abremir.AllMyBricks.Platform.Services
 {
