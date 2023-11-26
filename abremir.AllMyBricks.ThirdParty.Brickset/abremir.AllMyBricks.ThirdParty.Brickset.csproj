@@ -7,7 +7,6 @@
   <ItemGroup>
     <PackageReference Include="Flurl.Http" Version="3.2.4" />
     <PackageReference Include="LightInject" Version="6.6.4" />
-    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
   </ItemGroup>
 
 </Project>
