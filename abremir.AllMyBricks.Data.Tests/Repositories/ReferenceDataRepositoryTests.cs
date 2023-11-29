@@ -22,7 +22,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
         [DataTestMethod]
         [DataRow(ModelsSetup.StringEmpty)]
         [DataRow(null)]
-        public void GivenGetOrAdd_WhenInvalidCategoryReferenceDataValue_ThenReturnsNull(string referenceDataValue)
+        public void GetOrAdd_InvalidCategoryReferenceDataValue_ReturnsNull(string referenceDataValue)
         {
             GetOrAddTestHelper<Category>(referenceDataValue, null);
         }
@@ -30,7 +30,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
         [DataTestMethod]
         [DataRow(ModelsSetup.StringEmpty)]
         [DataRow(null)]
-        public void GivenGetOrAdd_WhenInvalidPackagingTypeReferenceDataValue_ThenReturnsNull(string referenceDataValue)
+        public void GetOrAdd_InvalidPackagingTypeReferenceDataValue_ReturnsNull(string referenceDataValue)
         {
             GetOrAddTestHelper<PackagingType>(referenceDataValue, null);
         }
@@ -38,7 +38,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
         [DataTestMethod]
         [DataRow(ModelsSetup.StringEmpty)]
         [DataRow(null)]
-        public void GivenGetOrAdd_WhenInvalidTagReferenceDataValue_ThenReturnsNull(string referenceDataValue)
+        public void GetOrAdd_InvalidTagReferenceDataValue_ReturnsNull(string referenceDataValue)
         {
             GetOrAddTestHelper<Tag>(referenceDataValue, null);
         }
@@ -46,55 +46,55 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
         [DataTestMethod]
         [DataRow(ModelsSetup.StringEmpty)]
         [DataRow(null)]
-        public void GivenGetOrAdd_WhenInvalidThemeGroupReferenceDataValue_ThenReturnsNull(string referenceDataValue)
+        public void GetOrAdd_InvalidThemeGroupReferenceDataValue_ReturnsNull(string referenceDataValue)
         {
             GetOrAddTestHelper<ThemeGroup>(referenceDataValue, null);
         }
 
         [TestMethod]
-        public void GivenGetOrAdd_WhenCategoryReferenceDataDoesNotExist_ThenInsertsReferenceData()
+        public void GetOrAdd_CategoryReferenceDataDoesNotExist_InsertsReferenceData()
         {
             GetOrAddTestHelper<Category>(ModelsSetup.CategoryReferenceDataValue, ModelsSetup.CategoryReferenceData, insert: true);
         }
 
         [TestMethod]
-        public void GivenGetOrAdd_WhenPackaginTypeReferenceDataDoesNotExist_ThenInsertsReferenceData()
+        public void GetOrAdd_PackaginTypeReferenceDataDoesNotExist_InsertsReferenceData()
         {
             GetOrAddTestHelper<PackagingType>(ModelsSetup.PackagingTypeReferenceDataValue, ModelsSetup.PackagingTypeReferenceData, insert: true);
         }
 
         [TestMethod]
-        public void GivenGetOrAdd_WhenTagReferenceDataDoesNotExist_ThenInsertsReferenceData()
+        public void GetOrAdd_TagReferenceDataDoesNotExist_InsertsReferenceData()
         {
             GetOrAddTestHelper<Tag>(ModelsSetup.TagReferenceDataValue, ModelsSetup.TagReferenceData, insert: true);
         }
 
         [TestMethod]
-        public void GivenGetOrAdd_WhenThemeGroupReferenceDataDoesNotExist_ThenInsertsReferenceData()
+        public void GetOrAdd_ThemeGroupReferenceDataDoesNotExist_InsertsReferenceData()
         {
             GetOrAddTestHelper<ThemeGroup>(ModelsSetup.ThemeGroupReferenceDataValue, ModelsSetup.ThemeGroupReferenceData, insert: true);
         }
 
         [TestMethod]
-        public void GivenGetOrAdd_WhenCategoryReferenceDataExists_ThenDoesNotInsertReferenceData()
+        public void GetOrAdd_CategoryReferenceDataExists_DoesNotInsertReferenceData()
         {
             GetOrAddTestHelper<Category>(ModelsSetup.CategoryReferenceDataValue, ModelsSetup.CategoryReferenceData, exists: true);
         }
 
         [TestMethod]
-        public void GivenGetOrAdd_WhenPackaginTypeReferenceDataExists_ThenDoesNotInsertReferenceData()
+        public void GetOrAdd_PackaginTypeReferenceDataExists_DoesNotInsertReferenceData()
         {
             GetOrAddTestHelper<PackagingType>(ModelsSetup.PackagingTypeReferenceDataValue, ModelsSetup.PackagingTypeReferenceData, exists: true);
         }
 
         [TestMethod]
-        public void GivenGetOrAdd_WhenTagReferenceDataExists_ThenDoesNotInsertReferenceData()
+        public void GetOrAdd_TagReferenceDataExists_DoesNotInsertReferenceData()
         {
             GetOrAddTestHelper<Tag>(ModelsSetup.TagReferenceDataValue, ModelsSetup.TagReferenceData, exists: true);
         }
 
         [TestMethod]
-        public void GivenGetOrAdd_WhenThemeGroupReferenceDataExists_ThenDoesNotInsertReferenceData()
+        public void GetOrAdd_ThemeGroupReferenceDataExists_DoesNotInsertReferenceData()
         {
             GetOrAddTestHelper<ThemeGroup>(ModelsSetup.ThemeGroupReferenceDataValue, ModelsSetup.ThemeGroupReferenceData, exists: true);
         }
