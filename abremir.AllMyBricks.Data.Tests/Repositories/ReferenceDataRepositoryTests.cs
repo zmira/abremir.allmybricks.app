@@ -58,7 +58,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
         }
 
         [TestMethod]
-        public void GetOrAdd_PackaginTypeReferenceDataDoesNotExist_InsertsReferenceData()
+        public void GetOrAdd_PackagingTypeReferenceDataDoesNotExist_InsertsReferenceData()
         {
             GetOrAddTestHelper<PackagingType>(ModelsSetup.PackagingTypeReferenceDataValue, ModelsSetup.PackagingTypeReferenceData, insert: true);
         }
@@ -82,7 +82,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
         }
 
         [TestMethod]
-        public void GetOrAdd_PackaginTypeReferenceDataExists_DoesNotInsertReferenceData()
+        public void GetOrAdd_PackagingTypeReferenceDataExists_DoesNotInsertReferenceData()
         {
             GetOrAddTestHelper<PackagingType>(ModelsSetup.PackagingTypeReferenceDataValue, ModelsSetup.PackagingTypeReferenceData, exists: true);
         }
