@@ -1,7 +1,7 @@
-﻿using abremir.AllMyBricks.Data.Enumerations;
-using LiteDB;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using abremir.AllMyBricks.Data.Enumerations;
+using LiteDB;
 
 namespace abremir.AllMyBricks.Data.Models
 {

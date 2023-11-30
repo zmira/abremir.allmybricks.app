@@ -1,11 +1,11 @@
-﻿using abremir.AllMyBricks.Data.Extensions;
+﻿using System;
+using abremir.AllMyBricks.Data.Extensions;
 using abremir.AllMyBricks.Data.Interfaces;
 using abremir.AllMyBricks.Data.Models;
 using abremir.AllMyBricks.Data.Repositories;
 using abremir.AllMyBricks.Data.Tests.Shared;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NFluent;
-using System;
 
 namespace abremir.AllMyBricks.Data.Tests.Repositories
 {

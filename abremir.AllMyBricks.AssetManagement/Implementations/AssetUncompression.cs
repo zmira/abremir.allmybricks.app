@@ -1,11 +1,11 @@
-﻿using abremir.AllMyBricks.AssetManagement.Interfaces;
-using abremir.AllMyBricks.Platform.Interfaces;
-using Easy.MessageHub;
-using SharpCompress.Common;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
+using abremir.AllMyBricks.AssetManagement.Interfaces;
+using abremir.AllMyBricks.Platform.Interfaces;
+using Easy.MessageHub;
+using SharpCompress.Common;
 
 namespace abremir.AllMyBricks.AssetManagement.Implementations
 {
@@ -92,20 +92,19 @@ namespace abremir.AllMyBricks.AssetManagement.Implementations
         {
             inputStream.Position = 0;
 
-            if(encryptionKey is null)
+            if (encryptionKey is null)
             {
                 return inputStream;
             }
 
             var hash = SHA256.Create().ComputeHash(Encoding.ASCII.GetBytes(encryptionKey));
-            var rijndael = new RijndaelManaged
-            {
-                Key = hash.Take(32).ToArray(),
-                IV = hash.Take(16).ToArray()
-            };
+
+            using var aes = Aes.Create();
+            aes.Key = hash.Take(32).ToArray();
+            aes.IV = hash.Take(16).ToArray();
 
             using var outputStream = new MemoryStream();
-            using var cryptoStreamDecryptor = new CryptoStream(inputStream, rijndael.CreateDecryptor(), CryptoStreamMode.Read);
+            using var cryptoStreamDecryptor = new CryptoStream(inputStream, aes.CreateDecryptor(), CryptoStreamMode.Read);
 
             var byteArrayInput = new byte[inputStream.Length];
 

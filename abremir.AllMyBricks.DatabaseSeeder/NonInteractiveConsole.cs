@@ -1,30 +1,31 @@
-﻿using abremir.AllMyBricks.Data.Enumerations;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using abremir.AllMyBricks.Data.Enumerations;
 using abremir.AllMyBricks.Data.Interfaces;
 using abremir.AllMyBricks.DatabaseSeeder.Configuration;
 using abremir.AllMyBricks.DatabaseSeeder.Services;
 using abremir.AllMyBricks.DataSynchronizer.Interfaces;
-using LightInject;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 namespace abremir.AllMyBricks.DatabaseSeeder
 {
     public static class NonInteractiveConsole
     {
-        public static async Task Run(IList<string> synchronizationContext, bool compress, bool uncompress, bool encrypted)
+        public static async Task Run(IHost host, IList<string> synchronizationContext, bool compress, bool uncompress, bool encrypted)
         {
             if (!synchronizationContext.Contains(DatabaseSeederConstants.DatasetValueNone))
             {
                 if (synchronizationContext.Contains(DatabaseSeederConstants.DatasetValueSets)
                     || synchronizationContext.Contains(DatabaseSeederConstants.DatasetValueAll))
                 {
-                    await IoC.IoCContainer.GetInstance<ISetSynchronizationService>().SynchronizeAllSets().ConfigureAwait(false);
+                    await host.Services.GetService<ISetSynchronizationService>().SynchronizeAllSets().ConfigureAwait(false);
                 }
 
                 if (synchronizationContext.Contains(DatabaseSeederConstants.DatasetValuePrimaryUsers)
                     || synchronizationContext.Contains(DatabaseSeederConstants.DatasetValueAll))
                 {
-                    var userRepository = IoC.IoCContainer.GetInstance<IBricksetUserRepository>();
+                    var userRepository = host.Services.GetService<IBricksetUserRepository>();
 
                     foreach (var primaryUser in Settings.BricksetPrimaryUsers)
                     {
@@ -34,26 +35,26 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                         }
                     }
 
-                    await IoC.IoCContainer.GetInstance<IUserSynchronizationService>().SynchronizeBricksetPrimaryUsersSets().ConfigureAwait(false);
+                    await host.Services.GetService<IUserSynchronizationService>().SynchronizeBricksetPrimaryUsersSets().ConfigureAwait(false);
                 }
 
                 if (synchronizationContext.Contains(DatabaseSeederConstants.DatasetValueFriends)
                     || synchronizationContext.Contains(DatabaseSeederConstants.DatasetValueAll))
                 {
-                    await IoC.IoCContainer.GetInstance<IUserSynchronizationService>().SynchronizeBricksetFriendsSets().ConfigureAwait(false);
+                    await host.Services.GetService<IUserSynchronizationService>().SynchronizeBricksetFriendsSets().ConfigureAwait(false);
                 }
 
-                IoC.IoCContainer.GetInstance<IAssetManagementService>().CompactAllMyBricksDatabase();
+                host.Services.GetService<IAssetManagementService>().CompactAllMyBricksDatabase();
             }
 
             if (compress)
             {
-                IoC.IoCContainer.GetInstance<IAssetManagementService>().CompressDatabaseFile(encrypted);
+                host.Services.GetService<IAssetManagementService>().CompressDatabaseFile(encrypted);
             }
 
             if (uncompress)
             {
-                IoC.IoCContainer.GetInstance<IAssetManagementService>().UncompressDatabaseFile(encrypted);
+                host.Services.GetService<IAssetManagementService>().UncompressDatabaseFile(encrypted);
             }
         }
     }

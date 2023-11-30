@@ -1,6 +1,6 @@
-﻿using abremir.AllMyBricks.Data.Interfaces;
+﻿using System;
+using abremir.AllMyBricks.Data.Interfaces;
 using LiteDB;
-using System;
 
 namespace abremir.AllMyBricks.Data.Models
 {

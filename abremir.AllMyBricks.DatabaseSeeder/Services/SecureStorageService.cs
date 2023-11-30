@@ -1,8 +1,7 @@
-﻿using abremir.AllMyBricks.Onboarding.Shared.Models;
-using abremir.AllMyBricks.Platform.Interfaces;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Threading.Tasks;
+using abremir.AllMyBricks.Onboarding.Shared.Models;
+using abremir.AllMyBricks.Platform.Interfaces;
 
 namespace abremir.AllMyBricks.DatabaseSeeder.Services
 {
@@ -50,7 +49,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Services
 
         public async Task SaveBricksetPrimaryUser(string username, string userHash)
         {
-            var bricksetPrimaryUsers = Settings.BricksetPrimaryUsers ?? new Dictionary<string, string>();
+            var bricksetPrimaryUsers = Settings.BricksetPrimaryUsers ?? [];
 
             if (!bricksetPrimaryUsers.ContainsKey(username))
             {
@@ -62,7 +61,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Services
 
         public async Task<bool> ClearBricksetPrimaryUser(string username)
         {
-            var bricksetPrimaryUsers = Settings.BricksetPrimaryUsers ?? new Dictionary<string, string>();
+            var bricksetPrimaryUsers = Settings.BricksetPrimaryUsers ?? [];
 
             if (bricksetPrimaryUsers.ContainsKey(username))
             {

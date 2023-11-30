@@ -1,4 +1,8 @@
-﻿using abremir.AllMyBricks.Data.Interfaces;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using abremir.AllMyBricks.Data.Interfaces;
 using abremir.AllMyBricks.Data.Models;
 using abremir.AllMyBricks.Data.Repositories;
 using abremir.AllMyBricks.DataSynchronizer.Extensions;
@@ -14,10 +18,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using NFluent;
 using NSubstitute;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 {

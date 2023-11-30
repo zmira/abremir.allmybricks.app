@@ -1,8 +1,8 @@
-﻿using abremir.AllMyBricks.AssetManagement.Interfaces;
+﻿using System;
+using System.Threading.Tasks;
+using abremir.AllMyBricks.AssetManagement.Interfaces;
 using abremir.AllMyBricks.Platform.Interfaces;
 using Flurl.Http;
-using System;
-using System.Threading.Tasks;
 
 namespace abremir.AllMyBricks.AssetManagement.Services
 {

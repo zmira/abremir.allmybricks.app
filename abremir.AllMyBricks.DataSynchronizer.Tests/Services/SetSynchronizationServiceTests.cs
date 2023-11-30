@@ -1,4 +1,7 @@
-﻿using abremir.AllMyBricks.Data.Interfaces;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using abremir.AllMyBricks.Data.Interfaces;
 using abremir.AllMyBricks.Data.Models;
 using abremir.AllMyBricks.DataSynchronizer.Interfaces;
 using abremir.AllMyBricks.DataSynchronizer.Services;
@@ -6,9 +9,6 @@ using abremir.AllMyBricks.Onboarding.Interfaces;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
 using NSubstituteAutoMocker.Standard;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace abremir.AllMyBricks.DataSynchronizer.Tests.Services
 {
@@ -49,10 +49,10 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Services
                 Returns((DateTimeOffset?)null);
             _dataSynchronizationService.Get<IThemeSynchronizer>()
                 .Synchronize(Arg.Any<string>())
-                .Returns(new List<Theme> { new Theme() });
+                .Returns(new List<Theme> { new() });
             _dataSynchronizationService.Get<ISubthemeSynchronizer>()
                 .Synchronize(Arg.Any<string>(), Arg.Any<Theme>())
-                .Returns(new List<Subtheme> { new Subtheme() });
+                .Returns(new List<Subtheme> { new() });
 
             await _dataSynchronizationService.ClassUnderTest.SynchronizeAllSets().ConfigureAwait(false);
 
@@ -74,10 +74,10 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Services
                 .Returns(DateTimeOffset.Now);
             _dataSynchronizationService.Get<IThemeSynchronizer>()
                 .Synchronize(Arg.Any<string>())
-                .Returns(new List<Theme> { new Theme() });
+                .Returns(new List<Theme> { new() });
             _dataSynchronizationService.Get<ISubthemeSynchronizer>()
                 .Synchronize(Arg.Any<string>(), Arg.Any<Theme>())
-                .Returns(new List<Subtheme> { new Subtheme() });
+                .Returns(new List<Subtheme> { new() });
 
             await _dataSynchronizationService.ClassUnderTest.SynchronizeAllSets().ConfigureAwait(false);
 

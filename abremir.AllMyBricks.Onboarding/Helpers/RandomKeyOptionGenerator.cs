@@ -1,7 +1,7 @@
-﻿using abremir.AllMyBricks.Onboarding.Shared.Enumerations;
-using System;
+﻿using System;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
+using abremir.AllMyBricks.Onboarding.Shared.Enumerations;
 
 [assembly: InternalsVisibleTo("abremir.AllMyBricks.Onboarding.Tests")]
 
@@ -14,10 +14,7 @@ namespace abremir.AllMyBricks.Onboarding.Helpers
             const int min = (int)AlgorithmType.Type1;
             const int max = (int)AlgorithmType.Type3 + 1;
 
-            using var rng = new RNGCryptoServiceProvider();
-
-            var data = new byte[4];
-            rng.GetBytes(data);
+            var data = RandomNumberGenerator.GetBytes(4);
 
             int generatedValue = Math.Abs(BitConverter.ToInt32(data, startIndex: 0));
 

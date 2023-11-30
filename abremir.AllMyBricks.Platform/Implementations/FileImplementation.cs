@@ -1,7 +1,7 @@
-﻿using abremir.AllMyBricks.Platform.Interfaces;
-using abremir.AllMyBricks.Platform.Models;
-using System.IO;
+﻿using System.IO;
 using System.Threading.Tasks;
+using abremir.AllMyBricks.Platform.Interfaces;
+using abremir.AllMyBricks.Platform.Models;
 
 namespace abremir.AllMyBricks.Platform.Implementations
 {

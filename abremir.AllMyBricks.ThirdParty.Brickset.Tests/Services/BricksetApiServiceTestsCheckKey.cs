@@ -1,11 +1,11 @@
-﻿using abremir.AllMyBricks.ThirdParty.Brickset.Models;
+﻿using System.Threading.Tasks;
+using abremir.AllMyBricks.ThirdParty.Brickset.Models;
 using abremir.AllMyBricks.ThirdParty.Brickset.Models.Parameters;
 using abremir.AllMyBricks.ThirdParty.Brickset.Services;
 using abremir.AllMyBricks.ThirdParty.Brickset.Tests.Configuration;
 using abremir.AllMyBricks.ThirdParty.Brickset.Tests.Shared;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NFluent;
-using System.Threading.Tasks;
 using ComponentModelDescription = System.ComponentModel.DescriptionAttribute;
 
 namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
@@ -27,7 +27,7 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
         {
             _httpTestFake.RespondWith(GetResultFileFromResource(nameof(Invalid)));
 
-            Check.ThatAsyncCode(() => _bricksetApiService.CheckKey(new ParameterApiKey())).Throws<BricksetRequestException>();
+            Check.ThatCode(() => _bricksetApiService.CheckKey(new ParameterApiKey())).Throws<BricksetRequestException>();
         }
 
         [TestMethod]

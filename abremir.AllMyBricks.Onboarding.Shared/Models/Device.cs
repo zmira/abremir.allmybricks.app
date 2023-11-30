@@ -1,5 +1,5 @@
-﻿using abremir.AllMyBricks.Onboarding.Shared.Extensions;
-using System;
+﻿using System;
+using abremir.AllMyBricks.Onboarding.Shared.Extensions;
 
 namespace abremir.AllMyBricks.Onboarding.Shared.Models
 {

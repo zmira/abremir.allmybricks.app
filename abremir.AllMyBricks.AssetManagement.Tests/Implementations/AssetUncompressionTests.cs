@@ -1,12 +1,11 @@
-﻿using abremir.AllMyBricks.AssetManagement.Implementations;
-using abremir.AllMyBricks.AssetManagement.Interfaces;
+﻿using System.IO;
+using abremir.AllMyBricks.AssetManagement.Implementations;
 using abremir.AllMyBricks.Platform.Interfaces;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NFluent;
 using NSubstitute;
 using NSubstituteAutoMocker.Standard;
 using SharpCompress.Readers;
-using System.IO;
 
 namespace abremir.AllMyBricks.AssetManagement.Tests.Implementations
 {
@@ -78,7 +77,7 @@ namespace abremir.AllMyBricks.AssetManagement.Tests.Implementations
                 .Key
                 .Returns("test_file.txt");
 
-            _assetUncompression.Get<IReaderFactory>()
+            _assetUncompression.Get<Interfaces.IReaderFactory>()
                 .Open(Arg.Any<Stream>())
                 .Returns(reader);
 

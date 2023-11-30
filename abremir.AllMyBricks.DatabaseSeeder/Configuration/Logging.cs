@@ -1,11 +1,11 @@
-﻿using abremir.AllMyBricks.DatabaseSeeder.Enumerations;
-using abremir.AllMyBricks.DatabaseSeeder.Loggers;
-using LightInject;
-using Microsoft.Extensions.Logging;
-using NReco.Logging.File;
-using System;
+﻿using System;
 using System.IO;
 using System.Reflection;
+using abremir.AllMyBricks.DatabaseSeeder.Enumerations;
+using abremir.AllMyBricks.DatabaseSeeder.Loggers;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using NReco.Logging.File;
 
 namespace abremir.AllMyBricks.DatabaseSeeder.Configuration
 {
@@ -17,6 +17,20 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Configuration
 
         public static LogVerbosity LogVerbosity { get; set; }
         public static LogDestinations LogDestination { get; set; }
+
+        public static IServiceCollection AddLoggingServices(this IServiceCollection services)
+        {
+            return services
+                .AddTransient<ILoggerFactory>((_) => Logging.Factory)
+                .AddScoped<AssetUncompressionLogger>()
+                .AddScoped<SetSynchronizationServiceLogger>()
+                .AddScoped<SetSynchronizerLogger>()
+                .AddScoped<SubthemeSynchronizerLogger>()
+                .AddScoped<ThemeSynchronizerLogger>()
+                .AddScoped<ThumbnailSynchronizerLogger>()
+                .AddScoped<UserSynchronizationServiceLogger>()
+                .AddScoped<UserSynchronizerLogger>();
+        }
 
         public static void Configure(LogDestinations? logDestination, LogVerbosity logVerbosity)
         {
@@ -31,17 +45,6 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Configuration
 
             SetupConsoleLogging();
             SetupFileLogging();
-
-            IoC.IoCContainer.RegisterInstance<ILoggerFactory>(Logging.Factory);
-
-            IoC.IoCContainer.GetInstance<SetSynchronizationServiceLogger>();
-            IoC.IoCContainer.GetInstance<ThemeSynchronizerLogger>();
-            IoC.IoCContainer.GetInstance<SubthemeSynchronizerLogger>();
-            IoC.IoCContainer.GetInstance<SetSynchronizerLogger>();
-            IoC.IoCContainer.GetInstance<ThumbnailSynchronizerLogger>();
-            IoC.IoCContainer.GetInstance<AssetUncompressionLogger>();
-            IoC.IoCContainer.GetInstance<UserSynchronizationServiceLogger>();
-            IoC.IoCContainer.GetInstance<UserSynchronizerLogger>();
         }
 
         private static void SetupFileLogging()

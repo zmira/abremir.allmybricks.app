@@ -1,7 +1,7 @@
-﻿using abremir.AllMyBricks.Platform.Interfaces;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
+using abremir.AllMyBricks.Platform.Interfaces;
 
 namespace abremir.AllMyBricks.DatabaseSeeder.Services
 {
@@ -48,7 +48,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Services
 
         public Task SaveThumbnailToCache(string theme, string subtheme, string filename, byte[] thumbnail)
         {
-            return null;
+            return Task.CompletedTask;
         }
 
         public string GetLocalPathToDataFolder()

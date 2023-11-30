@@ -1,12 +1,12 @@
-﻿using JsonFlatFileDataStore;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using JsonFlatFileDataStore;
 
 namespace abremir.AllMyBricks.DatabaseSeeder
 {
     public sealed class Settings
     {
-        private static readonly Lazy<DataStore> _store = new Lazy<DataStore>(() => new DataStore("appsettings.json", false, reloadBeforeGetCollection: true));
+        private static readonly Lazy<DataStore> _store = new(() => new DataStore("appsettings.json", false, reloadBeforeGetCollection: true));
 
         private static DataStore Store => _store.Value;
 

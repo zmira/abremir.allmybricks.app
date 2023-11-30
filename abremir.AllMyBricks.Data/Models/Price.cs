@@ -1,8 +1,8 @@
-﻿using abremir.AllMyBricks.Data.Enumerations;
-using abremir.AllMyBricks.Data.Extensions;
-using System;
+﻿using System;
 using System.Globalization;
 using System.Linq;
+using abremir.AllMyBricks.Data.Enumerations;
+using abremir.AllMyBricks.Data.Extensions;
 
 namespace abremir.AllMyBricks.Data.Models
 {

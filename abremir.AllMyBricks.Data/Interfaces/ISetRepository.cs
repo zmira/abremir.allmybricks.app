@@ -1,6 +1,6 @@
-﻿using abremir.AllMyBricks.Data.Enumerations;
+﻿using System.Collections.Generic;
+using abremir.AllMyBricks.Data.Enumerations;
 using abremir.AllMyBricks.Data.Models;
-using System.Collections.Generic;
 
 namespace abremir.AllMyBricks.Data.Interfaces
 {

@@ -1,10 +1,12 @@
-﻿using abremir.AllMyBricks.DatabaseSeeder.Configuration;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using abremir.AllMyBricks.DatabaseSeeder.Configuration;
 using abremir.AllMyBricks.DatabaseSeeder.Enumerations;
 using abremir.AllMyBricks.Platform.Interfaces;
-using LightInject;
 using McMaster.Extensions.CommandLineUtils;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using System.ComponentModel.DataAnnotations;
 
 namespace abremir.AllMyBricks.DatabaseSeeder
 {
@@ -14,6 +16,11 @@ namespace abremir.AllMyBricks.DatabaseSeeder
 
         private static int Main(string[] args)
         {
+            var builder = Host.CreateApplicationBuilder();
+
+            builder.Services.AddDatabaseSeederServices();
+            using IHost host = builder.Build();
+
             var app = new CommandLineApplication();
             app.HelpOption();
 
@@ -75,8 +82,6 @@ namespace abremir.AllMyBricks.DatabaseSeeder
 
             app.OnExecute(() =>
             {
-                IoC.Configure();
-
                 var logVerbosity = GetLogVerbosity(logVerbosityOption, unattendeOption);
                 var logDestination = GetLogDestination(logVerbosityOption, unattendeOption, logDestinationOption);
 
@@ -84,7 +89,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder
 
                 Logger = Logging.CreateLogger<Program>();
 
-                var datasetOptions = datasetOption.Values;
+                var datasetOptions = datasetOption.Values.ToList();
 
                 if (datasetOptions.Count == 0)
                 {
@@ -93,24 +98,24 @@ namespace abremir.AllMyBricks.DatabaseSeeder
 
                 if (logVerbosity != LogVerbosity.NoLogging)
                 {
-                    Logger.LogInformation($"Running All My Bricks database seeder with arguments: { (unattendeOption.HasValue() ? $" { DatabaseSeederConstants.UnattendedOption }" : string.Empty) }{ (logVerbosityOption.HasValue() ? $" { DatabaseSeederConstants.LogVerbosityOption }={ logVerbosityOption.Value() }" : string.Empty) }{ (logDestinationOption.HasValue() ? $" { DatabaseSeederConstants.LogDestinationOption }={ string.Join(", ", logDestinationOption.Values) }" : string.Empty) }{ (compressOption.HasValue() ? $" { DatabaseSeederConstants.CompressOption }" : string.Empty) }{ (uncompressOption.HasValue() ? $" { DatabaseSeederConstants.UncompressOption }" : string.Empty) }{ $" { DatabaseSeederConstants.DatasetOption }={ string.Join(", ", datasetOptions) }" }{ (dataFolderOption.HasValue() ? $" { DatabaseSeederConstants.DataFolderOption }={ dataFolderOption.Value() }" : string.Empty) }{ (encryptedOption.HasValue() ? $" { DatabaseSeederConstants.EncryptedOption }" : string.Empty) }{ (bricksetApiKeyOption.HasValue() ? $" { DatabaseSeederConstants.BricksetApiKey }" : string.Empty) }");
+                    Logger.LogInformation($"Running All My Bricks database seeder with arguments: {(unattendeOption.HasValue() ? $" {DatabaseSeederConstants.UnattendedOption}" : string.Empty)}{(logVerbosityOption.HasValue() ? $" {DatabaseSeederConstants.LogVerbosityOption}={logVerbosityOption.Value()}" : string.Empty)}{(logDestinationOption.HasValue() ? $" {DatabaseSeederConstants.LogDestinationOption}={string.Join(", ", logDestinationOption.Values)}" : string.Empty)}{(compressOption.HasValue() ? $" {DatabaseSeederConstants.CompressOption}" : string.Empty)}{(uncompressOption.HasValue() ? $" {DatabaseSeederConstants.UncompressOption}" : string.Empty)}{$" {DatabaseSeederConstants.DatasetOption}={string.Join(", ", datasetOptions)}"}{(dataFolderOption.HasValue() ? $" {DatabaseSeederConstants.DataFolderOption}={dataFolderOption.Value()}" : string.Empty)}{(encryptedOption.HasValue() ? $" {DatabaseSeederConstants.EncryptedOption}" : string.Empty)}{(bricksetApiKeyOption.HasValue() ? $" {DatabaseSeederConstants.BricksetApiKey}" : string.Empty)}");
                 }
 
                 var folderOverride = dataFolderOption.HasValue()
                     ? dataFolderOption.Value()
                     : null;
-                var fileSystem = IoC.IoCContainer.GetInstance<IFileSystemService>();
+                var fileSystem = host.Services.GetService<IFileSystemService>();
                 fileSystem.EnsureLocalDataFolder(folderOverride);
 
                 if (unattendeOption.HasValue())
                 {
                     Settings.BricksetApiKey = bricksetApiKeyOption.Value() ?? string.Empty;
 
-                    NonInteractiveConsole.Run(datasetOptions, compressOption.HasValue(), uncompressOption.HasValue(), encryptedOption.HasValue()).GetAwaiter().GetResult();
+                    NonInteractiveConsole.Run(host, datasetOptions, compressOption.HasValue(), uncompressOption.HasValue(), encryptedOption.HasValue()).GetAwaiter().GetResult();
                 }
                 else
                 {
-                    InteractiveConsole.Run();
+                    InteractiveConsole.Run(host);
                 }
             });
 

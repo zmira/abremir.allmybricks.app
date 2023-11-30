@@ -1,14 +1,13 @@
-﻿using abremir.AllMyBricks.Onboarding.Interfaces;
+﻿using System.Threading.Tasks;
+using abremir.AllMyBricks.Onboarding.Interfaces;
 using abremir.AllMyBricks.Onboarding.Services;
 using abremir.AllMyBricks.Onboarding.Shared.Models;
 using abremir.AllMyBricks.Platform.Interfaces;
 using abremir.AllMyBricks.Platform.Services;
+using Microsoft.Maui.Devices;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NFluent;
 using NSubstitute;
-using System.Threading.Tasks;
-using Xamarin.Essentials;
-using Xamarin.Essentials.Interfaces;
 
 namespace abremir.AllMyBricks.Onboarding.Tests
 {
@@ -31,7 +30,7 @@ namespace abremir.AllMyBricks.Onboarding.Tests
             deviceInfo.Manufacturer.Returns("BRAND");
             deviceInfo.Model.Returns("MODEL");
             deviceInfo.VersionString.Returns("VERSION YEAR");
-            deviceInfo.Platform.Returns(DevicePlatform.UWP);
+            deviceInfo.Platform.Returns(DevicePlatform.WinUI);
             deviceInfo.Idiom.Returns(DeviceIdiom.Desktop);
 
             _deviceInformationService = new DeviceInformationService(deviceInfo);

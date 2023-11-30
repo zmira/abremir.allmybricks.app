@@ -1,10 +1,10 @@
-﻿using abremir.AllMyBricks.AssetManagement.Implementations;
+﻿using System.IO;
+using abremir.AllMyBricks.AssetManagement.Implementations;
 using abremir.AllMyBricks.AssetManagement.Interfaces;
 using abremir.AllMyBricks.Data.Configuration;
 using abremir.AllMyBricks.Data.Interfaces;
 using abremir.AllMyBricks.Platform.Interfaces;
 using Microsoft.Extensions.Logging;
-using System.IO;
 
 namespace abremir.AllMyBricks.DatabaseSeeder.Services
 {

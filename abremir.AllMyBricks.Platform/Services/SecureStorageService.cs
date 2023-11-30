@@ -1,10 +1,10 @@
-﻿using abremir.AllMyBricks.Onboarding.Shared.Models;
+﻿using System.Collections.Generic;
+using System.Text.Json;
+using System.Threading.Tasks;
+using abremir.AllMyBricks.Onboarding.Shared.Models;
 using abremir.AllMyBricks.Platform.Configuration;
 using abremir.AllMyBricks.Platform.Interfaces;
-using Newtonsoft.Json;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Xamarin.Essentials.Interfaces;
+using Microsoft.Maui.Storage;
 
 namespace abremir.AllMyBricks.Platform.Services
 {
@@ -37,7 +37,7 @@ namespace abremir.AllMyBricks.Platform.Services
 
         public async Task<Identification> GetDeviceIdentification()
         {
-            return JsonConvert.DeserializeObject<Identification>(await GetRawDeviceIdentification().ConfigureAwait(false));
+            return JsonSerializer.Deserialize<Identification>(await GetRawDeviceIdentification().ConfigureAwait(false));
         }
 
         public async Task<bool> IsDeviceIdentificationCreated()
@@ -49,36 +49,36 @@ namespace abremir.AllMyBricks.Platform.Services
         {
             if (!await IsDeviceIdentificationCreated().ConfigureAwait(false))
             {
-                await _secureStorage.SetAsync(Constants.DeviceIdentificationSecureStorageKey, JsonConvert.SerializeObject(deviceIdentification)).ConfigureAwait(false);
+                await _secureStorage.SetAsync(Constants.DeviceIdentificationSecureStorageKey, JsonSerializer.Serialize(deviceIdentification)).ConfigureAwait(false);
             }
         }
 
         public async Task<string> GetBricksetUserHash(string username)
         {
-            return JsonConvert.DeserializeObject<Dictionary<string, string>>(await GetRawBricksetPrimaryUsers().ConfigureAwait(false))?[username];
+            return JsonSerializer.Deserialize<Dictionary<string, string>>(await GetRawBricksetPrimaryUsers().ConfigureAwait(false))?[username];
         }
 
         public async Task SaveBricksetPrimaryUser(string username, string userHash)
         {
-            var bricksetUsers = JsonConvert.DeserializeObject<Dictionary<string, string>>(await GetRawBricksetPrimaryUsers().ConfigureAwait(false)) ?? new Dictionary<string, string>();
+            var bricksetUsers = JsonSerializer.Deserialize<Dictionary<string, string>>(await GetRawBricksetPrimaryUsers().ConfigureAwait(false)) ?? [];
 
             if (!bricksetUsers.ContainsKey(username))
             {
                 bricksetUsers.Add(username, userHash);
 
-                await _secureStorage.SetAsync(Constants.BricksetPrimaryUsersStorageKey, JsonConvert.SerializeObject(bricksetUsers)).ConfigureAwait(false);
+                await _secureStorage.SetAsync(Constants.BricksetPrimaryUsersStorageKey, JsonSerializer.Serialize(bricksetUsers)).ConfigureAwait(false);
             }
         }
 
         public async Task<bool> ClearBricksetPrimaryUser(string username)
         {
-            var bricksetUsers = JsonConvert.DeserializeObject<Dictionary<string, string>>(await GetRawBricksetPrimaryUsers().ConfigureAwait(false)) ?? new Dictionary<string, string>();
+            var bricksetUsers = JsonSerializer.Deserialize<Dictionary<string, string>>(await GetRawBricksetPrimaryUsers().ConfigureAwait(false)) ?? [];
 
             if (bricksetUsers.ContainsKey(username))
             {
                 bricksetUsers.Remove(username);
 
-                await _secureStorage.SetAsync(Constants.BricksetPrimaryUsersStorageKey, JsonConvert.SerializeObject(bricksetUsers)).ConfigureAwait(false);
+                await _secureStorage.SetAsync(Constants.BricksetPrimaryUsersStorageKey, JsonSerializer.Serialize(bricksetUsers)).ConfigureAwait(false);
             }
 
             return bricksetUsers.ContainsKey(username);

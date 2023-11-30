@@ -1,5 +1,5 @@
 ﻿using abremir.AllMyBricks.Platform.Interfaces;
-using Xamarin.Essentials.Interfaces;
+using Microsoft.Maui.Networking;
 
 namespace abremir.AllMyBricks.Platform.Services
 {
@@ -12,6 +12,6 @@ namespace abremir.AllMyBricks.Platform.Services
             _connectivity = connectivity;
         }
 
-        public bool IsInternetAccessible => _connectivity.NetworkAccess == Xamarin.Essentials.NetworkAccess.Internet;
+        public bool IsInternetAccessible => _connectivity.NetworkAccess == NetworkAccess.Internet;
     }
 }

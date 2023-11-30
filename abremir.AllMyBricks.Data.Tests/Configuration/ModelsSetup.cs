@@ -1,7 +1,7 @@
-﻿using abremir.AllMyBricks.Data.Enumerations;
-using abremir.AllMyBricks.Data.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using abremir.AllMyBricks.Data.Enumerations;
+using abremir.AllMyBricks.Data.Models;
 
 namespace abremir.AllMyBricks.Data.Tests.Configuration
 {
@@ -98,22 +98,22 @@ namespace abremir.AllMyBricks.Data.Tests.Configuration
 
         internal static Subtheme[] ListOfSubthemesUnderTest => new[] { GetSubthemeUnderTest(Guid.NewGuid().ToString()), GetSecondSubthemeUnderTest(Guid.NewGuid().ToString()) };
 
-        internal static Category CategoryReferenceData => new Category
+        internal static Category CategoryReferenceData => new()
         {
             Value = CategoryReferenceDataValue
         };
 
-        internal static ThemeGroup ThemeGroupReferenceData => new ThemeGroup
+        internal static ThemeGroup ThemeGroupReferenceData => new()
         {
             Value = ThemeGroupReferenceDataValue
         };
 
-        internal static Tag TagReferenceData => new Tag
+        internal static Tag TagReferenceData => new()
         {
             Value = TagReferenceDataValue
         };
 
-        internal static PackagingType PackagingTypeReferenceData => new PackagingType
+        internal static PackagingType PackagingTypeReferenceData => new()
         {
             Value = PackagingTypeReferenceDataValue
         };
@@ -144,8 +144,8 @@ namespace abremir.AllMyBricks.Data.Tests.Configuration
                 Number = $"SET NUMBER{suffix}",
                 Barcodes = new List<Barcode>
                 {
-                    new Barcode { Type = BarcodeType.EAN, Value = $"SET EAN{suffix}" },
-                    new Barcode { Type = BarcodeType.UPC, Value = $"SET UPC{suffix}" }
+                    new() { Type = BarcodeType.EAN, Value = $"SET EAN{suffix}" },
+                    new() { Type = BarcodeType.UPC, Value = $"SET UPC{suffix}" }
                 }
             };
         }

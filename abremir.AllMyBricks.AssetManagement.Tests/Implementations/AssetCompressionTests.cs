@@ -1,4 +1,5 @@
-﻿using abremir.AllMyBricks.AssetManagement.Implementations;
+﻿using System.IO;
+using abremir.AllMyBricks.AssetManagement.Implementations;
 using abremir.AllMyBricks.AssetManagement.Interfaces;
 using abremir.AllMyBricks.Platform.Interfaces;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -7,7 +8,6 @@ using NSubstitute;
 using NSubstituteAutoMocker.Standard;
 using SharpCompress.Common;
 using SharpCompress.Writers.Tar;
-using System.IO;
 
 namespace abremir.AllMyBricks.AssetManagement.Tests.Implementations
 {

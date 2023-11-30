@@ -1,13 +1,13 @@
-﻿using abremir.AllMyBricks.Data.Models;
+﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
+using abremir.AllMyBricks.Data.Models;
 using abremir.AllMyBricks.DataSynchronizer.Events.ThumbnailSynchronizer;
 using abremir.AllMyBricks.DataSynchronizer.Interfaces;
 using abremir.AllMyBricks.Platform.Enumerations;
 using abremir.AllMyBricks.Platform.Interfaces;
 using Easy.MessageHub;
 using Flurl.Http;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
 {
@@ -51,9 +51,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
 
                     _messageHub.Publish(new ThumbnailAcquired { Thumbnail = set.Images[0].ThumbnailUrl });
                 }
-#pragma warning disable RECS0022 // A catch clause that catches System.Exception and has an empty body
                 catch { }
-#pragma warning restore RECS0022 // A catch clause that catches System.Exception and has an empty body
 
                 if (thumbnail is null || thumbnail.Length == 0)
                 {

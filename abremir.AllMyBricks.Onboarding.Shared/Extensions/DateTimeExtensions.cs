@@ -4,7 +4,7 @@ namespace abremir.AllMyBricks.Onboarding.Shared.Extensions
 {
     public static class DateTimeExtensions
     {
-        private static readonly DateTime EpochStart = new DateTime(1970, 01, 01, 0, 0, 0, 0, DateTimeKind.Utc);
+        private static readonly DateTime EpochStart = new(1970, 01, 01, 0, 0, 0, 0, DateTimeKind.Utc);
 
         public static ulong TotalSecondsFromEpochStart(this DateTime date)
         {

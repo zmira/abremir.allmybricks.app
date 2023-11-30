@@ -1,5 +1,5 @@
-﻿using abremir.AllMyBricks.Data.Configuration;
-using System;
+﻿using System;
+using abremir.AllMyBricks.Data.Configuration;
 
 namespace abremir.AllMyBricks.Data.Extensions
 {

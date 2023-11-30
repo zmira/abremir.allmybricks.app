@@ -1,8 +1,8 @@
-﻿using abremir.AllMyBricks.ThirdParty.Brickset.Extensions;
+﻿using System.IO;
+using System.Reflection;
+using abremir.AllMyBricks.ThirdParty.Brickset.Extensions;
 using Flurl.Http.Testing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.IO;
-using System.Reflection;
 
 namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Shared
 {

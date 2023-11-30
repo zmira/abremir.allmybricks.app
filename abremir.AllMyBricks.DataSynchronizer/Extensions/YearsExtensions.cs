@@ -1,6 +1,6 @@
-﻿using abremir.AllMyBricks.Data.Models;
+﻿using System.Collections.Generic;
+using abremir.AllMyBricks.Data.Models;
 using abremir.AllMyBricks.ThirdParty.Brickset.Models;
-using System.Collections.Generic;
 
 namespace abremir.AllMyBricks.DataSynchronizer.Extensions
 {

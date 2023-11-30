@@ -1,8 +1,8 @@
-﻿using abremir.AllMyBricks.Data.Interfaces;
+﻿using System.IO;
+using System.Reflection;
+using abremir.AllMyBricks.Data.Interfaces;
 using abremir.AllMyBricks.DataSynchronizer.Tests.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.IO;
-using System.Reflection;
 
 namespace abremir.AllMyBricks.DataSynchronizer.Tests.Shared
 {

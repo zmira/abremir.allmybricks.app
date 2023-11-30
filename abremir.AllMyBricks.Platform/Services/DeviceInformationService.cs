@@ -1,8 +1,8 @@
-﻿using abremir.AllMyBricks.Onboarding.Shared.Models;
+﻿using System;
+using abremir.AllMyBricks.Onboarding.Shared.Models;
 using abremir.AllMyBricks.Onboarding.Shared.Security;
 using abremir.AllMyBricks.Platform.Interfaces;
-using System;
-using Xamarin.Essentials.Interfaces;
+using Microsoft.Maui.Devices;
 
 namespace abremir.AllMyBricks.Platform.Services
 {

@@ -1,10 +1,9 @@
-﻿using abremir.AllMyBricks.AssetManagement.Interfaces;
+﻿using System.IO;
 using SharpCompress.Readers;
-using System.IO;
 
 namespace abremir.AllMyBricks.AssetManagement.Implementations
 {
-    public class ReaderFactoryImplementation : IReaderFactory
+    public class ReaderFactoryImplementation : Interfaces.IReaderFactory
     {
         public IReader Open(Stream stream)
         {

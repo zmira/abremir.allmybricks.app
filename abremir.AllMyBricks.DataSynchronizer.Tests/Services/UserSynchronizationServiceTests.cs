@@ -1,4 +1,5 @@
-﻿using abremir.AllMyBricks.Data.Enumerations;
+﻿using System.Threading.Tasks;
+using abremir.AllMyBricks.Data.Enumerations;
 using abremir.AllMyBricks.Data.Interfaces;
 using abremir.AllMyBricks.DataSynchronizer.Events.UserSynchronizationService;
 using abremir.AllMyBricks.DataSynchronizer.Interfaces;
@@ -9,7 +10,6 @@ using Easy.MessageHub;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
 using NSubstituteAutoMocker.Standard;
-using System.Threading.Tasks;
 
 namespace abremir.AllMyBricks.DataSynchronizer.Tests.Services
 {

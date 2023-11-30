@@ -1,6 +1,6 @@
-﻿using abremir.AllMyBricks.Data.Enumerations;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using abremir.AllMyBricks.Data.Enumerations;
 
 namespace abremir.AllMyBricks.DataSynchronizer.Events.UserSynchronizationService
 {

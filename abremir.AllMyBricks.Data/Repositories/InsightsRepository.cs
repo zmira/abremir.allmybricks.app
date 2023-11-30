@@ -1,7 +1,7 @@
-﻿using abremir.AllMyBricks.Data.Extensions;
+﻿using System;
+using abremir.AllMyBricks.Data.Extensions;
 using abremir.AllMyBricks.Data.Interfaces;
 using abremir.AllMyBricks.Data.Models;
-using System;
 
 namespace abremir.AllMyBricks.Data.Repositories
 {

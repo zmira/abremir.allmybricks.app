@@ -1,6 +1,6 @@
-﻿using abremir.AllMyBricks.Data.Models;
-using System;
+﻿using System;
 using System.Threading.Tasks;
+using abremir.AllMyBricks.Data.Models;
 
 namespace abremir.AllMyBricks.DataSynchronizer.Interfaces
 {
