@@ -7,8 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Easy.MessageHub" Version="5.0.0" />
-    <PackageReference Include="Flurl.Http" Version="3.2.4" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
     <PackageReference Include="MSTest.TestAdapter" Version="3.1.1" />
     <PackageReference Include="MSTest.TestFramework" Version="3.1.1" />
@@ -21,7 +19,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\abremir.AllMyBricks.AssetManagement\abremir.AllMyBricks.AssetManagement.csproj" />
+    <ProjectReference Include="..\..\src\abremir.AllMyBricks.Onboarding.Shared\abremir.AllMyBricks.Onboarding.Shared.csproj" />
+    <ProjectReference Include="..\..\src\abremir.AllMyBricks.Onboarding\abremir.AllMyBricks.Onboarding.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{82a7f48d-3b50-4b1e-b82e-3ada8210c358}" />
   </ItemGroup>
 
 </Project>

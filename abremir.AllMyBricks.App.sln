@@ -3,35 +3,35 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29519.87
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "abremir.AllMyBricks.Platform", "abremir.AllMyBricks.Platform\abremir.AllMyBricks.Platform.csproj", "{AA1EE416-F6AB-4B5B-B508-563534A72D36}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "abremir.AllMyBricks.Platform", "src\abremir.AllMyBricks.Platform\abremir.AllMyBricks.Platform.csproj", "{AA1EE416-F6AB-4B5B-B508-563534A72D36}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "abremir.AllMyBricks.Platform.Tests", "abremir.AllMyBricks.Platform.Tests\abremir.AllMyBricks.Platform.Tests.csproj", "{D89E6EFF-7CC5-4355-891B-07E31080D3FD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "abremir.AllMyBricks.Platform.Tests", "tests\abremir.AllMyBricks.Platform.Tests\abremir.AllMyBricks.Platform.Tests.csproj", "{D89E6EFF-7CC5-4355-891B-07E31080D3FD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "abremir.AllMyBricks.Onboarding.Shared", "abremir.AllMyBricks.Onboarding.Shared\abremir.AllMyBricks.Onboarding.Shared.csproj", "{C4BCEFAA-1C80-4A61-8A03-EE8D28822887}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "abremir.AllMyBricks.Onboarding.Shared", "src\abremir.AllMyBricks.Onboarding.Shared\abremir.AllMyBricks.Onboarding.Shared.csproj", "{C4BCEFAA-1C80-4A61-8A03-EE8D28822887}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "abremir.AllMyBricks.ThirdParty.Brickset", "abremir.AllMyBricks.ThirdParty.Brickset\abremir.AllMyBricks.ThirdParty.Brickset.csproj", "{94D80FED-2C17-4A8A-B5FF-42CB3ABE38FD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "abremir.AllMyBricks.ThirdParty.Brickset", "src\abremir.AllMyBricks.ThirdParty.Brickset\abremir.AllMyBricks.ThirdParty.Brickset.csproj", "{94D80FED-2C17-4A8A-B5FF-42CB3ABE38FD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "abremir.AllMyBricks.ThirdParty.Brickset.Tests", "abremir.AllMyBricks.ThirdParty.Brickset.Tests\abremir.AllMyBricks.ThirdParty.Brickset.Tests.csproj", "{A0D242D8-70F2-4E2D-B742-02404F6CBEFD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "abremir.AllMyBricks.ThirdParty.Brickset.Tests", "tests\abremir.AllMyBricks.ThirdParty.Brickset.Tests\abremir.AllMyBricks.ThirdParty.Brickset.Tests.csproj", "{A0D242D8-70F2-4E2D-B742-02404F6CBEFD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "abremir.AllMyBricks.Data", "abremir.AllMyBricks.Data\abremir.AllMyBricks.Data.csproj", "{1E6FCCAA-1018-47A1-944C-4922BD3AE334}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "abremir.AllMyBricks.Data", "src\abremir.AllMyBricks.Data\abremir.AllMyBricks.Data.csproj", "{1E6FCCAA-1018-47A1-944C-4922BD3AE334}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "abremir.AllMyBricks.Data.Tests", "abremir.AllMyBricks.Data.Tests\abremir.AllMyBricks.Data.Tests.csproj", "{59D9799C-FE03-4121-977D-749F0459CCE0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "abremir.AllMyBricks.Data.Tests", "tests\abremir.AllMyBricks.Data.Tests\abremir.AllMyBricks.Data.Tests.csproj", "{59D9799C-FE03-4121-977D-749F0459CCE0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "abremir.AllMyBricks.Onboarding", "abremir.AllMyBricks.Onboarding\abremir.AllMyBricks.Onboarding.csproj", "{9DFCB010-072B-46B0-957A-F9AF097AA07C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "abremir.AllMyBricks.Onboarding", "src\abremir.AllMyBricks.Onboarding\abremir.AllMyBricks.Onboarding.csproj", "{9DFCB010-072B-46B0-957A-F9AF097AA07C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "abremir.AllMyBricks.Onboarding.Tests", "abremir.AllMyBricks.Onboarding.Tests\abremir.AllMyBricks.Onboarding.Tests.csproj", "{E75592C6-4829-4722-928B-33A3714CB69B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "abremir.AllMyBricks.Onboarding.Tests", "tests\abremir.AllMyBricks.Onboarding.Tests\abremir.AllMyBricks.Onboarding.Tests.csproj", "{E75592C6-4829-4722-928B-33A3714CB69B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "abremir.AllMyBricks.DataSynchronizer", "abremir.AllMyBricks.DataSynchronizer\abremir.AllMyBricks.DataSynchronizer.csproj", "{97B14BDA-41B7-4725-90CD-9A22208BF1C0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "abremir.AllMyBricks.DataSynchronizer", "src\abremir.AllMyBricks.DataSynchronizer\abremir.AllMyBricks.DataSynchronizer.csproj", "{97B14BDA-41B7-4725-90CD-9A22208BF1C0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "abremir.AllMyBricks.DataSynchronizer.Tests", "abremir.AllMyBricks.DataSynchronizer.Tests\abremir.AllMyBricks.DataSynchronizer.Tests.csproj", "{08506CF5-F104-42B4-A841-A3D6877F9227}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "abremir.AllMyBricks.DataSynchronizer.Tests", "tests\abremir.AllMyBricks.DataSynchronizer.Tests\abremir.AllMyBricks.DataSynchronizer.Tests.csproj", "{08506CF5-F104-42B4-A841-A3D6877F9227}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "abremir.AllMyBricks.AssetManagement", "abremir.AllMyBricks.AssetManagement\abremir.AllMyBricks.AssetManagement.csproj", "{ED89327F-643B-4EF9-BBFD-5CE14FA1B9C0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "abremir.AllMyBricks.AssetManagement", "src\abremir.AllMyBricks.AssetManagement\abremir.AllMyBricks.AssetManagement.csproj", "{ED89327F-643B-4EF9-BBFD-5CE14FA1B9C0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "abremir.AllMyBricks.AssetManagement.Tests", "abremir.AllMyBricks.AssetManagement.Tests\abremir.AllMyBricks.AssetManagement.Tests.csproj", "{F449BF3C-1F16-40DF-AF2A-CF9CB9AFFB46}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "abremir.AllMyBricks.AssetManagement.Tests", "tests\abremir.AllMyBricks.AssetManagement.Tests\abremir.AllMyBricks.AssetManagement.Tests.csproj", "{F449BF3C-1F16-40DF-AF2A-CF9CB9AFFB46}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "abremir.AllMyBricks.UserManagement", "abremir.AllMyBricks.UserManagement\abremir.AllMyBricks.UserManagement.csproj", "{474C8698-F486-4083-87AE-5CC32B78957F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "abremir.AllMyBricks.UserManagement", "src\abremir.AllMyBricks.UserManagement\abremir.AllMyBricks.UserManagement.csproj", "{474C8698-F486-4083-87AE-5CC32B78957F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "abremir.AllMyBricks.UserManagement.Tests", "abremir.AllMyBricks.UserManagement.Tests\abremir.AllMyBricks.UserManagement.Tests.csproj", "{EBF234F0-FCB2-4851-87DE-8E24AF87FE83}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "abremir.AllMyBricks.UserManagement.Tests", "tests\abremir.AllMyBricks.UserManagement.Tests\abremir.AllMyBricks.UserManagement.Tests.csproj", "{EBF234F0-FCB2-4851-87DE-8E24AF87FE83}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

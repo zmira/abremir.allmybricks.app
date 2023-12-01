@@ -3,23 +3,23 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29519.87
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "abremir.AllMyBricks.Platform", "abremir.AllMyBricks.Platform\abremir.AllMyBricks.Platform.csproj", "{AA1EE416-F6AB-4B5B-B508-563534A72D36}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "abremir.AllMyBricks.Platform", "src\abremir.AllMyBricks.Platform\abremir.AllMyBricks.Platform.csproj", "{AA1EE416-F6AB-4B5B-B508-563534A72D36}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "abremir.AllMyBricks.Onboarding.Shared", "abremir.AllMyBricks.Onboarding.Shared\abremir.AllMyBricks.Onboarding.Shared.csproj", "{C4BCEFAA-1C80-4A61-8A03-EE8D28822887}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "abremir.AllMyBricks.Onboarding.Shared", "src\abremir.AllMyBricks.Onboarding.Shared\abremir.AllMyBricks.Onboarding.Shared.csproj", "{C4BCEFAA-1C80-4A61-8A03-EE8D28822887}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "abremir.AllMyBricks.ThirdParty.Brickset", "abremir.AllMyBricks.ThirdParty.Brickset\abremir.AllMyBricks.ThirdParty.Brickset.csproj", "{94D80FED-2C17-4A8A-B5FF-42CB3ABE38FD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "abremir.AllMyBricks.ThirdParty.Brickset", "src\abremir.AllMyBricks.ThirdParty.Brickset\abremir.AllMyBricks.ThirdParty.Brickset.csproj", "{94D80FED-2C17-4A8A-B5FF-42CB3ABE38FD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "abremir.AllMyBricks.Data", "abremir.AllMyBricks.Data\abremir.AllMyBricks.Data.csproj", "{1E6FCCAA-1018-47A1-944C-4922BD3AE334}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "abremir.AllMyBricks.Data", "src\abremir.AllMyBricks.Data\abremir.AllMyBricks.Data.csproj", "{1E6FCCAA-1018-47A1-944C-4922BD3AE334}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "abremir.AllMyBricks.Onboarding", "abremir.AllMyBricks.Onboarding\abremir.AllMyBricks.Onboarding.csproj", "{9DFCB010-072B-46B0-957A-F9AF097AA07C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "abremir.AllMyBricks.Onboarding", "src\abremir.AllMyBricks.Onboarding\abremir.AllMyBricks.Onboarding.csproj", "{9DFCB010-072B-46B0-957A-F9AF097AA07C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "abremir.AllMyBricks.DataSynchronizer", "abremir.AllMyBricks.DataSynchronizer\abremir.AllMyBricks.DataSynchronizer.csproj", "{97B14BDA-41B7-4725-90CD-9A22208BF1C0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "abremir.AllMyBricks.DataSynchronizer", "src\abremir.AllMyBricks.DataSynchronizer\abremir.AllMyBricks.DataSynchronizer.csproj", "{97B14BDA-41B7-4725-90CD-9A22208BF1C0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "abremir.AllMyBricks.DatabaseSeeder", "abremir.AllMyBricks.DatabaseSeeder\abremir.AllMyBricks.DatabaseSeeder.csproj", "{ACDCA9CE-B4D8-4A9D-9905-A0EBD9F6B7C4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "abremir.AllMyBricks.DatabaseSeeder", "src\abremir.AllMyBricks.DatabaseSeeder\abremir.AllMyBricks.DatabaseSeeder.csproj", "{ACDCA9CE-B4D8-4A9D-9905-A0EBD9F6B7C4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "abremir.AllMyBricks.AssetManagement", "abremir.AllMyBricks.AssetManagement\abremir.AllMyBricks.AssetManagement.csproj", "{ED89327F-643B-4EF9-BBFD-5CE14FA1B9C0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "abremir.AllMyBricks.AssetManagement", "src\abremir.AllMyBricks.AssetManagement\abremir.AllMyBricks.AssetManagement.csproj", "{ED89327F-643B-4EF9-BBFD-5CE14FA1B9C0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "abremir.AllMyBricks.UserManagement", "abremir.AllMyBricks.UserManagement\abremir.AllMyBricks.UserManagement.csproj", "{474C8698-F486-4083-87AE-5CC32B78957F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "abremir.AllMyBricks.UserManagement", "src\abremir.AllMyBricks.UserManagement\abremir.AllMyBricks.UserManagement.csproj", "{474C8698-F486-4083-87AE-5CC32B78957F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
