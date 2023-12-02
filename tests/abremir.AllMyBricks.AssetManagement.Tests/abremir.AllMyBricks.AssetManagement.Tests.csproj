@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\abremir.AllMyBricks.AssetManagement\abremir.AllMyBricks.AssetManagement.csproj" />
+    <ProjectReference Include="..\..\sources\abremir.AllMyBricks.AssetManagement\abremir.AllMyBricks.AssetManagement.csproj" />
   </ItemGroup>
 
 </Project>
