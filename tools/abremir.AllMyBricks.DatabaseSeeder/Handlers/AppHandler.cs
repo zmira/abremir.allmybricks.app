@@ -16,9 +16,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Terminal.Gui;
 
-namespace abremir.AllMyBricks.DatabaseSeeder
+namespace abremir.AllMyBricks.DatabaseSeeder.Handlers
 {
-    public static class InteractiveConsole
+    internal static class AppHandler
     {
         private static FrameView SetsSynchronizationProgressFrame;
         private static FrameView PrimaryUsersSynchronizationProgressFrame;
@@ -470,7 +470,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder
 
             AddCompressDatabaseFileButton(topLevelWindow);
 
-            AddUncompressDatabaseFileButton(topLevelWindow);
+            AddExpandDatabaseFileButton(topLevelWindow);
 
             AddCompactDatabaseButton(topLevelWindow);
 
@@ -710,13 +710,13 @@ namespace abremir.AllMyBricks.DatabaseSeeder
             }
         }
 
-        private static void AddUncompressDatabaseFileButton(Window window)
+        private static void AddExpandDatabaseFileButton(Window window)
         {
             var assetManagementService = _host.Services.GetService<IAssetManagementService>();
 
             if (assetManagementService.CompressedDatabaseFilePathExists(Settings.CompressedFileIsEncrypted))
             {
-                var button = new Button("Uncompress Database File")
+                var button = new Button("Expand Database File")
                 {
                     X = 3,
                     Y = 8
@@ -726,21 +726,21 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                 {
                     var buttonOk = new Button("Ok");
 
-                    Dialog dialog = new("Uncompress Database File", 60, 6, buttonOk);
-                    Label uncompressDatabaseFileLabel;
+                    Dialog dialog = new("Expand Database File", 60, 6, buttonOk);
+                    Label expandDatabaseFileLabel;
 
                     if (Settings.CompressedFileIsEncrypted
                         && string.IsNullOrWhiteSpace(Settings.BricksetApiKey))
                     {
                         buttonOk.Clicked += () => Application.RequestStop();
 
-                        uncompressDatabaseFileLabel = new Label("The brickset API key is required");
+                        expandDatabaseFileLabel = new Label("The brickset API key is required");
                     }
                     else
                     {
                         CanExit = false;
 
-                        assetManagementService.UncompressDatabaseFile(Settings.CompressedFileIsEncrypted);
+                        assetManagementService.ExpandDatabaseFile(Settings.CompressedFileIsEncrypted);
 
                         buttonOk.Clicked += () =>
                         {
@@ -749,12 +749,12 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                             Application.RequestStop();
                         };
 
-                        uncompressDatabaseFileLabel = new Label($"Database file has been{(Settings.CompressedFileIsEncrypted ? " decrypted and" : string.Empty)} uncompressed");
+                        expandDatabaseFileLabel = new Label($"Database file has been{(Settings.CompressedFileIsEncrypted ? " decrypted and" : string.Empty)} expanded");
                     }
 
-                    uncompressDatabaseFileLabel.X = Pos.Center();
-                    uncompressDatabaseFileLabel.Y = 1;
-                    dialog.Add(uncompressDatabaseFileLabel);
+                    expandDatabaseFileLabel.X = Pos.Center();
+                    expandDatabaseFileLabel.Y = 1;
+                    dialog.Add(expandDatabaseFileLabel);
 
                     Application.Run(dialog);
                 };

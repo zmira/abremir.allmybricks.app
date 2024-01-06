@@ -16,7 +16,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Configuration
         public static ILogger CreateLogger<T>() => Factory.CreateLogger<T>();
 
         public static LogVerbosity LogVerbosity { get; set; }
-        public static LogDestinations LogDestination { get; set; }
+        public static LogDestination LogDestination { get; set; }
 
         public static IServiceCollection AddLoggingServices(this IServiceCollection services)
         {
@@ -32,16 +32,16 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Configuration
                 .AddScoped<UserSynchronizerLogger>();
         }
 
-        public static void Configure(LogDestinations? logDestination, LogVerbosity logVerbosity)
+        public static void Configure(LogDestination logDestination, LogVerbosity logVerbosity)
         {
             LogVerbosity = logVerbosity;
 
-            if (LogVerbosity == LogVerbosity.NoLogging)
+            if (LogVerbosity is LogVerbosity.None)
             {
                 return;
             }
 
-            LogDestination = logDestination.Value;
+            LogDestination = logDestination;
 
             SetupConsoleLogging();
             SetupFileLogging();
@@ -49,7 +49,8 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Configuration
 
         private static void SetupFileLogging()
         {
-            if ((LogDestination & LogDestinations.File) == 0)
+            if (LogDestination is not LogDestination.File
+                && LogDestination is not LogDestination.All)
             {
                 return;
             }
@@ -72,7 +73,8 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Configuration
 
         private static void SetupConsoleLogging()
         {
-            if ((LogDestination & LogDestinations.Console) == 0)
+            if (LogDestination is not LogDestination.Console
+                && LogDestination is not LogDestination.All)
             {
                 return;
             }
