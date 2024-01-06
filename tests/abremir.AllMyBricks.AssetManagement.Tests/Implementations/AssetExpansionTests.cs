@@ -10,29 +10,29 @@ using SharpCompress.Readers;
 namespace abremir.AllMyBricks.AssetManagement.Tests.Implementations
 {
     [TestClass]
-    public class AssetUncompressionTests
+    public class AssetExpansionTests
     {
-        private NSubstituteAutoMocker<AssetUncompression> _assetUncompression;
+        private NSubstituteAutoMocker<AssetExpansion> _assetExpansion;
 
         [TestInitialize]
         public void TestInitialize()
         {
-            _assetUncompression = new NSubstituteAutoMocker<AssetUncompression>();
+            _assetExpansion = new NSubstituteAutoMocker<AssetExpansion>();
         }
 
         [DataTestMethod]
         [DataRow(false, true)]
         [DataRow(true, false)]
-        public void UncompressAsset_ForStreamAndInvalidParameters_ReturnsFalse(bool validStream, bool validTargetFolder)
+        public void ExpandAsset_ForStreamAndInvalidParameters_ReturnsFalse(bool validStream, bool validTargetFolder)
         {
-            _assetUncompression.Get<IFile>()
+            _assetExpansion.Get<IFile>()
                 .GetAttributes(Arg.Any<string>())
                 .Returns(validTargetFolder ? FileAttributes.Directory : FileAttributes.Archive);
-            _assetUncompression.Get<IDirectory>()
+            _assetExpansion.Get<IDirectory>()
                 .Exists(Arg.Any<string>())
                 .Returns(!validTargetFolder);
 
-            var result = _assetUncompression.ClassUnderTest.UncompressAsset(validStream ? new MemoryStream() : null, ".");
+            var result = _assetExpansion.ClassUnderTest.ExpandAsset(validStream ? new MemoryStream() : null, ".");
 
             Check.That(result).IsFalse();
         }
@@ -42,27 +42,27 @@ namespace abremir.AllMyBricks.AssetManagement.Tests.Implementations
         [DataRow("", true, true)]
         [DataRow("test_file.txt", false, true)]
         [DataRow("test_file.txt", true, false)]
-        public void UncompressAsset_ForFileAndInvalidParameters_ReturnsFalse(string sourceFilePath, bool sourceFileExists, bool sourceFileIsFile)
+        public void ExpandAsset_ForFileAndInvalidParameters_ReturnsFalse(string sourceFilePath, bool sourceFileExists, bool sourceFileIsFile)
         {
-            _assetUncompression.Get<IFile>()
+            _assetExpansion.Get<IFile>()
                 .Exists(Arg.Any<string>())
                 .Returns(sourceFileExists);
-            _assetUncompression.Get<IFile>()
+            _assetExpansion.Get<IFile>()
                 .GetAttributes(Arg.Any<string>())
                 .Returns(sourceFileIsFile ? FileAttributes.Archive : FileAttributes.Directory);
 
-            var result = _assetUncompression.ClassUnderTest.UncompressAsset(sourceFilePath, string.Empty);
+            var result = _assetExpansion.ClassUnderTest.ExpandAsset(sourceFilePath, string.Empty);
 
             Check.That(result).IsFalse();
         }
 
         [TestMethod]
-        public void UncompressAsset_ValidParameters_ReturnsTrue()
+        public void ExpandAsset_ValidParameters_ReturnsTrue()
         {
-            _assetUncompression.Get<IFile>()
+            _assetExpansion.Get<IFile>()
                 .GetAttributes(Arg.Any<string>())
                 .Returns(FileAttributes.Directory);
-            _assetUncompression.Get<IDirectory>()
+            _assetExpansion.Get<IDirectory>()
                 .Exists(Arg.Any<string>())
                 .Returns(true);
 
@@ -77,11 +77,11 @@ namespace abremir.AllMyBricks.AssetManagement.Tests.Implementations
                 .Key
                 .Returns("test_file.txt");
 
-            _assetUncompression.Get<Interfaces.IReaderFactory>()
+            _assetExpansion.Get<Interfaces.IReaderFactory>()
                 .Open(Arg.Any<Stream>())
                 .Returns(reader);
 
-            var result = _assetUncompression.ClassUnderTest.UncompressAsset(new MemoryStream(), string.Empty);
+            var result = _assetExpansion.ClassUnderTest.ExpandAsset(new MemoryStream(), string.Empty);
 
             Check.That(result).IsTrue();
             reader.Received()

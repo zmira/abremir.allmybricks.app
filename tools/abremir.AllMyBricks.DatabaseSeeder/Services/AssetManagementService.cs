@@ -15,7 +15,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Services
         private readonly IFile _file;
         private readonly IRepositoryService _repositoryService;
         private readonly ILogger _logger;
-        private readonly IAssetUncompression _assetUncompression;
+        private readonly IAssetExpansion _assetExpansion;
 
         public AssetManagementService(
             IFileSystemService fileSystemService,
@@ -23,14 +23,14 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Services
             IFile file,
             IRepositoryService repositoryService,
             ILoggerFactory loggerFactory,
-            IAssetUncompression assetUncompression)
+            IAssetExpansion assetExpansion)
         {
             _fileSystemService = fileSystemService;
             _assetCompression = assetCompression;
             _file = file;
             _repositoryService = repositoryService;
             _logger = loggerFactory.CreateLogger<AssetManagementService>();
-            _assetUncompression = assetUncompression;
+            _assetExpansion = assetExpansion;
         }
 
         public void CompressDatabaseFile(bool encrypted)
@@ -71,19 +71,19 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Services
             }
         }
 
-        public void UncompressDatabaseFile(bool encrypted)
+        public void ExpandDatabaseFile(bool encrypted)
         {
             if (!GetCompressedDatabaseFilePathIfExists(out var compressedFilePath, encrypted))
             {
                 return;
             }
 
-            _logger.LogInformation($"Uncompressing {(encrypted ? "Encrypted " : string.Empty)}AllMyBricks Database {Path.GetFileName(compressedFilePath)} {_file.GetFileSize(compressedFilePath)}");
+            _logger.LogInformation($"Expanding {(encrypted ? "Encrypted " : string.Empty)}AllMyBricks Database {Path.GetFileName(compressedFilePath)} {_file.GetFileSize(compressedFilePath)}");
 
-            _assetUncompression.UncompressAsset(compressedFilePath, _fileSystemService.GetLocalPathToDataFolder(), encryptionKey: encrypted ? Settings.BricksetApiKey : null);
+            _assetExpansion.ExpandAsset(compressedFilePath, _fileSystemService.GetLocalPathToDataFolder(), encryptionKey: encrypted ? Settings.BricksetApiKey : null);
 
             GetDatabaseFilePathIfExists(out var dbFilePath);
-            _logger.LogInformation($"Uncompressed {(encrypted ? "Encrypted " : string.Empty)}AllMyBricks Database {Path.GetFileName(dbFilePath)} {_file.GetFileSize(dbFilePath)}");
+            _logger.LogInformation($"Expanded {(encrypted ? "Encrypted " : string.Empty)}AllMyBricks Database {Path.GetFileName(dbFilePath)} {_file.GetFileSize(dbFilePath)}");
         }
 
         public bool DatabaseFilePathExists()

@@ -15,7 +15,7 @@ namespace abremir.AllMyBricks.AssetManagement.Configuration
 
             return services
                 .AddTransient<IAssetCompression, AssetCompression>()
-                .AddTransient<IAssetUncompression, AssetUncompression>()
+                .AddTransient<IAssetExpansion, AssetExpansion>()
                 .AddTransient<IAssetManagementService, AssetManagementService>()
                 .AddTransient<IFileStream, FileStreamImplementation>()
                 .AddTransient<ITarWriter, TarWriterImplementation>()
