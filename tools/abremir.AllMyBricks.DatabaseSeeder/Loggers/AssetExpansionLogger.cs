@@ -7,19 +7,19 @@ using SharpCompress.Common;
 
 namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
 {
-    public class AssetUncompressionLogger : IDatabaseSeederLogger
+    public class AssetExpansionLogger : IDatabaseSeederLogger
     {
-        public AssetUncompressionLogger(
+        public AssetExpansionLogger(
             ILoggerFactory loggerFactory,
             IMessageHub messageHub)
         {
-            var logger = loggerFactory.CreateLogger<AssetUncompression>();
+            var logger = loggerFactory.CreateLogger<AssetExpansion>();
 
             messageHub.Subscribe<ReaderExtractionEventArgs<IEntry>>(message =>
             {
-                if (Logging.LogVerbosity == LogVerbosity.FullLogging)
+                if (Logging.LogVerbosity == LogVerbosity.Full)
                 {
-                    logger.LogInformation($"Uncompressing {message.Item.Key}: {message.ReaderProgress.PercentageRead}%");
+                    logger.LogInformation($"Expanding {message.Item.Key}: {message.ReaderProgress.PercentageRead}%");
                 }
             });
         }

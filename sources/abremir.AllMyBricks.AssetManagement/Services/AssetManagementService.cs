@@ -8,16 +8,16 @@ namespace abremir.AllMyBricks.AssetManagement.Services
 {
     public class AssetManagementService : IAssetManagementService
     {
-        private readonly IAssetUncompression _assetUncompression;
+        private readonly IAssetExpansion _assetExpansion;
         private readonly IDirectory _directory;
         private readonly ISecureStorageService _secureStorageService;
 
         public AssetManagementService(
-            IAssetUncompression assetUncompression,
+            IAssetExpansion assetExpansion,
             IDirectory directory,
             ISecureStorageService secureStorageService)
         {
-            _assetUncompression = assetUncompression;
+            _assetExpansion = assetExpansion;
             _directory = directory;
             _secureStorageService = secureStorageService;
         }
@@ -34,7 +34,7 @@ namespace abremir.AllMyBricks.AssetManagement.Services
                 return false;
             }
 
-            return _assetUncompression.UncompressAsset(await databaseSeedUrl.GetStreamAsync().ConfigureAwait(false), targetFolderPath ?? string.Empty, encryptionKey: await _secureStorageService.GetBricksetApiKey().ConfigureAwait(false));
+            return _assetExpansion.ExpandAsset(await databaseSeedUrl.GetStreamAsync().ConfigureAwait(false), targetFolderPath ?? string.Empty, encryptionKey: await _secureStorageService.GetBricksetApiKey().ConfigureAwait(false));
         }
     }
 }

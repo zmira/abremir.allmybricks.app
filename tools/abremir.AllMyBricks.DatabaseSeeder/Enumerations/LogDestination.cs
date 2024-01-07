@@ -1,9 +1,10 @@
 ﻿namespace abremir.AllMyBricks.DatabaseSeeder.Enumerations
 {
-    public enum LogVerbosity
+    public enum LogDestination
     {
         None,
-        Minimal,
-        Full
+        Console,
+        File,
+        All
     }
 }

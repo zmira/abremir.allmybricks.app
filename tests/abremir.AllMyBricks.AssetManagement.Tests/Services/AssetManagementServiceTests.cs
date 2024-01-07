@@ -42,16 +42,16 @@ namespace abremir.AllMyBricks.AssetManagement.Tests.Services
 
             Check.That(result).IsFalse();
             _httpTest.ShouldNotHaveMadeACall();
-            _assetManagementService.Get<IAssetUncompression>()
+            _assetManagementService.Get<IAssetExpansion>()
                 .DidNotReceiveWithAnyArgs()
-                .UncompressAsset(Arg.Any<Stream>(), Arg.Any<string>());
+                .ExpandAsset(Arg.Any<Stream>(), Arg.Any<string>());
         }
 
         [TestMethod]
         public async Task InstallAllMyBricksSeedDatabase_ValidParameters_ResultIsTrue()
         {
-            _assetManagementService.Get<IAssetUncompression>()
-                .UncompressAsset(Arg.Any<Stream>(), Arg.Any<string>(), Arg.Any<bool>(), Arg.Any<string>())
+            _assetManagementService.Get<IAssetExpansion>()
+                .ExpandAsset(Arg.Any<Stream>(), Arg.Any<string>(), Arg.Any<bool>(), Arg.Any<string>())
                 .Returns(true);
             _assetManagementService.Get<IDirectory>()
                 .Exists(Arg.Any<string>())
@@ -61,9 +61,9 @@ namespace abremir.AllMyBricks.AssetManagement.Tests.Services
 
             Check.That(result).IsTrue();
             _httpTest.ShouldHaveMadeACall();
-            _assetManagementService.Get<IAssetUncompression>()
+            _assetManagementService.Get<IAssetExpansion>()
                 .ReceivedWithAnyArgs()
-                .UncompressAsset(Arg.Any<Stream>(), Arg.Any<string>());
+                .ExpandAsset(Arg.Any<Stream>(), Arg.Any<string>());
         }
     }
 }

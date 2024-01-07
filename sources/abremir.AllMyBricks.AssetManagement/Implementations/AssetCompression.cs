@@ -124,14 +124,14 @@ namespace abremir.AllMyBricks.AssetManagement.Implementations
             return new MemoryStream(outputStream.ToArray());
         }
 
-        public static string GetCompressedAssetFileName(string uncompressedFilePath, bool encrypted)
+        public static string GetCompressedAssetFileName(string expandedFilePath, bool encrypted)
         {
-            if (string.IsNullOrWhiteSpace(uncompressedFilePath))
+            if (string.IsNullOrWhiteSpace(expandedFilePath))
             {
                 return null;
             }
 
-            return $"{Path.GetFileNameWithoutExtension(uncompressedFilePath)}.lz{(encrypted ? "c" : string.Empty)}";
+            return $"{Path.GetFileNameWithoutExtension(expandedFilePath)}.lz{(encrypted ? "c" : string.Empty)}";
         }
     }
 }

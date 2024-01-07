@@ -9,14 +9,14 @@ using SharpCompress.Common;
 
 namespace abremir.AllMyBricks.AssetManagement.Implementations
 {
-    public class AssetUncompression : IAssetUncompression
+    public class AssetExpansion : IAssetExpansion
     {
         private readonly IFile _file;
         private readonly IDirectory _directory;
         private readonly IReaderFactory _readerFactory;
         private readonly IMessageHub _messageHub;
 
-        public AssetUncompression(
+        public AssetExpansion(
             IFile file,
             IDirectory directory,
             IReaderFactory readerFactory,
@@ -28,7 +28,7 @@ namespace abremir.AllMyBricks.AssetManagement.Implementations
             _messageHub = messageHub;
         }
 
-        public bool UncompressAsset(string sourceFilePath, string targetFolderPath, bool overwrite = true, string encryptionKey = null)
+        public bool ExpandAsset(string sourceFilePath, string targetFolderPath, bool overwrite = true, string encryptionKey = null)
         {
             if (string.IsNullOrWhiteSpace(sourceFilePath)
                 || !_file.Exists(sourceFilePath)
@@ -39,10 +39,10 @@ namespace abremir.AllMyBricks.AssetManagement.Implementations
 
             using var sourceFileStream = _file.OpenRead(sourceFilePath);
 
-            return UncompressAsset(sourceFileStream, targetFolderPath, overwrite, encryptionKey);
+            return ExpandAsset(sourceFileStream, targetFolderPath, overwrite, encryptionKey);
         }
 
-        public bool UncompressAsset(Stream sourceStream, string targetFolderPath, bool overwrite = true, string encryptionKey = null)
+        public bool ExpandAsset(Stream sourceStream, string targetFolderPath, bool overwrite = true, string encryptionKey = null)
         {
             if (sourceStream is null
                 || (!string.IsNullOrWhiteSpace(targetFolderPath)

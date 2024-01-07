@@ -24,7 +24,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
                 _setIndex = 0;
                 _setProgressFraction = 0;
 
-                if (Logging.LogVerbosity == LogVerbosity.FullLogging)
+                if (Logging.LogVerbosity == LogVerbosity.Full)
                 {
                     logger.LogInformation($"Started user synchronizer for {message.UserType} user '{message.Username}'");
                 }
@@ -35,7 +35,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
                 _setIndex = 0;
                 _setProgressFraction = 0;
 
-                if (Logging.LogVerbosity == LogVerbosity.FullLogging)
+                if (Logging.LogVerbosity == LogVerbosity.Full)
                 {
                     logger.LogInformation("Started update of Brickset.com with changes made in All My Bricks");
                 }
@@ -46,7 +46,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
                 _setIndex = 0;
                 _setProgressFraction = 0;
 
-                if (Logging.LogVerbosity == LogVerbosity.FullLogging)
+                if (Logging.LogVerbosity == LogVerbosity.Full)
                 {
                     logger.LogInformation("Acquiring All My Bricks user sets to update in Brickset.com");
                 }
@@ -65,7 +65,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
                 _setIndex++;
                 _setProgressFraction = _setIndex / _setCount;
 
-                if (Logging.LogVerbosity == LogVerbosity.FullLogging)
+                if (Logging.LogVerbosity == LogVerbosity.Full)
                 {
                     logger.LogInformation($"Started synchronizing set {message.SetId}: index {_setIndex}, progress {_setProgressFraction:##0.00%}");
                 }
@@ -73,7 +73,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
 
             messageHub.Subscribe<UserSynchronizerSynchronizingSetEnd>(message =>
             {
-                if (Logging.LogVerbosity == LogVerbosity.FullLogging)
+                if (Logging.LogVerbosity == LogVerbosity.Full)
                 {
                     logger.LogInformation($"Finished synchronizing set {message.SetId}");
                 }
@@ -84,7 +84,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
                 _setIndex = 0;
                 _setProgressFraction = 0;
 
-                if (Logging.LogVerbosity == LogVerbosity.FullLogging)
+                if (Logging.LogVerbosity == LogVerbosity.Full)
                 {
                     logger.LogInformation("Finished update of Brickset.com with changes made in All My Bricks");
                 }
@@ -95,7 +95,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
                 _setIndex = 0;
                 _setProgressFraction = 0;
 
-                if (Logging.LogVerbosity == LogVerbosity.FullLogging)
+                if (Logging.LogVerbosity == LogVerbosity.Full)
                 {
                     logger.LogInformation("Started adding Brickset.com user sets missing in All My Bricks");
                 }
@@ -106,7 +106,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
                 _setIndex = 0;
                 _setProgressFraction = 0;
 
-                if (Logging.LogVerbosity == LogVerbosity.FullLogging)
+                if (Logging.LogVerbosity == LogVerbosity.Full)
                 {
                     logger.LogInformation("Acquiring Brickset.com user sets missing in All My Bricks");
                 }
@@ -125,7 +125,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
                 _setIndex = 0;
                 _setProgressFraction = 0;
 
-                if (Logging.LogVerbosity == LogVerbosity.FullLogging)
+                if (Logging.LogVerbosity == LogVerbosity.Full)
                 {
                     logger.LogInformation("Finished adding Brickset.com user sets missing in All My Bricks");
                 }
@@ -138,7 +138,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
                 _setIndex = 0;
                 _setProgressFraction = 0;
 
-                if (Logging.LogVerbosity == LogVerbosity.FullLogging)
+                if (Logging.LogVerbosity == LogVerbosity.Full)
                 {
                     logger.LogInformation($"Finished user synchronizer for {message.UserType} user '{message.Username}'");
                 }
