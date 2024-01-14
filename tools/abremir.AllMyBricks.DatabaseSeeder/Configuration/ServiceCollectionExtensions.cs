@@ -18,8 +18,6 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Configuration
         {
             Guard.IsNotNull(services);
 
-            FlurlConfiguration.Configure();
-
             return services
                 .AddLoggingServices()
                 .AddDataSynchronizerServices()

@@ -1,9 +1,12 @@
 ﻿using System.Threading.Tasks;
+using abremir.AllMyBricks.Onboarding.Configuration;
 using abremir.AllMyBricks.Onboarding.Interfaces;
 using abremir.AllMyBricks.Onboarding.Services;
 using abremir.AllMyBricks.Onboarding.Shared.Models;
+using abremir.AllMyBricks.Onboarding.Shared.Security;
 using abremir.AllMyBricks.Platform.Interfaces;
 using abremir.AllMyBricks.Platform.Services;
+using Flurl.Http.Configuration;
 using Microsoft.Maui.Devices;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NFluent;
@@ -23,8 +26,16 @@ namespace abremir.AllMyBricks.Onboarding.Tests
         {
             const string allMyBricksOnboardingUrl = "http://localhost/";
 
-            _registrationService = new RegistrationService(allMyBricksOnboardingUrl);
-            _apiKeyService = new ApiKeyService(allMyBricksOnboardingUrl);
+            var clientCache = new FlurlClientCache()
+                .Add(Constants.AllMyBricksOnboardingUrlFlurlClientCacheName, allMyBricksOnboardingUrl, (builder) => builder.Settings.JsonSerializer = OnboardingJsonSerializer.JsonSerializer)
+                .Add(Constants.AllMyBricksOnboardingHmacUrlFlurlClientCacheName, allMyBricksOnboardingUrl, (builder) =>
+                {
+                    builder.Settings.JsonSerializer = OnboardingJsonSerializer.JsonSerializer;
+                    builder.AddMiddleware(() => new HmacDelegatingHandler());
+                });
+
+            _registrationService = new RegistrationService(clientCache);
+            _apiKeyService = new ApiKeyService(clientCache);
 
             var deviceInfo = Substitute.For<IDeviceInfo>();
             deviceInfo.Manufacturer.Returns("BRAND");

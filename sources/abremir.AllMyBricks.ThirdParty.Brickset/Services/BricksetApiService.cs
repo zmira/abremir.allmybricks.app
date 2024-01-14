@@ -65,7 +65,12 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Services
 
         private async Task<T> BricksetHttpPostUrlEncodeAsync<T, U>(U parameters) where T : ResultBase where U : ParameterApiKey
         {
-            var requestResult = await Constants.BricksetApiUrl.AppendPathSegment(typeof(T).GetDescription()).PostUrlEncodedAsync(parameters).ReceiveJson<T>().ConfigureAwait(false);
+            var requestResult = await Constants.BricksetApiUrl
+                .WithSettings((settings) => settings.JsonSerializer = BricksetJsonSerializer.JsonSerializer)
+                .AppendPathSegment(typeof(T).GetDescription())
+                .PostUrlEncodedAsync(parameters)
+                .ReceiveJson<T>()
+                .ConfigureAwait(false);
 
             if (requestResult.Status == ResultStatus.Error)
             {
