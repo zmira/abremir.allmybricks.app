@@ -2,33 +2,35 @@
 using abremir.AllMyBricks.Onboarding.Configuration;
 using abremir.AllMyBricks.Onboarding.Interfaces;
 using abremir.AllMyBricks.Onboarding.Shared.Models;
-using Flurl;
 using Flurl.Http;
+using Flurl.Http.Configuration;
 
 namespace abremir.AllMyBricks.Onboarding.Services
 {
     public class RegistrationService : IRegistrationService
     {
-        private readonly string _allMyBricksOnboardingRegistrationServiceUrl;
+        private readonly IFlurlClient _flurlClient;
 
-        public RegistrationService(string allMyBricksOnboardingUrl)
+        public RegistrationService(IFlurlClientCache clientCache)
         {
-            _allMyBricksOnboardingRegistrationServiceUrl = $"{allMyBricksOnboardingUrl}api/{Constants.AllMyBricksOnboardingRegistrationService}";
+            _flurlClient = clientCache.Get(Constants.AllMyBricksOnboardingUrlFlurlClientCacheName);
         }
 
         public async Task<Identification> Register(Identification allMyBricksIdentification)
         {
-            return await _allMyBricksOnboardingRegistrationServiceUrl
-                .AppendPathSegment(Constants.AllMyBricksOnboardingRegistrationServiceRegisterMethod)
+            return await _flurlClient
+                .Request("api", Constants.AllMyBricksOnboardingRegistrationService, Constants.AllMyBricksOnboardingRegistrationServiceRegisterMethod)
                 .PostJsonAsync(allMyBricksIdentification)
-                .ReceiveJson<Identification>().ConfigureAwait(false);
+                .ReceiveJson<Identification>()
+                .ConfigureAwait(false);
         }
 
         public async Task Unregister(Identification allMyBricksIdentification)
         {
-            await _allMyBricksOnboardingRegistrationServiceUrl
-                .AppendPathSegment(Constants.AllMyBricksOnboardingRegistrationServiceUnregisterMethod)
-                .PostJsonAsync(allMyBricksIdentification).ConfigureAwait(false);
+            await _flurlClient
+                .Request("api", Constants.AllMyBricksOnboardingRegistrationService, Constants.AllMyBricksOnboardingRegistrationServiceUnregisterMethod)
+                .PostJsonAsync(allMyBricksIdentification)
+                .ConfigureAwait(false);
         }
     }
 }

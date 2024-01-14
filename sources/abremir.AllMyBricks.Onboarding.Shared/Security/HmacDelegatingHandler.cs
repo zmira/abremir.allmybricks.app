@@ -14,8 +14,6 @@ namespace abremir.AllMyBricks.Onboarding.Shared.Security
 {
     public class HmacDelegatingHandler : DelegatingHandler
     {
-        public HmacDelegatingHandler(HttpMessageHandler next) : base(next) { }
-
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
             if (request.Content is null)

@@ -1,6 +1,8 @@
 ﻿using abremir.AllMyBricks.Onboarding.Interfaces;
 using abremir.AllMyBricks.Onboarding.Services;
+using abremir.AllMyBricks.Onboarding.Shared.Security;
 using CommunityToolkit.Diagnostics;
+using Flurl.Http.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace abremir.AllMyBricks.Onboarding.Configuration
@@ -12,8 +14,15 @@ namespace abremir.AllMyBricks.Onboarding.Configuration
             Guard.IsNotNull(services);
 
             return services
-                .AddTransient<IApiKeyService>((_) => new ApiKeyService(allMyBricksOnboardingUrl))
-                .AddTransient<IRegistrationService>((_) => new RegistrationService(allMyBricksOnboardingUrl))
+                .AddSingleton<IFlurlClientCache>(_ => new FlurlClientCache()
+                    .Add(Constants.AllMyBricksOnboardingUrlFlurlClientCacheName, allMyBricksOnboardingUrl, (builder) => builder.Settings.JsonSerializer = OnboardingJsonSerializer.JsonSerializer)
+                    .Add(Constants.AllMyBricksOnboardingHmacUrlFlurlClientCacheName, allMyBricksOnboardingUrl, (builder) =>
+                    {
+                        builder.Settings.JsonSerializer = OnboardingJsonSerializer.JsonSerializer;
+                        builder.AddMiddleware(() => new HmacDelegatingHandler());
+                    }))
+                .AddTransient<IApiKeyService, ApiKeyService>()
+                .AddTransient<IRegistrationService, RegistrationService>()
                 .AddTransient<IOnboardingService, OnboardingService>();
         }
     }

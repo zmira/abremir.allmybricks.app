@@ -1,5 +1,6 @@
 ﻿using System;
-using Newtonsoft.Json.Linq;
+using System.Dynamic;
+using System.Text.Json;
 
 namespace abremir.AllMyBricks.ThirdParty.Brickset.Models.Parameters
 {
@@ -32,7 +33,7 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Models.Parameters
 
         private string GetParams()
         {
-            dynamic @params = new JObject();
+            dynamic @params = new ExpandoObject();
 
             if (SetId.HasValue)
             {
@@ -104,7 +105,7 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Models.Parameters
                 @params.extendedData = ExtendedData.Value ? 1 : 0;
             }
 
-            return @params.ToString();
+            return JsonSerializer.Serialize(@params);
         }
     }
 }
