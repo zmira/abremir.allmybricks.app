@@ -7,9 +7,9 @@
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Diagnostics" Version="8.2.2" />
     <PackageReference Include="Easy.MessageHub" Version="5.0.0" />
-    <PackageReference Include="Flurl.Http" Version="4.0.0" />
+    <PackageReference Include="Flurl.Http" Version="4.0.2" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
-    <PackageReference Include="SharpCompress" Version="0.35.0" />
+    <PackageReference Include="SharpCompress" Version="0.36.0" />
   </ItemGroup>
 
   <ItemGroup>
