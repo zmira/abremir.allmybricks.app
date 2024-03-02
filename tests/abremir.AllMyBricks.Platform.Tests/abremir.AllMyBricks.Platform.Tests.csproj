@@ -12,6 +12,7 @@
     <PackageReference Include="Microsoft.Maui.Essentials" Version="8.0.7" />
     <PackageReference Include="MSTest" Version="3.2.2" />
     <PackageReference Include="NFluent" Version="3.0.3" />
+    <PackageReference Include="NSubstitute" Version="5.1.0" />
     <PackageReference Include="NSubstituteAutoMocker.Standard" Version="1.0.0" />
     <PackageReference Include="coverlet.collector" Version="6.0.1">
       <PrivateAssets>all</PrivateAssets>
