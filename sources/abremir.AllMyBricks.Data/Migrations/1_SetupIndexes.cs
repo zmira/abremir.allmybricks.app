@@ -1,12 +1,15 @@
 ﻿using System.Linq;
+using abremir.AllMyBricks.Data.Interfaces;
 using abremir.AllMyBricks.Data.Models;
 using LiteDB;
 
 namespace abremir.AllMyBricks.Data.Migrations
 {
-    public static class MigrationsAndIndexes_V0
+    internal class _1_SetupIndexes : IMigration
     {
-        public static void Apply(ILiteDatabase liteDatabase)
+        public int MigrationId => 1;
+
+        public void Apply(ILiteDatabase liteDatabase)
         {
             liteDatabase.GetCollection<Theme>().EnsureIndex(theme => theme.Name, true);
             liteDatabase.GetCollection<Theme>().EnsureIndex(theme => theme.YearFrom);
@@ -36,7 +39,7 @@ namespace abremir.AllMyBricks.Data.Migrations
             liteDatabase.GetCollection<BricksetUser>().EnsureIndex(bricksetUser => bricksetUser.Sets.Select(set => set.Wanted));
             liteDatabase.GetCollection<BricksetUser>().EnsureIndex(bricksetUser => bricksetUser.Sets.Select(set => set.Owned));
 
-            liteDatabase.UserVersion = 1;
+            liteDatabase.UserVersion++;
         }
     }
 }

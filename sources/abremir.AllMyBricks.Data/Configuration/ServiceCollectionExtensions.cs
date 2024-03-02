@@ -19,7 +19,8 @@ namespace abremir.AllMyBricks.Data.Configuration
                 .AddTransient<IReferenceDataRepository, ReferenceDataRepository>()
                 .AddTransient<ISetRepository, SetRepository>()
                 .AddTransient<IInsightsRepository, InsightsRepository>()
-                .AddTransient<IBricksetUserRepository, BricksetUserRepository>();
+                .AddTransient<IBricksetUserRepository, BricksetUserRepository>()
+                .AddTransient<IMigrationRunner, MigrationRunner>();
         }
     }
 }

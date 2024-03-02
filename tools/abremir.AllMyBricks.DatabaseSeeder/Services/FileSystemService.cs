@@ -55,5 +55,10 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Services
         {
             return GetLocalPathToFile(null);
         }
+
+        public Stream GetStreamForLocalPathToFile(string file, string subfolder = null)
+        {
+            return new FileStream(GetLocalPathToFile(file, subfolder), FileMode.OpenOrCreate);
+        }
     }
 }
