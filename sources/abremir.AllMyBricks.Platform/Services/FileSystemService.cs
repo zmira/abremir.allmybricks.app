@@ -83,7 +83,7 @@ namespace abremir.AllMyBricks.Platform.Services
 
         public Stream GetStreamForLocalPathToFile(string file, string subfolder = null)
         {
-            return new FileStream(GetLocalPathToFile(file, subfolder), FileMode.OpenOrCreate);
+            return new FileStream(GetLocalPathToFile(file, subfolder), FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.ReadWrite);
         }
     }
 }
