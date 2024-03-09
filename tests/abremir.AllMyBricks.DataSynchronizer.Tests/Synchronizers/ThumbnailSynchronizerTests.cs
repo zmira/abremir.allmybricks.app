@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Net;
+﻿using System.Net;
 using System.Threading.Tasks;
 using abremir.AllMyBricks.Data.Models;
 using abremir.AllMyBricks.DataSynchronizer.Synchronizers;
@@ -40,12 +39,12 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 
             await _thumbnailSynchronizer.ClassUnderTest.Synchronize(new Set
             {
-                Images = new List<Image>
-                {
+                Images =
+                [
                     new() {
                         ThumbnailUrl = "THUMBNAIL_URL"
                     }
-                }
+                ]
             }).ConfigureAwait(false);
 
             _httpTest.ShouldNotHaveMadeACall();
@@ -72,7 +71,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 
             await _thumbnailSynchronizer.ClassUnderTest.Synchronize(new Set
             {
-                Images = new List<Image>()
+                Images = []
             }).ConfigureAwait(false);
 
             _httpTest.ShouldNotHaveMadeACall();
@@ -89,12 +88,12 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 
             await _thumbnailSynchronizer.ClassUnderTest.Synchronize(new Set
             {
-                Images = new List<Image>
-                {
+                Images =
+                [
                     new() {
                         ThumbnailUrl = thumbnailUrl
                     }
-                }
+                ]
             }).ConfigureAwait(false);
 
             _httpTest.ShouldNotHaveMadeACall();
@@ -110,12 +109,12 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 
             await _thumbnailSynchronizer.ClassUnderTest.Synchronize(new Set
             {
-                Images = new List<Image>
-                {
+                Images =
+                [
                     new() {
                         ThumbnailUrl = "http://www.url.com/thumbnails/thumbnail.jpg"
                     }
-                }
+                ]
             }).ConfigureAwait(false);
 
             _httpTest.ShouldHaveMadeACall();
@@ -134,12 +133,12 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 
             await _thumbnailSynchronizer.ClassUnderTest.Synchronize(new Set
             {
-                Images = new List<Image>
-                {
+                Images =
+                [
                     new() {
                         ThumbnailUrl = "http://www.url.com/thumbnails/thumbnail.jpg"
                     }
-                }
+                ]
             }).ConfigureAwait(false);
 
             _httpTest.ShouldHaveMadeACall();
@@ -158,12 +157,12 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 
             await _thumbnailSynchronizer.ClassUnderTest.Synchronize(new Set
             {
-                Images = new List<Image>
-                {
+                Images =
+                [
                     new() {
                         ThumbnailUrl = "http://www.url.com/thumbnails/thumbnail.jpg"
                     }
-                },
+                ],
                 Theme = new Theme(),
                 Subtheme = new Subtheme()
             }).ConfigureAwait(false);

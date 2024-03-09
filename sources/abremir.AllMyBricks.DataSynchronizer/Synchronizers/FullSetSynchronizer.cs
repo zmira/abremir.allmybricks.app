@@ -61,9 +61,9 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                 .GroupBy(setCountPerYear => setCountPerYear.Year)
                 .ToFrozenDictionary(group => group.Key, group => group.Sum(value => value.SetCount));
 
-            var queries = new List<List<string>>();
+            List<List<string>> queries = [];
             var tempSetCount = 0;
-            var tempYearList = new List<string>();
+            List<string> tempYearList = [];
             var orderedYears = yearSetCount.Keys.Order().ToList();
 
             for (var i = 0; i < orderedYears.Count; i++)

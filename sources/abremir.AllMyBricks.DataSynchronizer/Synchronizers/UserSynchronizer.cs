@@ -179,9 +179,9 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                 PageSize = Constants.BricksetDefaultPageSizeParameter
             };
 
-            var ownedSets = new List<BricksetUserSet>();
+            List<BricksetUserSet> ownedSets = [];
             var pageNumber = 1;
-            var currentPageResults = new List<Sets>();
+            List<Sets> currentPageResults = [];
             do
             {
                 getSetsParameter.PageNumber = pageNumber;
@@ -207,7 +207,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                 || (string.IsNullOrWhiteSpace(userHash) && string.IsNullOrWhiteSpace(username))
                 || (!string.IsNullOrWhiteSpace(userHash) && !string.IsNullOrWhiteSpace(username)))
             {
-                return new List<int>();
+                return [];
             }
 
             var getSetsParameter = new GetSetsParameters
@@ -218,9 +218,9 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                 PageSize = Constants.BricksetDefaultPageSizeParameter
             };
 
-            var wantedSets = new List<int>();
+            List<int> wantedSets = [];
             var pageNumber = 1;
-            var currentPageResults = new List<Sets>();
+            List<Sets> currentPageResults = [];
             do
             {
                 getSetsParameter.PageNumber = pageNumber;

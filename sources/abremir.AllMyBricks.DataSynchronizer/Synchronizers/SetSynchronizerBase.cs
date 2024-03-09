@@ -200,7 +200,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
             getSetsParameters.PageSize ??= Constants.BricksetDefaultPageSizeParameter;
             getSetsParameters.ExtendedData = true;
 
-            var foundSets = new List<Sets>();
+            List<Sets> foundSets = [];
             var pageNumber = 1;
 
             List<Sets> currentPageResults;

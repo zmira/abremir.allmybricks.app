@@ -7,7 +7,7 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Models
     [Description(Constants.MethodGetSets)]
     public class ResultGetSets : ResultBase
     {
-        public IEnumerable<Sets> Sets { get; set; } = new List<Sets>();
+        public IEnumerable<Sets> Sets { get; set; } = [];
         public int Matches { get; set; }
     }
 }

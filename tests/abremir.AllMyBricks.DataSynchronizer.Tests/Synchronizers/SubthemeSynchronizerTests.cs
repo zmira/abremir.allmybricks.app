@@ -70,7 +70,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
             var bricksetApiService = Substitute.For<IBricksetApiService>();
             bricksetApiService
                 .GetSubthemes(Arg.Any<ParameterTheme>())
-                .Returns(Enumerable.Empty<Subthemes>());
+                .Returns([]);
 
             var subthemeSynchronizer = CreateTarget(bricksetApiService: bricksetApiService);
 

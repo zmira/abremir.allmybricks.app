@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using abremir.AllMyBricks.Data.Enumerations;
 using abremir.AllMyBricks.Data.Models;
 
@@ -142,11 +141,11 @@ namespace abremir.AllMyBricks.Data.Tests.Configuration
             {
                 Name = $"SET NAME{suffix}",
                 Number = $"SET NUMBER{suffix}",
-                Barcodes = new List<Barcode>
-                {
+                Barcodes =
+                [
                     new() { Type = BarcodeType.EAN, Value = $"SET EAN{suffix}" },
                     new() { Type = BarcodeType.UPC, Value = $"SET UPC{suffix}" }
-                }
+                ]
             };
         }
 

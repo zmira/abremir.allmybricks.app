@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using abremir.AllMyBricks.Data.Configuration;
 using abremir.AllMyBricks.Data.Extensions;
 using abremir.AllMyBricks.Data.Interfaces;
@@ -57,7 +56,7 @@ namespace abremir.AllMyBricks.Data.Repositories
         {
             if (year < Constants.MinimumSetYear)
             {
-                return Enumerable.Empty<Theme>();
+                return [];
             }
 
             using var repository = _repositoryService.GetRepository();

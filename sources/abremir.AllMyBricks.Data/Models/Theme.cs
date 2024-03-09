@@ -14,6 +14,6 @@ namespace abremir.AllMyBricks.Data.Models
         public short SetCount { get; set; }
         public short SubthemeCount { get; set; }
 
-        public IList<YearSetCount> SetCountPerYear { get; set; } = new List<YearSetCount>();
+        public IList<YearSetCount> SetCountPerYear { get; set; } = [];
     }
 }

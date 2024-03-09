@@ -94,7 +94,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
             var bricksetApiService = Substitute.For<IBricksetApiService>();
             bricksetApiService
                 .GetSets(Arg.Any<GetSetsParameters>())
-                .Returns(Enumerable.Empty<Sets>());
+                .Returns([]);
 
             var setSynchronizer = CreateTarget(bricksetApiService: bricksetApiService);
 

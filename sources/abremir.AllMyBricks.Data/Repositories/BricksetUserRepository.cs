@@ -36,7 +36,7 @@ namespace abremir.AllMyBricks.Data.Repositories
             {
                 BricksetUsername = username.Trim(),
                 UserType = userType,
-                Sets = new List<BricksetUserSet>()
+                Sets = []
             };
 
             using var repository = _repositoryService.GetRepository();
@@ -174,7 +174,7 @@ namespace abremir.AllMyBricks.Data.Repositories
 
             if (bricksetUser is null)
             {
-                return Enumerable.Empty<BricksetUserSet>();
+                return [];
             }
 
             return bricksetUser.Sets.Where(set => set.Wanted);
@@ -186,7 +186,7 @@ namespace abremir.AllMyBricks.Data.Repositories
 
             if (bricksetUser is null)
             {
-                return Enumerable.Empty<BricksetUserSet>();
+                return [];
             }
 
             return bricksetUser.Sets.Where(set => set.Owned);
