@@ -176,7 +176,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                 ApiKey = apiKey,
                 UserHash = userHash ?? string.Empty,
                 Owned = true,
-                PageSize = Constants.BricksetPageSizeParameter
+                PageSize = Constants.BricksetDefaultPageSizeParameter
             };
 
             var ownedSets = new List<BricksetUserSet>();
@@ -196,7 +196,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                 }));
 
                 pageNumber++;
-            } while (currentPageResults.Count == Constants.BricksetPageSizeParameter);
+            } while (currentPageResults.Count == Constants.BricksetDefaultPageSizeParameter);
 
             return ownedSets.ToDictionary(bricksetUserSet => bricksetUserSet.Set.SetId);
         }
@@ -215,7 +215,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                 ApiKey = apiKey,
                 UserHash = userHash ?? string.Empty,
                 Wanted = true,
-                PageSize = Constants.BricksetPageSizeParameter
+                PageSize = Constants.BricksetDefaultPageSizeParameter
             };
 
             var wantedSets = new List<int>();
@@ -230,7 +230,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                 wantedSets.AddRange(currentPageResults.Select(set => set.SetId));
 
                 pageNumber++;
-            } while (currentPageResults.Count == Constants.BricksetPageSizeParameter);
+            } while (currentPageResults.Count == Constants.BricksetDefaultPageSizeParameter);
 
             return wantedSets;
         }

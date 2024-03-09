@@ -1,13 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using abremir.AllMyBricks.Data.Interfaces;
-using abremir.AllMyBricks.Data.Models;
 using abremir.AllMyBricks.Data.Repositories;
 using abremir.AllMyBricks.DataSynchronizer.Extensions;
 using abremir.AllMyBricks.DataSynchronizer.Synchronizers;
 using abremir.AllMyBricks.DataSynchronizer.Tests.Configuration;
 using abremir.AllMyBricks.DataSynchronizer.Tests.Shared;
+using abremir.AllMyBricks.Onboarding.Interfaces;
 using abremir.AllMyBricks.ThirdParty.Brickset.Interfaces;
 using abremir.AllMyBricks.ThirdParty.Brickset.Models;
 using abremir.AllMyBricks.ThirdParty.Brickset.Models.Parameters;
@@ -16,6 +17,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using NFluent;
 using NSubstitute;
+using NSubstitute.ExceptionExtensions;
 
 namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 {
@@ -33,25 +35,55 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
         }
 
         [TestMethod]
-        public async Task Synchronize_BricksetApiServiceReturnsEmptyList_NothingIsSaved()
+        public void Synchronize_OnboardingServiceReturnsEmptyBricksetApiKey_ThrowsException()
         {
+            var onboardingService = Substitute.For<IOnboardingService>();
+            onboardingService.GetBricksetApiKey().Returns(string.Empty);
+
+            var subthemeSynchronizer = CreateTarget(onboardingService);
+
+            Check.That(subthemeSynchronizer.Synchronize().ConfigureAwait(false)).Throws<Exception>();
+        }
+
+        [TestMethod]
+        public async Task Synchronize_ThemeRepositoryReturnsEmptyListOfThemes_NothingIsSaved()
+        {
+            var subthemeSynchronizer = CreateTarget();
+
+            await subthemeSynchronizer.Synchronize().ConfigureAwait(false);
+
+            Check.That(_subthemeRepository.All()).IsEmpty();
+        }
+
+        [TestMethod]
+        public async Task Synchronize_BricksetApiServiceReturnsEmptyListOfSubthemes_NothingIsSaved()
+        {
+            var testTheme = JsonConvert.DeserializeObject<List<Themes>>(GetResultFileFromResource(Constants.JsonFileGetThemes))
+                .First(themes => themes.Theme == Constants.TestThemeArchitecture);
+            var yearsList = JsonConvert.DeserializeObject<List<Years>>(GetResultFileFromResource(Constants.JsonFileGetYears));
+
+            var theme = testTheme.ToTheme();
+            theme.SetCountPerYear = yearsList.ToYearSetCountEnumerable().ToList();
+
+            _themeRepository.AddOrUpdate(theme);
+
             var bricksetApiService = Substitute.For<IBricksetApiService>();
             bricksetApiService
                 .GetSubthemes(Arg.Any<ParameterTheme>())
                 .Returns(Enumerable.Empty<Subthemes>());
 
-            var subthemeSynchronizer = CreateTarget(bricksetApiService);
+            var subthemeSynchronizer = CreateTarget(bricksetApiService: bricksetApiService);
 
-            var subthemes = await subthemeSynchronizer.Synchronize(string.Empty, new Theme { Name = string.Empty }).ConfigureAwait(false);
+            await subthemeSynchronizer.Synchronize().ConfigureAwait(false);
 
-            Check.That(subthemes).IsEmpty();
             Check.That(_subthemeRepository.All()).IsEmpty();
         }
 
         [TestMethod]
         public async Task Synchronize_BricksetApiServiceReturnsListOfSubthemes_AllSubthemesAreSaved()
         {
-            var testTheme = JsonConvert.DeserializeObject<List<Themes>>(GetResultFileFromResource(Constants.JsonFileGetThemes)).First(themes => themes.Theme == Constants.TestThemeArchitecture);
+            var testTheme = JsonConvert.DeserializeObject<List<Themes>>(GetResultFileFromResource(Constants.JsonFileGetThemes))
+                .First(themes => themes.Theme == Constants.TestThemeArchitecture);
             var yearsList = JsonConvert.DeserializeObject<List<Years>>(GetResultFileFromResource(Constants.JsonFileGetYears));
             var subthemesList = JsonConvert.DeserializeObject<List<Subthemes>>(GetResultFileFromResource(Constants.JsonFileGetSubthemes));
 
@@ -65,19 +97,29 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
                 .GetSubthemes(Arg.Any<ParameterTheme>())
                 .Returns(subthemesList);
 
-            var subthemeSynchronizer = CreateTarget(bricksetApiService);
+            var subthemeSynchronizer = CreateTarget(bricksetApiService: bricksetApiService);
 
-            var subthemes = await subthemeSynchronizer.Synchronize(string.Empty, theme).ConfigureAwait(false);
+            await subthemeSynchronizer.Synchronize().ConfigureAwait(false);
 
-            Check.That(subthemes).CountIs(subthemesList.Count);
             Check.That(_subthemeRepository.All()).CountIs(subthemesList.Count);
         }
 
-        private SubthemeSynchronizer CreateTarget(IBricksetApiService bricksetApiService = null)
+        private SubthemeSynchronizer CreateTarget(IOnboardingService onboardingService = null, IBricksetApiService bricksetApiService = null)
         {
+            if (onboardingService is null)
+            {
+                onboardingService = Substitute.For<IOnboardingService>();
+                onboardingService.GetBricksetApiKey().Returns("brickset-api-key");
+            }
+
             bricksetApiService ??= Substitute.For<IBricksetApiService>();
 
-            return new SubthemeSynchronizer(bricksetApiService, _subthemeRepository, Substitute.For<IMessageHub>());
+            return new SubthemeSynchronizer(
+                onboardingService,
+                bricksetApiService,
+                _themeRepository,
+                _subthemeRepository,
+                Substitute.For<IMessageHub>());
         }
     }
 }

@@ -16,7 +16,8 @@ namespace abremir.AllMyBricks.DataSynchronizer.Configuration
                 .AddTransient<ISetSynchronizationService, SetSynchronizationService>()
                 .AddTransient<IThemeSynchronizer, ThemeSynchronizer>()
                 .AddTransient<ISubthemeSynchronizer, SubthemeSynchronizer>()
-                .AddTransient<ISetSynchronizer, SetSynchronizer>()
+                .AddTransient<IFullSetSynchronizer, FullSetSynchronizer>()
+                .AddTransient<IPartialSetSynchronizer, PartialSetSynchronizer>()
                 .AddTransient<IThumbnailSynchronizer, ThumbnailSynchronizer>()
                 .AddTransient<IUserSynchronizationService, UserSynchronizationService>()
                 .AddTransient<IUserSynchronizer, UserSynchronizer>();

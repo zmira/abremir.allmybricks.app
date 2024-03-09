@@ -1,12 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using abremir.AllMyBricks.Data.Interfaces;
-using abremir.AllMyBricks.Data.Models;
 using abremir.AllMyBricks.DataSynchronizer.Events.SubthemeSynchronizer;
+using abremir.AllMyBricks.DataSynchronizer.Events.ThemeSynchronizer;
 using abremir.AllMyBricks.DataSynchronizer.Extensions;
 using abremir.AllMyBricks.DataSynchronizer.Interfaces;
+using abremir.AllMyBricks.Onboarding.Interfaces;
 using abremir.AllMyBricks.ThirdParty.Brickset.Interfaces;
 using abremir.AllMyBricks.ThirdParty.Brickset.Models.Parameters;
 using Easy.MessageHub;
@@ -15,44 +15,62 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
 {
     public class SubthemeSynchronizer : ISubthemeSynchronizer
     {
+        private readonly IOnboardingService _onboardingService;
         private readonly IBricksetApiService _bricksetApiService;
+        private readonly IThemeRepository _themeRepository;
         private readonly ISubthemeRepository _subthemeRepository;
         private readonly IMessageHub _messageHub;
 
         public SubthemeSynchronizer(
+            IOnboardingService onboardingService,
             IBricksetApiService bricksetApiService,
+            IThemeRepository themeRepository,
             ISubthemeRepository subthemeRepository,
             IMessageHub messageHub)
         {
+            _onboardingService = onboardingService;
             _bricksetApiService = bricksetApiService;
+            _themeRepository = themeRepository;
             _subthemeRepository = subthemeRepository;
             _messageHub = messageHub;
         }
 
-        public async Task<IEnumerable<Subtheme>> Synchronize(string apiKey, Theme theme)
+        public async Task Synchronize()
         {
             _messageHub.Publish(new SubthemeSynchronizerStart());
 
-            var subthemes = new List<Subtheme>();
+            var apiKey = await _onboardingService.GetBricksetApiKey().ConfigureAwait(false);
+
+            if (string.IsNullOrWhiteSpace(apiKey))
+            {
+                var exception = new Exception("Invalid Brickset API key");
+                _messageHub.Publish(new ThemeSynchronizerException { Exception = exception });
+
+                throw exception;
+            }
 
             try
             {
-                var getSubthemesParameters = new ParameterTheme
+                var themes = _themeRepository.All();
+
+                _messageHub.Publish(new ThemesAcquired { Count = themes.Count() });
+
+                foreach (var theme in themes)
                 {
-                    ApiKey = apiKey,
-                    Theme = theme.Name
-                };
-
-                var bricksetSubthemes = (await _bricksetApiService.GetSubthemes(getSubthemesParameters)).ToList();
-
-                _messageHub.Publish(new SubthemesAcquired { Theme = theme.Name, Count = bricksetSubthemes.Count });
-
-                foreach (var bricksetSubtheme in bricksetSubthemes)
-                {
-                    _messageHub.Publish(new SynchronizingSubthemeStart { Theme = theme.Name, Subtheme = bricksetSubtheme.Subtheme });
-
-                    try
+                    var getSubthemesParameters = new ParameterTheme
                     {
+                        ApiKey = apiKey,
+                        Theme = theme.Name
+                    };
+
+                    var bricksetSubthemes = (await _bricksetApiService.GetSubthemes(getSubthemesParameters)).ToList();
+
+                    _messageHub.Publish(new SubthemesAcquired { Theme = theme.Name, Count = bricksetSubthemes.Count });
+
+                    foreach (var bricksetSubtheme in bricksetSubthemes)
+                    {
+                        _messageHub.Publish(new SynchronizingSubthemeStart { Theme = theme.Name, Subtheme = bricksetSubtheme.Subtheme });
+
                         var subtheme = bricksetSubtheme.ToSubtheme();
 
                         subtheme.Theme = theme;
@@ -66,24 +84,18 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
 
                         _subthemeRepository.AddOrUpdate(subtheme);
 
-                        subthemes.Add(subtheme);
+                        _messageHub.Publish(new SynchronizingSubthemeEnd { Theme = theme.Name, Subtheme = bricksetSubtheme.Subtheme });
                     }
-                    catch (Exception ex)
-                    {
-                        _messageHub.Publish(new SynchronizingSubthemeException { Theme = theme.Name, Subtheme = bricksetSubtheme.Subtheme, Exception = ex });
-                    }
-
-                    _messageHub.Publish(new SynchronizingSubthemeEnd { Theme = theme.Name, Subtheme = bricksetSubtheme.Subtheme });
                 }
             }
             catch (Exception ex)
             {
-                _messageHub.Publish(new SubthemeSynchronizerException { Theme = theme.Name, Exception = ex });
+                _messageHub.Publish(new SubthemeSynchronizerException { Exception = ex });
+
+                throw;
             }
 
             _messageHub.Publish(new SubthemeSynchronizerEnd());
-
-            return subthemes;
         }
     }
 }

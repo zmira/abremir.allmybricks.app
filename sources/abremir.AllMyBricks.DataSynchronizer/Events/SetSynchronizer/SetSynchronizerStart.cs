@@ -2,6 +2,6 @@
 {
     public class SetSynchronizerStart
     {
-        public bool ForSubtheme { get; set; }
+        public bool Complete { get; set; }
     }
 }

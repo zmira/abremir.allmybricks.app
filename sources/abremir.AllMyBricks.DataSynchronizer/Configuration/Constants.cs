@@ -4,6 +4,7 @@
     {
         public const string InstructionNoLongerListedInLego = "{No longer listed at LEGO.com}";
 
-        public const int BricksetPageSizeParameter = 100;
+        public const int BricksetDefaultPageSizeParameter = 100;
+        public const int BricksetMaximumPageSizeParameter = 500;
     }
 }

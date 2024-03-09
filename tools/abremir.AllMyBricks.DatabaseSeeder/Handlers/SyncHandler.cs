@@ -17,7 +17,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Handlers
             if (synchronizationContext.Contains(Dataset.Sets)
                 || synchronizationContext.Contains(Dataset.All))
             {
-                await host.Services.GetService<ISetSynchronizationService>().SynchronizeAllSets().ConfigureAwait(false);
+                await host.Services.GetService<ISetSynchronizationService>().Synchronize().ConfigureAwait(false);
             }
 
             if (synchronizationContext.Contains(Dataset.PrimaryUsers)

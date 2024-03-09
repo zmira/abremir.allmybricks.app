@@ -1,7 +1,7 @@
 ﻿using abremir.AllMyBricks.DatabaseSeeder.Configuration;
 using abremir.AllMyBricks.DatabaseSeeder.Enumerations;
 using abremir.AllMyBricks.DataSynchronizer.Events.SetSynchronizer;
-using abremir.AllMyBricks.DataSynchronizer.Synchronizers;
+using abremir.AllMyBricks.DataSynchronizer.Interfaces;
 using Easy.MessageHub;
 using Microsoft.Extensions.Logging;
 
@@ -19,7 +19,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
             ILoggerFactory loggerFactory,
             IMessageHub messageHub)
         {
-            var logger = loggerFactory.CreateLogger<SetSynchronizer>();
+            var logger = loggerFactory.CreateLogger<ISetSynchronizer>();
 
             messageHub.Subscribe<SetSynchronizerStart>(message =>
             {
@@ -28,7 +28,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
 
                 if (Logging.LogVerbosity == LogVerbosity.Full)
                 {
-                    logger.LogInformation($"Started set synchronizer{(message.ForSubtheme ? " for subtheme" : string.Empty)}");
+                    logger.LogInformation($"Started set synchronizer for {(message.Complete ? "full" : "partial")} dataset");
                 }
             });
 
@@ -39,7 +39,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
 
                 if (Logging.LogVerbosity == LogVerbosity.Full)
                 {
-                    logger.LogInformation($"Acquiring sets from '{message.Theme}-{message.Subtheme}' to process for year {message.Year}");
+                    logger.LogInformation($"Acquiring{(message.Complete ? " all" : string.Empty)} sets {(message.Complete ? "from" : "updated since")} '{(message.Complete ? message.Years : message.From.Value.ToString("yyyy-MM-dd HH:mm:ss.ffff"))}' to process");
                 }
             });
 
@@ -48,7 +48,10 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
                 _setCount = message.Count;
                 _setIndex = 0;
 
-                logger.LogInformation($"Acquired {message.Count} sets {(message.Year.HasValue ? $"from '{message.Theme}-{message.Subtheme}' " : string.Empty)}to process{(message.Year.HasValue ? $" for year {message.Year}" : string.Empty)}");
+                if (Logging.LogVerbosity is LogVerbosity.Full)
+                {
+                    logger.LogInformation($"Acquired {message.Count} sets {(message.Complete ? "from" : "updated since")} '{(message.Complete ? message.Years : message.From.Value.ToString("yyyy-MM-dd HH:mm:ss.ffff"))}' to process");
+                }
             });
 
             messageHub.Subscribe<SynchronizingSetStart>(message =>
@@ -81,7 +84,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
 
                 if (Logging.LogVerbosity == LogVerbosity.Full)
                 {
-                    logger.LogInformation($"Finished set synchronizer{(message.ForSubtheme ? " for subtheme" : string.Empty)}");
+                    logger.LogInformation($"Finished set synchronizer for {(message.Complete ? "full" : "partial")} dataset");
                 }
             });
         }
