@@ -14,6 +14,6 @@ namespace abremir.AllMyBricks.Data.Models
         public BricksetUserType UserType { get; set; }
         public DateTimeOffset? UserSynchronizationTimestamp { get; set; }
 
-        public IList<BricksetUserSet> Sets { get; set; } = new List<BricksetUserSet>();
+        public IList<BricksetUserSet> Sets { get; set; } = [];
     }
 }

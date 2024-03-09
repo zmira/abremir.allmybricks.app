@@ -47,11 +47,11 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
             var bricksetApiService = Substitute.For<IBricksetApiService>();
             bricksetApiService
                 .GetSets(Arg.Is<GetSetsParameters>(parameter => parameter.Owned.Value))
-                .Returns(new List<Sets>());
+                .Returns([]);
 
             bricksetApiService
                 .GetSets(Arg.Is<GetSetsParameters>(parameter => parameter.Wanted.Value))
-                .Returns(new List<Sets>());
+                .Returns([]);
 
             var userSynchronizer = CreateTarget(bricksetApiService);
 
@@ -125,11 +125,11 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
             var bricksetApiService = Substitute.For<IBricksetApiService>();
             bricksetApiService
                 .GetSets(Arg.Is<GetSetsParameters>(parameter => parameter.Owned.Value))
-                .Returns(new List<Sets> { testSetOwned });
+                .Returns([testSetOwned]);
 
             bricksetApiService
                 .GetSets(Arg.Is<GetSetsParameters>(parameter => parameter.Wanted.Value))
-                .Returns(new List<Sets> { testSetWanted });
+                .Returns([testSetWanted]);
 
             var userSynchronizer = CreateTarget(bricksetApiService);
 
@@ -182,11 +182,11 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
             var bricksetApiService = Substitute.For<IBricksetApiService>();
             bricksetApiService
                 .GetSets(Arg.Is<GetSetsParameters>(parameter => parameter.Owned.Value))
-                .Returns(new List<Sets>());
+                .Returns([]);
 
             bricksetApiService
                 .GetSets(Arg.Is<GetSetsParameters>(parameter => parameter.Wanted.Value))
-                .Returns(new List<Sets>());
+                .Returns([]);
 
             var userSynchronizer = CreateTarget(bricksetApiService);
 
@@ -251,11 +251,11 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
             var bricksetApiService = Substitute.For<IBricksetApiService>();
             bricksetApiService
                 .GetSets(Arg.Is<GetSetsParameters>(parameter => parameter.Owned.Value))
-                .Returns(new List<Sets>());
+                .Returns([]);
 
             bricksetApiService
                 .GetSets(Arg.Is<GetSetsParameters>(parameter => parameter.Wanted.Value))
-                .Returns(new List<Sets>());
+                .Returns([]);
 
             var userSynchronizer = CreateTarget(bricksetApiService);
 
@@ -348,11 +348,11 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
             var bricksetApiService = Substitute.For<IBricksetApiService>();
             bricksetApiService
                 .GetSets(Arg.Is<GetSetsParameters>(parameter => parameter.Owned.Value))
-                .Returns(new List<Sets>());
+                .Returns([]);
 
             bricksetApiService
                 .GetSets(Arg.Is<GetSetsParameters>(parameter => parameter.Wanted.Value))
-                .Returns(new List<Sets> { testSetWanted });
+                .Returns([testSetWanted]);
 
             var userSynchronizer = CreateTarget(bricksetApiService);
 
@@ -378,11 +378,11 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
             var bricksetApiService = Substitute.For<IBricksetApiService>();
             bricksetApiService
                 .GetSets(Arg.Is<GetSetsParameters>(parameter => parameter.Owned.Value))
-                .Returns(new List<Sets>());
+                .Returns([]);
 
             bricksetApiService
                 .GetSets(Arg.Is<GetSetsParameters>(parameter => parameter.Wanted.Value))
-                .Returns(new List<Sets>());
+                .Returns([]);
 
             var userSynchronizer = CreateTarget(bricksetApiService);
 
@@ -456,11 +456,11 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
             var bricksetApiService = Substitute.For<IBricksetApiService>();
             bricksetApiService
                 .GetSets(Arg.Is<GetSetsParameters>(parameter => parameter.Owned.Value))
-                .Returns(new List<Sets> { testSetOwned });
+                .Returns([testSetOwned]);
 
             bricksetApiService
                 .GetSets(Arg.Is<GetSetsParameters>(parameter => parameter.Wanted.Value))
-                .Returns(new List<Sets> { testSetWanted });
+                .Returns([testSetWanted]);
 
             var userSynchronizer = CreateTarget(bricksetApiService);
 

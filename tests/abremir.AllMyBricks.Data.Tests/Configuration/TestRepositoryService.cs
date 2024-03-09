@@ -1,13 +1,22 @@
 ﻿using abremir.AllMyBricks.Data.Interfaces;
 using abremir.AllMyBricks.Data.Services;
+using abremir.AllMyBricks.Platform.Interfaces;
 using LiteDB;
 using LiteDB.Engine;
+using NSubstitute;
 
 namespace abremir.AllMyBricks.Data.Tests.Configuration
 {
     public class TestRepositoryService : IRepositoryService, IMemoryRepositoryService
     {
         private TempStream _tempStream;
+
+        private readonly IFileSystemService _fileSystemService;
+
+        public TestRepositoryService()
+        {
+            _fileSystemService = Substitute.For<IFileSystemService>();
+        }
 
         public long CompactRepository()
         {
@@ -19,13 +28,15 @@ namespace abremir.AllMyBricks.Data.Tests.Configuration
             if (_tempStream is null)
             {
                 _tempStream = new TempStream("abremir.AllMyBricks.Data.Tests.litedb");
+
+                _fileSystemService
+                    .GetStreamForLocalPathToFile(Arg.Any<string>(), Arg.Any<string>())
+                    .Returns(_tempStream);
             }
 
-            var liteRepository = new LiteRepository(_tempStream);
+            var repositoryService = new RepositoryService(_fileSystemService, new MigrationRunner());
 
-            RepositoryService.RunMigrationsAndSetupIndexes(liteRepository.Database);
-
-            return liteRepository;
+            return repositoryService.GetRepository();
         }
 
         public void ResetDatabase()

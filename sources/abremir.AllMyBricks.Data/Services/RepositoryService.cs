@@ -1,6 +1,5 @@
 ﻿using abremir.AllMyBricks.Data.Configuration;
 using abremir.AllMyBricks.Data.Interfaces;
-using abremir.AllMyBricks.Data.Migrations;
 using abremir.AllMyBricks.Platform.Interfaces;
 using LiteDB;
 
@@ -9,17 +8,21 @@ namespace abremir.AllMyBricks.Data.Services
     public class RepositoryService : IRepositoryService
     {
         private readonly IFileSystemService _fileSystemService;
+        private readonly IMigrationRunner _migrationRunner;
 
-        public RepositoryService(IFileSystemService fileSystemService)
+        public RepositoryService(
+            IFileSystemService fileSystemService,
+            IMigrationRunner migrationRunner)
         {
             _fileSystemService = fileSystemService;
+            _migrationRunner = migrationRunner;
         }
 
         public ILiteRepository GetRepository()
         {
-            var repository = new LiteRepository(_fileSystemService.GetLocalPathToFile(Constants.AllMyBricksDbFile));
+            var repository = new LiteRepository(_fileSystemService.GetStreamForLocalPathToFile(Constants.AllMyBricksDbFile));
 
-            RunMigrationsAndSetupIndexes(repository.Database);
+            _migrationRunner.ApplyMigrations(repository.Database);
 
             return repository;
         }
@@ -29,19 +32,6 @@ namespace abremir.AllMyBricks.Data.Services
             using var repository = GetRepository();
 
             return repository.Database.Rebuild();
-        }
-
-        public static void RunMigrationsAndSetupIndexes(ILiteDatabase liteDatabase)
-        {
-            switch (liteDatabase.UserVersion)
-            {
-                case 0:
-                    MigrationsAndIndexes_V0.Apply(liteDatabase);
-                    break;
-                case 2:
-                    MigrationsAndIndexes_V2.Apply(liteDatabase);
-                    break;
-            }
         }
     }
 }

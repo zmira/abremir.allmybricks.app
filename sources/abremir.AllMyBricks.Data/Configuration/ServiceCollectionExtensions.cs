@@ -13,13 +13,14 @@ namespace abremir.AllMyBricks.Data.Configuration
             Guard.IsNotNull(services);
 
             return services
-                .AddTransient<IRepositoryService, RepositoryService>()
-                .AddTransient<IThemeRepository, ThemeRepository>()
-                .AddTransient<ISubthemeRepository, SubthemeRepository>()
-                .AddTransient<IReferenceDataRepository, ReferenceDataRepository>()
-                .AddTransient<ISetRepository, SetRepository>()
-                .AddTransient<IInsightsRepository, InsightsRepository>()
-                .AddTransient<IBricksetUserRepository, BricksetUserRepository>();
+                .AddSingleton<IRepositoryService, RepositoryService>()
+                .AddSingleton<IThemeRepository, ThemeRepository>()
+                .AddSingleton<ISubthemeRepository, SubthemeRepository>()
+                .AddSingleton<IReferenceDataRepository, ReferenceDataRepository>()
+                .AddSingleton<ISetRepository, SetRepository>()
+                .AddSingleton<IInsightsRepository, InsightsRepository>()
+                .AddSingleton<IBricksetUserRepository, BricksetUserRepository>()
+                .AddSingleton<IMigrationRunner, MigrationRunner>();
         }
     }
 }

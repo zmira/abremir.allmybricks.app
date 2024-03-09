@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using abremir.AllMyBricks.Data.Enumerations;
+﻿using abremir.AllMyBricks.Data.Enumerations;
 using abremir.AllMyBricks.Data.Models;
 using abremir.AllMyBricks.ThirdParty.Brickset.Models;
 
@@ -35,7 +34,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Extensions
                     Min = (byte?)source.AgeRange.Min,
                     Max = (byte?)source.AgeRange.Max
                 },
-                Barcodes = new List<Barcode>(),
+                Barcodes = [],
                 Dimensions = new Dimensions
                 {
                     Height = source.Dimensions?.Height,

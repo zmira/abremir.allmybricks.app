@@ -10,9 +10,11 @@
 
   <ItemGroup>
     <PackageReference Include="LiteDB" Version="5.0.17" />
-    <PackageReference Include="MSTest" Version="3.2.0" />
+    <PackageReference Include="MSTest" Version="3.2.2" />
     <PackageReference Include="NFluent" Version="3.0.3" />
-    <PackageReference Include="coverlet.collector" Version="6.0.0">
+    <PackageReference Include="NSubstitute" Version="5.1.0" />
+    <PackageReference Include="NSubstituteAutoMocker.Standard" Version="1.0.0" />
+    <PackageReference Include="coverlet.collector" Version="6.0.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>

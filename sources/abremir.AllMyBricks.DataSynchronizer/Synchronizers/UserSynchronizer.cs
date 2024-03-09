@@ -176,12 +176,12 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                 ApiKey = apiKey,
                 UserHash = userHash ?? string.Empty,
                 Owned = true,
-                PageSize = Constants.BricksetPageSizeParameter
+                PageSize = Constants.BricksetDefaultPageSizeParameter
             };
 
-            var ownedSets = new List<BricksetUserSet>();
+            List<BricksetUserSet> ownedSets = [];
             var pageNumber = 1;
-            var currentPageResults = new List<Sets>();
+            List<Sets> currentPageResults = [];
             do
             {
                 getSetsParameter.PageNumber = pageNumber;
@@ -196,7 +196,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                 }));
 
                 pageNumber++;
-            } while (currentPageResults.Count == Constants.BricksetPageSizeParameter);
+            } while (currentPageResults.Count == Constants.BricksetDefaultPageSizeParameter);
 
             return ownedSets.ToDictionary(bricksetUserSet => bricksetUserSet.Set.SetId);
         }
@@ -207,7 +207,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                 || (string.IsNullOrWhiteSpace(userHash) && string.IsNullOrWhiteSpace(username))
                 || (!string.IsNullOrWhiteSpace(userHash) && !string.IsNullOrWhiteSpace(username)))
             {
-                return new List<int>();
+                return [];
             }
 
             var getSetsParameter = new GetSetsParameters
@@ -215,12 +215,12 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                 ApiKey = apiKey,
                 UserHash = userHash ?? string.Empty,
                 Wanted = true,
-                PageSize = Constants.BricksetPageSizeParameter
+                PageSize = Constants.BricksetDefaultPageSizeParameter
             };
 
-            var wantedSets = new List<int>();
+            List<int> wantedSets = [];
             var pageNumber = 1;
-            var currentPageResults = new List<Sets>();
+            List<Sets> currentPageResults = [];
             do
             {
                 getSetsParameter.PageNumber = pageNumber;
@@ -230,7 +230,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                 wantedSets.AddRange(currentPageResults.Select(set => set.SetId));
 
                 pageNumber++;
-            } while (currentPageResults.Count == Constants.BricksetPageSizeParameter);
+            } while (currentPageResults.Count == Constants.BricksetDefaultPageSizeParameter);
 
             return wantedSets;
         }

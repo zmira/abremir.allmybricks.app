@@ -60,7 +60,7 @@ namespace abremir.AllMyBricks.Data.Repositories
         {
             if (string.IsNullOrWhiteSpace(themeName))
             {
-                return Enumerable.Empty<Set>();
+                return [];
             }
 
             using var repository = _repositoryService.GetRepository();
@@ -75,7 +75,7 @@ namespace abremir.AllMyBricks.Data.Repositories
             if (string.IsNullOrWhiteSpace(themeName)
                 || string.IsNullOrWhiteSpace(subthemeName))
             {
-                return Enumerable.Empty<Set>();
+                return [];
             }
 
             using var repository = _repositoryService.GetRepository();
@@ -89,7 +89,7 @@ namespace abremir.AllMyBricks.Data.Repositories
         {
             if (string.IsNullOrWhiteSpace(themeGroupName))
             {
-                return Enumerable.Empty<Set>();
+                return [];
             }
 
             using var repository = _repositoryService.GetRepository();
@@ -103,7 +103,7 @@ namespace abremir.AllMyBricks.Data.Repositories
         {
             if (string.IsNullOrWhiteSpace(categoryName))
             {
-                return Enumerable.Empty<Set>();
+                return [];
             }
 
             using var repository = _repositoryService.GetRepository();
@@ -117,7 +117,7 @@ namespace abremir.AllMyBricks.Data.Repositories
         {
             if (string.IsNullOrWhiteSpace(tagName))
             {
-                return Enumerable.Empty<Set>();
+                return [];
             }
 
             using var repository = _repositoryService.GetRepository();
@@ -131,7 +131,7 @@ namespace abremir.AllMyBricks.Data.Repositories
         {
             if (year < Constants.MinimumSetYear)
             {
-                return Enumerable.Empty<Set>();
+                return [];
             }
 
             using var repository = _repositoryService.GetRepository();
@@ -145,7 +145,7 @@ namespace abremir.AllMyBricks.Data.Repositories
         {
             if (minimumPrice < 0 || maximumPrice < 0)
             {
-                return Enumerable.Empty<Set>();
+                return [];
             }
 
             using var repository = _repositoryService.GetRepository();
@@ -163,7 +163,7 @@ namespace abremir.AllMyBricks.Data.Repositories
 
             if (queryBsonExpression is null)
             {
-                return Enumerable.Empty<Set>();
+                return [];
             }
 
             using var repository = _repositoryService.GetRepository();
@@ -180,7 +180,7 @@ namespace abremir.AllMyBricks.Data.Repositories
                 return null;
             }
 
-            var queryList = new Dictionary<string, string>();
+            Dictionary<string, string> queryList = [];
             var searchTerms = searchQuery
                 .Split(' ', '-')
                 .Where(term => (term?.Trim().Length ?? 0) >= Constants.MinimumSearchQuerySize)

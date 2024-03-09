@@ -13,7 +13,7 @@ namespace abremir.AllMyBricks.Onboarding.Tests.Helpers
         public void GetRandomKeyOption()
         {
             const int count = 1000;
-            var algorithmTypeEnumList = new List<AlgorithmType>();
+            List<AlgorithmType> algorithmTypeEnumList = [];
 
             for (int i = 0; i < count; i++)
             {

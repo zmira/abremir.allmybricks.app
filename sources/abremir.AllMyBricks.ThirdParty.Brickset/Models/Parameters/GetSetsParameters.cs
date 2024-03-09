@@ -11,7 +11,7 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Models.Parameters
         public string Theme { get; set; }
         public string Subtheme { get; set; }
         public string SetNumber { get; set; }
-        public int? Year { get; set; }
+        public string Year { get; set; }
         public string Tag { get; set; }
         public bool? Owned { get; set; }
         public bool? Wanted { get; set; }
@@ -60,9 +60,9 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Models.Parameters
                 @params.setNumber = SetNumber.Trim();
             }
 
-            if (Year.HasValue)
+            if (!string.IsNullOrWhiteSpace(Year))
             {
-                @params.year = Year.Value.ToString();
+                @params.year = Year.Trim();
             }
 
             if (!string.IsNullOrWhiteSpace(Tag))

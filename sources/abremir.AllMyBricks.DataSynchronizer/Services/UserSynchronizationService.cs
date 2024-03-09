@@ -49,7 +49,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Services
 
                 if (string.IsNullOrWhiteSpace(username))
                 {
-                    var tasks = new List<Task>();
+                    List<Task> tasks = [];
 
                     _bricksetUserRepository
                         .GetAllUsernames(BricksetUserType.Primary)
@@ -98,7 +98,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Services
 
                 if (string.IsNullOrWhiteSpace(username))
                 {
-                    var tasks = new List<Task>();
+                    List<Task> tasks = [];
 
                     _bricksetUserRepository
                         .GetAllUsernames(BricksetUserType.Friend)

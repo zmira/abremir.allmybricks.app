@@ -7,6 +7,6 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Models
     [Description(Constants.MethodGetSubthemes)]
     public class ResultGetSubthemes : ResultBase
     {
-        public IEnumerable<Subthemes> Subthemes { get; set; } = new List<Subthemes>();
+        public IEnumerable<Subthemes> Subthemes { get; set; } = [];
     }
 }

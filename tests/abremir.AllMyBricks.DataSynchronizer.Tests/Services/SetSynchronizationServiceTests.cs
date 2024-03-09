@@ -1,13 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using abremir.AllMyBricks.Data.Interfaces;
-using abremir.AllMyBricks.Data.Models;
+using abremir.AllMyBricks.DataSynchronizer.Events.SetSynchronizationService;
 using abremir.AllMyBricks.DataSynchronizer.Interfaces;
 using abremir.AllMyBricks.DataSynchronizer.Services;
-using abremir.AllMyBricks.Onboarding.Interfaces;
+using Easy.MessageHub;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
+using NSubstitute.ExceptionExtensions;
 using NSubstituteAutoMocker.Standard;
 
 namespace abremir.AllMyBricks.DataSynchronizer.Tests.Services
@@ -15,77 +14,106 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Services
     [TestClass]
     public class SetSynchronizationServiceTests
     {
-        private NSubstituteAutoMocker<SetSynchronizationService> _dataSynchronizationService;
+        private NSubstituteAutoMocker<SetSynchronizationService> _setSynchronizationService;
 
         [TestInitialize]
         public void TestInitialize()
         {
-            _dataSynchronizationService = new NSubstituteAutoMocker<SetSynchronizationService>();
-        }
-
-        [DataTestMethod]
-        [DataRow("")]
-        [DataRow(null)]
-        [DataRow(" ")]
-        public async Task SynchronizeAllSets_InvalidApiKey_GetDataSynchronizationTimestampNotInvoked(string apiKey)
-        {
-            _dataSynchronizationService.Get<IOnboardingService>()
-                .GetBricksetApiKey()
-                .Returns(apiKey);
-
-            await _dataSynchronizationService.ClassUnderTest.SynchronizeAllSets().ConfigureAwait(false);
-
-            _dataSynchronizationService.Get<IInsightsRepository>().DidNotReceive().GetDataSynchronizationTimestamp();
+            _setSynchronizationService = new NSubstituteAutoMocker<SetSynchronizationService>();
         }
 
         [TestMethod]
-        public async Task SynchronizeAllSets_WithoutDataSynchronizationTimestamp_SynchronizeAllSetsAndUpdateDataSynchronizationTimestampInvoked()
+        public async Task Synchronize_ThemeSynchronizerThrowsException_StopsAndExceptionIsPublished()
         {
-            _dataSynchronizationService.Get<IOnboardingService>()
-                .GetBricksetApiKey()
-                .Returns("APIKEY");
-            _dataSynchronizationService.Get<IInsightsRepository>()
-                .GetDataSynchronizationTimestamp().
-                Returns((DateTimeOffset?)null);
-            _dataSynchronizationService.Get<IThemeSynchronizer>()
-                .Synchronize(Arg.Any<string>())
-                .Returns(new List<Theme> { new() });
-            _dataSynchronizationService.Get<ISubthemeSynchronizer>()
-                .Synchronize(Arg.Any<string>(), Arg.Any<Theme>())
-                .Returns(new List<Subtheme> { new() });
+            var themeSynchronizer = _setSynchronizationService.Get<IThemeSynchronizer>();
+            themeSynchronizer.Synchronize().Throws(new Exception());
+            var subthemeSynchronizer = _setSynchronizationService.Get<ISubthemeSynchronizer>();
+            var fullSetSynchronizer = _setSynchronizationService.Get<IFullSetSynchronizer>();
+            var partialSetSynchronzier = _setSynchronizationService.Get<IPartialSetSynchronizer>();
+            var messageHub = _setSynchronizationService.Get<IMessageHub>();
 
-            await _dataSynchronizationService.ClassUnderTest.SynchronizeAllSets().ConfigureAwait(false);
+            await _setSynchronizationService.ClassUnderTest.Synchronize();
 
-            await _dataSynchronizationService.Get<IThemeSynchronizer>().Received(1).Synchronize(Arg.Any<string>()).ConfigureAwait(false);
-            await _dataSynchronizationService.Get<ISubthemeSynchronizer>().Received(1).Synchronize(Arg.Any<string>(), Arg.Any<Theme>()).ConfigureAwait(false);
-            await _dataSynchronizationService.Get<ISetSynchronizer>().Received(1).Synchronize(Arg.Any<string>(), Arg.Any<Theme>(), Arg.Any<Subtheme>()).ConfigureAwait(false);
-            await _dataSynchronizationService.Get<ISetSynchronizer>().DidNotReceive().Synchronize(Arg.Any<string>(), Arg.Any<DateTimeOffset>()).ConfigureAwait(false);
-            _dataSynchronizationService.Get<IInsightsRepository>().Received(1).UpdateDataSynchronizationTimestamp(Arg.Any<DateTimeOffset>());
+            await themeSynchronizer.Received(1).Synchronize();
+            await subthemeSynchronizer.DidNotReceive().Synchronize();
+            await fullSetSynchronizer.DidNotReceive().Synchronize();
+            await partialSetSynchronzier.DidNotReceive().Synchronize();
+            messageHub.Received().Publish(Arg.Any<SetSynchronizationServiceException>());
         }
 
         [TestMethod]
-        public async Task SynchronizeAllSets_WithDataSynchronizationTimestamp_SynchronizeRecentlyUpdatedSetsAndUpdateDataSynchronizationTimestampInvoked()
+        public async Task Synchronize_SubthemeSynchronizerThrowsException_StopsAndExceptionIsPublished()
         {
-            _dataSynchronizationService.Get<IOnboardingService>()
-                .GetBricksetApiKey()
-                .Returns("APIKEY");
-            _dataSynchronizationService.Get<IInsightsRepository>()
-                .GetDataSynchronizationTimestamp()
-                .Returns(DateTimeOffset.Now);
-            _dataSynchronizationService.Get<IThemeSynchronizer>()
-                .Synchronize(Arg.Any<string>())
-                .Returns(new List<Theme> { new() });
-            _dataSynchronizationService.Get<ISubthemeSynchronizer>()
-                .Synchronize(Arg.Any<string>(), Arg.Any<Theme>())
-                .Returns(new List<Subtheme> { new() });
+            var themeSynchronizer = _setSynchronizationService.Get<IThemeSynchronizer>();
+            var subthemeSynchronizer = _setSynchronizationService.Get<ISubthemeSynchronizer>();
+            subthemeSynchronizer.Synchronize().Throws(new Exception());
+            var fullSetSynchronizer = _setSynchronizationService.Get<IFullSetSynchronizer>();
+            var partialSetSynchronzier = _setSynchronizationService.Get<IPartialSetSynchronizer>();
+            var messageHub = _setSynchronizationService.Get<IMessageHub>();
 
-            await _dataSynchronizationService.ClassUnderTest.SynchronizeAllSets().ConfigureAwait(false);
+            await _setSynchronizationService.ClassUnderTest.Synchronize();
 
-            await _dataSynchronizationService.Get<IThemeSynchronizer>().Received(1).Synchronize(Arg.Any<string>()).ConfigureAwait(false);
-            await _dataSynchronizationService.Get<ISubthemeSynchronizer>().Received(1).Synchronize(Arg.Any<string>(), Arg.Any<Theme>()).ConfigureAwait(false);
-            await _dataSynchronizationService.Get<ISetSynchronizer>().DidNotReceive().Synchronize(Arg.Any<string>(), Arg.Any<Theme>(), Arg.Any<Subtheme>()).ConfigureAwait(false);
-            await _dataSynchronizationService.Get<ISetSynchronizer>().Received(1).Synchronize(Arg.Any<string>(), Arg.Any<DateTimeOffset>()).ConfigureAwait(false);
-            _dataSynchronizationService.Get<IInsightsRepository>().Received(1).UpdateDataSynchronizationTimestamp(Arg.Any<DateTimeOffset>());
+            await themeSynchronizer.Received(1).Synchronize();
+            await subthemeSynchronizer.Received(1).Synchronize();
+            await fullSetSynchronizer.DidNotReceive().Synchronize();
+            await partialSetSynchronzier.DidNotReceive().Synchronize();
+            messageHub.Received().Publish(Arg.Any<SetSynchronizationServiceException>());
+        }
+
+        [TestMethod]
+        public async Task Synchronize_FullSetSynchronizerThrowsException_StopsAndExceptionIsPublished()
+        {
+            var themeSynchronizer = _setSynchronizationService.Get<IThemeSynchronizer>();
+            var subthemeSynchronizer = _setSynchronizationService.Get<ISubthemeSynchronizer>();
+            var fullSetSynchronizer = _setSynchronizationService.Get<IFullSetSynchronizer>();
+            fullSetSynchronizer.Synchronize().Throws(new Exception());
+            var partialSetSynchronzier = _setSynchronizationService.Get<IPartialSetSynchronizer>();
+            var messageHub = _setSynchronizationService.Get<IMessageHub>();
+
+            await _setSynchronizationService.ClassUnderTest.Synchronize();
+
+            await themeSynchronizer.Received(1).Synchronize();
+            await subthemeSynchronizer.Received(1).Synchronize();
+            await fullSetSynchronizer.Received(1).Synchronize();
+            await partialSetSynchronzier.DidNotReceive().Synchronize();
+            messageHub.Received().Publish(Arg.Any<SetSynchronizationServiceException>());
+        }
+
+        [TestMethod]
+        public async Task Synchronize_PartialSetSynchronizerThrowsException_StopsAndExceptionIsPublished()
+        {
+            var themeSynchronizer = _setSynchronizationService.Get<IThemeSynchronizer>();
+            var subthemeSynchronizer = _setSynchronizationService.Get<ISubthemeSynchronizer>();
+            var fullSetSynchronizer = _setSynchronizationService.Get<IFullSetSynchronizer>();
+            var partialSetSynchronizer = _setSynchronizationService.Get<IPartialSetSynchronizer>();
+            partialSetSynchronizer.Synchronize().Throws(new Exception());
+            var messageHub = _setSynchronizationService.Get<IMessageHub>();
+
+            await _setSynchronizationService.ClassUnderTest.Synchronize();
+
+            await themeSynchronizer.Received(1).Synchronize();
+            await subthemeSynchronizer.Received(1).Synchronize();
+            await fullSetSynchronizer.Received(1).Synchronize();
+            await partialSetSynchronizer.Received(1).Synchronize();
+            messageHub.Received().Publish(Arg.Any<SetSynchronizationServiceException>());
+        }
+
+        [TestMethod]
+        public async Task Synchronize_NoSynchronizerThrowsException_CompletesSuccessfully()
+        {
+            var themeSynchronizer = _setSynchronizationService.Get<IThemeSynchronizer>();
+            var subthemeSynchronizer = _setSynchronizationService.Get<ISubthemeSynchronizer>();
+            var fullSetSynchronizer = _setSynchronizationService.Get<IFullSetSynchronizer>();
+            var partialSetSynchronizer = _setSynchronizationService.Get<IPartialSetSynchronizer>();
+            var messageHub = _setSynchronizationService.Get<IMessageHub>();
+
+            await _setSynchronizationService.ClassUnderTest.Synchronize();
+
+            await themeSynchronizer.Received(1).Synchronize();
+            await subthemeSynchronizer.Received(1).Synchronize();
+            await fullSetSynchronizer.Received(1).Synchronize();
+            await partialSetSynchronizer.Received(1).Synchronize();
+            messageHub.DidNotReceive().Publish(Arg.Any<SetSynchronizationServiceException>());
         }
     }
 }

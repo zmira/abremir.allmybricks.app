@@ -7,6 +7,6 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Models
     [Description(Constants.MethodGetInstructions)]
     public class ResultGetInstructions : ResultBase
     {
-        public IEnumerable<Instructions> Instructions { get; set; } = new List<Instructions>();
+        public IEnumerable<Instructions> Instructions { get; set; } = [];
     }
 }

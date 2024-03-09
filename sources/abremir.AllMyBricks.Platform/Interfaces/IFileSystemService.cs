@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.IO;
+using System.Threading.Tasks;
 
 namespace abremir.AllMyBricks.Platform.Interfaces
 {
@@ -11,5 +12,6 @@ namespace abremir.AllMyBricks.Platform.Interfaces
         string GetThumbnailFolder(string theme, string subtheme);
         Task SaveThumbnailToCache(string theme, string subtheme, string filename, byte[] thumbnail);
         bool ClearThumbnailCache();
+        Stream GetStreamForLocalPathToFile(string file, string subfolder = null);
     }
 }

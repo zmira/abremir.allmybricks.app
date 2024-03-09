@@ -25,7 +25,7 @@ namespace abremir.AllMyBricks.Data.Models
         public Category Category { get; set; }
 
         [BsonRef]
-        public IList<Tag> Tags { get; set; } = new List<Tag>();
+        public IList<Tag> Tags { get; set; } = [];
 
         public string Number { get; set; }
         public string Name { get; set; }
@@ -43,10 +43,10 @@ namespace abremir.AllMyBricks.Data.Models
         public Dimensions Dimensions { get; set; }
         public SetTotals Totals { get; set; }
         public SetAgeRange AgeRange { get; set; }
-        public IList<Image> Images { get; set; } = new List<Image>();
-        public IList<Price> Prices { get; set; } = new List<Price>();
-        public IList<Instruction> Instructions { get; set; } = new List<Instruction>();
-        public IList<Barcode> Barcodes { get; set; } = new List<Barcode>();
+        public IList<Image> Images { get; set; } = [];
+        public IList<Price> Prices { get; set; } = [];
+        public IList<Instruction> Instructions { get; set; } = [];
+        public IList<Barcode> Barcodes { get; set; } = [];
 
         [BsonIgnore]
         public string NumberWithVariant => $"{Number}-{NumberVariant}";

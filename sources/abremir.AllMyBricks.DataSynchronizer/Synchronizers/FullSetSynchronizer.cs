@@ -1,0 +1,137 @@
+﻿using System;
+using System.Collections.Frozen;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using abremir.AllMyBricks.Data.Interfaces;
+using abremir.AllMyBricks.DataSynchronizer.Configuration;
+using abremir.AllMyBricks.DataSynchronizer.Events.SetSynchronizationService;
+using abremir.AllMyBricks.DataSynchronizer.Events.SetSynchronizer;
+using abremir.AllMyBricks.DataSynchronizer.Events.ThemeSynchronizer;
+using abremir.AllMyBricks.DataSynchronizer.Interfaces;
+using abremir.AllMyBricks.Onboarding.Interfaces;
+using abremir.AllMyBricks.ThirdParty.Brickset.Interfaces;
+using abremir.AllMyBricks.ThirdParty.Brickset.Models.Parameters;
+using Easy.MessageHub;
+
+namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
+{
+    public class FullSetSynchronizer : SetSynchronizerBase, IFullSetSynchronizer
+    {
+        public FullSetSynchronizer(
+            IInsightsRepository insightsRepository,
+            IOnboardingService onboardingService,
+            IBricksetApiService bricksetApiService,
+            ISetRepository setRepository,
+            IReferenceDataRepository referenceDataRepository,
+            IThemeRepository themeRepository,
+            ISubthemeRepository subthemeRepository,
+            IThumbnailSynchronizer thumbnailSynchronizer,
+            IMessageHub messageHub)
+            : base(insightsRepository, onboardingService, bricksetApiService, setRepository, referenceDataRepository, themeRepository, subthemeRepository, thumbnailSynchronizer, messageHub) { }
+
+        public async Task Synchronize()
+        {
+            MessageHub.Publish(new SetSynchronizerStart { Complete = true });
+
+            var dataSynchronizationTimestamp = InsightsRepository.GetDataSynchronizationTimestamp();
+
+            MessageHub.Publish(new InsightsAcquired { SynchronizationTimestamp = dataSynchronizationTimestamp });
+
+            if (dataSynchronizationTimestamp.HasValue)
+            {
+                MessageHub.Publish(new SetSynchronizerEnd { Complete = true });
+
+                return;
+            }
+
+            var apiKey = await OnboardingService.GetBricksetApiKey().ConfigureAwait(false);
+
+            if (string.IsNullOrWhiteSpace(apiKey))
+            {
+                var exception = new Exception("Invalid Brickset API key");
+                MessageHub.Publish(new ThemeSynchronizerException { Exception = exception });
+
+                throw exception;
+            }
+
+            var yearSetCount = ThemeRepository
+                .All()
+                .SelectMany(theme => theme.SetCountPerYear)
+                .GroupBy(setCountPerYear => setCountPerYear.Year)
+                .ToFrozenDictionary(group => group.Key, group => group.Sum(value => value.SetCount));
+
+            List<List<string>> queries = [];
+            var tempSetCount = 0;
+            List<string> tempYearList = [];
+            var orderedYears = yearSetCount.Keys.Order().ToList();
+
+            for (var i = 0; i < orderedYears.Count; i++)
+            {
+                var year = orderedYears[i];
+                if (yearSetCount[year] > Constants.BricksetMaximumPageSizeParameter)
+                {
+                    queries.Add([year.ToString()]);
+                }
+                else
+                {
+                    if (tempSetCount + yearSetCount[year] > Constants.BricksetMaximumPageSizeParameter)
+                    {
+                        queries.Add(tempYearList);
+
+                        tempSetCount = 0;
+                        tempYearList = [];
+                    }
+
+                    tempYearList.Add(year.ToString());
+                    tempSetCount += yearSetCount[year];
+
+                    if (i == orderedYears.Count - 1)
+                    {
+                        queries.Add(tempYearList);
+                    }
+                }
+            }
+
+            var newUpdateTimestamp = DateTimeOffset.UtcNow;
+
+            try
+            {
+                foreach (var query in queries)
+                {
+                    var yearFilter = string.Join(",", query);
+
+                    MessageHub.Publish(new AcquiringSetsStart { Complete = true, Years = yearFilter });
+
+                    var getSetsParameters = new GetSetsParameters
+                    {
+                        PageSize = Constants.BricksetMaximumPageSizeParameter,
+                        Year = yearFilter
+                    };
+
+                    var bricksetSets = await GetAllSetsFor(apiKey, getSetsParameters);
+
+                    MessageHub.Publish(new AcquiringSetsEnd { Count = bricksetSets.Count, Complete = true, Years = yearFilter });
+
+                    foreach (var bricksetSet in bricksetSets)
+                    {
+                        var theme = ThemeRepository.Get(bricksetSet.Theme);
+                        var subtheme = SubthemeRepository.Get(theme.Name, bricksetSet.Subtheme);
+
+                        await AddOrUpdateSet(apiKey, theme, subtheme, bricksetSet, (short)bricksetSet.Year);
+                    }
+                }
+
+                InsightsRepository.UpdateDataSynchronizationTimestamp(newUpdateTimestamp);
+            }
+            catch (Exception ex)
+            {
+                MessageHub.Publish(new SetSynchronizerException { Exception = ex });
+
+                throw;
+            }
+
+            MessageHub.Publish(new SetSynchronizerEnd { Complete = true });
+        }
+    }
+}
