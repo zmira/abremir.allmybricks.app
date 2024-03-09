@@ -658,10 +658,12 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Handlers
         private static void AddCompressDatabaseFileButton(Window window)
         {
             var assetManagementService = _host.Services.GetService<IAssetManagementService>();
+            const string buttonText = "Compress Database File";
 
-            if (assetManagementService.DatabaseFilePathExists())
+            if (assetManagementService.DatabaseFilePathExists()
+                && !window.Subviews[0].Subviews.Any(subview => subview.Text.Equals(buttonText)))
             {
-                var button = new Button("Compress Database File")
+                var button = new Button(buttonText)
                 {
                     X = 3,
                     Y = 6
@@ -744,6 +746,8 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Handlers
 
                         buttonOk.Clicked += () =>
                         {
+                            AddCompressDatabaseFileButton(window);
+                            AddCompactDatabaseButton(window);
                             CanExit = true;
 
                             Application.RequestStop();
@@ -768,10 +772,12 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Handlers
         private static void AddCompactDatabaseButton(Window window)
         {
             var assetManagementService = _host.Services.GetService<IAssetManagementService>();
+            const string buttonText = "Compact Database File";
 
-            if (assetManagementService.DatabaseFilePathExists())
+            if (assetManagementService.DatabaseFilePathExists()
+                && !window.Subviews[0].Subviews.Any(subview => subview.Text.Equals(buttonText)))
             {
-                var button = new Button("Compact Database File")
+                var button = new Button(buttonText)
                 {
                     X = 3,
                     Y = 10
