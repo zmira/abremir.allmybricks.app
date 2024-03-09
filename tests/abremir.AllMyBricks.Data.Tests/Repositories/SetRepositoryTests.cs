@@ -421,7 +421,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
 
             InsertData(setUnderTest);
 
-            var searchResult = _setRepository.SearchBy($"{setUnderTest.Name}_NONEXISTANT");
+            var searchResult = _setRepository.SearchBy($"{setUnderTest.Name}_NONEXISTENT");
 
             Check.That(searchResult).IsEmpty();
         }
