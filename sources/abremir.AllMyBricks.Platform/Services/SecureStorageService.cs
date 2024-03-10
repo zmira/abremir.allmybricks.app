@@ -62,10 +62,8 @@ namespace abremir.AllMyBricks.Platform.Services
         {
             var bricksetUsers = JsonSerializer.Deserialize<Dictionary<string, string>>(await GetRawBricksetPrimaryUsers().ConfigureAwait(false)) ?? [];
 
-            if (!bricksetUsers.ContainsKey(username))
+            if (bricksetUsers.TryAdd(username, userHash))
             {
-                bricksetUsers.Add(username, userHash);
-
                 await _secureStorage.SetAsync(Constants.BricksetPrimaryUsersStorageKey, JsonSerializer.Serialize(bricksetUsers)).ConfigureAwait(false);
             }
         }
@@ -74,14 +72,16 @@ namespace abremir.AllMyBricks.Platform.Services
         {
             var bricksetUsers = JsonSerializer.Deserialize<Dictionary<string, string>>(await GetRawBricksetPrimaryUsers().ConfigureAwait(false)) ?? [];
 
-            if (bricksetUsers.ContainsKey(username))
+            if (!bricksetUsers.ContainsKey(username))
             {
-                bricksetUsers.Remove(username);
-
-                await _secureStorage.SetAsync(Constants.BricksetPrimaryUsersStorageKey, JsonSerializer.Serialize(bricksetUsers)).ConfigureAwait(false);
+                return false;
             }
 
-            return bricksetUsers.ContainsKey(username);
+            bricksetUsers.Remove(username);
+
+            await _secureStorage.SetAsync(Constants.BricksetPrimaryUsersStorageKey, JsonSerializer.Serialize(bricksetUsers)).ConfigureAwait(false);
+
+            return true;
         }
 
         public async Task<bool> IsBricksetPrimaryUsersDefined()

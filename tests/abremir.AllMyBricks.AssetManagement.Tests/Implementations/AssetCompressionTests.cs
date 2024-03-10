@@ -29,15 +29,9 @@ namespace abremir.AllMyBricks.AssetManagement.Tests.Implementations
         [DataRow("source_file_path.txt", true, ".", false)]
         public void CompressAsset_InvalidParameters_ReturnsFalse(string sourceFilePath, bool sourceFileExists, string targetFolderPath, bool targetFolderPathIsFolder)
         {
-            _assetCompression.Get<IFile>()
-                .Exists(Arg.Any<string>())
-                .Returns(sourceFileExists);
-            _assetCompression.Get<IDirectory>()
-                .Exists(Arg.Any<string>())
-                .Returns(!targetFolderPathIsFolder);
-            _assetCompression.Get<IFile>()
-                .GetAttributes(Arg.Any<string>())
-                .Returns(targetFolderPathIsFolder ? FileAttributes.Directory : FileAttributes.Archive);
+            _assetCompression.Get<IFile>().Exists(Arg.Any<string>()).Returns(sourceFileExists);
+            _assetCompression.Get<IDirectory>().Exists(Arg.Any<string>()).Returns(!targetFolderPathIsFolder);
+            _assetCompression.Get<IFile>().GetAttributes(Arg.Any<string>()).Returns(targetFolderPathIsFolder ? FileAttributes.Directory : FileAttributes.Archive);
 
             var result = _assetCompression.ClassUnderTest.CompressAsset(sourceFilePath, targetFolderPath);
 
@@ -48,12 +42,8 @@ namespace abremir.AllMyBricks.AssetManagement.Tests.Implementations
         public void CompressAsset_InvalidTargetFilePath_ReturnsFalse()
         {
             const string sourceFilePath = "test_file.txt";
-            _assetCompression.Get<IFile>()
-                .Exists(sourceFilePath)
-                .Returns(true);
-            _assetCompression.Get<IFile>()
-                .Exists(AssetCompression.GetCompressedAssetFileName(sourceFilePath, false))
-                .Returns(true);
+            _assetCompression.Get<IFile>().Exists(sourceFilePath).Returns(true);
+            _assetCompression.Get<IFile>().Exists(AssetCompression.GetCompressedAssetFileName(sourceFilePath, false)).Returns(true);
 
             var result = _assetCompression.ClassUnderTest.CompressAsset(sourceFilePath, string.Empty, overwrite: false);
 
@@ -64,12 +54,8 @@ namespace abremir.AllMyBricks.AssetManagement.Tests.Implementations
         public void CompressAsset_ValidData_ReturnsTrue()
         {
             const string sourceFilePath = "test_file.txt";
-            _assetCompression.Get<IFile>()
-                .Exists(sourceFilePath)
-                .Returns(true);
-            _assetCompression.Get<ITarWriter>()
-                .CreateTarWriter(Arg.Any<Stream>(), Arg.Any<TarWriterOptions>())
-                .Returns(Substitute.For<TarWriter>(new MemoryStream(), new TarWriterOptions(CompressionType.LZip, true)));
+            _assetCompression.Get<IFile>().Exists(sourceFilePath).Returns(true);
+            _assetCompression.Get<ITarWriter>().CreateTarWriter(Arg.Any<Stream>(), Arg.Any<TarWriterOptions>()).Returns(Substitute.For<TarWriter>(new MemoryStream(), new TarWriterOptions(CompressionType.LZip, true)));
 
             var result = _assetCompression.ClassUnderTest.CompressAsset(sourceFilePath, string.Empty);
 
@@ -93,9 +79,7 @@ namespace abremir.AllMyBricks.AssetManagement.Tests.Implementations
         {
             var result = AssetCompression.GetCompressedAssetFileName(fileName, false);
 
-            Check.That(result)
-                .IsNotNull()
-                .And.IsEqualTo("this_is_a_file.lz");
+            Check.That(result).IsNotNull().And.IsEqualTo("this_is_a_file.lz");
         }
 
         [DataTestMethod]
@@ -105,9 +89,7 @@ namespace abremir.AllMyBricks.AssetManagement.Tests.Implementations
         {
             var result = AssetCompression.GetCompressedAssetFileName(fileName, true);
 
-            Check.That(result)
-                .IsNotNull()
-                .And.IsEqualTo("this_is_a_file.lzc");
+            Check.That(result).IsNotNull().And.IsEqualTo("this_is_a_file.lzc");
         }
     }
 }

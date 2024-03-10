@@ -1,6 +1,4 @@
 ﻿namespace abremir.AllMyBricks.DataSynchronizer.Interfaces
 {
-    public interface IPartialSetSynchronizer : ISetSynchronizer
-    {
-    }
+    public interface IPartialSetSynchronizer : ISetSynchronizer;
 }

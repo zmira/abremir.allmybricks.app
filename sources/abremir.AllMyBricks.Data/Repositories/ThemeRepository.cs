@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using abremir.AllMyBricks.Data.Configuration;
 using abremir.AllMyBricks.Data.Extensions;
 using abremir.AllMyBricks.Data.Interfaces;
@@ -15,7 +16,7 @@ namespace abremir.AllMyBricks.Data.Repositories
             _repositoryService = repositoryService;
         }
 
-        public Theme AddOrUpdate(Theme theme)
+        public async Task<Theme> AddOrUpdate(Theme theme)
         {
             if (theme is null
                 || string.IsNullOrWhiteSpace(theme.Name)
@@ -28,19 +29,19 @@ namespace abremir.AllMyBricks.Data.Repositories
 
             using var repository = _repositoryService.GetRepository();
 
-            repository.Upsert(theme);
+            await repository.UpsertAsync(theme).ConfigureAwait(false);
 
             return theme;
         }
 
-        public IEnumerable<Theme> All()
+        public async Task<IEnumerable<Theme>> All()
         {
             using var repository = _repositoryService.GetRepository();
 
-            return repository.Fetch<Theme>("1 = 1");
+            return await repository.FetchAsync<Theme>("1 = 1").ConfigureAwait(false);
         }
 
-        public Theme Get(string themeName)
+        public async Task<Theme> Get(string themeName)
         {
             if (string.IsNullOrWhiteSpace(themeName))
             {
@@ -49,10 +50,10 @@ namespace abremir.AllMyBricks.Data.Repositories
 
             using var repository = _repositoryService.GetRepository();
 
-            return repository.FirstOrDefault<Theme>(theme => theme.Name == themeName.Trim());
+            return await repository.FirstOrDefaultAsync<Theme>(theme => theme.Name == themeName.Trim()).ConfigureAwait(false);
         }
 
-        public IEnumerable<Theme> AllForYear(short year)
+        public async Task<IEnumerable<Theme>> AllForYear(short year)
         {
             if (year < Constants.MinimumSetYear)
             {
@@ -61,7 +62,7 @@ namespace abremir.AllMyBricks.Data.Repositories
 
             using var repository = _repositoryService.GetRepository();
 
-            return repository.Fetch<Theme>(theme => theme.YearFrom <= year && theme.YearTo >= year);
+            return await repository.FetchAsync<Theme>(theme => theme.YearFrom <= year && theme.YearTo >= year).ConfigureAwait(false);
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using abremir.AllMyBricks.Data.Configuration;
 using abremir.AllMyBricks.Data.Interfaces;
 using abremir.AllMyBricks.Data.Models;
@@ -27,9 +28,9 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
         [DataRow(ModelsSetup.StringEmpty, null)]
         [DataRow(null, ModelsSetup.StringEmpty)]
         [DataRow(ModelsSetup.StringEmpty, ModelsSetup.StringEmpty)]
-        public void Get_InvalidParameters_ReturnsNull(string themeName, string subthemeName)
+        public async Task Get_InvalidParameters_ReturnsNull(string themeName, string subthemeName)
         {
-            var subtheme = _subthemeRepository.Get(themeName, subthemeName);
+            var subtheme = await _subthemeRepository.Get(themeName, subthemeName);
 
             Check.That(subtheme).IsNull();
         }
@@ -37,84 +38,84 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
         [DataTestMethod]
         [DataRow(ModelsSetup.ThemeUnderTestName, ModelsSetup.NonExistentSubthemeName)]
         [DataRow(ModelsSetup.NonExistentThemeName, ModelsSetup.SubthemeUnderTestName)]
-        public void Get_SubthemeDoesNotExist_ReturnsNull(string themeName, string subthemeName)
+        public async Task Get_SubthemeDoesNotExist_ReturnsNull(string themeName, string subthemeName)
         {
             var subthemeUnderTest = ModelsSetup.GetSubthemeUnderTest(subthemeName == ModelsSetup.SubthemeUnderTestName ? ModelsSetup.SubthemeUnderTestName : Guid.NewGuid().ToString());
-            subthemeUnderTest.Theme = InsertData(ModelsSetup.GetThemeUnderTest(themeName == ModelsSetup.ThemeUnderTestName ? themeName : Guid.NewGuid().ToString()));
+            subthemeUnderTest.Theme = await InsertData(ModelsSetup.GetThemeUnderTest(themeName == ModelsSetup.ThemeUnderTestName ? themeName : Guid.NewGuid().ToString()));
 
-            InsertData(subthemeUnderTest);
+            await InsertData(subthemeUnderTest);
 
-            var subtheme = _subthemeRepository.Get(themeName, subthemeName);
+            var subtheme = await _subthemeRepository.Get(themeName, subthemeName);
 
             Check.That(subtheme).IsNull();
         }
 
         [TestMethod]
-        public void Get_SubthemeExists_ReturnModel()
+        public async Task Get_SubthemeExists_ReturnModel()
         {
             var subthemeUnderTest = ModelsSetup.GetSubthemeUnderTest(Guid.NewGuid().ToString());
 
-            InsertData(subthemeUnderTest.Theme);
-            InsertData(subthemeUnderTest);
+            await InsertData(subthemeUnderTest.Theme);
+            await InsertData(subthemeUnderTest);
 
-            var subtheme = _subthemeRepository.Get(subthemeUnderTest.Theme.Name, subthemeUnderTest.Name);
+            var subtheme = await _subthemeRepository.Get(subthemeUnderTest.Theme.Name, subthemeUnderTest.Name);
 
             Check.That(subtheme).IsNotNull();
             Check.That(subtheme.Name).IsEqualTo(subthemeUnderTest.Name);
         }
 
         [TestMethod]
-        public void All_NoSubthemes_ReturnsEmpty()
+        public async Task All_NoSubthemes_ReturnsEmpty()
         {
-            var allSubthemes = _subthemeRepository.All();
+            var allSubthemes = await _subthemeRepository.All();
 
             Check.That(allSubthemes).IsEmpty();
         }
 
         [TestMethod]
-        public void All_HasSubthemes_ReturnsModels()
+        public async Task All_HasSubthemes_ReturnsModels()
         {
-            var listOfThemesUnderTest = InsertData(ModelsSetup.ListOfThemesUnderTest);
+            var listOfThemesUnderTest = await InsertData(ModelsSetup.ListOfThemesUnderTest);
 
             var listOfSubthemesUnderTest = ModelsSetup.ListOfSubthemesUnderTest;
             listOfSubthemesUnderTest[0].Theme = listOfThemesUnderTest[0];
             listOfSubthemesUnderTest[1].Theme = listOfThemesUnderTest[0];
 
-            InsertData(listOfSubthemesUnderTest);
+            await InsertData(listOfSubthemesUnderTest);
 
-            var allSubthemes = _subthemeRepository.All();
+            var allSubthemes = await _subthemeRepository.All();
 
             Check.That(allSubthemes.Select(subtheme => subtheme.Name)).IsEquivalentTo(listOfSubthemesUnderTest.Select(subtheme => subtheme.Name));
         }
 
         [TestMethod]
-        public void AllForYear_NoSubthemesForYear_ReturnsEmpty()
+        public async Task AllForYear_NoSubthemesForYear_ReturnsEmpty()
         {
-            var listOfThemesUnderTest = InsertData(ModelsSetup.ListOfThemesUnderTest);
+            var listOfThemesUnderTest = await InsertData(ModelsSetup.ListOfThemesUnderTest);
 
             var listOfSubthemesUnderTest = ModelsSetup.ListOfSubthemesUnderTest;
             listOfSubthemesUnderTest[0].Theme = listOfThemesUnderTest[0];
             listOfSubthemesUnderTest[1].Theme = listOfThemesUnderTest[0];
 
-            InsertData(listOfSubthemesUnderTest);
+            await InsertData(listOfSubthemesUnderTest);
 
-            var allSubthemesForYear = _subthemeRepository.AllForYear(ModelsSetup.FirstThemeYearTo + 1);
+            var allSubthemesForYear = await _subthemeRepository.AllForYear(ModelsSetup.FirstThemeYearTo + 1);
 
             Check.That(allSubthemesForYear).IsEmpty();
         }
 
         [TestMethod]
-        public void AllForYear_YearIsLessThanMinimumConstant_ReturnsEmpty()
+        public async Task AllForYear_YearIsLessThanMinimumConstant_ReturnsEmpty()
         {
-            var listOfThemesUnderTest = InsertData(ModelsSetup.ListOfThemesUnderTest);
+            var listOfThemesUnderTest = await InsertData(ModelsSetup.ListOfThemesUnderTest);
 
             var listOfSubthemesUnderTest = ModelsSetup.ListOfSubthemesUnderTest;
             listOfSubthemesUnderTest[0].Theme = listOfThemesUnderTest[0];
             listOfSubthemesUnderTest[1].Theme = listOfThemesUnderTest[0];
 
-            InsertData(listOfSubthemesUnderTest);
+            await InsertData(listOfSubthemesUnderTest);
 
-            var allSubthemesForYear = _subthemeRepository.AllForYear(Constants.MinimumSetYear - 1);
+            var allSubthemesForYear = await _subthemeRepository.AllForYear(Constants.MinimumSetYear - 1);
 
             Check.That(allSubthemesForYear).IsEmpty();
         }
@@ -122,17 +123,17 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
         [DataTestMethod]
         [DataRow(ModelsSetup.FirstSubthemeYearFrom, 1)]
         [DataRow(ModelsSetup.SecondSubthemeYearFrom, 2)]
-        public void AllForYear_HasSubthemesForYear_ReturnsModels(short year, int expectedCount)
+        public async Task AllForYear_HasSubthemesForYear_ReturnsModels(short year, int expectedCount)
         {
-            var listOfThemesUnderTest = InsertData(ModelsSetup.ListOfThemesUnderTest);
+            var listOfThemesUnderTest = await InsertData(ModelsSetup.ListOfThemesUnderTest);
 
             var listOfSubthemesUnderTest = ModelsSetup.ListOfSubthemesUnderTest;
             listOfSubthemesUnderTest[0].Theme = listOfThemesUnderTest[0];
             listOfSubthemesUnderTest[1].Theme = listOfThemesUnderTest[0];
 
-            InsertData(listOfSubthemesUnderTest);
+            await InsertData(listOfSubthemesUnderTest);
 
-            var allSubthemesForYear = _subthemeRepository.AllForYear(year);
+            var allSubthemesForYear = await _subthemeRepository.AllForYear(year);
 
             Check.That(allSubthemesForYear).CountIs(expectedCount);
         }
@@ -140,59 +141,59 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
         [DataTestMethod]
         [DataRow(null)]
         [DataRow(ModelsSetup.StringEmpty)]
-        public void AllForTheme_InvalidThemeName_ReturnsEmpty(string themeName)
+        public async Task AllForTheme_InvalidThemeName_ReturnsEmpty(string themeName)
         {
-            var listOfThemesUnderTest = InsertData(ModelsSetup.ListOfThemesUnderTest);
+            var listOfThemesUnderTest = await InsertData(ModelsSetup.ListOfThemesUnderTest);
 
             var listOfSubthemesUnderTest = ModelsSetup.ListOfSubthemesUnderTest;
             listOfSubthemesUnderTest[0].Theme = listOfThemesUnderTest[0];
             listOfSubthemesUnderTest[1].Theme = listOfThemesUnderTest[0];
 
-            InsertData(listOfSubthemesUnderTest);
+            await InsertData(listOfSubthemesUnderTest);
 
-            var allSubthemesForTheme = _subthemeRepository.AllForTheme(themeName);
+            var allSubthemesForTheme = await _subthemeRepository.AllForTheme(themeName);
 
             Check.That(allSubthemesForTheme).IsEmpty();
         }
 
         [TestMethod]
-        public void AllForTheme_NoSubthemesForTheme_ReturnsEmpty()
+        public async Task AllForTheme_NoSubthemesForTheme_ReturnsEmpty()
         {
-            var listOfThemesUnderTest = InsertData(ModelsSetup.ListOfThemesUnderTest);
+            var listOfThemesUnderTest = await InsertData(ModelsSetup.ListOfThemesUnderTest);
 
             var listOfSubthemesUnderTest = ModelsSetup.ListOfSubthemesUnderTest;
             listOfSubthemesUnderTest[0].Theme = listOfThemesUnderTest[0];
             listOfSubthemesUnderTest[1].Theme = listOfThemesUnderTest[0];
 
-            InsertData(listOfSubthemesUnderTest);
+            await InsertData(listOfSubthemesUnderTest);
 
-            var allSubthemesForTheme = _subthemeRepository.AllForTheme(ModelsSetup.NonExistentThemeName);
+            var allSubthemesForTheme = await _subthemeRepository.AllForTheme(ModelsSetup.NonExistentThemeName);
 
             Check.That(allSubthemesForTheme).IsEmpty();
         }
 
         [TestMethod]
-        public void AllForTheme_HasSubthemesForTheme_ReturnsModels()
+        public async Task AllForTheme_HasSubthemesForTheme_ReturnsModels()
         {
-            var listOfThemesUnderTest = InsertData(ModelsSetup.ListOfThemesUnderTest);
+            var listOfThemesUnderTest = await InsertData(ModelsSetup.ListOfThemesUnderTest);
 
             var listOfSubthemesUnderTest = ModelsSetup.ListOfSubthemesUnderTest;
             listOfSubthemesUnderTest[0].Theme = listOfThemesUnderTest[0];
             listOfSubthemesUnderTest[1].Theme = listOfThemesUnderTest[0];
 
-            InsertData(listOfSubthemesUnderTest);
+            await InsertData(listOfSubthemesUnderTest);
 
-            var allSubthemesForTheme = _subthemeRepository.AllForTheme(listOfThemesUnderTest[0].Name);
+            var allSubthemesForTheme = await _subthemeRepository.AllForTheme(listOfThemesUnderTest[0].Name);
 
             Check.That(allSubthemesForTheme).CountIs(listOfSubthemesUnderTest.Length);
         }
 
         [TestMethod]
-        public void AddOrUpdate_NullSubtheme_ReturnsNull()
+        public async Task AddOrUpdate_NullSubtheme_ReturnsNull()
         {
             Subtheme subthemeUnderTest = null;
 
-            var subtheme = _subthemeRepository.AddOrUpdate(subthemeUnderTest);
+            var subtheme = await _subthemeRepository.AddOrUpdate(subthemeUnderTest);
 
             Check.That(subtheme).IsNull();
         }
@@ -200,21 +201,21 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
         [DataTestMethod]
         [DataRow(null)]
         [DataRow(ModelsSetup.StringEmpty)]
-        public void AddOrUpdate_InvalidSubtheme_ReturnsNull(string subthemeName)
+        public async Task AddOrUpdate_InvalidSubtheme_ReturnsNull(string subthemeName)
         {
             var subthemeUnderTest = new Subtheme { Name = subthemeName };
 
-            var subtheme = _subthemeRepository.AddOrUpdate(subthemeUnderTest);
+            var subtheme = await _subthemeRepository.AddOrUpdate(subthemeUnderTest);
 
             Check.That(subtheme).IsNull();
         }
 
         [TestMethod]
-        public void AddOrUpdate_NullTheme_ReturnsNull()
+        public async Task AddOrUpdate_NullTheme_ReturnsNull()
         {
             var subthemeUnderTest = new Subtheme { Name = ModelsSetup.NonExistentSubthemeName };
 
-            var subtheme = _subthemeRepository.AddOrUpdate(subthemeUnderTest);
+            var subtheme = await _subthemeRepository.AddOrUpdate(subthemeUnderTest);
 
             Check.That(subtheme).IsNull();
         }
@@ -222,69 +223,69 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
         [DataTestMethod]
         [DataRow(null)]
         [DataRow(ModelsSetup.StringEmpty)]
-        public void AddOrUpdate_InvalidTheme_ReturnsNull(string themeName)
+        public async Task AddOrUpdate_InvalidTheme_ReturnsNull(string themeName)
         {
             var subthemeUnderTest = new Subtheme { Name = ModelsSetup.NonExistentSubthemeName, Theme = new Theme { Name = themeName } };
 
-            var subtheme = _subthemeRepository.AddOrUpdate(subthemeUnderTest);
+            var subtheme = await _subthemeRepository.AddOrUpdate(subthemeUnderTest);
 
             Check.That(subtheme).IsNull();
         }
 
         [TestMethod]
-        public void AddOrUpdate_SubthemeYearFromIsLessThanMinimumConstant_ReturnsNull()
+        public async Task AddOrUpdate_SubthemeYearFromIsLessThanMinimumConstant_ReturnsNull()
         {
             var subthemeUnderTest = ModelsSetup.GetSubthemeUnderTest(Guid.NewGuid().ToString());
             subthemeUnderTest.YearFrom = Constants.MinimumSetYear - 1;
 
-            var subtheme = _subthemeRepository.AddOrUpdate(subthemeUnderTest);
+            var subtheme = await _subthemeRepository.AddOrUpdate(subthemeUnderTest);
 
             Check.That(subtheme).IsNull();
         }
 
         [TestMethod]
-        public void AddOrUpdate_ThemeYearFromIsLessThanMinimumConstant_ReturnsNull()
+        public async Task AddOrUpdate_ThemeYearFromIsLessThanMinimumConstant_ReturnsNull()
         {
             var subthemeUnderTest = ModelsSetup.GetSubthemeUnderTest(Guid.NewGuid().ToString());
             subthemeUnderTest.Theme.YearFrom = Constants.MinimumSetYear - 1;
 
-            var subtheme = _subthemeRepository.AddOrUpdate(subthemeUnderTest);
+            var subtheme = await _subthemeRepository.AddOrUpdate(subthemeUnderTest);
 
             Check.That(subtheme).IsNull();
         }
 
         [TestMethod]
-        public void AddOrUpdate_NewValidSubtheme_InsertsModel()
+        public async Task AddOrUpdate_NewValidSubtheme_InsertsModel()
         {
             var subthemeUnderTest = ModelsSetup.GetSubthemeUnderTest(Guid.NewGuid().ToString());
 
-            InsertData(subthemeUnderTest.Theme);
+            await InsertData(subthemeUnderTest.Theme);
 
-            _subthemeRepository.AddOrUpdate(subthemeUnderTest);
+            await _subthemeRepository.AddOrUpdate(subthemeUnderTest);
 
-            var subtheme = _subthemeRepository.Get(subthemeUnderTest.Theme.Name, subthemeUnderTest.Name);
+            var subtheme = await _subthemeRepository.Get(subthemeUnderTest.Theme.Name, subthemeUnderTest.Name);
 
             Check.That(subtheme).IsNotNull();
             Check.That(subtheme.Name).IsEqualTo(subthemeUnderTest.Name);
         }
 
         [TestMethod]
-        public void AddOrUpdate_ExistingValidSubtheme_UpdatesModel()
+        public async Task AddOrUpdate_ExistingValidSubtheme_UpdatesModel()
         {
             var subtheme = ModelsSetup.GetSubthemeUnderTest(Guid.NewGuid().ToString());
 
-            InsertData(subtheme.Theme);
+            await InsertData(subtheme.Theme);
 
-            _subthemeRepository.AddOrUpdate(subtheme);
+            await _subthemeRepository.AddOrUpdate(subtheme);
 
-            var subthemeUnderTest = _subthemeRepository.Get(subtheme.Theme.Name, subtheme.Name);
+            var subthemeUnderTest = await _subthemeRepository.Get(subtheme.Theme.Name, subtheme.Name);
 
             subthemeUnderTest.SetCount = 66;
             subthemeUnderTest.YearTo = 2099;
 
-            _subthemeRepository.AddOrUpdate(subthemeUnderTest);
+            await _subthemeRepository.AddOrUpdate(subthemeUnderTest);
 
-            var savedSubtheme = _subthemeRepository.Get(subtheme.Theme.Name, subtheme.Name);
+            var savedSubtheme = await _subthemeRepository.Get(subtheme.Theme.Name, subtheme.Name);
 
             Check.That(savedSubtheme).IsNotNull();
             Check.That(savedSubtheme.SetCount).IsEqualTo(subthemeUnderTest.SetCount);

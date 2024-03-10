@@ -1,10 +1,11 @@
-﻿using LiteDB;
+﻿using System.Threading.Tasks;
+using LiteDB.async;
 
 namespace abremir.AllMyBricks.Data.Interfaces
 {
     public interface IRepositoryService
     {
-        ILiteRepository GetRepository();
-        long CompactRepository();
+        ILiteRepositoryAsync GetRepository();
+        Task<long> CompactRepository();
     }
 }

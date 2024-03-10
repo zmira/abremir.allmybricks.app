@@ -34,10 +34,10 @@ namespace abremir.AllMyBricks.DataSynchronizer.Services
 
             try
             {
-                await _themeSynchronizer.Synchronize();
-                await _subthemeSynchronizer.Synchronize();
-                await _fullSetSynchronizer.Synchronize();
-                await _partialSetSynchronizer.Synchronize();
+                await _themeSynchronizer.Synchronize().ConfigureAwait(false);
+                await _subthemeSynchronizer.Synchronize().ConfigureAwait(false);
+                await _fullSetSynchronizer.Synchronize().ConfigureAwait(false);
+                await _partialSetSynchronizer.Synchronize().ConfigureAwait(false);
             }
             catch (Exception ex)
             {

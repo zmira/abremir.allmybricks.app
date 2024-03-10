@@ -8,6 +8,6 @@ namespace abremir.AllMyBricks.UserManagement.Interfaces
         Task<bool> AddBricksetPrimaryUser(string username, string password);
         Task<bool> RemoveBricksetPrimaryUser(string username);
         Task<bool> AddBricksetFriend(string username);
-        bool RemoveBricksetFriend(string username);
+        Task<bool> RemoveBricksetFriend(string username);
     }
 }

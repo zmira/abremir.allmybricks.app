@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using abremir.AllMyBricks.Data.Interfaces;
 
 namespace abremir.AllMyBricks.Data.Repositories
@@ -12,7 +13,7 @@ namespace abremir.AllMyBricks.Data.Repositories
             _repositoryService = repositoryService;
         }
 
-        public T GetOrAdd<T>(string referenceDataValue) where T : IReferenceData, new()
+        public async Task<T> GetOrAdd<T>(string referenceDataValue) where T : IReferenceData, new()
         {
             if (string.IsNullOrWhiteSpace(referenceDataValue))
             {
@@ -21,10 +22,10 @@ namespace abremir.AllMyBricks.Data.Repositories
 
             using var repository = _repositoryService.GetRepository();
 
-            var existingReferenceData = repository
+            var existingReferenceData = await repository
                 .Database
                 .GetCollection<T>()
-                .FindOne(t => t.Value == referenceDataValue.Trim());
+                .FindOneAsync(t => t.Value == referenceDataValue.Trim()).ConfigureAwait(false);
 
             if (!EqualityComparer<T>.Default.Equals(existingReferenceData, default))
             {
@@ -40,7 +41,7 @@ namespace abremir.AllMyBricks.Data.Repositories
                 Value = referenceDataValue.Trim()
             };
 
-            repository.Insert(newReferenceData);
+            await repository.InsertAsync(newReferenceData).ConfigureAwait(false);
 
             return newReferenceData;
         }

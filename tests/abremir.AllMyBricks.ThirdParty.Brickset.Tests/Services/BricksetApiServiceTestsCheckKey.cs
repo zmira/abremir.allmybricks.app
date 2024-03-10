@@ -35,7 +35,7 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
         {
             _httpTestFake.RespondWith(GetResultFileFromResource(nameof(Valid)));
 
-            var keyValidity = await _bricksetApiService.CheckKey(new ParameterApiKey()).ConfigureAwait(false);
+            var keyValidity = await _bricksetApiService.CheckKey(new ParameterApiKey());
 
             Check.That(keyValidity).IsTrue();
         }

@@ -49,7 +49,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 
             var partialSetSynchronizer = CreateTarget(insightsRepository, onboardingService, bricksetApiService);
 
-            await partialSetSynchronizer.Synchronize().ConfigureAwait(false);
+            await partialSetSynchronizer.Synchronize();
 
             await onboardingService.DidNotReceive().GetBricksetApiKey();
             await bricksetApiService.DidNotReceive().GetSets(Arg.Any<GetSetsParameters>());
@@ -63,7 +63,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 
             var partialSetSynchronizer = CreateTarget(onboardingService: onboardingService);
 
-            Check.That(partialSetSynchronizer.Synchronize().ConfigureAwait(false)).Throws<Exception>();
+            Check.That(partialSetSynchronizer.Synchronize()).Throws<Exception>();
         }
 
         [TestMethod]
@@ -73,10 +73,10 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 
             var subthemeSynchronizer = CreateTarget(bricksetApiService: bricksetApiService);
 
-            await subthemeSynchronizer.Synchronize().ConfigureAwait(false);
+            await subthemeSynchronizer.Synchronize();
 
             await bricksetApiService.DidNotReceive().GetSets(Arg.Any<GetSetsParameters>());
-            Check.That(_setRepository.All()).IsEmpty();
+            Check.That(await _setRepository.All()).IsEmpty();
         }
 
         [TestMethod]
@@ -89,19 +89,17 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
             var theme = testTheme.ToTheme();
             theme.SetCountPerYear = yearsList.ToYearSetCountEnumerable().ToList();
 
-            _themeRepository.AddOrUpdate(theme);
+            await _themeRepository.AddOrUpdate(theme);
 
             var bricksetApiService = Substitute.For<IBricksetApiService>();
-            bricksetApiService
-                .GetSets(Arg.Any<GetSetsParameters>())
-                .Returns([]);
+            bricksetApiService.GetSets(Arg.Any<GetSetsParameters>()).Returns([]);
 
             var setSynchronizer = CreateTarget(bricksetApiService: bricksetApiService);
 
-            await setSynchronizer.Synchronize().ConfigureAwait(false);
+            await setSynchronizer.Synchronize();
 
             await bricksetApiService.Received().GetSets(Arg.Any<GetSetsParameters>());
-            Check.That(_setRepository.All()).IsEmpty();
+            Check.That(await _setRepository.All()).IsEmpty();
         }
 
         [TestMethod]
@@ -120,41 +118,35 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
             var theme = testTheme.ToTheme();
             theme.SetCountPerYear = yearsList.ToYearSetCountEnumerable().ToList();
 
-            _themeRepository.AddOrUpdate(theme);
+            await _themeRepository.AddOrUpdate(theme);
 
             foreach (var subthemeItem in subthemesList)
             {
                 var subthemeTheme = subthemeItem.ToSubtheme();
                 subthemeTheme.Theme = theme;
 
-                _subthemeRepository.AddOrUpdate(subthemeTheme);
+                await _subthemeRepository.AddOrUpdate(subthemeTheme);
             }
 
             var subtheme = testSubtheme.ToSubtheme();
             subtheme.Theme = theme;
 
             var bricksetApiService = Substitute.For<IBricksetApiService>();
-            bricksetApiService
-                .GetSets(Arg.Any<GetSetsParameters>())
-                .Returns(setsList);
-            bricksetApiService
-                .GetAdditionalImages(Arg.Is<ParameterSetId>(parameter => parameter.SetID == testSet.SetId))
-                .Returns(additionalImagesList);
-            bricksetApiService
-                .GetInstructions(Arg.Is<ParameterSetId>(parameter => parameter.SetID == testSet.SetId))
-                .Returns(instructionsList);
+            bricksetApiService.GetSets(Arg.Any<GetSetsParameters>()).Returns(setsList);
+            bricksetApiService.GetAdditionalImages(Arg.Is<ParameterSetId>(parameter => parameter.SetID == testSet.SetId)).Returns(additionalImagesList);
+            bricksetApiService.GetInstructions(Arg.Is<ParameterSetId>(parameter => parameter.SetID == testSet.SetId)).Returns(instructionsList);
 
             var setSynchronizer = CreateTarget(bricksetApiService: bricksetApiService);
 
-            await setSynchronizer.Synchronize().ConfigureAwait(false);
+            await setSynchronizer.Synchronize();
 
-            Check.That(_setRepository.All()).CountIs(setsList.Count);
-            var persistedSet = _setRepository.Get(testSet.SetId);
+            Check.That(await _setRepository.All()).CountIs(setsList.Count);
+            var persistedSet = await _setRepository.Get(testSet.SetId);
             Check.That(persistedSet.Images).CountIs(additionalImagesList.Count);
             Check.That(persistedSet.Instructions).CountIs(instructionsList.Count);
         }
 
-        private FullSetSynchronizer CreateTarget(
+        private static FullSetSynchronizer CreateTarget(
             IInsightsRepository insightsRepository = null,
             IOnboardingService onboardingService = null,
             IBricksetApiService bricksetApiService = null)

@@ -67,7 +67,7 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
         {
             _httpTestFake.RespondWith(GetResultFileFromResource(nameof(Success)));
 
-            var sets = await _bricksetApiService.GetSets(new GetSetsParameters()).ConfigureAwait(false);
+            var sets = await _bricksetApiService.GetSets(new GetSetsParameters());
 
             Check.That(sets).CountIs(20);
         }

@@ -42,7 +42,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 
             var subthemeSynchronizer = CreateTarget(onboardingService);
 
-            Check.That(subthemeSynchronizer.Synchronize().ConfigureAwait(false)).Throws<Exception>();
+            Check.That(subthemeSynchronizer.Synchronize()).Throws<Exception>();
         }
 
         [TestMethod]
@@ -50,9 +50,9 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
         {
             var subthemeSynchronizer = CreateTarget();
 
-            await subthemeSynchronizer.Synchronize().ConfigureAwait(false);
+            await subthemeSynchronizer.Synchronize();
 
-            Check.That(_subthemeRepository.All()).IsEmpty();
+            Check.That(await _subthemeRepository.All()).IsEmpty();
         }
 
         [TestMethod]
@@ -65,18 +65,16 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
             var theme = testTheme.ToTheme();
             theme.SetCountPerYear = yearsList.ToYearSetCountEnumerable().ToList();
 
-            _themeRepository.AddOrUpdate(theme);
+            await _themeRepository.AddOrUpdate(theme);
 
             var bricksetApiService = Substitute.For<IBricksetApiService>();
-            bricksetApiService
-                .GetSubthemes(Arg.Any<ParameterTheme>())
-                .Returns([]);
+            bricksetApiService.GetSubthemes(Arg.Any<ParameterTheme>()).Returns([]);
 
             var subthemeSynchronizer = CreateTarget(bricksetApiService: bricksetApiService);
 
-            await subthemeSynchronizer.Synchronize().ConfigureAwait(false);
+            await subthemeSynchronizer.Synchronize();
 
-            Check.That(_subthemeRepository.All()).IsEmpty();
+            Check.That(await _subthemeRepository.All()).IsEmpty();
         }
 
         [TestMethod]
@@ -90,21 +88,19 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
             var theme = testTheme.ToTheme();
             theme.SetCountPerYear = yearsList.ToYearSetCountEnumerable().ToList();
 
-            _themeRepository.AddOrUpdate(theme);
+            await _themeRepository.AddOrUpdate(theme);
 
             var bricksetApiService = Substitute.For<IBricksetApiService>();
-            bricksetApiService
-                .GetSubthemes(Arg.Any<ParameterTheme>())
-                .Returns(subthemesList);
+            bricksetApiService.GetSubthemes(Arg.Any<ParameterTheme>()).Returns(subthemesList);
 
             var subthemeSynchronizer = CreateTarget(bricksetApiService: bricksetApiService);
 
-            await subthemeSynchronizer.Synchronize().ConfigureAwait(false);
+            await subthemeSynchronizer.Synchronize();
 
-            Check.That(_subthemeRepository.All()).CountIs(subthemesList.Count);
+            Check.That(await _subthemeRepository.All()).CountIs(subthemesList.Count);
         }
 
-        private SubthemeSynchronizer CreateTarget(IOnboardingService onboardingService = null, IBricksetApiService bricksetApiService = null)
+        private static SubthemeSynchronizer CreateTarget(IOnboardingService onboardingService = null, IBricksetApiService bricksetApiService = null)
         {
             if (onboardingService is null)
             {

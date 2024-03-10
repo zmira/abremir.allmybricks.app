@@ -37,7 +37,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder
             var dataFolderOption = new Option<string>(DatabaseSeederConstants.DataFolderOption, "Override the default folder path for the data file");
             var logVerbosityOption = new Option<LogVerbosity?>(DatabaseSeederConstants.LogVerbosityOption, "Log verbosity");
 
-            Option<string> GetBricksetApiKeyOption(bool required) => new(DatabaseSeederConstants.BricksetApiKeyOption, "Brickset API key") { IsRequired = required };
+            static Option<string> GetBricksetApiKeyOption(bool required) => new(DatabaseSeederConstants.BricksetApiKeyOption, "Brickset API key") { IsRequired = required };
 
             var syncCommand = new System.CommandLine.Command(DatabaseSeederConstants.SyncCommand, "Synchronize database in non-interactive mode");
             syncCommand.AddOption(GetBricksetApiKeyOption(true));

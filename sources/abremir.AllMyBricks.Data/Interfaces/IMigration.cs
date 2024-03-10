@@ -1,4 +1,5 @@
-﻿using LiteDB;
+﻿using System.Threading.Tasks;
+using LiteDB.Async;
 
 namespace abremir.AllMyBricks.Data.Interfaces
 {
@@ -6,6 +7,6 @@ namespace abremir.AllMyBricks.Data.Interfaces
     {
         int MigrationId { get; }
 
-        void Apply(ILiteDatabase liteDatabase);
+        Task Apply(ILiteDatabaseAsync liteDatabase);
     }
 }

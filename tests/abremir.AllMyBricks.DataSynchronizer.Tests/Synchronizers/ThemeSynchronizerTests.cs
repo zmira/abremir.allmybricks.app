@@ -38,22 +38,20 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 
             var themeSynchronizer = CreateTarget(onboardingService);
 
-            Check.That(themeSynchronizer.Synchronize().ConfigureAwait(false)).Throws<Exception>();
+            Check.That(themeSynchronizer.Synchronize()).Throws<Exception>();
         }
 
         [TestMethod]
         public async Task Synchronize_BricksetApiServiceReturnEmptyListOfThemes_NothingIsSaved()
         {
             var bricksetApiService = Substitute.For<IBricksetApiService>();
-            bricksetApiService
-                .GetThemes(Arg.Any<ParameterApiKey>())
-                .Returns([]);
+            bricksetApiService.GetThemes(Arg.Any<ParameterApiKey>()).Returns([]);
 
             var themeSynchronizer = CreateTarget(bricksetApiService: bricksetApiService);
 
-            await themeSynchronizer.Synchronize().ConfigureAwait(false);
+            await themeSynchronizer.Synchronize();
 
-            Check.That(_themeRepository.All()).IsEmpty();
+            Check.That(await _themeRepository.All()).IsEmpty();
         }
 
         [TestMethod]
@@ -63,22 +61,18 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
             var yearsList = JsonConvert.DeserializeObject<List<Years>>(GetResultFileFromResource(Constants.JsonFileGetYears));
 
             var bricksetApiService = Substitute.For<IBricksetApiService>();
-            bricksetApiService
-                .GetThemes(Arg.Any<ParameterApiKey>())
-                .Returns(themesList);
-            bricksetApiService
-                .GetYears(Arg.Is<ParameterTheme>(parameter => parameter.Theme == Constants.TestThemeArchitecture))
-                .Returns(yearsList);
+            bricksetApiService.GetThemes(Arg.Any<ParameterApiKey>()).Returns(themesList);
+            bricksetApiService.GetYears(Arg.Is<ParameterTheme>(parameter => parameter.Theme == Constants.TestThemeArchitecture)).Returns(yearsList);
 
             var themeSynchronizer = CreateTarget(bricksetApiService: bricksetApiService);
 
-            await themeSynchronizer.Synchronize().ConfigureAwait(false);
+            await themeSynchronizer.Synchronize();
 
-            Check.That(_themeRepository.All()).CountIs(themesList.Count);
-            Check.That(_themeRepository.Get(Constants.TestThemeArchitecture).SetCountPerYear).Not.IsEmpty();
+            Check.That(await _themeRepository.All()).CountIs(themesList.Count);
+            Check.That((await _themeRepository.Get(Constants.TestThemeArchitecture)).SetCountPerYear).Not.IsEmpty();
         }
 
-        private ThemeSynchronizer CreateTarget(IOnboardingService onboardingService = null, IBricksetApiService bricksetApiService = null)
+        private static ThemeSynchronizer CreateTarget(IOnboardingService onboardingService = null, IBricksetApiService bricksetApiService = null)
         {
             if (onboardingService is null)
             {

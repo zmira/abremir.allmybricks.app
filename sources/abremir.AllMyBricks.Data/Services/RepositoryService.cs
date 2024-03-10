@@ -1,7 +1,9 @@
-﻿using abremir.AllMyBricks.Data.Configuration;
+﻿using System.Threading.Tasks;
+using abremir.AllMyBricks.Data.Configuration;
 using abremir.AllMyBricks.Data.Interfaces;
 using abremir.AllMyBricks.Platform.Interfaces;
-using LiteDB;
+using LiteDB.async;
+using LiteDB.Async;
 
 namespace abremir.AllMyBricks.Data.Services
 {
@@ -18,20 +20,20 @@ namespace abremir.AllMyBricks.Data.Services
             _migrationRunner = migrationRunner;
         }
 
-        public ILiteRepository GetRepository()
+        public ILiteRepositoryAsync GetRepository()
         {
-            var repository = new LiteRepository(_fileSystemService.GetStreamForLocalPathToFile(Constants.AllMyBricksDbFile));
+            var repository = new LiteRepositoryAsync(_fileSystemService.GetStreamForLocalPathToFile(Constants.AllMyBricksDbFile));
 
             _migrationRunner.ApplyMigrations(repository.Database);
 
             return repository;
         }
 
-        public long CompactRepository()
+        public async Task<long> CompactRepository()
         {
             using var repository = GetRepository();
 
-            return repository.Database.Rebuild();
+            return await repository.Database.RebuildAsync().ConfigureAwait(false);
         }
     }
 }

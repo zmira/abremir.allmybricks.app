@@ -87,6 +87,8 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
                     logger.LogInformation($"Finished set synchronizer for {(message.Complete ? "full" : "partial")} dataset");
                 }
             });
+
+            messageHub.Subscribe<MismatchingNumberOfSetsWarning>(message => logger.LogWarning("Mismatched number of sets! Expected: {0}; Actual: {1}", message.Expected, message.Actual));
         }
     }
 }

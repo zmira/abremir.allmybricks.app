@@ -1,4 +1,5 @@
-﻿using abremir.AllMyBricks.Data.Interfaces;
+﻿using System.Threading.Tasks;
+using abremir.AllMyBricks.Data.Interfaces;
 using abremir.AllMyBricks.Data.Models;
 using abremir.AllMyBricks.Data.Repositories;
 using abremir.AllMyBricks.Data.Tests.Configuration;
@@ -22,93 +23,93 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
         [DataTestMethod]
         [DataRow(ModelsSetup.StringEmpty)]
         [DataRow(null)]
-        public void GetOrAdd_InvalidCategoryReferenceDataValue_ReturnsNull(string referenceDataValue)
+        public async Task GetOrAdd_InvalidCategoryReferenceDataValue_ReturnsNull(string referenceDataValue)
         {
-            GetOrAddTestHelper<Category>(referenceDataValue, null);
+            await GetOrAddTestHelper<Category>(referenceDataValue, null);
         }
 
         [DataTestMethod]
         [DataRow(ModelsSetup.StringEmpty)]
         [DataRow(null)]
-        public void GetOrAdd_InvalidPackagingTypeReferenceDataValue_ReturnsNull(string referenceDataValue)
+        public async Task GetOrAdd_InvalidPackagingTypeReferenceDataValue_ReturnsNull(string referenceDataValue)
         {
-            GetOrAddTestHelper<PackagingType>(referenceDataValue, null);
+            await GetOrAddTestHelper<PackagingType>(referenceDataValue, null);
         }
 
         [DataTestMethod]
         [DataRow(ModelsSetup.StringEmpty)]
         [DataRow(null)]
-        public void GetOrAdd_InvalidTagReferenceDataValue_ReturnsNull(string referenceDataValue)
+        public async Task GetOrAdd_InvalidTagReferenceDataValue_ReturnsNull(string referenceDataValue)
         {
-            GetOrAddTestHelper<Tag>(referenceDataValue, null);
+            await GetOrAddTestHelper<Tag>(referenceDataValue, null);
         }
 
         [DataTestMethod]
         [DataRow(ModelsSetup.StringEmpty)]
         [DataRow(null)]
-        public void GetOrAdd_InvalidThemeGroupReferenceDataValue_ReturnsNull(string referenceDataValue)
+        public async Task GetOrAdd_InvalidThemeGroupReferenceDataValue_ReturnsNull(string referenceDataValue)
         {
-            GetOrAddTestHelper<ThemeGroup>(referenceDataValue, null);
+            await GetOrAddTestHelper<ThemeGroup>(referenceDataValue, null);
         }
 
         [TestMethod]
-        public void GetOrAdd_CategoryReferenceDataDoesNotExist_InsertsReferenceData()
+        public async Task GetOrAdd_CategoryReferenceDataDoesNotExist_InsertsReferenceData()
         {
-            GetOrAddTestHelper<Category>(ModelsSetup.CategoryReferenceDataValue, ModelsSetup.CategoryReferenceData, insert: true);
+            await GetOrAddTestHelper(ModelsSetup.CategoryReferenceDataValue, ModelsSetup.CategoryReferenceData, insert: true);
         }
 
         [TestMethod]
-        public void GetOrAdd_PackagingTypeReferenceDataDoesNotExist_InsertsReferenceData()
+        public async Task GetOrAdd_PackagingTypeReferenceDataDoesNotExist_InsertsReferenceData()
         {
-            GetOrAddTestHelper<PackagingType>(ModelsSetup.PackagingTypeReferenceDataValue, ModelsSetup.PackagingTypeReferenceData, insert: true);
+            await GetOrAddTestHelper(ModelsSetup.PackagingTypeReferenceDataValue, ModelsSetup.PackagingTypeReferenceData, insert: true);
         }
 
         [TestMethod]
-        public void GetOrAdd_TagReferenceDataDoesNotExist_InsertsReferenceData()
+        public async Task GetOrAdd_TagReferenceDataDoesNotExist_InsertsReferenceData()
         {
-            GetOrAddTestHelper<Tag>(ModelsSetup.TagReferenceDataValue, ModelsSetup.TagReferenceData, insert: true);
+            await GetOrAddTestHelper(ModelsSetup.TagReferenceDataValue, ModelsSetup.TagReferenceData, insert: true);
         }
 
         [TestMethod]
-        public void GetOrAdd_ThemeGroupReferenceDataDoesNotExist_InsertsReferenceData()
+        public async Task GetOrAdd_ThemeGroupReferenceDataDoesNotExist_InsertsReferenceData()
         {
-            GetOrAddTestHelper<ThemeGroup>(ModelsSetup.ThemeGroupReferenceDataValue, ModelsSetup.ThemeGroupReferenceData, insert: true);
+            await GetOrAddTestHelper(ModelsSetup.ThemeGroupReferenceDataValue, ModelsSetup.ThemeGroupReferenceData, insert: true);
         }
 
         [TestMethod]
-        public void GetOrAdd_CategoryReferenceDataExists_DoesNotInsertReferenceData()
+        public async Task GetOrAdd_CategoryReferenceDataExists_DoesNotInsertReferenceData()
         {
-            GetOrAddTestHelper<Category>(ModelsSetup.CategoryReferenceDataValue, ModelsSetup.CategoryReferenceData, exists: true);
+            await GetOrAddTestHelper(ModelsSetup.CategoryReferenceDataValue, ModelsSetup.CategoryReferenceData, exists: true);
         }
 
         [TestMethod]
-        public void GetOrAdd_PackagingTypeReferenceDataExists_DoesNotInsertReferenceData()
+        public async Task GetOrAdd_PackagingTypeReferenceDataExists_DoesNotInsertReferenceData()
         {
-            GetOrAddTestHelper<PackagingType>(ModelsSetup.PackagingTypeReferenceDataValue, ModelsSetup.PackagingTypeReferenceData, exists: true);
+            await GetOrAddTestHelper(ModelsSetup.PackagingTypeReferenceDataValue, ModelsSetup.PackagingTypeReferenceData, exists: true);
         }
 
         [TestMethod]
-        public void GetOrAdd_TagReferenceDataExists_DoesNotInsertReferenceData()
+        public async Task GetOrAdd_TagReferenceDataExists_DoesNotInsertReferenceData()
         {
-            GetOrAddTestHelper<Tag>(ModelsSetup.TagReferenceDataValue, ModelsSetup.TagReferenceData, exists: true);
+            await GetOrAddTestHelper(ModelsSetup.TagReferenceDataValue, ModelsSetup.TagReferenceData, exists: true);
         }
 
         [TestMethod]
-        public void GetOrAdd_ThemeGroupReferenceDataExists_DoesNotInsertReferenceData()
+        public async Task GetOrAdd_ThemeGroupReferenceDataExists_DoesNotInsertReferenceData()
         {
-            GetOrAddTestHelper<ThemeGroup>(ModelsSetup.ThemeGroupReferenceDataValue, ModelsSetup.ThemeGroupReferenceData, exists: true);
+            await GetOrAddTestHelper(ModelsSetup.ThemeGroupReferenceDataValue, ModelsSetup.ThemeGroupReferenceData, exists: true);
         }
 
-        private void GetOrAddTestHelper<T>(string referenceDataValue, T expectedReferenceData, bool insert = false, bool exists = false) where T : IReferenceData, new()
+        private static async Task GetOrAddTestHelper<T>(string referenceDataValue, T expectedReferenceData, bool insert = false, bool exists = false) where T : IReferenceData, new()
         {
             if (exists)
             {
-                _referenceDataRepository.GetOrAdd<T>(expectedReferenceData.Value);
+                await _referenceDataRepository.GetOrAdd<T>(expectedReferenceData.Value);
             }
 
-            T referenceData = _referenceDataRepository.GetOrAdd<T>(referenceDataValue);
+            T referenceData = await _referenceDataRepository.GetOrAdd<T>(referenceDataValue);
 
-            if (!(expectedReferenceData is null))
+            if (expectedReferenceData is not null)
             {
                 Check.That(referenceData?.GetType()).IsEqualTo(typeof(T));
             }
@@ -117,7 +118,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
 
             if (insert || exists)
             {
-                var referenceDataList = MemoryRepositoryService.GetRepository().Query<T>().ToList();
+                var referenceDataList = await MemoryRepositoryService.GetRepository().Query<T>().ToListAsync();
 
                 Check.That(referenceDataList).CountIs(1);
                 Check.That(referenceDataList[0].Value).IsEqualTo(referenceDataValue);

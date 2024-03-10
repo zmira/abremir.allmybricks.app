@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using abremir.AllMyBricks.Data.Configuration;
 using abremir.AllMyBricks.Data.Extensions;
 using abremir.AllMyBricks.Data.Interfaces;
 using abremir.AllMyBricks.Data.Models;
-using LiteDB;
+using LiteDB.async;
+using LiteDB.Async;
 
 namespace abremir.AllMyBricks.Data.Repositories
 {
@@ -16,7 +18,7 @@ namespace abremir.AllMyBricks.Data.Repositories
             _repositoryService = repositoryService;
         }
 
-        public Subtheme AddOrUpdate(Subtheme subtheme)
+        public async Task<Subtheme> AddOrUpdate(Subtheme subtheme)
         {
             if (subtheme is null
                 || subtheme.Theme is null
@@ -37,19 +39,19 @@ namespace abremir.AllMyBricks.Data.Repositories
 
             using var repository = _repositoryService.GetRepository();
 
-            repository.Upsert(subtheme);
+            await repository.UpsertAsync(subtheme).ConfigureAwait(false);
 
             return subtheme;
         }
 
-        public IEnumerable<Subtheme> All()
+        public async Task<IEnumerable<Subtheme>> All()
         {
             using var repository = _repositoryService.GetRepository();
 
-            return GetQueryable(repository).ToList();
+            return await GetQueryable(repository).ToListAsync().ConfigureAwait(false);
         }
 
-        public Subtheme Get(string themeName, string subthemeName)
+        public async Task<Subtheme> Get(string themeName, string subthemeName)
         {
             if (string.IsNullOrWhiteSpace(themeName))
             {
@@ -63,12 +65,12 @@ namespace abremir.AllMyBricks.Data.Repositories
 
             using var repository = _repositoryService.GetRepository();
 
-            return GetQueryable(repository)
+            return await GetQueryable(repository)
                 .Where(subtheme => subtheme.Theme.Name == themeName.Trim() && subtheme.Name == subthemeName.Trim())
-                .FirstOrDefault();
+                .FirstOrDefaultAsync().ConfigureAwait(false);
         }
 
-        public IEnumerable<Subtheme> AllForTheme(string themeName)
+        public async Task<IEnumerable<Subtheme>> AllForTheme(string themeName)
         {
             if (string.IsNullOrWhiteSpace(themeName))
             {
@@ -77,12 +79,12 @@ namespace abremir.AllMyBricks.Data.Repositories
 
             using var repository = _repositoryService.GetRepository();
 
-            return GetQueryable(repository)
+            return await GetQueryable(repository)
                 .Where(subtheme => subtheme.Theme.Name == themeName.Trim())
-                .ToList();
+                .ToListAsync().ConfigureAwait(false);
         }
 
-        public IEnumerable<Subtheme> AllForYear(short year)
+        public async Task<IEnumerable<Subtheme>> AllForYear(short year)
         {
             if (year < Constants.MinimumSetYear)
             {
@@ -91,16 +93,13 @@ namespace abremir.AllMyBricks.Data.Repositories
 
             using var repository = _repositoryService.GetRepository();
 
-            return GetQueryable(repository)
+            return await GetQueryable(repository)
                 .Where(subtheme => subtheme.YearFrom <= year && subtheme.YearTo >= year)
-                .ToList();
+                .ToListAsync().ConfigureAwait(false);
         }
 
-        private ILiteQueryable<Subtheme> GetQueryable(ILiteRepository repository)
-        {
-            return repository
+        private static ILiteQueryableAsync<Subtheme> GetQueryable(ILiteRepositoryAsync repository) => repository
                 .Query<Subtheme>()
                 .IncludeAll();
-        }
     }
 }

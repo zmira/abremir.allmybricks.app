@@ -30,21 +30,13 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Services
         [DataRow(" ")]
         public async Task SynchronizeBricksetPrimaryUsersSets_NoBricksetApiKey_NothingIsDone(string apiKey)
         {
-            _userSynchronizationService.Get<IOnboardingService>()
-                .GetBricksetApiKey()
-                .Returns(apiKey);
+            _userSynchronizationService.Get<IOnboardingService>().GetBricksetApiKey().Returns(apiKey);
 
-            await _userSynchronizationService.ClassUnderTest.SynchronizeBricksetPrimaryUsersSets().ConfigureAwait(false);
+            await _userSynchronizationService.ClassUnderTest.SynchronizeBricksetPrimaryUsersSets();
 
-            _userSynchronizationService.Get<IBricksetUserRepository>()
-                .DidNotReceive()
-                .GetAllUsernames(Arg.Any<BricksetUserType>());
-            await _userSynchronizationService.Get<ISecureStorageService>()
-                .DidNotReceive()
-                .GetBricksetUserHash(Arg.Any<string>()).ConfigureAwait(false);
-            await _userSynchronizationService.Get<IUserSynchronizer>()
-                .DidNotReceive()
-                .SynchronizeBricksetPrimaryUser(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>()).ConfigureAwait(false);
+            await _userSynchronizationService.Get<IBricksetUserRepository>().DidNotReceive().GetAllUsernames(Arg.Any<BricksetUserType>());
+            await _userSynchronizationService.Get<ISecureStorageService>().DidNotReceive().GetBricksetUserHash(Arg.Any<string>());
+            await _userSynchronizationService.Get<IUserSynchronizer>().DidNotReceive().SynchronizeBricksetPrimaryUser(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>());
         }
 
         [TestMethod]
@@ -52,21 +44,13 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Services
         {
             const string apiKey = "APIKEY";
 
-            _userSynchronizationService.Get<IOnboardingService>()
-                .GetBricksetApiKey()
-                .Returns(apiKey);
+            _userSynchronizationService.Get<IOnboardingService>().GetBricksetApiKey().Returns(apiKey);
 
-            await _userSynchronizationService.ClassUnderTest.SynchronizeBricksetPrimaryUsersSets().ConfigureAwait(false);
+            await _userSynchronizationService.ClassUnderTest.SynchronizeBricksetPrimaryUsersSets();
 
-            _userSynchronizationService.Get<IBricksetUserRepository>()
-                .Received()
-                .GetAllUsernames(BricksetUserType.Primary);
-            await _userSynchronizationService.Get<ISecureStorageService>()
-                .DidNotReceive()
-                .GetBricksetUserHash(Arg.Any<string>()).ConfigureAwait(false);
-            await _userSynchronizationService.Get<IUserSynchronizer>()
-                .DidNotReceive()
-                .SynchronizeBricksetPrimaryUser(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>()).ConfigureAwait(false);
+            await _userSynchronizationService.Get<IBricksetUserRepository>().Received().GetAllUsernames(BricksetUserType.Primary);
+            await _userSynchronizationService.Get<ISecureStorageService>().DidNotReceive().GetBricksetUserHash(Arg.Any<string>());
+            await _userSynchronizationService.Get<IUserSynchronizer>().DidNotReceive().SynchronizeBricksetPrimaryUser(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>());
         }
 
         [TestMethod]
@@ -80,32 +64,16 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Services
                 "brickset-primary-user-2"
             };
 
-            _userSynchronizationService.Get<IOnboardingService>()
-                .GetBricksetApiKey()
-                .Returns(apiKey);
+            _userSynchronizationService.Get<IOnboardingService>().GetBricksetApiKey().Returns(apiKey);
+            _userSynchronizationService.Get<IBricksetUserRepository>().GetAllUsernames(BricksetUserType.Primary).Returns(returnedBricksetPrimaryUsers);
+            _userSynchronizationService.Get<ISecureStorageService>().GetBricksetUserHash(Arg.Any<string>()).Returns(string.Empty);
 
-            _userSynchronizationService.Get<IBricksetUserRepository>()
-                .GetAllUsernames(BricksetUserType.Primary)
-                .Returns(returnedBricksetPrimaryUsers);
+            await _userSynchronizationService.ClassUnderTest.SynchronizeBricksetPrimaryUsersSets();
 
-            _userSynchronizationService.Get<ISecureStorageService>()
-                .GetBricksetUserHash(Arg.Any<string>())
-                .Returns(string.Empty);
-
-            await _userSynchronizationService.ClassUnderTest.SynchronizeBricksetPrimaryUsersSets().ConfigureAwait(false);
-
-            _userSynchronizationService.Get<IBricksetUserRepository>()
-                .Received()
-                .GetAllUsernames(BricksetUserType.Primary);
-            await _userSynchronizationService.Get<ISecureStorageService>()
-                .Received(returnedBricksetPrimaryUsers.Length)
-                .GetBricksetUserHash(Arg.Any<string>()).ConfigureAwait(false);
-            await _userSynchronizationService.Get<IUserSynchronizer>()
-                .DidNotReceive()
-                .SynchronizeBricksetPrimaryUser(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>()).ConfigureAwait(false);
-            _userSynchronizationService.Get<IMessageHub>()
-                .Received()
-                .Publish(Arg.Any<UserSynchronizationServiceException>());
+            await _userSynchronizationService.Get<IBricksetUserRepository>().Received().GetAllUsernames(BricksetUserType.Primary);
+            await _userSynchronizationService.Get<ISecureStorageService>().Received(returnedBricksetPrimaryUsers.Length).GetBricksetUserHash(Arg.Any<string>());
+            await _userSynchronizationService.Get<IUserSynchronizer>().DidNotReceive().SynchronizeBricksetPrimaryUser(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>());
+            _userSynchronizationService.Get<IMessageHub>().Received().Publish(Arg.Any<UserSynchronizationServiceException>());
         }
 
         [TestMethod]
@@ -120,32 +88,16 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Services
                 "brickset-primary-user-2"
             };
 
-            _userSynchronizationService.Get<IOnboardingService>()
-                .GetBricksetApiKey()
-                .Returns(apiKey);
+            _userSynchronizationService.Get<IOnboardingService>().GetBricksetApiKey().Returns(apiKey);
+            _userSynchronizationService.Get<IBricksetUserRepository>().GetAllUsernames(BricksetUserType.Primary).Returns(returnedBricksetPrimaryUsers);
+            _userSynchronizationService.Get<ISecureStorageService>().GetBricksetUserHash(Arg.Any<string>()).Returns(userHash);
 
-            _userSynchronizationService.Get<IBricksetUserRepository>()
-                .GetAllUsernames(BricksetUserType.Primary)
-                .Returns(returnedBricksetPrimaryUsers);
+            await _userSynchronizationService.ClassUnderTest.SynchronizeBricksetPrimaryUsersSets();
 
-            _userSynchronizationService.Get<ISecureStorageService>()
-                .GetBricksetUserHash(Arg.Any<string>())
-                .Returns(userHash);
-
-            await _userSynchronizationService.ClassUnderTest.SynchronizeBricksetPrimaryUsersSets().ConfigureAwait(false);
-
-            _userSynchronizationService.Get<IBricksetUserRepository>()
-                .Received()
-                .GetAllUsernames(BricksetUserType.Primary);
-            await _userSynchronizationService.Get<ISecureStorageService>()
-                .Received(returnedBricksetPrimaryUsers.Length)
-                .GetBricksetUserHash(Arg.Any<string>()).ConfigureAwait(false);
-            await _userSynchronizationService.Get<IUserSynchronizer>()
-                .Received(returnedBricksetPrimaryUsers.Length)
-                .SynchronizeBricksetPrimaryUser(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>()).ConfigureAwait(false);
-            _userSynchronizationService.Get<IMessageHub>()
-                .DidNotReceive()
-                .Publish(Arg.Any<UserSynchronizationServiceException>());
+            await _userSynchronizationService.Get<IBricksetUserRepository>().Received().GetAllUsernames(BricksetUserType.Primary);
+            await _userSynchronizationService.Get<ISecureStorageService>().Received(returnedBricksetPrimaryUsers.Length).GetBricksetUserHash(Arg.Any<string>());
+            await _userSynchronizationService.Get<IUserSynchronizer>().Received(returnedBricksetPrimaryUsers.Length).SynchronizeBricksetPrimaryUser(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>());
+            _userSynchronizationService.Get<IMessageHub>().DidNotReceive().Publish(Arg.Any<UserSynchronizationServiceException>());
         }
 
         [TestMethod]
@@ -154,19 +106,12 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Services
             const string username = "USERNAME";
             const string apiKey = "APIKEY";
 
-            _userSynchronizationService.Get<IOnboardingService>()
-                .GetBricksetApiKey()
-                .Returns(apiKey);
+            _userSynchronizationService.Get<IOnboardingService>().GetBricksetApiKey().Returns(apiKey);
+            _userSynchronizationService.Get<IBricksetUserRepository>().Exists(Arg.Any<string>()).Returns(false);
 
-            _userSynchronizationService.Get<IBricksetUserRepository>()
-                .Exists(Arg.Any<string>())
-                .Returns(false);
+            await _userSynchronizationService.ClassUnderTest.SynchronizeBricksetPrimaryUsersSets(username);
 
-            await _userSynchronizationService.ClassUnderTest.SynchronizeBricksetPrimaryUsersSets(username).ConfigureAwait(false);
-
-            _userSynchronizationService.Get<IMessageHub>()
-                .Received()
-                .Publish(Arg.Any<UserSynchronizationServiceException>());
+            _userSynchronizationService.Get<IMessageHub>().Received().Publish(Arg.Any<UserSynchronizationServiceException>());
         }
 
         [TestMethod]
@@ -175,32 +120,16 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Services
             const string username = "USERNAME";
             const string apiKey = "APIKEY";
 
-            _userSynchronizationService.Get<IOnboardingService>()
-                .GetBricksetApiKey()
-                .Returns(apiKey);
+            _userSynchronizationService.Get<IOnboardingService>().GetBricksetApiKey().Returns(apiKey);
+            _userSynchronizationService.Get<IBricksetUserRepository>().Exists(Arg.Any<string>()).Returns(true);
+            _userSynchronizationService.Get<ISecureStorageService>().GetBricksetUserHash(Arg.Any<string>()).Returns(string.Empty);
 
-            _userSynchronizationService.Get<IBricksetUserRepository>()
-                .Exists(Arg.Any<string>())
-                .Returns(true);
+            await _userSynchronizationService.ClassUnderTest.SynchronizeBricksetPrimaryUsersSets(username);
 
-            _userSynchronizationService.Get<ISecureStorageService>()
-                .GetBricksetUserHash(Arg.Any<string>())
-                .Returns(string.Empty);
-
-            await _userSynchronizationService.ClassUnderTest.SynchronizeBricksetPrimaryUsersSets(username).ConfigureAwait(false);
-
-            _userSynchronizationService.Get<IBricksetUserRepository>()
-                .DidNotReceive()
-                .GetAllUsernames(Arg.Any<BricksetUserType>());
-            await _userSynchronizationService.Get<ISecureStorageService>()
-                .Received()
-                .GetBricksetUserHash(Arg.Any<string>()).ConfigureAwait(false);
-            await _userSynchronizationService.Get<IUserSynchronizer>()
-                .DidNotReceive()
-                .SynchronizeBricksetPrimaryUser(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>()).ConfigureAwait(false);
-            _userSynchronizationService.Get<IMessageHub>()
-                .Received()
-                .Publish(Arg.Any<UserSynchronizationServiceException>());
+            await _userSynchronizationService.Get<IBricksetUserRepository>().DidNotReceive().GetAllUsernames(Arg.Any<BricksetUserType>());
+            await _userSynchronizationService.Get<ISecureStorageService>().Received().GetBricksetUserHash(Arg.Any<string>());
+            await _userSynchronizationService.Get<IUserSynchronizer>().DidNotReceive().SynchronizeBricksetPrimaryUser(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>());
+            _userSynchronizationService.Get<IMessageHub>().Received().Publish(Arg.Any<UserSynchronizationServiceException>());
         }
 
         [TestMethod]
@@ -210,32 +139,16 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Services
             const string apiKey = "APIKEY";
             const string userHash = "USERHASH";
 
-            _userSynchronizationService.Get<IOnboardingService>()
-                .GetBricksetApiKey()
-                .Returns(apiKey);
+            _userSynchronizationService.Get<IOnboardingService>().GetBricksetApiKey().Returns(apiKey);
+            _userSynchronizationService.Get<IBricksetUserRepository>().Exists(Arg.Any<string>()).Returns(true);
+            _userSynchronizationService.Get<ISecureStorageService>().GetBricksetUserHash(Arg.Any<string>()).Returns(userHash);
 
-            _userSynchronizationService.Get<IBricksetUserRepository>()
-                .Exists(Arg.Any<string>())
-                .Returns(true);
+            await _userSynchronizationService.ClassUnderTest.SynchronizeBricksetPrimaryUsersSets(username);
 
-            _userSynchronizationService.Get<ISecureStorageService>()
-                .GetBricksetUserHash(Arg.Any<string>())
-                .Returns(userHash);
-
-            await _userSynchronizationService.ClassUnderTest.SynchronizeBricksetPrimaryUsersSets(username).ConfigureAwait(false);
-
-            _userSynchronizationService.Get<IBricksetUserRepository>()
-                .DidNotReceive()
-                .GetAllUsernames(Arg.Any<BricksetUserType>());
-            await _userSynchronizationService.Get<ISecureStorageService>()
-                .Received()
-                .GetBricksetUserHash(Arg.Any<string>()).ConfigureAwait(false);
-            await _userSynchronizationService.Get<IUserSynchronizer>()
-                .Received()
-                .SynchronizeBricksetPrimaryUser(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>()).ConfigureAwait(false);
-            _userSynchronizationService.Get<IMessageHub>()
-                .DidNotReceive()
-                .Publish(Arg.Any<UserSynchronizationServiceException>());
+            await _userSynchronizationService.Get<IBricksetUserRepository>().DidNotReceive().GetAllUsernames(Arg.Any<BricksetUserType>());
+            await _userSynchronizationService.Get<ISecureStorageService>().Received().GetBricksetUserHash(Arg.Any<string>());
+            await _userSynchronizationService.Get<IUserSynchronizer>().Received().SynchronizeBricksetPrimaryUser(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>());
+            _userSynchronizationService.Get<IMessageHub>().DidNotReceive().Publish(Arg.Any<UserSynchronizationServiceException>());
         }
 
         [DataTestMethod]
@@ -244,18 +157,12 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Services
         [DataRow(" ")]
         public async Task SynchronizeBricksetFriendsSets_NoBricksetApiKey_NothingIsDone(string apiKey)
         {
-            _userSynchronizationService.Get<IOnboardingService>()
-                .GetBricksetApiKey()
-                .Returns(apiKey);
+            _userSynchronizationService.Get<IOnboardingService>().GetBricksetApiKey().Returns(apiKey);
 
-            await _userSynchronizationService.ClassUnderTest.SynchronizeBricksetFriendsSets().ConfigureAwait(false);
+            await _userSynchronizationService.ClassUnderTest.SynchronizeBricksetFriendsSets();
 
-            _userSynchronizationService.Get<IBricksetUserRepository>()
-                .DidNotReceive()
-                .GetAllUsernames(Arg.Any<BricksetUserType>());
-            await _userSynchronizationService.Get<IUserSynchronizer>()
-                .DidNotReceive()
-                .SynchronizeBricksetFriend(Arg.Any<string>(), Arg.Any<string>()).ConfigureAwait(false);
+            await _userSynchronizationService.Get<IBricksetUserRepository>().DidNotReceive().GetAllUsernames(Arg.Any<BricksetUserType>());
+            await _userSynchronizationService.Get<IUserSynchronizer>().DidNotReceive().SynchronizeBricksetFriend(Arg.Any<string>(), Arg.Any<string>());
         }
 
         [TestMethod]
@@ -263,18 +170,12 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Services
         {
             const string apiKey = "APIKEY";
 
-            _userSynchronizationService.Get<IOnboardingService>()
-                .GetBricksetApiKey()
-                .Returns(apiKey);
+            _userSynchronizationService.Get<IOnboardingService>().GetBricksetApiKey().Returns(apiKey);
 
-            await _userSynchronizationService.ClassUnderTest.SynchronizeBricksetFriendsSets().ConfigureAwait(false);
+            await _userSynchronizationService.ClassUnderTest.SynchronizeBricksetFriendsSets();
 
-            _userSynchronizationService.Get<IBricksetUserRepository>()
-                .Received()
-                .GetAllUsernames(BricksetUserType.Friend);
-            await _userSynchronizationService.Get<IUserSynchronizer>()
-                .DidNotReceive()
-                .SynchronizeBricksetFriend(Arg.Any<string>(), Arg.Any<string>()).ConfigureAwait(false);
+            await _userSynchronizationService.Get<IBricksetUserRepository>().Received().GetAllUsernames(BricksetUserType.Friend);
+            await _userSynchronizationService.Get<IUserSynchronizer>().DidNotReceive().SynchronizeBricksetFriend(Arg.Any<string>(), Arg.Any<string>());
         }
 
         [TestMethod]
@@ -288,22 +189,13 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Services
                 "brickset-friend-2"
             };
 
-            _userSynchronizationService.Get<IOnboardingService>()
-                .GetBricksetApiKey()
-                .Returns(apiKey);
+            _userSynchronizationService.Get<IOnboardingService>().GetBricksetApiKey().Returns(apiKey);
+            _userSynchronizationService.Get<IBricksetUserRepository>().GetAllUsernames(BricksetUserType.Friend).Returns(returnedBricksetFriends);
 
-            _userSynchronizationService.Get<IBricksetUserRepository>()
-                .GetAllUsernames(BricksetUserType.Friend)
-                .Returns(returnedBricksetFriends);
+            await _userSynchronizationService.ClassUnderTest.SynchronizeBricksetFriendsSets();
 
-            await _userSynchronizationService.ClassUnderTest.SynchronizeBricksetFriendsSets().ConfigureAwait(false);
-
-            _userSynchronizationService.Get<IBricksetUserRepository>()
-                .Received()
-                .GetAllUsernames(BricksetUserType.Friend);
-            await _userSynchronizationService.Get<IUserSynchronizer>()
-                .Received(returnedBricksetFriends.Length)
-                .SynchronizeBricksetFriend(apiKey, Arg.Any<string>()).ConfigureAwait(false);
+            await _userSynchronizationService.Get<IBricksetUserRepository>().Received().GetAllUsernames(BricksetUserType.Friend);
+            await _userSynchronizationService.Get<IUserSynchronizer>().Received(returnedBricksetFriends.Length).SynchronizeBricksetFriend(apiKey, Arg.Any<string>());
         }
 
         [TestMethod]
@@ -312,19 +204,12 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Services
             const string username = "USERNAME";
             const string apiKey = "APIKEY";
 
-            _userSynchronizationService.Get<IOnboardingService>()
-                .GetBricksetApiKey()
-                .Returns(apiKey);
+            _userSynchronizationService.Get<IOnboardingService>().GetBricksetApiKey().Returns(apiKey);
+            _userSynchronizationService.Get<IBricksetUserRepository>().Exists(Arg.Any<string>()).Returns(true);
 
-            _userSynchronizationService.Get<IBricksetUserRepository>()
-                .Exists(Arg.Any<string>())
-                .Returns(true);
+            await _userSynchronizationService.ClassUnderTest.SynchronizeBricksetFriendsSets(username);
 
-            await _userSynchronizationService.ClassUnderTest.SynchronizeBricksetFriendsSets(username).ConfigureAwait(false);
-
-            await _userSynchronizationService.Get<IUserSynchronizer>()
-                .Received()
-                .SynchronizeBricksetFriend(apiKey, username).ConfigureAwait(false);
+            await _userSynchronizationService.Get<IUserSynchronizer>().Received().SynchronizeBricksetFriend(apiKey, username);
         }
 
         [TestMethod]
@@ -333,19 +218,12 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Services
             const string username = "USERNAME";
             const string apiKey = "APIKEY";
 
-            _userSynchronizationService.Get<IOnboardingService>()
-                .GetBricksetApiKey()
-                .Returns(apiKey);
+            _userSynchronizationService.Get<IOnboardingService>().GetBricksetApiKey().Returns(apiKey);
+            _userSynchronizationService.Get<IBricksetUserRepository>().Exists(Arg.Any<string>()).Returns(false);
 
-            _userSynchronizationService.Get<IBricksetUserRepository>()
-                .Exists(Arg.Any<string>())
-                .Returns(false);
+            await _userSynchronizationService.ClassUnderTest.SynchronizeBricksetFriendsSets(username);
 
-            await _userSynchronizationService.ClassUnderTest.SynchronizeBricksetFriendsSets(username).ConfigureAwait(false);
-
-            _userSynchronizationService.Get<IMessageHub>()
-                .Received()
-                .Publish(Arg.Any<UserSynchronizationServiceException>());
+            _userSynchronizationService.Get<IMessageHub>().Received().Publish(Arg.Any<UserSynchronizationServiceException>());
         }
     }
 }

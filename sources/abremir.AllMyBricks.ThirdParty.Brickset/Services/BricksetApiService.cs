@@ -63,7 +63,7 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Services
             return (await BricksetHttpPostUrlEncodeAsync<ResultSetCollection, ParameterSetCollection>(setCollectionParameters.ToParameterSetCollection()).ConfigureAwait(false)).Status == ResultStatus.Success;
         }
 
-        private async Task<T> BricksetHttpPostUrlEncodeAsync<T, U>(U parameters) where T : ResultBase where U : ParameterApiKey
+        private static async Task<T> BricksetHttpPostUrlEncodeAsync<T, U>(U parameters) where T : ResultBase where U : ParameterApiKey
         {
             var requestResult = await Constants.BricksetApiUrl
                 .WithSettings((settings) => settings.JsonSerializer = BricksetJsonSerializer.JsonSerializer)

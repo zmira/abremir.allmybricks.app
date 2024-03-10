@@ -21,9 +21,7 @@ namespace abremir.AllMyBricks.Platform.Tests.Services
         {
             _fileSystemService = new NSubstituteAutoMocker<FileSystemService>();
 
-            _fileSystemService.Get<IFileSystem>()
-                .AppDataDirectory
-                .Returns("./");
+            _fileSystemService.Get<IFileSystem>().AppDataDirectory.Returns("./");
         }
 
         [DataTestMethod]
@@ -45,9 +43,7 @@ namespace abremir.AllMyBricks.Platform.Tests.Services
         {
             var localPathToFile = _fileSystemService.ClassUnderTest.GetLocalPathToFile(filename, folder);
 
-            Check.That(localPathToFile)
-                .Not.IsNullOrWhiteSpace()
-                .And.Contains(Constants.AllMyBricksDataFolder);
+            Check.That(localPathToFile).Not.IsNullOrWhiteSpace().And.Contains(Constants.AllMyBricksDataFolder);
 
             if (!string.IsNullOrWhiteSpace(filename))
             {
@@ -72,10 +68,7 @@ namespace abremir.AllMyBricks.Platform.Tests.Services
         {
             var thumbnailFolder = _fileSystemService.ClassUnderTest.GetThumbnailFolder(theme, subtheme);
 
-            Check.That(thumbnailFolder)
-                .Not.IsNullOrWhiteSpace()
-                .And.Contains(Constants.AllMyBricksDataFolder)
-                .And.Contains(Constants.ThumbnailCacheFolder);
+            Check.That(thumbnailFolder).Not.IsNullOrWhiteSpace().And.Contains(Constants.AllMyBricksDataFolder).And.Contains(Constants.ThumbnailCacheFolder);
 
             Check.That(Regex.Matches(thumbnailFolder, Constants.FallbackFolderName).Count).IsEqualTo(countOfFallbackFolderName);
         }
@@ -92,19 +85,15 @@ namespace abremir.AllMyBricks.Platform.Tests.Services
         [DataRow("FILENAME", new byte[] { 0 }, true)]
         public async Task SaveThumbnailToCache_InvokesWriteAllBytes(string filename, byte[] thumbnail, bool invokesWriteAllBytes)
         {
-            await _fileSystemService.ClassUnderTest.SaveThumbnailToCache(string.Empty, string.Empty, filename, thumbnail).ConfigureAwait(false);
+            await _fileSystemService.ClassUnderTest.SaveThumbnailToCache(string.Empty, string.Empty, filename, thumbnail);
 
             if (invokesWriteAllBytes)
             {
-                await _fileSystemService.Get<IFile>()
-                    .Received()
-                    .WriteAllBytes(Arg.Any<string>(), Arg.Any<byte[]>()).ConfigureAwait(false);
+                await _fileSystemService.Get<IFile>().Received().WriteAllBytes(Arg.Any<string>(), Arg.Any<byte[]>());
             }
             else
             {
-                await _fileSystemService.Get<IFile>()
-                    .DidNotReceive()
-                    .WriteAllBytes(Arg.Any<string>(), Arg.Any<byte[]>()).ConfigureAwait(false);
+                await _fileSystemService.Get<IFile>().DidNotReceive().WriteAllBytes(Arg.Any<string>(), Arg.Any<byte[]>());
             }
         }
     }

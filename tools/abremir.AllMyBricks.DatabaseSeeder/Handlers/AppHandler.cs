@@ -157,12 +157,6 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Handlers
                 Application.MainLoop.Invoke(themeLabel.SetChildNeedsDisplay);
                 Application.MainLoop.Invoke(themeProgress.SetChildNeedsDisplay);
             });
-            messageHub.Subscribe<ProcessingThemeStart>(message =>
-            {
-                themeLabel.Text = $"Theme: {message.Name}";
-
-                Application.MainLoop.Invoke(themeLabel.SetChildNeedsDisplay);
-            });
             messageHub.Subscribe<SubthemeSynchronizerStart>(_ =>
             {
                 themeLabel.Text = string.Empty;
@@ -213,12 +207,6 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Handlers
                 Application.MainLoop.Invoke(subthemeLabel.SetChildNeedsDisplay);
                 Application.MainLoop.Invoke(subthemeProgress.SetChildNeedsDisplay);
             });
-            messageHub.Subscribe<ProcessingSubthemeStart>(message =>
-            {
-                subthemeLabel.Text = $"Subtheme: {message.Name}";
-
-                Application.MainLoop.Invoke(subthemeLabel.SetChildNeedsDisplay);
-            });
             messageHub.Subscribe<SetSynchronizerStart>(_ =>
             {
                 setLabel.Text = string.Empty;
@@ -228,7 +216,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Handlers
                 Application.MainLoop.Invoke(setLabel.SetChildNeedsDisplay);
                 Application.MainLoop.Invoke(setProgress.SetChildNeedsDisplay);
             });
-            messageHub.Subscribe<AcquiringSetsStart>(message =>
+            messageHub.Subscribe<AcquiringSetsStart>(_ =>
             {
                 setIndex = 0f;
                 setProgress.Fraction = 0f;
@@ -282,32 +270,6 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Handlers
 
                 Application.MainLoop.Invoke(setLabel.SetChildNeedsDisplay);
                 Application.MainLoop.Invoke(setProgress.SetChildNeedsDisplay);
-            });
-            messageHub.Subscribe<ProcessingSubthemeEnd>(_ =>
-            {
-                subthemeLabel.Text = string.Empty;
-                subthemeIndex++;
-                subthemeProgress.Fraction = subthemeIndex / subthemeCount;
-
-                Application.MainLoop.Invoke(subthemeLabel.SetChildNeedsDisplay);
-                Application.MainLoop.Invoke(subthemeProgress.SetChildNeedsDisplay);
-            });
-            messageHub.Subscribe<ProcessingThemeEnd>(_ =>
-            {
-                themeLabel.Text = string.Empty;
-                themeIndex++;
-                themeProgress.Fraction = themeIndex / themeCount;
-
-                if ((int)themeIndex == (int)themeCount)
-                {
-                    themeProgress.Fraction = 0f;
-                    subthemeProgress.Fraction = 0f;
-
-                    Application.MainLoop.Invoke(subthemeProgress.SetChildNeedsDisplay);
-                }
-
-                Application.MainLoop.Invoke(themeLabel.SetChildNeedsDisplay);
-                Application.MainLoop.Invoke(themeProgress.SetChildNeedsDisplay);
             });
             messageHub.Subscribe<SetSynchronizationServiceEnd>(_ =>
             {
@@ -461,6 +423,27 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Handlers
 
                 Application.Run(dialog);
             });
+            messageHub.Subscribe<MismatchingNumberOfSetsWarning>(message =>
+            {
+                var buttonOk = new Button("Ok");
+                buttonOk.Clicked += () =>
+                {
+                    CanExit = true;
+
+                    Application.RequestStop();
+                };
+
+                var dialog = new Dialog("Full Sets Synchronization finished", 60, 6, buttonOk);
+
+                var mismatchedSetCountLabel = new Label($"Mismatched number of sets! Expected: {message.Expected}; Actual: {message.Actual}")
+                {
+                    X = Pos.Center(),
+                    Y = 1
+                };
+                dialog.Add(mismatchedSetCountLabel);
+
+                Application.Run(dialog);
+            });
 
             AddMenuBar(topLevel, topLevelWindow);
 
@@ -498,13 +481,13 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Handlers
 
         private static void AddMenuBar(Toplevel topLevel, Window window)
         {
-            MenuBar = new MenuBar(new MenuBarItem[]
-            {
+            MenuBar = new MenuBar(
+            [
                 new("_File", new MenuItem[]
                 {
                     new("E_xit", "", () => topLevel.Running &= !CanExit)
                 })
-            });
+            ]);
 
             UpdateSynchronizationMenuView(window);
 
@@ -573,7 +556,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Handlers
                 })
             });
 
-            MenuBar.Menus = MenuBar.Menus.Append(menuBarItem).ToArray();
+            MenuBar.Menus = [.. MenuBar.Menus, menuBarItem];
         }
 
         private static void AddBricksetApiKey(Window window)

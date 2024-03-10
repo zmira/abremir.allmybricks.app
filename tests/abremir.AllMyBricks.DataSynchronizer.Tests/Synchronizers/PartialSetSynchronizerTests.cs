@@ -50,7 +50,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 
             var partialSetSynchronizer = CreateTarget(insightsRepository, onboardingService, bricksetApiService);
 
-            await partialSetSynchronizer.Synchronize().ConfigureAwait(false);
+            await partialSetSynchronizer.Synchronize();
 
             await onboardingService.DidNotReceive().GetBricksetApiKey();
             await bricksetApiService.DidNotReceive().GetSets(Arg.Any<GetSetsParameters>());
@@ -64,22 +64,20 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 
             var partialSetSynchronizer = CreateTarget(onboardingService: onboardingService);
 
-            Check.That(partialSetSynchronizer.Synchronize().ConfigureAwait(false)).Throws<Exception>();
+            Check.That(partialSetSynchronizer.Synchronize()).Throws<Exception>();
         }
 
         [TestMethod]
         public async Task Synchronize_BricksetApiServiceReturnsEmptyListOfSets_NothingIsSaved()
         {
             var bricksetApiService = Substitute.For<IBricksetApiService>();
-            bricksetApiService
-                .GetSets(Arg.Any<GetSetsParameters>())
-                .Returns([]);
+            bricksetApiService.GetSets(Arg.Any<GetSetsParameters>()).Returns([]);
 
             var partialSetSynchronizer = CreateTarget(bricksetApiService: bricksetApiService);
 
-            await partialSetSynchronizer.Synchronize().ConfigureAwait(false);
+            await partialSetSynchronizer.Synchronize();
 
-            Check.That(_setRepository.All()).IsEmpty();
+            Check.That(await _setRepository.All()).IsEmpty();
         }
 
         [TestMethod]
@@ -92,7 +90,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
             var theme = testTheme.ToTheme();
             var recentlyUpdatedSetsList = JsonConvert.DeserializeObject<List<Sets>>(GetResultFileFromResource(Constants.JsonFileGetRecentlyUpdatedSets));
 
-            _themeRepository.AddOrUpdate(theme);
+            await _themeRepository.AddOrUpdate(theme);
 
             var subtheme = new Subtheme
             {
@@ -102,22 +100,20 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
                 YearTo = theme.YearTo
             };
 
-            _subthemeRepository.AddOrUpdate(subtheme);
+            await _subthemeRepository.AddOrUpdate(subtheme);
 
             var bricksetApiService = Substitute.For<IBricksetApiService>();
-            bricksetApiService
-                .GetSets(Arg.Any<GetSetsParameters>())
-                .Returns(recentlyUpdatedSetsList);
+            bricksetApiService.GetSets(Arg.Any<GetSetsParameters>()).Returns(recentlyUpdatedSetsList);
 
             var partialSetSynchronizer = CreateTarget(insightsRepository, bricksetApiService: bricksetApiService);
 
-            await partialSetSynchronizer.Synchronize().ConfigureAwait(false);
+            await partialSetSynchronizer.Synchronize();
 
-            Check.That(_setRepository.All()).CountIs(recentlyUpdatedSetsList.Count);
-            insightsRepository.Received().UpdateDataSynchronizationTimestamp(Arg.Any<DateTimeOffset>());
+            Check.That(await _setRepository.All()).CountIs(recentlyUpdatedSetsList.Count);
+            await insightsRepository.Received().UpdateDataSynchronizationTimestamp(Arg.Any<DateTimeOffset>());
         }
 
-        private PartialSetSynchronizer CreateTarget(
+        private static PartialSetSynchronizer CreateTarget(
             IInsightsRepository insightsRepository = null,
             IOnboardingService onboardingService = null,
             IBricksetApiService bricksetApiService = null)

@@ -1,6 +1,4 @@
 ﻿namespace abremir.AllMyBricks.DataSynchronizer.Interfaces
 {
-    public interface IFullSetSynchronizer : ISetSynchronizer
-    {
-    }
+    public interface IFullSetSynchronizer : ISetSynchronizer;
 }

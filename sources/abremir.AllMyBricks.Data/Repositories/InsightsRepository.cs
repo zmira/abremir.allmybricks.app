@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using abremir.AllMyBricks.Data.Extensions;
 using abremir.AllMyBricks.Data.Interfaces;
 using abremir.AllMyBricks.Data.Models;
@@ -14,26 +15,26 @@ namespace abremir.AllMyBricks.Data.Repositories
             _repositoryService = repositoryService;
         }
 
-        public DateTimeOffset? GetDataSynchronizationTimestamp()
+        public async Task<DateTimeOffset?> GetDataSynchronizationTimestamp()
         {
-            return GetInsights()?.DataSynchronizationTimestamp;
+            return (await GetInsights().ConfigureAwait(false))?.DataSynchronizationTimestamp;
         }
 
-        public void UpdateDataSynchronizationTimestamp(DateTimeOffset dataSynchronizationTimestamp)
+        public async Task UpdateDataSynchronizationTimestamp(DateTimeOffset dataSynchronizationTimestamp)
         {
-            var insights = GetInsights() ?? new Insights { Id = 1 };
+            var insights = await GetInsights().ConfigureAwait(false) ?? new Insights { Id = 1 };
             insights.DataSynchronizationTimestamp = dataSynchronizationTimestamp.ToHundredthOfSecond();
 
             using var repository = _repositoryService.GetRepository();
 
-            repository.Upsert(insights);
+            await repository.UpsertAsync(insights).ConfigureAwait(false);
         }
 
-        private Insights GetInsights()
+        private async Task<Insights> GetInsights()
         {
             using var repository = _repositoryService.GetRepository();
 
-            return repository.FirstOrDefault<Insights>("1 = 1");
+            return await repository.FirstOrDefaultAsync<Insights>("1 = 1").ConfigureAwait(false);
         }
     }
 }

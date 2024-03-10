@@ -1,7 +1,9 @@
-﻿namespace abremir.AllMyBricks.Data.Interfaces
+﻿using System.Threading.Tasks;
+
+namespace abremir.AllMyBricks.Data.Interfaces
 {
     public interface IReferenceDataRepository
     {
-        T GetOrAdd<T>(string value) where T : IReferenceData, new();
+        Task<T> GetOrAdd<T>(string value) where T : IReferenceData, new();
     }
 }

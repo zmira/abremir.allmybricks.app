@@ -1,6 +1,4 @@
 ﻿namespace abremir.AllMyBricks.DataSynchronizer.Events.UserSynchronizer
 {
-    public class BricksetToAllMyBricksStart
-    {
-    }
+    public class BricksetToAllMyBricksStart;
 }
