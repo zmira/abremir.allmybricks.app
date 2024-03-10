@@ -53,7 +53,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 
             await themeSynchronizer.Synchronize().ConfigureAwait(false);
 
-            Check.That(_themeRepository.All()).IsEmpty();
+            Check.That(await _themeRepository.All()).IsEmpty();
         }
 
         [TestMethod]
@@ -74,8 +74,8 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 
             await themeSynchronizer.Synchronize().ConfigureAwait(false);
 
-            Check.That(_themeRepository.All()).CountIs(themesList.Count);
-            Check.That(_themeRepository.Get(Constants.TestThemeArchitecture).SetCountPerYear).Not.IsEmpty();
+            Check.That(await _themeRepository.All()).CountIs(themesList.Count);
+            Check.That((await _themeRepository.Get(Constants.TestThemeArchitecture)).SetCountPerYear).Not.IsEmpty();
         }
 
         private ThemeSynchronizer CreateTarget(IOnboardingService onboardingService = null, IBricksetApiService bricksetApiService = null)

@@ -1,9 +1,10 @@
-﻿using LiteDB;
+﻿using System.Threading.Tasks;
+using LiteDB.Async;
 
 namespace abremir.AllMyBricks.Data.Interfaces
 {
     public interface IMigrationRunner
     {
-        void ApplyMigrations(ILiteDatabase liteDatabase);
+        Task ApplyMigrations(ILiteDatabaseAsync liteDatabase);
     }
 }

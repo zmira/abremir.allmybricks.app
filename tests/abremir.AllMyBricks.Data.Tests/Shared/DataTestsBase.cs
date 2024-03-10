@@ -1,4 +1,5 @@
-﻿using abremir.AllMyBricks.Data.Interfaces;
+﻿using System.Threading.Tasks;
+using abremir.AllMyBricks.Data.Interfaces;
 using abremir.AllMyBricks.Data.Tests.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -19,16 +20,16 @@ namespace abremir.AllMyBricks.Data.Tests.Shared
             ResetDatabase();
         }
 
-        protected static T InsertData<T>(T dataToInsert)
+        protected static async Task<T> InsertData<T>(T dataToInsert)
         {
-            return InsertData(new[] { dataToInsert })[0];
+            return (await InsertData(new[] { dataToInsert }))[0];
         }
 
-        protected static T[] InsertData<T>(T[] dataToInsert)
+        protected static async Task<T[]> InsertData<T>(T[] dataToInsert)
         {
             using var repository = MemoryRepositoryService.GetRepository();
 
-            repository.Insert<T>(dataToInsert);
+            await repository.InsertAsync<T>(dataToInsert);
 
             return dataToInsert;
         }

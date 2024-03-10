@@ -29,7 +29,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Handlers
                 {
                     if (userRepository.Get(primaryUser.Key) is null)
                     {
-                        userRepository.Add(BricksetUserType.Primary, primaryUser.Key);
+                        await userRepository.Add(BricksetUserType.Primary, primaryUser.Key).ConfigureAwait(false);
                     }
                 }
 
@@ -42,7 +42,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Handlers
                 await host.Services.GetService<IUserSynchronizationService>().SynchronizeBricksetFriendsSets().ConfigureAwait(false);
             }
 
-            host.Services.GetService<IAssetManagementService>().CompactAllMyBricksDatabase();
+            await host.Services.GetService<IAssetManagementService>().CompactAllMyBricksDatabase().ConfigureAwait(false);
         }
     }
 }

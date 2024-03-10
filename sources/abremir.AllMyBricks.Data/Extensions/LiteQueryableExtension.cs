@@ -4,12 +4,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using LiteDB;
+using LiteDB.Async;
 
 namespace abremir.AllMyBricks.Data.Extensions
 {
     public static class LiteQueryableExtension
     {
-        public static ILiteQueryable<T> IncludeAll<T>(this ILiteQueryable<T> liteQueryable) where T : class
+        public static ILiteQueryableAsync<T> IncludeAll<T>(this ILiteQueryableAsync<T> liteQueryable) where T : class
         {
             return liteQueryable.Include(GetRecursivePaths(typeof(T)));
         }

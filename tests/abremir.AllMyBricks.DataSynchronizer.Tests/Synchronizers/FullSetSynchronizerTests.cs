@@ -76,7 +76,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
             await subthemeSynchronizer.Synchronize().ConfigureAwait(false);
 
             await bricksetApiService.DidNotReceive().GetSets(Arg.Any<GetSetsParameters>());
-            Check.That(_setRepository.All()).IsEmpty();
+            Check.That(await _setRepository.All()).IsEmpty();
         }
 
         [TestMethod]
@@ -89,7 +89,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
             var theme = testTheme.ToTheme();
             theme.SetCountPerYear = yearsList.ToYearSetCountEnumerable().ToList();
 
-            _themeRepository.AddOrUpdate(theme);
+            await _themeRepository.AddOrUpdate(theme);
 
             var bricksetApiService = Substitute.For<IBricksetApiService>();
             bricksetApiService
@@ -101,7 +101,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
             await setSynchronizer.Synchronize().ConfigureAwait(false);
 
             await bricksetApiService.Received().GetSets(Arg.Any<GetSetsParameters>());
-            Check.That(_setRepository.All()).IsEmpty();
+            Check.That(await _setRepository.All()).IsEmpty();
         }
 
         [TestMethod]
@@ -120,14 +120,14 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
             var theme = testTheme.ToTheme();
             theme.SetCountPerYear = yearsList.ToYearSetCountEnumerable().ToList();
 
-            _themeRepository.AddOrUpdate(theme);
+            await _themeRepository.AddOrUpdate(theme);
 
             foreach (var subthemeItem in subthemesList)
             {
                 var subthemeTheme = subthemeItem.ToSubtheme();
                 subthemeTheme.Theme = theme;
 
-                _subthemeRepository.AddOrUpdate(subthemeTheme);
+                await _subthemeRepository.AddOrUpdate(subthemeTheme);
             }
 
             var subtheme = testSubtheme.ToSubtheme();
@@ -148,8 +148,8 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 
             await setSynchronizer.Synchronize().ConfigureAwait(false);
 
-            Check.That(_setRepository.All()).CountIs(setsList.Count);
-            var persistedSet = _setRepository.Get(testSet.SetId);
+            Check.That(await _setRepository.All()).CountIs(setsList.Count);
+            var persistedSet = await _setRepository.Get(testSet.SetId);
             Check.That(persistedSet.Images).CountIs(additionalImagesList.Count);
             Check.That(persistedSet.Instructions).CountIs(instructionsList.Count);
         }

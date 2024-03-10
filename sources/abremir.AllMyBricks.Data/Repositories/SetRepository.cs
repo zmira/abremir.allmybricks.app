@@ -1,11 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using abremir.AllMyBricks.Data.Configuration;
 using abremir.AllMyBricks.Data.Enumerations;
 using abremir.AllMyBricks.Data.Extensions;
 using abremir.AllMyBricks.Data.Interfaces;
 using abremir.AllMyBricks.Data.Models;
 using LiteDB;
+using LiteDB.async;
+using LiteDB.Async;
 
 namespace abremir.AllMyBricks.Data.Repositories
 {
@@ -18,7 +21,7 @@ namespace abremir.AllMyBricks.Data.Repositories
             _repositoryService = repositoryService;
         }
 
-        public Set AddOrUpdate(Set set)
+        public async Task<Set> AddOrUpdate(Set set)
         {
             if (set is null
                 || set.SetId == 0)
@@ -30,19 +33,19 @@ namespace abremir.AllMyBricks.Data.Repositories
 
             using var repository = _repositoryService.GetRepository();
 
-            repository.Upsert(set);
+            await repository.UpsertAsync(set).ConfigureAwait(false);
 
             return set;
         }
 
-        public IEnumerable<Set> All()
+        public async Task<IEnumerable<Set>> All()
         {
             using var repository = _repositoryService.GetRepository();
 
-            return GetQueryable(repository).ToList();
+            return await GetQueryable(repository).ToListAsync().ConfigureAwait(false);
         }
 
-        public Set Get(long setId)
+        public async Task<Set> Get(long setId)
         {
             if (setId == 0)
             {
@@ -51,12 +54,12 @@ namespace abremir.AllMyBricks.Data.Repositories
 
             using var repository = _repositoryService.GetRepository();
 
-            return GetQueryable(repository)
+            return await GetQueryable(repository)
                 .Where(set => set.SetId == setId)
-                .FirstOrDefault();
+                .FirstOrDefaultAsync().ConfigureAwait(false);
         }
 
-        public IEnumerable<Set> AllForTheme(string themeName)
+        public async Task<IEnumerable<Set>> AllForTheme(string themeName)
         {
             if (string.IsNullOrWhiteSpace(themeName))
             {
@@ -65,12 +68,12 @@ namespace abremir.AllMyBricks.Data.Repositories
 
             using var repository = _repositoryService.GetRepository();
 
-            return GetQueryable(repository)
+            return await GetQueryable(repository)
                 .Where(set => set.Theme.Name == themeName.Trim())
-                .ToList();
+                .ToListAsync().ConfigureAwait(false);
         }
 
-        public IEnumerable<Set> AllForSubtheme(string themeName, string subthemeName)
+        public async Task<IEnumerable<Set>> AllForSubtheme(string themeName, string subthemeName)
         {
             if (string.IsNullOrWhiteSpace(themeName)
                 || string.IsNullOrWhiteSpace(subthemeName))
@@ -80,12 +83,12 @@ namespace abremir.AllMyBricks.Data.Repositories
 
             using var repository = _repositoryService.GetRepository();
 
-            return GetQueryable(repository)
+            return await GetQueryable(repository)
                 .Where(set => set.Theme.Name == themeName.Trim() && set.Subtheme.Name == subthemeName.Trim())
-                .ToList();
+                .ToListAsync().ConfigureAwait(false);
         }
 
-        public IEnumerable<Set> AllForThemeGroup(string themeGroupName)
+        public async Task<IEnumerable<Set>> AllForThemeGroup(string themeGroupName)
         {
             if (string.IsNullOrWhiteSpace(themeGroupName))
             {
@@ -94,12 +97,12 @@ namespace abremir.AllMyBricks.Data.Repositories
 
             using var repository = _repositoryService.GetRepository();
 
-            return GetQueryable(repository)
+            return await GetQueryable(repository)
                 .Where(set => set.ThemeGroup.Value == themeGroupName.Trim())
-                .ToList();
+                .ToListAsync().ConfigureAwait(false);
         }
 
-        public IEnumerable<Set> AllForCategory(string categoryName)
+        public async Task<IEnumerable<Set>> AllForCategory(string categoryName)
         {
             if (string.IsNullOrWhiteSpace(categoryName))
             {
@@ -108,12 +111,12 @@ namespace abremir.AllMyBricks.Data.Repositories
 
             using var repository = _repositoryService.GetRepository();
 
-            return GetQueryable(repository)
+            return await GetQueryable(repository)
                 .Where(set => set.Category.Value == categoryName.Trim())
-                .ToList();
+                .ToListAsync().ConfigureAwait(false);
         }
 
-        public IEnumerable<Set> AllForTag(string tagName)
+        public async Task<IEnumerable<Set>> AllForTag(string tagName)
         {
             if (string.IsNullOrWhiteSpace(tagName))
             {
@@ -122,12 +125,12 @@ namespace abremir.AllMyBricks.Data.Repositories
 
             using var repository = _repositoryService.GetRepository();
 
-            return GetQueryable(repository)
+            return await GetQueryable(repository)
                 .Where("Tags[*].Value ANY = @0", tagName.Trim())
-                .ToList();
+                .ToListAsync().ConfigureAwait(false);
         }
 
-        public IEnumerable<Set> AllForYear(short year)
+        public async Task<IEnumerable<Set>> AllForYear(short year)
         {
             if (year < Constants.MinimumSetYear)
             {
@@ -136,12 +139,12 @@ namespace abremir.AllMyBricks.Data.Repositories
 
             using var repository = _repositoryService.GetRepository();
 
-            return GetQueryable(repository)
+            return await GetQueryable(repository)
                 .Where(set => set.Year == year)
-                .ToList();
+                .ToListAsync().ConfigureAwait(false);
         }
 
-        public IEnumerable<Set> AllForPriceRange(PriceRegion priceRegion, float minimumPrice, float maximumPrice)
+        public async Task<IEnumerable<Set>> AllForPriceRange(PriceRegion priceRegion, float minimumPrice, float maximumPrice)
         {
             if (minimumPrice < 0 || maximumPrice < 0)
             {
@@ -150,14 +153,14 @@ namespace abremir.AllMyBricks.Data.Repositories
 
             using var repository = _repositoryService.GetRepository();
 
-            return GetQueryable(repository)
+            return await GetQueryable(repository)
                 .Where("Prices[*].Region ANY = @0", priceRegion.ToString())
                 .Where("Prices[*].Value ANY >= @0", minimumPrice)
                 .Where("Prices[*].Value ANY <= @0", maximumPrice)
-                .ToList();
+                .ToListAsync().ConfigureAwait(false);
         }
 
-        public IEnumerable<Set> SearchBy(string searchQuery)
+        public async Task<IEnumerable<Set>> SearchBy(string searchQuery)
         {
             var queryBsonExpression = BuildBsonExpressionFromSearchQuery(searchQuery);
 
@@ -168,9 +171,9 @@ namespace abremir.AllMyBricks.Data.Repositories
 
             using var repository = _repositoryService.GetRepository();
 
-            return GetQueryable(repository)
+            return await GetQueryable(repository)
                 .Where(queryBsonExpression)
-                .ToList();
+                .ToListAsync().ConfigureAwait(false);
         }
 
         private BsonExpression BuildBsonExpressionFromSearchQuery(string searchQuery)

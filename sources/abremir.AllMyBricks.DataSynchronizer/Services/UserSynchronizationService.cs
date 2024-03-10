@@ -51,8 +51,8 @@ namespace abremir.AllMyBricks.DataSynchronizer.Services
                 {
                     List<Task> tasks = [];
 
-                    _bricksetUserRepository
-                        .GetAllUsernames(BricksetUserType.Primary)
+                    (await _bricksetUserRepository
+                        .GetAllUsernames(BricksetUserType.Primary).ConfigureAwait(false))
                         .ToList()
                         .ForEach(bricksetUsername => tasks.Add(SynchronizeBricksetPrimaryUser(apiKey, bricksetUsername)));
 
@@ -60,7 +60,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Services
 
                     await Task.WhenAll(tasks);
                 }
-                else if (_bricksetUserRepository.Exists(username))
+                else if (await _bricksetUserRepository.Exists(username).ConfigureAwait(false))
                 {
                     _messageHub.Publish(new UsersAcquired { UserType = BricksetUserType.Primary, Count = 1 });
 
@@ -100,8 +100,8 @@ namespace abremir.AllMyBricks.DataSynchronizer.Services
                 {
                     List<Task> tasks = [];
 
-                    _bricksetUserRepository
-                        .GetAllUsernames(BricksetUserType.Friend)
+                    (await _bricksetUserRepository
+                        .GetAllUsernames(BricksetUserType.Friend).ConfigureAwait(false))
                         .ToList()
                         .ForEach(bricksetUsername => tasks.Add(SynchronizeBricksetFriend(apiKey, bricksetUsername)));
 
@@ -109,7 +109,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Services
 
                     await Task.WhenAll(tasks);
                 }
-                else if (_bricksetUserRepository.Exists(username))
+                else if (await _bricksetUserRepository.Exists(username).ConfigureAwait(false))
                 {
                     _messageHub.Publish(new UsersAcquired { UserType = BricksetUserType.Friend, Count = 1 });
 

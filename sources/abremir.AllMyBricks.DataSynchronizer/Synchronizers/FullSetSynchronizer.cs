@@ -34,7 +34,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
         {
             MessageHub.Publish(new SetSynchronizerStart { Complete = true });
 
-            var dataSynchronizationTimestamp = InsightsRepository.GetDataSynchronizationTimestamp();
+            var dataSynchronizationTimestamp = await InsightsRepository.GetDataSynchronizationTimestamp().ConfigureAwait(false);
 
             MessageHub.Publish(new InsightsAcquired { SynchronizationTimestamp = dataSynchronizationTimestamp });
 
@@ -55,8 +55,8 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                 throw exception;
             }
 
-            var yearSetCount = ThemeRepository
-                .All()
+            var yearSetCount = (await ThemeRepository
+                .All().ConfigureAwait(false))
                 .SelectMany(theme => theme.SetCountPerYear)
                 .GroupBy(setCountPerYear => setCountPerYear.Year)
                 .ToFrozenDictionary(group => group.Key, group => group.Sum(value => value.SetCount));
@@ -115,14 +115,14 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
 
                     foreach (var bricksetSet in bricksetSets)
                     {
-                        var theme = ThemeRepository.Get(bricksetSet.Theme);
-                        var subtheme = SubthemeRepository.Get(theme.Name, bricksetSet.Subtheme);
+                        var theme = await ThemeRepository.Get(bricksetSet.Theme).ConfigureAwait(false);
+                        var subtheme = await SubthemeRepository.Get(theme.Name, bricksetSet.Subtheme).ConfigureAwait(false);
 
-                        await AddOrUpdateSet(apiKey, theme, subtheme, bricksetSet, (short)bricksetSet.Year);
+                        await AddOrUpdateSet(apiKey, theme, subtheme, bricksetSet, (short)bricksetSet.Year).ConfigureAwait(false);
                     }
                 }
 
-                InsightsRepository.UpdateDataSynchronizationTimestamp(newUpdateTimestamp);
+                await InsightsRepository.UpdateDataSynchronizationTimestamp(newUpdateTimestamp).ConfigureAwait(false);
             }
             catch (Exception ex)
             {

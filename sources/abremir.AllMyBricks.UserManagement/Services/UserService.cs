@@ -41,7 +41,7 @@ namespace abremir.AllMyBricks.UserManagement.Services
 
             await _secureStorageService.SaveDefaultUsername(defaultUsername).ConfigureAwait(false);
 
-            _bricksetUserRepository.Add(BricksetUserType.None, defaultUsername);
+            await _bricksetUserRepository.Add(BricksetUserType.None, defaultUsername).ConfigureAwait(false);
 
             return true;
         }
@@ -52,7 +52,7 @@ namespace abremir.AllMyBricks.UserManagement.Services
                 || string.IsNullOrWhiteSpace(password)
                 || !await _secureStorageService.IsBricksetApiKeyAcquired().ConfigureAwait(false)
                 || await _secureStorageService.IsBricksetPrimaryUsersDefined().ConfigureAwait(false)
-                || _bricksetUserRepository.Exists(username))
+                || await _bricksetUserRepository.Exists(username).ConfigureAwait(false))
             {
                 return false;
             }
@@ -71,7 +71,7 @@ namespace abremir.AllMyBricks.UserManagement.Services
 
             await _secureStorageService.SaveBricksetPrimaryUser(username, bricksetUserHash).ConfigureAwait(false);
 
-            _bricksetUserRepository.Add(BricksetUserType.Primary, username);
+            await _bricksetUserRepository.Add(BricksetUserType.Primary, username).ConfigureAwait(false);
 
             await _userSynchronizationService.SynchronizeBricksetPrimaryUsersSets(username).ConfigureAwait(false);
 
@@ -82,12 +82,12 @@ namespace abremir.AllMyBricks.UserManagement.Services
         {
             if (string.IsNullOrWhiteSpace(username)
                 || !await _secureStorageService.IsBricksetApiKeyAcquired().ConfigureAwait(false)
-                || _bricksetUserRepository.Exists(username))
+                || await _bricksetUserRepository.Exists(username).ConfigureAwait(false))
             {
                 return false;
             }
 
-            _bricksetUserRepository.Add(BricksetUserType.Friend, username);
+            await _bricksetUserRepository.Add(BricksetUserType.Friend, username).ConfigureAwait(false);
 
             await _userSynchronizationService.SynchronizeBricksetFriendsSets(username).ConfigureAwait(false);
 
@@ -96,7 +96,7 @@ namespace abremir.AllMyBricks.UserManagement.Services
 
         public async Task<bool> RemoveBricksetPrimaryUser(string username)
         {
-            if (RemoveBricksetUser(username))
+            if (await RemoveBricksetUser(username).ConfigureAwait(false))
             {
                 return await _secureStorageService.ClearBricksetPrimaryUser(username).ConfigureAwait(false);
             }
@@ -104,20 +104,20 @@ namespace abremir.AllMyBricks.UserManagement.Services
             return false;
         }
 
-        public bool RemoveBricksetFriend(string username)
+        public async Task<bool> RemoveBricksetFriend(string username)
         {
-            return RemoveBricksetUser(username);
+            return await RemoveBricksetUser(username).ConfigureAwait(false);
         }
 
-        private bool RemoveBricksetUser(string username)
+        private async Task<bool> RemoveBricksetUser(string username)
         {
             if (string.IsNullOrWhiteSpace(username)
-                || !_bricksetUserRepository.Exists(username))
+                || !await _bricksetUserRepository.Exists(username).ConfigureAwait(false))
             {
                 return false;
             }
 
-            _bricksetUserRepository.Remove(username);
+            await _bricksetUserRepository.Remove(username).ConfigureAwait(false);
 
             return true;
         }

@@ -51,7 +51,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
 
             try
             {
-                var themes = _themeRepository.All();
+                var themes = await _themeRepository.All().ConfigureAwait(false);
 
                 _messageHub.Publish(new ThemesAcquired { Count = themes.Count() });
 
@@ -75,14 +75,14 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
 
                         subtheme.Theme = theme;
 
-                        var persistedSubtheme = _subthemeRepository.Get(subtheme.Theme.Name, subtheme.Name);
+                        var persistedSubtheme = await _subthemeRepository.Get(subtheme.Theme.Name, subtheme.Name).ConfigureAwait(false);
 
                         if (persistedSubtheme != null)
                         {
                             subtheme.Id = persistedSubtheme.Id;
                         }
 
-                        _subthemeRepository.AddOrUpdate(subtheme);
+                        await _subthemeRepository.AddOrUpdate(subtheme).ConfigureAwait(false);
 
                         _messageHub.Publish(new SynchronizingSubthemeEnd { Theme = theme.Name, Subtheme = bricksetSubtheme.Subtheme });
                     }

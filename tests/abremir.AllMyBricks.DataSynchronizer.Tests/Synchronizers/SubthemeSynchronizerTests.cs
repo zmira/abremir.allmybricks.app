@@ -52,7 +52,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 
             await subthemeSynchronizer.Synchronize().ConfigureAwait(false);
 
-            Check.That(_subthemeRepository.All()).IsEmpty();
+            Check.That(await _subthemeRepository.All()).IsEmpty();
         }
 
         [TestMethod]
@@ -65,7 +65,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
             var theme = testTheme.ToTheme();
             theme.SetCountPerYear = yearsList.ToYearSetCountEnumerable().ToList();
 
-            _themeRepository.AddOrUpdate(theme);
+            await _themeRepository.AddOrUpdate(theme);
 
             var bricksetApiService = Substitute.For<IBricksetApiService>();
             bricksetApiService
@@ -76,7 +76,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 
             await subthemeSynchronizer.Synchronize().ConfigureAwait(false);
 
-            Check.That(_subthemeRepository.All()).IsEmpty();
+            Check.That(await _subthemeRepository.All()).IsEmpty();
         }
 
         [TestMethod]
@@ -90,7 +90,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
             var theme = testTheme.ToTheme();
             theme.SetCountPerYear = yearsList.ToYearSetCountEnumerable().ToList();
 
-            _themeRepository.AddOrUpdate(theme);
+            await _themeRepository.AddOrUpdate(theme);
 
             var bricksetApiService = Substitute.For<IBricksetApiService>();
             bricksetApiService
@@ -101,7 +101,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 
             await subthemeSynchronizer.Synchronize().ConfigureAwait(false);
 
-            Check.That(_subthemeRepository.All()).CountIs(subthemesList.Count);
+            Check.That(await _subthemeRepository.All()).CountIs(subthemesList.Count);
         }
 
         private SubthemeSynchronizer CreateTarget(IOnboardingService onboardingService = null, IBricksetApiService bricksetApiService = null)

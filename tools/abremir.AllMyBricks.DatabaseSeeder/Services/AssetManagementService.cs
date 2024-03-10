@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Threading.Tasks;
 using abremir.AllMyBricks.AssetManagement.Implementations;
 using abremir.AllMyBricks.AssetManagement.Interfaces;
 using abremir.AllMyBricks.Data.Configuration;
@@ -45,10 +46,11 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Services
             _assetCompression.CompressAsset(dbFilePath, _fileSystemService.GetLocalPathToDataFolder(), encryptionKey: encrypted ? Settings.BricksetApiKey : null);
 
             GetCompressedDatabaseFilePathIfExists(out var compressedFilePath, encrypted);
+
             _logger.LogInformation($"Compressed {(encrypted ? "and Encrypted " : string.Empty)}AllMyBricks Database {Path.GetFileName(compressedFilePath)} {_file.GetFileSize(compressedFilePath)}");
         }
 
-        public void CompactAllMyBricksDatabase()
+        public async Task CompactAllMyBricksDatabase()
         {
             if (!GetDatabaseFilePathIfExists(out var dbFilePath))
             {
@@ -57,7 +59,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Services
 
             _logger.LogInformation($"Compacting AllMyBricks Database {Path.GetFileName(dbFilePath)} {_file.GetFileSize(dbFilePath)}");
 
-            var compacted = _repositoryService.CompactRepository();
+            var compacted = await _repositoryService.CompactRepository().ConfigureAwait(false);
 
             if (compacted > 0)
             {
@@ -83,6 +85,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Services
             _assetExpansion.ExpandAsset(compressedFilePath, _fileSystemService.GetLocalPathToDataFolder(), encryptionKey: encrypted ? Settings.BricksetApiKey : null);
 
             GetDatabaseFilePathIfExists(out var dbFilePath);
+
             _logger.LogInformation($"Expanded {(encrypted ? "Encrypted " : string.Empty)}AllMyBricks Database {Path.GetFileName(dbFilePath)} {_file.GetFileSize(dbFilePath)}");
         }
 

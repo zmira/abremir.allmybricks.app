@@ -59,7 +59,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
             {
                 var set = await MapSet(apiKey, theme, subtheme, bricksetSet);
 
-                SetRepository.AddOrUpdate(set);
+                await SetRepository.AddOrUpdate(set).ConfigureAwait(false);
 
                 await ThumbnailSynchronizer.Synchronize(set, true);
             }
@@ -77,11 +77,11 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
 
             set.Theme = theme;
             set.Subtheme = subtheme;
-            set.Category = ReferenceDataRepository.GetOrAdd<Category>(bricksetSet.Category);
-            set.PackagingType = ReferenceDataRepository.GetOrAdd<PackagingType>(bricksetSet.PackagingType);
-            set.ThemeGroup = ReferenceDataRepository.GetOrAdd<ThemeGroup>(bricksetSet.ThemeGroup);
+            set.Category = await ReferenceDataRepository.GetOrAdd<Category>(bricksetSet.Category).ConfigureAwait(false);
+            set.PackagingType = await ReferenceDataRepository.GetOrAdd<PackagingType>(bricksetSet.PackagingType).ConfigureAwait(false);
+            set.ThemeGroup = await ReferenceDataRepository.GetOrAdd<ThemeGroup>(bricksetSet.ThemeGroup).ConfigureAwait(false);
 
-            SetTagList(set, bricksetSet.ExtendedData?.Tags);
+            await SetTagList(set, bricksetSet.ExtendedData?.Tags).ConfigureAwait(false);
             SetPriceList(set, bricksetSet.LegoCom);
 
             await SetImageList(apiKey, set, bricksetSet);
@@ -90,7 +90,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
             return set;
         }
 
-        private void SetTagList(Set set, IEnumerable<string> tags)
+        private async Task SetTagList(Set set, IEnumerable<string> tags)
         {
             if (tags is null)
             {
@@ -101,7 +101,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                 .Where(tag => !string.IsNullOrWhiteSpace(tag))
                 .Select(tag => tag))
             {
-                set.Tags.Add(ReferenceDataRepository.GetOrAdd<Tag>(tag));
+                set.Tags.Add(await ReferenceDataRepository.GetOrAdd<Tag>(tag).ConfigureAwait(false));
             }
         }
 

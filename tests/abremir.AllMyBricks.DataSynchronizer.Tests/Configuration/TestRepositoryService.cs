@@ -1,7 +1,8 @@
-﻿using abremir.AllMyBricks.Data.Interfaces;
+﻿using System.Threading.Tasks;
+using abremir.AllMyBricks.Data.Interfaces;
 using abremir.AllMyBricks.Data.Services;
 using abremir.AllMyBricks.Platform.Interfaces;
-using LiteDB;
+using LiteDB.async;
 using LiteDB.Engine;
 using NSubstitute;
 
@@ -18,12 +19,12 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Configuration
             _fileSystemService = Substitute.For<IFileSystemService>();
         }
 
-        public long CompactRepository()
+        public Task<long> CompactRepository()
         {
             throw new System.NotImplementedException();
         }
 
-        public ILiteRepository GetRepository()
+        public ILiteRepositoryAsync GetRepository()
         {
             if (_tempStream is null)
             {

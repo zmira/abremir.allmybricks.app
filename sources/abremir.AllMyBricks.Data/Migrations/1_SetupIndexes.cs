@@ -1,7 +1,8 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
 using abremir.AllMyBricks.Data.Interfaces;
 using abremir.AllMyBricks.Data.Models;
-using LiteDB;
+using LiteDB.Async;
 
 namespace abremir.AllMyBricks.Data.Migrations
 {
@@ -9,37 +10,43 @@ namespace abremir.AllMyBricks.Data.Migrations
     {
         public int MigrationId => 1;
 
-        public void Apply(ILiteDatabase liteDatabase)
+        public Task Apply(ILiteDatabaseAsync liteDatabase)
         {
-            liteDatabase.GetCollection<Theme>().EnsureIndex(theme => theme.Name, true);
-            liteDatabase.GetCollection<Theme>().EnsureIndex(theme => theme.YearFrom);
-            liteDatabase.GetCollection<Theme>().EnsureIndex(theme => theme.YearTo);
-            liteDatabase.GetCollection<Subtheme>().EnsureIndex(subtheme => subtheme.SubthemeKey, true);
-            liteDatabase.GetCollection<Subtheme>().EnsureIndex(subtheme => subtheme.Name);
-            liteDatabase.GetCollection<Subtheme>().EnsureIndex(subtheme => subtheme.Theme);
-            liteDatabase.GetCollection<Subtheme>().EnsureIndex(subtheme => subtheme.YearFrom);
-            liteDatabase.GetCollection<Subtheme>().EnsureIndex(subtheme => subtheme.YearTo);
-            liteDatabase.GetCollection<ThemeGroup>().EnsureIndex(themeGroup => themeGroup.Value, true);
-            liteDatabase.GetCollection<PackagingType>().EnsureIndex(packagingType => packagingType.Value, true);
-            liteDatabase.GetCollection<Category>().EnsureIndex(category => category.Value, true);
-            liteDatabase.GetCollection<Tag>().EnsureIndex(tag => tag.Value, true);
-            liteDatabase.GetCollection<Set>().EnsureIndex(set => set.Number);
-            liteDatabase.GetCollection<Set>().EnsureIndex(set => set.Name);
-            liteDatabase.GetCollection<Set>().EnsureIndex(set => set.Theme);
-            liteDatabase.GetCollection<Set>().EnsureIndex(set => set.Subtheme);
-            liteDatabase.GetCollection<Set>().EnsureIndex(set => set.ThemeGroup);
-            liteDatabase.GetCollection<Set>().EnsureIndex(set => set.Category);
-            liteDatabase.GetCollection<Set>().EnsureIndex(set => set.Year);
-            liteDatabase.GetCollection<Set>().EnsureIndex(set => set.Barcodes.Select(barcode => barcode.Type));
-            liteDatabase.GetCollection<Set>().EnsureIndex(set => set.Barcodes.Select(barcode => barcode.Value));
-            liteDatabase.GetCollection<Set>().EnsureIndex(set => set.Prices.Select(price => price.Region));
-            liteDatabase.GetCollection<Set>().EnsureIndex(set => set.Prices.Select(price => price.Value));
-            liteDatabase.GetCollection<BricksetUser>().EnsureIndex(bricksetUser => bricksetUser.BricksetUsername, true);
-            liteDatabase.GetCollection<BricksetUser>().EnsureIndex(bricksetUser => bricksetUser.UserType);
-            liteDatabase.GetCollection<BricksetUser>().EnsureIndex(bricksetUser => bricksetUser.Sets.Select(set => set.Wanted));
-            liteDatabase.GetCollection<BricksetUser>().EnsureIndex(bricksetUser => bricksetUser.Sets.Select(set => set.Owned));
+            Task<bool>[] liteDatabaseIndexes = [
+                liteDatabase.GetCollection<Theme>().EnsureIndexAsync(theme => theme.Name, true),
+                liteDatabase.GetCollection<Theme>().EnsureIndexAsync(theme => theme.YearFrom),
+                liteDatabase.GetCollection<Theme>().EnsureIndexAsync(theme => theme.YearTo),
+                liteDatabase.GetCollection<Subtheme>().EnsureIndexAsync(subtheme => subtheme.SubthemeKey, true),
+                liteDatabase.GetCollection<Subtheme>().EnsureIndexAsync(subtheme => subtheme.Name),
+                liteDatabase.GetCollection<Subtheme>().EnsureIndexAsync(subtheme => subtheme.Theme),
+                liteDatabase.GetCollection<Subtheme>().EnsureIndexAsync(subtheme => subtheme.YearFrom),
+                liteDatabase.GetCollection<Subtheme>().EnsureIndexAsync(subtheme => subtheme.YearTo),
+                liteDatabase.GetCollection<ThemeGroup>().EnsureIndexAsync(themeGroup => themeGroup.Value, true),
+                liteDatabase.GetCollection<PackagingType>().EnsureIndexAsync(packagingType => packagingType.Value, true),
+                liteDatabase.GetCollection<Category>().EnsureIndexAsync(category => category.Value, true),
+                liteDatabase.GetCollection<Tag>().EnsureIndexAsync(tag => tag.Value, true),
+                liteDatabase.GetCollection<Set>().EnsureIndexAsync(set => set.Number),
+                liteDatabase.GetCollection<Set>().EnsureIndexAsync(set => set.Name),
+                liteDatabase.GetCollection<Set>().EnsureIndexAsync(set => set.Theme),
+                liteDatabase.GetCollection<Set>().EnsureIndexAsync(set => set.Subtheme),
+                liteDatabase.GetCollection<Set>().EnsureIndexAsync(set => set.ThemeGroup),
+                liteDatabase.GetCollection<Set>().EnsureIndexAsync(set => set.Category),
+                liteDatabase.GetCollection<Set>().EnsureIndexAsync(set => set.Year),
+                liteDatabase.GetCollection<Set>().EnsureIndexAsync(set => set.Barcodes.Select(barcode => barcode.Type)),
+                liteDatabase.GetCollection<Set>().EnsureIndexAsync(set => set.Barcodes.Select(barcode => barcode.Value)),
+                liteDatabase.GetCollection<Set>().EnsureIndexAsync(set => set.Prices.Select(price => price.Region)),
+                liteDatabase.GetCollection<Set>().EnsureIndexAsync(set => set.Prices.Select(price => price.Value)),
+                liteDatabase.GetCollection<BricksetUser>().EnsureIndexAsync(bricksetUser => bricksetUser.BricksetUsername, true),
+                liteDatabase.GetCollection<BricksetUser>().EnsureIndexAsync(bricksetUser => bricksetUser.UserType),
+                liteDatabase.GetCollection<BricksetUser>().EnsureIndexAsync(bricksetUser => bricksetUser.Sets.Select(set => set.Wanted)),
+                liteDatabase.GetCollection<BricksetUser>().EnsureIndexAsync(bricksetUser => bricksetUser.Sets.Select(set => set.Owned))
+            ];
+
+            Task.WaitAll(liteDatabaseIndexes);
 
             liteDatabase.UserVersion++;
+
+            return Task.CompletedTask;
         }
     }
 }

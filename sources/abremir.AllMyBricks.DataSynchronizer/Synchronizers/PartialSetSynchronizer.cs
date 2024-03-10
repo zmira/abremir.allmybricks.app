@@ -31,7 +31,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
         {
             MessageHub.Publish(new SetSynchronizerStart { Complete = false });
 
-            var dataSynchronizationTimestamp = InsightsRepository.GetDataSynchronizationTimestamp();
+            var dataSynchronizationTimestamp = await InsightsRepository.GetDataSynchronizationTimestamp().ConfigureAwait(false);
 
             MessageHub.Publish(new InsightsAcquired { SynchronizationTimestamp = dataSynchronizationTimestamp });
 
@@ -70,11 +70,11 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
 
                 foreach (var themeGroup in updatedSets.GroupBy(bricksetSet => bricksetSet.Theme))
                 {
-                    var theme = ThemeRepository.Get(themeGroup.Key);
+                    var theme = await ThemeRepository.Get(themeGroup.Key).ConfigureAwait(false);
 
                     foreach (var subthemeGroup in themeGroup.GroupBy(themeSets => themeSets.Subtheme))
                     {
-                        var subtheme = SubthemeRepository.Get(theme.Name, subthemeGroup.Key);
+                        var subtheme = await SubthemeRepository.Get(theme.Name, subthemeGroup.Key).ConfigureAwait(false);
 
                         foreach (var bricksetSet in subthemeGroup)
                         {
@@ -83,7 +83,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                     }
                 }
 
-                InsightsRepository.UpdateDataSynchronizationTimestamp(newUpdateTimestamp);
+                await InsightsRepository.UpdateDataSynchronizationTimestamp(newUpdateTimestamp).ConfigureAwait(false);
             }
             catch (Exception ex)
             {

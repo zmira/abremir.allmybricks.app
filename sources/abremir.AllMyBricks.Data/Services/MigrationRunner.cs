@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using abremir.AllMyBricks.Data.Interfaces;
-using LiteDB;
+using LiteDB.Async;
 
 namespace abremir.AllMyBricks.Data.Services
 {
     public class MigrationRunner : IMigrationRunner
     {
-        public void ApplyMigrations(ILiteDatabase liteDatabase)
+        public async Task ApplyMigrations(ILiteDatabaseAsync liteDatabase)
         {
             var currentUserVersion = liteDatabase.UserVersion;
 
@@ -25,7 +26,7 @@ namespace abremir.AllMyBricks.Data.Services
 
             foreach (var instance in instances)
             {
-                instance.Apply(liteDatabase);
+                await instance.Apply(liteDatabase).ConfigureAwait(false);
             }
         }
     }

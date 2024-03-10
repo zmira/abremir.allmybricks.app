@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using abremir.AllMyBricks.Data.Extensions;
 using abremir.AllMyBricks.Data.Interfaces;
 using abremir.AllMyBricks.Data.Models;
@@ -21,42 +22,42 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
         }
 
         [TestMethod]
-        public void GetDataSynchronizationTimestamp_InsightsDoesNotExist_ReturnsNull()
+        public async Task GetDataSynchronizationTimestamp_InsightsDoesNotExist_ReturnsNull()
         {
-            var timestamp = _insightsRepository.GetDataSynchronizationTimestamp();
+            var timestamp = await _insightsRepository.GetDataSynchronizationTimestamp();
 
             Check.That(timestamp).IsNull();
         }
 
         [TestMethod]
-        public void GetDataSynchronizationTimestamp_InsightsExists_ReturnsTimestamp()
+        public async Task GetDataSynchronizationTimestamp_InsightsExists_ReturnsTimestamp()
         {
             var insights = new Insights
             {
                 DataSynchronizationTimestamp = DateTimeOffset.Now.AddHours(-5).ToHundredthOfSecond()
             };
 
-            InsertData(insights);
+            await InsertData(insights);
 
-            var timestamp = _insightsRepository.GetDataSynchronizationTimestamp();
+            var timestamp = await _insightsRepository.GetDataSynchronizationTimestamp();
 
             Check.That(timestamp).IsEqualTo(insights.DataSynchronizationTimestamp);
         }
 
         [TestMethod]
-        public void UpdateDataSynchronizationTimestamp_InsightsDoesNotExist_CreatedInsightsWithNewTimestamp()
+        public async Task UpdateDataSynchronizationTimestamp_InsightsDoesNotExist_CreatedInsightsWithNewTimestamp()
         {
             var dataSynchronizationTimestamp = DateTimeOffset.Now.AddHours(-5);
 
-            _insightsRepository.UpdateDataSynchronizationTimestamp(dataSynchronizationTimestamp);
+            await _insightsRepository.UpdateDataSynchronizationTimestamp(dataSynchronizationTimestamp);
 
-            var timestamp = _insightsRepository.GetDataSynchronizationTimestamp();
+            var timestamp = await _insightsRepository.GetDataSynchronizationTimestamp();
 
             Check.That(timestamp).IsEqualTo(dataSynchronizationTimestamp.ToHundredthOfSecond());
         }
 
         [TestMethod]
-        public void UpdateDataSynchronizationTimestamp_InsightsExists_UpdateTimestampInExistingInsights()
+        public async Task UpdateDataSynchronizationTimestamp_InsightsExists_UpdateTimestampInExistingInsights()
         {
             var dataSynchronizationTimestamp = DateTimeOffset.Now.AddHours(-5);
 
@@ -65,13 +66,13 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
                 DataSynchronizationTimestamp = dataSynchronizationTimestamp.ToHundredthOfSecond()
             };
 
-            InsertData(insights);
+            await InsertData(insights);
 
             dataSynchronizationTimestamp = dataSynchronizationTimestamp.AddHours(3);
 
-            _insightsRepository.UpdateDataSynchronizationTimestamp(dataSynchronizationTimestamp);
+            await _insightsRepository.UpdateDataSynchronizationTimestamp(dataSynchronizationTimestamp);
 
-            var timestamp = _insightsRepository.GetDataSynchronizationTimestamp();
+            var timestamp = await _insightsRepository.GetDataSynchronizationTimestamp();
 
             Check.That(timestamp).IsEqualTo(dataSynchronizationTimestamp.ToHundredthOfSecond());
         }

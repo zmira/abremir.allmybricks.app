@@ -72,14 +72,14 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                         .ToYearSetCountEnumerable()
                         .ToList();
 
-                    var persistedTheme = _themeRepository.Get(theme.Name);
+                    var persistedTheme = await _themeRepository.Get(theme.Name).ConfigureAwait(false);
 
                     if (persistedTheme != null)
                     {
                         theme.Id = persistedTheme.Id;
                     }
 
-                    _themeRepository.AddOrUpdate(theme);
+                    await _themeRepository.AddOrUpdate(theme).ConfigureAwait(false);
 
                     _messageHub.Publish(new SynchronizingThemeEnd { Theme = bricksetTheme.Theme });
                 }

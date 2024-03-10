@@ -40,7 +40,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
 
             try
             {
-                var user = _bricksetUserRepository.Get(username);
+                var user = await _bricksetUserRepository.Get(username).ConfigureAwait(false);
 
                 if (user.UserSynchronizationTimestamp.HasValue)
                 {
@@ -52,7 +52,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
 
                     _messageHub.Publish(new AllMyBricksToBricksetAcquiringSetsEnd { Count = updatedSetsSinceLastSynchronization.Count });
 
-                    updatedSetsSinceLastSynchronization.ForEach(bricksetUserSet =>
+                    updatedSetsSinceLastSynchronization.ForEach(async bricksetUserSet =>
                     {
                         _messageHub.Publish(new UserSynchronizerSynchronizingSetStart { SetId = bricksetUserSet.Set.SetId });
 
@@ -66,7 +66,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                             Own = bricksetUserSet.Owned
                         };
 
-                        _bricksetApiService.SetCollection(setCollectionParameter);
+                        await _bricksetApiService.SetCollection(setCollectionParameter).ConfigureAwait(false);
 
                         _messageHub.Publish(new UserSynchronizerSynchronizingSetEnd { SetId = bricksetUserSet.Set.SetId });
                     });
@@ -90,14 +90,14 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                 {
                     _messageHub.Publish(new UserSynchronizerSynchronizingSetStart { SetId = userSetNotInAllMyBricks.Set.SetId });
 
-                    _bricksetUserRepository.AddOrUpdateSet(username, userSetNotInAllMyBricks);
+                    await _bricksetUserRepository.AddOrUpdateSet(username, userSetNotInAllMyBricks).ConfigureAwait(false);
 
                     _messageHub.Publish(new UserSynchronizerSynchronizingSetEnd { SetId = userSetNotInAllMyBricks.Set.SetId });
                 }
 
                 _messageHub.Publish(new BricksetToAllMyBricksEnd());
 
-                _bricksetUserRepository.UpdateUserSynchronizationTimestamp(username, DateTimeOffset.Now);
+                await _bricksetUserRepository.UpdateUserSynchronizationTimestamp(username, DateTimeOffset.Now).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
@@ -123,12 +123,12 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                 {
                     _messageHub.Publish(new UserSynchronizerSynchronizingSetStart { SetId = bricksetUserSet.Set.SetId });
 
-                    _bricksetUserRepository.AddOrUpdateSet(username, bricksetUserSet);
+                    await _bricksetUserRepository.AddOrUpdateSet(username, bricksetUserSet).ConfigureAwait(false);
 
                     _messageHub.Publish(new UserSynchronizerSynchronizingSetEnd { SetId = bricksetUserSet.Set.SetId });
                 }
 
-                _bricksetUserRepository.UpdateUserSynchronizationTimestamp(username, DateTimeOffset.Now);
+                await _bricksetUserRepository.UpdateUserSynchronizationTimestamp(username, DateTimeOffset.Now).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
@@ -153,7 +153,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                 {
                     allUserSets.Add(wantedSetId, new BricksetUserSet
                     {
-                        Set = _setRepository.Get(wantedSetId),
+                        Set = await _setRepository.Get(wantedSetId).ConfigureAwait(false),
                         Wanted = true
                     });
                 }
@@ -188,12 +188,14 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
 
                 currentPageResults = (await _bricksetApiService.GetSets(getSetsParameter).ConfigureAwait(false)).ToList();
 
-                ownedSets.AddRange(currentPageResults.Select(set => new BricksetUserSet
+                var tasks = await Task.Run(() => currentPageResults.Select(async set => new BricksetUserSet
                 {
-                    Set = _setRepository.Get(set.SetId),
                     Owned = true,
-                    QuantityOwned = (short)(set.Collection?.QtyOwned ?? 0)
+                    QuantityOwned = (short)(set.Collection?.QtyOwned ?? 0),
+                    Set = await _setRepository.Get(set.SetId).ConfigureAwait(false)
                 }));
+
+                ownedSets.AddRange(await Task.WhenAll(tasks));
 
                 pageNumber++;
             } while (currentPageResults.Count == Constants.BricksetDefaultPageSizeParameter);
