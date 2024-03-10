@@ -33,7 +33,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Shared
             return _assembly.GetName().Name;
         }
 
-        private void ResetDatabase()
+        private static void ResetDatabase()
         {
             (MemoryRepositoryService as IMemoryRepositoryService)?.ResetDatabase();
         }

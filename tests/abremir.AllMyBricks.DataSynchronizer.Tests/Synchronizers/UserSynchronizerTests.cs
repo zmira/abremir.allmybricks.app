@@ -429,7 +429,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
             Check.That(user.UserSynchronizationTimestamp).HasAValue();
         }
 
-        private UserSynchronizer CreateTarget(IBricksetApiService bricksetApiService = null)
+        private static UserSynchronizer CreateTarget(IBricksetApiService bricksetApiService = null)
         {
             bricksetApiService ??= Substitute.For<IBricksetApiService>();
 
