@@ -18,5 +18,6 @@ namespace abremir.AllMyBricks.Data.Interfaces
         Task<IEnumerable<Set>> AllForYear(short year);
         Task<IEnumerable<Set>> AllForPriceRange(PriceRegion priceRegion, float minimumPrice, float maximumPrice);
         Task<IEnumerable<Set>> SearchBy(string searchQuery);
+        Task<int> Count();
     }
 }

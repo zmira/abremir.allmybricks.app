@@ -505,6 +505,29 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
             Check.That(set).HasFieldsWithSameValues(setFromDb);
         }
 
+        [TestMethod]
+        public async Task Count_SetCollectionIsEmpty_ReturnsZero()
+        {
+            var setCount = await _setRepository.Count();
+
+            Check.That(setCount).IsZero();
+        }
+
+        [TestMethod]
+        public async Task Count_SetCollectionIsNotEmpty_ReturnsSetCount()
+        {
+            var random = new Random();
+            var numberOfSets = random.Next(10, 100);
+            for (var setId = 1; setId <= numberOfSets; setId++)
+            {
+                await _setRepository.AddOrUpdate(new Set { SetId = setId });
+            }
+
+            var setCount = await _setRepository.Count();
+
+            Check.That(setCount).Is(numberOfSets);
+        }
+
         private static async Task<Set> SetupSetForSearch(int suffix)
         {
             var theme = await InsertData(ModelsSetup.GetThemeUnderTest($"SET THEME{suffix}"));

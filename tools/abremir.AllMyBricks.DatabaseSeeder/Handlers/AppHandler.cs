@@ -423,6 +423,27 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Handlers
 
                 Application.Run(dialog);
             });
+            messageHub.Subscribe<MismatchingNumberOfSetsWarning>(message =>
+            {
+                var buttonOk = new Button("Ok");
+                buttonOk.Clicked += () =>
+                {
+                    CanExit = true;
+
+                    Application.RequestStop();
+                };
+
+                var dialog = new Dialog("Full Sets Synchronization finished", 60, 6, buttonOk);
+
+                var mismatchedSetCountLabel = new Label($"Mismatched number of sets! Expected: {message.Expected}; Actual: {message.Actual}")
+                {
+                    X = Pos.Center(),
+                    Y = 1
+                };
+                dialog.Add(mismatchedSetCountLabel);
+
+                Application.Run(dialog);
+            });
 
             AddMenuBar(topLevel, topLevelWindow);
 

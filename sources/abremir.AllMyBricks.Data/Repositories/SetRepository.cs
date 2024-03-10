@@ -176,6 +176,13 @@ namespace abremir.AllMyBricks.Data.Repositories
                 .ToListAsync().ConfigureAwait(false);
         }
 
+        public async Task<int> Count()
+        {
+            using var repository = _repositoryService.GetRepository();
+
+            return await repository.Query<Set>().CountAsync().ConfigureAwait(false);
+        }
+
         private static BsonExpression BuildBsonExpressionFromSearchQuery(string searchQuery)
         {
             if (string.IsNullOrWhiteSpace(searchQuery))
