@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using abremir.AllMyBricks.Data.Enumerations;
 using abremir.AllMyBricks.Data.Interfaces;
@@ -96,12 +97,12 @@ namespace abremir.AllMyBricks.UserManagement.Services
 
         public async Task<bool> RemoveBricksetPrimaryUser(string username)
         {
-            if (await RemoveBricksetUser(username).ConfigureAwait(false))
-            {
-                return await _secureStorageService.ClearBricksetPrimaryUser(username).ConfigureAwait(false);
-            }
+            Task<bool>[] tasks = [
+                RemoveBricksetUser(username),
+                _secureStorageService.ClearBricksetPrimaryUser(username)
+            ];
 
-            return false;
+            return (await Task.WhenAll(tasks).ConfigureAwait(false)).Aggregate(false, (seed, value) => seed || value);
         }
 
         public async Task<bool> RemoveBricksetFriend(string username)

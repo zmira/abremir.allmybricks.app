@@ -81,7 +81,7 @@ namespace abremir.AllMyBricks.Platform.Services
 
             await _secureStorage.SetAsync(Constants.BricksetPrimaryUsersStorageKey, JsonSerializer.Serialize(bricksetUsers)).ConfigureAwait(false);
 
-            return bricksetUsers.ContainsKey(username);
+            return true;
         }
 
         public async Task<bool> IsBricksetPrimaryUsersDefined()
