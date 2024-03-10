@@ -50,7 +50,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 
             var partialSetSynchronizer = CreateTarget(insightsRepository, onboardingService, bricksetApiService);
 
-            await partialSetSynchronizer.Synchronize().ConfigureAwait(false);
+            await partialSetSynchronizer.Synchronize();
 
             await onboardingService.DidNotReceive().GetBricksetApiKey();
             await bricksetApiService.DidNotReceive().GetSets(Arg.Any<GetSetsParameters>());
@@ -64,7 +64,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 
             var partialSetSynchronizer = CreateTarget(onboardingService: onboardingService);
 
-            Check.That(partialSetSynchronizer.Synchronize().ConfigureAwait(false)).Throws<Exception>();
+            Check.That(partialSetSynchronizer.Synchronize()).Throws<Exception>();
         }
 
         [TestMethod]
@@ -77,7 +77,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 
             var partialSetSynchronizer = CreateTarget(bricksetApiService: bricksetApiService);
 
-            await partialSetSynchronizer.Synchronize().ConfigureAwait(false);
+            await partialSetSynchronizer.Synchronize();
 
             Check.That(await _setRepository.All()).IsEmpty();
         }
@@ -111,7 +111,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 
             var partialSetSynchronizer = CreateTarget(insightsRepository, bricksetApiService: bricksetApiService);
 
-            await partialSetSynchronizer.Synchronize().ConfigureAwait(false);
+            await partialSetSynchronizer.Synchronize();
 
             Check.That(await _setRepository.All()).CountIs(recentlyUpdatedSetsList.Count);
             await insightsRepository.Received().UpdateDataSynchronizationTimestamp(Arg.Any<DateTimeOffset>());

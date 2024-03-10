@@ -49,7 +49,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 
             var partialSetSynchronizer = CreateTarget(insightsRepository, onboardingService, bricksetApiService);
 
-            await partialSetSynchronizer.Synchronize().ConfigureAwait(false);
+            await partialSetSynchronizer.Synchronize();
 
             await onboardingService.DidNotReceive().GetBricksetApiKey();
             await bricksetApiService.DidNotReceive().GetSets(Arg.Any<GetSetsParameters>());
@@ -63,7 +63,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 
             var partialSetSynchronizer = CreateTarget(onboardingService: onboardingService);
 
-            Check.That(partialSetSynchronizer.Synchronize().ConfigureAwait(false)).Throws<Exception>();
+            Check.That(partialSetSynchronizer.Synchronize()).Throws<Exception>();
         }
 
         [TestMethod]
@@ -73,7 +73,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 
             var subthemeSynchronizer = CreateTarget(bricksetApiService: bricksetApiService);
 
-            await subthemeSynchronizer.Synchronize().ConfigureAwait(false);
+            await subthemeSynchronizer.Synchronize();
 
             await bricksetApiService.DidNotReceive().GetSets(Arg.Any<GetSetsParameters>());
             Check.That(await _setRepository.All()).IsEmpty();
@@ -98,7 +98,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 
             var setSynchronizer = CreateTarget(bricksetApiService: bricksetApiService);
 
-            await setSynchronizer.Synchronize().ConfigureAwait(false);
+            await setSynchronizer.Synchronize();
 
             await bricksetApiService.Received().GetSets(Arg.Any<GetSetsParameters>());
             Check.That(await _setRepository.All()).IsEmpty();
@@ -146,7 +146,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 
             var setSynchronizer = CreateTarget(bricksetApiService: bricksetApiService);
 
-            await setSynchronizer.Synchronize().ConfigureAwait(false);
+            await setSynchronizer.Synchronize();
 
             Check.That(await _setRepository.All()).CountIs(setsList.Count);
             var persistedSet = await _setRepository.Get(testSet.SetId);

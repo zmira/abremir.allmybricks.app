@@ -42,7 +42,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 
             var subthemeSynchronizer = CreateTarget(onboardingService);
 
-            Check.That(subthemeSynchronizer.Synchronize().ConfigureAwait(false)).Throws<Exception>();
+            Check.That(subthemeSynchronizer.Synchronize()).Throws<Exception>();
         }
 
         [TestMethod]
@@ -50,7 +50,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
         {
             var subthemeSynchronizer = CreateTarget();
 
-            await subthemeSynchronizer.Synchronize().ConfigureAwait(false);
+            await subthemeSynchronizer.Synchronize();
 
             Check.That(await _subthemeRepository.All()).IsEmpty();
         }
@@ -74,7 +74,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 
             var subthemeSynchronizer = CreateTarget(bricksetApiService: bricksetApiService);
 
-            await subthemeSynchronizer.Synchronize().ConfigureAwait(false);
+            await subthemeSynchronizer.Synchronize();
 
             Check.That(await _subthemeRepository.All()).IsEmpty();
         }
@@ -99,7 +99,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 
             var subthemeSynchronizer = CreateTarget(bricksetApiService: bricksetApiService);
 
-            await subthemeSynchronizer.Synchronize().ConfigureAwait(false);
+            await subthemeSynchronizer.Synchronize();
 
             Check.That(await _subthemeRepository.All()).CountIs(subthemesList.Count);
         }

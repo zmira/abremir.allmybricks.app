@@ -55,7 +55,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 
             var userSynchronizer = CreateTarget(bricksetApiService);
 
-            await userSynchronizer.SynchronizeBricksetPrimaryUser(string.Empty, testUser, string.Empty).ConfigureAwait(false);
+            await userSynchronizer.SynchronizeBricksetPrimaryUser(string.Empty, testUser, string.Empty);
 
             var user = await _bricksetUserRepository.Get(testUser);
 
@@ -133,7 +133,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 
             var userSynchronizer = CreateTarget(bricksetApiService);
 
-            await userSynchronizer.SynchronizeBricksetPrimaryUser(apiKey, testUser, userHash).ConfigureAwait(false);
+            await userSynchronizer.SynchronizeBricksetPrimaryUser(apiKey, testUser, userHash);
 
             var user = await _bricksetUserRepository.Get(testUser);
 
@@ -190,13 +190,13 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 
             var userSynchronizer = CreateTarget(bricksetApiService);
 
-            await userSynchronizer.SynchronizeBricksetPrimaryUser(apiKey, testUser, userHash).ConfigureAwait(false);
+            await userSynchronizer.SynchronizeBricksetPrimaryUser(apiKey, testUser, userHash);
 
             var user = await _bricksetUserRepository.Get(testUser);
 
             await bricksetApiService
                 .DidNotReceive()
-                .SetCollection(Arg.Any<SetCollectionParameters>()).ConfigureAwait(false);
+                .SetCollection(Arg.Any<SetCollectionParameters>());
             Check.That(user.Sets)
                 .Not.IsEmpty()
                 .And.CountIs(1);
@@ -259,13 +259,13 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 
             var userSynchronizer = CreateTarget(bricksetApiService);
 
-            await userSynchronizer.SynchronizeBricksetPrimaryUser(apiKey, testUser, userHash).ConfigureAwait(false);
+            await userSynchronizer.SynchronizeBricksetPrimaryUser(apiKey, testUser, userHash);
 
             var user = await _bricksetUserRepository.Get(testUser);
 
             await bricksetApiService
                 .Received()
-                .SetCollection(Arg.Any<SetCollectionParameters>()).ConfigureAwait(false);
+                .SetCollection(Arg.Any<SetCollectionParameters>());
             Check.That(user.Sets)
                 .Not.IsEmpty()
                 .And.CountIs(1);
@@ -356,13 +356,13 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 
             var userSynchronizer = CreateTarget(bricksetApiService);
 
-            await userSynchronizer.SynchronizeBricksetPrimaryUser(apiKey, testUser, userHash).ConfigureAwait(false);
+            await userSynchronizer.SynchronizeBricksetPrimaryUser(apiKey, testUser, userHash);
 
             var user = await _bricksetUserRepository.Get(testUser);
 
             await bricksetApiService
                 .Received().
-                SetCollection(Arg.Any<SetCollectionParameters>()).ConfigureAwait(false);
+                SetCollection(Arg.Any<SetCollectionParameters>());
             Check.That(user.Sets).Not.IsEmpty();
             Check.That(user.Sets.Where(userSet => userSet.Set.SetId == bricksetUserSet.Set.SetId && userSet.Owned == bricksetUserSet.Owned && userSet.QuantityOwned == bricksetUserSet.QuantityOwned)).Not.IsEmpty();
             Check.That(user.Sets.Where(userSet => userSet.Set.SetId == testSetWanted.SetId && userSet.Wanted == testSetWanted.Collection.Wanted)).Not.IsEmpty();
@@ -386,7 +386,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 
             var userSynchronizer = CreateTarget(bricksetApiService);
 
-            await userSynchronizer.SynchronizeBricksetPrimaryUser(string.Empty, testUser, string.Empty).ConfigureAwait(false);
+            await userSynchronizer.SynchronizeBricksetPrimaryUser(string.Empty, testUser, string.Empty);
 
             var user = await _bricksetUserRepository.Get(testUser);
 
@@ -464,7 +464,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 
             var userSynchronizer = CreateTarget(bricksetApiService);
 
-            await userSynchronizer.SynchronizeBricksetPrimaryUser(apiKey, testUser, userHash).ConfigureAwait(false);
+            await userSynchronizer.SynchronizeBricksetPrimaryUser(apiKey, testUser, userHash);
 
             var user = await _bricksetUserRepository.Get(testUser);
 

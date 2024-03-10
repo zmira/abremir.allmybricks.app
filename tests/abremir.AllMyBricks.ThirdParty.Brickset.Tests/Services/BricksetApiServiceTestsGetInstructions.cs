@@ -35,7 +35,7 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
         {
             _httpTestFake.RespondWith(GetResultFileFromResource(nameof(NoMatches)));
 
-            var instructions = await _bricksetApiService.GetInstructions(new ParameterSetId()).ConfigureAwait(false);
+            var instructions = await _bricksetApiService.GetInstructions(new ParameterSetId());
 
             Check.That(instructions).IsEmpty();
         }
@@ -45,7 +45,7 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
         {
             _httpTestFake.RespondWith(GetResultFileFromResource(nameof(Success)));
 
-            var instructions = await _bricksetApiService.GetInstructions(new ParameterSetId()).ConfigureAwait(false);
+            var instructions = await _bricksetApiService.GetInstructions(new ParameterSetId());
 
             Check.That(instructions).CountIs(6);
         }

@@ -92,19 +92,19 @@ namespace abremir.AllMyBricks.Platform.Tests.Services
         [DataRow("FILENAME", new byte[] { 0 }, true)]
         public async Task SaveThumbnailToCache_InvokesWriteAllBytes(string filename, byte[] thumbnail, bool invokesWriteAllBytes)
         {
-            await _fileSystemService.ClassUnderTest.SaveThumbnailToCache(string.Empty, string.Empty, filename, thumbnail).ConfigureAwait(false);
+            await _fileSystemService.ClassUnderTest.SaveThumbnailToCache(string.Empty, string.Empty, filename, thumbnail);
 
             if (invokesWriteAllBytes)
             {
                 await _fileSystemService.Get<IFile>()
                     .Received()
-                    .WriteAllBytes(Arg.Any<string>(), Arg.Any<byte[]>()).ConfigureAwait(false);
+                    .WriteAllBytes(Arg.Any<string>(), Arg.Any<byte[]>());
             }
             else
             {
                 await _fileSystemService.Get<IFile>()
                     .DidNotReceive()
-                    .WriteAllBytes(Arg.Any<string>(), Arg.Any<byte[]>()).ConfigureAwait(false);
+                    .WriteAllBytes(Arg.Any<string>(), Arg.Any<byte[]>());
             }
         }
     }

@@ -35,7 +35,7 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
         {
             _httpTestFake.RespondWith(GetResultFileFromResource(nameof(NoMatches)));
 
-            var additionalImages = await _bricksetApiService.GetAdditionalImages(new ParameterSetId()).ConfigureAwait(false);
+            var additionalImages = await _bricksetApiService.GetAdditionalImages(new ParameterSetId());
 
             Check.That(additionalImages).IsEmpty();
         }
@@ -45,7 +45,7 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
         {
             _httpTestFake.RespondWith(GetResultFileFromResource(nameof(Success)));
 
-            var additionalImages = await _bricksetApiService.GetAdditionalImages(new ParameterSetId()).ConfigureAwait(false);
+            var additionalImages = await _bricksetApiService.GetAdditionalImages(new ParameterSetId());
 
             Check.That(additionalImages).CountIs(6);
         }

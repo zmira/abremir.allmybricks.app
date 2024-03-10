@@ -45,7 +45,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
                         ThumbnailUrl = "THUMBNAIL_URL"
                     }
                 ]
-            }).ConfigureAwait(false);
+            });
 
             _httpTest.ShouldNotHaveMadeACall();
         }
@@ -57,7 +57,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
                 .ThumbnailCachingStrategy
                 .Returns(ThumbnailCachingStrategy.CacheAllThumbnailsWhenSynchronizing);
 
-            await _thumbnailSynchronizer.ClassUnderTest.Synchronize(null).ConfigureAwait(false);
+            await _thumbnailSynchronizer.ClassUnderTest.Synchronize(null);
 
             _httpTest.ShouldNotHaveMadeACall();
         }
@@ -72,7 +72,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
             await _thumbnailSynchronizer.ClassUnderTest.Synchronize(new Set
             {
                 Images = []
-            }).ConfigureAwait(false);
+            });
 
             _httpTest.ShouldNotHaveMadeACall();
         }
@@ -94,7 +94,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
                         ThumbnailUrl = thumbnailUrl
                     }
                 ]
-            }).ConfigureAwait(false);
+            });
 
             _httpTest.ShouldNotHaveMadeACall();
         }
@@ -115,12 +115,12 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
                         ThumbnailUrl = "http://www.url.com/thumbnails/thumbnail.jpg"
                     }
                 ]
-            }).ConfigureAwait(false);
+            });
 
             _httpTest.ShouldHaveMadeACall();
             await _thumbnailSynchronizer.Get<IFileSystemService>()
                 .DidNotReceiveWithAnyArgs()
-                .SaveThumbnailToCache(null, null, null, null).ConfigureAwait(false);
+                .SaveThumbnailToCache(null, null, null, null);
         }
 
         [TestMethod]
@@ -139,12 +139,12 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
                         ThumbnailUrl = "http://www.url.com/thumbnails/thumbnail.jpg"
                     }
                 ]
-            }).ConfigureAwait(false);
+            });
 
             _httpTest.ShouldHaveMadeACall();
             await _thumbnailSynchronizer.Get<IFileSystemService>()
                 .DidNotReceiveWithAnyArgs()
-                .SaveThumbnailToCache(null, null, null, null).ConfigureAwait(false);
+                .SaveThumbnailToCache(null, null, null, null);
         }
 
         [TestMethod]
@@ -165,12 +165,12 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
                 ],
                 Theme = new Theme(),
                 Subtheme = new Subtheme()
-            }).ConfigureAwait(false);
+            });
 
             _httpTest.ShouldHaveMadeACall();
             await _thumbnailSynchronizer.Get<IFileSystemService>()
                 .ReceivedWithAnyArgs()
-                .SaveThumbnailToCache(null, null, null, null).ConfigureAwait(false);
+                .SaveThumbnailToCache(null, null, null, null);
         }
     }
 }

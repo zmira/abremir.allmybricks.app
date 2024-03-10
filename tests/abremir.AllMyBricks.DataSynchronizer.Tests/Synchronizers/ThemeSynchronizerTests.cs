@@ -38,7 +38,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 
             var themeSynchronizer = CreateTarget(onboardingService);
 
-            Check.That(themeSynchronizer.Synchronize().ConfigureAwait(false)).Throws<Exception>();
+            Check.That(themeSynchronizer.Synchronize()).Throws<Exception>();
         }
 
         [TestMethod]
@@ -51,7 +51,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 
             var themeSynchronizer = CreateTarget(bricksetApiService: bricksetApiService);
 
-            await themeSynchronizer.Synchronize().ConfigureAwait(false);
+            await themeSynchronizer.Synchronize();
 
             Check.That(await _themeRepository.All()).IsEmpty();
         }
@@ -72,7 +72,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 
             var themeSynchronizer = CreateTarget(bricksetApiService: bricksetApiService);
 
-            await themeSynchronizer.Synchronize().ConfigureAwait(false);
+            await themeSynchronizer.Synchronize();
 
             Check.That(await _themeRepository.All()).CountIs(themesList.Count);
             Check.That((await _themeRepository.Get(Constants.TestThemeArchitecture)).SetCountPerYear).Not.IsEmpty();

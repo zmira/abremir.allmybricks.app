@@ -43,7 +43,7 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Tests.Services
         {
             _httpTestFake.RespondWith(GetResultFileFromResource(nameof(Valid)));
 
-            var loginResult = await _bricksetApiService.Login(new ParameterLogin()).ConfigureAwait(false);
+            var loginResult = await _bricksetApiService.Login(new ParameterLogin());
 
             Check.That(loginResult).Not.IsEmpty();
         }
