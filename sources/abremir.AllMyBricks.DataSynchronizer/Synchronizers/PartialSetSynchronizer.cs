@@ -63,7 +63,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                     UpdatedSince = previousUpdateTimestamp.UtcDateTime
                 };
 
-                var updatedSets = await GetAllSetsFor(apiKey, getSetsParameters);
+                var updatedSets = await GetAllSetsFor(apiKey, getSetsParameters).ConfigureAwait(false);
                 var newUpdateTimestamp = DateTimeOffset.UtcNow;
 
                 MessageHub.Publish(new AcquiringSetsEnd { Count = updatedSets.Count, Complete = false, From = previousUpdateTimestamp });
@@ -78,7 +78,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
 
                         foreach (var bricksetSet in subthemeGroup)
                         {
-                            await AddOrUpdateSet(apiKey, theme, subtheme, bricksetSet);
+                            await AddOrUpdateSet(apiKey, theme, subtheme, bricksetSet).ConfigureAwait(false);
                         }
                     }
                 }

@@ -40,7 +40,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Services
 
             try
             {
-                var apiKey = await _onboardingService.GetBricksetApiKey();
+                var apiKey = await _onboardingService.GetBricksetApiKey().ConfigureAwait(false);
 
                 if (string.IsNullOrWhiteSpace(apiKey))
                 {
@@ -58,13 +58,13 @@ namespace abremir.AllMyBricks.DataSynchronizer.Services
 
                     _messageHub.Publish(new UsersAcquired { UserType = BricksetUserType.Primary, Count = tasks.Count });
 
-                    await Task.WhenAll(tasks);
+                    await Task.WhenAll(tasks).ConfigureAwait(false);
                 }
                 else if (await _bricksetUserRepository.Exists(username).ConfigureAwait(false))
                 {
                     _messageHub.Publish(new UsersAcquired { UserType = BricksetUserType.Primary, Count = 1 });
 
-                    await SynchronizeBricksetPrimaryUser(apiKey, username);
+                    await SynchronizeBricksetPrimaryUser(apiKey, username).ConfigureAwait(false);
                 }
                 else
                 {
@@ -89,7 +89,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Services
 
             try
             {
-                var apiKey = await _onboardingService.GetBricksetApiKey();
+                var apiKey = await _onboardingService.GetBricksetApiKey().ConfigureAwait(false);
 
                 if (string.IsNullOrWhiteSpace(apiKey))
                 {
@@ -107,13 +107,13 @@ namespace abremir.AllMyBricks.DataSynchronizer.Services
 
                     _messageHub.Publish(new UsersAcquired { UserType = BricksetUserType.Friend, Count = tasks.Count });
 
-                    await Task.WhenAll(tasks);
+                    await Task.WhenAll(tasks).ConfigureAwait(false);
                 }
                 else if (await _bricksetUserRepository.Exists(username).ConfigureAwait(false))
                 {
                     _messageHub.Publish(new UsersAcquired { UserType = BricksetUserType.Friend, Count = 1 });
 
-                    await SynchronizeBricksetFriend(apiKey, username);
+                    await SynchronizeBricksetFriend(apiKey, username).ConfigureAwait(false);
                 }
                 else
                 {
@@ -130,19 +130,19 @@ namespace abremir.AllMyBricks.DataSynchronizer.Services
 
         private async Task SynchronizeBricksetPrimaryUser(string apiKey, string username)
         {
-            var userHash = await _secureStorageService.GetBricksetUserHash(username);
+            var userHash = await _secureStorageService.GetBricksetUserHash(username).ConfigureAwait(false);
 
             if (string.IsNullOrWhiteSpace(userHash))
             {
                 throw new Exception($"Invalid user hash for primary user '{username}'");
             }
 
-            await _userSynchronizer.SynchronizeBricksetPrimaryUser(apiKey, username, userHash);
+            await _userSynchronizer.SynchronizeBricksetPrimaryUser(apiKey, username, userHash).ConfigureAwait(false);
         }
 
         private async Task SynchronizeBricksetFriend(string apiKey, string username)
         {
-            await _userSynchronizer.SynchronizeBricksetFriend(apiKey, username);
+            await _userSynchronizer.SynchronizeBricksetFriend(apiKey, username).ConfigureAwait(false);
         }
     }
 }

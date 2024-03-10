@@ -63,7 +63,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                         Theme = theme.Name
                     };
 
-                    var bricksetSubthemes = (await _bricksetApiService.GetSubthemes(getSubthemesParameters)).ToList();
+                    var bricksetSubthemes = (await _bricksetApiService.GetSubthemes(getSubthemesParameters).ConfigureAwait(false)).ToList();
 
                     _messageHub.Publish(new SubthemesAcquired { Theme = theme.Name, Count = bricksetSubthemes.Count });
 

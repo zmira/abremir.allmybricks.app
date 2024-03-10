@@ -57,11 +57,11 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
 
             try
             {
-                var set = await MapSet(apiKey, theme, subtheme, bricksetSet);
+                var set = await MapSet(apiKey, theme, subtheme, bricksetSet).ConfigureAwait(false);
 
                 await SetRepository.AddOrUpdate(set).ConfigureAwait(false);
 
-                await ThumbnailSynchronizer.Synchronize(set, true);
+                await ThumbnailSynchronizer.Synchronize(set, true).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
@@ -84,8 +84,8 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
             await SetTagList(set, bricksetSet.ExtendedData?.Tags).ConfigureAwait(false);
             SetPriceList(set, bricksetSet.LegoCom);
 
-            await SetImageList(apiKey, set, bricksetSet);
-            await SetInstructionList(apiKey, set, bricksetSet);
+            await SetImageList(apiKey, set, bricksetSet).ConfigureAwait(false);
+            await SetInstructionList(apiKey, set, bricksetSet).ConfigureAwait(false);
 
             return set;
         }
@@ -127,7 +127,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                 SetID = set.SetId
             };
 
-            set.Images = (await BricksetApiService.GetAdditionalImages(getAdditionalImagesParameters))
+            set.Images = (await BricksetApiService.GetAdditionalImages(getAdditionalImagesParameters).ConfigureAwait(false))
                     .ToImageEnumerable()
                     .ToList();
         }
@@ -189,7 +189,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                 SetID = set.SetId
             };
 
-            set.Instructions = (await BricksetApiService.GetInstructions(getInstructionsParameters))
+            set.Instructions = (await BricksetApiService.GetInstructions(getInstructionsParameters).ConfigureAwait(false))
                     .ToInstructionEnumerable()
                     .ToList();
         }
@@ -208,7 +208,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
             {
                 getSetsParameters.PageNumber = pageNumber;
 
-                currentPageResults = (await BricksetApiService.GetSets(getSetsParameters)).ToList();
+                currentPageResults = (await BricksetApiService.GetSets(getSetsParameters).ConfigureAwait(false)).ToList();
 
                 foundSets.AddRange(currentPageResults);
 

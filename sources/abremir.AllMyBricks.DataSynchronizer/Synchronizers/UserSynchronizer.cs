@@ -193,9 +193,9 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                     Owned = true,
                     QuantityOwned = (short)(set.Collection?.QtyOwned ?? 0),
                     Set = await _setRepository.Get(set.SetId).ConfigureAwait(false)
-                }));
+                })).ConfigureAwait(false);
 
-                ownedSets.AddRange(await Task.WhenAll(tasks));
+                ownedSets.AddRange(await Task.WhenAll(tasks).ConfigureAwait(false));
 
                 pageNumber++;
             } while (currentPageResults.Count == Constants.BricksetDefaultPageSizeParameter);

@@ -109,7 +109,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                         Year = yearFilter
                     };
 
-                    var bricksetSets = await GetAllSetsFor(apiKey, getSetsParameters);
+                    var bricksetSets = await GetAllSetsFor(apiKey, getSetsParameters).ConfigureAwait(false);
 
                     MessageHub.Publish(new AcquiringSetsEnd { Count = bricksetSets.Count, Complete = true, Years = yearFilter });
 
