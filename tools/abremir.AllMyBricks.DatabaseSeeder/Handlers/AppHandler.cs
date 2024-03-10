@@ -157,12 +157,6 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Handlers
                 Application.MainLoop.Invoke(themeLabel.SetChildNeedsDisplay);
                 Application.MainLoop.Invoke(themeProgress.SetChildNeedsDisplay);
             });
-            messageHub.Subscribe<ProcessingThemeStart>(message =>
-            {
-                themeLabel.Text = $"Theme: {message.Name}";
-
-                Application.MainLoop.Invoke(themeLabel.SetChildNeedsDisplay);
-            });
             messageHub.Subscribe<SubthemeSynchronizerStart>(_ =>
             {
                 themeLabel.Text = string.Empty;
@@ -212,12 +206,6 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Handlers
                 Application.MainLoop.Invoke(themeLabel.SetChildNeedsDisplay);
                 Application.MainLoop.Invoke(subthemeLabel.SetChildNeedsDisplay);
                 Application.MainLoop.Invoke(subthemeProgress.SetChildNeedsDisplay);
-            });
-            messageHub.Subscribe<ProcessingSubthemeStart>(message =>
-            {
-                subthemeLabel.Text = $"Subtheme: {message.Name}";
-
-                Application.MainLoop.Invoke(subthemeLabel.SetChildNeedsDisplay);
             });
             messageHub.Subscribe<SetSynchronizerStart>(_ =>
             {
@@ -282,32 +270,6 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Handlers
 
                 Application.MainLoop.Invoke(setLabel.SetChildNeedsDisplay);
                 Application.MainLoop.Invoke(setProgress.SetChildNeedsDisplay);
-            });
-            messageHub.Subscribe<ProcessingSubthemeEnd>(_ =>
-            {
-                subthemeLabel.Text = string.Empty;
-                subthemeIndex++;
-                subthemeProgress.Fraction = subthemeIndex / subthemeCount;
-
-                Application.MainLoop.Invoke(subthemeLabel.SetChildNeedsDisplay);
-                Application.MainLoop.Invoke(subthemeProgress.SetChildNeedsDisplay);
-            });
-            messageHub.Subscribe<ProcessingThemeEnd>(_ =>
-            {
-                themeLabel.Text = string.Empty;
-                themeIndex++;
-                themeProgress.Fraction = themeIndex / themeCount;
-
-                if ((int)themeIndex == (int)themeCount)
-                {
-                    themeProgress.Fraction = 0f;
-                    subthemeProgress.Fraction = 0f;
-
-                    Application.MainLoop.Invoke(subthemeProgress.SetChildNeedsDisplay);
-                }
-
-                Application.MainLoop.Invoke(themeLabel.SetChildNeedsDisplay);
-                Application.MainLoop.Invoke(themeProgress.SetChildNeedsDisplay);
             });
             messageHub.Subscribe<SetSynchronizationServiceEnd>(_ =>
             {

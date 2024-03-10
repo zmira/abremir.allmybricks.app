@@ -50,8 +50,6 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
                 }
             });
 
-            messageHub.Subscribe<SynchronizingThemeException>(message => logger.LogError(message.Exception, $"Synchronizing Theme '{message.Theme}' Exception"));
-
             messageHub.Subscribe<SynchronizingThemeEnd>(message =>
             {
                 if (Logging.LogVerbosity == LogVerbosity.Full)
