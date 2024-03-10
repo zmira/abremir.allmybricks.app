@@ -68,9 +68,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
             await _themeRepository.AddOrUpdate(theme);
 
             var bricksetApiService = Substitute.For<IBricksetApiService>();
-            bricksetApiService
-                .GetSubthemes(Arg.Any<ParameterTheme>())
-                .Returns([]);
+            bricksetApiService.GetSubthemes(Arg.Any<ParameterTheme>()).Returns([]);
 
             var subthemeSynchronizer = CreateTarget(bricksetApiService: bricksetApiService);
 
@@ -93,9 +91,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
             await _themeRepository.AddOrUpdate(theme);
 
             var bricksetApiService = Substitute.For<IBricksetApiService>();
-            bricksetApiService
-                .GetSubthemes(Arg.Any<ParameterTheme>())
-                .Returns(subthemesList);
+            bricksetApiService.GetSubthemes(Arg.Any<ParameterTheme>()).Returns(subthemesList);
 
             var subthemeSynchronizer = CreateTarget(bricksetApiService: bricksetApiService);
 

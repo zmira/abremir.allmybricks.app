@@ -34,36 +34,26 @@ namespace abremir.AllMyBricks.AssetManagement.Tests.Services
         [DataRow("http://www.google.com/test.lzc", "C:\\test.file", false)]
         public async Task InstallAllMyBricksSeedDatabase_InvalidParameters_ResultIsFalse(string databaseSeedUrl, string targetFolderPath, bool directoryExists)
         {
-            _assetManagementService.Get<IDirectory>()
-                .Exists(Arg.Any<string>())
-                .Returns(directoryExists);
+            _assetManagementService.Get<IDirectory>().Exists(Arg.Any<string>()).Returns(directoryExists);
 
             var result = await _assetManagementService.ClassUnderTest.InstallAllMyBricksSeedDatabase(databaseSeedUrl, targetFolderPath);
 
             Check.That(result).IsFalse();
             _httpTest.ShouldNotHaveMadeACall();
-            _assetManagementService.Get<IAssetExpansion>()
-                .DidNotReceiveWithAnyArgs()
-                .ExpandAsset(Arg.Any<Stream>(), Arg.Any<string>());
+            _assetManagementService.Get<IAssetExpansion>().DidNotReceiveWithAnyArgs().ExpandAsset(Arg.Any<Stream>(), Arg.Any<string>());
         }
 
         [TestMethod]
         public async Task InstallAllMyBricksSeedDatabase_ValidParameters_ResultIsTrue()
         {
-            _assetManagementService.Get<IAssetExpansion>()
-                .ExpandAsset(Arg.Any<Stream>(), Arg.Any<string>(), Arg.Any<bool>(), Arg.Any<string>())
-                .Returns(true);
-            _assetManagementService.Get<IDirectory>()
-                .Exists(Arg.Any<string>())
-                .Returns(true);
+            _assetManagementService.Get<IAssetExpansion>().ExpandAsset(Arg.Any<Stream>(), Arg.Any<string>(), Arg.Any<bool>(), Arg.Any<string>()).Returns(true);
+            _assetManagementService.Get<IDirectory>().Exists(Arg.Any<string>()).Returns(true);
 
             var result = await _assetManagementService.ClassUnderTest.InstallAllMyBricksSeedDatabase("http://www.google.com/test.lzc", "C:\\");
 
             Check.That(result).IsTrue();
             _httpTest.ShouldHaveMadeACall();
-            _assetManagementService.Get<IAssetExpansion>()
-                .ReceivedWithAnyArgs()
-                .ExpandAsset(Arg.Any<Stream>(), Arg.Any<string>());
+            _assetManagementService.Get<IAssetExpansion>().ReceivedWithAnyArgs().ExpandAsset(Arg.Any<Stream>(), Arg.Any<string>());
         }
     }
 }

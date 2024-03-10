@@ -30,9 +30,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Configuration
             {
                 _tempStream = new TempStream("abremir.AllMyBricks.DataSynchronizer.Tests.litedb");
 
-                _fileSystemService
-                    .GetStreamForLocalPathToFile(Arg.Any<string>(), Arg.Any<string>())
-                    .Returns(_tempStream);
+                _fileSystemService.GetStreamForLocalPathToFile(Arg.Any<string>(), Arg.Any<string>()).Returns(_tempStream);
             }
 
             var repositoryService = new RepositoryService(_fileSystemService, new MigrationRunner());

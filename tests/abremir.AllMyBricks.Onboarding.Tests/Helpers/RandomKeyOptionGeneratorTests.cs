@@ -21,10 +21,7 @@ namespace abremir.AllMyBricks.Onboarding.Tests.Helpers
                 algorithmTypeEnumList.Add(next);
             }
 
-            Check.That(algorithmTypeEnumList)
-                .CountIs(count)
-                .And
-                .ContainsOnlyElementsThatMatch(algoType => algoType != 0);
+            Check.That(algorithmTypeEnumList).CountIs(count).And.ContainsOnlyElementsThatMatch(algoType => algoType != 0);
         }
     }
 }

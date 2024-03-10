@@ -92,9 +92,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
             await _themeRepository.AddOrUpdate(theme);
 
             var bricksetApiService = Substitute.For<IBricksetApiService>();
-            bricksetApiService
-                .GetSets(Arg.Any<GetSetsParameters>())
-                .Returns([]);
+            bricksetApiService.GetSets(Arg.Any<GetSetsParameters>()).Returns([]);
 
             var setSynchronizer = CreateTarget(bricksetApiService: bricksetApiService);
 
@@ -134,15 +132,9 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
             subtheme.Theme = theme;
 
             var bricksetApiService = Substitute.For<IBricksetApiService>();
-            bricksetApiService
-                .GetSets(Arg.Any<GetSetsParameters>())
-                .Returns(setsList);
-            bricksetApiService
-                .GetAdditionalImages(Arg.Is<ParameterSetId>(parameter => parameter.SetID == testSet.SetId))
-                .Returns(additionalImagesList);
-            bricksetApiService
-                .GetInstructions(Arg.Is<ParameterSetId>(parameter => parameter.SetID == testSet.SetId))
-                .Returns(instructionsList);
+            bricksetApiService.GetSets(Arg.Any<GetSetsParameters>()).Returns(setsList);
+            bricksetApiService.GetAdditionalImages(Arg.Is<ParameterSetId>(parameter => parameter.SetID == testSet.SetId)).Returns(additionalImagesList);
+            bricksetApiService.GetInstructions(Arg.Is<ParameterSetId>(parameter => parameter.SetID == testSet.SetId)).Returns(instructionsList);
 
             var setSynchronizer = CreateTarget(bricksetApiService: bricksetApiService);
 

@@ -71,9 +71,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
         public async Task Synchronize_BricksetApiServiceReturnsEmptyListOfSets_NothingIsSaved()
         {
             var bricksetApiService = Substitute.For<IBricksetApiService>();
-            bricksetApiService
-                .GetSets(Arg.Any<GetSetsParameters>())
-                .Returns([]);
+            bricksetApiService.GetSets(Arg.Any<GetSetsParameters>()).Returns([]);
 
             var partialSetSynchronizer = CreateTarget(bricksetApiService: bricksetApiService);
 
@@ -105,9 +103,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
             await _subthemeRepository.AddOrUpdate(subtheme);
 
             var bricksetApiService = Substitute.For<IBricksetApiService>();
-            bricksetApiService
-                .GetSets(Arg.Any<GetSetsParameters>())
-                .Returns(recentlyUpdatedSetsList);
+            bricksetApiService.GetSets(Arg.Any<GetSetsParameters>()).Returns(recentlyUpdatedSetsList);
 
             var partialSetSynchronizer = CreateTarget(insightsRepository, bricksetApiService: bricksetApiService);
 

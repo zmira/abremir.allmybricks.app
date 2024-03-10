@@ -45,9 +45,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
         public async Task Synchronize_BricksetApiServiceReturnEmptyListOfThemes_NothingIsSaved()
         {
             var bricksetApiService = Substitute.For<IBricksetApiService>();
-            bricksetApiService
-                .GetThemes(Arg.Any<ParameterApiKey>())
-                .Returns([]);
+            bricksetApiService.GetThemes(Arg.Any<ParameterApiKey>()).Returns([]);
 
             var themeSynchronizer = CreateTarget(bricksetApiService: bricksetApiService);
 
@@ -63,12 +61,8 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
             var yearsList = JsonConvert.DeserializeObject<List<Years>>(GetResultFileFromResource(Constants.JsonFileGetYears));
 
             var bricksetApiService = Substitute.For<IBricksetApiService>();
-            bricksetApiService
-                .GetThemes(Arg.Any<ParameterApiKey>())
-                .Returns(themesList);
-            bricksetApiService
-                .GetYears(Arg.Is<ParameterTheme>(parameter => parameter.Theme == Constants.TestThemeArchitecture))
-                .Returns(yearsList);
+            bricksetApiService.GetThemes(Arg.Any<ParameterApiKey>()).Returns(themesList);
+            bricksetApiService.GetYears(Arg.Is<ParameterTheme>(parameter => parameter.Theme == Constants.TestThemeArchitecture)).Returns(yearsList);
 
             var themeSynchronizer = CreateTarget(bricksetApiService: bricksetApiService);
 
