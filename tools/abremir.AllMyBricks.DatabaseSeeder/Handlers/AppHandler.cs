@@ -498,13 +498,13 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Handlers
 
         private static void AddMenuBar(Toplevel topLevel, Window window)
         {
-            MenuBar = new MenuBar(new MenuBarItem[]
-            {
+            MenuBar = new MenuBar(
+            [
                 new("_File", new MenuItem[]
                 {
                     new("E_xit", "", () => topLevel.Running &= !CanExit)
                 })
-            });
+            ]);
 
             UpdateSynchronizationMenuView(window);
 
@@ -573,7 +573,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Handlers
                 })
             });
 
-            MenuBar.Menus = MenuBar.Menus.Append(menuBarItem).ToArray();
+            MenuBar.Menus = [.. MenuBar.Menus, menuBarItem];
         }
 
         private static void AddBricksetApiKey(Window window)

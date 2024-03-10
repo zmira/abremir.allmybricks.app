@@ -65,7 +65,8 @@ namespace abremir.AllMyBricks.Data.Tests.Configuration
             return theme;
         }
 
-        internal static Theme[] ListOfThemesUnderTest => new[] { GetThemeUnderTest(Guid.NewGuid().ToString()), GetSecondThemeUnderTest(Guid.NewGuid().ToString()) };
+        internal static Theme[] ListOfThemesUnderTest =>
+            [GetThemeUnderTest(Guid.NewGuid().ToString()), GetSecondThemeUnderTest(Guid.NewGuid().ToString())];
 
         internal static Subtheme GetSubthemeUnderTest(string subthemeName)
         {
@@ -95,7 +96,8 @@ namespace abremir.AllMyBricks.Data.Tests.Configuration
             };
         }
 
-        internal static Subtheme[] ListOfSubthemesUnderTest => new[] { GetSubthemeUnderTest(Guid.NewGuid().ToString()), GetSecondSubthemeUnderTest(Guid.NewGuid().ToString()) };
+        internal static Subtheme[] ListOfSubthemesUnderTest =>
+            [GetSubthemeUnderTest(Guid.NewGuid().ToString()), GetSecondSubthemeUnderTest(Guid.NewGuid().ToString())];
 
         internal static Category CategoryReferenceData => new()
         {
@@ -133,7 +135,8 @@ namespace abremir.AllMyBricks.Data.Tests.Configuration
             };
         }
 
-        internal static Set[] ListOfSetsUnderTest => new[] { GetSetUnderTest(), GetSecondSetUnderTest() };
+        internal static Set[] ListOfSetsUnderTest =>
+            [GetSetUnderTest(), GetSecondSetUnderTest()];
 
         internal static Set GetSetForSearch(int suffix)
         {

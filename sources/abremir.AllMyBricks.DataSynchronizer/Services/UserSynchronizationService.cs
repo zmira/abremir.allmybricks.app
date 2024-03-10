@@ -77,7 +77,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Services
             }
             catch (Exception ex)
             {
-                _messageHub.Publish(new UserSynchronizationServiceException { UserType = BricksetUserType.Primary, Exceptions = new[] { ex } });
+                _messageHub.Publish(new UserSynchronizationServiceException { UserType = BricksetUserType.Primary, Exceptions = [ex] });
             }
 
             _messageHub.Publish(new UserSynchronizationServiceEnd { UserType = BricksetUserType.Primary });
@@ -122,7 +122,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Services
             }
             catch (Exception ex)
             {
-                _messageHub.Publish(new UserSynchronizationServiceException { UserType = BricksetUserType.Friend, Exceptions = new[] { ex } });
+                _messageHub.Publish(new UserSynchronizationServiceException { UserType = BricksetUserType.Friend, Exceptions = [ex] });
             }
 
             _messageHub.Publish(new UserSynchronizationServiceEnd { UserType = BricksetUserType.Friend });
