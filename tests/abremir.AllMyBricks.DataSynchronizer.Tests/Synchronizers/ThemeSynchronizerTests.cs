@@ -78,7 +78,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
             Check.That((await _themeRepository.Get(Constants.TestThemeArchitecture)).SetCountPerYear).Not.IsEmpty();
         }
 
-        private ThemeSynchronizer CreateTarget(IOnboardingService onboardingService = null, IBricksetApiService bricksetApiService = null)
+        private static ThemeSynchronizer CreateTarget(IOnboardingService onboardingService = null, IBricksetApiService bricksetApiService = null)
         {
             if (onboardingService is null)
             {

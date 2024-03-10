@@ -176,7 +176,7 @@ namespace abremir.AllMyBricks.Data.Repositories
                 .ToListAsync().ConfigureAwait(false);
         }
 
-        private BsonExpression BuildBsonExpressionFromSearchQuery(string searchQuery)
+        private static BsonExpression BuildBsonExpressionFromSearchQuery(string searchQuery)
         {
             if (string.IsNullOrWhiteSpace(searchQuery))
             {
@@ -210,11 +210,8 @@ namespace abremir.AllMyBricks.Data.Repositories
                 : BsonExpression.Create(string.Join(" OR ", queryList.Values), queryList.Keys.Select(key => new BsonValue(key)).ToArray());
         }
 
-        private ILiteQueryable<Set> GetQueryable(ILiteRepository repository)
-        {
-            return repository
+        private static ILiteQueryableAsync<Set> GetQueryable(ILiteRepositoryAsync repository) => repository
                 .Query<Set>()
                 .IncludeAll();
-        }
     }
 }

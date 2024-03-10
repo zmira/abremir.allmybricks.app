@@ -102,7 +102,7 @@ namespace abremir.AllMyBricks.AssetManagement.Implementations
 
             using var outputStream = new MemoryStream();
 
-            var hash = SHA256.Create().ComputeHash(Encoding.ASCII.GetBytes(encryptionKey));
+            var hash = SHA256.HashData(Encoding.ASCII.GetBytes(encryptionKey));
 
             using var aes = Aes.Create();
             aes.Key = hash.Take(32).ToArray();

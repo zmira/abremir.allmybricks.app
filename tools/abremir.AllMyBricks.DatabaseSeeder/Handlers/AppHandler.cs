@@ -228,7 +228,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Handlers
                 Application.MainLoop.Invoke(setLabel.SetChildNeedsDisplay);
                 Application.MainLoop.Invoke(setProgress.SetChildNeedsDisplay);
             });
-            messageHub.Subscribe<AcquiringSetsStart>(message =>
+            messageHub.Subscribe<AcquiringSetsStart>(_ =>
             {
                 setIndex = 0f;
                 setProgress.Fraction = 0f;

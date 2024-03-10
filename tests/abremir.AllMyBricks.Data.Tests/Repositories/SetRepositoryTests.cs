@@ -505,7 +505,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
             Check.That(set).HasFieldsWithSameValues(setFromDb);
         }
 
-        private async Task<Set> SetupSetForSearch(int suffix)
+        private static async Task<Set> SetupSetForSearch(int suffix)
         {
             var theme = await InsertData(ModelsSetup.GetThemeUnderTest($"SET THEME{suffix}"));
 

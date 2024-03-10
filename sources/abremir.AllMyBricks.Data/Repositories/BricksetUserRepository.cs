@@ -195,11 +195,8 @@ namespace abremir.AllMyBricks.Data.Repositories
             return bricksetUser.Sets.Where(set => set.Owned);
         }
 
-        private ILiteQueryable<BricksetUser> GetQueryable(ILiteRepository repository)
-        {
-            return repository
+        private static ILiteQueryableAsync<BricksetUser> GetQueryable(ILiteRepositoryAsync repository) => repository
                 .Query<BricksetUser>()
                 .IncludeAll();
-        }
     }
 }

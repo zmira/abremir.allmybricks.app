@@ -154,7 +154,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
             Check.That(persistedSet.Instructions).CountIs(instructionsList.Count);
         }
 
-        private FullSetSynchronizer CreateTarget(
+        private static FullSetSynchronizer CreateTarget(
             IInsightsRepository insightsRepository = null,
             IOnboardingService onboardingService = null,
             IBricksetApiService bricksetApiService = null)

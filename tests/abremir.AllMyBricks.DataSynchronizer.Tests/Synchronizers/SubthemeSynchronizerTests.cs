@@ -104,7 +104,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
             Check.That(await _subthemeRepository.All()).CountIs(subthemesList.Count);
         }
 
-        private SubthemeSynchronizer CreateTarget(IOnboardingService onboardingService = null, IBricksetApiService bricksetApiService = null)
+        private static SubthemeSynchronizer CreateTarget(IOnboardingService onboardingService = null, IBricksetApiService bricksetApiService = null)
         {
             if (onboardingService is null)
             {

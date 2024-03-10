@@ -51,10 +51,8 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Services
         {
             var bricksetPrimaryUsers = Settings.BricksetPrimaryUsers ?? [];
 
-            if (!bricksetPrimaryUsers.ContainsKey(username))
+            if (bricksetPrimaryUsers.TryAdd(username, userHash))
             {
-                bricksetPrimaryUsers.Add(username, userHash);
-
                 await Task.Run(() => Settings.BricksetPrimaryUsers = bricksetPrimaryUsers).ConfigureAwait(false);
             }
         }

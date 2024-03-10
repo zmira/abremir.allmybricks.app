@@ -109,7 +109,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
 
             T referenceData = await _referenceDataRepository.GetOrAdd<T>(referenceDataValue);
 
-            if (!(expectedReferenceData is null))
+            if (expectedReferenceData is not null)
             {
                 Check.That(referenceData?.GetType()).IsEqualTo(typeof(T));
             }

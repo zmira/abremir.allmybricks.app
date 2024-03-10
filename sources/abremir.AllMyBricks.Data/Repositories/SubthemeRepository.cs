@@ -98,11 +98,8 @@ namespace abremir.AllMyBricks.Data.Repositories
                 .ToListAsync().ConfigureAwait(false);
         }
 
-        private ILiteQueryable<Subtheme> GetQueryable(ILiteRepository repository)
-        {
-            return repository
+        private static ILiteQueryableAsync<Subtheme> GetQueryable(ILiteRepositoryAsync repository) => repository
                 .Query<Subtheme>()
                 .IncludeAll();
-        }
     }
 }

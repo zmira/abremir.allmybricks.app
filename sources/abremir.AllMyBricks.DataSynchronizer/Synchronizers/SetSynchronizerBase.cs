@@ -29,7 +29,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
         protected readonly IThumbnailSynchronizer ThumbnailSynchronizer;
         protected readonly IMessageHub MessageHub;
 
-        public SetSynchronizerBase(
+        protected SetSynchronizerBase(
             IInsightsRepository insightsRepository,
             IOnboardingService onboardingService,
             IBricksetApiService bricksetApiService,
@@ -107,7 +107,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
 
         private async Task SetImageList(string apiKey, Set set, Sets bricksetSet)
         {
-            if (!(bricksetSet.Image is null))
+            if (bricksetSet.Image is not null)
             {
                 set.Images.Add(new Image
                 {
@@ -132,7 +132,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                     .ToList();
         }
 
-        private void SetPriceList(Set set, SetLegoCom legoCom)
+        private static void SetPriceList(Set set, SetLegoCom legoCom)
         {
             if (legoCom is null)
             {

@@ -117,7 +117,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
             await insightsRepository.Received().UpdateDataSynchronizationTimestamp(Arg.Any<DateTimeOffset>());
         }
 
-        private PartialSetSynchronizer CreateTarget(
+        private static PartialSetSynchronizer CreateTarget(
             IInsightsRepository insightsRepository = null,
             IOnboardingService onboardingService = null,
             IBricksetApiService bricksetApiService = null)
