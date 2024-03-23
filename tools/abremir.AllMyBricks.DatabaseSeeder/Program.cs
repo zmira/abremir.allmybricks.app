@@ -39,7 +39,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder
 
             static Option<string> GetBricksetApiKeyOption(bool required) => new(DatabaseSeederConstants.BricksetApiKeyOption, "Brickset API key") { IsRequired = required };
 
-            var syncCommand = new System.CommandLine.Command(DatabaseSeederConstants.SyncCommand, "Synchronize database in non-interactive mode");
+            var syncCommand = new Command(DatabaseSeederConstants.SyncCommand, "Synchronize database in non-interactive mode");
             syncCommand.AddOption(GetBricksetApiKeyOption(true));
             syncCommand.AddOption(datasetOption);
             syncCommand.AddOption(logDestinationOption);
@@ -68,7 +68,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                 await SyncHandler.Run(host, dataset);
             });
 
-            var expandCommand = new System.CommandLine.Command(DatabaseSeederConstants.ExpandCommand, "Compress All My Bricks database");
+            var expandCommand = new Command(DatabaseSeederConstants.ExpandCommand, "Expand All My Bricks database");
             expandCommand.AddOption(encryptedOption);
             expandCommand.AddOption(GetBricksetApiKeyOption(false));
             expandCommand.AddOption(logDestinationOption);
@@ -104,7 +104,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                 ExpandHandler.Run(host, encrypted ?? false);
             });
 
-            var compressCommand = new System.CommandLine.Command(DatabaseSeederConstants.CompressCommand, "Expand All My Bricks database");
+            var compressCommand = new Command(DatabaseSeederConstants.CompressCommand, "Compress All My Bricks database");
             compressCommand.AddOption(encryptedOption);
             compressCommand.AddOption(GetBricksetApiKeyOption(false));
             compressCommand.AddOption(logDestinationOption);
