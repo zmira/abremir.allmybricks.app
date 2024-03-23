@@ -56,7 +56,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                 string bricksetApiKey = context.ParseResult.CommandResult.GetValueForOption(bricksetApiKeyOption);
 
                 var verbosity = GetLogVerbosity(true, logVerbosity);
-                Logging.Configure(logDestination ?? LogDestination.Console, verbosity);
+                Logging.Configure(host, logDestination ?? LogDestination.Console, verbosity);
 
                 Logger = Logging.CreateLogger<Program>();
                 Logger.LogInformation($"Running All My Bricks {DatabaseSeederConstants.SyncCommand} with arguments: {DatabaseSeederConstants.BricksetApiKeyOption}{(logVerbosity.HasValue ? $" {DatabaseSeederConstants.LogVerbosityOption}={logVerbosity.Value}" : string.Empty)}{(logDestination.HasValue ? $" {DatabaseSeederConstants.LogDestinationOption}={logDestination.Value}" : string.Empty)}{$" {DatabaseSeederConstants.DatasetOption}={string.Join(", ", dataset)}"}{(!string.IsNullOrWhiteSpace(dataFolder) ? $" {DatabaseSeederConstants.DataFolderOption}={dataFolder}" : string.Empty)}");
@@ -89,7 +89,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                 var logVerbosity = context.ParseResult.CommandResult.GetValueForOption(logVerbosityOption);
 
                 var verbosity = GetLogVerbosity(true, logVerbosity);
-                Logging.Configure(logDestination ?? LogDestination.Console, verbosity);
+                Logging.Configure(host, logDestination ?? LogDestination.Console, verbosity);
 
                 Logger = Logging.CreateLogger<Program>();
                 Logger.LogInformation($"Running All My Bricks {DatabaseSeederConstants.ExpandCommand} with arguments:{(logVerbosity.HasValue ? $" {DatabaseSeederConstants.LogVerbosityOption}={logVerbosity.Value}" : string.Empty)}{(logDestination.HasValue ? $" {DatabaseSeederConstants.LogDestinationOption}={logDestination.Value}" : string.Empty)}{(encrypted.HasValue ? $" {DatabaseSeederConstants.EncryptedOption}" : string.Empty)}{(bricksetApiKeyOption is not null ? $" {DatabaseSeederConstants.BricksetApiKeyOption}" : string.Empty)}{(!string.IsNullOrWhiteSpace(dataFolder) ? $" {DatabaseSeederConstants.DataFolderOption}={dataFolder}" : string.Empty)}");
@@ -125,7 +125,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                 var logVerbosity = context.ParseResult.CommandResult.GetValueForOption(logVerbosityOption);
 
                 var verbosity = GetLogVerbosity(true, logVerbosity);
-                Logging.Configure(logDestination ?? LogDestination.Console, verbosity);
+                Logging.Configure(host, logDestination ?? LogDestination.Console, verbosity);
 
                 Logger = Logging.CreateLogger<Program>();
                 Logger.LogInformation($"Running All My Bricks {DatabaseSeederConstants.CompressCommand} with arguments:{(logVerbosity.HasValue ? $" {DatabaseSeederConstants.LogVerbosityOption}={logVerbosity.Value}" : string.Empty)}{(logDestination.HasValue ? $" {DatabaseSeederConstants.LogDestinationOption}={logDestination.Value}" : string.Empty)}{(encrypted.HasValue ? $" {DatabaseSeederConstants.EncryptedOption}" : string.Empty)}{(bricksetApiKeyOption is not null ? $" {DatabaseSeederConstants.BricksetApiKeyOption}" : string.Empty)}{(!string.IsNullOrWhiteSpace(dataFolder) ? $" {DatabaseSeederConstants.DataFolderOption}={dataFolder}" : string.Empty)}");
@@ -153,7 +153,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                 var logVerbosity = context.ParseResult.CommandResult.GetValueForOption(logVerbosityOption);
 
                 var verbosity = GetLogVerbosity(false, logVerbosity);
-                Logging.Configure(LogDestination.File, verbosity);
+                Logging.Configure(host, LogDestination.File, verbosity);
 
                 Logger = Logging.CreateLogger<Program>();
                 Logger.LogInformation($"Running All My Bricks database seeder with arguments:{(logVerbosity.HasValue ? $" {DatabaseSeederConstants.LogVerbosityOption}={logVerbosity.Value}" : string.Empty)}{(!string.IsNullOrWhiteSpace(dataFolder) ? $" {DatabaseSeederConstants.DataFolderOption}={dataFolder}" : string.Empty)}");
