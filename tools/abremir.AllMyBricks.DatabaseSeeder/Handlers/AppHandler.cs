@@ -103,12 +103,14 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Handlers
             var messageHub = _host.Services.GetService<IMessageHub>();
 
             Stopwatch stopwatch = null;
+            MismatchingNumberOfSetsWarning mismatchedSetCount = null;
 
             messageHub.Subscribe<SetSynchronizationServiceStart>(_ =>
             {
                 totalUpdatedThemes = 0f;
                 totalUpdatedSubthemes = 0f;
                 totalUpdatedSets = 0;
+                mismatchedSetCount = null;
 
                 SetsSynchronizationProgressFrame.Clear();
 
@@ -314,6 +316,17 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Handlers
                 };
                 dialog.Add(totalTimeLabel);
 
+                if (mismatchedSetCount is not null)
+                {
+                    var mismatchedSetCountLabel = new Label($"Set count mismatch: {mismatchedSetCount.Expected - mismatchedSetCount.Actual} sets!")
+                    {
+                        X = Pos.Center(),
+                        Y = 3
+                    };
+                    dialog.Height += 2;
+                    dialog.Add(mismatchedSetCountLabel);
+                }
+
                 Application.Run(dialog);
             });
             messageHub.Subscribe<UserSynchronizationServiceStart>(_ =>
@@ -426,24 +439,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Handlers
             });
             messageHub.Subscribe<MismatchingNumberOfSetsWarning>(message =>
             {
-                var buttonOk = new Button("Ok");
-                buttonOk.Clicked += () =>
-                {
-                    CanExit = true;
-
-                    Application.RequestStop();
-                };
-
-                var dialog = new Dialog("Full Sets Synchronization finished", 60, 6, buttonOk);
-
-                var mismatchedSetCountLabel = new Label($"Mismatched number of sets! Expected: {message.Expected}; Actual: {message.Actual}")
-                {
-                    X = Pos.Center(),
-                    Y = 1
-                };
-                dialog.Add(mismatchedSetCountLabel);
-
-                Application.Run(dialog);
+                mismatchedSetCount = message;
             });
 
             AddMenuBar(topLevel, topLevelWindow);
