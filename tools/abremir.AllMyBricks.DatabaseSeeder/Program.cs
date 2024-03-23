@@ -140,12 +140,35 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                 CompressHandler.Run(host, encrypted ?? false);
             });
 
+            var compactCommand = new Command(DatabaseSeederConstants.CompactCommand, "Compact All My Bricks database");
+            compactCommand.AddOption(logDestinationOption);
+            compactCommand.AddOption(logVerbosityOption);
+            compactCommand.AddOption(dataFolderOption);
+
+            compactCommand.SetHandler(async (context) =>
+            {
+                var dataFolder = context.ParseResult.CommandResult.GetValueForOption(dataFolderOption);
+                var logDestination = context.ParseResult.CommandResult.GetValueForOption(logDestinationOption);
+                var logVerbosity = context.ParseResult.CommandResult.GetValueForOption(logVerbosityOption);
+
+                var verbosity = GetLogVerbosity(true, logVerbosity);
+                Logging.Configure(host, logDestination ?? LogDestination.Console, verbosity);
+
+                Logger = Logging.CreateLogger<Program>();
+                Logger.LogInformation($"Running All My Bricks {DatabaseSeederConstants.CompactCommand} with arguments:{(logVerbosity.HasValue ? $" {DatabaseSeederConstants.LogVerbosityOption}={logVerbosity.Value}" : string.Empty)}{(logDestination.HasValue ? $" {DatabaseSeederConstants.LogDestinationOption}={logDestination.Value}" : string.Empty)}{(!string.IsNullOrWhiteSpace(dataFolder) ? $" {DatabaseSeederConstants.DataFolderOption}={dataFolder}" : string.Empty)}");
+
+                ConfigureDataFolder(host, dataFolder);
+
+                await CompactHandler.Run(host);
+            });
+
             var rootCommand = new RootCommand("All My Bricks database seeder");
             rootCommand.AddOption(dataFolderOption);
             rootCommand.AddOption(logVerbosityOption);
             rootCommand.AddCommand(syncCommand);
             rootCommand.AddCommand(compressCommand);
             rootCommand.AddCommand(expandCommand);
+            rootCommand.AddCommand(compactCommand);
 
             rootCommand.SetHandler((context) =>
             {
