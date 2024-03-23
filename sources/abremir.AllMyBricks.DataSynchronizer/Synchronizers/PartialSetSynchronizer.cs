@@ -5,7 +5,6 @@ using abremir.AllMyBricks.Data.Interfaces;
 using abremir.AllMyBricks.DataSynchronizer.Enumerations;
 using abremir.AllMyBricks.DataSynchronizer.Events.SetSynchronizationService;
 using abremir.AllMyBricks.DataSynchronizer.Events.SetSynchronizer;
-using abremir.AllMyBricks.DataSynchronizer.Events.ThemeSynchronizer;
 using abremir.AllMyBricks.DataSynchronizer.Interfaces;
 using abremir.AllMyBricks.Onboarding.Interfaces;
 using abremir.AllMyBricks.ThirdParty.Brickset.Interfaces;
@@ -50,7 +49,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
             if (string.IsNullOrWhiteSpace(apiKey))
             {
                 var exception = new Exception("Invalid Brickset API key");
-                MessageHub.Publish(new ThemeSynchronizerException { Exception = exception });
+                MessageHub.Publish(new SetSynchronizerException { Exception = exception });
 
                 throw exception;
             }
