@@ -84,6 +84,16 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                     }
                 }
 
+                var expectedTotalNumberOfSets = (await ThemeRepository
+                    .All().ConfigureAwait(false))
+                    .Sum(theme => theme.SetCount);
+                var actualTotalNumberOfSets = await SetRepository.Count().ConfigureAwait(false);
+
+                if (actualTotalNumberOfSets != expectedTotalNumberOfSets)
+                {
+                    MessageHub.Publish(new MismatchingNumberOfSetsWarning { Expected = expectedTotalNumberOfSets, Actual = actualTotalNumberOfSets });
+                }
+
                 await InsightsRepository.UpdateDataSynchronizationTimestamp(newUpdateTimestamp).ConfigureAwait(false);
             }
             catch (Exception ex)
