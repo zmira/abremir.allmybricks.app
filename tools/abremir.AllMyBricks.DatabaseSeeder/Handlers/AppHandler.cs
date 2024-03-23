@@ -4,6 +4,7 @@ using System.Linq;
 using abremir.AllMyBricks.Data.Enumerations;
 using abremir.AllMyBricks.Data.Interfaces;
 using abremir.AllMyBricks.DatabaseSeeder.Services;
+using abremir.AllMyBricks.DataSynchronizer.Enumerations;
 using abremir.AllMyBricks.DataSynchronizer.Events.SetSynchronizationService;
 using abremir.AllMyBricks.DataSynchronizer.Events.SetSynchronizer;
 using abremir.AllMyBricks.DataSynchronizer.Events.SubthemeSynchronizer;
@@ -256,7 +257,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Handlers
             });
             messageHub.Subscribe<SetSynchronizerEnd>(message =>
             {
-                if (!message.Complete)
+                if (message.Type is not SetAcquisitionType.Seed)
                 {
                     themeLabel.Text = string.Empty;
                     subthemeLabel.Text = string.Empty;

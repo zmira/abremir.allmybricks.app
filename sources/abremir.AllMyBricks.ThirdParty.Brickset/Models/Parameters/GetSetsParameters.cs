@@ -31,7 +31,7 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Models.Parameters
             };
         }
 
-        private string GetParams()
+        public string GetParams()
         {
             dynamic @params = new ExpandoObject();
 
