@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace abremir.AllMyBricks.DataSynchronizer.Events.SetSynchronizationService
+namespace abremir.AllMyBricks.DataSynchronizer.Events.SetSynchronizer
 {
     public class InsightsAcquired
     {

@@ -89,6 +89,8 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
             });
 
             messageHub.Subscribe<MismatchingNumberOfSetsWarning>(message => logger.LogWarning($"Mismatched number of sets! Expected: {message.Expected}; Actual: {message.Actual}"));
+
+            messageHub.Subscribe<InsightsAcquired>(message => logger.LogInformation($"Last Updated: {(message.SynchronizationTimestamp.HasValue ? message.SynchronizationTimestamp.Value.ToString("yyyy-MM-dd HH:mm:ss") : "Never")}"));
         }
     }
 }
