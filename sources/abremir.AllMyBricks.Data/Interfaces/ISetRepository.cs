@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using abremir.AllMyBricks.Data.Enumerations;
 using abremir.AllMyBricks.Data.Models;
@@ -19,5 +21,7 @@ namespace abremir.AllMyBricks.Data.Interfaces
         Task<IEnumerable<Set>> AllForPriceRange(PriceRegion priceRegion, float minimumPrice, float maximumPrice);
         Task<IEnumerable<Set>> SearchBy(string searchQuery);
         Task<int> Count();
+        Task<int> DeleteMany(List<long> setIds);
+        Task<IEnumerable<Set>> Find(Expression<Func<Set, bool>> predicate);
     }
 }
