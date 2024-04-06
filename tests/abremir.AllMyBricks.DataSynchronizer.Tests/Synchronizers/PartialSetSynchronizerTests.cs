@@ -27,7 +27,6 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
     public class PartialSetSynchronizerTests : DataSynchronizerTestsBase
     {
         private static ISetRepository _setRepository;
-        private static IReferenceDataRepository _referenceDataRepository;
         private static IThemeRepository _themeRepository;
         private static ISubthemeRepository _subthemeRepository;
 
@@ -35,7 +34,6 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
         public static void ClassInitialize(TestContext _)
         {
             _setRepository = new SetRepository(MemoryRepositoryService);
-            _referenceDataRepository = new ReferenceDataRepository(MemoryRepositoryService);
             _themeRepository = new ThemeRepository(MemoryRepositoryService);
             _subthemeRepository = new SubthemeRepository(MemoryRepositoryService);
         }
@@ -132,17 +130,15 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
 
             bricksetApiService ??= Substitute.For<IBricksetApiService>();
 
-            var thumbnailSynchronizer = Substitute.For<IThumbnailSynchronizer>();
-
             return new PartialSetSynchronizer(
                 insightsRepository,
                 onboardingService,
                 bricksetApiService,
                 _setRepository,
-                _referenceDataRepository,
+                new ReferenceDataRepository(MemoryRepositoryService),
                 _themeRepository,
                 _subthemeRepository,
-                thumbnailSynchronizer,
+                Substitute.For<IThumbnailSynchronizer>(),
                 Substitute.For<IMessageHub>());
         }
     }
