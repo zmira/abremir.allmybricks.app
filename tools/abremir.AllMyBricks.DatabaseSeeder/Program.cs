@@ -162,6 +162,31 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                 await CompactHandler.Run(host);
             });
 
+            var sanitizeCommand = new Command(DatabaseSeederConstants.SanitizeCommand, "Sanitize All My Bricks database");
+            sanitizeCommand.AddOption(GetBricksetApiKeyOption(true));
+            sanitizeCommand.AddOption(logDestinationOption);
+            sanitizeCommand.AddOption(logVerbosityOption);
+            sanitizeCommand.AddOption(dataFolderOption);
+
+            sanitizeCommand.SetHandler(async (context) =>
+            {
+                var dataFolder = context.ParseResult.CommandResult.GetValueForOption(dataFolderOption);
+                var logDestination = context.ParseResult.CommandResult.GetValueForOption(logDestinationOption);
+                var logVerbosity = context.ParseResult.CommandResult.GetValueForOption(logVerbosityOption);
+                var bricksetApiKeyOption = ((OptionResult)context.ParseResult.CommandResult.Children.First(child => ((OptionResult)child).Option.Name == DatabaseSeederConstants.BricksetApiKeyOption.Trim('-'))).Option as Option<string>;
+                string bricksetApiKey = context.ParseResult.CommandResult.GetValueForOption(bricksetApiKeyOption);
+
+                var verbosity = GetLogVerbosity(true, logVerbosity);
+                Logging.Configure(host, logDestination ?? LogDestination.Console, verbosity);
+
+                Logger = Logging.CreateLogger<Program>();
+                Logger.LogInformation($"Running All My Bricks {DatabaseSeederConstants.SanitizeCommand} with arguments:{DatabaseSeederConstants.BricksetApiKeyOption}{(logVerbosity.HasValue ? $" {DatabaseSeederConstants.LogVerbosityOption}={logVerbosity.Value}" : string.Empty)}{(logDestination.HasValue ? $" {DatabaseSeederConstants.LogDestinationOption}={logDestination.Value}" : string.Empty)}{(!string.IsNullOrWhiteSpace(dataFolder) ? $" {DatabaseSeederConstants.DataFolderOption}={dataFolder}" : string.Empty)}");
+
+                ConfigureDataFolder(host, dataFolder);
+
+                await SanitizeHandler.Run(host);
+            });
+
             var rootCommand = new RootCommand("All My Bricks database seeder");
             rootCommand.AddOption(dataFolderOption);
             rootCommand.AddOption(logVerbosityOption);
@@ -169,6 +194,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder
             rootCommand.AddCommand(compressCommand);
             rootCommand.AddCommand(expandCommand);
             rootCommand.AddCommand(compactCommand);
+            rootCommand.AddCommand(sanitizeCommand);
 
             rootCommand.SetHandler((context) =>
             {
