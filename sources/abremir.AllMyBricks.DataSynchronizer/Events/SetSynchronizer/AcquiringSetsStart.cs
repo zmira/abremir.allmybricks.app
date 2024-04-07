@@ -1,11 +1,11 @@
-﻿using System;
+﻿using abremir.AllMyBricks.DataSynchronizer.Enumerations;
+using abremir.AllMyBricks.ThirdParty.Brickset.Models.Parameters;
 
 namespace abremir.AllMyBricks.DataSynchronizer.Events.SetSynchronizer
 {
     public class AcquiringSetsStart
     {
-        public bool Complete { get; set; }
-        public DateTimeOffset? From { get; set; }
-        public string Years { get; set; }
+        public SetAcquisitionType Type { get; set; }
+        public GetSetsParameters Parameters { get; set; }
     }
 }

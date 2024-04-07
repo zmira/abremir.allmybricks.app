@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using abremir.AllMyBricks.Data.Configuration;
@@ -526,6 +527,43 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
             var setCount = await _setRepository.Count();
 
             Check.That(setCount).Is(numberOfSets);
+        }
+
+        [TestMethod]
+        public async Task DeleteMany_NullListOfSetIds_ReturnsZero()
+        {
+            var deletedSets = await _setRepository.DeleteMany(null);
+
+            Check.That(deletedSets).IsZero();
+        }
+
+        [TestMethod]
+        public async Task DeleteMany_EmptyListOfSetIds_ReturnsZero()
+        {
+            var deletedSets = await _setRepository.DeleteMany([]);
+
+            Check.That(deletedSets).IsZero();
+        }
+
+        [TestMethod]
+        public async Task DeleteMany_NonEmptyListOfSetIds_ReturnsNumberOfDeletedSets()
+        {
+            var random = new Random();
+            var numberOfSets = random.Next(10, 100);
+            var setsToDelete = new List<long>();
+            for (var setId = 1; setId <= numberOfSets; setId++)
+            {
+                await _setRepository.AddOrUpdate(new Set { SetId = setId });
+
+                if (setId % 3 == 0)
+                {
+                    setsToDelete.Add(setId);
+                }
+            }
+
+            var deletedSets = await _setRepository.DeleteMany(setsToDelete);
+
+            Check.That(deletedSets).Is(setsToDelete.Count);
         }
 
         private static async Task<Set> SetupSetForSearch(int suffix)

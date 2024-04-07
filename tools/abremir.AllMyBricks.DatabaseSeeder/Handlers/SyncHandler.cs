@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using abremir.AllMyBricks.Data.Enumerations;
 using abremir.AllMyBricks.Data.Interfaces;
 using abremir.AllMyBricks.DatabaseSeeder.Enumerations;
-using abremir.AllMyBricks.DatabaseSeeder.Services;
 using abremir.AllMyBricks.DataSynchronizer.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -41,8 +40,6 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Handlers
             {
                 await host.Services.GetService<IUserSynchronizationService>().SynchronizeBricksetFriendsSets().ConfigureAwait(false);
             }
-
-            await host.Services.GetService<IAssetManagementService>().CompactAllMyBricksDatabase().ConfigureAwait(false);
         }
     }
 }

@@ -4,6 +4,7 @@ using System.Reflection;
 using abremir.AllMyBricks.DatabaseSeeder.Enumerations;
 using abremir.AllMyBricks.DatabaseSeeder.Loggers;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using NReco.Logging.File;
 
@@ -22,17 +23,17 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Configuration
         {
             return services
                 .AddTransient<ILoggerFactory>((_) => Logging.Factory)
-                .AddScoped<AssetExpansionLogger>()
-                .AddScoped<SetSynchronizationServiceLogger>()
-                .AddScoped<SetSynchronizerLogger>()
-                .AddScoped<SubthemeSynchronizerLogger>()
-                .AddScoped<ThemeSynchronizerLogger>()
-                .AddScoped<ThumbnailSynchronizerLogger>()
-                .AddScoped<UserSynchronizationServiceLogger>()
-                .AddScoped<UserSynchronizerLogger>();
+                .AddScoped<IDatabaseSeederLogger, AssetExpansionLogger>()
+                .AddScoped<IDatabaseSeederLogger, SetSynchronizationServiceLogger>()
+                .AddScoped<IDatabaseSeederLogger, SetSynchronizerLogger>()
+                .AddScoped<IDatabaseSeederLogger, SubthemeSynchronizerLogger>()
+                .AddScoped<IDatabaseSeederLogger, ThemeSynchronizerLogger>()
+                .AddScoped<IDatabaseSeederLogger, ThumbnailSynchronizerLogger>()
+                .AddScoped<IDatabaseSeederLogger, UserSynchronizationServiceLogger>()
+                .AddScoped<IDatabaseSeederLogger, UserSynchronizerLogger>();
         }
 
-        public static void Configure(LogDestination logDestination, LogVerbosity logVerbosity)
+        public static void Configure(IHost host, LogDestination logDestination, LogVerbosity logVerbosity)
         {
             LogVerbosity = logVerbosity;
 
@@ -45,6 +46,9 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Configuration
 
             SetupConsoleLogging();
             SetupFileLogging();
+
+            // force all loggers to be instantiated
+            _ = host.Services.GetServices<IDatabaseSeederLogger>();
         }
 
         private static void SetupFileLogging()

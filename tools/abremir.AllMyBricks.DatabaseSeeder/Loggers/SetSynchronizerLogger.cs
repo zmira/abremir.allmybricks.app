@@ -1,4 +1,5 @@
-﻿using abremir.AllMyBricks.DatabaseSeeder.Configuration;
+﻿using System.Text.Json;
+using abremir.AllMyBricks.DatabaseSeeder.Configuration;
 using abremir.AllMyBricks.DatabaseSeeder.Enumerations;
 using abremir.AllMyBricks.DataSynchronizer.Events.SetSynchronizer;
 using abremir.AllMyBricks.DataSynchronizer.Interfaces;
@@ -28,7 +29,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
 
                 if (Logging.LogVerbosity == LogVerbosity.Full)
                 {
-                    logger.LogInformation($"Started set synchronizer for {(message.Complete ? "full" : "partial")} dataset");
+                    logger.LogInformation($"Started set synchronizer of type '{message.Type}'");
                 }
             });
 
@@ -39,7 +40,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
 
                 if (Logging.LogVerbosity == LogVerbosity.Full)
                 {
-                    logger.LogInformation($"Acquiring{(message.Complete ? " all" : string.Empty)} sets {(message.Complete ? "from" : "updated since")} '{(message.Complete ? message.Years : message.From.Value.ToString("yyyy-MM-dd HH:mm:ss.ffff"))}' to process");
+                    logger.LogInformation($"Acquiring sets for type '{message.Type}' with parameters {message.Parameters.GetParams()}");
                 }
             });
 
@@ -50,7 +51,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
 
                 if (Logging.LogVerbosity is LogVerbosity.Full)
                 {
-                    logger.LogInformation($"Acquired {message.Count} sets {(message.Complete ? "from" : "updated since")} '{(message.Complete ? message.Years : message.From.Value.ToString("yyyy-MM-dd HH:mm:ss.ffff"))}' to process");
+                    logger.LogInformation($"Acquired {message.Count} sets for type '{message.Type}' with parameters {message.Parameters.GetParams()}");
                 }
             });
 
@@ -84,11 +85,29 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
 
                 if (Logging.LogVerbosity == LogVerbosity.Full)
                 {
-                    logger.LogInformation($"Finished set synchronizer for {(message.Complete ? "full" : "partial")} dataset");
+                    logger.LogInformation($"Finished set synchronizer of type '{message.Type}'");
                 }
             });
 
-            messageHub.Subscribe<MismatchingNumberOfSetsWarning>(message => logger.LogWarning("Mismatched number of sets! Expected: {0}; Actual: {1}", message.Expected, message.Actual));
+            messageHub.Subscribe<MismatchingNumberOfSetsWarning>(message => logger.LogWarning($"Mismatched number of sets! Expected: {message.Expected}; Actual: {message.Actual}"));
+
+            messageHub.Subscribe<InsightsAcquired>(message => logger.LogInformation($"Last Updated: {(message.SynchronizationTimestamp.HasValue ? message.SynchronizationTimestamp.Value.ToString("yyyy-MM-dd HH:mm:ss") : "Never")}"));
+
+            messageHub.Subscribe<AdjustingThemesWithDifferencesStart>(message =>
+            {
+                if (Logging.LogVerbosity is LogVerbosity.Full)
+                {
+                    logger.LogInformation($"Started adjusting themes with differences {JsonSerializer.Serialize(message.AffectedThemes)}");
+                }
+            });
+
+            messageHub.Subscribe<AdjustingThemesWithDifferencesEnd>(message =>
+            {
+                if (Logging.LogVerbosity is LogVerbosity.Full)
+                {
+                    logger.LogInformation($"Finished adjusting themes with differences {JsonSerializer.Serialize(message.AffectedThemes)}");
+                }
+            });
         }
     }
 }

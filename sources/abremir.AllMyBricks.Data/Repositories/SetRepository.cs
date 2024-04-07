@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using abremir.AllMyBricks.Data.Configuration;
 using abremir.AllMyBricks.Data.Enumerations;
@@ -181,6 +183,27 @@ namespace abremir.AllMyBricks.Data.Repositories
             using var repository = _repositoryService.GetRepository();
 
             return await repository.Query<Set>().CountAsync().ConfigureAwait(false);
+        }
+
+        public async Task<int> DeleteMany(List<long> setIds)
+        {
+            if ((setIds?.Count ?? 0) is 0)
+            {
+                return 0;
+            }
+
+            using var repository = _repositoryService.GetRepository();
+
+            return await repository.DeleteManyAsync<Set>(set => setIds.Contains(set.SetId)).ConfigureAwait(false);
+        }
+
+        public async Task<IEnumerable<Set>> Find(Expression<Func<Set, bool>> predicate)
+        {
+            using var repository = _repositoryService.GetRepository();
+
+            return await GetQueryable(repository)
+                .Where(predicate)
+                .ToListAsync().ConfigureAwait(false);
         }
 
         private static BsonExpression BuildBsonExpressionFromSearchQuery(string searchQuery)

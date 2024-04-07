@@ -20,7 +20,8 @@ namespace abremir.AllMyBricks.DataSynchronizer.Configuration
                 .AddTransient<IPartialSetSynchronizer, PartialSetSynchronizer>()
                 .AddTransient<IThumbnailSynchronizer, ThumbnailSynchronizer>()
                 .AddTransient<IUserSynchronizationService, UserSynchronizationService>()
-                .AddTransient<IUserSynchronizer, UserSynchronizer>();
+                .AddTransient<IUserSynchronizer, UserSynchronizer>()
+                .AddTransient<ISetSanitizer, SetSanitizer>();
         }
     }
 }

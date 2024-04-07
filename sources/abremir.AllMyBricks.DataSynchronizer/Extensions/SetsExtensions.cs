@@ -31,8 +31,8 @@ namespace abremir.AllMyBricks.DataSynchronizer.Extensions
                 },
                 AgeRange = new Data.Models.SetAgeRange
                 {
-                    Min = (byte?)source.AgeRange.Min,
-                    Max = (byte?)source.AgeRange.Max
+                    Min = (byte?)source.AgeRange?.Min,
+                    Max = (byte?)source.AgeRange?.Max
                 },
                 Barcodes = [],
                 Dimensions = new Dimensions

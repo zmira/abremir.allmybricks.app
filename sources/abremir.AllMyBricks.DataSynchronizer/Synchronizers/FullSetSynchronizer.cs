@@ -5,9 +5,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using abremir.AllMyBricks.Data.Interfaces;
 using abremir.AllMyBricks.DataSynchronizer.Configuration;
-using abremir.AllMyBricks.DataSynchronizer.Events.SetSynchronizationService;
+using abremir.AllMyBricks.DataSynchronizer.Enumerations;
 using abremir.AllMyBricks.DataSynchronizer.Events.SetSynchronizer;
-using abremir.AllMyBricks.DataSynchronizer.Events.ThemeSynchronizer;
 using abremir.AllMyBricks.DataSynchronizer.Interfaces;
 using abremir.AllMyBricks.Onboarding.Interfaces;
 using abremir.AllMyBricks.ThirdParty.Brickset.Interfaces;
@@ -32,7 +31,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
 
         public async Task Synchronize()
         {
-            MessageHub.Publish(new SetSynchronizerStart { Complete = true });
+            MessageHub.Publish(new SetSynchronizerStart { Type = SetAcquisitionType.Seed });
 
             var dataSynchronizationTimestamp = await InsightsRepository.GetDataSynchronizationTimestamp().ConfigureAwait(false);
 
@@ -40,7 +39,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
 
             if (dataSynchronizationTimestamp.HasValue)
             {
-                MessageHub.Publish(new SetSynchronizerEnd { Complete = true });
+                MessageHub.Publish(new SetSynchronizerEnd { Type = SetAcquisitionType.Seed });
 
                 return;
             }
@@ -50,7 +49,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
             if (string.IsNullOrWhiteSpace(apiKey))
             {
                 var exception = new Exception("Invalid Brickset API key");
-                MessageHub.Publish(new ThemeSynchronizerException { Exception = exception });
+                MessageHub.Publish(new SetSynchronizerException { Exception = exception });
 
                 throw exception;
             }
@@ -101,17 +100,17 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                 {
                     var yearFilter = string.Join(",", query);
 
-                    MessageHub.Publish(new AcquiringSetsStart { Complete = true, Years = yearFilter });
-
                     var getSetsParameters = new GetSetsParameters
                     {
                         PageSize = Constants.BricksetMaximumPageSizeParameter,
                         Year = yearFilter
                     };
 
+                    MessageHub.Publish(new AcquiringSetsStart { Type = Enumerations.SetAcquisitionType.Seed, Parameters = getSetsParameters });
+
                     var bricksetSets = await GetAllSetsFor(apiKey, getSetsParameters).ConfigureAwait(false);
 
-                    MessageHub.Publish(new AcquiringSetsEnd { Count = bricksetSets.Count, Complete = true, Years = yearFilter });
+                    MessageHub.Publish(new AcquiringSetsEnd { Count = bricksetSets.Count, Type = Enumerations.SetAcquisitionType.Seed, Parameters = getSetsParameters });
 
                     foreach (var bricksetSet in bricksetSets)
                     {
@@ -139,7 +138,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                 throw;
             }
 
-            MessageHub.Publish(new SetSynchronizerEnd { Complete = true });
+            MessageHub.Publish(new SetSynchronizerEnd { Type = SetAcquisitionType.Seed });
         }
     }
 }
