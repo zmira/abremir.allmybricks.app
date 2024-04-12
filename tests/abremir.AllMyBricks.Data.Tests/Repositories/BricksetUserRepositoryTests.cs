@@ -501,5 +501,98 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
             Check.That(bricksetUserSetList).CountIs(1);
             Check.That(bricksetUserSetList.Select(bricksetUserSet => bricksetUserSet.Set.SetId)).Contains(bricksetUserSetOwned.Set.SetId);
         }
+
+        [DataTestMethod]
+        [DataRow(null)]
+        [DataRow(ModelsSetup.StringEmpty)]
+        public async Task RemoveSets_InvalidUsername_Returns(string username)
+        {
+            var result = await _bricksetUserRepository.RemoveSets(username, [555]);
+
+            Check.That(result).IsZero();
+        }
+
+        [TestMethod]
+        public async Task RemoveSets_NullListOfSetIds_Returns()
+        {
+            var result = await _bricksetUserRepository.RemoveSets("username", null);
+
+            Check.That(result).IsZero();
+        }
+
+        [TestMethod]
+        public async Task RemoveSets_EmptyListOfSetIds_Returns()
+        {
+            var result = await _bricksetUserRepository.RemoveSets("username", []);
+
+            Check.That(result).IsZero();
+        }
+
+        [TestMethod]
+        public async Task RemoveSets_UserDoesNotExists_Returns()
+        {
+            var set = ModelsSetup.GetSetUnderTest();
+            var bricksetUser = ModelsSetup.GetBricksetUserUnderTest();
+
+            set = await InsertData(set);
+            await InsertData(bricksetUser);
+
+            var bricksetUserSetUnderTest = new BricksetUserSet
+            {
+                Set = set,
+                Wanted = true
+            };
+
+            await _bricksetUserRepository.AddOrUpdateSet(bricksetUser.BricksetUsername, bricksetUserSetUnderTest);
+
+            var result = await _bricksetUserRepository.RemoveSets("username", [bricksetUserSetUnderTest.Set.SetId]);
+
+            Check.That(result).IsZero();
+        }
+
+        [TestMethod]
+        public async Task RemoveSets_UserDoesNotHaveSetsToBeDeleted_Returns()
+        {
+            var set = ModelsSetup.GetSetUnderTest();
+            var bricksetUser = ModelsSetup.GetBricksetUserUnderTest();
+
+            set = await InsertData(set);
+            await InsertData(bricksetUser);
+
+            var bricksetUserSetUnderTest = new BricksetUserSet
+            {
+                Set = set,
+                Wanted = true
+            };
+
+            await _bricksetUserRepository.AddOrUpdateSet(bricksetUser.BricksetUsername, bricksetUserSetUnderTest);
+
+            var result = await _bricksetUserRepository.RemoveSets(bricksetUser.BricksetUsername, [bricksetUserSetUnderTest.Set.SetId + 1]);
+
+            Check.That(result).IsZero();
+        }
+
+        [TestMethod]
+        public async Task RemoveSets_UserHasSetsToBeDeleted_UserIsUpdated()
+        {
+            var set = ModelsSetup.GetSetUnderTest();
+            var bricksetUser = ModelsSetup.GetBricksetUserUnderTest();
+
+            set = await InsertData(set);
+            await InsertData(bricksetUser);
+
+            var bricksetUserSetUnderTest = new BricksetUserSet
+            {
+                Set = set,
+                Wanted = true
+            };
+
+            await _bricksetUserRepository.AddOrUpdateSet(bricksetUser.BricksetUsername, bricksetUserSetUnderTest);
+
+            var result = await _bricksetUserRepository.RemoveSets(bricksetUser.BricksetUsername, [bricksetUserSetUnderTest.Set.SetId]);
+
+            Check.That(result).Is(1);
+            Check.That((await _bricksetUserRepository.Get(bricksetUser.BricksetUsername)).Sets.Count).IsZero();
+        }
     }
 }
