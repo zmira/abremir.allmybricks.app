@@ -17,7 +17,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
 
             messageHub.Subscribe<ReaderExtractionEventArgs<IEntry>>(message =>
             {
-                if (Logging.LogVerbosity == LogVerbosity.Full)
+                if (Logging.LogVerbosity is LogVerbosity.Full)
                 {
                     logger.LogInformation($"Expanding {message.Item.Key}: {message.ReaderProgress.PercentageRead}%");
                 }

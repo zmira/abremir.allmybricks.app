@@ -15,7 +15,7 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Services
     {
         public async Task<bool> CheckKey(ParameterApiKey checkKeyParameters)
         {
-            return (await BricksetHttpPostUrlEncodeAsync<ResultCheckKey, ParameterApiKey>(checkKeyParameters).ConfigureAwait(false)).Status == ResultStatus.Success;
+            return (await BricksetHttpPostUrlEncodeAsync<ResultCheckKey, ParameterApiKey>(checkKeyParameters).ConfigureAwait(false)).Status is ResultStatus.Success;
         }
 
         public async Task<string> Login(ParameterLogin loginParameters)
@@ -25,7 +25,7 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Services
 
         public async Task<bool> CheckUserHash(ParameterApiKeyUserHash checkUserHashParameters)
         {
-            return (await BricksetHttpPostUrlEncodeAsync<ResultCheckUserHash, ParameterApiKeyUserHash>(checkUserHashParameters).ConfigureAwait(false)).Status == ResultStatus.Success;
+            return (await BricksetHttpPostUrlEncodeAsync<ResultCheckUserHash, ParameterApiKeyUserHash>(checkUserHashParameters).ConfigureAwait(false)).Status is ResultStatus.Success;
         }
 
         public async Task<IEnumerable<Themes>> GetThemes(ParameterApiKey getThemesParameters)
@@ -60,7 +60,7 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Services
 
         public async Task<bool> SetCollection(SetCollectionParameters setCollectionParameters)
         {
-            return (await BricksetHttpPostUrlEncodeAsync<ResultSetCollection, ParameterSetCollection>(setCollectionParameters.ToParameterSetCollection()).ConfigureAwait(false)).Status == ResultStatus.Success;
+            return (await BricksetHttpPostUrlEncodeAsync<ResultSetCollection, ParameterSetCollection>(setCollectionParameters.ToParameterSetCollection()).ConfigureAwait(false)).Status is ResultStatus.Success;
         }
 
         private static async Task<T> BricksetHttpPostUrlEncodeAsync<T, U>(U parameters) where T : ResultBase where U : ParameterApiKey
@@ -72,7 +72,7 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Services
                 .ReceiveJson<T>()
                 .ConfigureAwait(false);
 
-            if (requestResult.Status == ResultStatus.Error)
+            if (requestResult.Status is ResultStatus.Error)
             {
                 throw new BricksetRequestException(requestResult.Message);
             }

@@ -26,7 +26,7 @@ namespace abremir.AllMyBricks.Data.Repositories
         public async Task<Set> AddOrUpdate(Set set)
         {
             if (set is null
-                || set.SetId == 0)
+                || set.SetId is 0)
             {
                 return null;
             }
@@ -49,7 +49,7 @@ namespace abremir.AllMyBricks.Data.Repositories
 
         public async Task<Set> Get(long setId)
         {
-            if (setId == 0)
+            if (setId is 0)
             {
                 return null;
             }
@@ -235,7 +235,7 @@ namespace abremir.AllMyBricks.Data.Repositories
                 queryList.Add($"%{searchTerms[i]}%", queryString);
             }
 
-            return queryList.Keys.Count == 0
+            return queryList.Keys.Count is 0
                 ? null
                 : BsonExpression.Create(string.Join(" OR ", queryList.Values), queryList.Keys.Select(key => new BsonValue(key)).ToArray());
         }

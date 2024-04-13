@@ -116,7 +116,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                 });
             }
 
-            if (bricksetSet.AdditionalImageCount == 0)
+            if (bricksetSet.AdditionalImageCount is 0)
             {
                 return;
             }
@@ -139,7 +139,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                 return;
             }
 
-            if (legoCom.CA?.RetailPrice.HasValue == true)
+            if (legoCom.CA?.RetailPrice.HasValue is true)
             {
                 set.Prices.Add(new Price
                 {
@@ -148,7 +148,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                 });
             }
 
-            if (legoCom.DE?.RetailPrice.HasValue == true)
+            if (legoCom.DE?.RetailPrice.HasValue is true)
             {
                 set.Prices.Add(new Price
                 {
@@ -157,7 +157,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                 });
             }
 
-            if (legoCom.UK?.RetailPrice.HasValue == true)
+            if (legoCom.UK?.RetailPrice.HasValue is true)
             {
                 set.Prices.Add(new Price
                 {
@@ -166,7 +166,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                 });
             }
 
-            if (legoCom.US?.RetailPrice.HasValue == true)
+            if (legoCom.US?.RetailPrice.HasValue is true)
             {
                 set.Prices.Add(new Price
                 {
@@ -178,7 +178,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
 
         private async Task SetInstructionList(string apiKey, Set set, Sets bricksetSet)
         {
-            if (bricksetSet.InstructionsCount == 0)
+            if (bricksetSet.InstructionsCount is 0)
             {
                 return;
             }

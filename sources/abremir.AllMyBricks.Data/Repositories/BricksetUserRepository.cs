@@ -87,7 +87,7 @@ namespace abremir.AllMyBricks.Data.Repositories
             if (string.IsNullOrWhiteSpace(username)
                 || bricksetUserSet is null
                 || bricksetUserSet.Set is null
-                || bricksetUserSet.Set.SetId == 0)
+                || bricksetUserSet.Set.SetId is 0)
             {
                 return null;
             }
@@ -131,7 +131,7 @@ namespace abremir.AllMyBricks.Data.Repositories
         public async Task<BricksetUserSet> GetSet(string username, long setId)
         {
             if (string.IsNullOrWhiteSpace(username)
-                || setId == 0)
+                || setId is 0)
             {
                 return null;
             }

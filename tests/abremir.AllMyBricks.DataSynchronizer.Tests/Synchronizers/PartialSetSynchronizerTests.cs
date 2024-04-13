@@ -84,7 +84,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
             var insightsRepository = Substitute.For<IInsightsRepository>();
             insightsRepository.GetDataSynchronizationTimestamp().Returns(DateTimeOffset.Now);
             var themesList = JsonConvert.DeserializeObject<List<Themes>>(GetResultFileFromResource(Constants.JsonFileGetThemes));
-            var testTheme = themesList.First(themes => themes.Theme == Constants.TestThemeArchitecture);
+            var testTheme = themesList.First(themes => themes.Theme is Constants.TestThemeArchitecture);
             var theme = testTheme.ToTheme();
             var recentlyUpdatedSetsList = JsonConvert.DeserializeObject<List<Sets>>(GetResultFileFromResource(Constants.JsonFileGetRecentlyUpdatedSets));
 

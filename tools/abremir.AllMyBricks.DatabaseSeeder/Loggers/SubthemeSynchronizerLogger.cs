@@ -26,7 +26,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
                 _subthemeIndex = 0;
                 _subthemeProgressFraction = 0;
 
-                if (Logging.LogVerbosity == LogVerbosity.Full)
+                if (Logging.LogVerbosity is LogVerbosity.Full)
                 {
                     logger.LogInformation("Started subtheme synchronizer");
                 }
@@ -45,7 +45,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
                 _subthemeIndex++;
                 _subthemeProgressFraction = _subthemeIndex / _subthemeCount;
 
-                if (Logging.LogVerbosity == LogVerbosity.Full)
+                if (Logging.LogVerbosity is LogVerbosity.Full)
                 {
                     logger.LogInformation(Invariant($"Started synchronizing subtheme '{message.Theme}-{message.Subtheme}': index {_subthemeIndex}, progress {_subthemeProgressFraction:##0.00%}"));
                 }
@@ -53,7 +53,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
 
             messageHub.Subscribe<SynchronizingSubthemeEnd>(message =>
             {
-                if (Logging.LogVerbosity == LogVerbosity.Full)
+                if (Logging.LogVerbosity is LogVerbosity.Full)
                 {
                     logger.LogInformation($"Finished synchronizing subtheme '{message.Theme}-{message.Subtheme}'");
                 }
@@ -66,7 +66,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
                 _subthemeIndex = 0;
                 _subthemeProgressFraction = 0;
 
-                if (Logging.LogVerbosity == LogVerbosity.Full)
+                if (Logging.LogVerbosity is LogVerbosity.Full)
                 {
                     logger.LogInformation("Finished subtheme synchronizer");
                 }

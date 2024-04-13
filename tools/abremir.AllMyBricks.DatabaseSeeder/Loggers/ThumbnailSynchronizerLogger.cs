@@ -17,7 +17,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
 
             messageHub.Subscribe<ThumbnailSynchronizerStart>(_ =>
             {
-                if (Logging.LogVerbosity == LogVerbosity.Full)
+                if (Logging.LogVerbosity is LogVerbosity.Full)
                 {
                     logger.LogInformation("Started thumbnail synchronizer");
                 }
@@ -25,7 +25,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
 
             messageHub.Subscribe<ThumbnailAcquired>(message =>
             {
-                if (Logging.LogVerbosity == LogVerbosity.Full)
+                if (Logging.LogVerbosity is LogVerbosity.Full)
                 {
                     logger.LogInformation($"Acquired thumbnail '{message.Thumbnail}' to process");
                 }
@@ -33,7 +33,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
 
             messageHub.Subscribe<SynchronizingThumbnailStart>(message =>
             {
-                if (Logging.LogVerbosity == LogVerbosity.Full)
+                if (Logging.LogVerbosity is LogVerbosity.Full)
                 {
                     logger.LogInformation($"Started synchronizing thumbnail '{message.Thumbnail}'");
                 }
@@ -41,7 +41,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
 
             messageHub.Subscribe<SynchronizingThumbnailEnd>(message =>
             {
-                if (Logging.LogVerbosity == LogVerbosity.Full)
+                if (Logging.LogVerbosity is LogVerbosity.Full)
                 {
                     logger.LogInformation($"Finished synchronizing thumbnail '{message.Thumbnail}'");
                 }
@@ -51,7 +51,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
 
             messageHub.Subscribe<ThumbnailSynchronizerEnd>(_ =>
             {
-                if (Logging.LogVerbosity == LogVerbosity.Full)
+                if (Logging.LogVerbosity is LogVerbosity.Full)
                 {
                     logger.LogInformation("Finished thumbnail synchronizer");
                 }

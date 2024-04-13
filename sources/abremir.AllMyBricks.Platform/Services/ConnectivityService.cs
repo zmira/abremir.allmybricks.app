@@ -12,6 +12,6 @@ namespace abremir.AllMyBricks.Platform.Services
             _connectivity = connectivity;
         }
 
-        public bool IsInternetAccessible => _connectivity.NetworkAccess == NetworkAccess.Internet;
+        public bool IsInternetAccessible => _connectivity.NetworkAccess is NetworkAccess.Internet;
     }
 }

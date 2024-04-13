@@ -31,8 +31,8 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
         {
             _messageHub.Publish(new ThumbnailSynchronizerStart());
 
-            if (_preferencesService.ThumbnailCachingStrategy == ThumbnailCachingStrategy.NeverCache
-                || (_preferencesService.ThumbnailCachingStrategy == ThumbnailCachingStrategy.OnlyCacheDisplayedThumbnails
+            if (_preferencesService.ThumbnailCachingStrategy is ThumbnailCachingStrategy.NeverCache
+                || (_preferencesService.ThumbnailCachingStrategy is ThumbnailCachingStrategy.OnlyCacheDisplayedThumbnails
                     && requestFromSynchronizer)
                 || set is null
                 || string.IsNullOrWhiteSpace(set.Images.FirstOrDefault()?.ThumbnailUrl))
@@ -53,7 +53,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                 }
                 catch { }
 
-                if (thumbnail is null || thumbnail.Length == 0)
+                if (thumbnail is null || thumbnail.Length is 0)
                 {
                     _messageHub.Publish(new ThumbnailSynchronizerEnd());
                     return;

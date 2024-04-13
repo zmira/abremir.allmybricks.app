@@ -16,11 +16,11 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
         {
             var logger = loggerFactory.CreateLogger<SetSynchronizationService>();
 
-            messageHub.Subscribe<SetSynchronizationServiceStart>(_ => logger.LogInformation($"Started set synchronization{(Logging.LogDestination == LogDestination.Console ? $" {DateTimeOffset.Now:yyyy-MM-dd HH:mm:ss}" : string.Empty)}"));
+            messageHub.Subscribe<SetSynchronizationServiceStart>(_ => logger.LogInformation($"Started set synchronization{(Logging.LogDestination is LogDestination.Console ? $" {DateTimeOffset.Now:yyyy-MM-dd HH:mm:ss}" : string.Empty)}"));
 
             messageHub.Subscribe<SetSynchronizationServiceException>(message => logger.LogError(message.Exception, "Set Synchronization Exception"));
 
-            messageHub.Subscribe<SetSynchronizationServiceEnd>(_ => logger.LogInformation($"Finished set synchronization{(Logging.LogDestination == LogDestination.Console ? $" {DateTimeOffset.Now:yyyy-MM-dd HH:mm:ss}" : string.Empty)}"));
+            messageHub.Subscribe<SetSynchronizationServiceEnd>(_ => logger.LogInformation($"Finished set synchronization{(Logging.LogDestination is LogDestination.Console ? $" {DateTimeOffset.Now:yyyy-MM-dd HH:mm:ss}" : string.Empty)}"));
         }
     }
 }

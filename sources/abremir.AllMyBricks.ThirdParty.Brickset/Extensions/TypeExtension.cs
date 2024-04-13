@@ -10,7 +10,7 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Extensions
             var descriptions = (DescriptionAttribute[])
                 type.GetCustomAttributes(typeof(DescriptionAttribute), false);
 
-            if (descriptions.Length == 0)
+            if (descriptions.Length is 0)
             {
                 return null;
             }

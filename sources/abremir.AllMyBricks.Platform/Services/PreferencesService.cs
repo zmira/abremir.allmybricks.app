@@ -22,7 +22,7 @@ namespace abremir.AllMyBricks.Platform.Services
             }
             set
             {
-                ClearThumbnailCache |= (value == ThumbnailCachingStrategy.NeverCache && ThumbnailCachingStrategy != value);
+                ClearThumbnailCache |= (value is ThumbnailCachingStrategy.NeverCache && ThumbnailCachingStrategy != value);
 
                 _preferences.Set(nameof(ThumbnailCachingStrategy), (int)value, Constants.PreferencesSharedName);
             }

@@ -16,7 +16,7 @@ namespace abremir.AllMyBricks.Data.Models
             var culture = (from specificCulture in CultureInfo.GetCultures(CultureTypes.SpecificCultures)
                            let region = new RegionInfo(specificCulture.LCID)
                            where region?.ISOCurrencySymbol
-                            .Equals(Region.GetDescription(), StringComparison.InvariantCultureIgnoreCase) == true
+                            .Equals(Region.GetDescription(), StringComparison.InvariantCultureIgnoreCase) is true
                            select specificCulture).FirstOrDefault();
 
             if (culture is null)

@@ -40,8 +40,8 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
         [DataRow(ModelsSetup.NonExistentThemeName, ModelsSetup.SubthemeUnderTestName)]
         public async Task Get_SubthemeDoesNotExist_ReturnsNull(string themeName, string subthemeName)
         {
-            var subthemeUnderTest = ModelsSetup.GetSubthemeUnderTest(subthemeName == ModelsSetup.SubthemeUnderTestName ? ModelsSetup.SubthemeUnderTestName : Guid.NewGuid().ToString());
-            subthemeUnderTest.Theme = await InsertData(ModelsSetup.GetThemeUnderTest(themeName == ModelsSetup.ThemeUnderTestName ? themeName : Guid.NewGuid().ToString()));
+            var subthemeUnderTest = ModelsSetup.GetSubthemeUnderTest(subthemeName is ModelsSetup.SubthemeUnderTestName ? ModelsSetup.SubthemeUnderTestName : Guid.NewGuid().ToString());
+            subthemeUnderTest.Theme = await InsertData(ModelsSetup.GetThemeUnderTest(themeName is ModelsSetup.ThemeUnderTestName ? themeName : Guid.NewGuid().ToString()));
 
             await InsertData(subthemeUnderTest);
 

@@ -59,7 +59,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
         public async Task Synchronize_BricksetApiServiceReturnsEmptyListOfSubthemes_NothingIsSaved()
         {
             var testTheme = JsonConvert.DeserializeObject<List<Themes>>(GetResultFileFromResource(Constants.JsonFileGetThemes))
-                .First(themes => themes.Theme == Constants.TestThemeArchitecture);
+                .First(themes => themes.Theme is Constants.TestThemeArchitecture);
             var yearsList = JsonConvert.DeserializeObject<List<Years>>(GetResultFileFromResource(Constants.JsonFileGetYears));
 
             var theme = testTheme.ToTheme();
@@ -81,7 +81,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
         public async Task Synchronize_BricksetApiServiceReturnsListOfSubthemes_AllSubthemesAreSaved()
         {
             var testTheme = JsonConvert.DeserializeObject<List<Themes>>(GetResultFileFromResource(Constants.JsonFileGetThemes))
-                .First(themes => themes.Theme == Constants.TestThemeArchitecture);
+                .First(themes => themes.Theme is Constants.TestThemeArchitecture);
             var yearsList = JsonConvert.DeserializeObject<List<Years>>(GetResultFileFromResource(Constants.JsonFileGetYears));
             var subthemesList = JsonConvert.DeserializeObject<List<Subthemes>>(GetResultFileFromResource(Constants.JsonFileGetSubthemes));
 
