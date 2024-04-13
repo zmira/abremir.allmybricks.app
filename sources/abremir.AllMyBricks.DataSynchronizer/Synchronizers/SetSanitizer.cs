@@ -3,6 +3,7 @@ using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using abremir.AllMyBricks.Data.Enumerations;
 using abremir.AllMyBricks.Data.Interfaces;
 using abremir.AllMyBricks.DataSynchronizer.Enumerations;
 using abremir.AllMyBricks.DataSynchronizer.Events.SetSynchronizer;
@@ -17,6 +18,8 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
 {
     public class SetSanitizer : SetSynchronizerBase, ISetSanitizer
     {
+        private readonly IBricksetUserRepository _bricksetUserRepository;
+
         public SetSanitizer(
             IInsightsRepository insightsRepository,
             IOnboardingService onboardingService,
@@ -26,8 +29,12 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
             IThemeRepository themeRepository,
             ISubthemeRepository subthemeRepository,
             IThumbnailSynchronizer thumbnailSynchronizer,
-            IMessageHub messageHub)
-            : base(insightsRepository, onboardingService, bricksetApiService, setRepository, referenceDataRepository, themeRepository, subthemeRepository, thumbnailSynchronizer, messageHub) { }
+            IMessageHub messageHub,
+            IBricksetUserRepository bricksetUserRepository)
+            : base(insightsRepository, onboardingService, bricksetApiService, setRepository, referenceDataRepository, themeRepository, subthemeRepository, thumbnailSynchronizer, messageHub)
+        {
+            _bricksetUserRepository = bricksetUserRepository;
+        }
 
         public async Task Synchronize()
         {
@@ -119,7 +126,20 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
 
                     var setsToDelete = allMyBricksSetsFromThemeWithDifferences.Except(bricksetSetIds).ToList();
 
-                    await SetRepository.DeleteMany(setsToDelete).ConfigureAwait(false);
+                    var tasks = new List<Task>
+                    {
+                        SetRepository.DeleteMany(setsToDelete)
+                    };
+
+                    var primaryUsernames = await _bricksetUserRepository.GetAllUsernames(BricksetUserType.Primary).ConfigureAwait(false);
+                    var friendUsernames = await _bricksetUserRepository.GetAllUsernames(BricksetUserType.Friend).ConfigureAwait(false);
+
+                    foreach (var username in primaryUsernames.Concat(friendUsernames))
+                    {
+                        tasks.Add(_bricksetUserRepository.RemoveSets(username, setsToDelete));
+                    }
+
+                    await Task.WhenAll(tasks).ConfigureAwait(false);
 
                     foreach (var bricksetSet in bricksetSetsFromThemeWithDifferences)
                     {

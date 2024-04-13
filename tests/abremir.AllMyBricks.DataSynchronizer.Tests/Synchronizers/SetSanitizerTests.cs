@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using abremir.AllMyBricks.Data.Enumerations;
 using abremir.AllMyBricks.Data.Interfaces;
 using abremir.AllMyBricks.Data.Models;
 using abremir.AllMyBricks.Data.Repositories;
@@ -57,25 +59,14 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
         [TestMethod]
         public async Task Synchronize_ActualNumberOfSetsGreaterThanExpectedNumberOfSets_DeletesExtraSets()
         {
-            var theme = new Theme { Id = 1, Name = "theme", SetCount = 1, SetCountPerYear = [new YearSetCount { Year = 2020, SetCount = 1 }], YearFrom = 2020, YearTo = 2020 };
-            await _themeRepository.AddOrUpdate(theme);
+            var testContext = await CreateTestContextWithActualNumberOfSetsGreaterThanExpectedNumberOfSets();
 
-            var set1 = new Set { SetId = 1, Name = "set 1", Theme = theme, Year = 2020 };
-            var set2 = new Set { SetId = 2, Name = "set 2", Theme = theme, Year = 2020 };
-            await _setRepository.AddOrUpdate(set1);
-            await _setRepository.AddOrUpdate(set2);
-
-            var bricksetApiService = Substitute.For<IBricksetApiService>();
-            bricksetApiService.GetSets(Arg.Any<GetSetsParameters>()).Returns([new Sets { SetId = (int)set1.SetId, Name = set1.Name, Theme = theme.Name, Pieces = 555 }]);
-
-            var setSanitizer = CreateTarget(bricksetApiService: bricksetApiService);
-
-            await setSanitizer.Synchronize();
+            await testContext.Sanitizer.Synchronize();
 
             Check.That(await _setRepository.Count()).Is(1);
-            Check.That(await _setRepository.Get(set2.SetId)).IsNull();
-            Check.That(await _setRepository.Get(set1.SetId)).IsNotNull();
-            Check.That((await _setRepository.Get(set1.SetId)).Pieces).IsEqualTo(555);
+            Check.That(await _setRepository.Get(testContext.Set2.SetId)).IsNull();
+            Check.That(await _setRepository.Get(testContext.Set1.SetId)).IsNotNull();
+            Check.That((await _setRepository.Get(testContext.Set1.SetId)).Pieces).IsEqualTo(555);
         }
 
         [TestMethod]
@@ -103,9 +94,58 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
             Check.That(await _setRepository.Get(3)).IsNotNull();
         }
 
+        [TestMethod]
+        public async Task Synchronize_ThereAreNoBricksetUsers_DoesNotInvokeBricksetUserRepository()
+        {
+            var bricksetUserRepository = Substitute.For<IBricksetUserRepository>();
+            bricksetUserRepository.GetAllUsernames(Arg.Any<BricksetUserType>()).Returns(
+                _ => [],
+                _ => []
+            );
+
+            var testContext = await CreateTestContextWithActualNumberOfSetsGreaterThanExpectedNumberOfSets(bricksetUserRepository);
+
+            await testContext.Sanitizer.Synchronize();
+
+            await bricksetUserRepository.DidNotReceive().RemoveSets(Arg.Any<string>(), Arg.Any<List<long>>());
+        }
+
+        [TestMethod]
+        public async Task Synchronize_ThereAreBricksetUsers_DoesNotInvokeBricksetUserRepository()
+        {
+            var bricksetUserRepository = Substitute.For<IBricksetUserRepository>();
+            bricksetUserRepository.GetAllUsernames(Arg.Any<BricksetUserType>()).Returns(
+                _ => ["primary"],
+                _ => ["friend"]
+            );
+
+            var testContext = await CreateTestContextWithActualNumberOfSetsGreaterThanExpectedNumberOfSets(bricksetUserRepository);
+
+            await testContext.Sanitizer.Synchronize();
+
+            await bricksetUserRepository.Received(2).RemoveSets(Arg.Any<string>(), Arg.Any<List<long>>());
+        }
+
+        private async Task<(SetSanitizer Sanitizer, Set Set1, Set Set2)> CreateTestContextWithActualNumberOfSetsGreaterThanExpectedNumberOfSets(IBricksetUserRepository bricksetUserRepository = null)
+        {
+            var theme = new Theme { Id = 1, Name = "theme", SetCount = 1, SetCountPerYear = [new YearSetCount { Year = 2020, SetCount = 1 }], YearFrom = 2020, YearTo = 2020 };
+            await _themeRepository.AddOrUpdate(theme);
+
+            var set1 = new Set { SetId = 1, Name = "set 1", Theme = theme, Year = 2020 };
+            var set2 = new Set { SetId = 2, Name = "set 2", Theme = theme, Year = 2020 };
+            await _setRepository.AddOrUpdate(set1);
+            await _setRepository.AddOrUpdate(set2);
+
+            var bricksetApiService = Substitute.For<IBricksetApiService>();
+            bricksetApiService.GetSets(Arg.Any<GetSetsParameters>()).Returns([new Sets { SetId = (int)set1.SetId, Name = set1.Name, Theme = theme.Name, Pieces = 555 }]);
+
+            return (CreateTarget(bricksetApiService: bricksetApiService, bricksetUserRepository: bricksetUserRepository), set1, set2);
+        }
+
         private static SetSanitizer CreateTarget(
             IOnboardingService onboardingService = null,
-            IBricksetApiService bricksetApiService = null)
+            IBricksetApiService bricksetApiService = null,
+            IBricksetUserRepository bricksetUserRepository = null)
         {
             if (onboardingService is null)
             {
@@ -114,6 +154,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
             }
 
             bricksetApiService ??= Substitute.For<IBricksetApiService>();
+            bricksetUserRepository ??= Substitute.For<IBricksetUserRepository>();
 
             return new SetSanitizer(
                 Substitute.For<IInsightsRepository>(),
@@ -124,7 +165,8 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
                 _themeRepository,
                 new SubthemeRepository(MemoryRepositoryService),
                 Substitute.For<IThumbnailSynchronizer>(),
-                Substitute.For<IMessageHub>());
+                Substitute.For<IMessageHub>(),
+                bricksetUserRepository);
         }
     }
 }
