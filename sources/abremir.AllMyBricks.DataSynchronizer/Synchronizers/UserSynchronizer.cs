@@ -198,7 +198,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                 ownedSets.AddRange(await Task.WhenAll(tasks).ConfigureAwait(false));
 
                 pageNumber++;
-            } while (currentPageResults.Count == Constants.BricksetDefaultPageSizeParameter);
+            } while (currentPageResults.Count is Constants.BricksetDefaultPageSizeParameter);
 
             return ownedSets.ToDictionary(bricksetUserSet => bricksetUserSet.Set.SetId);
         }
@@ -232,7 +232,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                 wantedSets.AddRange(currentPageResults.Select(set => set.SetId));
 
                 pageNumber++;
-            } while (currentPageResults.Count == Constants.BricksetDefaultPageSizeParameter);
+            } while (currentPageResults.Count is Constants.BricksetDefaultPageSizeParameter);
 
             return wantedSets;
         }

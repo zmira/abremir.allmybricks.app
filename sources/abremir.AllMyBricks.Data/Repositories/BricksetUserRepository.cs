@@ -87,7 +87,7 @@ namespace abremir.AllMyBricks.Data.Repositories
             if (string.IsNullOrWhiteSpace(username)
                 || bricksetUserSet is null
                 || bricksetUserSet.Set is null
-                || bricksetUserSet.Set.SetId == 0)
+                || bricksetUserSet.Set.SetId is 0)
             {
                 return null;
             }
@@ -131,12 +131,45 @@ namespace abremir.AllMyBricks.Data.Repositories
         public async Task<BricksetUserSet> GetSet(string username, long setId)
         {
             if (string.IsNullOrWhiteSpace(username)
-                || setId == 0)
+                || setId is 0)
             {
                 return null;
             }
 
             return (await Get(username).ConfigureAwait(false))?.Sets.FirstOrDefault(set => set.Set.SetId == setId);
+        }
+
+        public async Task<int> RemoveSets(string username, List<long> setIds)
+        {
+            if (string.IsNullOrWhiteSpace(username)
+                || (setIds?.Count ?? 0) is 0)
+            {
+                return 0;
+            }
+
+            using var repository = _repositoryService.GetRepository();
+
+            var bricksetUser = await Get(username).ConfigureAwait(false);
+
+            if (bricksetUser is null)
+            {
+                return 0;
+            }
+
+            var bricksetUserSets = bricksetUser.Sets.Where(set => setIds.Contains(set.Set.SetId)).ToList();
+            var setCount = bricksetUserSets.Count;
+
+            if (setCount is not 0)
+            {
+                foreach (var userSet in bricksetUserSets)
+                {
+                    bricksetUser.Sets.Remove(userSet);
+                }
+
+                await repository.UpdateAsync(bricksetUser).ConfigureAwait(false);
+            }
+
+            return setCount;
         }
 
         public async Task<IEnumerable<string>> GetAllUsernames(BricksetUserType userType)

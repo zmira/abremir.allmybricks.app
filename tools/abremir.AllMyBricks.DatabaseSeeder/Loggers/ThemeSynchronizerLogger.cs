@@ -26,7 +26,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
                 _themeIndex = 0;
                 _themeProgressFraction = 0;
 
-                if (Logging.LogVerbosity == LogVerbosity.Full)
+                if (Logging.LogVerbosity is LogVerbosity.Full)
                 {
                     logger.LogInformation("Started theme synchronizer");
                 }
@@ -44,7 +44,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
                 _themeIndex++;
                 _themeProgressFraction = _themeIndex / _themeCount;
 
-                if (Logging.LogVerbosity == LogVerbosity.Full)
+                if (Logging.LogVerbosity is LogVerbosity.Full)
                 {
                     logger.LogInformation(Invariant($"Started synchronizing theme '{message.Theme}': index {_themeIndex}, progress {_themeProgressFraction:##0.00%}"));
                 }
@@ -52,7 +52,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
 
             messageHub.Subscribe<SynchronizingThemeEnd>(message =>
             {
-                if (Logging.LogVerbosity == LogVerbosity.Full)
+                if (Logging.LogVerbosity is LogVerbosity.Full)
                 {
                     logger.LogInformation($"Finished synchronizing theme '{message.Theme}'");
                 }
@@ -65,7 +65,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
                 _themeIndex = 0;
                 _themeProgressFraction = 0;
 
-                if (Logging.LogVerbosity == LogVerbosity.Full)
+                if (Logging.LogVerbosity is LogVerbosity.Full)
                 {
                     logger.LogInformation("Finished theme synchronizer");
                 }

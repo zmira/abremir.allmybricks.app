@@ -18,5 +18,6 @@ namespace abremir.AllMyBricks.Data.Interfaces
         Task<BricksetUser> UpdateUserSynchronizationTimestamp(string username, DateTimeOffset userSynchronizationTimestamp);
         Task<IEnumerable<BricksetUserSet>> GetWantedSets(string username);
         Task<IEnumerable<BricksetUserSet>> GetOwnedSets(string username);
+        Task<int> RemoveSets(string username, List<long> setIds);
     }
 }

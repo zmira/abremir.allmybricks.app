@@ -27,7 +27,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
                 _setIndex = 0;
                 _setProgressFraction = 0;
 
-                if (Logging.LogVerbosity == LogVerbosity.Full)
+                if (Logging.LogVerbosity is LogVerbosity.Full)
                 {
                     logger.LogInformation($"Started set synchronizer of type '{message.Type}'");
                 }
@@ -38,7 +38,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
                 _setIndex = 0;
                 _setProgressFraction = 0;
 
-                if (Logging.LogVerbosity == LogVerbosity.Full)
+                if (Logging.LogVerbosity is LogVerbosity.Full)
                 {
                     logger.LogInformation($"Acquiring sets for type '{message.Type}' with parameters {message.Parameters.GetParams()}");
                 }
@@ -60,7 +60,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
                 _setIndex++;
                 _setProgressFraction = _setIndex / _setCount;
 
-                if (Logging.LogVerbosity == LogVerbosity.Full)
+                if (Logging.LogVerbosity is LogVerbosity.Full)
                 {
                     logger.LogInformation(Invariant($"Started synchronizing set '{message.IdentifierLong}': index {_setIndex}, progress {_setProgressFraction:##0.00%}"));
                 }
@@ -70,7 +70,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
 
             messageHub.Subscribe<SynchronizingSetEnd>(message =>
             {
-                if (Logging.LogVerbosity == LogVerbosity.Full)
+                if (Logging.LogVerbosity is LogVerbosity.Full)
                 {
                     logger.LogInformation($"Finished synchronizing set '{message.IdentifierLong}'");
                 }
@@ -83,7 +83,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
                 _setIndex = 0;
                 _setProgressFraction = 0;
 
-                if (Logging.LogVerbosity == LogVerbosity.Full)
+                if (Logging.LogVerbosity is LogVerbosity.Full)
                 {
                     logger.LogInformation($"Finished set synchronizer of type '{message.Type}'");
                 }

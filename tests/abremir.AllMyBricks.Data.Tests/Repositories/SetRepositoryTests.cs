@@ -555,7 +555,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
             {
                 await _setRepository.AddOrUpdate(new Set { SetId = setId });
 
-                if (setId % 3 == 0)
+                if (setId % 3 is 0)
                 {
                     setsToDelete.Add(setId);
                 }

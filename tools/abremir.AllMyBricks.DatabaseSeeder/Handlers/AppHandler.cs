@@ -819,7 +819,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Handlers
             {
                 var primaryUsers = Settings.BricksetPrimaryUsers ?? [];
 
-                if (primaryUsers.Count == 0)
+                if (primaryUsers.Count is 0)
                 {
                     return;
                 }
@@ -852,7 +852,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Handlers
 
             primaryUsersList.SelectedItemChanged += (_) =>
             {
-                if (primaryUsersList.SelectedItem == -1)
+                if (primaryUsersList.SelectedItem is -1)
                 {
                     window.Remove(deletePrimaryUserButton);
                 }

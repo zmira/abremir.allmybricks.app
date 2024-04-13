@@ -81,7 +81,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
         public async Task Synchronize_BricksetApiServiceReturnsEmptyListOfSets_NothingIsSaved()
         {
             var themesList = JsonConvert.DeserializeObject<List<Themes>>(GetResultFileFromResource(Constants.JsonFileGetThemes));
-            var testTheme = themesList.First(themes => themes.Theme == Constants.TestThemeArchitecture);
+            var testTheme = themesList.First(themes => themes.Theme is Constants.TestThemeArchitecture);
             var yearsList = JsonConvert.DeserializeObject<List<Years>>(GetResultFileFromResource(Constants.JsonFileGetYears));
 
             var theme = testTheme.ToTheme();
@@ -104,11 +104,11 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
         public async Task Synchronize_BricksetApiServiceReturnsListOfSets_AllSetsAreSaved()
         {
             var themesList = JsonConvert.DeserializeObject<List<Themes>>(GetResultFileFromResource(Constants.JsonFileGetThemes));
-            var testTheme = themesList.First(themes => themes.Theme == Constants.TestThemeArchitecture);
+            var testTheme = themesList.First(themes => themes.Theme is Constants.TestThemeArchitecture);
             var yearsList = JsonConvert.DeserializeObject<List<Years>>(GetResultFileFromResource(Constants.JsonFileGetYears));
             var subthemesList = JsonConvert.DeserializeObject<List<Subthemes>>(GetResultFileFromResource(Constants.JsonFileGetSubthemes));
             var setsList = JsonConvert.DeserializeObject<List<Sets>>(GetResultFileFromResource(Constants.JsonFileGetSets));
-            var testSet = setsList.First(set => set.SetId == Constants.TestSetId);
+            var testSet = setsList.First(set => set.SetId is Constants.TestSetId);
             var additionalImagesList = JsonConvert.DeserializeObject<List<SetImage>>(GetResultFileFromResource(Constants.JsonFileGetAdditionalImages));
             var instructionsList = JsonConvert.DeserializeObject<List<Instructions>>(GetResultFileFromResource(Constants.JsonFileGetInstructions));
             var testSubtheme = subthemesList.First(bricksetSubtheme => bricksetSubtheme.Subtheme == testSet.Subtheme);
