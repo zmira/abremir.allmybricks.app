@@ -10,5 +10,6 @@ namespace abremir.AllMyBricks.Data.Interfaces
         Task<Theme> Get(string themeName);
         Task<IEnumerable<Theme>> All();
         Task<IEnumerable<Theme>> AllForYear(short year);
+        Task<int> DeleteMany(List<string> themeNames);
     }
 }

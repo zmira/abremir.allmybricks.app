@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using abremir.AllMyBricks.Data.Configuration;
@@ -161,6 +162,43 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
             var theme = await _themeRepository.Get(themeFromDb.Name);
 
             Check.That(theme).HasFieldsWithSameValues(themeFromDb);
+        }
+
+        [TestMethod]
+        public async Task DeleteMany_NullListOfThemeNames_ReturnsZero()
+        {
+            var deletedThemes = await _themeRepository.DeleteMany(null);
+
+            Check.That(deletedThemes).IsZero();
+        }
+
+        [TestMethod]
+        public async Task DeleteMany_EmptyListOfThemeNames_ReturnsZero()
+        {
+            var deletedThemes = await _themeRepository.DeleteMany([]);
+
+            Check.That(deletedThemes).IsZero();
+        }
+
+        [TestMethod]
+        public async Task DeleteMany_NonEmptyListOfThemeNames_ReturnsNumberOfDeletedSets()
+        {
+            var random = new Random();
+            var numberOfThemes = random.Next(10, 100);
+            var themesToDelete = new List<string>();
+            for (var themeId = 1; themeId <= numberOfThemes; themeId++)
+            {
+                await _themeRepository.AddOrUpdate(new Theme { Id = themeId, Name = themeId.ToString(), YearFrom = (short)DateTime.Now.Year });
+
+                if (themeId % 3 is 0)
+                {
+                    themesToDelete.Add(themeId.ToString());
+                }
+            }
+
+            var deletedThemes = await _themeRepository.DeleteMany(themesToDelete);
+
+            Check.That(deletedThemes).Is(themesToDelete.Count);
         }
     }
 }
