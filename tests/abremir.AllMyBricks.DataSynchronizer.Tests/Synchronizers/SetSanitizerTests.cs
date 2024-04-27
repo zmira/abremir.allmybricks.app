@@ -111,7 +111,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
         }
 
         [TestMethod]
-        public async Task Synchronize_ThereAreBricksetUsers_DoesNotInvokeBricksetUserRepository()
+        public async Task Synchronize_ThereAreBricksetUsers_InvokesBricksetUserRepository()
         {
             var bricksetUserRepository = Substitute.For<IBricksetUserRepository>();
             bricksetUserRepository.GetAllUsernames(Arg.Any<BricksetUserType>()).Returns(
