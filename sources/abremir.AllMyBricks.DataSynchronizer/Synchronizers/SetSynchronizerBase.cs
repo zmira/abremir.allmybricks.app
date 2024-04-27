@@ -26,6 +26,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
         protected readonly IReferenceDataRepository ReferenceDataRepository;
         protected readonly IThemeRepository ThemeRepository;
         protected readonly ISubthemeRepository SubthemeRepository;
+        protected readonly IBricksetUserRepository BricksetUserRepository;
         protected readonly IThumbnailSynchronizer ThumbnailSynchronizer;
         protected readonly IMessageHub MessageHub;
 
@@ -37,6 +38,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
             IReferenceDataRepository referenceDataRepository,
             IThemeRepository themeRepository,
             ISubthemeRepository subthemeRepository,
+            IBricksetUserRepository bricksetUserRepository,
             IThumbnailSynchronizer thumbnailSynchronizer,
             IMessageHub messageHub)
         {
@@ -47,6 +49,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
             ReferenceDataRepository = referenceDataRepository;
             ThemeRepository = themeRepository;
             SubthemeRepository = subthemeRepository;
+            BricksetUserRepository = bricksetUserRepository;
             ThumbnailSynchronizer = thumbnailSynchronizer;
             MessageHub = messageHub;
         }
@@ -216,6 +219,43 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
             } while (currentPageResults.Count == getSetsParameters.PageSize);
 
             return foundSets;
+        }
+
+        protected async Task<(int ExpectedNumberOfSets, int ActualNumberOfSets)> GetSetNumbers()
+        {
+            var expectedTotalNumberOfSets = (await ThemeRepository
+                .All().ConfigureAwait(false))
+                .Sum(theme => theme.SetCount);
+            var actualTotalNumberOfSets = await SetRepository.Count().ConfigureAwait(false);
+
+            return (expectedTotalNumberOfSets, actualTotalNumberOfSets);
+        }
+
+        protected async Task DeleteSets(List<long> setsToDelete)
+        {
+            if ((setsToDelete?.Count ?? 0) is 0)
+            {
+                return;
+            }
+
+            MessageHub.Publish(new DeletingSetsStart { AffectedSets = setsToDelete });
+
+            var tasks = new List<Task>
+            {
+                SetRepository.DeleteMany(setsToDelete)
+            };
+
+            var primaryUsernames = await BricksetUserRepository.GetAllUsernames(BricksetUserType.Primary).ConfigureAwait(false);
+            var friendUsernames = await BricksetUserRepository.GetAllUsernames(BricksetUserType.Friend).ConfigureAwait(false);
+
+            foreach (var username in primaryUsernames.Concat(friendUsernames))
+            {
+                tasks.Add(BricksetUserRepository.RemoveSets(username, setsToDelete));
+            }
+
+            await Task.WhenAll(tasks).ConfigureAwait(false);
+
+            MessageHub.Publish(new DeletingSetsEnd { AffectedSets = setsToDelete });
         }
     }
 }

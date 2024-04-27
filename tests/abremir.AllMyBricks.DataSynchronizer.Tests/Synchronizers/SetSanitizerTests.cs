@@ -164,9 +164,9 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
                 new ReferenceDataRepository(MemoryRepositoryService),
                 _themeRepository,
                 new SubthemeRepository(MemoryRepositoryService),
+                bricksetUserRepository,
                 Substitute.For<IThumbnailSynchronizer>(),
-                Substitute.For<IMessageHub>(),
-                bricksetUserRepository);
+                Substitute.For<IMessageHub>());
         }
     }
 }

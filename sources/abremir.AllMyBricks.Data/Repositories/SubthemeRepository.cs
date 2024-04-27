@@ -112,6 +112,13 @@ namespace abremir.AllMyBricks.Data.Repositories
             return await repository.DeleteManyAsync<Subtheme>(subtheme => subthemeKeys.Contains(subtheme.SubthemeKey)).ConfigureAwait(false);
         }
 
+        public async Task<int> Count()
+        {
+            using var repository = _repositoryService.GetRepository();
+
+            return await repository.Query<Subtheme>().CountAsync().ConfigureAwait(false);
+        }
+
         private static ILiteQueryableAsync<Subtheme> GetQueryable(ILiteRepositoryAsync repository) => repository
                 .Query<Subtheme>()
                 .IncludeAll();

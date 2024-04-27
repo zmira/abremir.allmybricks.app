@@ -27,6 +27,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Configuration
                 .AddScoped<IDatabaseSeederLogger, SetSynchronizationServiceLogger>()
                 .AddScoped<IDatabaseSeederLogger, SetSynchronizerLogger>()
                 .AddScoped<IDatabaseSeederLogger, SubthemeSynchronizerLogger>()
+                .AddScoped<IDatabaseSeederLogger, ThemeSanitizerLogger>()
                 .AddScoped<IDatabaseSeederLogger, ThemeSynchronizerLogger>()
                 .AddScoped<IDatabaseSeederLogger, ThumbnailSynchronizerLogger>()
                 .AddScoped<IDatabaseSeederLogger, UserSynchronizationServiceLogger>()

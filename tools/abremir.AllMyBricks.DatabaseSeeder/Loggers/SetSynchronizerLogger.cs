@@ -108,6 +108,30 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
                     logger.LogInformation($"Finished adjusting themes with differences {JsonSerializer.Serialize(message.AffectedThemes)}");
                 }
             });
+
+            messageHub.Subscribe<DeletingSetsStart>(message =>
+            {
+                if (Logging.LogVerbosity is LogVerbosity.Full)
+                {
+                    logger.LogInformation($"Started deleting sets: {string.Join(", ", message.AffectedSets)}");
+                }
+            });
+
+            messageHub.Subscribe<DeletingSetsEnd>(message =>
+            {
+                if (Logging.LogVerbosity is LogVerbosity.Full)
+                {
+                    logger.LogInformation($"Finished deleting sets: {string.Join(", ", message.AffectedSets)}");
+                }
+            });
+
+            messageHub.Subscribe<ThemesAcquired>(message =>
+            {
+                if (Logging.LogVerbosity is LogVerbosity.Full)
+                {
+                    logger.LogInformation($"Acquired {message.Count} themes");
+                }
+            });
         }
     }
 }
