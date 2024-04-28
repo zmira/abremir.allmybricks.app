@@ -39,7 +39,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
 
                 if (Logging.LogVerbosity is LogVerbosity.Full)
                 {
-                    logger.LogInformation($"Acquiring sets for type '{message.Type}' with parameters {message.Parameters.GetParams()}");
+                    logger.LogInformation($"Acquiring sets for type '{message.Type}' with parameters '{message.Parameters.GetParams()}'");
                 }
             });
 
@@ -50,7 +50,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
 
                 if (Logging.LogVerbosity is LogVerbosity.Full)
                 {
-                    logger.LogInformation($"Acquired {message.Count} sets for type '{message.Type}' with parameters {message.Parameters.GetParams()}");
+                    logger.LogInformation($"Acquired {message.Count} sets for type '{message.Type}' with parameters '{message.Parameters.GetParams()}'");
                 }
             });
 

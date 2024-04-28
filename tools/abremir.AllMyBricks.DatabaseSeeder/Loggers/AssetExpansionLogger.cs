@@ -19,7 +19,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
             {
                 if (Logging.LogVerbosity is LogVerbosity.Full)
                 {
-                    logger.LogInformation($"Expanding {message.Item.Key}: {message.ReaderProgress.PercentageRead}%");
+                    logger.LogInformation($"Expanding '{message.Item.Key}': {message.ReaderProgress.PercentageRead}%");
                 }
             });
         }
