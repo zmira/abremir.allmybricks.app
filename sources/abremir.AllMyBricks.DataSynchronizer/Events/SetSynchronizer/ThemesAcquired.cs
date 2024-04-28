@@ -1,4 +1,4 @@
-﻿namespace abremir.AllMyBricks.DataSynchronizer.Events.ThemeSynchronizer
+﻿namespace abremir.AllMyBricks.DataSynchronizer.Events.SetSynchronizer
 {
     public class ThemesAcquired
     {
