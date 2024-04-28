@@ -24,6 +24,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Configuration
             return services
                 .AddTransient<ILoggerFactory>((_) => Logging.Factory)
                 .AddScoped<IDatabaseSeederLogger, AssetExpansionLogger>()
+                .AddScoped<IDatabaseSeederLogger, SetSanitizerLogger>()
                 .AddScoped<IDatabaseSeederLogger, SetSynchronizationServiceLogger>()
                 .AddScoped<IDatabaseSeederLogger, SetSynchronizerLogger>()
                 .AddScoped<IDatabaseSeederLogger, SubthemeSynchronizerLogger>()
