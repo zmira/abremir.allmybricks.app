@@ -1,5 +1,6 @@
 ﻿using abremir.AllMyBricks.DatabaseSeeder.Configuration;
 using abremir.AllMyBricks.DatabaseSeeder.Enumerations;
+using abremir.AllMyBricks.DataSynchronizer.Events.SetSynchronizer;
 using abremir.AllMyBricks.DataSynchronizer.Events.ThemeSynchronizer;
 using abremir.AllMyBricks.DataSynchronizer.Synchronizers;
 using Easy.MessageHub;
@@ -32,12 +33,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
                 }
             });
 
-            messageHub.Subscribe<ThemesAcquired>(message =>
-            {
-                _themeCount = message.Count;
-
-                logger.LogInformation($"Acquired {message.Count} themes to process");
-            });
+            messageHub.Subscribe<ThemesAcquired>(message => _themeCount = message.Count);
 
             messageHub.Subscribe<SynchronizingThemeStart>(message =>
             {

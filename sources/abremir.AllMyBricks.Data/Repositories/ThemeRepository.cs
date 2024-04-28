@@ -64,5 +64,26 @@ namespace abremir.AllMyBricks.Data.Repositories
 
             return await repository.FetchAsync<Theme>(theme => theme.YearFrom <= year && theme.YearTo >= year).ConfigureAwait(false);
         }
+
+        public async Task<int> DeleteMany(List<string> themeNames)
+        {
+            if ((themeNames?.Count ?? 0) is 0)
+            {
+                return 0;
+            }
+
+            themeNames = themeNames.ConvertAll(themeName => themeName.Trim());
+
+            using var repository = _repositoryService.GetRepository();
+
+            return await repository.DeleteManyAsync<Theme>(theme => themeNames.Contains(theme.Name)).ConfigureAwait(false);
+        }
+
+        public async Task<int> Count()
+        {
+            using var repository = _repositoryService.GetRepository();
+
+            return await repository.Query<Theme>().CountAsync().ConfigureAwait(false);
+        }
     }
 }

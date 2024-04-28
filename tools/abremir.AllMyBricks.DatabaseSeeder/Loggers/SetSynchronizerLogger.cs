@@ -1,5 +1,4 @@
-﻿using System.Text.Json;
-using abremir.AllMyBricks.DatabaseSeeder.Configuration;
+﻿using abremir.AllMyBricks.DatabaseSeeder.Configuration;
 using abremir.AllMyBricks.DatabaseSeeder.Enumerations;
 using abremir.AllMyBricks.DataSynchronizer.Events.SetSynchronizer;
 using abremir.AllMyBricks.DataSynchronizer.Interfaces;
@@ -40,7 +39,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
 
                 if (Logging.LogVerbosity is LogVerbosity.Full)
                 {
-                    logger.LogInformation($"Acquiring sets for type '{message.Type}' with parameters {message.Parameters.GetParams()}");
+                    logger.LogInformation($"Acquiring sets for type '{message.Type}' with parameters '{message.Parameters.GetParams()}'");
                 }
             });
 
@@ -51,7 +50,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
 
                 if (Logging.LogVerbosity is LogVerbosity.Full)
                 {
-                    logger.LogInformation($"Acquired {message.Count} sets for type '{message.Type}' with parameters {message.Parameters.GetParams()}");
+                    logger.LogInformation($"Acquired {message.Count} sets for type '{message.Type}' with parameters '{message.Parameters.GetParams()}'");
                 }
             });
 
@@ -93,19 +92,27 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
 
             messageHub.Subscribe<InsightsAcquired>(message => logger.LogInformation($"Last Updated: {(message.SynchronizationTimestamp.HasValue ? message.SynchronizationTimestamp.Value.ToString("yyyy-MM-dd HH:mm:ss") : "Never")}"));
 
-            messageHub.Subscribe<AdjustingThemesWithDifferencesStart>(message =>
+            messageHub.Subscribe<DeletingSetsStart>(message =>
             {
                 if (Logging.LogVerbosity is LogVerbosity.Full)
                 {
-                    logger.LogInformation($"Started adjusting themes with differences {JsonSerializer.Serialize(message.AffectedThemes)}");
+                    logger.LogInformation($"Started deleting sets: {string.Join(", ", message.AffectedSets)}");
                 }
             });
 
-            messageHub.Subscribe<AdjustingThemesWithDifferencesEnd>(message =>
+            messageHub.Subscribe<DeletingSetsEnd>(message =>
             {
                 if (Logging.LogVerbosity is LogVerbosity.Full)
                 {
-                    logger.LogInformation($"Finished adjusting themes with differences {JsonSerializer.Serialize(message.AffectedThemes)}");
+                    logger.LogInformation($"Finished deleting sets: {string.Join(", ", message.AffectedSets)}");
+                }
+            });
+
+            messageHub.Subscribe<ThemesAcquired>(message =>
+            {
+                if (Logging.LogVerbosity is LogVerbosity.Full)
+                {
+                    logger.LogInformation($"Acquired {message.Count} themes");
                 }
             });
         }

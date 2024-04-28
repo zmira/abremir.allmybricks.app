@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 
-namespace abremir.AllMyBricks.DataSynchronizer.Events.SetSynchronizer
+namespace abremir.AllMyBricks.DataSynchronizer.Events.SetSanitizer
 {
-    public class AdjustingThemesWithDifferencesEnd
+    public class AdjustingThemesWithDifferencesStart
     {
         public Dictionary<short, HashSet<string>> AffectedThemes { get; set; }
     }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using abremir.AllMyBricks.Data.Configuration;
@@ -290,6 +291,58 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
             Check.That(savedSubtheme).IsNotNull();
             Check.That(savedSubtheme.SetCount).IsEqualTo(subthemeUnderTest.SetCount);
             Check.That(savedSubtheme.YearTo).IsEqualTo(subthemeUnderTest.YearTo);
+        }
+
+        [DataTestMethod]
+        [DataRow(null)]
+        [DataRow("")]
+        [DataRow(" ")]
+        public async Task DeleteMany_InvalidThemeName_ReturnsZero(string themeName)
+        {
+            var deletedSubthemes = await _subthemeRepository.DeleteMany(themeName, ["subtheme-name"]);
+
+            Check.That(deletedSubthemes).IsZero();
+        }
+
+        [TestMethod]
+        public async Task DeleteMany_NullListOfSubthemeNames_ReturnsZero()
+        {
+            var deletedSubthemes = await _subthemeRepository.DeleteMany("theme-name", null);
+
+            Check.That(deletedSubthemes).IsZero();
+        }
+
+        [TestMethod]
+        public async Task DeleteMany_EmptyListOfSubthemeNames_ReturnsZero()
+        {
+            var deletedSubthemes = await _subthemeRepository.DeleteMany("theme-name", []);
+
+            Check.That(deletedSubthemes).IsZero();
+        }
+
+        [TestMethod]
+        public async Task DeleteMany_NonEmptyListOfSubthemeNames_ReturnsNumberOfDeletedSets()
+        {
+            var theme = ModelsSetup.GetThemeUnderTest(Guid.NewGuid().ToString());
+
+            await InsertData(theme);
+
+            var random = new Random();
+            var numberOfSubthemes = random.Next(10, 100);
+            var subthemesToDelete = new List<string>();
+            for (var subthemeId = 1; subthemeId <= numberOfSubthemes; subthemeId++)
+            {
+                await _subthemeRepository.AddOrUpdate(new Subtheme { Id = subthemeId, Name = subthemeId.ToString(), Theme = theme, YearFrom = (short)DateTime.Now.Year });
+
+                if (subthemeId % 3 is 0)
+                {
+                    subthemesToDelete.Add(subthemeId.ToString());
+                }
+            }
+
+            var deletedSubthemes = await _subthemeRepository.DeleteMany(theme.Name, subthemesToDelete);
+
+            Check.That(deletedSubthemes).Is(subthemesToDelete.Count);
         }
     }
 }

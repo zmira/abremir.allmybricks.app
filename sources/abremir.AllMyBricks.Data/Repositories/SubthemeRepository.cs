@@ -98,6 +98,27 @@ namespace abremir.AllMyBricks.Data.Repositories
                 .ToListAsync().ConfigureAwait(false);
         }
 
+        public async Task<int> DeleteMany(string themeName, List<string> subthemeNames)
+        {
+            if (string.IsNullOrWhiteSpace(themeName) || (subthemeNames?.Count ?? 0) is 0)
+            {
+                return 0;
+            }
+
+            var subthemeKeys = subthemeNames.ConvertAll(subthemeName => $"{themeName}-{subthemeName.Trim()}");
+
+            using var repository = _repositoryService.GetRepository();
+
+            return await repository.DeleteManyAsync<Subtheme>(subtheme => subthemeKeys.Contains(subtheme.SubthemeKey)).ConfigureAwait(false);
+        }
+
+        public async Task<int> Count()
+        {
+            using var repository = _repositoryService.GetRepository();
+
+            return await repository.Query<Subtheme>().CountAsync().ConfigureAwait(false);
+        }
+
         private static ILiteQueryableAsync<Subtheme> GetQueryable(ILiteRepositoryAsync repository) => repository
                 .Query<Subtheme>()
                 .IncludeAll();

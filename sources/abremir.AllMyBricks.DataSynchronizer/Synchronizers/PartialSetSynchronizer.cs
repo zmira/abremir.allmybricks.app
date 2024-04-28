@@ -22,9 +22,10 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
             IReferenceDataRepository referenceDataRepository,
             IThemeRepository themeRepository,
             ISubthemeRepository subthemeRepository,
+            IBricksetUserRepository bricksetUserRepository,
             IThumbnailSynchronizer thumbnailSynchronizer,
             IMessageHub messageHub)
-            : base(insightsRepository, onboardingService, bricksetApiService, setRepository, referenceDataRepository, themeRepository, subthemeRepository, thumbnailSynchronizer, messageHub) { }
+            : base(insightsRepository, onboardingService, bricksetApiService, setRepository, referenceDataRepository, themeRepository, subthemeRepository, bricksetUserRepository, thumbnailSynchronizer, messageHub) { }
 
         public async Task Synchronize()
         {

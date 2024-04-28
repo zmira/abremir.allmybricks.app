@@ -3,9 +3,9 @@ using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using abremir.AllMyBricks.Data.Enumerations;
 using abremir.AllMyBricks.Data.Interfaces;
 using abremir.AllMyBricks.DataSynchronizer.Enumerations;
+using abremir.AllMyBricks.DataSynchronizer.Events.SetSanitizer;
 using abremir.AllMyBricks.DataSynchronizer.Events.SetSynchronizer;
 using abremir.AllMyBricks.DataSynchronizer.Interfaces;
 using abremir.AllMyBricks.Onboarding.Interfaces;
@@ -18,8 +18,6 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
 {
     public class SetSanitizer : SetSynchronizerBase, ISetSanitizer
     {
-        private readonly IBricksetUserRepository _bricksetUserRepository;
-
         public SetSanitizer(
             IInsightsRepository insightsRepository,
             IOnboardingService onboardingService,
@@ -28,41 +26,35 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
             IReferenceDataRepository referenceDataRepository,
             IThemeRepository themeRepository,
             ISubthemeRepository subthemeRepository,
+            IBricksetUserRepository bricksetUserRepository,
             IThumbnailSynchronizer thumbnailSynchronizer,
-            IMessageHub messageHub,
-            IBricksetUserRepository bricksetUserRepository)
-            : base(insightsRepository, onboardingService, bricksetApiService, setRepository, referenceDataRepository, themeRepository, subthemeRepository, thumbnailSynchronizer, messageHub)
-        {
-            _bricksetUserRepository = bricksetUserRepository;
-        }
+            IMessageHub messageHub)
+            : base(insightsRepository, onboardingService, bricksetApiService, setRepository, referenceDataRepository, themeRepository, subthemeRepository, bricksetUserRepository, thumbnailSynchronizer, messageHub) { }
 
         public async Task Synchronize()
         {
-            MessageHub.Publish(new SetSynchronizerStart { Type = SetAcquisitionType.Sanitize });
+            MessageHub.Publish(new SetSanitizerStart());
 
             var apiKey = await OnboardingService.GetBricksetApiKey().ConfigureAwait(false);
 
             if (string.IsNullOrWhiteSpace(apiKey))
             {
                 var exception = new Exception("Invalid Brickset API key");
-                MessageHub.Publish(new SetSynchronizerException { Exception = exception });
+                MessageHub.Publish(new SetSanitizerException { Exception = exception });
 
                 throw exception;
             }
 
-            var expectedTotalNumberOfSets = (await ThemeRepository
-                .All().ConfigureAwait(false))
-                .Sum(theme => theme.SetCount);
-            var actualTotalNumberOfSets = await SetRepository.Count().ConfigureAwait(false);
+            var (ExpectedNumberOfSets, ActualNumberOfSets) = await GetSetNumbers();
 
-            if (actualTotalNumberOfSets == expectedTotalNumberOfSets)
+            if (ActualNumberOfSets == ExpectedNumberOfSets)
             {
-                MessageHub.Publish(new SetSynchronizerEnd { Type = SetAcquisitionType.Sanitize });
+                MessageHub.Publish(new SetSanitizerEnd());
 
                 return;
             }
 
-            MessageHub.Publish(new MismatchingNumberOfSetsWarning { Expected = expectedTotalNumberOfSets, Actual = actualTotalNumberOfSets });
+            MessageHub.Publish(new MismatchingNumberOfSetsWarning { Expected = ExpectedNumberOfSets, Actual = ActualNumberOfSets });
 
             var numberOfSetsPerYearFromSets = (await SetRepository.All().ConfigureAwait(false))
                 .GroupBy(set => set.Year)
@@ -74,10 +66,17 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
 
             Dictionary<short, HashSet<string>> themesWithDifferences = [];
 
-            foreach (var year in numberOfSetsPerYearFromSets.Keys.Order())
+            var yearIterator = numberOfSetsPerYearFromSets.Keys.Length > numberOfSetsPerYearFromThemes.Keys.Length
+                ? numberOfSetsPerYearFromSets
+                : numberOfSetsPerYearFromThemes;
+            var yearGetter = numberOfSetsPerYearFromSets.Keys.Length > numberOfSetsPerYearFromThemes.Keys.Length
+                ? numberOfSetsPerYearFromThemes
+                : numberOfSetsPerYearFromSets;
+
+            foreach (var year in yearIterator.Keys.Order())
             {
-                var fromThemeHasYear = numberOfSetsPerYearFromThemes.TryGetValue(year, out var setCountForYearFromTheme);
-                if (!fromThemeHasYear || numberOfSetsPerYearFromSets[year] != setCountForYearFromTheme)
+                var fromThemeHasYear = yearGetter.TryGetValue(year, out var setCountForYearFromTheme);
+                if (!fromThemeHasYear || yearIterator[year] != setCountForYearFromTheme)
                 {
                     themesWithDifferences.TryAdd(year, []);
 
@@ -85,12 +84,20 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                         .GroupBy(set => set.Theme.Name)
                         .ToFrozenDictionary(group => group.Key, group => group.Count());
                     var themesFromYearWithDifference = (await ThemeRepository.AllForYear(year).ConfigureAwait(false))
-                        .ToFrozenDictionary(theme => theme.Name, theme => theme.SetCountPerYear.First(setCountPerYear => setCountPerYear.Year == year).SetCount);
+                        .Where(theme => theme.SetCountPerYear.Any(scpy => scpy.Year == year))
+                        .ToFrozenDictionary(theme => theme.Name, theme => (int)theme.SetCountPerYear.First(setCountPerYear => setCountPerYear.Year == year).SetCount);
 
-                    foreach (var theme in setThemesFromYearWithDifference.Keys.Order())
+                    var themeIterator = setThemesFromYearWithDifference.Keys.Length > themesFromYearWithDifference.Keys.Length
+                        ? setThemesFromYearWithDifference
+                        : themesFromYearWithDifference;
+                    var themeGetter = setThemesFromYearWithDifference.Keys.Length > themesFromYearWithDifference.Keys.Length
+                        ? themesFromYearWithDifference
+                        : setThemesFromYearWithDifference;
+
+                    foreach (var theme in themeIterator.Keys.Order())
                     {
-                        var fromThemesHasTheme = themesFromYearWithDifference.TryGetValue(theme, out var setCountForThemeFromTheme);
-                        if (!fromThemesHasTheme || setThemesFromYearWithDifference[theme] != setCountForThemeFromTheme)
+                        var fromThemesHasTheme = themeGetter.TryGetValue(theme, out var setCountForThemeFromTheme);
+                        if (!fromThemesHasTheme || themeIterator[theme] != setCountForThemeFromTheme)
                         {
                             themesWithDifferences[year].Add(theme);
                         }
@@ -126,20 +133,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
 
                     var setsToDelete = allMyBricksSetsFromThemeWithDifferences.Except(bricksetSetIds).ToList();
 
-                    var tasks = new List<Task>
-                    {
-                        SetRepository.DeleteMany(setsToDelete)
-                    };
-
-                    var primaryUsernames = await _bricksetUserRepository.GetAllUsernames(BricksetUserType.Primary).ConfigureAwait(false);
-                    var friendUsernames = await _bricksetUserRepository.GetAllUsernames(BricksetUserType.Friend).ConfigureAwait(false);
-
-                    foreach (var username in primaryUsernames.Concat(friendUsernames))
-                    {
-                        tasks.Add(_bricksetUserRepository.RemoveSets(username, setsToDelete));
-                    }
-
-                    await Task.WhenAll(tasks).ConfigureAwait(false);
+                    await DeleteSets(setsToDelete);
 
                     foreach (var bricksetSet in bricksetSetsFromThemeWithDifferences)
                     {
@@ -153,7 +147,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                 MessageHub.Publish(new AdjustingThemesWithDifferencesEnd { AffectedThemes = themesWithDifferences });
             }
 
-            MessageHub.Publish(new SetSynchronizerEnd { Type = SetAcquisitionType.Sanitize });
+            MessageHub.Publish(new SetSanitizerEnd());
         }
     }
 }
