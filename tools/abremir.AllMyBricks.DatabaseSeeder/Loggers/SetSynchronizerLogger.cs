@@ -1,7 +1,6 @@
 ﻿using abremir.AllMyBricks.DatabaseSeeder.Configuration;
 using abremir.AllMyBricks.DatabaseSeeder.Enumerations;
 using abremir.AllMyBricks.DataSynchronizer.Events.SetSynchronizer;
-using abremir.AllMyBricks.DataSynchronizer.Interfaces;
 using Easy.MessageHub;
 using Microsoft.Extensions.Logging;
 
@@ -19,17 +18,14 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
             ILoggerFactory loggerFactory,
             IMessageHub messageHub)
         {
-            var logger = loggerFactory.CreateLogger<ISetSynchronizer>();
+            var logger = loggerFactory.CreateLogger<SetSynchronizerLogger>();
 
             messageHub.Subscribe<SetSynchronizerStart>(message =>
             {
                 _setIndex = 0;
                 _setProgressFraction = 0;
 
-                if (Logging.LogVerbosity is LogVerbosity.Full)
-                {
-                    logger.LogInformation($"Started set synchronizer of type '{message.Type}'");
-                }
+                logger.LogInformation($"Started set synchronizer of type '{message.Type}'");
             });
 
             messageHub.Subscribe<AcquiringSetsStart>(message =>
@@ -82,23 +78,14 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
                 _setIndex = 0;
                 _setProgressFraction = 0;
 
-                if (Logging.LogVerbosity is LogVerbosity.Full)
-                {
-                    logger.LogInformation($"Finished set synchronizer of type '{message.Type}'");
-                }
+                logger.LogInformation($"Finished set synchronizer of type '{message.Type}'");
             });
 
             messageHub.Subscribe<MismatchingNumberOfSetsWarning>(message => logger.LogWarning($"Mismatched number of sets! Expected: {message.Expected}; Actual: {message.Actual}"));
 
             messageHub.Subscribe<InsightsAcquired>(message => logger.LogInformation($"Last Updated: {(message.SynchronizationTimestamp.HasValue ? message.SynchronizationTimestamp.Value.ToString("yyyy-MM-dd HH:mm:ss") : "Never")}"));
 
-            messageHub.Subscribe<DeletingSetsStart>(message =>
-            {
-                if (Logging.LogVerbosity is LogVerbosity.Full)
-                {
-                    logger.LogInformation($"Started deleting sets: {string.Join(", ", message.AffectedSets)}");
-                }
-            });
+            messageHub.Subscribe<DeletingSetsStart>(message => logger.LogInformation($"Started deleting sets: {string.Join(", ", message.AffectedSets)}"));
 
             messageHub.Subscribe<DeletingSetsEnd>(message =>
             {
