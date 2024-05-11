@@ -2,7 +2,6 @@
 using abremir.AllMyBricks.DatabaseSeeder.Configuration;
 using abremir.AllMyBricks.DatabaseSeeder.Enumerations;
 using abremir.AllMyBricks.DataSynchronizer.Events.SetSanitizer;
-using abremir.AllMyBricks.DataSynchronizer.Interfaces;
 using Easy.MessageHub;
 using Microsoft.Extensions.Logging;
 
@@ -14,7 +13,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
             ILoggerFactory loggerFactory,
             IMessageHub messageHub)
         {
-            var logger = loggerFactory.CreateLogger<ISetSanitizer>();
+            var logger = loggerFactory.CreateLogger<SetSanitizerLogger>();
 
             messageHub.Subscribe<SetSanitizerStart>(_ =>
             {

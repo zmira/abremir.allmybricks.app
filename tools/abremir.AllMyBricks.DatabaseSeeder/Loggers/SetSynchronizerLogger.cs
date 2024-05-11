@@ -1,7 +1,6 @@
 ﻿using abremir.AllMyBricks.DatabaseSeeder.Configuration;
 using abremir.AllMyBricks.DatabaseSeeder.Enumerations;
 using abremir.AllMyBricks.DataSynchronizer.Events.SetSynchronizer;
-using abremir.AllMyBricks.DataSynchronizer.Interfaces;
 using Easy.MessageHub;
 using Microsoft.Extensions.Logging;
 
@@ -19,7 +18,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
             ILoggerFactory loggerFactory,
             IMessageHub messageHub)
         {
-            var logger = loggerFactory.CreateLogger<ISetSynchronizer>();
+            var logger = loggerFactory.CreateLogger<SetSynchronizerLogger>();
 
             messageHub.Subscribe<SetSynchronizerStart>(message =>
             {
