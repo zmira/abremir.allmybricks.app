@@ -15,23 +15,11 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
         {
             var logger = loggerFactory.CreateLogger<SetSanitizerLogger>();
 
-            messageHub.Subscribe<SetSanitizerStart>(_ =>
-            {
-                if (Logging.LogVerbosity is LogVerbosity.Full)
-                {
-                    logger.LogInformation("Started set sanitizer");
-                }
-            });
+            messageHub.Subscribe<SetSanitizerStart>(_ => logger.LogInformation("Started set sanitizer"));
 
             messageHub.Subscribe<SetSanitizerException>(message => logger.LogError(message.Exception, "Set Sanitizer Exception"));
 
-            messageHub.Subscribe<SetSanitizerEnd>(_ =>
-            {
-                if (Logging.LogVerbosity is LogVerbosity.Full)
-                {
-                    logger.LogInformation("Finished set sanitizer");
-                }
-            });
+            messageHub.Subscribe<SetSanitizerEnd>(_ => logger.LogInformation("Finished set sanitizer"));
 
             messageHub.Subscribe<AdjustingThemesWithDifferencesStart>(message =>
             {
