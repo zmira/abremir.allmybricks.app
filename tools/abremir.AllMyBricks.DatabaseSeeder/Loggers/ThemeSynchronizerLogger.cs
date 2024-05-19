@@ -6,8 +6,6 @@ using abremir.AllMyBricks.DataSynchronizer.Synchronizers;
 using Easy.MessageHub;
 using Microsoft.Extensions.Logging;
 
-using static System.FormattableString;
-
 namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
 {
     public class ThemeSynchronizerLogger : IDatabaseSeederLogger
@@ -42,7 +40,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
 
                 if (Logging.LogVerbosity is LogVerbosity.Full)
                 {
-                    logger.LogInformation(Invariant($"Started synchronizing theme '{message.Theme}': index {_themeIndex}, progress {_themeProgressFraction:##0.00%}"));
+                    logger.LogInformation("Started synchronizing theme '{Theme}': index {Index}, progress {Progress:##0.00%}", message.Theme, _themeIndex, _themeProgressFraction);
                 }
             });
 
@@ -50,7 +48,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
             {
                 if (Logging.LogVerbosity is LogVerbosity.Full)
                 {
-                    logger.LogInformation($"Finished synchronizing theme '{message.Theme}'");
+                    logger.LogInformation("Finished synchronizing theme '{Theme}'", message.Theme);
                 }
             });
 

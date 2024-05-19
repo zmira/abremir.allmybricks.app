@@ -8,18 +8,11 @@ using Microsoft.Maui.Storage;
 
 namespace abremir.AllMyBricks.Platform.Services
 {
-    public class SecureStorageService : ISecureStorageService
+    public class SecureStorageService(ISecureStorage secureStorage) : ISecureStorageService
     {
-        private readonly ISecureStorage _secureStorage;
-
-        public SecureStorageService(ISecureStorage secureStorage)
-        {
-            _secureStorage = secureStorage;
-        }
-
         public async Task<string> GetBricksetApiKey()
         {
-            return await _secureStorage.GetAsync(Constants.BricksetApiKeySecureStorageKey).ConfigureAwait(false);
+            return await secureStorage.GetAsync(Constants.BricksetApiKeySecureStorageKey).ConfigureAwait(false);
         }
 
         public async Task<bool> IsBricksetApiKeyAcquired()
@@ -31,7 +24,7 @@ namespace abremir.AllMyBricks.Platform.Services
         {
             if (!await IsBricksetApiKeyAcquired().ConfigureAwait(false))
             {
-                await _secureStorage.SetAsync(Constants.BricksetApiKeySecureStorageKey, bricksetApiKey).ConfigureAwait(false);
+                await secureStorage.SetAsync(Constants.BricksetApiKeySecureStorageKey, bricksetApiKey).ConfigureAwait(false);
             }
         }
 
@@ -49,7 +42,7 @@ namespace abremir.AllMyBricks.Platform.Services
         {
             if (!await IsDeviceIdentificationCreated().ConfigureAwait(false))
             {
-                await _secureStorage.SetAsync(Constants.DeviceIdentificationSecureStorageKey, JsonSerializer.Serialize(deviceIdentification)).ConfigureAwait(false);
+                await secureStorage.SetAsync(Constants.DeviceIdentificationSecureStorageKey, JsonSerializer.Serialize(deviceIdentification)).ConfigureAwait(false);
             }
         }
 
@@ -64,7 +57,7 @@ namespace abremir.AllMyBricks.Platform.Services
 
             if (bricksetUsers.TryAdd(username, userHash))
             {
-                await _secureStorage.SetAsync(Constants.BricksetPrimaryUsersStorageKey, JsonSerializer.Serialize(bricksetUsers)).ConfigureAwait(false);
+                await secureStorage.SetAsync(Constants.BricksetPrimaryUsersStorageKey, JsonSerializer.Serialize(bricksetUsers)).ConfigureAwait(false);
             }
         }
 
@@ -79,7 +72,7 @@ namespace abremir.AllMyBricks.Platform.Services
 
             bricksetUsers.Remove(username);
 
-            await _secureStorage.SetAsync(Constants.BricksetPrimaryUsersStorageKey, JsonSerializer.Serialize(bricksetUsers)).ConfigureAwait(false);
+            await secureStorage.SetAsync(Constants.BricksetPrimaryUsersStorageKey, JsonSerializer.Serialize(bricksetUsers)).ConfigureAwait(false);
 
             return true;
         }
@@ -91,7 +84,7 @@ namespace abremir.AllMyBricks.Platform.Services
 
         public async Task<string> GetDefaultUsername()
         {
-            return await _secureStorage.GetAsync(Constants.DefaultUsernameStorageKey).ConfigureAwait(false);
+            return await secureStorage.GetAsync(Constants.DefaultUsernameStorageKey).ConfigureAwait(false);
         }
 
         public async Task<bool> IsDefaultUsernameDefined()
@@ -103,18 +96,18 @@ namespace abremir.AllMyBricks.Platform.Services
         {
             if (!await IsDefaultUsernameDefined().ConfigureAwait(false))
             {
-                await _secureStorage.SetAsync(Constants.DefaultUsernameStorageKey, username).ConfigureAwait(false);
+                await secureStorage.SetAsync(Constants.DefaultUsernameStorageKey, username).ConfigureAwait(false);
             }
         }
 
         private async Task<string> GetRawDeviceIdentification()
         {
-            return await _secureStorage.GetAsync(Constants.DeviceIdentificationSecureStorageKey).ConfigureAwait(false);
+            return await secureStorage.GetAsync(Constants.DeviceIdentificationSecureStorageKey).ConfigureAwait(false);
         }
 
         private async Task<string> GetRawBricksetPrimaryUsers()
         {
-            return await _secureStorage.GetAsync(Constants.BricksetPrimaryUsersStorageKey).ConfigureAwait(false);
+            return await secureStorage.GetAsync(Constants.BricksetPrimaryUsersStorageKey).ConfigureAwait(false);
         }
     }
 }

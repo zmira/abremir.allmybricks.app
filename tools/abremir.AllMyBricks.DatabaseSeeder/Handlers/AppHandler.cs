@@ -437,10 +437,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Handlers
 
                 Application.Run(dialog);
             });
-            messageHub.Subscribe<MismatchingNumberOfSetsWarning>(message =>
-            {
-                mismatchedSetCount = message;
-            });
+            messageHub.Subscribe<MismatchingNumberOfSetsWarning>(message => mismatchedSetCount = message);
 
             AddMenuBar(topLevel, topLevelWindow);
 
@@ -480,10 +477,10 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Handlers
         {
             MenuBar = new MenuBar(
             [
-                new("_File", new MenuItem[]
-                {
-                    new("E_xit", "", () => topLevel.Running &= !CanExit)
-                })
+                new("_File",
+                [
+                    new MenuItem("E_xit", "", () => topLevel.Running &= !CanExit)
+                ])
             ]);
 
             UpdateSynchronizationMenuView(window);

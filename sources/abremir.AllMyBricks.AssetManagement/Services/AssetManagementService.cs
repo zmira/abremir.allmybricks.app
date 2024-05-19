@@ -6,26 +6,16 @@ using Flurl.Http;
 
 namespace abremir.AllMyBricks.AssetManagement.Services
 {
-    public class AssetManagementService : IAssetManagementService
+    public class AssetManagementService(
+        IAssetExpansion assetExpansion,
+        IDirectory directory,
+        ISecureStorageService secureStorageService)
+        : IAssetManagementService
     {
-        private readonly IAssetExpansion _assetExpansion;
-        private readonly IDirectory _directory;
-        private readonly ISecureStorageService _secureStorageService;
-
-        public AssetManagementService(
-            IAssetExpansion assetExpansion,
-            IDirectory directory,
-            ISecureStorageService secureStorageService)
-        {
-            _assetExpansion = assetExpansion;
-            _directory = directory;
-            _secureStorageService = secureStorageService;
-        }
-
         public async Task<bool> InstallAllMyBricksSeedDatabase(string databaseSeedUrl, string targetFolderPath)
         {
             if ((!string.IsNullOrWhiteSpace(targetFolderPath)
-                    && !_directory.Exists(targetFolderPath))
+                    && !directory.Exists(targetFolderPath))
                 || string.IsNullOrWhiteSpace(databaseSeedUrl)
                 || !(Uri.TryCreate(databaseSeedUrl, UriKind.Absolute, out Uri uriResult)
                     && (uriResult.Scheme == Uri.UriSchemeHttps || uriResult.Scheme == Uri.UriSchemeHttp)
@@ -34,7 +24,7 @@ namespace abremir.AllMyBricks.AssetManagement.Services
                 return false;
             }
 
-            return _assetExpansion.ExpandAsset(await databaseSeedUrl.GetStreamAsync().ConfigureAwait(false), targetFolderPath ?? string.Empty, encryptionKey: await _secureStorageService.GetBricksetApiKey().ConfigureAwait(false));
+            return assetExpansion.ExpandAsset(await databaseSeedUrl.GetStreamAsync().ConfigureAwait(false), targetFolderPath ?? string.Empty, encryptionKey: await secureStorageService.GetBricksetApiKey().ConfigureAwait(false));
         }
     }
 }

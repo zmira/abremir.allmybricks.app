@@ -23,8 +23,8 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
     [TestClass]
     public class SetSanitizerTests : DataSynchronizerTestsBase
     {
-        private static ISetRepository _setRepository;
-        private static IThemeRepository _themeRepository;
+        private static SetRepository _setRepository;
+        private static ThemeRepository _themeRepository;
 
         [ClassInitialize]
         public static void ClassInitialize(TestContext _)
@@ -59,14 +59,14 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
         [TestMethod]
         public async Task Synchronize_ActualNumberOfSetsGreaterThanExpectedNumberOfSets_DeletesExtraSets()
         {
-            var testContext = await CreateTestContextWithActualNumberOfSetsGreaterThanExpectedNumberOfSets();
+            var (Sanitizer, Set1, Set2) = await CreateTestContextWithActualNumberOfSetsGreaterThanExpectedNumberOfSets();
 
-            await testContext.Sanitizer.Synchronize();
+            await Sanitizer.Synchronize();
 
             Check.That(await _setRepository.Count()).Is(1);
-            Check.That(await _setRepository.Get(testContext.Set2.SetId)).IsNull();
-            Check.That(await _setRepository.Get(testContext.Set1.SetId)).IsNotNull();
-            Check.That((await _setRepository.Get(testContext.Set1.SetId)).Pieces).IsEqualTo(555);
+            Check.That(await _setRepository.Get(Set2.SetId)).IsNull();
+            Check.That(await _setRepository.Get(Set1.SetId)).IsNotNull();
+            Check.That((await _setRepository.Get(Set1.SetId)).Pieces).IsEqualTo(555);
         }
 
         [TestMethod]
@@ -103,9 +103,9 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
                 _ => []
             );
 
-            var testContext = await CreateTestContextWithActualNumberOfSetsGreaterThanExpectedNumberOfSets(bricksetUserRepository);
+            var (Sanitizer, _, _) = await CreateTestContextWithActualNumberOfSetsGreaterThanExpectedNumberOfSets(bricksetUserRepository);
 
-            await testContext.Sanitizer.Synchronize();
+            await Sanitizer.Synchronize();
 
             await bricksetUserRepository.DidNotReceive().RemoveSets(Arg.Any<string>(), Arg.Any<List<long>>());
         }
@@ -119,14 +119,14 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
                 _ => ["friend"]
             );
 
-            var testContext = await CreateTestContextWithActualNumberOfSetsGreaterThanExpectedNumberOfSets(bricksetUserRepository);
+            var (Sanitizer, _, _) = await CreateTestContextWithActualNumberOfSetsGreaterThanExpectedNumberOfSets(bricksetUserRepository);
 
-            await testContext.Sanitizer.Synchronize();
+            await Sanitizer.Synchronize();
 
             await bricksetUserRepository.Received(2).RemoveSets(Arg.Any<string>(), Arg.Any<List<long>>());
         }
 
-        private async Task<(SetSanitizer Sanitizer, Set Set1, Set Set2)> CreateTestContextWithActualNumberOfSetsGreaterThanExpectedNumberOfSets(IBricksetUserRepository bricksetUserRepository = null)
+        private static async Task<(SetSanitizer Sanitizer, Set Set1, Set Set2)> CreateTestContextWithActualNumberOfSetsGreaterThanExpectedNumberOfSets(IBricksetUserRepository bricksetUserRepository = null)
         {
             var theme = new Theme { Id = 1, Name = "theme", SetCount = 1, SetCountPerYear = [new YearSetCount { Year = 2020, SetCount = 1 }], YearFrom = 2020, YearTo = 2020 };
             await _themeRepository.AddOrUpdate(theme);

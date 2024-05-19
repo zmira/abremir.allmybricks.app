@@ -29,7 +29,7 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Models.Parameters
             @params.own = Own ? 1 : 0;
             @params.want = Want ? 1 : 0;
             @params.qtyOwned = QtyOwned;
-            @params.notes = Notes?.Substring(0, 200).Trim();
+            @params.notes = Notes?[..200].Trim();
             @params.rating = Rating;
 
             return JsonSerializer.Serialize(@params);

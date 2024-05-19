@@ -11,14 +11,9 @@ using Jose;
 
 namespace abremir.AllMyBricks.Onboarding.Services
 {
-    public class ApiKeyService : IApiKeyService
+    public class ApiKeyService(IFlurlClientCache clientCache) : IApiKeyService
     {
-        private readonly IFlurlClient _flurlClient;
-
-        public ApiKeyService(IFlurlClientCache clientCache)
-        {
-            _flurlClient = clientCache.Get(Constants.AllMyBricksOnboardingHmacUrlFlurlClientCacheName);
-        }
+        private readonly IFlurlClient _flurlClient = clientCache.Get(Constants.AllMyBricksOnboardingHmacUrlFlurlClientCacheName);
 
         public async Task<string> GetBricksetApiKey(Identification allMyBricksIdentification)
         {

@@ -10,12 +10,10 @@ namespace abremir.AllMyBricks.Onboarding.Shared.Security
     {
         public static byte[] ComputeHash(Stream body)
         {
-            using var sha256 = SHA256.Create();
-
-            var content = (body as MemoryStream)?.ToArray() ?? Array.Empty<byte>();
+            var content = (body as MemoryStream)?.ToArray() ?? [];
 
             return content.Length != 0
-                ? sha256.ComputeHash(content)
+                ? SHA256.HashData(content)
                 : null;
         }
 

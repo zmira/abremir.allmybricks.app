@@ -21,7 +21,7 @@ namespace abremir.AllMyBricks.Onboarding.Shared.Models
                 return false;
             }
 
-            if (!(obj is Device device))
+            if (obj is not Device device)
             {
                 return false;
             }

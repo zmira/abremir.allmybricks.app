@@ -7,14 +7,9 @@ using Flurl.Http.Configuration;
 
 namespace abremir.AllMyBricks.Onboarding.Services
 {
-    public class RegistrationService : IRegistrationService
+    public class RegistrationService(IFlurlClientCache clientCache) : IRegistrationService
     {
-        private readonly IFlurlClient _flurlClient;
-
-        public RegistrationService(IFlurlClientCache clientCache)
-        {
-            _flurlClient = clientCache.Get(Constants.AllMyBricksOnboardingUrlFlurlClientCacheName);
-        }
+        private readonly IFlurlClient _flurlClient = clientCache.Get(Constants.AllMyBricksOnboardingUrlFlurlClientCacheName);
 
         public async Task<Identification> Register(Identification allMyBricksIdentification)
         {

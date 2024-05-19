@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using abremir.AllMyBricks.Data.Configuration;
 using abremir.AllMyBricks.Data.Enumerations;
-using abremir.AllMyBricks.Data.Interfaces;
 using abremir.AllMyBricks.Data.Models;
 using abremir.AllMyBricks.Data.Repositories;
 using abremir.AllMyBricks.Data.Tests.Configuration;
@@ -17,7 +16,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
     [TestClass]
     public class SetRepositoryTests : DataTestsBase
     {
-        private static ISetRepository _setRepository;
+        private static SetRepository _setRepository;
 
         [ClassInitialize]
         public static void ClassInitialize(TestContext _)

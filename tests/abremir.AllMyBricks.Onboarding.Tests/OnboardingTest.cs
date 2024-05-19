@@ -1,10 +1,8 @@
 ﻿using System.Threading.Tasks;
 using abremir.AllMyBricks.Onboarding.Configuration;
-using abremir.AllMyBricks.Onboarding.Interfaces;
 using abremir.AllMyBricks.Onboarding.Services;
 using abremir.AllMyBricks.Onboarding.Shared.Models;
 using abremir.AllMyBricks.Onboarding.Shared.Security;
-using abremir.AllMyBricks.Platform.Interfaces;
 using abremir.AllMyBricks.Platform.Services;
 using Flurl.Http.Configuration;
 using Microsoft.Maui.Devices;
@@ -17,9 +15,9 @@ namespace abremir.AllMyBricks.Onboarding.Tests
     [TestClass]
     public class OnboardingTest
     {
-        private IRegistrationService _registrationService;
-        private IApiKeyService _apiKeyService;
-        private IDeviceInformationService _deviceInformationService;
+        private RegistrationService _registrationService;
+        private ApiKeyService _apiKeyService;
+        private DeviceInformationService _deviceInformationService;
 
         [TestInitialize]
         public void TestInitialize()
@@ -48,7 +46,9 @@ namespace abremir.AllMyBricks.Onboarding.Tests
         }
 
         [TestMethod, Ignore("Only to be used to validate communication between app and onboarding endpoints")]
+#pragma warning disable MSTEST0015 // Test method should not be ignored
         public async Task EndToEndTest()
+#pragma warning restore MSTEST0015 // Test method should not be ignored
         {
             var identification = new Identification
             {

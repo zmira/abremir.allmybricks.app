@@ -15,46 +15,34 @@ using Easy.MessageHub;
 
 namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
 {
-    public class UserSynchronizer : IUserSynchronizer
+    public class UserSynchronizer(
+        IBricksetApiService bricksetApiService,
+        IBricksetUserRepository bricksetUserRepository,
+        IMessageHub messageHub,
+        ISetRepository setRepository)
+        : IUserSynchronizer
     {
-        private readonly IMessageHub _messageHub;
-        private readonly IBricksetUserRepository _bricksetUserRepository;
-        private readonly ISetRepository _setRepository;
-        private readonly IBricksetApiService _bricksetApiService;
-
-        public UserSynchronizer(
-            IBricksetApiService bricksetApiService,
-            IBricksetUserRepository bricksetUserRepository,
-            IMessageHub messageHub,
-            ISetRepository setRepository)
-        {
-            _bricksetApiService = bricksetApiService;
-            _bricksetUserRepository = bricksetUserRepository;
-            _messageHub = messageHub;
-            _setRepository = setRepository;
-        }
-
         public async Task SynchronizeBricksetPrimaryUser(string apiKey, string username, string userHash)
         {
-            _messageHub.Publish(new UserSynchronizerStart { UserType = BricksetUserType.Primary, Username = username });
+            messageHub.Publish(new UserSynchronizerStart { UserType = BricksetUserType.Primary, Username = username });
 
             try
             {
-                var user = await _bricksetUserRepository.Get(username).ConfigureAwait(false);
+                var user = await bricksetUserRepository.Get(username).ConfigureAwait(false);
 
                 if (user.UserSynchronizationTimestamp.HasValue)
                 {
-                    _messageHub.Publish(new AllMyBricksToBricksetStart());
+                    messageHub.Publish(new AllMyBricksToBricksetStart());
 
-                    _messageHub.Publish(new AllMyBricksToBricksetAcquiringSetsStart());
+                    messageHub.Publish(new AllMyBricksToBricksetAcquiringSetsStart());
 
                     var updatedSetsSinceLastSynchronization = user.Sets.Where(set => set.LastChangeTimestamp > user.UserSynchronizationTimestamp.Value).ToList();
 
-                    _messageHub.Publish(new AllMyBricksToBricksetAcquiringSetsEnd { Count = updatedSetsSinceLastSynchronization.Count });
+                    messageHub.Publish(new AllMyBricksToBricksetAcquiringSetsEnd { Count = updatedSetsSinceLastSynchronization.Count });
 
                     updatedSetsSinceLastSynchronization.ForEach(async bricksetUserSet =>
                     {
-                        _messageHub.Publish(new UserSynchronizerSynchronizingSetStart { SetId = bricksetUserSet.Set.SetId });
+                        messageHub.Publish(new UserSynchronizerSynchronizingSetStart { SetId = bricksetUserSet.Set.SetId });
 
                         var setCollectionParameter = new SetCollectionParameters
                         {
@@ -66,17 +54,17 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                             Own = bricksetUserSet.Owned
                         };
 
-                        await _bricksetApiService.SetCollection(setCollectionParameter).ConfigureAwait(false);
+                        await bricksetApiService.SetCollection(setCollectionParameter).ConfigureAwait(false);
 
-                        _messageHub.Publish(new UserSynchronizerSynchronizingSetEnd { SetId = bricksetUserSet.Set.SetId });
+                        messageHub.Publish(new UserSynchronizerSynchronizingSetEnd { SetId = bricksetUserSet.Set.SetId });
                     });
 
-                    _messageHub.Publish(new AllMyBricksToBricksetEnd());
+                    messageHub.Publish(new AllMyBricksToBricksetEnd());
                 }
 
-                _messageHub.Publish(new BricksetToAllMyBricksStart());
+                messageHub.Publish(new BricksetToAllMyBricksStart());
 
-                _messageHub.Publish(new BricksetToAllMyBricksAcquiringSetsStart());
+                messageHub.Publish(new BricksetToAllMyBricksAcquiringSetsStart());
 
                 var bricksetUserSets = await GetAllUserSetsFromBrickset(apiKey, userHash: userHash).ConfigureAwait(false);
 
@@ -84,58 +72,58 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                 var bricksetUserSetIds = bricksetUserSets.Select(bricksetUserSet => bricksetUserSet.Set.SetId);
                 var setIdsNotInAllMyBricks = bricksetUserSetIds.Except(allMyBricksUserSetIds).ToList();
 
-                _messageHub.Publish(new BricksetToAllMyBricksAcquiringSetsEnd { Count = setIdsNotInAllMyBricks.Count });
+                messageHub.Publish(new BricksetToAllMyBricksAcquiringSetsEnd { Count = setIdsNotInAllMyBricks.Count });
 
                 foreach (var userSetNotInAllMyBricks in bricksetUserSets.Where(bricksetUserSet => setIdsNotInAllMyBricks.Contains(bricksetUserSet.Set.SetId)))
                 {
-                    _messageHub.Publish(new UserSynchronizerSynchronizingSetStart { SetId = userSetNotInAllMyBricks.Set.SetId });
+                    messageHub.Publish(new UserSynchronizerSynchronizingSetStart { SetId = userSetNotInAllMyBricks.Set.SetId });
 
-                    await _bricksetUserRepository.AddOrUpdateSet(username, userSetNotInAllMyBricks).ConfigureAwait(false);
+                    await bricksetUserRepository.AddOrUpdateSet(username, userSetNotInAllMyBricks).ConfigureAwait(false);
 
-                    _messageHub.Publish(new UserSynchronizerSynchronizingSetEnd { SetId = userSetNotInAllMyBricks.Set.SetId });
+                    messageHub.Publish(new UserSynchronizerSynchronizingSetEnd { SetId = userSetNotInAllMyBricks.Set.SetId });
                 }
 
-                _messageHub.Publish(new BricksetToAllMyBricksEnd());
+                messageHub.Publish(new BricksetToAllMyBricksEnd());
 
-                await _bricksetUserRepository.UpdateUserSynchronizationTimestamp(username, DateTimeOffset.Now).ConfigureAwait(false);
+                await bricksetUserRepository.UpdateUserSynchronizationTimestamp(username, DateTimeOffset.Now).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
-                _messageHub.Publish(new UserSynchronizerException { UserType = BricksetUserType.Primary, Username = username, Exception = ex });
+                messageHub.Publish(new UserSynchronizerException { UserType = BricksetUserType.Primary, Username = username, Exception = ex });
             }
 
-            _messageHub.Publish(new UserSynchronizerEnd { UserType = BricksetUserType.Primary, Username = username });
+            messageHub.Publish(new UserSynchronizerEnd { UserType = BricksetUserType.Primary, Username = username });
         }
 
         public async Task SynchronizeBricksetFriend(string apiKey, string username)
         {
-            _messageHub.Publish(new UserSynchronizerStart { UserType = BricksetUserType.Friend, Username = username });
+            messageHub.Publish(new UserSynchronizerStart { UserType = BricksetUserType.Friend, Username = username });
 
             try
             {
-                _messageHub.Publish(new BricksetToAllMyBricksAcquiringSetsStart());
+                messageHub.Publish(new BricksetToAllMyBricksAcquiringSetsStart());
 
                 var bricksetUserSets = (await GetAllUserSetsFromBrickset(apiKey, username).ConfigureAwait(false)).ToList();
 
-                _messageHub.Publish(new BricksetToAllMyBricksAcquiringSetsEnd { Count = bricksetUserSets.Count });
+                messageHub.Publish(new BricksetToAllMyBricksAcquiringSetsEnd { Count = bricksetUserSets.Count });
 
                 foreach (var bricksetUserSet in bricksetUserSets)
                 {
-                    _messageHub.Publish(new UserSynchronizerSynchronizingSetStart { SetId = bricksetUserSet.Set.SetId });
+                    messageHub.Publish(new UserSynchronizerSynchronizingSetStart { SetId = bricksetUserSet.Set.SetId });
 
-                    await _bricksetUserRepository.AddOrUpdateSet(username, bricksetUserSet).ConfigureAwait(false);
+                    await bricksetUserRepository.AddOrUpdateSet(username, bricksetUserSet).ConfigureAwait(false);
 
-                    _messageHub.Publish(new UserSynchronizerSynchronizingSetEnd { SetId = bricksetUserSet.Set.SetId });
+                    messageHub.Publish(new UserSynchronizerSynchronizingSetEnd { SetId = bricksetUserSet.Set.SetId });
                 }
 
-                await _bricksetUserRepository.UpdateUserSynchronizationTimestamp(username, DateTimeOffset.Now).ConfigureAwait(false);
+                await bricksetUserRepository.UpdateUserSynchronizationTimestamp(username, DateTimeOffset.Now).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
-                _messageHub.Publish(new UserSynchronizerException { UserType = BricksetUserType.Friend, Username = username, Exception = ex });
+                messageHub.Publish(new UserSynchronizerException { UserType = BricksetUserType.Friend, Username = username, Exception = ex });
             }
 
-            _messageHub.Publish(new UserSynchronizerEnd { UserType = BricksetUserType.Friend, Username = username });
+            messageHub.Publish(new UserSynchronizerEnd { UserType = BricksetUserType.Friend, Username = username });
         }
 
         private async Task<IEnumerable<BricksetUserSet>> GetAllUserSetsFromBrickset(string apiKey, string username = null, string userHash = null)
@@ -153,7 +141,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                 {
                     allUserSets.Add(wantedSetId, new BricksetUserSet
                     {
-                        Set = await _setRepository.Get(wantedSetId).ConfigureAwait(false),
+                        Set = await setRepository.Get(wantedSetId).ConfigureAwait(false),
                         Wanted = true
                     });
                 }
@@ -186,13 +174,13 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
             {
                 getSetsParameter.PageNumber = pageNumber;
 
-                currentPageResults = (await _bricksetApiService.GetSets(getSetsParameter).ConfigureAwait(false)).ToList();
+                currentPageResults = (await bricksetApiService.GetSets(getSetsParameter).ConfigureAwait(false)).ToList();
 
                 var tasks = await Task.Run(() => currentPageResults.Select(async set => new BricksetUserSet
                 {
                     Owned = true,
                     QuantityOwned = (short)(set.Collection?.QtyOwned ?? 0),
-                    Set = await _setRepository.Get(set.SetId).ConfigureAwait(false)
+                    Set = await setRepository.Get(set.SetId).ConfigureAwait(false)
                 })).ConfigureAwait(false);
 
                 ownedSets.AddRange(await Task.WhenAll(tasks).ConfigureAwait(false));
@@ -227,7 +215,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
             {
                 getSetsParameter.PageNumber = pageNumber;
 
-                currentPageResults = (await _bricksetApiService.GetSets(getSetsParameter).ConfigureAwait(false)).ToList();
+                currentPageResults = (await bricksetApiService.GetSets(getSetsParameter).ConfigureAwait(false)).ToList();
 
                 wantedSets.AddRange(currentPageResults.Select(set => set.SetId));
 

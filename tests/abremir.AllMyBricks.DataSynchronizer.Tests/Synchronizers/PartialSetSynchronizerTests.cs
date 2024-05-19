@@ -26,9 +26,9 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
     [TestClass]
     public class PartialSetSynchronizerTests : DataSynchronizerTestsBase
     {
-        private static ISetRepository _setRepository;
-        private static IThemeRepository _themeRepository;
-        private static ISubthemeRepository _subthemeRepository;
+        private static SetRepository _setRepository;
+        private static ThemeRepository _themeRepository;
+        private static SubthemeRepository _subthemeRepository;
 
         [ClassInitialize]
         public static void ClassInitialize(TestContext _)

@@ -5,26 +5,19 @@ using Microsoft.Maui.Storage;
 
 namespace abremir.AllMyBricks.Platform.Services
 {
-    public class PreferencesService : IPreferencesService
+    public class PreferencesService(IPreferences preferences) : IPreferencesService
     {
-        private readonly IPreferences _preferences;
-
-        public PreferencesService(IPreferences preferences)
-        {
-            _preferences = preferences;
-        }
-
         public ThumbnailCachingStrategy ThumbnailCachingStrategy
         {
             get
             {
-                return (ThumbnailCachingStrategy)_preferences.Get(nameof(ThumbnailCachingStrategy), (int)ThumbnailCachingStrategy.NeverCache, Constants.PreferencesSharedName);
+                return (ThumbnailCachingStrategy)preferences.Get(nameof(ThumbnailCachingStrategy), (int)ThumbnailCachingStrategy.NeverCache, Constants.PreferencesSharedName);
             }
             set
             {
                 ClearThumbnailCache |= (value is ThumbnailCachingStrategy.NeverCache && ThumbnailCachingStrategy != value);
 
-                _preferences.Set(nameof(ThumbnailCachingStrategy), (int)value, Constants.PreferencesSharedName);
+                preferences.Set(nameof(ThumbnailCachingStrategy), (int)value, Constants.PreferencesSharedName);
             }
         }
 
@@ -32,11 +25,11 @@ namespace abremir.AllMyBricks.Platform.Services
         {
             get
             {
-                return _preferences.Get(nameof(ClearThumbnailCache), false, Constants.PreferencesSharedName);
+                return preferences.Get(nameof(ClearThumbnailCache), false, Constants.PreferencesSharedName);
             }
             set
             {
-                _preferences.Set(nameof(ClearThumbnailCache), value, Constants.PreferencesSharedName);
+                preferences.Set(nameof(ClearThumbnailCache), value, Constants.PreferencesSharedName);
             }
         }
 
@@ -44,11 +37,11 @@ namespace abremir.AllMyBricks.Platform.Services
         {
             get
             {
-                return (AutomaticDataSynchronizationOverConnection)_preferences.Get(nameof(AutomaticDataSynchronization), (int)AutomaticDataSynchronizationOverConnection.OnlyOverWiFiConnection, Constants.PreferencesSharedName);
+                return (AutomaticDataSynchronizationOverConnection)preferences.Get(nameof(AutomaticDataSynchronization), (int)AutomaticDataSynchronizationOverConnection.OnlyOverWiFiConnection, Constants.PreferencesSharedName);
             }
             set
             {
-                _preferences.Set(nameof(AutomaticDataSynchronization), (int)value, Constants.PreferencesSharedName);
+                preferences.Set(nameof(AutomaticDataSynchronization), (int)value, Constants.PreferencesSharedName);
             }
         }
 
@@ -56,11 +49,11 @@ namespace abremir.AllMyBricks.Platform.Services
         {
             get
             {
-                return _preferences.Get(nameof(AllowDataSynchronizationInBackground), false, Constants.PreferencesSharedName);
+                return preferences.Get(nameof(AllowDataSynchronizationInBackground), false, Constants.PreferencesSharedName);
             }
             set
             {
-                _preferences.Set(nameof(AllowDataSynchronizationInBackground), value, Constants.PreferencesSharedName);
+                preferences.Set(nameof(AllowDataSynchronizationInBackground), value, Constants.PreferencesSharedName);
             }
         }
     }

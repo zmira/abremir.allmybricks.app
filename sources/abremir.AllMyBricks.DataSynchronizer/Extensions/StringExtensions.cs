@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 
 namespace abremir.AllMyBricks.DataSynchronizer.Extensions
 {
-    public static class StringExtensions
+    public static partial class StringExtensions
     {
         public static string SanitizeBricksetString(this string source)
         {
@@ -14,19 +14,22 @@ namespace abremir.AllMyBricks.DataSynchronizer.Extensions
         {
             const string htmlBr = "<br>";
 
-            var sanitized = Regex.Replace(source, @"(\n[ ]*)", htmlBr);
+            var sanitized = NewLineRegex().Replace(source, htmlBr);
 
             if (sanitized.StartsWith(htmlBr, StringComparison.InvariantCultureIgnoreCase))
             {
-                sanitized = sanitized.Substring(htmlBr.Length);
+                sanitized = sanitized[htmlBr.Length..];
             }
 
             if (sanitized.EndsWith(htmlBr, StringComparison.InvariantCultureIgnoreCase))
             {
-                sanitized = sanitized.Substring(0, sanitized.Length - htmlBr.Length);
+                sanitized = sanitized[..^htmlBr.Length];
             }
 
             return sanitized;
         }
+
+        [GeneratedRegex(@"(\n[ ]*)")]
+        private static partial Regex NewLineRegex();
     }
 }

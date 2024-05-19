@@ -7,11 +7,11 @@ namespace abremir.AllMyBricks.Platform.Interfaces
     {
         void EnsureLocalDataFolder(string folder = null);
         string ThumbnailCacheFolder { get; }
-        string GetLocalPathToFile(string filename, string subfolder = null);
+        string GetLocalPathToFile(string filename, string subFolder = null);
         string GetLocalPathToDataFolder();
         string GetThumbnailFolder(string theme, string subtheme);
         Task SaveThumbnailToCache(string theme, string subtheme, string filename, byte[] thumbnail);
         bool ClearThumbnailCache();
-        Stream GetStreamForLocalPathToFile(string file, string subfolder = null);
+        Stream GetStreamForLocalPathToFile(string file, string subFolder = null);
     }
 }

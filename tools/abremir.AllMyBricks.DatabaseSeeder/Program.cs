@@ -59,7 +59,11 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                 Logging.Configure(host, logDestination ?? LogDestination.Console, verbosity);
 
                 Logger = Logging.CreateLogger<Program>();
-                Logger.LogInformation($"Running All My Bricks {DatabaseSeederConstants.SyncCommand} with arguments: {DatabaseSeederConstants.BricksetApiKeyOption}{(logVerbosity.HasValue ? $" {DatabaseSeederConstants.LogVerbosityOption}={logVerbosity.Value}" : string.Empty)}{(logDestination.HasValue ? $" {DatabaseSeederConstants.LogDestinationOption}={logDestination.Value}" : string.Empty)}{$" {DatabaseSeederConstants.DatasetOption}={string.Join(", ", dataset)}"}{(!string.IsNullOrWhiteSpace(dataFolder) ? $" {DatabaseSeederConstants.DataFolderOption}={dataFolder}" : string.Empty)}");
+                var logVerbosityText = logVerbosity.HasValue ? $" {DatabaseSeederConstants.LogVerbosityOption}={logVerbosity.Value}" : string.Empty;
+                var logDestinationText = logDestination.HasValue ? $" {DatabaseSeederConstants.LogDestinationOption}={logDestination.Value}" : string.Empty;
+                var datasetText = $" {DatabaseSeederConstants.DatasetOption}={string.Join(", ", dataset)}";
+                var dataFolderText = !string.IsNullOrWhiteSpace(dataFolder) ? $" {DatabaseSeederConstants.DataFolderOption}={dataFolder}" : string.Empty;
+                Logger.LogInformation("Running All My Bricks {Command} with arguments: {ApiKey}{LogVerbosity}{LogDestination}{DatasetOption}{DataFolder}", DatabaseSeederConstants.SyncCommand, DatabaseSeederConstants.BricksetApiKeyOption, logVerbosityText, logDestinationText, datasetText, dataFolderText);
 
                 ConfigureDataFolder(host, dataFolder);
 
@@ -92,7 +96,12 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                 Logging.Configure(host, logDestination ?? LogDestination.Console, verbosity);
 
                 Logger = Logging.CreateLogger<Program>();
-                Logger.LogInformation($"Running All My Bricks {DatabaseSeederConstants.ExpandCommand} with arguments:{(logVerbosity.HasValue ? $" {DatabaseSeederConstants.LogVerbosityOption}={logVerbosity.Value}" : string.Empty)}{(logDestination.HasValue ? $" {DatabaseSeederConstants.LogDestinationOption}={logDestination.Value}" : string.Empty)}{(encrypted.HasValue ? $" {DatabaseSeederConstants.EncryptedOption}" : string.Empty)}{(bricksetApiKeyOption is not null ? $" {DatabaseSeederConstants.BricksetApiKeyOption}" : string.Empty)}{(!string.IsNullOrWhiteSpace(dataFolder) ? $" {DatabaseSeederConstants.DataFolderOption}={dataFolder}" : string.Empty)}");
+                var logVerbosityText = logVerbosity.HasValue ? $" {DatabaseSeederConstants.LogVerbosityOption}={logVerbosity.Value}" : string.Empty;
+                var logDestinationText = logDestination.HasValue ? $" {DatabaseSeederConstants.LogDestinationOption}={logDestination.Value}" : string.Empty;
+                var encryptedText = encrypted.HasValue ? $" {DatabaseSeederConstants.EncryptedOption}" : string.Empty;
+                var apiKeyText = bricksetApiKeyOption is not null ? $" {DatabaseSeederConstants.BricksetApiKeyOption}" : string.Empty;
+                var dataFolderText = !string.IsNullOrWhiteSpace(dataFolder) ? $" {DatabaseSeederConstants.DataFolderOption}={dataFolder}" : string.Empty;
+                Logger.LogInformation("Running All My Bricks {Command} with arguments:{LogVerbosity}{LogDestination}{Encrypted}{ApiKey}{DataFolder}", DatabaseSeederConstants.ExpandCommand, logVerbosityText, logDestinationText, encryptedText, apiKeyText, dataFolderText);
 
                 ConfigureDataFolder(host, dataFolder);
 
@@ -128,7 +137,12 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                 Logging.Configure(host, logDestination ?? LogDestination.Console, verbosity);
 
                 Logger = Logging.CreateLogger<Program>();
-                Logger.LogInformation($"Running All My Bricks {DatabaseSeederConstants.CompressCommand} with arguments:{(logVerbosity.HasValue ? $" {DatabaseSeederConstants.LogVerbosityOption}={logVerbosity.Value}" : string.Empty)}{(logDestination.HasValue ? $" {DatabaseSeederConstants.LogDestinationOption}={logDestination.Value}" : string.Empty)}{(encrypted.HasValue ? $" {DatabaseSeederConstants.EncryptedOption}" : string.Empty)}{(bricksetApiKeyOption is not null ? $" {DatabaseSeederConstants.BricksetApiKeyOption}" : string.Empty)}{(!string.IsNullOrWhiteSpace(dataFolder) ? $" {DatabaseSeederConstants.DataFolderOption}={dataFolder}" : string.Empty)}");
+                var logVerbosityText = logVerbosity.HasValue ? $" {DatabaseSeederConstants.LogVerbosityOption}={logVerbosity.Value}" : string.Empty;
+                var logDestinationText = logDestination.HasValue ? $" {DatabaseSeederConstants.LogDestinationOption}={logDestination.Value}" : string.Empty;
+                var encryptedText = encrypted.HasValue ? $" {DatabaseSeederConstants.EncryptedOption}" : string.Empty;
+                var apiKeyText = bricksetApiKeyOption is not null ? $" {DatabaseSeederConstants.BricksetApiKeyOption}" : string.Empty;
+                var dataFolderText = !string.IsNullOrWhiteSpace(dataFolder) ? $" {DatabaseSeederConstants.DataFolderOption}={dataFolder}" : string.Empty;
+                Logger.LogInformation("Running All My Bricks {Command} with arguments:{LogVerbosity}{LogDestination}{Encrypted}{ApiKey}{DataFolder}", DatabaseSeederConstants.CompressCommand, logVerbosityText, logDestinationText, encryptedText, apiKeyText, dataFolderText);
 
                 ConfigureDataFolder(host, dataFolder);
 
@@ -155,7 +169,10 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                 Logging.Configure(host, logDestination ?? LogDestination.Console, verbosity);
 
                 Logger = Logging.CreateLogger<Program>();
-                Logger.LogInformation($"Running All My Bricks {DatabaseSeederConstants.CompactCommand} with arguments:{(logVerbosity.HasValue ? $" {DatabaseSeederConstants.LogVerbosityOption}={logVerbosity.Value}" : string.Empty)}{(logDestination.HasValue ? $" {DatabaseSeederConstants.LogDestinationOption}={logDestination.Value}" : string.Empty)}{(!string.IsNullOrWhiteSpace(dataFolder) ? $" {DatabaseSeederConstants.DataFolderOption}={dataFolder}" : string.Empty)}");
+                var logVerbosityText = logVerbosity.HasValue ? $" {DatabaseSeederConstants.LogVerbosityOption}={logVerbosity.Value}" : string.Empty;
+                var logDestinationText = logDestination.HasValue ? $" {DatabaseSeederConstants.LogDestinationOption}={logDestination.Value}" : string.Empty;
+                var dataFolderText = !string.IsNullOrWhiteSpace(dataFolder) ? $" {DatabaseSeederConstants.DataFolderOption}={dataFolder}" : string.Empty;
+                Logger.LogInformation("Running All My Bricks {Command} with arguments:{LogVerbosity}{LogDestination}{DataFolder}", DatabaseSeederConstants.CompactCommand, logVerbosityText, logDestinationText, dataFolderText);
 
                 ConfigureDataFolder(host, dataFolder);
 
@@ -180,7 +197,10 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                 Logging.Configure(host, logDestination ?? LogDestination.Console, verbosity);
 
                 Logger = Logging.CreateLogger<Program>();
-                Logger.LogInformation($"Running All My Bricks {DatabaseSeederConstants.SanitizeCommand} with arguments:{DatabaseSeederConstants.BricksetApiKeyOption}{(logVerbosity.HasValue ? $" {DatabaseSeederConstants.LogVerbosityOption}={logVerbosity.Value}" : string.Empty)}{(logDestination.HasValue ? $" {DatabaseSeederConstants.LogDestinationOption}={logDestination.Value}" : string.Empty)}{(!string.IsNullOrWhiteSpace(dataFolder) ? $" {DatabaseSeederConstants.DataFolderOption}={dataFolder}" : string.Empty)}");
+                var logVerbosityText = logVerbosity.HasValue ? $" {DatabaseSeederConstants.LogVerbosityOption}={logVerbosity.Value}" : string.Empty;
+                var logDestinationText = logDestination.HasValue ? $" {DatabaseSeederConstants.LogDestinationOption}={logDestination.Value}" : string.Empty;
+                var dataFolderText = !string.IsNullOrWhiteSpace(dataFolder) ? $" {DatabaseSeederConstants.DataFolderOption}={dataFolder}" : string.Empty;
+                Logger.LogInformation("Running All My Bricks {Command} with arguments:{ApiKey}{LogVerbosity}{LogDestination}{DataFolder}", DatabaseSeederConstants.SanitizeCommand, DatabaseSeederConstants.BricksetApiKeyOption, logVerbosityText, logDestinationText, dataFolderText);
 
                 ConfigureDataFolder(host, dataFolder);
 
@@ -205,7 +225,9 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                 Logging.Configure(host, LogDestination.File, verbosity);
 
                 Logger = Logging.CreateLogger<Program>();
-                Logger.LogInformation($"Running All My Bricks database seeder with arguments:{(logVerbosity.HasValue ? $" {DatabaseSeederConstants.LogVerbosityOption}={logVerbosity.Value}" : string.Empty)}{(!string.IsNullOrWhiteSpace(dataFolder) ? $" {DatabaseSeederConstants.DataFolderOption}={dataFolder}" : string.Empty)}");
+                var logVerbosityText = logVerbosity.HasValue ? $" {DatabaseSeederConstants.LogVerbosityOption}={logVerbosity.Value}" : string.Empty;
+                var dataFolderText = !string.IsNullOrWhiteSpace(dataFolder) ? $" {DatabaseSeederConstants.DataFolderOption}={dataFolder}" : string.Empty;
+                Logger.LogInformation("Running All My Bricks database seeder with arguments:{LogVerbosity}{DataFolder}", logVerbosityText, dataFolderText);
 
                 ConfigureDataFolder(host, dataFolder);
 

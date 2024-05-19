@@ -13,35 +13,23 @@ using Easy.MessageHub;
 
 namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
 {
-    public class ThemeSynchronizer : IThemeSynchronizer
+    public class ThemeSynchronizer(
+        IOnboardingService onboardingService,
+        IBricksetApiService bricksetService,
+        IThemeRepository themeRepository,
+        IMessageHub messageHub)
+        : IThemeSynchronizer
     {
-        private readonly IOnboardingService _onboardingService;
-        private readonly IBricksetApiService _bricksetApiService;
-        private readonly IThemeRepository _themeRepository;
-        private readonly IMessageHub _messageHub;
-
-        public ThemeSynchronizer(
-            IOnboardingService onboardingService,
-            IBricksetApiService bricksetService,
-            IThemeRepository themeRepository,
-            IMessageHub messageHub)
-        {
-            _onboardingService = onboardingService;
-            _bricksetApiService = bricksetService;
-            _themeRepository = themeRepository;
-            _messageHub = messageHub;
-        }
-
         public async Task Synchronize()
         {
-            _messageHub.Publish(new ThemeSynchronizerStart());
+            messageHub.Publish(new ThemeSynchronizerStart());
 
-            var apiKey = await _onboardingService.GetBricksetApiKey().ConfigureAwait(false);
+            var apiKey = await onboardingService.GetBricksetApiKey().ConfigureAwait(false);
 
             if (string.IsNullOrWhiteSpace(apiKey))
             {
                 var exception = new Exception("Invalid Brickset API key");
-                _messageHub.Publish(new ThemeSynchronizerException { Exception = exception });
+                messageHub.Publish(new ThemeSynchronizerException { Exception = exception });
 
                 throw exception;
             }
@@ -53,13 +41,13 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                     ApiKey = apiKey
                 };
 
-                var bricksetThemes = (await _bricksetApiService.GetThemes(getThemesParameters).ConfigureAwait(false)).ToList();
+                var bricksetThemes = (await bricksetService.GetThemes(getThemesParameters).ConfigureAwait(false)).ToList();
 
-                _messageHub.Publish(new ThemesAcquired { Count = bricksetThemes.Count });
+                messageHub.Publish(new ThemesAcquired { Count = bricksetThemes.Count });
 
                 foreach (var bricksetTheme in bricksetThemes)
                 {
-                    _messageHub.Publish(new SynchronizingThemeStart { Theme = bricksetTheme.Theme });
+                    messageHub.Publish(new SynchronizingThemeStart { Theme = bricksetTheme.Theme });
 
                     var theme = bricksetTheme.ToTheme();
 
@@ -69,30 +57,30 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                         Theme = bricksetTheme.Theme
                     };
 
-                    theme.SetCountPerYear = (await _bricksetApiService.GetYears(getYearsParameters).ConfigureAwait(false))
+                    theme.SetCountPerYear = (await bricksetService.GetYears(getYearsParameters).ConfigureAwait(false))
                         .ToYearSetCountEnumerable()
                         .ToList();
 
-                    var persistedTheme = await _themeRepository.Get(theme.Name).ConfigureAwait(false);
+                    var persistedTheme = await themeRepository.Get(theme.Name).ConfigureAwait(false);
 
                     if (persistedTheme != null)
                     {
                         theme.Id = persistedTheme.Id;
                     }
 
-                    await _themeRepository.AddOrUpdate(theme).ConfigureAwait(false);
+                    await themeRepository.AddOrUpdate(theme).ConfigureAwait(false);
 
-                    _messageHub.Publish(new SynchronizingThemeEnd { Theme = bricksetTheme.Theme });
+                    messageHub.Publish(new SynchronizingThemeEnd { Theme = bricksetTheme.Theme });
                 }
             }
             catch (Exception ex)
             {
-                _messageHub.Publish(new ThemeSynchronizerException { Exception = ex });
+                messageHub.Publish(new ThemeSynchronizerException { Exception = ex });
 
                 throw;
             }
 
-            _messageHub.Publish(new ThemeSynchronizerEnd());
+            messageHub.Publish(new ThemeSynchronizerEnd());
         }
     }
 }

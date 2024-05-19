@@ -21,9 +21,9 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
     [TestClass]
     public class ThemeSanitizerTests : DataSynchronizerTestsBase
     {
-        private static IThemeRepository _themeRepository;
-        private static ISubthemeRepository _subthemeRepository;
-        private static ISetRepository _setRepository;
+        private static ThemeRepository _themeRepository;
+        private static SubthemeRepository _subthemeRepository;
+        private static SetRepository _setRepository;
 
         [ClassInitialize]
         public static void ClassInitialize(TestContext _)

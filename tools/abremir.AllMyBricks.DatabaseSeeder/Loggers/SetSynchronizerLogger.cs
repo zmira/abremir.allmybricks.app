@@ -4,8 +4,6 @@ using abremir.AllMyBricks.DataSynchronizer.Events.SetSynchronizer;
 using Easy.MessageHub;
 using Microsoft.Extensions.Logging;
 
-using static System.FormattableString;
-
 namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
 {
     public class SetSynchronizerLogger : IDatabaseSeederLogger
@@ -25,7 +23,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
                 _setIndex = 0;
                 _setProgressFraction = 0;
 
-                logger.LogInformation($"Started set synchronizer of type '{message.Type}'");
+                logger.LogInformation("Started set synchronizer of type '{Type}'", message.Type);
             });
 
             messageHub.Subscribe<AcquiringSetsStart>(message =>
@@ -35,7 +33,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
 
                 if (Logging.LogVerbosity is LogVerbosity.Full)
                 {
-                    logger.LogInformation($"Acquiring sets for type '{message.Type}' with parameters '{message.Parameters.GetParams()}'");
+                    logger.LogInformation("Acquiring sets for type '{Type}' with parameters '{Parameters}'", message.Type, message.Parameters.GetParams());
                 }
             });
 
@@ -46,7 +44,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
 
                 if (Logging.LogVerbosity is LogVerbosity.Full)
                 {
-                    logger.LogInformation($"Acquired {message.Count} sets for type '{message.Type}' with parameters '{message.Parameters.GetParams()}'");
+                    logger.LogInformation("Acquired {Count} sets for type '{Type}' with parameters '{Parameters}'", message.Count, message.Type, message.Parameters.GetParams());
                 }
             });
 
@@ -57,17 +55,17 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
 
                 if (Logging.LogVerbosity is LogVerbosity.Full)
                 {
-                    logger.LogInformation(Invariant($"Started synchronizing set '{message.IdentifierLong}': index {_setIndex}, progress {_setProgressFraction:##0.00%}"));
+                    logger.LogInformation("Started synchronizing set '{Identifier}': index {Index}, progress {Progress:##0.00%}", message.IdentifierLong, _setIndex, _setProgressFraction);
                 }
             });
 
-            messageHub.Subscribe<SynchronizingSetException>(message => logger.LogError(message.Exception, $"Synchronizing Set '{message.IdentifierLong}' Exception"));
+            messageHub.Subscribe<SynchronizingSetException>(message => logger.LogError(message.Exception, "Synchronizing Set '{Identifier}' Exception", message.IdentifierLong));
 
             messageHub.Subscribe<SynchronizingSetEnd>(message =>
             {
                 if (Logging.LogVerbosity is LogVerbosity.Full)
                 {
-                    logger.LogInformation($"Finished synchronizing set '{message.IdentifierLong}'");
+                    logger.LogInformation("Finished synchronizing set '{Identifier}'", message.IdentifierLong);
                 }
             });
 
@@ -78,20 +76,20 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
                 _setIndex = 0;
                 _setProgressFraction = 0;
 
-                logger.LogInformation($"Finished set synchronizer of type '{message.Type}'");
+                logger.LogInformation("Finished set synchronizer of type '{Type}'", message.Type);
             });
 
-            messageHub.Subscribe<MismatchingNumberOfSetsWarning>(message => logger.LogWarning($"Mismatched number of sets! Expected: {message.Expected}; Actual: {message.Actual}"));
+            messageHub.Subscribe<MismatchingNumberOfSetsWarning>(message => logger.LogWarning("Mismatched number of sets! Expected: {Expected}; Actual: {Actual}", message.Expected, message.Actual));
 
-            messageHub.Subscribe<InsightsAcquired>(message => logger.LogInformation($"Last Updated: {(message.SynchronizationTimestamp.HasValue ? message.SynchronizationTimestamp.Value.ToString("yyyy-MM-dd HH:mm:ss") : "Never")}"));
+            messageHub.Subscribe<InsightsAcquired>(message => logger.LogInformation("Last Updated: {Timestamp}", message.SynchronizationTimestamp.HasValue ? message.SynchronizationTimestamp.Value.ToString("yyyy-MM-dd HH:mm:ss") : "Never"));
 
-            messageHub.Subscribe<DeletingSetsStart>(message => logger.LogInformation($"Started deleting sets: {string.Join(", ", message.AffectedSets)}"));
+            messageHub.Subscribe<DeletingSetsStart>(message => logger.LogInformation("Started deleting sets: {Sets}", string.Join(", ", message.AffectedSets)));
 
             messageHub.Subscribe<DeletingSetsEnd>(message =>
             {
                 if (Logging.LogVerbosity is LogVerbosity.Full)
                 {
-                    logger.LogInformation($"Finished deleting sets: {string.Join(", ", message.AffectedSets)}");
+                    logger.LogInformation("Finished deleting sets: {Sets}", string.Join(", ", message.AffectedSets));
                 }
             });
 
@@ -99,7 +97,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
             {
                 if (Logging.LogVerbosity is LogVerbosity.Full)
                 {
-                    logger.LogInformation($"Acquired {message.Count} themes");
+                    logger.LogInformation("Acquired {Count} themes", message.Count);
                 }
             });
         }

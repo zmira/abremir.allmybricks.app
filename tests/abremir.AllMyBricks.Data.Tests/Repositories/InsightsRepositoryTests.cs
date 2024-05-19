@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
 using abremir.AllMyBricks.Data.Extensions;
-using abremir.AllMyBricks.Data.Interfaces;
 using abremir.AllMyBricks.Data.Models;
 using abremir.AllMyBricks.Data.Repositories;
 using abremir.AllMyBricks.Data.Tests.Shared;
@@ -13,7 +12,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
     [TestClass]
     public class InsightsRepositoryTests : DataTestsBase
     {
-        private static IInsightsRepository _insightsRepository;
+        private static InsightsRepository _insightsRepository;
 
         [ClassInitialize]
         public static void ClassInitialize(TestContext _)

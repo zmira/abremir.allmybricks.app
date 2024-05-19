@@ -6,25 +6,18 @@ using Microsoft.Maui.Devices;
 
 namespace abremir.AllMyBricks.Platform.Services
 {
-    public class DeviceInformationService : IDeviceInformationService
+    public class DeviceInformationService(IDeviceInfo deviceInfo) : IDeviceInformationService
     {
-        private readonly IDeviceInfo _deviceInfo;
-
-        public DeviceInformationService(IDeviceInfo deviceInfo)
-        {
-            _deviceInfo = deviceInfo;
-        }
-
         public Device GenerateNewDeviceIdentification()
         {
             var device = new Device
             {
                 AppId = Guid.NewGuid().ToString(),
-                Manufacturer = _deviceInfo.Manufacturer,
-                Model = _deviceInfo.Model,
-                Version = _deviceInfo.VersionString,
-                Platform = _deviceInfo.Platform.ToString(),
-                Idiom = _deviceInfo.Idiom.ToString(),
+                Manufacturer = deviceInfo.Manufacturer,
+                Model = deviceInfo.Model,
+                Version = deviceInfo.VersionString,
+                Platform = deviceInfo.Platform.ToString(),
+                Idiom = deviceInfo.Idiom.ToString(),
                 DeviceHashDate = DateTimeOffset.Now
             };
 
