@@ -30,14 +30,14 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Services
             }
         }
 
-        public string GetLocalPathToFile(string filename, string subfolder = null)
+        public string GetLocalPathToFile(string filename, string subFolder = null)
         {
             var dataFolder = !string.IsNullOrEmpty(DataFolderOverride)
                 ? DataFolderOverride
                 : Path.Combine(Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName), DataFolder);
 
             return Path.Combine(dataFolder,
-                string.IsNullOrWhiteSpace(subfolder?.Trim()) ? string.Empty : subfolder.Trim(),
+                string.IsNullOrWhiteSpace(subFolder?.Trim()) ? string.Empty : subFolder.Trim(),
                 (filename ?? string.Empty).Trim());
         }
 
@@ -56,9 +56,9 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Services
             return GetLocalPathToFile(null);
         }
 
-        public Stream GetStreamForLocalPathToFile(string file, string subfolder = null)
+        public Stream GetStreamForLocalPathToFile(string file, string subFolder = null)
         {
-            return new FileStream(GetLocalPathToFile(file, subfolder), FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.ReadWrite);
+            return new FileStream(GetLocalPathToFile(file, subFolder), FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.ReadWrite);
         }
     }
 }

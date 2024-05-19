@@ -21,11 +21,11 @@ namespace abremir.AllMyBricks.Platform.Services
 
         public string ThumbnailCacheFolder => Path.Combine(_fileSystem.AppDataDirectory, Constants.AllMyBricksDataFolder, Constants.ThumbnailCacheFolder);
 
-        public string GetLocalPathToFile(string filename, string subfolder = null)
+        public string GetLocalPathToFile(string filename, string subFolder = null)
         {
             return Path.Combine(_fileSystem.AppDataDirectory,
                 Constants.AllMyBricksDataFolder,
-                string.IsNullOrWhiteSpace(subfolder?.Trim()) ? string.Empty : subfolder.Trim(),
+                string.IsNullOrWhiteSpace(subFolder?.Trim()) ? string.Empty : subFolder.Trim(),
                 (filename ?? string.Empty).Trim());
         }
 
@@ -81,9 +81,9 @@ namespace abremir.AllMyBricks.Platform.Services
             return GetLocalPathToFile(null);
         }
 
-        public Stream GetStreamForLocalPathToFile(string file, string subfolder = null)
+        public Stream GetStreamForLocalPathToFile(string file, string subFolder = null)
         {
-            return new FileStream(GetLocalPathToFile(file, subfolder), FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.ReadWrite);
+            return new FileStream(GetLocalPathToFile(file, subFolder), FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.ReadWrite);
         }
     }
 }
