@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using abremir.AllMyBricks.Data.Interfaces;
 using abremir.AllMyBricks.Data.Repositories;
 using abremir.AllMyBricks.DataSynchronizer.Synchronizers;
 using abremir.AllMyBricks.DataSynchronizer.Tests.Configuration;
@@ -22,7 +21,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
     [TestClass]
     public class ThemeSynchronizerTests : DataSynchronizerTestsBase
     {
-        private static IThemeRepository _themeRepository;
+        private static ThemeRepository _themeRepository;
 
         [ClassInitialize]
         public static void ClassInitialize(TestContext _)

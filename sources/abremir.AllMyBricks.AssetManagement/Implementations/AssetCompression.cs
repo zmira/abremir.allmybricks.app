@@ -96,7 +96,7 @@ namespace abremir.AllMyBricks.AssetManagement.Implementations
             }
         }
 
-        private Stream GetEncryptedStream(string sourceFilePath, string encryptionKey)
+        private MemoryStream GetEncryptedStream(string sourceFilePath, string encryptionKey)
         {
             var inputStream = _fileStream.CreateFileStream(sourceFilePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
 

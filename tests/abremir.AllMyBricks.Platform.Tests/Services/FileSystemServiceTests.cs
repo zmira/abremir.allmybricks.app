@@ -12,7 +12,7 @@ using NSubstituteAutoMocker.Standard;
 namespace abremir.AllMyBricks.Platform.Tests.Services
 {
     [TestClass]
-    public class FileSystemServiceTest
+    public partial class FileSystemServiceTest
     {
         private NSubstituteAutoMocker<FileSystemService> _fileSystemService;
 
@@ -70,10 +70,11 @@ namespace abremir.AllMyBricks.Platform.Tests.Services
 
             Check.That(thumbnailFolder).Not.IsNullOrWhiteSpace().And.Contains(Constants.AllMyBricksDataFolder).And.Contains(Constants.ThumbnailCacheFolder);
 
-            Check.That(Regex.Matches(thumbnailFolder, Constants.FallbackFolderName).Count).IsEqualTo(countOfFallbackFolderName);
+            Check.That(FallbackFolderNameRegex().Matches(thumbnailFolder).Count).IsEqualTo(countOfFallbackFolderName);
         }
 
         [DataTestMethod]
+#pragma warning disable CA1861 // Avoid constant arrays as arguments
         [DataRow(null, null, false)]
         [DataRow("", null, false)]
         [DataRow(null, new byte[] { }, false)]
@@ -83,6 +84,7 @@ namespace abremir.AllMyBricks.Platform.Tests.Services
         [DataRow(null, new byte[] { 0 }, false)]
         [DataRow("", new byte[] { 0 }, false)]
         [DataRow("FILENAME", new byte[] { 0 }, true)]
+#pragma warning restore CA1861 // Avoid constant arrays as arguments
         public async Task SaveThumbnailToCache_InvokesWriteAllBytes(string filename, byte[] thumbnail, bool invokesWriteAllBytes)
         {
             await _fileSystemService.ClassUnderTest.SaveThumbnailToCache(string.Empty, string.Empty, filename, thumbnail);
@@ -96,5 +98,8 @@ namespace abremir.AllMyBricks.Platform.Tests.Services
                 await _fileSystemService.Get<IFile>().DidNotReceive().WriteAllBytes(Arg.Any<string>(), Arg.Any<byte[]>());
             }
         }
+
+        [GeneratedRegex(Constants.FallbackFolderName)]
+        private static partial Regex FallbackFolderNameRegex();
     }
 }

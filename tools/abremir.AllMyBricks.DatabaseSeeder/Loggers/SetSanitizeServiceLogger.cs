@@ -16,11 +16,11 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
         {
             var logger = loggerFactory.CreateLogger<SetSanitizeService>();
 
-            messageHub.Subscribe<SetSanitizeServiceStart>(_ => logger.LogInformation($"Started set sanitize{(Logging.LogDestination is LogDestination.Console ? $" {DateTimeOffset.Now:yyyy-MM-dd HH:mm:ss}" : string.Empty)}"));
+            messageHub.Subscribe<SetSanitizeServiceStart>(_ => logger.LogInformation("Started set sanitize{Timestamp}", Logging.LogDestination is LogDestination.Console ? $" {DateTimeOffset.Now:yyyy-MM-dd HH:mm:ss}" : string.Empty));
 
             messageHub.Subscribe<SetSanitizeServiceException>(message => logger.LogError(message.Exception, "Set Sanitize Exception"));
 
-            messageHub.Subscribe<SetSanitizeServiceEnd>(_ => logger.LogInformation($"Finished set sanitize{(Logging.LogDestination is LogDestination.Console ? $" {DateTimeOffset.Now:yyyy-MM-dd HH:mm:ss}" : string.Empty)}"));
+            messageHub.Subscribe<SetSanitizeServiceEnd>(_ => logger.LogInformation("Finished set sanitize{Timestamp}", Logging.LogDestination is LogDestination.Console ? $" {DateTimeOffset.Now:yyyy-MM-dd HH:mm:ss}" : string.Empty));
         }
     }
 }

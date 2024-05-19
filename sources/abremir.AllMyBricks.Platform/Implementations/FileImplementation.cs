@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Threading.Tasks;
 using abremir.AllMyBricks.Platform.Interfaces;
 using abremir.AllMyBricks.Platform.Models;
@@ -56,7 +57,7 @@ namespace abremir.AllMyBricks.Platform.Implementations
         {
             await using var stream = new FileStream(path, FileMode.Create);
 
-            await stream.WriteAsync(bytes, 0, bytes.Length).ConfigureAwait(false);
+            await stream.WriteAsync(bytes.AsMemory(0, bytes.Length)).ConfigureAwait(false);
         }
     }
 }

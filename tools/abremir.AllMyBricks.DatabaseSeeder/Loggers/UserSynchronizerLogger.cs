@@ -26,7 +26,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
 
                 if (Logging.LogVerbosity is LogVerbosity.Full)
                 {
-                    logger.LogInformation($"Started user synchronizer for {message.UserType} user '{message.Username}'");
+                    logger.LogInformation("Started user synchronizer for {Type} user '{Username}'", message.UserType, message.Username);
                 }
             });
 
@@ -57,7 +57,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
                 _setCount = message.Count;
                 _setIndex = 0;
 
-                logger.LogInformation($"Acquired {message.Count} All My Bricks user sets to update in Brickset.com");
+                logger.LogInformation("Acquired {Count} All My Bricks user sets to update in Brickset.com", message.Count);
             });
 
             messageHub.Subscribe<UserSynchronizerSynchronizingSetStart>(message =>
@@ -67,7 +67,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
 
                 if (Logging.LogVerbosity is LogVerbosity.Full)
                 {
-                    logger.LogInformation($"Started synchronizing set {message.SetId}: index {_setIndex}, progress {_setProgressFraction:##0.00%}");
+                    logger.LogInformation("Started synchronizing set {Id}: index {Index}, progress {Progress:##0.00%}", message.SetId, _setIndex, _setProgressFraction);
                 }
             });
 
@@ -75,7 +75,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
             {
                 if (Logging.LogVerbosity is LogVerbosity.Full)
                 {
-                    logger.LogInformation($"Finished synchronizing set {message.SetId}");
+                    logger.LogInformation("Finished synchronizing set {Id}", message.SetId);
                 }
             });
 
@@ -117,7 +117,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
                 _setCount = message.Count;
                 _setIndex = 0;
 
-                logger.LogInformation($"Acquired {message.Count} user sets from Brickset.com missing in All My Bricks");
+                logger.LogInformation("Acquired {Count} user sets from Brickset.com missing in All My Bricks", message.Count);
             });
 
             messageHub.Subscribe<BricksetToAllMyBricksEnd>(_ =>
@@ -131,7 +131,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
                 }
             });
 
-            messageHub.Subscribe<UserSynchronizerException>(message => logger.LogError(message.Exception, $"Synchronizing {message.UserType} User '{message.Username}' Exception"));
+            messageHub.Subscribe<UserSynchronizerException>(message => logger.LogError(message.Exception, "Synchronizing {Type} User '{Username}' Exception", message.UserType, message.Username));
 
             messageHub.Subscribe<UserSynchronizerEnd>(message =>
             {
@@ -140,7 +140,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
 
                 if (Logging.LogVerbosity is LogVerbosity.Full)
                 {
-                    logger.LogInformation($"Finished user synchronizer for {message.UserType} user '{message.Username}'");
+                    logger.LogInformation("Finished user synchronizer for {Type} user '{Username}'", message.UserType, message.Username);
                 }
             });
         }

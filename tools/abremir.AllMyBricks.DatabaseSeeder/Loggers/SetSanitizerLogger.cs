@@ -25,7 +25,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
             {
                 if (Logging.LogVerbosity is LogVerbosity.Full)
                 {
-                    logger.LogInformation($"Started adjusting themes with differences '{JsonSerializer.Serialize(message.AffectedThemes)}'");
+                    logger.LogInformation("Started adjusting themes with differences '{Themes}'", JsonSerializer.Serialize(message.AffectedThemes));
                 }
             });
 
@@ -33,7 +33,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
             {
                 if (Logging.LogVerbosity is LogVerbosity.Full)
                 {
-                    logger.LogInformation($"Finished adjusting themes with differences '{JsonSerializer.Serialize(message.AffectedThemes)}'");
+                    logger.LogInformation("Finished adjusting themes with differences '{Themes}'", JsonSerializer.Serialize(message.AffectedThemes));
                 }
             });
         }

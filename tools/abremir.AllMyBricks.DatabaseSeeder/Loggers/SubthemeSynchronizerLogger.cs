@@ -5,8 +5,6 @@ using abremir.AllMyBricks.DataSynchronizer.Synchronizers;
 using Easy.MessageHub;
 using Microsoft.Extensions.Logging;
 
-using static System.FormattableString;
-
 namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
 {
     public class SubthemeSynchronizerLogger : IDatabaseSeederLogger
@@ -37,7 +35,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
                 _subthemeIndex = 0;
                 _subthemeCount = message.Count;
 
-                logger.LogInformation($"Acquired {message.Count} subthemes to process for theme '{message.Theme}'");
+                logger.LogInformation("Acquired {Count} subthemes to process for theme '{Theme}'", message.Count, message.Theme);
             });
 
             messageHub.Subscribe<SynchronizingSubthemeStart>(message =>
@@ -47,7 +45,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
 
                 if (Logging.LogVerbosity is LogVerbosity.Full)
                 {
-                    logger.LogInformation(Invariant($"Started synchronizing subtheme '{message.Theme}-{message.Subtheme}': index {_subthemeIndex}, progress {_subthemeProgressFraction:##0.00%}"));
+                    logger.LogInformation("Started synchronizing subtheme '{Theme}-{Subtheme}': index {Index}, progress {Progress:##0.00%}", message.Theme, message.Subtheme, _subthemeIndex, _subthemeProgressFraction);
                 }
             });
 
@@ -55,11 +53,11 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Loggers
             {
                 if (Logging.LogVerbosity is LogVerbosity.Full)
                 {
-                    logger.LogInformation($"Finished synchronizing subtheme '{message.Theme}-{message.Subtheme}'");
+                    logger.LogInformation("Finished synchronizing subtheme '{Theme}-{Subtheme}'", message.Theme, message.Subtheme);
                 }
             });
 
-            messageHub.Subscribe<SubthemeSynchronizerException>(message => logger.LogError(message.Exception, $"Subtheme Synchronizer Exception for theme '{message.Theme}'"));
+            messageHub.Subscribe<SubthemeSynchronizerException>(message => logger.LogError(message.Exception, "Subtheme Synchronizer Exception for theme '{Theme}'", message.Theme));
 
             messageHub.Subscribe<SubthemeSynchronizerEnd>(_ =>
             {

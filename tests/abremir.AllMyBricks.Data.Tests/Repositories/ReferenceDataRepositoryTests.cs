@@ -12,7 +12,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
     [TestClass]
     public class ReferenceDataRepositoryTests : DataTestsBase
     {
-        private static IReferenceDataRepository _referenceDataRepository;
+        private static ReferenceDataRepository _referenceDataRepository;
 
         [ClassInitialize]
         public static void ClassInitialize(TestContext _)

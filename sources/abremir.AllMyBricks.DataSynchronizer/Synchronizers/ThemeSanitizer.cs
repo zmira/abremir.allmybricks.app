@@ -71,7 +71,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
 
             var themesToDelete = allMyBricksThemes.Except(bricksetThemes).ToList();
 
-            if (themesToDelete.Any())
+            if (themesToDelete.Count is not 0)
             {
                 MessageHub.Publish(new DeletingThemesStart { AffectedThemes = themesToDelete });
 

@@ -41,13 +41,13 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Services
                 return;
             }
 
-            _logger.LogInformation($"Compressing {(encrypted ? "and Encrypting " : string.Empty)}AllMyBricks Database {Path.GetFileName(dbFilePath)} {_file.GetFileSize(dbFilePath)}");
+            _logger.LogInformation("Compressing {Encrypting}AllMyBricks Database {FileName} {FileSize}", encrypted ? "and Encrypting " : string.Empty, Path.GetFileName(dbFilePath), _file.GetFileSize(dbFilePath));
 
             _assetCompression.CompressAsset(dbFilePath, _fileSystemService.GetLocalPathToDataFolder(), encryptionKey: encrypted ? Settings.BricksetApiKey : null);
 
             GetCompressedDatabaseFilePathIfExists(out var compressedFilePath, encrypted);
 
-            _logger.LogInformation($"Compressed {(encrypted ? "and Encrypted " : string.Empty)}AllMyBricks Database {Path.GetFileName(compressedFilePath)} {_file.GetFileSize(compressedFilePath)}");
+            _logger.LogInformation("Compressed {Encrypting}AllMyBricks Database {FileName} {FileSize}", encrypted ? "and Encrypted " : string.Empty, Path.GetFileName(compressedFilePath), _file.GetFileSize(compressedFilePath));
         }
 
         public async Task CompactAllMyBricksDatabase()
@@ -57,7 +57,10 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Services
                 return;
             }
 
-            _logger.LogInformation($"Compacting AllMyBricks Database {Path.GetFileName(dbFilePath)} {_file.GetFileSize(dbFilePath)}");
+            var fileName = Path.GetFileName(dbFilePath);
+            var fileSize = _file.GetFileSize(dbFilePath);
+
+            _logger.LogInformation("Compacting AllMyBricks Database {FileName} {FileSize}", fileName, fileSize);
 
             var compacted = await _repositoryService.CompactRepository().ConfigureAwait(false);
 
@@ -65,11 +68,11 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Services
             {
                 _file.DeleteFileIfExists($"{dbFilePath}.tmp_compaction_space");
 
-                _logger.LogInformation($"Compacted AllMyBricks Database {Path.GetFileName(dbFilePath)} {_file.GetFileSize(dbFilePath)}");
+                _logger.LogInformation("Compacted AllMyBricks Database {FileName} {FileSize}", fileName, fileSize);
             }
             else
             {
-                _logger.LogWarning($"Either Database did not need to be compacted or Failed to Compact AllMyBricks Database {Path.GetFileName(dbFilePath)}");
+                _logger.LogWarning("Either Database did not need to be compacted or Failed to Compact AllMyBricks Database {FileName}", fileName);
             }
         }
 
@@ -80,13 +83,15 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Services
                 return;
             }
 
-            _logger.LogInformation($"Expanding {(encrypted ? "Encrypted " : string.Empty)}AllMyBricks Database {Path.GetFileName(compressedFilePath)} {_file.GetFileSize(compressedFilePath)}");
+            var encryptedText = encrypted ? "Encrypted " : string.Empty;
+
+            _logger.LogInformation("Expanding {Encrypted}AllMyBricks Database {FileName} {FileSize}", encryptedText, Path.GetFileName(compressedFilePath), _file.GetFileSize(compressedFilePath));
 
             _assetExpansion.ExpandAsset(compressedFilePath, _fileSystemService.GetLocalPathToDataFolder(), encryptionKey: encrypted ? Settings.BricksetApiKey : null);
 
             GetDatabaseFilePathIfExists(out var dbFilePath);
 
-            _logger.LogInformation($"Expanded {(encrypted ? "Encrypted " : string.Empty)}AllMyBricks Database {Path.GetFileName(dbFilePath)} {_file.GetFileSize(dbFilePath)}");
+            _logger.LogInformation("Expanded {Encrypted}AllMyBricks Database {FileName} {FileSize}", encryptedText, Path.GetFileName(dbFilePath), _file.GetFileSize(dbFilePath));
         }
 
         public bool DatabaseFilePathExists()

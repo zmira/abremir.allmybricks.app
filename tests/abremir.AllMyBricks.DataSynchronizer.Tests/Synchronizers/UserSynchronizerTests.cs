@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using abremir.AllMyBricks.Data.Enumerations;
-using abremir.AllMyBricks.Data.Interfaces;
 using abremir.AllMyBricks.Data.Models;
 using abremir.AllMyBricks.Data.Repositories;
 using abremir.AllMyBricks.DataSynchronizer.Extensions;
@@ -24,10 +23,10 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
     [TestClass]
     public class UserSynchronizerTests : DataSynchronizerTestsBase
     {
-        private static IBricksetUserRepository _bricksetUserRepository;
-        private static IThemeRepository _themeRepository;
-        private static ISubthemeRepository _subthemeRepository;
-        private static ISetRepository _setRepository;
+        private static BricksetUserRepository _bricksetUserRepository;
+        private static ThemeRepository _themeRepository;
+        private static SubthemeRepository _subthemeRepository;
+        private static SetRepository _setRepository;
 
         [ClassInitialize]
         public static void ClassInitialize(TestContext _)

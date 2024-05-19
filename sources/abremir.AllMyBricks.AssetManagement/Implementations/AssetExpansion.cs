@@ -88,7 +88,7 @@ namespace abremir.AllMyBricks.AssetManagement.Implementations
             _messageHub.Publish(entry);
         }
 
-        private Stream GetDecryptedStream(Stream inputStream, string encryptionKey)
+        private static Stream GetDecryptedStream(Stream inputStream, string encryptionKey)
         {
             inputStream.Position = 0;
 
@@ -97,7 +97,7 @@ namespace abremir.AllMyBricks.AssetManagement.Implementations
                 return inputStream;
             }
 
-            var hash = SHA256.Create().ComputeHash(Encoding.ASCII.GetBytes(encryptionKey));
+            var hash = SHA256.HashData(Encoding.ASCII.GetBytes(encryptionKey));
 
             using var aes = Aes.Create();
             aes.Key = hash.Take(32).ToArray();

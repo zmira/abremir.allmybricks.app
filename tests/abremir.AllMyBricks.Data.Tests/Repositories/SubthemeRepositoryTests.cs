@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using abremir.AllMyBricks.Data.Configuration;
-using abremir.AllMyBricks.Data.Interfaces;
 using abremir.AllMyBricks.Data.Models;
 using abremir.AllMyBricks.Data.Repositories;
 using abremir.AllMyBricks.Data.Tests.Configuration;
@@ -16,7 +15,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
     [TestClass]
     public class SubthemeRepositoryTests : DataTestsBase
     {
-        private static ISubthemeRepository _subthemeRepository;
+        private static SubthemeRepository _subthemeRepository;
 
         [ClassInitialize]
         public static void ClassInitialize(TestContext _)
