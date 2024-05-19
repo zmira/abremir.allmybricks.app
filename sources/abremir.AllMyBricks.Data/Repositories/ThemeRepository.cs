@@ -7,15 +7,8 @@ using abremir.AllMyBricks.Data.Models;
 
 namespace abremir.AllMyBricks.Data.Repositories
 {
-    public class ThemeRepository : IThemeRepository
+    public class ThemeRepository(IRepositoryService repositoryService) : IThemeRepository
     {
-        private readonly IRepositoryService _repositoryService;
-
-        public ThemeRepository(IRepositoryService repositoryService)
-        {
-            _repositoryService = repositoryService;
-        }
-
         public async Task<Theme> AddOrUpdate(Theme theme)
         {
             if (theme is null
@@ -27,7 +20,7 @@ namespace abremir.AllMyBricks.Data.Repositories
 
             theme.TrimAllStrings();
 
-            using var repository = _repositoryService.GetRepository();
+            using var repository = repositoryService.GetRepository();
 
             await repository.UpsertAsync(theme).ConfigureAwait(false);
 
@@ -36,7 +29,7 @@ namespace abremir.AllMyBricks.Data.Repositories
 
         public async Task<IEnumerable<Theme>> All()
         {
-            using var repository = _repositoryService.GetRepository();
+            using var repository = repositoryService.GetRepository();
 
             return await repository.FetchAsync<Theme>("1 = 1").ConfigureAwait(false);
         }
@@ -48,7 +41,7 @@ namespace abremir.AllMyBricks.Data.Repositories
                 return null;
             }
 
-            using var repository = _repositoryService.GetRepository();
+            using var repository = repositoryService.GetRepository();
 
             return await repository.FirstOrDefaultAsync<Theme>(theme => theme.Name == themeName.Trim()).ConfigureAwait(false);
         }
@@ -60,7 +53,7 @@ namespace abremir.AllMyBricks.Data.Repositories
                 return [];
             }
 
-            using var repository = _repositoryService.GetRepository();
+            using var repository = repositoryService.GetRepository();
 
             return await repository.FetchAsync<Theme>(theme => theme.YearFrom <= year && theme.YearTo >= year).ConfigureAwait(false);
         }
@@ -74,14 +67,14 @@ namespace abremir.AllMyBricks.Data.Repositories
 
             themeNames = themeNames.ConvertAll(themeName => themeName.Trim());
 
-            using var repository = _repositoryService.GetRepository();
+            using var repository = repositoryService.GetRepository();
 
             return await repository.DeleteManyAsync<Theme>(theme => themeNames.Contains(theme.Name)).ConfigureAwait(false);
         }
 
         public async Task<int> Count()
         {
-            using var repository = _repositoryService.GetRepository();
+            using var repository = repositoryService.GetRepository();
 
             return await repository.Query<Theme>().CountAsync().ConfigureAwait(false);
         }

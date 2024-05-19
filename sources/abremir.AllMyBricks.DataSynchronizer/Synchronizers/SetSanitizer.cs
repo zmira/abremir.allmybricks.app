@@ -16,21 +16,19 @@ using LiteDB;
 
 namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
 {
-    public class SetSanitizer : SetSynchronizerBase, ISetSanitizer
+    public class SetSanitizer(
+        IInsightsRepository insightsRepository,
+        IOnboardingService onboardingService,
+        IBricksetApiService bricksetApiService,
+        ISetRepository setRepository,
+        IReferenceDataRepository referenceDataRepository,
+        IThemeRepository themeRepository,
+        ISubthemeRepository subthemeRepository,
+        IBricksetUserRepository bricksetUserRepository,
+        IThumbnailSynchronizer thumbnailSynchronizer,
+        IMessageHub messageHub)
+        : SetSynchronizerBase(insightsRepository, onboardingService, bricksetApiService, setRepository, referenceDataRepository, themeRepository, subthemeRepository, bricksetUserRepository, thumbnailSynchronizer, messageHub), ISetSanitizer
     {
-        public SetSanitizer(
-            IInsightsRepository insightsRepository,
-            IOnboardingService onboardingService,
-            IBricksetApiService bricksetApiService,
-            ISetRepository setRepository,
-            IReferenceDataRepository referenceDataRepository,
-            IThemeRepository themeRepository,
-            ISubthemeRepository subthemeRepository,
-            IBricksetUserRepository bricksetUserRepository,
-            IThumbnailSynchronizer thumbnailSynchronizer,
-            IMessageHub messageHub)
-            : base(insightsRepository, onboardingService, bricksetApiService, setRepository, referenceDataRepository, themeRepository, subthemeRepository, bricksetUserRepository, thumbnailSynchronizer, messageHub) { }
-
         public async Task Synchronize()
         {
             MessageHub.Publish(new SetSanitizerStart());

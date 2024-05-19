@@ -9,35 +9,23 @@ using SharpCompress.Common;
 
 namespace abremir.AllMyBricks.AssetManagement.Implementations
 {
-    public class AssetExpansion : IAssetExpansion
+    public class AssetExpansion(
+        IFile file,
+        IDirectory directory,
+        IReaderFactory readerFactory,
+        IMessageHub messageHub)
+        : IAssetExpansion
     {
-        private readonly IFile _file;
-        private readonly IDirectory _directory;
-        private readonly IReaderFactory _readerFactory;
-        private readonly IMessageHub _messageHub;
-
-        public AssetExpansion(
-            IFile file,
-            IDirectory directory,
-            IReaderFactory readerFactory,
-            IMessageHub messageHub)
-        {
-            _file = file;
-            _directory = directory;
-            _readerFactory = readerFactory;
-            _messageHub = messageHub;
-        }
-
         public bool ExpandAsset(string sourceFilePath, string targetFolderPath, bool overwrite = true, string encryptionKey = null)
         {
             if (string.IsNullOrWhiteSpace(sourceFilePath)
-                || !_file.Exists(sourceFilePath)
-                || _file.GetAttributes(sourceFilePath).HasFlag(FileAttributes.Directory))
+                || !file.Exists(sourceFilePath)
+                || file.GetAttributes(sourceFilePath).HasFlag(FileAttributes.Directory))
             {
                 return false;
             }
 
-            using var sourceFileStream = _file.OpenRead(sourceFilePath);
+            using var sourceFileStream = file.OpenRead(sourceFilePath);
 
             return ExpandAsset(sourceFileStream, targetFolderPath, overwrite, encryptionKey);
         }
@@ -46,20 +34,20 @@ namespace abremir.AllMyBricks.AssetManagement.Implementations
         {
             if (sourceStream is null
                 || (!string.IsNullOrWhiteSpace(targetFolderPath)
-                    && _directory.Exists(targetFolderPath)
-                    && !_file.GetAttributes(targetFolderPath).HasFlag(FileAttributes.Directory)))
+                    && directory.Exists(targetFolderPath)
+                    && !file.GetAttributes(targetFolderPath).HasFlag(FileAttributes.Directory)))
             {
                 return false;
             }
 
             if (!string.IsNullOrWhiteSpace(targetFolderPath)
-                && !_directory.Exists(targetFolderPath))
+                && !directory.Exists(targetFolderPath))
             {
-                _directory.CreateDirectory(targetFolderPath);
+                directory.CreateDirectory(targetFolderPath);
             }
 
             using var workingStream = GetDecryptedStream(sourceStream, encryptionKey);
-            using var sourceReader = _readerFactory.Open(workingStream);
+            using var sourceReader = readerFactory.Open(workingStream);
 
             sourceReader.EntryExtractionProgress += SourceReader_EntryExtractionProgress;
 
@@ -71,10 +59,10 @@ namespace abremir.AllMyBricks.AssetManagement.Implementations
 
                     if (overwrite)
                     {
-                        _file.DeleteFileIfExists(targetFilePath);
+                        file.DeleteFileIfExists(targetFilePath);
                     }
 
-                    using var targetFileStream = _file.OpenWrite(targetFilePath);
+                    using var targetFileStream = file.OpenWrite(targetFilePath);
 
                     sourceReader.WriteEntryTo(targetFileStream);
                 }
@@ -85,7 +73,7 @@ namespace abremir.AllMyBricks.AssetManagement.Implementations
 
         private void SourceReader_EntryExtractionProgress(object sender, ReaderExtractionEventArgs<IEntry> entry)
         {
-            _messageHub.Publish(entry);
+            messageHub.Publish(entry);
         }
 
         private static Stream GetDecryptedStream(Stream inputStream, string encryptionKey)

@@ -7,24 +7,16 @@ using LiteDB.Async;
 
 namespace abremir.AllMyBricks.Data.Services
 {
-    public class RepositoryService : IRepositoryService
+    public class RepositoryService(
+        IFileSystemService fileSystemService,
+        IMigrationRunner migrationRunner)
+        : IRepositoryService
     {
-        private readonly IFileSystemService _fileSystemService;
-        private readonly IMigrationRunner _migrationRunner;
-
-        public RepositoryService(
-            IFileSystemService fileSystemService,
-            IMigrationRunner migrationRunner)
-        {
-            _fileSystemService = fileSystemService;
-            _migrationRunner = migrationRunner;
-        }
-
         public ILiteRepositoryAsync GetRepository()
         {
-            var repository = new LiteRepositoryAsync(_fileSystemService.GetStreamForLocalPathToFile(Constants.AllMyBricksDbFile));
+            var repository = new LiteRepositoryAsync(fileSystemService.GetStreamForLocalPathToFile(Constants.AllMyBricksDbFile));
 
-            _migrationRunner.ApplyMigrations(repository.Database);
+            migrationRunner.ApplyMigrations(repository.Database);
 
             return repository;
         }

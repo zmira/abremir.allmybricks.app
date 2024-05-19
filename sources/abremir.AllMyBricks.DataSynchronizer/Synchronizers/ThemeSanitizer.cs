@@ -12,21 +12,19 @@ using Easy.MessageHub;
 
 namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
 {
-    public class ThemeSanitizer : SetSynchronizerBase, IThemeSanitizer
+    public class ThemeSanitizer(
+        IInsightsRepository insightsRepository,
+        IOnboardingService onboardingService,
+        IBricksetApiService bricksetApiService,
+        ISetRepository setRepository,
+        IReferenceDataRepository referenceDataRepository,
+        IThemeRepository themeRepository,
+        ISubthemeRepository subthemeRepository,
+        IBricksetUserRepository bricksetUserRepository,
+        IThumbnailSynchronizer thumbnailSynchronizer,
+        IMessageHub messageHub)
+        : SetSynchronizerBase(insightsRepository, onboardingService, bricksetApiService, setRepository, referenceDataRepository, themeRepository, subthemeRepository, bricksetUserRepository, thumbnailSynchronizer, messageHub), IThemeSanitizer
     {
-        public ThemeSanitizer(
-            IInsightsRepository insightsRepository,
-            IOnboardingService onboardingService,
-            IBricksetApiService bricksetApiService,
-            ISetRepository setRepository,
-            IReferenceDataRepository referenceDataRepository,
-            IThemeRepository themeRepository,
-            ISubthemeRepository subthemeRepository,
-            IBricksetUserRepository bricksetUserRepository,
-            IThumbnailSynchronizer thumbnailSynchronizer,
-            IMessageHub messageHub)
-            : base(insightsRepository, onboardingService, bricksetApiService, setRepository, referenceDataRepository, themeRepository, subthemeRepository, bricksetUserRepository, thumbnailSynchronizer, messageHub) { }
-
         public async Task Synchronize()
         {
             MessageHub.Publish(new ThemeSanitizerStart());

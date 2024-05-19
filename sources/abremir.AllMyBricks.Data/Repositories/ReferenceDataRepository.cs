@@ -4,15 +4,8 @@ using abremir.AllMyBricks.Data.Interfaces;
 
 namespace abremir.AllMyBricks.Data.Repositories
 {
-    public class ReferenceDataRepository : IReferenceDataRepository
+    public class ReferenceDataRepository(IRepositoryService repositoryService) : IReferenceDataRepository
     {
-        private readonly IRepositoryService _repositoryService;
-
-        public ReferenceDataRepository(IRepositoryService repositoryService)
-        {
-            _repositoryService = repositoryService;
-        }
-
         public async Task<T> GetOrAdd<T>(string referenceDataValue) where T : IReferenceData, new()
         {
             if (string.IsNullOrWhiteSpace(referenceDataValue))
@@ -20,7 +13,7 @@ namespace abremir.AllMyBricks.Data.Repositories
                 return default;
             }
 
-            using var repository = _repositoryService.GetRepository();
+            using var repository = repositoryService.GetRepository();
 
             var existingReferenceData = await repository
                 .Database
