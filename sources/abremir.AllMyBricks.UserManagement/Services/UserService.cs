@@ -16,7 +16,8 @@ namespace abremir.AllMyBricks.UserManagement.Services
         IBricksetApiService bricksetApiService,
         IBricksetUserRepository bricksetUserRepository,
         ISecureStorageService secureStorageService,
-        IUserSynchronizationService userSynchronizationService) : IUserService
+        IUserSynchronizationService userSynchronizationService)
+        : IUserService
     {
         private readonly IBricksetApiService _bricksetApiService = bricksetApiService;
         private readonly IBricksetUserRepository _bricksetUserRepository = bricksetUserRepository;

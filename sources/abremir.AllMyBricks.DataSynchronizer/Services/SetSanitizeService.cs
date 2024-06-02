@@ -9,7 +9,8 @@ namespace abremir.AllMyBricks.DataSynchronizer.Services
     public class SetSanitizeService(
         IThemeSanitizer themeSanitizer,
         ISetSanitizer setSanitizer,
-        IMessageHub messageHub) : ISetSanitizeService
+        IMessageHub messageHub)
+        : ISetSanitizeService
     {
         private readonly IThemeSanitizer _themeSanitizer = themeSanitizer;
         private readonly ISetSanitizer _setSanitizer = setSanitizer;

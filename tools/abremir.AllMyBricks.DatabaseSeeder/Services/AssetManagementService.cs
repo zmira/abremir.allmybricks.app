@@ -15,7 +15,8 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Services
         IFile file,
         IRepositoryService repositoryService,
         ILoggerFactory loggerFactory,
-        IAssetExpansion assetExpansion) : IAssetManagementService
+        IAssetExpansion assetExpansion)
+        : IAssetManagementService
     {
         private readonly IFileSystemService _fileSystemService = fileSystemService;
         private readonly IAssetCompression _assetCompression = assetCompression;

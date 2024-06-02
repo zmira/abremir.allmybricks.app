@@ -13,7 +13,8 @@ namespace abremir.AllMyBricks.AssetManagement.Implementations
         IFile file,
         IDirectory directory,
         IReaderFactory readerFactory,
-        IMessageHub messageHub) : IAssetExpansion
+        IMessageHub messageHub)
+        : IAssetExpansion
     {
         private readonly IFile _file = file;
         private readonly IDirectory _directory = directory;

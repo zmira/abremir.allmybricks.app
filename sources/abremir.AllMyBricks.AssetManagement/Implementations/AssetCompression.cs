@@ -14,7 +14,8 @@ namespace abremir.AllMyBricks.AssetManagement.Implementations
         IFile file,
         IDirectory directory,
         IFileStream fileStream,
-        ITarWriter tarWriter) : IAssetCompression
+        ITarWriter tarWriter)
+        : IAssetCompression
     {
         private readonly IFile _file = file;
         private readonly IDirectory _directory = directory;

@@ -14,7 +14,8 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
     public class ThumbnailSynchronizer(
         IPreferencesService preferencesService,
         IFileSystemService fileSystemService,
-        IMessageHub messageHub) : IThumbnailSynchronizer
+        IMessageHub messageHub)
+        : IThumbnailSynchronizer
     {
         private readonly IPreferencesService _preferencesService = preferencesService;
         private readonly IFileSystemService _fileSystemService = fileSystemService;

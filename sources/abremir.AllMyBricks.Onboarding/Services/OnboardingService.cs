@@ -9,7 +9,8 @@ namespace abremir.AllMyBricks.Onboarding.Services
         ISecureStorageService secureStorageService,
         IRegistrationService registrationService,
         IApiKeyService apiKeyService,
-        IDeviceInformationService deviceInformationService) : IOnboardingService
+        IDeviceInformationService deviceInformationService)
+        : IOnboardingService
     {
         private readonly ISecureStorageService _secureStorageService = secureStorageService;
         private readonly IRegistrationService _registrationService = registrationService;

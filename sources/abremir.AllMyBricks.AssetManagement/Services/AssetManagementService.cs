@@ -9,7 +9,8 @@ namespace abremir.AllMyBricks.AssetManagement.Services
     public class AssetManagementService(
         IAssetExpansion assetExpansion,
         IDirectory directory,
-        ISecureStorageService secureStorageService) : IAssetManagementService
+        ISecureStorageService secureStorageService)
+        : IAssetManagementService
     {
         private readonly IAssetExpansion _assetExpansion = assetExpansion;
         private readonly IDirectory _directory = directory;

@@ -17,7 +17,8 @@ namespace abremir.AllMyBricks.DataSynchronizer.Services
         IOnboardingService onboardingService,
         IUserSynchronizer userSynchronizer,
         ISecureStorageService secureStorageService,
-        IMessageHub messageHub) : IUserSynchronizationService
+        IMessageHub messageHub)
+        : IUserSynchronizationService
     {
         private readonly IBricksetUserRepository _bricksetUserRepository = bricksetUserRepository;
         private readonly IOnboardingService _onboardingService = onboardingService;

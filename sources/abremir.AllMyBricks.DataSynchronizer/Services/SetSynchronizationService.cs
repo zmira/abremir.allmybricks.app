@@ -11,7 +11,8 @@ namespace abremir.AllMyBricks.DataSynchronizer.Services
         ISubthemeSynchronizer subthemeSynchronizer,
         IFullSetSynchronizer fullSetSynchronizer,
         IPartialSetSynchronizer partialSetSynchronizer,
-        IMessageHub messageHub) : ISetSynchronizationService
+        IMessageHub messageHub)
+        : ISetSynchronizationService
     {
         private readonly IThemeSynchronizer _themeSynchronizer = themeSynchronizer;
         private readonly ISubthemeSynchronizer _subthemeSynchronizer = subthemeSynchronizer;

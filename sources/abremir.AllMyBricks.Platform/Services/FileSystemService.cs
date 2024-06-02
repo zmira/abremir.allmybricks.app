@@ -8,7 +8,8 @@ namespace abremir.AllMyBricks.Platform.Services
 {
     public class FileSystemService(
         IFileSystem fileSystem,
-        IFile file) : IFileSystemService
+        IFile file)
+        : IFileSystemService
     {
         private readonly IFileSystem _fileSystem = fileSystem;
         private readonly IFile _file = file;

@@ -9,7 +9,8 @@ namespace abremir.AllMyBricks.Data.Services
 {
     public class RepositoryService(
         IFileSystemService fileSystemService,
-        IMigrationRunner migrationRunner) : IRepositoryService
+        IMigrationRunner migrationRunner)
+        : IRepositoryService
     {
         private readonly IFileSystemService _fileSystemService = fileSystemService;
         private readonly IMigrationRunner _migrationRunner = migrationRunner;

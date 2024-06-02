@@ -19,7 +19,8 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
         IBricksetApiService bricksetApiService,
         IBricksetUserRepository bricksetUserRepository,
         IMessageHub messageHub,
-        ISetRepository setRepository) : IUserSynchronizer
+        ISetRepository setRepository)
+        : IUserSynchronizer
     {
         private readonly IMessageHub _messageHub = messageHub;
         private readonly IBricksetUserRepository _bricksetUserRepository = bricksetUserRepository;

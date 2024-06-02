@@ -17,7 +17,8 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
         IOnboardingService onboardingService,
         IBricksetApiService bricksetService,
         IThemeRepository themeRepository,
-        IMessageHub messageHub) : IThemeSynchronizer
+        IMessageHub messageHub)
+        : IThemeSynchronizer
     {
         private readonly IOnboardingService _onboardingService = onboardingService;
         private readonly IBricksetApiService _bricksetApiService = bricksetService;
