@@ -9,30 +9,20 @@ using Microsoft.Extensions.Logging;
 
 namespace abremir.AllMyBricks.DatabaseSeeder.Services
 {
-    public class AssetManagementService : IAssetManagementService
+    public class AssetManagementService(
+        IFileSystemService fileSystemService,
+        IAssetCompression assetCompression,
+        IFile file,
+        IRepositoryService repositoryService,
+        ILoggerFactory loggerFactory,
+        IAssetExpansion assetExpansion) : IAssetManagementService
     {
-        private readonly IFileSystemService _fileSystemService;
-        private readonly IAssetCompression _assetCompression;
-        private readonly IFile _file;
-        private readonly IRepositoryService _repositoryService;
-        private readonly ILogger _logger;
-        private readonly IAssetExpansion _assetExpansion;
-
-        public AssetManagementService(
-            IFileSystemService fileSystemService,
-            IAssetCompression assetCompression,
-            IFile file,
-            IRepositoryService repositoryService,
-            ILoggerFactory loggerFactory,
-            IAssetExpansion assetExpansion)
-        {
-            _fileSystemService = fileSystemService;
-            _assetCompression = assetCompression;
-            _file = file;
-            _repositoryService = repositoryService;
-            _logger = loggerFactory.CreateLogger<AssetManagementService>();
-            _assetExpansion = assetExpansion;
-        }
+        private readonly IFileSystemService _fileSystemService = fileSystemService;
+        private readonly IAssetCompression _assetCompression = assetCompression;
+        private readonly IFile _file = file;
+        private readonly IRepositoryService _repositoryService = repositoryService;
+        private readonly ILogger _logger = loggerFactory.CreateLogger<AssetManagementService>();
+        private readonly IAssetExpansion _assetExpansion = assetExpansion;
 
         public void CompressDatabaseFile(bool encrypted)
         {

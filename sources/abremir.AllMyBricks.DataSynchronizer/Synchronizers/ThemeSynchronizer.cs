@@ -13,24 +13,16 @@ using Easy.MessageHub;
 
 namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
 {
-    public class ThemeSynchronizer : IThemeSynchronizer
+    public class ThemeSynchronizer(
+        IOnboardingService onboardingService,
+        IBricksetApiService bricksetService,
+        IThemeRepository themeRepository,
+        IMessageHub messageHub) : IThemeSynchronizer
     {
-        private readonly IOnboardingService _onboardingService;
-        private readonly IBricksetApiService _bricksetApiService;
-        private readonly IThemeRepository _themeRepository;
-        private readonly IMessageHub _messageHub;
-
-        public ThemeSynchronizer(
-            IOnboardingService onboardingService,
-            IBricksetApiService bricksetService,
-            IThemeRepository themeRepository,
-            IMessageHub messageHub)
-        {
-            _onboardingService = onboardingService;
-            _bricksetApiService = bricksetService;
-            _themeRepository = themeRepository;
-            _messageHub = messageHub;
-        }
+        private readonly IOnboardingService _onboardingService = onboardingService;
+        private readonly IBricksetApiService _bricksetApiService = bricksetService;
+        private readonly IThemeRepository _themeRepository = themeRepository;
+        private readonly IMessageHub _messageHub = messageHub;
 
         public async Task Synchronize()
         {

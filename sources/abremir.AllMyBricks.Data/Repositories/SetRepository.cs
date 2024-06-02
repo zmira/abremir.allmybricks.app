@@ -14,14 +14,9 @@ using LiteDB.Async;
 
 namespace abremir.AllMyBricks.Data.Repositories
 {
-    public class SetRepository : ISetRepository
+    public class SetRepository(IRepositoryService repositoryService) : ISetRepository
     {
-        private readonly IRepositoryService _repositoryService;
-
-        public SetRepository(IRepositoryService repositoryService)
-        {
-            _repositoryService = repositoryService;
-        }
+        private readonly IRepositoryService _repositoryService = repositoryService;
 
         public async Task<Set> AddOrUpdate(Set set)
         {

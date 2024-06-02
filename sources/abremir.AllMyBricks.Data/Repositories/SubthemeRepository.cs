@@ -9,14 +9,9 @@ using LiteDB.Async;
 
 namespace abremir.AllMyBricks.Data.Repositories
 {
-    public class SubthemeRepository : ISubthemeRepository
+    public class SubthemeRepository(IRepositoryService repositoryService) : ISubthemeRepository
     {
-        private readonly IRepositoryService _repositoryService;
-
-        public SubthemeRepository(IRepositoryService repositoryService)
-        {
-            _repositoryService = repositoryService;
-        }
+        private readonly IRepositoryService _repositoryService = repositoryService;
 
         public async Task<Subtheme> AddOrUpdate(Subtheme subtheme)
         {

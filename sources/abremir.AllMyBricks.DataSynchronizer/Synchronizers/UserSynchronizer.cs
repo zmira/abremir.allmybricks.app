@@ -15,24 +15,16 @@ using Easy.MessageHub;
 
 namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
 {
-    public class UserSynchronizer : IUserSynchronizer
+    public class UserSynchronizer(
+        IBricksetApiService bricksetApiService,
+        IBricksetUserRepository bricksetUserRepository,
+        IMessageHub messageHub,
+        ISetRepository setRepository) : IUserSynchronizer
     {
-        private readonly IMessageHub _messageHub;
-        private readonly IBricksetUserRepository _bricksetUserRepository;
-        private readonly ISetRepository _setRepository;
-        private readonly IBricksetApiService _bricksetApiService;
-
-        public UserSynchronizer(
-            IBricksetApiService bricksetApiService,
-            IBricksetUserRepository bricksetUserRepository,
-            IMessageHub messageHub,
-            ISetRepository setRepository)
-        {
-            _bricksetApiService = bricksetApiService;
-            _bricksetUserRepository = bricksetUserRepository;
-            _messageHub = messageHub;
-            _setRepository = setRepository;
-        }
+        private readonly IMessageHub _messageHub = messageHub;
+        private readonly IBricksetUserRepository _bricksetUserRepository = bricksetUserRepository;
+        private readonly ISetRepository _setRepository = setRepository;
+        private readonly IBricksetApiService _bricksetApiService = bricksetApiService;
 
         public async Task SynchronizeBricksetPrimaryUser(string apiKey, string username, string userHash)
         {

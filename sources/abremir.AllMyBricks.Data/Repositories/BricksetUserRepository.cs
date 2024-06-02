@@ -12,14 +12,9 @@ using LiteDB.Async;
 
 namespace abremir.AllMyBricks.Data.Repositories
 {
-    public class BricksetUserRepository : IBricksetUserRepository
+    public class BricksetUserRepository(IRepositoryService repositoryService) : IBricksetUserRepository
     {
-        private readonly IRepositoryService _repositoryService;
-
-        public BricksetUserRepository(IRepositoryService repositoryService)
-        {
-            _repositoryService = repositoryService;
-        }
+        private readonly IRepositoryService _repositoryService = repositoryService;
 
         public async Task<BricksetUser> Add(BricksetUserType userType, string username)
         {

@@ -5,14 +5,9 @@ using Microsoft.Maui.Storage;
 
 namespace abremir.AllMyBricks.Platform.Services
 {
-    public class PreferencesService : IPreferencesService
+    public class PreferencesService(IPreferences preferences) : IPreferencesService
     {
-        private readonly IPreferences _preferences;
-
-        public PreferencesService(IPreferences preferences)
-        {
-            _preferences = preferences;
-        }
+        private readonly IPreferences _preferences = preferences;
 
         public ThumbnailCachingStrategy ThumbnailCachingStrategy
         {

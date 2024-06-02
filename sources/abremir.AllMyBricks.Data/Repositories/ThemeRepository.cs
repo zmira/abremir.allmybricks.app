@@ -7,14 +7,9 @@ using abremir.AllMyBricks.Data.Models;
 
 namespace abremir.AllMyBricks.Data.Repositories
 {
-    public class ThemeRepository : IThemeRepository
+    public class ThemeRepository(IRepositoryService repositoryService) : IThemeRepository
     {
-        private readonly IRepositoryService _repositoryService;
-
-        public ThemeRepository(IRepositoryService repositoryService)
-        {
-            _repositoryService = repositoryService;
-        }
+        private readonly IRepositoryService _repositoryService = repositoryService;
 
         public async Task<Theme> AddOrUpdate(Theme theme)
         {

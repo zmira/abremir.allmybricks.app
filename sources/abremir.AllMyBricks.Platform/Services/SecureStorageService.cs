@@ -8,14 +8,9 @@ using Microsoft.Maui.Storage;
 
 namespace abremir.AllMyBricks.Platform.Services
 {
-    public class SecureStorageService : ISecureStorageService
+    public class SecureStorageService(ISecureStorage secureStorage) : ISecureStorageService
     {
-        private readonly ISecureStorage _secureStorage;
-
-        public SecureStorageService(ISecureStorage secureStorage)
-        {
-            _secureStorage = secureStorage;
-        }
+        private readonly ISecureStorage _secureStorage = secureStorage;
 
         public async Task<string> GetBricksetApiKey()
         {

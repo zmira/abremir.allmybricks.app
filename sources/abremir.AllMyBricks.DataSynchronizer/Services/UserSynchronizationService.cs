@@ -12,27 +12,18 @@ using Easy.MessageHub;
 
 namespace abremir.AllMyBricks.DataSynchronizer.Services
 {
-    public class UserSynchronizationService : IUserSynchronizationService
+    public class UserSynchronizationService(
+        IBricksetUserRepository bricksetUserRepository,
+        IOnboardingService onboardingService,
+        IUserSynchronizer userSynchronizer,
+        ISecureStorageService secureStorageService,
+        IMessageHub messageHub) : IUserSynchronizationService
     {
-        private readonly IBricksetUserRepository _bricksetUserRepository;
-        private readonly IOnboardingService _onboardingService;
-        private readonly IUserSynchronizer _userSynchronizer;
-        private readonly ISecureStorageService _secureStorageService;
-        private readonly IMessageHub _messageHub;
-
-        public UserSynchronizationService(
-            IBricksetUserRepository bricksetUserRepository,
-            IOnboardingService onboardingService,
-            IUserSynchronizer userSynchronizer,
-            ISecureStorageService secureStorageService,
-            IMessageHub messageHub)
-        {
-            _bricksetUserRepository = bricksetUserRepository;
-            _onboardingService = onboardingService;
-            _userSynchronizer = userSynchronizer;
-            _secureStorageService = secureStorageService;
-            _messageHub = messageHub;
-        }
+        private readonly IBricksetUserRepository _bricksetUserRepository = bricksetUserRepository;
+        private readonly IOnboardingService _onboardingService = onboardingService;
+        private readonly IUserSynchronizer _userSynchronizer = userSynchronizer;
+        private readonly ISecureStorageService _secureStorageService = secureStorageService;
+        private readonly IMessageHub _messageHub = messageHub;
 
         public async Task SynchronizeBricksetPrimaryUsersSets(string username = null)
         {

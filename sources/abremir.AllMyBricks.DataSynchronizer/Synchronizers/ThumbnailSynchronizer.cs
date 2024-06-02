@@ -11,21 +11,14 @@ using Flurl.Http;
 
 namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
 {
-    public class ThumbnailSynchronizer : IThumbnailSynchronizer
+    public class ThumbnailSynchronizer(
+        IPreferencesService preferencesService,
+        IFileSystemService fileSystemService,
+        IMessageHub messageHub) : IThumbnailSynchronizer
     {
-        private readonly IPreferencesService _preferencesService;
-        private readonly IFileSystemService _fileSystemService;
-        private readonly IMessageHub _messageHub;
-
-        public ThumbnailSynchronizer(
-            IPreferencesService preferencesService,
-            IFileSystemService fileSystemService,
-            IMessageHub messageHub)
-        {
-            _preferencesService = preferencesService;
-            _fileSystemService = fileSystemService;
-            _messageHub = messageHub;
-        }
+        private readonly IPreferencesService _preferencesService = preferencesService;
+        private readonly IFileSystemService _fileSystemService = fileSystemService;
+        private readonly IMessageHub _messageHub = messageHub;
 
         public async Task Synchronize(Set set, bool requestFromSynchronizer = false)
         {

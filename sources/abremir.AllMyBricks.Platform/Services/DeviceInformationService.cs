@@ -6,14 +6,9 @@ using Microsoft.Maui.Devices;
 
 namespace abremir.AllMyBricks.Platform.Services
 {
-    public class DeviceInformationService : IDeviceInformationService
+    public class DeviceInformationService(IDeviceInfo deviceInfo) : IDeviceInformationService
     {
-        private readonly IDeviceInfo _deviceInfo;
-
-        public DeviceInformationService(IDeviceInfo deviceInfo)
-        {
-            _deviceInfo = deviceInfo;
-        }
+        private readonly IDeviceInfo _deviceInfo = deviceInfo;
 
         public Device GenerateNewDeviceIdentification()
         {

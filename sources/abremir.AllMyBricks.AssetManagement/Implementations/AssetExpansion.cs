@@ -9,24 +9,16 @@ using SharpCompress.Common;
 
 namespace abremir.AllMyBricks.AssetManagement.Implementations
 {
-    public class AssetExpansion : IAssetExpansion
+    public class AssetExpansion(
+        IFile file,
+        IDirectory directory,
+        IReaderFactory readerFactory,
+        IMessageHub messageHub) : IAssetExpansion
     {
-        private readonly IFile _file;
-        private readonly IDirectory _directory;
-        private readonly IReaderFactory _readerFactory;
-        private readonly IMessageHub _messageHub;
-
-        public AssetExpansion(
-            IFile file,
-            IDirectory directory,
-            IReaderFactory readerFactory,
-            IMessageHub messageHub)
-        {
-            _file = file;
-            _directory = directory;
-            _readerFactory = readerFactory;
-            _messageHub = messageHub;
-        }
+        private readonly IFile _file = file;
+        private readonly IDirectory _directory = directory;
+        private readonly IReaderFactory _readerFactory = readerFactory;
+        private readonly IMessageHub _messageHub = messageHub;
 
         public bool ExpandAsset(string sourceFilePath, string targetFolderPath, bool overwrite = true, string encryptionKey = null)
         {

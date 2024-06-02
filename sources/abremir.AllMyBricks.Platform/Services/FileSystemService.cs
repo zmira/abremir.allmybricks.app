@@ -6,18 +6,12 @@ using Microsoft.Maui.Storage;
 
 namespace abremir.AllMyBricks.Platform.Services
 {
-    public class FileSystemService : IFileSystemService
+    public class FileSystemService(
+        IFileSystem fileSystem,
+        IFile file) : IFileSystemService
     {
-        private readonly IFileSystem _fileSystem;
-        private readonly IFile _file;
-
-        public FileSystemService(
-            IFileSystem fileSystem,
-            IFile file)
-        {
-            _fileSystem = fileSystem;
-            _file = file;
-        }
+        private readonly IFileSystem _fileSystem = fileSystem;
+        private readonly IFile _file = file;
 
         public string ThumbnailCacheFolder => Path.Combine(_fileSystem.AppDataDirectory, Constants.AllMyBricksDataFolder, Constants.ThumbnailCacheFolder);
 

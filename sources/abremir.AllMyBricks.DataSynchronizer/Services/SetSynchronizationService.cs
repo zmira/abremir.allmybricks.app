@@ -6,27 +6,18 @@ using Easy.MessageHub;
 
 namespace abremir.AllMyBricks.DataSynchronizer.Services
 {
-    public class SetSynchronizationService : ISetSynchronizationService
+    public class SetSynchronizationService(
+        IThemeSynchronizer themeSynchronizer,
+        ISubthemeSynchronizer subthemeSynchronizer,
+        IFullSetSynchronizer fullSetSynchronizer,
+        IPartialSetSynchronizer partialSetSynchronizer,
+        IMessageHub messageHub) : ISetSynchronizationService
     {
-        private readonly IThemeSynchronizer _themeSynchronizer;
-        private readonly ISubthemeSynchronizer _subthemeSynchronizer;
-        private readonly IFullSetSynchronizer _fullSetSynchronizer;
-        private readonly IPartialSetSynchronizer _partialSetSynchronizer;
-        private readonly IMessageHub _messageHub;
-
-        public SetSynchronizationService(
-            IThemeSynchronizer themeSynchronizer,
-            ISubthemeSynchronizer subthemeSynchronizer,
-            IFullSetSynchronizer fullSetSynchronizer,
-            IPartialSetSynchronizer partialSetSynchronizer,
-            IMessageHub messageHub)
-        {
-            _themeSynchronizer = themeSynchronizer;
-            _subthemeSynchronizer = subthemeSynchronizer;
-            _fullSetSynchronizer = fullSetSynchronizer;
-            _partialSetSynchronizer = partialSetSynchronizer;
-            _messageHub = messageHub;
-        }
+        private readonly IThemeSynchronizer _themeSynchronizer = themeSynchronizer;
+        private readonly ISubthemeSynchronizer _subthemeSynchronizer = subthemeSynchronizer;
+        private readonly IFullSetSynchronizer _fullSetSynchronizer = fullSetSynchronizer;
+        private readonly IPartialSetSynchronizer _partialSetSynchronizer = partialSetSynchronizer;
+        private readonly IMessageHub _messageHub = messageHub;
 
         public async Task Synchronize()
         {

@@ -12,24 +12,16 @@ using abremir.AllMyBricks.UserManagement.Interfaces;
 
 namespace abremir.AllMyBricks.UserManagement.Services
 {
-    public class UserService : IUserService
+    public class UserService(
+        IBricksetApiService bricksetApiService,
+        IBricksetUserRepository bricksetUserRepository,
+        ISecureStorageService secureStorageService,
+        IUserSynchronizationService userSynchronizationService) : IUserService
     {
-        private readonly IBricksetApiService _bricksetApiService;
-        private readonly IBricksetUserRepository _bricksetUserRepository;
-        private readonly ISecureStorageService _secureStorageService;
-        private readonly IUserSynchronizationService _userSynchronizationService;
-
-        public UserService(
-            IBricksetApiService bricksetApiService,
-            IBricksetUserRepository bricksetUserRepository,
-            ISecureStorageService secureStorageService,
-            IUserSynchronizationService userSynchronizationService)
-        {
-            _bricksetApiService = bricksetApiService;
-            _bricksetUserRepository = bricksetUserRepository;
-            _secureStorageService = secureStorageService;
-            _userSynchronizationService = userSynchronizationService;
-        }
+        private readonly IBricksetApiService _bricksetApiService = bricksetApiService;
+        private readonly IBricksetUserRepository _bricksetUserRepository = bricksetUserRepository;
+        private readonly ISecureStorageService _secureStorageService = secureStorageService;
+        private readonly IUserSynchronizationService _userSynchronizationService = userSynchronizationService;
 
         public async Task<bool> AddDefaultUser()
         {

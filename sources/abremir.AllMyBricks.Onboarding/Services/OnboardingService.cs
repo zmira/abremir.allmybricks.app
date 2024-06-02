@@ -5,24 +5,16 @@ using abremir.AllMyBricks.Platform.Interfaces;
 
 namespace abremir.AllMyBricks.Onboarding.Services
 {
-    public class OnboardingService : IOnboardingService
+    public class OnboardingService(
+        ISecureStorageService secureStorageService,
+        IRegistrationService registrationService,
+        IApiKeyService apiKeyService,
+        IDeviceInformationService deviceInformationService) : IOnboardingService
     {
-        private readonly ISecureStorageService _secureStorageService;
-        private readonly IRegistrationService _registrationService;
-        private readonly IApiKeyService _apiKeyService;
-        private readonly IDeviceInformationService _deviceInformationService;
-
-        public OnboardingService(
-            ISecureStorageService secureStorageService,
-            IRegistrationService registrationService,
-            IApiKeyService apiKeyService,
-            IDeviceInformationService deviceInformationService)
-        {
-            _secureStorageService = secureStorageService;
-            _registrationService = registrationService;
-            _apiKeyService = apiKeyService;
-            _deviceInformationService = deviceInformationService;
-        }
+        private readonly ISecureStorageService _secureStorageService = secureStorageService;
+        private readonly IRegistrationService _registrationService = registrationService;
+        private readonly IApiKeyService _apiKeyService = apiKeyService;
+        private readonly IDeviceInformationService _deviceInformationService = deviceInformationService;
 
         public async Task<string> GetBricksetApiKey()
         {

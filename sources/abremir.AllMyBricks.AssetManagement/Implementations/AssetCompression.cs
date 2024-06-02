@@ -10,24 +10,16 @@ using SharpCompress.Writers.Tar;
 
 namespace abremir.AllMyBricks.AssetManagement.Implementations
 {
-    public class AssetCompression : IAssetCompression
+    public class AssetCompression(
+        IFile file,
+        IDirectory directory,
+        IFileStream fileStream,
+        ITarWriter tarWriter) : IAssetCompression
     {
-        private readonly IFile _file;
-        private readonly IDirectory _directory;
-        private readonly IFileStream _fileStream;
-        private readonly ITarWriter _tarWriter;
-
-        public AssetCompression(
-            IFile file,
-            IDirectory directory,
-            IFileStream fileStream,
-            ITarWriter tarWriter)
-        {
-            _file = file;
-            _directory = directory;
-            _fileStream = fileStream;
-            _tarWriter = tarWriter;
-        }
+        private readonly IFile _file = file;
+        private readonly IDirectory _directory = directory;
+        private readonly IFileStream _fileStream = fileStream;
+        private readonly ITarWriter _tarWriter = tarWriter;
 
         public bool CompressAsset(string sourceFilePath, string targetFolderPath, bool overwrite = true, string encryptionKey = null)
         {

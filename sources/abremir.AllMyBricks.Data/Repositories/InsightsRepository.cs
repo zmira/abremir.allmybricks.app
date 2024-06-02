@@ -6,14 +6,9 @@ using abremir.AllMyBricks.Data.Models;
 
 namespace abremir.AllMyBricks.Data.Repositories
 {
-    public class InsightsRepository : IInsightsRepository
+    public class InsightsRepository(IRepositoryService repositoryService) : IInsightsRepository
     {
-        private readonly IRepositoryService _repositoryService;
-
-        public InsightsRepository(IRepositoryService repositoryService)
-        {
-            _repositoryService = repositoryService;
-        }
+        private readonly IRepositoryService _repositoryService = repositoryService;
 
         public async Task<DateTimeOffset?> GetDataSynchronizationTimestamp()
         {

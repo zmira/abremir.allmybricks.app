@@ -12,21 +12,19 @@ using Easy.MessageHub;
 
 namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
 {
-    public class PartialSetSynchronizer : SetSynchronizerBase, IPartialSetSynchronizer
+    public class PartialSetSynchronizer(
+        IInsightsRepository insightsRepository,
+        IOnboardingService onboardingService,
+        IBricksetApiService bricksetApiService,
+        ISetRepository setRepository,
+        IReferenceDataRepository referenceDataRepository,
+        IThemeRepository themeRepository,
+        ISubthemeRepository subthemeRepository,
+        IBricksetUserRepository bricksetUserRepository,
+        IThumbnailSynchronizer thumbnailSynchronizer,
+        IMessageHub messageHub)
+        : SetSynchronizerBase(insightsRepository, onboardingService, bricksetApiService, setRepository, referenceDataRepository, themeRepository, subthemeRepository, bricksetUserRepository, thumbnailSynchronizer, messageHub), IPartialSetSynchronizer
     {
-        public PartialSetSynchronizer(
-            IInsightsRepository insightsRepository,
-            IOnboardingService onboardingService,
-            IBricksetApiService bricksetApiService,
-            ISetRepository setRepository,
-            IReferenceDataRepository referenceDataRepository,
-            IThemeRepository themeRepository,
-            ISubthemeRepository subthemeRepository,
-            IBricksetUserRepository bricksetUserRepository,
-            IThumbnailSynchronizer thumbnailSynchronizer,
-            IMessageHub messageHub)
-            : base(insightsRepository, onboardingService, bricksetApiService, setRepository, referenceDataRepository, themeRepository, subthemeRepository, bricksetUserRepository, thumbnailSynchronizer, messageHub) { }
-
         public async Task Synchronize()
         {
             MessageHub.Publish(new SetSynchronizerStart { Type = SetAcquisitionType.Update });
