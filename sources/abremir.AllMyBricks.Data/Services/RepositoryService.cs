@@ -12,11 +12,14 @@ namespace abremir.AllMyBricks.Data.Services
         IMigrationRunner migrationRunner)
         : IRepositoryService
     {
+        private readonly IFileSystemService _fileSystemService = fileSystemService;
+        private readonly IMigrationRunner _migrationRunner = migrationRunner;
+
         public ILiteRepositoryAsync GetRepository()
         {
-            var repository = new LiteRepositoryAsync(fileSystemService.GetStreamForLocalPathToFile(Constants.AllMyBricksDbFile));
+            var repository = new LiteRepositoryAsync(_fileSystemService.GetStreamForLocalPathToFile(Constants.AllMyBricksDbFile));
 
-            migrationRunner.ApplyMigrations(repository.Database);
+            _migrationRunner.ApplyMigrations(repository.Database);
 
             return repository;
         }

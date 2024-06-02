@@ -16,6 +16,8 @@ namespace abremir.AllMyBricks.Data.Repositories
 {
     public class SetRepository(IRepositoryService repositoryService) : ISetRepository
     {
+        private readonly IRepositoryService _repositoryService = repositoryService;
+
         public async Task<Set> AddOrUpdate(Set set)
         {
             if (set is null
@@ -26,7 +28,7 @@ namespace abremir.AllMyBricks.Data.Repositories
 
             set.TrimAllStrings();
 
-            using var repository = repositoryService.GetRepository();
+            using var repository = _repositoryService.GetRepository();
 
             await repository.UpsertAsync(set).ConfigureAwait(false);
 
@@ -35,7 +37,7 @@ namespace abremir.AllMyBricks.Data.Repositories
 
         public async Task<IEnumerable<Set>> All()
         {
-            using var repository = repositoryService.GetRepository();
+            using var repository = _repositoryService.GetRepository();
 
             return await GetQueryable(repository).ToListAsync().ConfigureAwait(false);
         }
@@ -47,7 +49,7 @@ namespace abremir.AllMyBricks.Data.Repositories
                 return null;
             }
 
-            using var repository = repositoryService.GetRepository();
+            using var repository = _repositoryService.GetRepository();
 
             return await GetQueryable(repository)
                 .Where(set => set.SetId == setId)
@@ -61,7 +63,7 @@ namespace abremir.AllMyBricks.Data.Repositories
                 return [];
             }
 
-            using var repository = repositoryService.GetRepository();
+            using var repository = _repositoryService.GetRepository();
 
             return await GetQueryable(repository)
                 .Where(set => set.Theme.Name == themeName.Trim())
@@ -76,7 +78,7 @@ namespace abremir.AllMyBricks.Data.Repositories
                 return [];
             }
 
-            using var repository = repositoryService.GetRepository();
+            using var repository = _repositoryService.GetRepository();
 
             return await GetQueryable(repository)
                 .Where(set => set.Theme.Name == themeName.Trim() && set.Subtheme.Name == subthemeName.Trim())
@@ -90,7 +92,7 @@ namespace abremir.AllMyBricks.Data.Repositories
                 return [];
             }
 
-            using var repository = repositoryService.GetRepository();
+            using var repository = _repositoryService.GetRepository();
 
             return await GetQueryable(repository)
                 .Where(set => set.ThemeGroup.Value == themeGroupName.Trim())
@@ -104,7 +106,7 @@ namespace abremir.AllMyBricks.Data.Repositories
                 return [];
             }
 
-            using var repository = repositoryService.GetRepository();
+            using var repository = _repositoryService.GetRepository();
 
             return await GetQueryable(repository)
                 .Where(set => set.Category.Value == categoryName.Trim())
@@ -118,7 +120,7 @@ namespace abremir.AllMyBricks.Data.Repositories
                 return [];
             }
 
-            using var repository = repositoryService.GetRepository();
+            using var repository = _repositoryService.GetRepository();
 
             return await GetQueryable(repository)
                 .Where("Tags[*].Value ANY = @0", tagName.Trim())
@@ -132,7 +134,7 @@ namespace abremir.AllMyBricks.Data.Repositories
                 return [];
             }
 
-            using var repository = repositoryService.GetRepository();
+            using var repository = _repositoryService.GetRepository();
 
             return await GetQueryable(repository)
                 .Where(set => set.Year == year)
@@ -146,7 +148,7 @@ namespace abremir.AllMyBricks.Data.Repositories
                 return [];
             }
 
-            using var repository = repositoryService.GetRepository();
+            using var repository = _repositoryService.GetRepository();
 
             return await GetQueryable(repository)
                 .Where("Prices[*].Region ANY = @0", priceRegion.ToString())
@@ -164,7 +166,7 @@ namespace abremir.AllMyBricks.Data.Repositories
                 return [];
             }
 
-            using var repository = repositoryService.GetRepository();
+            using var repository = _repositoryService.GetRepository();
 
             return await GetQueryable(repository)
                 .Where(queryBsonExpression)
@@ -173,7 +175,7 @@ namespace abremir.AllMyBricks.Data.Repositories
 
         public async Task<int> Count()
         {
-            using var repository = repositoryService.GetRepository();
+            using var repository = _repositoryService.GetRepository();
 
             return await repository.Query<Set>().CountAsync().ConfigureAwait(false);
         }
@@ -185,14 +187,14 @@ namespace abremir.AllMyBricks.Data.Repositories
                 return 0;
             }
 
-            using var repository = repositoryService.GetRepository();
+            using var repository = _repositoryService.GetRepository();
 
             return await repository.DeleteManyAsync<Set>(set => setIds.Contains(set.SetId)).ConfigureAwait(false);
         }
 
         public async Task<IEnumerable<Set>> Find(Expression<Func<Set, bool>> predicate)
         {
-            using var repository = repositoryService.GetRepository();
+            using var repository = _repositoryService.GetRepository();
 
             return await GetQueryable(repository)
                 .Where(predicate)

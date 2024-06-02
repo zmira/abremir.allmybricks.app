@@ -12,10 +12,14 @@ namespace abremir.AllMyBricks.AssetManagement.Services
         ISecureStorageService secureStorageService)
         : IAssetManagementService
     {
+        private readonly IAssetExpansion _assetExpansion = assetExpansion;
+        private readonly IDirectory _directory = directory;
+        private readonly ISecureStorageService _secureStorageService = secureStorageService;
+
         public async Task<bool> InstallAllMyBricksSeedDatabase(string databaseSeedUrl, string targetFolderPath)
         {
             if ((!string.IsNullOrWhiteSpace(targetFolderPath)
-                    && !directory.Exists(targetFolderPath))
+                    && !_directory.Exists(targetFolderPath))
                 || string.IsNullOrWhiteSpace(databaseSeedUrl)
                 || !(Uri.TryCreate(databaseSeedUrl, UriKind.Absolute, out Uri uriResult)
                     && (uriResult.Scheme == Uri.UriSchemeHttps || uriResult.Scheme == Uri.UriSchemeHttp)
@@ -24,7 +28,7 @@ namespace abremir.AllMyBricks.AssetManagement.Services
                 return false;
             }
 
-            return assetExpansion.ExpandAsset(await databaseSeedUrl.GetStreamAsync().ConfigureAwait(false), targetFolderPath ?? string.Empty, encryptionKey: await secureStorageService.GetBricksetApiKey().ConfigureAwait(false));
+            return _assetExpansion.ExpandAsset(await databaseSeedUrl.GetStreamAsync().ConfigureAwait(false), targetFolderPath ?? string.Empty, encryptionKey: await _secureStorageService.GetBricksetApiKey().ConfigureAwait(false));
         }
     }
 }

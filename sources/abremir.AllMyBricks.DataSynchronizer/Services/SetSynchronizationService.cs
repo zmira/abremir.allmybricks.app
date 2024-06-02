@@ -14,23 +14,29 @@ namespace abremir.AllMyBricks.DataSynchronizer.Services
         IMessageHub messageHub)
         : ISetSynchronizationService
     {
+        private readonly IThemeSynchronizer _themeSynchronizer = themeSynchronizer;
+        private readonly ISubthemeSynchronizer _subthemeSynchronizer = subthemeSynchronizer;
+        private readonly IFullSetSynchronizer _fullSetSynchronizer = fullSetSynchronizer;
+        private readonly IPartialSetSynchronizer _partialSetSynchronizer = partialSetSynchronizer;
+        private readonly IMessageHub _messageHub = messageHub;
+
         public async Task Synchronize()
         {
-            messageHub.Publish(new SetSynchronizationServiceStart());
+            _messageHub.Publish(new SetSynchronizationServiceStart());
 
             try
             {
-                await themeSynchronizer.Synchronize().ConfigureAwait(false);
-                await subthemeSynchronizer.Synchronize().ConfigureAwait(false);
-                await fullSetSynchronizer.Synchronize().ConfigureAwait(false);
-                await partialSetSynchronizer.Synchronize().ConfigureAwait(false);
+                await _themeSynchronizer.Synchronize().ConfigureAwait(false);
+                await _subthemeSynchronizer.Synchronize().ConfigureAwait(false);
+                await _fullSetSynchronizer.Synchronize().ConfigureAwait(false);
+                await _partialSetSynchronizer.Synchronize().ConfigureAwait(false);
             }
             catch (Exception ex)
             {
-                messageHub.Publish(new SetSynchronizationServiceException { Exception = ex });
+                _messageHub.Publish(new SetSynchronizationServiceException { Exception = ex });
             }
 
-            messageHub.Publish(new SetSynchronizationServiceEnd());
+            _messageHub.Publish(new SetSynchronizationServiceEnd());
         }
     }
 }

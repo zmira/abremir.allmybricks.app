@@ -11,11 +11,14 @@ namespace abremir.AllMyBricks.Platform.Services
         IFile file)
         : IFileSystemService
     {
-        public string ThumbnailCacheFolder => Path.Combine(fileSystem.AppDataDirectory, Constants.AllMyBricksDataFolder, Constants.ThumbnailCacheFolder);
+        private readonly IFileSystem _fileSystem = fileSystem;
+        private readonly IFile _file = file;
+
+        public string ThumbnailCacheFolder => Path.Combine(_fileSystem.AppDataDirectory, Constants.AllMyBricksDataFolder, Constants.ThumbnailCacheFolder);
 
         public string GetLocalPathToFile(string filename, string subFolder = null)
         {
-            return Path.Combine(fileSystem.AppDataDirectory,
+            return Path.Combine(_fileSystem.AppDataDirectory,
                 Constants.AllMyBricksDataFolder,
                 string.IsNullOrWhiteSpace(subFolder?.Trim()) ? string.Empty : subFolder.Trim(),
                 (filename ?? string.Empty).Trim());
@@ -42,7 +45,7 @@ namespace abremir.AllMyBricks.Platform.Services
                 Directory.CreateDirectory(thumbnailFolder);
             }
 
-            await file.WriteAllBytes(Path.Combine(thumbnailFolder, filename), thumbnail).ConfigureAwait(false);
+            await _file.WriteAllBytes(Path.Combine(thumbnailFolder, filename), thumbnail).ConfigureAwait(false);
         }
 
         public bool ClearThumbnailCache()

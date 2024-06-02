@@ -21,25 +21,31 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
         IMessageHub messageHub)
         : ISubthemeSynchronizer
     {
+        private readonly IOnboardingService _onboardingService = onboardingService;
+        private readonly IBricksetApiService _bricksetApiService = bricksetApiService;
+        private readonly IThemeRepository _themeRepository = themeRepository;
+        private readonly ISubthemeRepository _subthemeRepository = subthemeRepository;
+        private readonly IMessageHub _messageHub = messageHub;
+
         public async Task Synchronize()
         {
-            messageHub.Publish(new SubthemeSynchronizerStart());
+            _messageHub.Publish(new SubthemeSynchronizerStart());
 
-            var apiKey = await onboardingService.GetBricksetApiKey().ConfigureAwait(false);
+            var apiKey = await _onboardingService.GetBricksetApiKey().ConfigureAwait(false);
 
             if (string.IsNullOrWhiteSpace(apiKey))
             {
                 var exception = new Exception("Invalid Brickset API key");
-                messageHub.Publish(new SubthemeSynchronizerException { Exception = exception });
+                _messageHub.Publish(new SubthemeSynchronizerException { Exception = exception });
 
                 throw exception;
             }
 
             try
             {
-                var themes = await themeRepository.All().ConfigureAwait(false);
+                var themes = await _themeRepository.All().ConfigureAwait(false);
 
-                messageHub.Publish(new ThemesAcquired { Count = themes.Count() });
+                _messageHub.Publish(new ThemesAcquired { Count = themes.Count() });
 
                 foreach (var theme in themes)
                 {
@@ -49,39 +55,39 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
                         Theme = theme.Name
                     };
 
-                    var bricksetSubthemes = (await bricksetApiService.GetSubthemes(getSubthemesParameters).ConfigureAwait(false)).ToList();
+                    var bricksetSubthemes = (await _bricksetApiService.GetSubthemes(getSubthemesParameters).ConfigureAwait(false)).ToList();
 
-                    messageHub.Publish(new SubthemesAcquired { Theme = theme.Name, Count = bricksetSubthemes.Count });
+                    _messageHub.Publish(new SubthemesAcquired { Theme = theme.Name, Count = bricksetSubthemes.Count });
 
                     foreach (var bricksetSubtheme in bricksetSubthemes)
                     {
-                        messageHub.Publish(new SynchronizingSubthemeStart { Theme = theme.Name, Subtheme = bricksetSubtheme.Subtheme });
+                        _messageHub.Publish(new SynchronizingSubthemeStart { Theme = theme.Name, Subtheme = bricksetSubtheme.Subtheme });
 
                         var subtheme = bricksetSubtheme.ToSubtheme();
 
                         subtheme.Theme = theme;
 
-                        var persistedSubtheme = await subthemeRepository.Get(subtheme.Theme.Name, subtheme.Name).ConfigureAwait(false);
+                        var persistedSubtheme = await _subthemeRepository.Get(subtheme.Theme.Name, subtheme.Name).ConfigureAwait(false);
 
                         if (persistedSubtheme != null)
                         {
                             subtheme.Id = persistedSubtheme.Id;
                         }
 
-                        await subthemeRepository.AddOrUpdate(subtheme).ConfigureAwait(false);
+                        await _subthemeRepository.AddOrUpdate(subtheme).ConfigureAwait(false);
 
-                        messageHub.Publish(new SynchronizingSubthemeEnd { Theme = theme.Name, Subtheme = bricksetSubtheme.Subtheme });
+                        _messageHub.Publish(new SynchronizingSubthemeEnd { Theme = theme.Name, Subtheme = bricksetSubtheme.Subtheme });
                     }
                 }
             }
             catch (Exception ex)
             {
-                messageHub.Publish(new SubthemeSynchronizerException { Exception = ex });
+                _messageHub.Publish(new SubthemeSynchronizerException { Exception = ex });
 
                 throw;
             }
 
-            messageHub.Publish(new SubthemeSynchronizerEnd());
+            _messageHub.Publish(new SubthemeSynchronizerEnd());
         }
     }
 }

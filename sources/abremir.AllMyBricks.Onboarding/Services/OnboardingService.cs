@@ -12,15 +12,20 @@ namespace abremir.AllMyBricks.Onboarding.Services
         IDeviceInformationService deviceInformationService)
         : IOnboardingService
     {
+        private readonly ISecureStorageService _secureStorageService = secureStorageService;
+        private readonly IRegistrationService _registrationService = registrationService;
+        private readonly IApiKeyService _apiKeyService = apiKeyService;
+        private readonly IDeviceInformationService _deviceInformationService = deviceInformationService;
+
         public async Task<string> GetBricksetApiKey()
         {
-            var bricksetApiKey = await secureStorageService.GetBricksetApiKey().ConfigureAwait(false);
+            var bricksetApiKey = await _secureStorageService.GetBricksetApiKey().ConfigureAwait(false);
 
             if (string.IsNullOrWhiteSpace(bricksetApiKey))
             {
                 bricksetApiKey = await GetApiKeyFromOnboardingServiceEndpoint().ConfigureAwait(false);
 
-                await secureStorageService.SaveBricksetApiKey(bricksetApiKey).ConfigureAwait(false);
+                await _secureStorageService.SaveBricksetApiKey(bricksetApiKey).ConfigureAwait(false);
             }
 
             return bricksetApiKey;
@@ -30,21 +35,21 @@ namespace abremir.AllMyBricks.Onboarding.Services
         {
             Identification identification;
 
-            if (!await secureStorageService.IsDeviceIdentificationCreated().ConfigureAwait(false))
+            if (!await _secureStorageService.IsDeviceIdentificationCreated().ConfigureAwait(false))
             {
-                identification = await registrationService.Register(new Identification
+                identification = await _registrationService.Register(new Identification
                 {
-                    DeviceIdentification = deviceInformationService.GenerateNewDeviceIdentification()
+                    DeviceIdentification = _deviceInformationService.GenerateNewDeviceIdentification()
                 }).ConfigureAwait(false);
 
-                await secureStorageService.SaveDeviceIdentification(identification).ConfigureAwait(false);
+                await _secureStorageService.SaveDeviceIdentification(identification).ConfigureAwait(false);
             }
             else
             {
-                identification = await secureStorageService.GetDeviceIdentification().ConfigureAwait(false);
+                identification = await _secureStorageService.GetDeviceIdentification().ConfigureAwait(false);
             }
 
-            return await apiKeyService.GetBricksetApiKey(identification).ConfigureAwait(false);
+            return await _apiKeyService.GetBricksetApiKey(identification).ConfigureAwait(false);
         }
     }
 }
