@@ -12,21 +12,35 @@ using Easy.MessageHub;
 
 namespace abremir.AllMyBricks.DataSynchronizer.Services
 {
-    public class UserSynchronizationService(
-        IBricksetUserRepository bricksetUserRepository,
-        IOnboardingService onboardingService,
-        IUserSynchronizer userSynchronizer,
-        ISecureStorageService secureStorageService,
-        IMessageHub messageHub)
-        : IUserSynchronizationService
+    public class UserSynchronizationService : IUserSynchronizationService
     {
+        private readonly IBricksetUserRepository _bricksetUserRepository;
+        private readonly IOnboardingService _onboardingService;
+        private readonly IUserSynchronizer _userSynchronizer;
+        private readonly ISecureStorageService _secureStorageService;
+        private readonly IMessageHub _messageHub;
+
+        public UserSynchronizationService(
+            IBricksetUserRepository bricksetUserRepository,
+            IOnboardingService onboardingService,
+            IUserSynchronizer userSynchronizer,
+            ISecureStorageService secureStorageService,
+            IMessageHub messageHub)
+        {
+            _bricksetUserRepository = bricksetUserRepository;
+            _onboardingService = onboardingService;
+            _userSynchronizer = userSynchronizer;
+            _secureStorageService = secureStorageService;
+            _messageHub = messageHub;
+        }
+
         public async Task SynchronizeBricksetPrimaryUsersSets(string username = null)
         {
-            messageHub.Publish(new UserSynchronizationServiceStart { UserType = BricksetUserType.Primary });
+            _messageHub.Publish(new UserSynchronizationServiceStart { UserType = BricksetUserType.Primary });
 
             try
             {
-                var apiKey = await onboardingService.GetBricksetApiKey().ConfigureAwait(false);
+                var apiKey = await _onboardingService.GetBricksetApiKey().ConfigureAwait(false);
 
                 if (string.IsNullOrWhiteSpace(apiKey))
                 {
@@ -37,18 +51,18 @@ namespace abremir.AllMyBricks.DataSynchronizer.Services
                 {
                     List<Task> tasks = [];
 
-                    (await bricksetUserRepository
+                    (await _bricksetUserRepository
                         .GetAllUsernames(BricksetUserType.Primary).ConfigureAwait(false))
                         .ToList()
                         .ForEach(bricksetUsername => tasks.Add(SynchronizeBricksetPrimaryUser(apiKey, bricksetUsername)));
 
-                    messageHub.Publish(new UsersAcquired { UserType = BricksetUserType.Primary, Count = tasks.Count });
+                    _messageHub.Publish(new UsersAcquired { UserType = BricksetUserType.Primary, Count = tasks.Count });
 
                     await Task.WhenAll(tasks).ConfigureAwait(false);
                 }
-                else if (await bricksetUserRepository.Exists(username).ConfigureAwait(false))
+                else if (await _bricksetUserRepository.Exists(username).ConfigureAwait(false))
                 {
-                    messageHub.Publish(new UsersAcquired { UserType = BricksetUserType.Primary, Count = 1 });
+                    _messageHub.Publish(new UsersAcquired { UserType = BricksetUserType.Primary, Count = 1 });
 
                     await SynchronizeBricksetPrimaryUser(apiKey, username).ConfigureAwait(false);
                 }
@@ -59,23 +73,23 @@ namespace abremir.AllMyBricks.DataSynchronizer.Services
             }
             catch (AggregateException aggEx)
             {
-                messageHub.Publish(new UserSynchronizationServiceException { UserType = BricksetUserType.Primary, Exceptions = aggEx.InnerExceptions });
+                _messageHub.Publish(new UserSynchronizationServiceException { UserType = BricksetUserType.Primary, Exceptions = aggEx.InnerExceptions });
             }
             catch (Exception ex)
             {
-                messageHub.Publish(new UserSynchronizationServiceException { UserType = BricksetUserType.Primary, Exceptions = [ex] });
+                _messageHub.Publish(new UserSynchronizationServiceException { UserType = BricksetUserType.Primary, Exceptions = [ex] });
             }
 
-            messageHub.Publish(new UserSynchronizationServiceEnd { UserType = BricksetUserType.Primary });
+            _messageHub.Publish(new UserSynchronizationServiceEnd { UserType = BricksetUserType.Primary });
         }
 
         public async Task SynchronizeBricksetFriendsSets(string username = null)
         {
-            messageHub.Publish(new UserSynchronizationServiceStart { UserType = BricksetUserType.Friend });
+            _messageHub.Publish(new UserSynchronizationServiceStart { UserType = BricksetUserType.Friend });
 
             try
             {
-                var apiKey = await onboardingService.GetBricksetApiKey().ConfigureAwait(false);
+                var apiKey = await _onboardingService.GetBricksetApiKey().ConfigureAwait(false);
 
                 if (string.IsNullOrWhiteSpace(apiKey))
                 {
@@ -86,18 +100,18 @@ namespace abremir.AllMyBricks.DataSynchronizer.Services
                 {
                     List<Task> tasks = [];
 
-                    (await bricksetUserRepository
+                    (await _bricksetUserRepository
                         .GetAllUsernames(BricksetUserType.Friend).ConfigureAwait(false))
                         .ToList()
                         .ForEach(bricksetUsername => tasks.Add(SynchronizeBricksetFriend(apiKey, bricksetUsername)));
 
-                    messageHub.Publish(new UsersAcquired { UserType = BricksetUserType.Friend, Count = tasks.Count });
+                    _messageHub.Publish(new UsersAcquired { UserType = BricksetUserType.Friend, Count = tasks.Count });
 
                     await Task.WhenAll(tasks).ConfigureAwait(false);
                 }
-                else if (await bricksetUserRepository.Exists(username).ConfigureAwait(false))
+                else if (await _bricksetUserRepository.Exists(username).ConfigureAwait(false))
                 {
-                    messageHub.Publish(new UsersAcquired { UserType = BricksetUserType.Friend, Count = 1 });
+                    _messageHub.Publish(new UsersAcquired { UserType = BricksetUserType.Friend, Count = 1 });
 
                     await SynchronizeBricksetFriend(apiKey, username).ConfigureAwait(false);
                 }
@@ -108,27 +122,27 @@ namespace abremir.AllMyBricks.DataSynchronizer.Services
             }
             catch (Exception ex)
             {
-                messageHub.Publish(new UserSynchronizationServiceException { UserType = BricksetUserType.Friend, Exceptions = [ex] });
+                _messageHub.Publish(new UserSynchronizationServiceException { UserType = BricksetUserType.Friend, Exceptions = [ex] });
             }
 
-            messageHub.Publish(new UserSynchronizationServiceEnd { UserType = BricksetUserType.Friend });
+            _messageHub.Publish(new UserSynchronizationServiceEnd { UserType = BricksetUserType.Friend });
         }
 
         private async Task SynchronizeBricksetPrimaryUser(string apiKey, string username)
         {
-            var userHash = await secureStorageService.GetBricksetUserHash(username).ConfigureAwait(false);
+            var userHash = await _secureStorageService.GetBricksetUserHash(username).ConfigureAwait(false);
 
             if (string.IsNullOrWhiteSpace(userHash))
             {
                 throw new Exception($"Invalid user hash for primary user '{username}'");
             }
 
-            await userSynchronizer.SynchronizeBricksetPrimaryUser(apiKey, username, userHash).ConfigureAwait(false);
+            await _userSynchronizer.SynchronizeBricksetPrimaryUser(apiKey, username, userHash).ConfigureAwait(false);
         }
 
         private async Task SynchronizeBricksetFriend(string apiKey, string username)
         {
-            await userSynchronizer.SynchronizeBricksetFriend(apiKey, username).ConfigureAwait(false);
+            await _userSynchronizer.SynchronizeBricksetFriend(apiKey, username).ConfigureAwait(false);
         }
     }
 }

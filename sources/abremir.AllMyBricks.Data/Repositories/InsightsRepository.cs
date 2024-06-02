@@ -6,8 +6,15 @@ using abremir.AllMyBricks.Data.Models;
 
 namespace abremir.AllMyBricks.Data.Repositories
 {
-    public class InsightsRepository(IRepositoryService repositoryService) : IInsightsRepository
+    public class InsightsRepository : IInsightsRepository
     {
+        private readonly IRepositoryService _repositoryService;
+
+        public InsightsRepository(IRepositoryService repositoryService)
+        {
+            _repositoryService = repositoryService;
+        }
+
         public async Task<DateTimeOffset?> GetDataSynchronizationTimestamp()
         {
             return (await GetInsights().ConfigureAwait(false))?.DataSynchronizationTimestamp;
@@ -18,14 +25,14 @@ namespace abremir.AllMyBricks.Data.Repositories
             var insights = await GetInsights().ConfigureAwait(false) ?? new Insights { Id = 1 };
             insights.DataSynchronizationTimestamp = dataSynchronizationTimestamp.ToHundredthOfSecond();
 
-            using var repository = repositoryService.GetRepository();
+            using var repository = _repositoryService.GetRepository();
 
             await repository.UpsertAsync(insights).ConfigureAwait(false);
         }
 
         private async Task<Insights> GetInsights()
         {
-            using var repository = repositoryService.GetRepository();
+            using var repository = _repositoryService.GetRepository();
 
             return await repository.FirstOrDefaultAsync<Insights>("1 = 1").ConfigureAwait(false);
         }

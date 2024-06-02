@@ -12,8 +12,15 @@ using LiteDB.Async;
 
 namespace abremir.AllMyBricks.Data.Repositories
 {
-    public class BricksetUserRepository(IRepositoryService repositoryService) : IBricksetUserRepository
+    public class BricksetUserRepository : IBricksetUserRepository
     {
+        private readonly IRepositoryService _repositoryService;
+
+        public BricksetUserRepository(IRepositoryService repositoryService)
+        {
+            _repositoryService = repositoryService;
+        }
+
         public async Task<BricksetUser> Add(BricksetUserType userType, string username)
         {
             if (string.IsNullOrWhiteSpace(username))
@@ -35,7 +42,7 @@ namespace abremir.AllMyBricks.Data.Repositories
                 Sets = []
             };
 
-            using var repository = repositoryService.GetRepository();
+            using var repository = _repositoryService.GetRepository();
 
             await repository.InsertAsync(bricksetUser).ConfigureAwait(false);
 
@@ -49,7 +56,7 @@ namespace abremir.AllMyBricks.Data.Repositories
                 return null;
             }
 
-            using var repository = repositoryService.GetRepository();
+            using var repository = _repositoryService.GetRepository();
 
             return await GetQueryable(repository)
                 .Where(bricksetUser => bricksetUser.BricksetUsername == username.Trim())
@@ -70,7 +77,7 @@ namespace abremir.AllMyBricks.Data.Repositories
                 return false;
             }
 
-            using var repository = repositoryService.GetRepository();
+            using var repository = _repositoryService.GetRepository();
 
             return await repository.DeleteAsync<BricksetUser>(bricksetUser.Id).ConfigureAwait(false);
         }
@@ -85,7 +92,7 @@ namespace abremir.AllMyBricks.Data.Repositories
                 return null;
             }
 
-            using var repository = repositoryService.GetRepository();
+            using var repository = _repositoryService.GetRepository();
 
             if (await repository.FirstOrDefaultAsync<Set>(set => set.SetId == bricksetUserSet.Set.SetId).ConfigureAwait(false) is null)
             {
@@ -140,7 +147,7 @@ namespace abremir.AllMyBricks.Data.Repositories
                 return 0;
             }
 
-            using var repository = repositoryService.GetRepository();
+            using var repository = _repositoryService.GetRepository();
 
             var bricksetUser = await Get(username).ConfigureAwait(false);
 
@@ -167,7 +174,7 @@ namespace abremir.AllMyBricks.Data.Repositories
 
         public async Task<IEnumerable<string>> GetAllUsernames(BricksetUserType userType)
         {
-            using var repository = repositoryService.GetRepository();
+            using var repository = _repositoryService.GetRepository();
 
             return (await repository
                 .FetchAsync<BricksetUser>(bricksetUser => bricksetUser.UserType == userType).ConfigureAwait(false))
@@ -190,7 +197,7 @@ namespace abremir.AllMyBricks.Data.Repositories
 
             bricksetUser.UserSynchronizationTimestamp = userSynchronizationTimestamp;
 
-            using var repository = repositoryService.GetRepository();
+            using var repository = _repositoryService.GetRepository();
 
             await repository.UpdateAsync(bricksetUser).ConfigureAwait(false);
 

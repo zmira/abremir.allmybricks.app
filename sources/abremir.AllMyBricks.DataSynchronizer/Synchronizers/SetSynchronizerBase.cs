@@ -17,28 +17,42 @@ using Easy.MessageHub;
 
 namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
 {
-    public abstract class SetSynchronizerBase(
-        IInsightsRepository insightsRepository,
-        IOnboardingService onboardingService,
-        IBricksetApiService bricksetApiService,
-        ISetRepository setRepository,
-        IReferenceDataRepository referenceDataRepository,
-        IThemeRepository themeRepository,
-        ISubthemeRepository subthemeRepository,
-        IBricksetUserRepository bricksetUserRepository,
-        IThumbnailSynchronizer thumbnailSynchronizer,
-        IMessageHub messageHub)
+    public abstract class SetSynchronizerBase
     {
-        protected readonly IInsightsRepository InsightsRepository = insightsRepository;
-        protected readonly IOnboardingService OnboardingService = onboardingService;
-        protected readonly IBricksetApiService BricksetApiService = bricksetApiService;
-        protected readonly ISetRepository SetRepository = setRepository;
-        protected readonly IReferenceDataRepository ReferenceDataRepository = referenceDataRepository;
-        protected readonly IThemeRepository ThemeRepository = themeRepository;
-        protected readonly ISubthemeRepository SubthemeRepository = subthemeRepository;
-        protected readonly IBricksetUserRepository BricksetUserRepository = bricksetUserRepository;
-        protected readonly IThumbnailSynchronizer ThumbnailSynchronizer = thumbnailSynchronizer;
-        protected readonly IMessageHub MessageHub = messageHub;
+        protected readonly IInsightsRepository InsightsRepository;
+        protected readonly IOnboardingService OnboardingService;
+        protected readonly IBricksetApiService BricksetApiService;
+        protected readonly ISetRepository SetRepository;
+        protected readonly IReferenceDataRepository ReferenceDataRepository;
+        protected readonly IThemeRepository ThemeRepository;
+        protected readonly ISubthemeRepository SubthemeRepository;
+        protected readonly IBricksetUserRepository BricksetUserRepository;
+        protected readonly IThumbnailSynchronizer ThumbnailSynchronizer;
+        protected readonly IMessageHub MessageHub;
+
+        protected SetSynchronizerBase(
+            IInsightsRepository insightsRepository,
+            IOnboardingService onboardingService,
+            IBricksetApiService bricksetApiService,
+            ISetRepository setRepository,
+            IReferenceDataRepository referenceDataRepository,
+            IThemeRepository themeRepository,
+            ISubthemeRepository subthemeRepository,
+            IBricksetUserRepository bricksetUserRepository,
+            IThumbnailSynchronizer thumbnailSynchronizer,
+            IMessageHub messageHub)
+        {
+            InsightsRepository = insightsRepository;
+            OnboardingService = onboardingService;
+            BricksetApiService = bricksetApiService;
+            SetRepository = setRepository;
+            ReferenceDataRepository = referenceDataRepository;
+            ThemeRepository = themeRepository;
+            SubthemeRepository = subthemeRepository;
+            BricksetUserRepository = bricksetUserRepository;
+            ThumbnailSynchronizer = thumbnailSynchronizer;
+            MessageHub = messageHub;
+        }
 
         protected async Task AddOrUpdateSet(string apiKey, Theme theme, Subtheme subtheme, Sets bricksetSet, short? year = null)
         {

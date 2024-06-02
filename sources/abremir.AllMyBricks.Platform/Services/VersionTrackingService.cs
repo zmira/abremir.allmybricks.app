@@ -3,8 +3,15 @@ using Microsoft.Maui.ApplicationModel;
 
 namespace abremir.AllMyBricks.Platform.Services
 {
-    public class VersionTrackingService(IVersionTracking versionTracking) : IVersionTrackingService
+    public class VersionTrackingService : IVersionTrackingService
     {
-        public bool IsFirstLaunch => versionTracking.IsFirstLaunchEver;
+        private readonly IVersionTracking _versionTracking;
+
+        public VersionTrackingService(IVersionTracking versionTracking)
+        {
+            _versionTracking = versionTracking;
+        }
+
+        public bool IsFirstLaunch => _versionTracking.IsFirstLaunchEver;
     }
 }

@@ -6,31 +6,45 @@ using Easy.MessageHub;
 
 namespace abremir.AllMyBricks.DataSynchronizer.Services
 {
-    public class SetSynchronizationService(
-        IThemeSynchronizer themeSynchronizer,
-        ISubthemeSynchronizer subthemeSynchronizer,
-        IFullSetSynchronizer fullSetSynchronizer,
-        IPartialSetSynchronizer partialSetSynchronizer,
-        IMessageHub messageHub)
-        : ISetSynchronizationService
+    public class SetSynchronizationService : ISetSynchronizationService
     {
+        private readonly IThemeSynchronizer _themeSynchronizer;
+        private readonly ISubthemeSynchronizer _subthemeSynchronizer;
+        private readonly IFullSetSynchronizer _fullSetSynchronizer;
+        private readonly IPartialSetSynchronizer _partialSetSynchronizer;
+        private readonly IMessageHub _messageHub;
+
+        public SetSynchronizationService(
+            IThemeSynchronizer themeSynchronizer,
+            ISubthemeSynchronizer subthemeSynchronizer,
+            IFullSetSynchronizer fullSetSynchronizer,
+            IPartialSetSynchronizer partialSetSynchronizer,
+            IMessageHub messageHub)
+        {
+            _themeSynchronizer = themeSynchronizer;
+            _subthemeSynchronizer = subthemeSynchronizer;
+            _fullSetSynchronizer = fullSetSynchronizer;
+            _partialSetSynchronizer = partialSetSynchronizer;
+            _messageHub = messageHub;
+        }
+
         public async Task Synchronize()
         {
-            messageHub.Publish(new SetSynchronizationServiceStart());
+            _messageHub.Publish(new SetSynchronizationServiceStart());
 
             try
             {
-                await themeSynchronizer.Synchronize().ConfigureAwait(false);
-                await subthemeSynchronizer.Synchronize().ConfigureAwait(false);
-                await fullSetSynchronizer.Synchronize().ConfigureAwait(false);
-                await partialSetSynchronizer.Synchronize().ConfigureAwait(false);
+                await _themeSynchronizer.Synchronize().ConfigureAwait(false);
+                await _subthemeSynchronizer.Synchronize().ConfigureAwait(false);
+                await _fullSetSynchronizer.Synchronize().ConfigureAwait(false);
+                await _partialSetSynchronizer.Synchronize().ConfigureAwait(false);
             }
             catch (Exception ex)
             {
-                messageHub.Publish(new SetSynchronizationServiceException { Exception = ex });
+                _messageHub.Publish(new SetSynchronizationServiceException { Exception = ex });
             }
 
-            messageHub.Publish(new SetSynchronizationServiceEnd());
+            _messageHub.Publish(new SetSynchronizationServiceEnd());
         }
     }
 }

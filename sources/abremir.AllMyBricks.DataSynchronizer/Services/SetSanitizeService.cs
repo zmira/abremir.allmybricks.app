@@ -6,27 +6,37 @@ using Easy.MessageHub;
 
 namespace abremir.AllMyBricks.DataSynchronizer.Services
 {
-    public class SetSanitizeService(
-        IThemeSanitizer themeSanitizer,
-        ISetSanitizer setSanitizer,
-        IMessageHub messageHub)
-        : ISetSanitizeService
+    public class SetSanitizeService : ISetSanitizeService
     {
+        private readonly IThemeSanitizer _themeSanitizer;
+        private readonly ISetSanitizer _setSanitizer;
+        private readonly IMessageHub _messageHub;
+
+        public SetSanitizeService(
+            IThemeSanitizer themeSanitizer,
+            ISetSanitizer setSanitizer,
+            IMessageHub messageHub)
+        {
+            _themeSanitizer = themeSanitizer;
+            _setSanitizer = setSanitizer;
+            _messageHub = messageHub;
+        }
+
         public async Task Synchronize()
         {
-            messageHub.Publish(new SetSanitizeServiceStart());
+            _messageHub.Publish(new SetSanitizeServiceStart());
 
             try
             {
-                await themeSanitizer.Synchronize().ConfigureAwait(false);
-                await setSanitizer.Synchronize().ConfigureAwait(false);
+                await _themeSanitizer.Synchronize().ConfigureAwait(false);
+                await _setSanitizer.Synchronize().ConfigureAwait(false);
             }
             catch (Exception ex)
             {
-                messageHub.Publish(new SetSanitizeServiceException { Exception = ex });
+                _messageHub.Publish(new SetSanitizeServiceException { Exception = ex });
             }
 
-            messageHub.Publish(new SetSanitizeServiceEnd());
+            _messageHub.Publish(new SetSanitizeServiceEnd());
         }
     }
 }

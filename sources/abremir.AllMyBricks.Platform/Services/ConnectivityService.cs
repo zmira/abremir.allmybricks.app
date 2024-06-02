@@ -3,8 +3,15 @@ using Microsoft.Maui.Networking;
 
 namespace abremir.AllMyBricks.Platform.Services
 {
-    public class ConnectivityService(IConnectivity connectivity) : IConnectivityService
+    public class ConnectivityService : IConnectivityService
     {
-        public bool IsInternetAccessible => connectivity.NetworkAccess is NetworkAccess.Internet;
+        private readonly IConnectivity _connectivity;
+
+        public ConnectivityService(IConnectivity connectivity)
+        {
+            _connectivity = connectivity;
+        }
+
+        public bool IsInternetAccessible => _connectivity.NetworkAccess is NetworkAccess.Internet;
     }
 }

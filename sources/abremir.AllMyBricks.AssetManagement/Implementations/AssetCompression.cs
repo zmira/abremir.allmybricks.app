@@ -10,28 +10,40 @@ using SharpCompress.Writers.Tar;
 
 namespace abremir.AllMyBricks.AssetManagement.Implementations
 {
-    public class AssetCompression(
-        IFile file,
-        IDirectory directory,
-        IFileStream fileStream,
-        ITarWriter tarWriter)
-        : IAssetCompression
+    public class AssetCompression : IAssetCompression
     {
+        private readonly IFile _file;
+        private readonly IDirectory _directory;
+        private readonly IFileStream _fileStream;
+        private readonly ITarWriter _tarWriter;
+
+        public AssetCompression(
+            IFile file,
+            IDirectory directory,
+            IFileStream fileStream,
+            ITarWriter tarWriter)
+        {
+            _file = file;
+            _directory = directory;
+            _fileStream = fileStream;
+            _tarWriter = tarWriter;
+        }
+
         public bool CompressAsset(string sourceFilePath, string targetFolderPath, bool overwrite = true, string encryptionKey = null)
         {
             if (string.IsNullOrWhiteSpace(sourceFilePath)
-                || !file.Exists(sourceFilePath)
+                || !_file.Exists(sourceFilePath)
                 || (!string.IsNullOrWhiteSpace(targetFolderPath)
-                    && directory.Exists(targetFolderPath)
-                    && (file.GetAttributes(targetFolderPath) & FileAttributes.Directory) is 0))
+                    && _directory.Exists(targetFolderPath)
+                    && (_file.GetAttributes(targetFolderPath) & FileAttributes.Directory) is 0))
             {
                 return false;
             }
 
             if (!string.IsNullOrWhiteSpace(targetFolderPath)
-                && !directory.Exists(targetFolderPath))
+                && !_directory.Exists(targetFolderPath))
             {
-                directory.CreateDirectory(targetFolderPath);
+                _directory.CreateDirectory(targetFolderPath);
             }
 
             var targetCompressedFilePath = Path.Combine(targetFolderPath ?? string.Empty, GetCompressedAssetFileName(sourceFilePath, false));
@@ -39,13 +51,13 @@ namespace abremir.AllMyBricks.AssetManagement.Implementations
             var encrypted = !string.IsNullOrWhiteSpace(encryptionKey);
 
             if (!overwrite
-                && ((file.Exists(targetCompressedFilePath) && !encrypted)
-                    || (file.Exists(targetEncryptedFilePath) && encrypted)))
+                && ((_file.Exists(targetCompressedFilePath) && !encrypted)
+                    || (_file.Exists(targetEncryptedFilePath) && encrypted)))
             {
                 return false;
             }
 
-            file.DeleteFileIfExists(targetCompressedFilePath);
+            _file.DeleteFileIfExists(targetCompressedFilePath);
 
             SaveCompressedFile(sourceFilePath, targetCompressedFilePath);
             EncryptCompressedFileIfRequired(encrypted, targetEncryptedFilePath, targetCompressedFilePath, encryptionKey);
@@ -55,12 +67,12 @@ namespace abremir.AllMyBricks.AssetManagement.Implementations
 
         private void SaveCompressedFile(string sourceFilePath, string compressedFilePath)
         {
-            using var sourceFileStream = fileStream.CreateFileStream(sourceFilePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-            using var targetCompressedFileStream = file.OpenWrite(compressedFilePath);
+            using var sourceFileStream = _fileStream.CreateFileStream(sourceFilePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            using var targetCompressedFileStream = _file.OpenWrite(compressedFilePath);
 
             var tarWriterOptions = new TarWriterOptions(CompressionType.LZip, true);
 
-            using var targetWriter = tarWriter.CreateTarWriter(targetCompressedFileStream, tarWriterOptions);
+            using var targetWriter = _tarWriter.CreateTarWriter(targetCompressedFileStream, tarWriterOptions);
 
             targetWriter.Write(Path.GetFileName(sourceFilePath), sourceFileStream);
         }
@@ -69,10 +81,10 @@ namespace abremir.AllMyBricks.AssetManagement.Implementations
         {
             if (encrypted)
             {
-                file.DeleteFileIfExists(encryptedFilePath);
+                _file.DeleteFileIfExists(encryptedFilePath);
 
                 using var compressedFileStream = GetEncryptedStream(compressedFilePath, encryptionKey);
-                using var targetEncryptedFileStream = file.OpenWrite(encryptedFilePath);
+                using var targetEncryptedFileStream = _file.OpenWrite(encryptedFilePath);
 
                 compressedFileStream.CopyTo(targetEncryptedFileStream);
                 compressedFileStream.Flush();
@@ -80,13 +92,13 @@ namespace abremir.AllMyBricks.AssetManagement.Implementations
                 targetEncryptedFileStream.Flush();
                 targetEncryptedFileStream.Close();
 
-                file.DeleteFileIfExists(compressedFilePath);
+                _file.DeleteFileIfExists(compressedFilePath);
             }
         }
 
         private MemoryStream GetEncryptedStream(string sourceFilePath, string encryptionKey)
         {
-            var inputStream = fileStream.CreateFileStream(sourceFilePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            var inputStream = _fileStream.CreateFileStream(sourceFilePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
 
             using var outputStream = new MemoryStream();
 

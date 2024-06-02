@@ -6,16 +6,24 @@ using Microsoft.Maui.Storage;
 
 namespace abremir.AllMyBricks.Platform.Services
 {
-    public class FileSystemService(
-        IFileSystem fileSystem,
-        IFile file)
-        : IFileSystemService
+    public class FileSystemService : IFileSystemService
     {
-        public string ThumbnailCacheFolder => Path.Combine(fileSystem.AppDataDirectory, Constants.AllMyBricksDataFolder, Constants.ThumbnailCacheFolder);
+        private readonly IFileSystem _fileSystem;
+        private readonly IFile _file;
+
+        public FileSystemService(
+            IFileSystem fileSystem,
+            IFile file)
+        {
+            _fileSystem = fileSystem;
+            _file = file;
+        }
+
+        public string ThumbnailCacheFolder => Path.Combine(_fileSystem.AppDataDirectory, Constants.AllMyBricksDataFolder, Constants.ThumbnailCacheFolder);
 
         public string GetLocalPathToFile(string filename, string subFolder = null)
         {
-            return Path.Combine(fileSystem.AppDataDirectory,
+            return Path.Combine(_fileSystem.AppDataDirectory,
                 Constants.AllMyBricksDataFolder,
                 string.IsNullOrWhiteSpace(subFolder?.Trim()) ? string.Empty : subFolder.Trim(),
                 (filename ?? string.Empty).Trim());
@@ -42,7 +50,7 @@ namespace abremir.AllMyBricks.Platform.Services
                 Directory.CreateDirectory(thumbnailFolder);
             }
 
-            await file.WriteAllBytes(Path.Combine(thumbnailFolder, filename), thumbnail).ConfigureAwait(false);
+            await _file.WriteAllBytes(Path.Combine(thumbnailFolder, filename), thumbnail).ConfigureAwait(false);
         }
 
         public bool ClearThumbnailCache()

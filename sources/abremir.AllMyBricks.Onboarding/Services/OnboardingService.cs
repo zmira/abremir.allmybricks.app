@@ -5,22 +5,34 @@ using abremir.AllMyBricks.Platform.Interfaces;
 
 namespace abremir.AllMyBricks.Onboarding.Services
 {
-    public class OnboardingService(
-        ISecureStorageService secureStorageService,
-        IRegistrationService registrationService,
-        IApiKeyService apiKeyService,
-        IDeviceInformationService deviceInformationService)
-        : IOnboardingService
+    public class OnboardingService : IOnboardingService
     {
+        private readonly ISecureStorageService _secureStorageService;
+        private readonly IRegistrationService _registrationService;
+        private readonly IApiKeyService _apiKeyService;
+        private readonly IDeviceInformationService _deviceInformationService;
+
+        public OnboardingService(
+            ISecureStorageService secureStorageService,
+            IRegistrationService registrationService,
+            IApiKeyService apiKeyService,
+            IDeviceInformationService deviceInformationService)
+        {
+            _secureStorageService = secureStorageService;
+            _registrationService = registrationService;
+            _apiKeyService = apiKeyService;
+            _deviceInformationService = deviceInformationService;
+        }
+
         public async Task<string> GetBricksetApiKey()
         {
-            var bricksetApiKey = await secureStorageService.GetBricksetApiKey().ConfigureAwait(false);
+            var bricksetApiKey = await _secureStorageService.GetBricksetApiKey().ConfigureAwait(false);
 
             if (string.IsNullOrWhiteSpace(bricksetApiKey))
             {
                 bricksetApiKey = await GetApiKeyFromOnboardingServiceEndpoint().ConfigureAwait(false);
 
-                await secureStorageService.SaveBricksetApiKey(bricksetApiKey).ConfigureAwait(false);
+                await _secureStorageService.SaveBricksetApiKey(bricksetApiKey).ConfigureAwait(false);
             }
 
             return bricksetApiKey;
@@ -30,21 +42,21 @@ namespace abremir.AllMyBricks.Onboarding.Services
         {
             Identification identification;
 
-            if (!await secureStorageService.IsDeviceIdentificationCreated().ConfigureAwait(false))
+            if (!await _secureStorageService.IsDeviceIdentificationCreated().ConfigureAwait(false))
             {
-                identification = await registrationService.Register(new Identification
+                identification = await _registrationService.Register(new Identification
                 {
-                    DeviceIdentification = deviceInformationService.GenerateNewDeviceIdentification()
+                    DeviceIdentification = _deviceInformationService.GenerateNewDeviceIdentification()
                 }).ConfigureAwait(false);
 
-                await secureStorageService.SaveDeviceIdentification(identification).ConfigureAwait(false);
+                await _secureStorageService.SaveDeviceIdentification(identification).ConfigureAwait(false);
             }
             else
             {
-                identification = await secureStorageService.GetDeviceIdentification().ConfigureAwait(false);
+                identification = await _secureStorageService.GetDeviceIdentification().ConfigureAwait(false);
             }
 
-            return await apiKeyService.GetBricksetApiKey(identification).ConfigureAwait(false);
+            return await _apiKeyService.GetBricksetApiKey(identification).ConfigureAwait(false);
         }
     }
 }
