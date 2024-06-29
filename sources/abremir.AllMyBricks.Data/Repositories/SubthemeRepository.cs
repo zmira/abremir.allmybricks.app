@@ -4,7 +4,6 @@ using abremir.AllMyBricks.Data.Configuration;
 using abremir.AllMyBricks.Data.Extensions;
 using abremir.AllMyBricks.Data.Interfaces;
 using abremir.AllMyBricks.Data.Models;
-using LiteDB.async;
 using LiteDB.Async;
 
 namespace abremir.AllMyBricks.Data.Repositories
