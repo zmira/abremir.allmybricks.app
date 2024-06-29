@@ -6,7 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Diagnostics" Version="8.2.2" />
-    <PackageReference Include="LiteDB.Async" Version="0.1.7" />
+    <PackageReference Include="LiteDB.Async" Version="0.1.8" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
   </ItemGroup>
 
