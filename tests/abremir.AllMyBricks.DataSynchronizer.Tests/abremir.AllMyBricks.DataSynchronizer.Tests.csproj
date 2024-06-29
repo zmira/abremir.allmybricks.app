@@ -31,7 +31,7 @@
   <ItemGroup>
     <PackageReference Include="Easy.MessageHub" Version="5.0.0" />
     <PackageReference Include="Flurl.Http" Version="4.0.2" />
-    <PackageReference Include="LiteDB.Async" Version="0.1.7" />
+    <PackageReference Include="LiteDB.Async" Version="0.1.8" />
     <PackageReference Include="MSTest" Version="3.4.3" />
     <PackageReference Include="NFluent" Version="3.0.4" />
     <PackageReference Include="NSubstitute" Version="5.1.0" />
