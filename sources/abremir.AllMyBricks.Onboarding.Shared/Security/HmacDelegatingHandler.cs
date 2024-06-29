@@ -18,7 +18,7 @@ namespace abremir.AllMyBricks.Onboarding.Shared.Security
         {
             if (request.Content is null)
             {
-                return null;
+                return default;
             }
 
             var apiKeyRequest = JsonSerializer.Deserialize<ApiKeyRequest>(await request.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false), Constants.DefaultJsonSerializerOptions);
