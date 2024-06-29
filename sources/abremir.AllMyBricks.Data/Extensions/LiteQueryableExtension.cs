@@ -20,7 +20,7 @@ namespace abremir.AllMyBricks.Data.Extensions
             var fields = pathType.GetProperties()
                 .Where(property =>
                     !property.PropertyType.IsValueType
-                    && (property.GetCustomAttribute<BsonRefAttribute>() != null
+                    && (property.GetCustomAttribute<BsonRefAttribute>() is not null
                         || (typeof(IEnumerable).IsAssignableFrom(property.PropertyType) && property.PropertyType != typeof(string))));
 
             List<BsonExpression> paths = [];
@@ -33,7 +33,7 @@ namespace abremir.AllMyBricks.Data.Extensions
                     ? $"{basePath}.{field.Name}[*]"
                     : $"{basePath}.{field.Name}";
 
-                if (field.GetCustomAttribute<BsonRefAttribute>() != null)
+                if (field.GetCustomAttribute<BsonRefAttribute>() is not null)
                 {
                     paths.Add(path);
                 }

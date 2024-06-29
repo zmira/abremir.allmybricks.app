@@ -69,7 +69,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
 
                         var persistedSubtheme = await _subthemeRepository.Get(subtheme.Theme.Name, subtheme.Name).ConfigureAwait(false);
 
-                        if (persistedSubtheme != null)
+                        if (persistedSubtheme is not null)
                         {
                             subtheme.Id = persistedSubtheme.Id;
                         }
