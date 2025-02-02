@@ -12,6 +12,8 @@ namespace abremir.AllMyBricks.Data.Configuration
         {
             ArgumentNullException.ThrowIfNull(services, nameof(services));
 
+            LiteDbConfiguration.Configure();
+
             return services
                 .AddSingleton<IRepositoryService, RepositoryService>()
                 .AddSingleton<IThemeRepository, ThemeRepository>()

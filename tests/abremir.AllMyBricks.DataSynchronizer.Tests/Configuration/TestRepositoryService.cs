@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using abremir.AllMyBricks.Data.Configuration;
 using abremir.AllMyBricks.Data.Interfaces;
 using abremir.AllMyBricks.Data.Services;
 using abremir.AllMyBricks.Platform.Interfaces;
@@ -17,6 +18,8 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Configuration
         public TestRepositoryService()
         {
             _fileSystemService = Substitute.For<IFileSystemService>();
+
+            LiteDbConfiguration.Configure();
         }
 
         public Task<long> CompactRepository()
