@@ -82,10 +82,6 @@
     <PackageReference Include="Flurl.Http" Version="4.0.2" />
     <PackageReference Include="MSTest" Version="3.4.3" />
     <PackageReference Include="NFluent" Version="3.0.4" />
-    <PackageReference Include="coverlet.collector" Version="6.0.2">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>

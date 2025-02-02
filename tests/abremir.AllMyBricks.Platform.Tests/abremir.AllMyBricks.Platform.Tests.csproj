@@ -14,10 +14,6 @@
     <PackageReference Include="NFluent" Version="3.0.4" />
     <PackageReference Include="NSubstitute" Version="5.1.0" />
     <PackageReference Include="NSubstituteAutoMocker.Standard" Version="1.0.0" />
-    <PackageReference Include="coverlet.collector" Version="6.0.2">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>
