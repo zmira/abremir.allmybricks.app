@@ -1,7 +1,7 @@
-﻿using abremir.AllMyBricks.Onboarding.Interfaces;
+﻿using System;
+using abremir.AllMyBricks.Onboarding.Interfaces;
 using abremir.AllMyBricks.Onboarding.Services;
 using abremir.AllMyBricks.Onboarding.Shared.Security;
-using CommunityToolkit.Diagnostics;
 using Flurl.Http.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -11,7 +11,7 @@ namespace abremir.AllMyBricks.Onboarding.Configuration
     {
         public static IServiceCollection AddOnboardingServices(this IServiceCollection services, string allMyBricksOnboardingUrl)
         {
-            Guard.IsNotNull(services);
+            ArgumentNullException.ThrowIfNull(services, nameof(services));
 
             return services
                 .AddSingleton<IFlurlClientCache>(_ => new FlurlClientCache()

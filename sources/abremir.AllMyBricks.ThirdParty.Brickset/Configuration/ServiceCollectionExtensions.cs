@@ -1,6 +1,6 @@
-﻿using abremir.AllMyBricks.ThirdParty.Brickset.Interfaces;
+﻿using System;
+using abremir.AllMyBricks.ThirdParty.Brickset.Interfaces;
 using abremir.AllMyBricks.ThirdParty.Brickset.Services;
-using CommunityToolkit.Diagnostics;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace abremir.AllMyBricks.ThirdParty.Brickset.Configuration
@@ -9,7 +9,7 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Configuration
     {
         public static IServiceCollection AddBricksetServices(this IServiceCollection services)
         {
-            Guard.IsNotNull(services);
+            ArgumentNullException.ThrowIfNull(services, nameof(services));
 
             return services
                 .AddTransient<IBricksetApiService, BricksetApiService>();
