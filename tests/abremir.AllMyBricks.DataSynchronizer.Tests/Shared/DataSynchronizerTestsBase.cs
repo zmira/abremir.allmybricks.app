@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Reflection;
 using abremir.AllMyBricks.Data.Interfaces;
-using abremir.AllMyBricks.DataSynchronizer.Tests.Configuration;
+using abremir.AllMyBricks.Data.Tests.Shared.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace abremir.AllMyBricks.DataSynchronizer.Tests.Shared
@@ -10,7 +10,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Shared
     {
         private readonly Assembly _assembly = Assembly.GetExecutingAssembly();
 
-        protected static readonly IRepositoryService MemoryRepositoryService = new TestRepositoryService();
+        protected static readonly IRepositoryService MemoryRepositoryService = new TestRepositoryService("abremir.AllMyBricks.DataSynchronizer.Tests.litedb");
 
         [TestInitialize]
         public void TestInitialize()

@@ -1,13 +1,13 @@
 ﻿using System.Threading.Tasks;
 using abremir.AllMyBricks.Data.Interfaces;
-using abremir.AllMyBricks.Data.Tests.Configuration;
+using abremir.AllMyBricks.Data.Tests.Shared.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace abremir.AllMyBricks.Data.Tests.Shared
 {
     public class DataTestsBase
     {
-        protected static readonly IRepositoryService MemoryRepositoryService = new TestRepositoryService();
+        protected static readonly IRepositoryService MemoryRepositoryService = new TestRepositoryService("abremir.AllMyBricks.Data.Tests.litedb");
 
         private static void ResetDatabase()
         {
