@@ -44,7 +44,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Services
 
         public async Task<bool> IsBricksetPrimaryUsersDefined()
         {
-            return await Task.Run(() => Settings.BricksetPrimaryUsers != null).ConfigureAwait(false);
+            return await Task.Run(() => Settings.BricksetPrimaryUsers is not null).ConfigureAwait(false);
         }
 
         public async Task SaveBricksetPrimaryUser(string username, string userHash)

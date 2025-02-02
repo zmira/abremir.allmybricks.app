@@ -8,7 +8,7 @@ namespace abremir.AllMyBricks.Data.Extensions
     {
         public static void TrimAllStrings<TSelf>(this TSelf obj)
         {
-            if (obj != null)
+            if (obj is not null)
             {
                 if (obj is IEnumerable)
                 {
@@ -27,7 +27,7 @@ namespace abremir.AllMyBricks.Data.Extensions
                         if (currentNodeType == typeof(String))
                         {
                             string currentValue = (string)p.GetValue(obj, null);
-                            if (currentValue != null && p.CanWrite)
+                            if (currentValue is not null && p.CanWrite)
                             {
                                 p.SetValue(obj, currentValue.Trim(), null);
                             }

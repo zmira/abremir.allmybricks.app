@@ -6,6 +6,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Web;
 using abremir.AllMyBricks.Onboarding.Shared.Configuration;
 using abremir.AllMyBricks.Onboarding.Shared.Extensions;
 using abremir.AllMyBricks.Onboarding.Shared.Models;
@@ -18,14 +19,14 @@ namespace abremir.AllMyBricks.Onboarding.Shared.Security
         {
             if (request.Content is null)
             {
-                return null;
+                return default;
             }
 
-            var apiKeyRequest = JsonSerializer.Deserialize<ApiKeyRequest>(await request.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false));
+            var apiKeyRequest = JsonSerializer.Deserialize<ApiKeyRequest>(await request.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false), Constants.DefaultJsonSerializerOptions);
             var appId = apiKeyRequest.DeviceIdentification.DeviceHash;
             var apiKey = apiKeyRequest.RegistrationHash;
 
-            var requestUri = Uri.EscapeDataString(request.RequestUri.ToString());
+            var requestUri = HttpUtility.UrlEncode(request.RequestUri.AbsoluteUri.ToLower());
             var requestHttpMethod = request.Method.Method;
             var nonce = Guid.NewGuid().ToString("N");
             var requestTimestamp = DateTime.UtcNow.TotalSecondsFromEpochStart().ToString();

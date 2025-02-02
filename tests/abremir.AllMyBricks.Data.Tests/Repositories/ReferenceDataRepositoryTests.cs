@@ -118,7 +118,8 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
 
             if (insert || exists)
             {
-                var referenceDataList = await MemoryRepositoryService.GetRepository().Query<T>().ToListAsync();
+                using var repository = MemoryRepositoryService.GetRepository();
+                var referenceDataList = await repository.Query<T>().ToListAsync();
 
                 Check.That(referenceDataList).CountIs(1);
                 Check.That(referenceDataList[0].Value).IsEqualTo(referenceDataValue);

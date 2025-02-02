@@ -24,7 +24,7 @@ namespace abremir.AllMyBricks.Data.Repositories
 
             var existingBricksetUser = await Get(username).ConfigureAwait(false);
 
-            if (existingBricksetUser != null)
+            if (existingBricksetUser is not null)
             {
                 return existingBricksetUser;
             }
@@ -59,7 +59,7 @@ namespace abremir.AllMyBricks.Data.Repositories
 
         public async Task<bool> Exists(string username)
         {
-            return await Get(username).ConfigureAwait(false) != null;
+            return await Get(username).ConfigureAwait(false) is not null;
         }
 
         public async Task<bool> Remove(string username)
@@ -102,7 +102,7 @@ namespace abremir.AllMyBricks.Data.Repositories
 
             var existingBricksetUserSet = bricksetUser.Sets.FirstOrDefault(set => set.Set.SetId == bricksetUserSet.Set.SetId);
 
-            if (existingBricksetUserSet != null)
+            if (existingBricksetUserSet is not null)
             {
                 if (existingBricksetUserSet.Owned == bricksetUserSet.Owned
                     && existingBricksetUserSet.Wanted == bricksetUserSet.Wanted

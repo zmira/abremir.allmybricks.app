@@ -12,7 +12,7 @@ namespace abremir.AllMyBricks.Onboarding.Shared.Security
         {
             var content = (body as MemoryStream)?.ToArray() ?? [];
 
-            return content.Length != 0
+            return content.Length is not 0
                 ? SHA256.HashData(content)
                 : null;
         }

@@ -28,7 +28,12 @@ namespace abremir.AllMyBricks.Onboarding.Shared.Models
 
         public override int GetHashCode()
         {
-            return new { DeviceIdentification, RegistrationHash, RegistrationTimestamp = RegistrationTimestamp?.ToHundredthOfSecond() }.GetHashCode();
+            return new
+            {
+                DeviceIdentification,
+                RegistrationHash,
+                RegistrationTimestamp = RegistrationTimestamp?.ToHundredthOfSecond()
+            }.GetHashCode();
         }
     }
 }
