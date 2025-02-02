@@ -22,7 +22,7 @@ namespace abremir.AllMyBricks.Data.Tests.Shared
 
         protected static async Task<T> InsertData<T>(T dataToInsert)
         {
-            return (await InsertData(new[] { dataToInsert }))[0];
+            return (await InsertData([dataToInsert]))[0];
         }
 
         protected static async Task<T[]> InsertData<T>(T[] dataToInsert)
