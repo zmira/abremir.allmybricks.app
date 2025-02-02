@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using abremir.AllMyBricks.Data.Interfaces;
-using abremir.AllMyBricks.Data.Tests.Shared.Configuration;
+using abremir.AllMyBricks.Data.Tests.Shared.Interfaces;
+using abremir.AllMyBricks.Data.Tests.Shared.Services;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace abremir.AllMyBricks.Data.Tests.Shared

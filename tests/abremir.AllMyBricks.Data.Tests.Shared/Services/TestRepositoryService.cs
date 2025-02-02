@@ -1,12 +1,13 @@
 ﻿using abremir.AllMyBricks.Data.Configuration;
 using abremir.AllMyBricks.Data.Interfaces;
 using abremir.AllMyBricks.Data.Services;
+using abremir.AllMyBricks.Data.Tests.Shared.Interfaces;
 using abremir.AllMyBricks.Platform.Interfaces;
 using LiteDB.Async;
 using LiteDB.Engine;
 using NSubstitute;
 
-namespace abremir.AllMyBricks.Data.Tests.Shared.Configuration
+namespace abremir.AllMyBricks.Data.Tests.Shared.Services
 {
     public class TestRepositoryService : IRepositoryService, IMemoryRepositoryService
     {
@@ -17,7 +18,7 @@ namespace abremir.AllMyBricks.Data.Tests.Shared.Configuration
 
         public TestRepositoryService(string filename)
         {
-            ArgumentNullException.ThrowIfNullOrWhiteSpace(filename, nameof(filename));
+            ArgumentException.ThrowIfNullOrWhiteSpace(filename, nameof(filename));
 
             _filename = filename;
             _fileSystemService = Substitute.For<IFileSystemService>();
@@ -41,7 +42,7 @@ namespace abremir.AllMyBricks.Data.Tests.Shared.Configuration
 
         public Task<long> CompactRepository()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public void ResetDatabase()
