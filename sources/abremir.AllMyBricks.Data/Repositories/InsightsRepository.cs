@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using abremir.AllMyBricks.Data.Extensions;
 using abremir.AllMyBricks.Data.Interfaces;
 using abremir.AllMyBricks.Data.Models;
 
@@ -18,7 +17,7 @@ namespace abremir.AllMyBricks.Data.Repositories
         public async Task UpdateDataSynchronizationTimestamp(DateTimeOffset dataSynchronizationTimestamp)
         {
             var insights = await GetInsights().ConfigureAwait(false) ?? new Insights { Id = 1 };
-            insights.DataSynchronizationTimestamp = dataSynchronizationTimestamp.ToHundredthOfSecond();
+            insights.DataSynchronizationTimestamp = dataSynchronizationTimestamp;
 
             using var repository = _repositoryService.GetRepository();
 

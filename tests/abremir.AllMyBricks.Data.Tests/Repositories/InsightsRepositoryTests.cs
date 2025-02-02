@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
-using abremir.AllMyBricks.Data.Extensions;
 using abremir.AllMyBricks.Data.Models;
 using abremir.AllMyBricks.Data.Repositories;
 using abremir.AllMyBricks.Data.Tests.Shared;
+using abremir.AllMyBricks.Onboarding.Shared.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NFluent;
 
@@ -33,7 +33,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
         {
             var insights = new Insights
             {
-                DataSynchronizationTimestamp = DateTimeOffset.Now.AddHours(-5).ToHundredthOfSecond()
+                DataSynchronizationTimestamp = DateTimeOffset.Now.AddHours(-5)
             };
 
             await InsertData(insights);
@@ -62,7 +62,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
 
             var insights = new Insights
             {
-                DataSynchronizationTimestamp = dataSynchronizationTimestamp.ToHundredthOfSecond()
+                DataSynchronizationTimestamp = dataSynchronizationTimestamp
             };
 
             await InsertData(insights);
