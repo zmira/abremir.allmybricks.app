@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using abremir.AllMyBricks.Onboarding.Shared.Extensions;
 using LiteDB;
 
 namespace abremir.AllMyBricks.Data.Models
@@ -39,14 +40,21 @@ namespace abremir.AllMyBricks.Data.Models
         public float Rating { get; set; }
         public string Availability { get; set; }
         public string Notes { get; set; }
-        public DateTimeOffset LastUpdated { get; set; }
         public Dimensions Dimensions { get; set; }
         public SetTotals Totals { get; set; }
         public SetAgeRange AgeRange { get; set; }
+
         public IList<Image> Images { get; set; } = [];
         public IList<Price> Prices { get; set; } = [];
         public IList<Instruction> Instructions { get; set; } = [];
         public IList<Barcode> Barcodes { get; set; } = [];
+
+        private DateTimeOffset _lastUpdated;
+        public DateTimeOffset LastUpdated
+        {
+            get { return _lastUpdated; }
+            set { _lastUpdated = value.ToHundredthOfSecond(); }
+        }
 
         [BsonIgnore]
         public string NumberWithVariant => $"{Number}-{NumberVariant}";

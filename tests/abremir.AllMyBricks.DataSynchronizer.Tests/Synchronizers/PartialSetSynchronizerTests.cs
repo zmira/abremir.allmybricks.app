@@ -30,8 +30,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
         private static ThemeRepository _themeRepository;
         private static SubthemeRepository _subthemeRepository;
 
-        [ClassInitialize]
-        public static void ClassInitialize(TestContext _)
+        public PartialSetSynchronizerTests()
         {
             _setRepository = new SetRepository(MemoryRepositoryService);
             _themeRepository = new ThemeRepository(MemoryRepositoryService);
@@ -111,7 +110,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
             await insightsRepository.Received().UpdateDataSynchronizationTimestamp(Arg.Any<DateTimeOffset>());
         }
 
-        private static PartialSetSynchronizer CreateTarget(
+        private PartialSetSynchronizer CreateTarget(
             IInsightsRepository insightsRepository = null,
             IOnboardingService onboardingService = null,
             IBricksetApiService bricksetApiService = null)

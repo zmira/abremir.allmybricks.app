@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using abremir.AllMyBricks.Data.Enumerations;
+using abremir.AllMyBricks.Onboarding.Shared.Extensions;
 using LiteDB;
 
 namespace abremir.AllMyBricks.Data.Models
@@ -12,7 +13,13 @@ namespace abremir.AllMyBricks.Data.Models
 
         public string BricksetUsername { get; set; }
         public BricksetUserType UserType { get; set; }
-        public DateTimeOffset? UserSynchronizationTimestamp { get; set; }
+
+        private DateTimeOffset? _userSynchronizationTimestamp;
+        public DateTimeOffset? UserSynchronizationTimestamp
+        {
+            get { return _userSynchronizationTimestamp; }
+            set { _userSynchronizationTimestamp = value?.ToHundredthOfSecond(); }
+        }
 
         public IList<BricksetUserSet> Sets { get; set; } = [];
     }

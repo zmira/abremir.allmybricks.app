@@ -1,6 +1,6 @@
-﻿using abremir.AllMyBricks.UserManagement.Interfaces;
+﻿using System;
+using abremir.AllMyBricks.UserManagement.Interfaces;
 using abremir.AllMyBricks.UserManagement.Services;
-using CommunityToolkit.Diagnostics;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace abremir.AllMyBricks.UserManagement.Configuration
@@ -9,7 +9,7 @@ namespace abremir.AllMyBricks.UserManagement.Configuration
     {
         public static IServiceCollection AddUserManagementServices(this IServiceCollection services)
         {
-            Guard.IsNotNull(services);
+            ArgumentNullException.ThrowIfNull(services, nameof(services));
 
             return services
                 .AddTransient<IUserService, UserService>();

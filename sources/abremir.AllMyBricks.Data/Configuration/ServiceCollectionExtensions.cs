@@ -1,7 +1,7 @@
-﻿using abremir.AllMyBricks.Data.Interfaces;
+﻿using System;
+using abremir.AllMyBricks.Data.Interfaces;
 using abremir.AllMyBricks.Data.Repositories;
 using abremir.AllMyBricks.Data.Services;
-using CommunityToolkit.Diagnostics;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace abremir.AllMyBricks.Data.Configuration
@@ -10,7 +10,9 @@ namespace abremir.AllMyBricks.Data.Configuration
     {
         public static IServiceCollection AddDataServices(this IServiceCollection services)
         {
-            Guard.IsNotNull(services);
+            ArgumentNullException.ThrowIfNull(services, nameof(services));
+
+            LiteDbConfiguration.Configure();
 
             return services
                 .AddSingleton<IRepositoryService, RepositoryService>()

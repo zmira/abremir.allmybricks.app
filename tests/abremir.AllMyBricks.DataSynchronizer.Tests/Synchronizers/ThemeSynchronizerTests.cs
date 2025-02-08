@@ -23,8 +23,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
     {
         private static ThemeRepository _themeRepository;
 
-        [ClassInitialize]
-        public static void ClassInitialize(TestContext _)
+        public ThemeSynchronizerTests()
         {
             _themeRepository = new ThemeRepository(MemoryRepositoryService);
         }

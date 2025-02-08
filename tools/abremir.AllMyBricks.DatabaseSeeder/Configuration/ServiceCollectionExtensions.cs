@@ -1,4 +1,5 @@
-﻿using abremir.AllMyBricks.AssetManagement.Configuration;
+﻿using System;
+using abremir.AllMyBricks.AssetManagement.Configuration;
 using abremir.AllMyBricks.Data.Configuration;
 using abremir.AllMyBricks.DatabaseSeeder.Services;
 using abremir.AllMyBricks.DataSynchronizer.Configuration;
@@ -6,7 +7,6 @@ using abremir.AllMyBricks.Onboarding.Configuration;
 using abremir.AllMyBricks.Platform.Interfaces;
 using abremir.AllMyBricks.ThirdParty.Brickset.Configuration;
 using abremir.AllMyBricks.UserManagement.Configuration;
-using CommunityToolkit.Diagnostics;
 using Easy.MessageHub;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -16,7 +16,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Configuration
     {
         public static IServiceCollection AddDatabaseSeederServices(this IServiceCollection services)
         {
-            Guard.IsNotNull(services);
+            ArgumentNullException.ThrowIfNull(services, nameof(services));
 
             return services
                 .AddLoggingServices()

@@ -17,8 +17,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
     {
         private static ThemeRepository _themeRepository;
 
-        [ClassInitialize]
-        public static void ClassInitialize(TestContext _)
+        public ThemeRepositoryTests()
         {
             _themeRepository = new ThemeRepository(MemoryRepositoryService);
         }

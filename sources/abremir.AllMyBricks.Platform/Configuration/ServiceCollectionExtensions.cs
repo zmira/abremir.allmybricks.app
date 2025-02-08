@@ -1,7 +1,7 @@
-﻿using abremir.AllMyBricks.Platform.Implementations;
+﻿using System;
+using abremir.AllMyBricks.Platform.Implementations;
 using abremir.AllMyBricks.Platform.Interfaces;
 using abremir.AllMyBricks.Platform.Services;
-using CommunityToolkit.Diagnostics;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Maui.ApplicationModel;
 using Microsoft.Maui.Devices;
@@ -14,7 +14,7 @@ namespace abremir.AllMyBricks.Platform.Configuration
     {
         public static IServiceCollection AddPlatformServices(this IServiceCollection services)
         {
-            Guard.IsNotNull(services);
+            ArgumentNullException.ThrowIfNull(services, nameof(services));
 
             return services
                 .AddSingleton<IFileSystem>((_) => FileSystem.Current)
@@ -34,7 +34,7 @@ namespace abremir.AllMyBricks.Platform.Configuration
 
         public static IServiceCollection AddPlatformIoServices(this IServiceCollection services)
         {
-            Guard.IsNotNull(services);
+            ArgumentNullException.ThrowIfNull(services, nameof(services));
 
             return services
                 .AddTransient<IFile, FileImplementation>()

@@ -1,7 +1,7 @@
-﻿using abremir.AllMyBricks.DataSynchronizer.Interfaces;
+﻿using System;
+using abremir.AllMyBricks.DataSynchronizer.Interfaces;
 using abremir.AllMyBricks.DataSynchronizer.Services;
 using abremir.AllMyBricks.DataSynchronizer.Synchronizers;
-using CommunityToolkit.Diagnostics;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace abremir.AllMyBricks.DataSynchronizer.Configuration
@@ -10,7 +10,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Configuration
     {
         public static IServiceCollection AddDataSynchronizerServices(this IServiceCollection services)
         {
-            Guard.IsNotNull(services);
+            ArgumentNullException.ThrowIfNull(services, nameof(services));
 
             return services
                 .AddTransient<ISetSynchronizationService, SetSynchronizationService>()

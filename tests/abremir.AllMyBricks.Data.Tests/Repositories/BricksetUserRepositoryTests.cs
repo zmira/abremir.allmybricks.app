@@ -6,6 +6,7 @@ using abremir.AllMyBricks.Data.Models;
 using abremir.AllMyBricks.Data.Repositories;
 using abremir.AllMyBricks.Data.Tests.Configuration;
 using abremir.AllMyBricks.Data.Tests.Shared;
+using abremir.AllMyBricks.Onboarding.Shared.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NFluent;
 
@@ -16,8 +17,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
     {
         private static BricksetUserRepository _bricksetUserRepository;
 
-        [ClassInitialize]
-        public static void ClassInitialize(TestContext _)
+        public BricksetUserRepositoryTests()
         {
             _bricksetUserRepository = new BricksetUserRepository(MemoryRepositoryService);
         }
@@ -418,7 +418,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
             var bricksetUser = await _bricksetUserRepository.UpdateUserSynchronizationTimestamp(bricksetUserUnderTest.BricksetUsername, synchronizationTimestamp);
 
             Check.That(bricksetUser).IsNotNull();
-            Check.That(bricksetUser.UserSynchronizationTimestamp).IsEqualTo(synchronizationTimestamp);
+            Check.That(bricksetUser.UserSynchronizationTimestamp).IsEqualTo(synchronizationTimestamp.ToHundredthOfSecond());
         }
 
         [TestMethod]

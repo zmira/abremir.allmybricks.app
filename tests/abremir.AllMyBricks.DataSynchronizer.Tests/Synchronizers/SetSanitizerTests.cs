@@ -26,8 +26,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
         private static SetRepository _setRepository;
         private static ThemeRepository _themeRepository;
 
-        [ClassInitialize]
-        public static void ClassInitialize(TestContext _)
+        public SetSanitizerTests()
         {
             _setRepository = new SetRepository(MemoryRepositoryService);
             _themeRepository = new ThemeRepository(MemoryRepositoryService);
@@ -126,7 +125,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
             await bricksetUserRepository.Received(2).RemoveSets(Arg.Any<string>(), Arg.Any<List<long>>());
         }
 
-        private static async Task<(SetSanitizer Sanitizer, Set Set1, Set Set2)> CreateTestContextWithActualNumberOfSetsGreaterThanExpectedNumberOfSets(IBricksetUserRepository bricksetUserRepository = null)
+        private async Task<(SetSanitizer Sanitizer, Set Set1, Set Set2)> CreateTestContextWithActualNumberOfSetsGreaterThanExpectedNumberOfSets(IBricksetUserRepository bricksetUserRepository = null)
         {
             var theme = new Theme { Id = 1, Name = "theme", SetCount = 1, SetCountPerYear = [new YearSetCount { Year = 2020, SetCount = 1 }], YearFrom = 2020, YearTo = 2020 };
             await _themeRepository.AddOrUpdate(theme);
@@ -142,7 +141,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
             return (CreateTarget(bricksetApiService: bricksetApiService, bricksetUserRepository: bricksetUserRepository), set1, set2);
         }
 
-        private static SetSanitizer CreateTarget(
+        private SetSanitizer CreateTarget(
             IOnboardingService onboardingService = null,
             IBricksetApiService bricksetApiService = null,
             IBricksetUserRepository bricksetUserRepository = null)

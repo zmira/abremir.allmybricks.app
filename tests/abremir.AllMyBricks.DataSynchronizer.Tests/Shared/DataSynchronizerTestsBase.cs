@@ -1,22 +1,16 @@
 ﻿using System.IO;
 using System.Reflection;
 using abremir.AllMyBricks.Data.Interfaces;
-using abremir.AllMyBricks.DataSynchronizer.Tests.Configuration;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using abremir.AllMyBricks.Data.Tests.Shared;
+using abremir.AllMyBricks.Data.Tests.Shared.Services;
 
 namespace abremir.AllMyBricks.DataSynchronizer.Tests.Shared
 {
-    public class DataSynchronizerTestsBase
+    public class DataSynchronizerTestsBase : TestRepositoryBase
     {
         private readonly Assembly _assembly = Assembly.GetExecutingAssembly();
 
-        protected static readonly IRepositoryService MemoryRepositoryService = new TestRepositoryService();
-
-        [TestInitialize]
-        public void TestInitialize()
-        {
-            ResetDatabase();
-        }
+        protected override IRepositoryService MemoryRepositoryService { get; set; } = new TestRepositoryService("abremir.AllMyBricks.DataSynchronizer.Tests.litedb");
 
         protected string GetResultFileFromResource(string fileName)
         {
@@ -31,11 +25,6 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Shared
         private string GetAssemblyName()
         {
             return _assembly.GetName().Name;
-        }
-
-        private static void ResetDatabase()
-        {
-            (MemoryRepositoryService as IMemoryRepositoryService)?.ResetDatabase();
         }
     }
 }
