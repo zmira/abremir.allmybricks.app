@@ -14,8 +14,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
     {
         private static InsightsRepository _insightsRepository;
 
-        [ClassInitialize]
-        public static void ClassInitialize(TestContext _)
+        public InsightsRepositoryTests()
         {
             _insightsRepository = new InsightsRepository(MemoryRepositoryService);
         }

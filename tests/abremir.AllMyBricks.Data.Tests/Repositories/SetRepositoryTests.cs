@@ -18,8 +18,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
     {
         private static SetRepository _setRepository;
 
-        [ClassInitialize]
-        public static void ClassInitialize(TestContext _)
+        public SetRepositoryTests()
         {
             _setRepository = new SetRepository(MemoryRepositoryService);
         }
@@ -565,7 +564,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
             Check.That(deletedSets).Is(setsToDelete.Count);
         }
 
-        private static async Task<Set> SetupSetForSearch(int suffix)
+        private async Task<Set> SetupSetForSearch(int suffix)
         {
             var theme = await InsertData(ModelsSetup.GetThemeUnderTest($"SET THEME{suffix}"));
 

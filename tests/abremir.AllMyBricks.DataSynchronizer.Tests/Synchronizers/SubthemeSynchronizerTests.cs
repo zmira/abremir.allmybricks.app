@@ -26,8 +26,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
         private static SubthemeRepository _subthemeRepository;
         private static ThemeRepository _themeRepository;
 
-        [ClassInitialize]
-        public static void ClassInitialize(TestContext _)
+        public SubthemeSynchronizerTests()
         {
             _subthemeRepository = new SubthemeRepository(MemoryRepositoryService);
             _themeRepository = new ThemeRepository(MemoryRepositoryService);

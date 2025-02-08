@@ -17,8 +17,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
     {
         private static BricksetUserRepository _bricksetUserRepository;
 
-        [ClassInitialize]
-        public static void ClassInitialize(TestContext _)
+        public BricksetUserRepositoryTests()
         {
             _bricksetUserRepository = new BricksetUserRepository(MemoryRepositoryService);
         }

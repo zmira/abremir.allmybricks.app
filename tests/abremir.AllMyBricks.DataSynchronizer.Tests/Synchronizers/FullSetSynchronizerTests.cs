@@ -29,8 +29,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
         private static ThemeRepository _themeRepository;
         private static SubthemeRepository _subthemeRepository;
 
-        [ClassInitialize]
-        public static void ClassInitialize(TestContext _)
+        public FullSetSynchronizerTests()
         {
             _setRepository = new SetRepository(MemoryRepositoryService);
             _themeRepository = new ThemeRepository(MemoryRepositoryService);
@@ -144,7 +143,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
             Check.That(persistedSet.Instructions).CountIs(instructionsList.Count);
         }
 
-        private static FullSetSynchronizer CreateTarget(
+        private FullSetSynchronizer CreateTarget(
             IInsightsRepository insightsRepository = null,
             IOnboardingService onboardingService = null,
             IBricksetApiService bricksetApiService = null)

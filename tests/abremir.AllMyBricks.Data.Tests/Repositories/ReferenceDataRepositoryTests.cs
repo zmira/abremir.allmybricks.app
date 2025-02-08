@@ -14,8 +14,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
     {
         private static ReferenceDataRepository _referenceDataRepository;
 
-        [ClassInitialize]
-        public static void ClassInitialize(TestContext _)
+        public ReferenceDataRepositoryTests()
         {
             _referenceDataRepository = new ReferenceDataRepository(MemoryRepositoryService);
         }
@@ -100,7 +99,7 @@ namespace abremir.AllMyBricks.Data.Tests.Repositories
             await GetOrAddTestHelper(ModelsSetup.ThemeGroupReferenceDataValue, ModelsSetup.ThemeGroupReferenceData, exists: true);
         }
 
-        private static async Task GetOrAddTestHelper<T>(string referenceDataValue, T expectedReferenceData, bool insert = false, bool exists = false) where T : IReferenceData, new()
+        private async Task GetOrAddTestHelper<T>(string referenceDataValue, T expectedReferenceData, bool insert = false, bool exists = false) where T : IReferenceData, new()
         {
             if (exists)
             {

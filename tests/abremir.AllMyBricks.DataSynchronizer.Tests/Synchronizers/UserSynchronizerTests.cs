@@ -28,8 +28,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
         private static SubthemeRepository _subthemeRepository;
         private static SetRepository _setRepository;
 
-        [ClassInitialize]
-        public static void ClassInitialize(TestContext _)
+        public UserSynchronizerTests()
         {
             _bricksetUserRepository = new BricksetUserRepository(MemoryRepositoryService);
             _themeRepository = new ThemeRepository(MemoryRepositoryService);

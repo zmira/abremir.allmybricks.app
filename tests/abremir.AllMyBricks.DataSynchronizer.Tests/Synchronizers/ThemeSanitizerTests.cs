@@ -25,8 +25,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
         private static SubthemeRepository _subthemeRepository;
         private static SetRepository _setRepository;
 
-        [ClassInitialize]
-        public static void ClassInitialize(TestContext _)
+        public ThemeSanitizerTests()
         {
             _themeRepository = new ThemeRepository(MemoryRepositoryService);
             _subthemeRepository = new SubthemeRepository(MemoryRepositoryService);
@@ -124,7 +123,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Tests.Synchronizers
             Check.That(await _setRepository.Count()).Is(0);
         }
 
-        private static ThemeSanitizer CreateTarget(
+        private ThemeSanitizer CreateTarget(
             IOnboardingService onboardingService = null,
             IBricksetApiService bricksetApiService = null,
             IBricksetUserRepository bricksetUserRepository = null)
