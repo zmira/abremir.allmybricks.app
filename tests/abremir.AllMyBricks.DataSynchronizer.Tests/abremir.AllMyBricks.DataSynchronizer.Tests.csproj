@@ -39,8 +39,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\sources\abremir.AllMyBricks.DataSynchronizer\abremir.AllMyBricks.DataSynchronizer.csproj" />
-    <ProjectReference Include="..\..\sources\abremir.AllMyBricks.ThirdParty.Brickset\abremir.AllMyBricks.ThirdParty.Brickset.csproj" />
+    <ProjectReference Include="..\..\source\abremir.AllMyBricks.DataSynchronizer\abremir.AllMyBricks.DataSynchronizer.csproj" />
+    <ProjectReference Include="..\..\source\abremir.AllMyBricks.ThirdParty.Brickset\abremir.AllMyBricks.ThirdParty.Brickset.csproj" />
     <ProjectReference Include="..\abremir.AllMyBricks.Data.Tests.Shared\abremir.AllMyBricks.Data.Tests.Shared.csproj" />
   </ItemGroup>
 

@@ -28,10 +28,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\sources\abremir.AllMyBricks.AssetManagement\abremir.AllMyBricks.AssetManagement.csproj" />
-    <ProjectReference Include="..\..\sources\abremir.AllMyBricks.DataSynchronizer\abremir.AllMyBricks.DataSynchronizer.csproj" />
-    <ProjectReference Include="..\..\sources\abremir.AllMyBricks.Platform\abremir.AllMyBricks.Platform.csproj" />
-    <ProjectReference Include="..\..\sources\abremir.AllMyBricks.UserManagement\abremir.AllMyBricks.UserManagement.csproj" />
+    <ProjectReference Include="..\..\source\abremir.AllMyBricks.AssetManagement\abremir.AllMyBricks.AssetManagement.csproj" />
+    <ProjectReference Include="..\..\source\abremir.AllMyBricks.DataSynchronizer\abremir.AllMyBricks.DataSynchronizer.csproj" />
+    <ProjectReference Include="..\..\source\abremir.AllMyBricks.Platform\abremir.AllMyBricks.Platform.csproj" />
+    <ProjectReference Include="..\..\source\abremir.AllMyBricks.UserManagement\abremir.AllMyBricks.UserManagement.csproj" />
   </ItemGroup>
 
 </Project>

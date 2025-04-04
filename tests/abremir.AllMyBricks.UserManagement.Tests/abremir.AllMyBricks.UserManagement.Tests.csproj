@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\sources\abremir.AllMyBricks.UserManagement\abremir.AllMyBricks.UserManagement.csproj" />
+    <ProjectReference Include="..\..\source\abremir.AllMyBricks.UserManagement\abremir.AllMyBricks.UserManagement.csproj" />
   </ItemGroup>
 
 </Project>

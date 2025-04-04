@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\sources\abremir.AllMyBricks.Platform\abremir.AllMyBricks.Platform.csproj" />
+    <ProjectReference Include="..\..\source\abremir.AllMyBricks.Platform\abremir.AllMyBricks.Platform.csproj" />
   </ItemGroup>
 
 </Project>

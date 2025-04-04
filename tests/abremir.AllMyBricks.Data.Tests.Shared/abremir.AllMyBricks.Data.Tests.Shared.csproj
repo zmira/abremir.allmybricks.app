@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\sources\abremir.AllMyBricks.Data\abremir.AllMyBricks.Data.csproj" />
+    <ProjectReference Include="..\..\source\abremir.AllMyBricks.Data\abremir.AllMyBricks.Data.csproj" />
   </ItemGroup>
 
 </Project>

@@ -16,8 +16,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\sources\abremir.AllMyBricks.Onboarding.Shared\abremir.AllMyBricks.Onboarding.Shared.csproj" />
-    <ProjectReference Include="..\..\sources\abremir.AllMyBricks.Onboarding\abremir.AllMyBricks.Onboarding.csproj" />
+    <ProjectReference Include="..\..\source\abremir.AllMyBricks.Onboarding.Shared\abremir.AllMyBricks.Onboarding.Shared.csproj" />
+    <ProjectReference Include="..\..\source\abremir.AllMyBricks.Onboarding\abremir.AllMyBricks.Onboarding.csproj" />
   </ItemGroup>
 
   <ItemGroup>
