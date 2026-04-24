@@ -1,0 +1,118 @@
+name: Weekly update of AllMyBricks database seed
+
+on:
+  schedule:
+    - cron: '0 0 * * 0' # Every Sunday at midnight UTC
+  workflow_dispatch: # Allow manual runs for testing
+
+permissions:
+  contents: read
+
+env:
+  DATA_REPO: zmira/abremir.allmybricks.databaseseed
+  PROJECT_PATH: tools/abremir.AllMyBricks.DatabaseSeeder/abremir.AllMyBricks.DatabaseSeeder.csproj
+  DOTNET_VERSION: '8.0.x'
+  PUBLISH_DIR: ./publish
+  ASSET_NAME: allmybricks.db.seed.lzc
+
+jobs:
+  process-and-release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout tooling repository (Repo A)
+        uses: actions/checkout@v4
+
+      - name: Setup .NET ${{ env.DOTNET_VERSION }}
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Restore dependencies
+        run: dotnet restore ${{ env.PROJECT_PATH }}
+
+      - name: Publish executable
+        run: |
+          dotnet publish ${{ env.PROJECT_PATH }} \
+            --configuration Release \
+            --runtime linux-x64 \
+            --self-contained true \
+            --output ${{ env.PUBLISH_DIR }} \
+            -p:PublishSingleFile=true \
+            -p:UseAppHost=true
+
+      - name: Download asset from latest release of Repo B
+        id: download_asset
+        env:
+          GH_TOKEN: ${{ secrets.DATA_REPO_PAT }}
+        run: |
+          echo "Fetching latest release info from $DATA_REPO..."
+          LATEST_RELEASE=$(gh release view --repo "$DATA_REPO" --json tagName,assets)
+
+          ORIGINAL_TAG=$(echo "$LATEST_RELEASE" | jq -r '.tagName')
+          echo "Latest release tag: $ORIGINAL_TAG"
+          echo "original_tag=$ORIGINAL_TAG" >> $GITHUB_OUTPUT
+
+          ASSET_URL=$(echo "$LATEST_RELEASE" | jq -r --arg name "$ASSET_NAME" '.assets[] | select(.name == $name) | .url')
+
+          if [ -z "$ASSET_URL" ]; then
+            echo "ERROR: Asset '$ASSET_NAME' not found in latest release of $DATA_REPO."
+            exit 1
+          fi
+
+          echo "Downloading asset '$ASSET_NAME' from $DATA_REPO..."
+          mkdir -p ${{ env.PUBLISH_DIR }}/data
+          gh release download \
+            --repo "$DATA_REPO" \
+            --pattern "$ASSET_NAME" \
+            --dir ${{ env.PUBLISH_DIR }}/data
+          mv ${{ env.PUBLISH_DIR }}/data/${{ env.ASSET_NAME }} ${{ env.PUBLISH_DIR }}/data/allmybricks.lzc
+          echo "Asset downloaded and renamed to allmybricks.lzc successfully."
+
+      - name: Run processing executable
+        working-directory: ${{ env.PUBLISH_DIR }}
+        run: |
+          echo "Running processing executable..."
+          chmod +x ./abremir.AllMyBricks.DatabaseSeeder
+          
+          ./abremir.AllMyBricks.DatabaseSeeder expand --encrypted --brickset-api-key ${{ secrets.BRICKSET_APIKEY }}
+          ./abremir.AllMyBricks.DatabaseSeeder sync --dataset sets --brickset-api-key ${{ secrets.BRICKSET_APIKEY }}
+          ./abremir.AllMyBricks.DatabaseSeeder sanitize --brickset-api-key ${{ secrets.BRICKSET_APIKEY }}
+          ./abremir.AllMyBricks.DatabaseSeeder compact
+          ./abremir.AllMyBricks.DatabaseSeeder compress --encrypted --brickset-api-key ${{ secrets.BRICKSET_APIKEY }}
+
+          mv ${{ env.PUBLISH_DIR }}/data/allmybricks.lzc ${{ env.PUBLISH_DIR }}/${{ env.ASSET_NAME }}
+          echo "Processing complete."
+
+      - name: Verify output file exists
+        run: |
+          OUTPUT_FILE="${{ env.PUBLISH_DIR }}/${{ env.ASSET_NAME }}"
+          if [ ! -f "$OUTPUT_FILE" ]; then
+            echo "ERROR: Output file '$OUTPUT_FILE' not found after processing."
+            exit 1
+          fi
+          echo "Output file verified: $OUTPUT_FILE"
+
+      - name: Generate release tag
+        id: generate_tag
+        run: |
+          NEW_TAG=$(date +%s | sha256sum | head -c 8)
+          echo "Generated tag: $NEW_TAG"
+          echo "new_tag=$NEW_TAG" >> $GITHUB_OUTPUT
+
+      - name: Create new release and upload asset to Repo B
+        env:
+          GH_TOKEN: ${{ secrets.DATA_REPO_PAT }}
+        run: |
+          NEW_TAG="${{ steps.generate_tag.outputs.new_tag }}"
+          ORIGINAL_TAG="${{ steps.download_asset.outputs.original_tag }}"
+          OUTPUT_FILE="${{ env.PUBLISH_DIR }}/${{ env.ASSET_NAME }}"
+
+          echo "Creating release $NEW_TAG on $DATA_REPO..."
+          gh release create "$NEW_TAG" \
+            --repo "$DATA_REPO" \
+            --title "$NEW_TAG" \
+            --notes "Weekly update of AllMyBricks database seed. Source: $ORIGINAL_TAG. Generated on $(date -u '+%Y-%m-%d %H:%M:%S UTC')." \
+            "$OUTPUT_FILE"
+
+          echo "Release $NEW_TAG created and asset uploaded to $DATA_REPO successfully."
