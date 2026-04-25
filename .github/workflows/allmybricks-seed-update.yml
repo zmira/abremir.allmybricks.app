@@ -81,7 +81,7 @@ jobs:
           ./abremir.AllMyBricks.DatabaseSeeder compact
           ./abremir.AllMyBricks.DatabaseSeeder compress --encrypted --brickset-api-key ${{ secrets.BRICKSET_APIKEY }}
 
-          mv ${{ env.PUBLISH_DIR }}/data/allmybricks.lzc ${{ env.PUBLISH_DIR }}/${{ env.ASSET_NAME }}
+          mv ./allmybricks.lzc ../${{ env.ASSET_NAME }}
           echo "Processing complete."
 
       - name: Verify output file exists
