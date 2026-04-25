@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout tooling repository (Repo A)
+      - name: Checkout AllMyBricks
         uses: actions/checkout@v4
 
       - name: Setup .NET ${{ env.DOTNET_VERSION }}
@@ -38,7 +38,7 @@ jobs:
             -p:PublishSingleFile=true \
             -p:UseAppHost=true
 
-      - name: Download asset from latest release of Repo B
+      - name: Download database seed from latest release of zmira/abremir.allmybricks.databaseseed
         id: download_asset
         env:
           GH_TOKEN: ${{ secrets.DATA_REPO_PAT }}
@@ -78,9 +78,7 @@ jobs:
           ./abremir.AllMyBricks.DatabaseSeeder compact
           ./abremir.AllMyBricks.DatabaseSeeder compress --encrypted --brickset-api-key ${{ secrets.BRICKSET_APIKEY }}
 
-          ls
-
-          mv ./allmybricks.lzc ../${{ env.ASSET_NAME }}
+          mv ./data/allmybricks.lzc ./${{ env.ASSET_NAME }}
           echo "Processing complete."
 
       - name: Verify output file exists
