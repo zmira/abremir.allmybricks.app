@@ -16,7 +16,7 @@ env:
   ASSET_NAME: allmybricks.db.seed.lzc
 
 jobs:
-  process-and-release:
+  update-database-seed:
     runs-on: ubuntu-latest
 
     steps:
@@ -27,9 +27,6 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
-
-      - name: Restore dependencies
-        run: dotnet restore ${{ env.PROJECT_PATH }}
 
       - name: Publish executable
         run: |
@@ -80,6 +77,8 @@ jobs:
           ./abremir.AllMyBricks.DatabaseSeeder sanitize --brickset-api-key ${{ secrets.BRICKSET_APIKEY }}
           ./abremir.AllMyBricks.DatabaseSeeder compact
           ./abremir.AllMyBricks.DatabaseSeeder compress --encrypted --brickset-api-key ${{ secrets.BRICKSET_APIKEY }}
+
+          ls
 
           mv ./allmybricks.lzc ../${{ env.ASSET_NAME }}
           echo "Processing complete."
