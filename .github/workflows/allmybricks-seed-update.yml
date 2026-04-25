@@ -1,8 +1,8 @@
 name: Weekly update of AllMyBricks database seed
 
 on:
-  #schedule:
-  #  - cron: '0 0 * * 0' # Every Sunday at midnight UTC
+  schedule:
+    - cron: '0 0 * * 0' # Every Sunday at midnight UTC
   workflow_dispatch: # Allow manual runs for testing
 
 permissions:
