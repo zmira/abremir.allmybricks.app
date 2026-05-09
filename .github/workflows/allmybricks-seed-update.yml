@@ -97,7 +97,7 @@ jobs:
           echo "Generated tag: $NEW_TAG"
           echo "new_tag=$NEW_TAG" >> $GITHUB_OUTPUT
 
-      - name: Create new release and upload asset to Repo B
+      - name: Create new release and upload asset to zmira/abremir.allmybricks.databaseseed
         env:
           GH_TOKEN: ${{ secrets.DATA_REPO_PAT }}
         run: |
