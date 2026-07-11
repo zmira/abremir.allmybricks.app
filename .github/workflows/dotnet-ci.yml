@@ -27,4 +27,13 @@ jobs:
         run: dotnet build source --no-restore --configuration Release
 
       - name: Test
-        run: dotnet test source --no-build --configuration Release --verbosity normal
+        shell: bash
+        run: |
+          testAssemblies=$(find source -type f -name "*.Tests.dll" -not -path "*/obj/*")
+          if [ -z "$testAssemblies" ]; then
+            echo "No test assemblies matching **/*.Tests.dll found (excluding **/obj/**)."
+            exit 1
+          fi
+          echo "Running tests for:"
+          echo "$testAssemblies"
+          dotnet vstest $testAssemblies
