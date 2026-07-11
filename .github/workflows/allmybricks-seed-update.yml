@@ -113,3 +113,10 @@ jobs:
             "$OUTPUT_FILE"
 
           echo "Release $NEW_TAG created and asset uploaded to $DATA_REPO successfully."
+
+          gh release delete "$ORIGINAL_TAG" \
+            --repo "$DATA_REPO" \
+            --yes \
+            --cleanup-tag
+
+          echo "Deleted $ORIGINAL_TAG"
