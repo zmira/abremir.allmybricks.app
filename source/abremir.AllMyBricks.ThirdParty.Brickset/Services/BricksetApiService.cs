@@ -65,19 +65,44 @@ namespace abremir.AllMyBricks.ThirdParty.Brickset.Services
 
         private static async Task<T> BricksetHttpPostUrlEncodeAsync<T, U>(U parameters) where T : ResultBase where U : ParameterApiKey
         {
-            var requestResult = await Constants.BricksetApiUrl
-                .WithSettings((settings) => settings.JsonSerializer = BricksetJsonSerializer.JsonSerializer)
-                .AppendPathSegment(typeof(T).GetDescription())
-                .PostUrlEncodedAsync(parameters)
-                .ReceiveJson<T>()
-                .ConfigureAwait(false);
+            int retryCount = 0;
 
-            if (requestResult.Status is ResultStatus.Error)
+            do
             {
-                throw new BricksetRequestException(requestResult.Message);
-            }
+                try
+                {
+                    var requestResult = await Constants.BricksetApiUrl
+                        .WithSettings((settings) => settings.JsonSerializer = BricksetJsonSerializer.JsonSerializer)
+                        .AppendPathSegment(typeof(T).GetDescription())
+                        .PostUrlEncodedAsync(parameters)
+                        .ReceiveJson<T>()
+                        .ConfigureAwait(false);
 
-            return requestResult;
+                    if (requestResult.Status is ResultStatus.Error)
+                    {
+                        throw new BricksetRequestException(requestResult.Message);
+                    }
+
+                    return requestResult;
+                }
+                catch (FlurlHttpException ex)
+                {
+                    if (ex.Call.Response.StatusCode == 429)
+                    {
+                        var retryAfter = ex.Call.Response.Headers.TryGetFirst("Retry-After", out var retryAfterValue) ? int.Parse(retryAfterValue) + 1 : 0;
+
+                        await Task.Delay(retryAfter * 1000).ConfigureAwait(false);
+
+                        retryCount++;
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+            } while (retryCount < 3);
+
+            throw new BricksetRequestException("Maximum retry attempts reached.");
         }
     }
 }
