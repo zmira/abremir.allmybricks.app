@@ -1,4 +1,4 @@
-﻿using System.Dynamic;
+using System.Dynamic;
 using System.Text.Json;
 
 namespace abremir.AllMyBricks.ThirdParty.Brickset.Models.Parameters

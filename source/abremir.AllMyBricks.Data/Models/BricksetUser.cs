@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using abremir.AllMyBricks.Data.Enumerations;
 using abremir.AllMyBricks.Onboarding.Shared.Extensions;

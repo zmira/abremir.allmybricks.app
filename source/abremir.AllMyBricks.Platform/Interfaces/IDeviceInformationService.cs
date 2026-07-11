@@ -1,4 +1,4 @@
-﻿using abremir.AllMyBricks.Onboarding.Shared.Models;
+using abremir.AllMyBricks.Onboarding.Shared.Models;
 
 namespace abremir.AllMyBricks.Platform.Interfaces
 {

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using abremir.AllMyBricks.ThirdParty.Brickset.Interfaces;
 using abremir.AllMyBricks.ThirdParty.Brickset.Services;
 using Microsoft.Extensions.DependencyInjection;

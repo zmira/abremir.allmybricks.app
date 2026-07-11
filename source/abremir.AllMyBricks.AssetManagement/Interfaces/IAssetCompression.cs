@@ -1,4 +1,4 @@
-﻿namespace abremir.AllMyBricks.AssetManagement.Interfaces
+namespace abremir.AllMyBricks.AssetManagement.Interfaces
 {
     public interface IAssetCompression
     {

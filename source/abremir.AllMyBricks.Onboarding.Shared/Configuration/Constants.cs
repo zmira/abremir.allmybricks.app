@@ -1,4 +1,4 @@
-﻿using System.Text.Json;
+using System.Text.Json;
 
 namespace abremir.AllMyBricks.Onboarding.Shared.Configuration
 {

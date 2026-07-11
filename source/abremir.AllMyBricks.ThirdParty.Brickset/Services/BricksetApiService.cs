@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using abremir.AllMyBricks.ThirdParty.Brickset.Configuration;
 using abremir.AllMyBricks.ThirdParty.Brickset.Enumerations;

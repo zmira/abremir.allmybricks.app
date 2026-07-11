@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using abremir.AllMyBricks.UserManagement.Interfaces;
 using abremir.AllMyBricks.UserManagement.Services;
 using Microsoft.Extensions.DependencyInjection;

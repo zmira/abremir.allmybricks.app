@@ -1,4 +1,4 @@
-﻿using abremir.AllMyBricks.Platform.Enumerations;
+using abremir.AllMyBricks.Platform.Enumerations;
 
 namespace abremir.AllMyBricks.Platform.Interfaces
 {

@@ -1,4 +1,4 @@
-﻿using System.IO;
+using System.IO;
 using abremir.AllMyBricks.Platform.Interfaces;
 
 namespace abremir.AllMyBricks.Platform.Implementations

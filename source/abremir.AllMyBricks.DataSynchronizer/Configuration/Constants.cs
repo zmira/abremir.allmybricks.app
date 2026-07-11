@@ -1,4 +1,4 @@
-﻿namespace abremir.AllMyBricks.DataSynchronizer.Configuration
+namespace abremir.AllMyBricks.DataSynchronizer.Configuration
 {
     public static class Constants
     {

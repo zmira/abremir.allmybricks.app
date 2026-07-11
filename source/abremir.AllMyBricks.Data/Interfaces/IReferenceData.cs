@@ -1,4 +1,4 @@
-﻿namespace abremir.AllMyBricks.Data.Interfaces
+namespace abremir.AllMyBricks.Data.Interfaces
 {
     public interface IReferenceData
     {

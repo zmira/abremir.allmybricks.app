@@ -1,4 +1,4 @@
-﻿namespace abremir.AllMyBricks.DataSynchronizer.Enumerations
+namespace abremir.AllMyBricks.DataSynchronizer.Enumerations
 {
     public enum SetAcquisitionType
     {

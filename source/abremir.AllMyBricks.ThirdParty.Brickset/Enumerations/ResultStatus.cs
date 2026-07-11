@@ -1,4 +1,4 @@
-﻿namespace abremir.AllMyBricks.ThirdParty.Brickset.Enumerations
+namespace abremir.AllMyBricks.ThirdParty.Brickset.Enumerations
 {
     public enum ResultStatus
     {

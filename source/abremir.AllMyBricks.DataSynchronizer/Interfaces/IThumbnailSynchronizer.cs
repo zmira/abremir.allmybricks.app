@@ -1,4 +1,4 @@
-﻿using System.Threading.Tasks;
+using System.Threading.Tasks;
 using abremir.AllMyBricks.Data.Models;
 
 namespace abremir.AllMyBricks.DataSynchronizer.Interfaces

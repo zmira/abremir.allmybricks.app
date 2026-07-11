@@ -1,4 +1,4 @@
-﻿using System.IO;
+using System.IO;
 using System.Threading.Tasks;
 using abremir.AllMyBricks.Platform.Configuration;
 using abremir.AllMyBricks.Platform.Interfaces;

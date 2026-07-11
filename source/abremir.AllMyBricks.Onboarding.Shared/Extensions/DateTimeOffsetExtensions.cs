@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using abremir.AllMyBricks.Onboarding.Shared.Configuration;
 
 namespace abremir.AllMyBricks.Onboarding.Shared.Extensions

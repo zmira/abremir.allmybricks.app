@@ -1,4 +1,4 @@
-﻿namespace abremir.AllMyBricks.DataSynchronizer.Events.SetSynchronizationService
+namespace abremir.AllMyBricks.DataSynchronizer.Events.SetSynchronizationService
 {
     public class SetSynchronizationServiceStart;
 }

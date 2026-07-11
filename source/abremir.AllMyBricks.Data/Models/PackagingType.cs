@@ -1,4 +1,4 @@
-﻿using abremir.AllMyBricks.Data.Interfaces;
+using abremir.AllMyBricks.Data.Interfaces;
 using LiteDB;
 
 namespace abremir.AllMyBricks.Data.Models

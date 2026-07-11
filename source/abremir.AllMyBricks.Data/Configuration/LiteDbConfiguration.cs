@@ -1,4 +1,4 @@
-﻿using LiteDB;
+using LiteDB;
 
 namespace abremir.AllMyBricks.Data.Configuration
 {

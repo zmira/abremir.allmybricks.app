@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using abremir.AllMyBricks.Platform.Implementations;
 using abremir.AllMyBricks.Platform.Interfaces;
 using abremir.AllMyBricks.Platform.Services;

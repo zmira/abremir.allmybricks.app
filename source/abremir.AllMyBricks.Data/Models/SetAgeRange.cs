@@ -1,4 +1,4 @@
-﻿namespace abremir.AllMyBricks.Data.Models
+namespace abremir.AllMyBricks.Data.Models
 {
     public class SetAgeRange
     {

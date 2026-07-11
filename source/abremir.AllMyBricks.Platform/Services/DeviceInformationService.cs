@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using abremir.AllMyBricks.Onboarding.Shared.Models;
 using abremir.AllMyBricks.Onboarding.Shared.Security;
 using abremir.AllMyBricks.Platform.Interfaces;

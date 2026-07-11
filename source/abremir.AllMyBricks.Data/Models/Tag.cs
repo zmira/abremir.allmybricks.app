@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using abremir.AllMyBricks.Data.Interfaces;
 using LiteDB;
 

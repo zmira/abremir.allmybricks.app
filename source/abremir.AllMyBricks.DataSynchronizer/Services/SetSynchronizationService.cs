@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
 using abremir.AllMyBricks.DataSynchronizer.Events.SetSynchronizationService;
 using abremir.AllMyBricks.DataSynchronizer.Interfaces;

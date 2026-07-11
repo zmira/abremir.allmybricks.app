@@ -1,4 +1,4 @@
-﻿namespace abremir.AllMyBricks.ThirdParty.Brickset.Configuration
+namespace abremir.AllMyBricks.ThirdParty.Brickset.Configuration
 {
     public static class Constants
     {

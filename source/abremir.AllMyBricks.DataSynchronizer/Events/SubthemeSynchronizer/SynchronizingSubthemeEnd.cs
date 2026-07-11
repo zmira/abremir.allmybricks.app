@@ -1,4 +1,4 @@
-﻿namespace abremir.AllMyBricks.DataSynchronizer.Events.SubthemeSynchronizer
+namespace abremir.AllMyBricks.DataSynchronizer.Events.SubthemeSynchronizer
 {
     public class SynchronizingSubthemeEnd
     {

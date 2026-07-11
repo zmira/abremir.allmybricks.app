@@ -1,4 +1,4 @@
-﻿namespace abremir.AllMyBricks.Data.Enumerations
+namespace abremir.AllMyBricks.Data.Enumerations
 {
     public enum BricksetUserType
     {

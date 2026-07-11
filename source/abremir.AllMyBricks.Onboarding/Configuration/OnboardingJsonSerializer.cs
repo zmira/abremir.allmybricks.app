@@ -1,4 +1,4 @@
-﻿using System.Text.Json;
+using System.Text.Json;
 using abremir.AllMyBricks.Onboarding.Helpers;
 using Flurl.Http.Configuration;
 

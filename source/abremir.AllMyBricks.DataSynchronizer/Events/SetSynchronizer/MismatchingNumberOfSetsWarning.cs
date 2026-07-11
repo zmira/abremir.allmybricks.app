@@ -1,4 +1,4 @@
-﻿namespace abremir.AllMyBricks.DataSynchronizer.Events.SetSynchronizer
+namespace abremir.AllMyBricks.DataSynchronizer.Events.SetSynchronizer
 {
     public class MismatchingNumberOfSetsWarning
     {

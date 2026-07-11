@@ -1,4 +1,4 @@
-﻿using abremir.AllMyBricks.Data.Enumerations;
+using abremir.AllMyBricks.Data.Enumerations;
 using abremir.AllMyBricks.Data.Models;
 using abremir.AllMyBricks.ThirdParty.Brickset.Models;
 

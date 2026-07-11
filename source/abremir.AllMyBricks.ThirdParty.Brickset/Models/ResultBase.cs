@@ -1,4 +1,4 @@
-﻿using abremir.AllMyBricks.ThirdParty.Brickset.Enumerations;
+using abremir.AllMyBricks.ThirdParty.Brickset.Enumerations;
 
 namespace abremir.AllMyBricks.ThirdParty.Brickset.Models
 {

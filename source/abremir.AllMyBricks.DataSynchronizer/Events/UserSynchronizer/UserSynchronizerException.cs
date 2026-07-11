@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using abremir.AllMyBricks.Data.Enumerations;
 
 namespace abremir.AllMyBricks.DataSynchronizer.Events.UserSynchronizer

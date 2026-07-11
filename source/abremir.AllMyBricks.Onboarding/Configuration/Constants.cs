@@ -1,4 +1,4 @@
-﻿namespace abremir.AllMyBricks.Onboarding.Configuration
+namespace abremir.AllMyBricks.Onboarding.Configuration
 {
     public static class Constants
     {

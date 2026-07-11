@@ -1,4 +1,4 @@
-﻿namespace abremir.AllMyBricks.DataSynchronizer.Events.ThemeSanitizer
+namespace abremir.AllMyBricks.DataSynchronizer.Events.ThemeSanitizer
 {
     public class ThemeSanitizerStart;
 }

@@ -1,4 +1,4 @@
-﻿using System.IO;
+using System.IO;
 using abremir.AllMyBricks.AssetManagement.Interfaces;
 using SharpCompress.Writers.Tar;
 

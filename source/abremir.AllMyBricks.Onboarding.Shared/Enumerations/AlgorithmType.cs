@@ -1,4 +1,4 @@
-﻿using Jose;
+using Jose;
 
 namespace abremir.AllMyBricks.Onboarding.Shared.Enumerations
 {

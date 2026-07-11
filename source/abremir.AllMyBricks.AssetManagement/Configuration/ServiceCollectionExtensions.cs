@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using abremir.AllMyBricks.AssetManagement.Implementations;
 using abremir.AllMyBricks.AssetManagement.Interfaces;
 using abremir.AllMyBricks.AssetManagement.Services;

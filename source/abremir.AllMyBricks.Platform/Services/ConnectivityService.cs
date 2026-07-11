@@ -1,4 +1,4 @@
-﻿using abremir.AllMyBricks.Platform.Interfaces;
+using abremir.AllMyBricks.Platform.Interfaces;
 using Microsoft.Maui.Networking;
 
 namespace abremir.AllMyBricks.Platform.Services

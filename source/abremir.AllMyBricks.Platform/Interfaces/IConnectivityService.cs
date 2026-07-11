@@ -1,4 +1,4 @@
-﻿namespace abremir.AllMyBricks.Platform.Interfaces
+namespace abremir.AllMyBricks.Platform.Interfaces
 {
     public interface IConnectivityService
     {
