@@ -10,7 +10,7 @@ permissions:
 
 env:
   DATA_REPO: zmira/abremir.allmybricks.databaseseed
-  PROJECT_PATH: tools/abremir.AllMyBricks.DatabaseSeeder/abremir.AllMyBricks.DatabaseSeeder.csproj
+  PROJECT_PATH: source/abremir.AllMyBricks.DatabaseSeeder/abremir.AllMyBricks.DatabaseSeeder.csproj
   DOTNET_VERSION: '8.0.x'
   PUBLISH_DIR: ./publish
   ASSET_NAME: allmybricks.db.seed.lzc
