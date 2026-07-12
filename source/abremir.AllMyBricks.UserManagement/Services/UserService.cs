@@ -67,9 +67,9 @@ namespace abremir.AllMyBricks.UserManagement.Services
 
             await _bricksetUserRepository.Add(BricksetUserType.Primary, username).ConfigureAwait(false);
 
-            await _userSynchronizationService.SynchronizeBricksetPrimaryUsersSets(username).ConfigureAwait(false);
+            int result = await _userSynchronizationService.SynchronizeBricksetPrimaryUsersSets(username).ConfigureAwait(false);
 
-            return true;
+            return result is 0;
         }
 
         public async Task<bool> AddBricksetFriend(string username)

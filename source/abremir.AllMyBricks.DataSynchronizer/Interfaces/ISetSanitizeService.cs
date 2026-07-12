@@ -4,6 +4,6 @@ namespace abremir.AllMyBricks.DataSynchronizer.Interfaces
 {
     public interface ISetSanitizeService
     {
-        Task Synchronize();
+        Task<int> Synchronize();
     }
 }

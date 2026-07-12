@@ -7,9 +7,9 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Handlers
 {
     internal static class SanitizeHandler
     {
-        public static async Task Run(IHost host)
+        public static async Task<int> Run(IHost host)
         {
-            await host.Services.GetService<ISetSanitizeService>().Synchronize().ConfigureAwait(false);
+            return await host.Services.GetRequiredService<ISetSanitizeService>().Synchronize().ConfigureAwait(false);
         }
     }
 }

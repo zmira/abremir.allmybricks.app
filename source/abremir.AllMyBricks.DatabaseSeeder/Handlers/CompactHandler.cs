@@ -7,9 +7,9 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Handlers
 {
     internal static class CompactHandler
     {
-        public static async Task Run(IHost host)
+        public static async Task<int> Run(IHost host)
         {
-            await host.Services.GetService<IAssetManagementService>().CompactAllMyBricksDatabase().ConfigureAwait(false);
+            return await host.Services.GetRequiredService<IAssetManagementService>().CompactAllMyBricksDatabase().ConfigureAwait(false);
         }
     }
 }

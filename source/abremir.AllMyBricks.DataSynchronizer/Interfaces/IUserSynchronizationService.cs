@@ -4,7 +4,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Interfaces
 {
     public interface IUserSynchronizationService
     {
-        Task SynchronizeBricksetPrimaryUsersSets(string username = null);
-        Task SynchronizeBricksetFriendsSets(string username = null);
+        Task<int> SynchronizeBricksetPrimaryUsersSets(string username = null);
+        Task<int> SynchronizeBricksetFriendsSets(string username = null);
     }
 }

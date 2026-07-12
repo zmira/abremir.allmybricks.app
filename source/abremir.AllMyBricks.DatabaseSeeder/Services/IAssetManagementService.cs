@@ -4,9 +4,9 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Services
 {
     public interface IAssetManagementService
     {
-        void CompressDatabaseFile(bool encrypted);
-        void ExpandDatabaseFile(bool encrypted);
-        Task CompactAllMyBricksDatabase();
+        Task<int> CompressDatabaseFile(bool encrypted);
+        Task<int> ExpandDatabaseFile(bool encrypted);
+        Task<int> CompactAllMyBricksDatabase();
         bool DatabaseFilePathExists();
         bool CompressedDatabaseFilePathExists(bool encrypted);
     }

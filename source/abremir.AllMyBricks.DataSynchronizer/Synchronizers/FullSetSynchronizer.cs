@@ -28,7 +28,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
         IMessageHub messageHub)
         : SetSynchronizerBase(insightsRepository, onboardingService, bricksetApiService, setRepository, referenceDataRepository, themeRepository, subthemeRepository, bricksetUserRepository, thumbnailSynchronizer, messageHub), IFullSetSynchronizer
     {
-        public async Task Synchronize()
+        public async Task<int> Synchronize()
         {
             MessageHub.Publish(new SetSynchronizerStart { Type = SetAcquisitionType.Seed });
 
@@ -40,17 +40,16 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
             {
                 MessageHub.Publish(new SetSynchronizerEnd { Type = SetAcquisitionType.Seed });
 
-                return;
+                return 1;
             }
 
             var apiKey = await OnboardingService.GetBricksetApiKey().ConfigureAwait(false);
 
             if (string.IsNullOrWhiteSpace(apiKey))
             {
-                var exception = new Exception("Invalid Brickset API key");
-                MessageHub.Publish(new SetSynchronizerException { Exception = exception });
+                MessageHub.Publish(new SetSynchronizerException { Exception = new Exception("Invalid Brickset API key") });
 
-                throw exception;
+                return 1;
             }
 
             var yearSetCount = (await ThemeRepository
@@ -134,10 +133,12 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
             {
                 MessageHub.Publish(new SetSynchronizerException { Exception = ex });
 
-                throw;
+                return 1;
             }
 
             MessageHub.Publish(new SetSynchronizerEnd { Type = SetAcquisitionType.Seed });
+
+            return 0;
         }
     }
 }

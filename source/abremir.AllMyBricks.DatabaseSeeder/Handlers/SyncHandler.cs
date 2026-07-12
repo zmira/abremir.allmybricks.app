@@ -11,18 +11,20 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Handlers
 {
     internal static class SyncHandler
     {
-        public static async Task Run(IHost host, IList<Dataset> synchronizationContext)
+        public static async Task<int> Run(IHost host, IList<Dataset> synchronizationContext)
         {
+            int result = 0;
+
             if (synchronizationContext.Contains(Dataset.Sets)
                 || synchronizationContext.Contains(Dataset.All))
             {
-                await host.Services.GetService<ISetSynchronizationService>().Synchronize().ConfigureAwait(false);
+                result += await host.Services.GetRequiredService<ISetSynchronizationService>().Synchronize().ConfigureAwait(false);
             }
 
             if (synchronizationContext.Contains(Dataset.PrimaryUsers)
                 || synchronizationContext.Contains(Dataset.All))
             {
-                var userRepository = host.Services.GetService<IBricksetUserRepository>();
+                var userRepository = host.Services.GetRequiredService<IBricksetUserRepository>();
 
                 foreach (var primaryUser in Settings.BricksetPrimaryUsers)
                 {
@@ -32,14 +34,16 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Handlers
                     }
                 }
 
-                await host.Services.GetService<IUserSynchronizationService>().SynchronizeBricksetPrimaryUsersSets().ConfigureAwait(false);
+                result += await host.Services.GetRequiredService<IUserSynchronizationService>().SynchronizeBricksetPrimaryUsersSets().ConfigureAwait(false);
             }
 
             if (synchronizationContext.Contains(Dataset.Friends)
                 || synchronizationContext.Contains(Dataset.All))
             {
-                await host.Services.GetService<IUserSynchronizationService>().SynchronizeBricksetFriendsSets().ConfigureAwait(false);
+                result += await host.Services.GetRequiredService<IUserSynchronizationService>().SynchronizeBricksetFriendsSets().ConfigureAwait(false);
             }
+
+            return result;
         }
     }
 }

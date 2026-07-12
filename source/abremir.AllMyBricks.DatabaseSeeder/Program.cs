@@ -79,7 +79,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder
             expandCommand.AddOption(logVerbosityOption);
             expandCommand.AddOption(dataFolderOption);
 
-            expandCommand.SetHandler((context) =>
+            expandCommand.SetHandler(async (context) =>
             {
                 var dataFolder = context.ParseResult.CommandResult.GetValueForOption(dataFolderOption);
                 var encrypted = context.ParseResult.CommandResult.GetValueForOption(encryptedOption);
@@ -110,7 +110,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                     Settings.BricksetApiKey = bricksetApiKey;
                 }
 
-                ExpandHandler.Run(host, encrypted ?? false);
+                await ExpandHandler.Run(host, encrypted ?? false);
             });
 
             var compressCommand = new Command(DatabaseSeederConstants.CompressCommand, "Compress All My Bricks database");
@@ -120,7 +120,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder
             compressCommand.AddOption(logVerbosityOption);
             compressCommand.AddOption(dataFolderOption);
 
-            compressCommand.SetHandler((context) =>
+            compressCommand.SetHandler(async (context) =>
             {
                 var dataFolder = context.ParseResult.CommandResult.GetValueForOption(dataFolderOption);
                 var encrypted = context.ParseResult.CommandResult.GetValueForOption(encryptedOption);
@@ -151,7 +151,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder
                     Settings.BricksetApiKey = bricksetApiKey;
                 }
 
-                CompressHandler.Run(host, encrypted ?? false);
+                await CompressHandler.Run(host, encrypted ?? false);
             });
 
             var compactCommand = new Command(DatabaseSeederConstants.CompactCommand, "Compact All My Bricks database");

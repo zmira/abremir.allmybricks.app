@@ -25,11 +25,11 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Services
         private readonly ILogger _logger = loggerFactory.CreateLogger<AssetManagementService>();
         private readonly IAssetExpansion _assetExpansion = assetExpansion;
 
-        public void CompressDatabaseFile(bool encrypted)
+        public Task<int> CompressDatabaseFile(bool encrypted)
         {
             if (!GetDatabaseFilePathIfExists(out var dbFilePath))
             {
-                return;
+                return Task.FromResult(1);
             }
 
             _logger.LogInformation("Compressing {Encrypting}AllMyBricks Database {FileName} {FileSize}", encrypted ? "and Encrypting " : string.Empty, Path.GetFileName(dbFilePath), _file.GetFileSize(dbFilePath));
@@ -39,13 +39,15 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Services
             GetCompressedDatabaseFilePathIfExists(out var compressedFilePath, encrypted);
 
             _logger.LogInformation("Compressed {Encrypting}AllMyBricks Database {FileName} {FileSize}", encrypted ? "and Encrypted " : string.Empty, Path.GetFileName(compressedFilePath), _file.GetFileSize(compressedFilePath));
+
+            return Task.FromResult(0);
         }
 
-        public async Task CompactAllMyBricksDatabase()
+        public async Task<int> CompactAllMyBricksDatabase()
         {
             if (!GetDatabaseFilePathIfExists(out var dbFilePath))
             {
-                return;
+                return 1;
             }
 
             var fileName = Path.GetFileName(dbFilePath);
@@ -65,13 +67,15 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Services
             {
                 _logger.LogWarning("Either Database did not need to be compacted or Failed to Compact AllMyBricks Database {FileName}", fileName);
             }
+
+            return 0;
         }
 
-        public void ExpandDatabaseFile(bool encrypted)
+        public Task<int> ExpandDatabaseFile(bool encrypted)
         {
             if (!GetCompressedDatabaseFilePathIfExists(out var compressedFilePath, encrypted))
             {
-                return;
+                return Task.FromResult(1);
             }
 
             var encryptedText = encrypted ? "Encrypted " : string.Empty;
@@ -83,6 +87,8 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Services
             GetDatabaseFilePathIfExists(out var dbFilePath);
 
             _logger.LogInformation("Expanded {Encrypted}AllMyBricks Database {FileName} {FileSize}", encryptedText, Path.GetFileName(dbFilePath), _file.GetFileSize(dbFilePath));
+
+            return Task.FromResult(0);
         }
 
         public bool DatabaseFilePathExists()

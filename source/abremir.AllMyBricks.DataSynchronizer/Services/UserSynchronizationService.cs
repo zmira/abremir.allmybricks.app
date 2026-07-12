@@ -26,7 +26,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Services
         private readonly ISecureStorageService _secureStorageService = secureStorageService;
         private readonly IMessageHub _messageHub = messageHub;
 
-        public async Task SynchronizeBricksetPrimaryUsersSets(string username = null)
+        public async Task<int> SynchronizeBricksetPrimaryUsersSets(string username = null)
         {
             _messageHub.Publish(new UserSynchronizationServiceStart { UserType = BricksetUserType.Primary });
 
@@ -36,7 +36,9 @@ namespace abremir.AllMyBricks.DataSynchronizer.Services
 
                 if (string.IsNullOrWhiteSpace(apiKey))
                 {
-                    return;
+                    _messageHub.Publish(new UserSynchronizationServiceException { Exceptions = [new Exception("Invalid Brickset API key")] });
+
+                    return 1;
                 }
 
                 if (string.IsNullOrWhiteSpace(username))
@@ -60,22 +62,30 @@ namespace abremir.AllMyBricks.DataSynchronizer.Services
                 }
                 else
                 {
-                    throw new ArgumentException("Parameter was not found the list of primary users", nameof(username));
+                    _messageHub.Publish(new UserSynchronizationServiceException { Exceptions = [new ArgumentException("Parameter was not found the list of primary users", nameof(username))] });
+
+                    return 1;
                 }
             }
             catch (AggregateException aggEx)
             {
                 _messageHub.Publish(new UserSynchronizationServiceException { UserType = BricksetUserType.Primary, Exceptions = aggEx.InnerExceptions });
+
+                return 1;
             }
             catch (Exception ex)
             {
                 _messageHub.Publish(new UserSynchronizationServiceException { UserType = BricksetUserType.Primary, Exceptions = [ex] });
+
+                return 1;
             }
 
             _messageHub.Publish(new UserSynchronizationServiceEnd { UserType = BricksetUserType.Primary });
+
+            return 0;
         }
 
-        public async Task SynchronizeBricksetFriendsSets(string username = null)
+        public async Task<int> SynchronizeBricksetFriendsSets(string username = null)
         {
             _messageHub.Publish(new UserSynchronizationServiceStart { UserType = BricksetUserType.Friend });
 
@@ -85,7 +95,9 @@ namespace abremir.AllMyBricks.DataSynchronizer.Services
 
                 if (string.IsNullOrWhiteSpace(apiKey))
                 {
-                    return;
+                    _messageHub.Publish(new UserSynchronizationServiceException { Exceptions = [new Exception("Invalid Brickset API key")] });
+
+                    return 1;
                 }
 
                 if (string.IsNullOrWhiteSpace(username))
@@ -109,15 +121,21 @@ namespace abremir.AllMyBricks.DataSynchronizer.Services
                 }
                 else
                 {
-                    throw new ArgumentException("Parameter was not found in the list of friends", nameof(username));
+                    _messageHub.Publish(new UserSynchronizationServiceException { Exceptions = [new ArgumentException("Parameter was not found in the list of friends", nameof(username))] });
+
+                    return 1;
                 }
             }
             catch (Exception ex)
             {
                 _messageHub.Publish(new UserSynchronizationServiceException { UserType = BricksetUserType.Friend, Exceptions = [ex] });
+
+                return 1;
             }
 
             _messageHub.Publish(new UserSynchronizationServiceEnd { UserType = BricksetUserType.Friend });
+
+            return 0;
         }
 
         private async Task SynchronizeBricksetPrimaryUser(string apiKey, string username)

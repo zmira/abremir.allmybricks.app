@@ -27,7 +27,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
         private readonly ISubthemeRepository _subthemeRepository = subthemeRepository;
         private readonly IMessageHub _messageHub = messageHub;
 
-        public async Task Synchronize()
+        public async Task<int> Synchronize()
         {
             _messageHub.Publish(new SubthemeSynchronizerStart());
 
@@ -35,10 +35,9 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
 
             if (string.IsNullOrWhiteSpace(apiKey))
             {
-                var exception = new Exception("Invalid Brickset API key");
-                _messageHub.Publish(new SubthemeSynchronizerException { Exception = exception });
+                _messageHub.Publish(new SubthemeSynchronizerException { Exception = new Exception("Invalid Brickset API key") });
 
-                throw exception;
+                return 1;
             }
 
             try
@@ -84,10 +83,12 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
             {
                 _messageHub.Publish(new SubthemeSynchronizerException { Exception = ex });
 
-                throw;
+                return 1;
             }
 
             _messageHub.Publish(new SubthemeSynchronizerEnd());
+
+            return 0;
         }
     }
 }

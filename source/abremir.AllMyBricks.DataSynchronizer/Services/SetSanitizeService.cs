@@ -16,21 +16,26 @@ namespace abremir.AllMyBricks.DataSynchronizer.Services
         private readonly ISetSanitizer _setSanitizer = setSanitizer;
         private readonly IMessageHub _messageHub = messageHub;
 
-        public async Task Synchronize()
+        public async Task<int> Synchronize()
         {
+            int result = 0;
             _messageHub.Publish(new SetSanitizeServiceStart());
 
             try
             {
-                await _themeSanitizer.Synchronize().ConfigureAwait(false);
-                await _setSanitizer.Synchronize().ConfigureAwait(false);
+                result += await _themeSanitizer.Synchronize().ConfigureAwait(false);
+                result += await _setSanitizer.Synchronize().ConfigureAwait(false);
             }
             catch (Exception ex)
             {
                 _messageHub.Publish(new SetSanitizeServiceException { Exception = ex });
+
+                return 1;
             }
 
             _messageHub.Publish(new SetSanitizeServiceEnd());
+
+            return result;
         }
     }
 }

@@ -29,7 +29,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
         IMessageHub messageHub)
         : SetSynchronizerBase(insightsRepository, onboardingService, bricksetApiService, setRepository, referenceDataRepository, themeRepository, subthemeRepository, bricksetUserRepository, thumbnailSynchronizer, messageHub), ISetSanitizer
     {
-        public async Task Synchronize()
+        public async Task<int> Synchronize()
         {
             MessageHub.Publish(new SetSanitizerStart());
 
@@ -37,10 +37,9 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
 
             if (string.IsNullOrWhiteSpace(apiKey))
             {
-                var exception = new Exception("Invalid Brickset API key");
-                MessageHub.Publish(new SetSanitizerException { Exception = exception });
+                MessageHub.Publish(new SetSanitizerException { Exception = new Exception("Invalid Brickset API key") });
 
-                throw exception;
+                return 1;
             }
 
             var (ExpectedNumberOfSets, ActualNumberOfSets) = await GetSetNumbers();
@@ -49,7 +48,7 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
             {
                 MessageHub.Publish(new SetSanitizerEnd());
 
-                return;
+                return 0;
             }
 
             MessageHub.Publish(new MismatchingNumberOfSetsWarning { Expected = ExpectedNumberOfSets, Actual = ActualNumberOfSets });
@@ -146,6 +145,8 @@ namespace abremir.AllMyBricks.DataSynchronizer.Synchronizers
             }
 
             MessageHub.Publish(new SetSanitizerEnd());
+
+            return 0;
         }
     }
 }

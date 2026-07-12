@@ -719,7 +719,7 @@ namespace abremir.AllMyBricks.DatabaseSeeder.Handlers
                     {
                         CanExit = false;
 
-                        assetManagementService.ExpandDatabaseFile(Settings.CompressedFileIsEncrypted);
+                        int result = assetManagementService.ExpandDatabaseFile(Settings.CompressedFileIsEncrypted).GetAwaiter().GetResult();
 
                         buttonOk.Clicked += () =>
                         {
