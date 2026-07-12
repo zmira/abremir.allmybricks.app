@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using System.IO;
+using System.Runtime.InteropServices;
 using abremir.AllMyBricks.AssetManagement.Implementations;
 using abremir.AllMyBricks.AssetManagement.Interfaces;
 using abremir.AllMyBricks.Platform.Interfaces;
@@ -73,8 +75,7 @@ namespace abremir.AllMyBricks.AssetManagement.Tests.Implementations
         }
 
         [DataTestMethod]
-        [DataRow(@"F:\test\this_is_a_file.txt")]
-        [DataRow(@"C:\this_is_a_file")]
+        [DynamicData(nameof(GetTestFilePaths), DynamicDataSourceType.Method)]
         public void GetCompressedAssetFileName_ValidFilePath_ReturnsNewFilename(string fileName)
         {
             var result = AssetCompression.GetCompressedAssetFileName(fileName, false);
@@ -83,13 +84,26 @@ namespace abremir.AllMyBricks.AssetManagement.Tests.Implementations
         }
 
         [DataTestMethod]
-        [DataRow(@"F:\test\this_is_a_file.txt")]
-        [DataRow(@"C:\this_is_a_file")]
+        [DynamicData(nameof(GetTestFilePaths), DynamicDataSourceType.Method)]
         public void GetCompressedAssetFileName_ValidFilePathAndEncrypted_ReturnsNewFilename(string fileName)
         {
             var result = AssetCompression.GetCompressedAssetFileName(fileName, true);
 
             Check.That(result).IsNotNull().And.IsEqualTo("this_is_a_file.lzc");
+        }
+
+        public static IEnumerable<object[]> GetTestFilePaths()
+        {
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                yield return new object[] { @"F:\test\this_is_a_file.txt" };
+                yield return new object[] { @"C:\this_is_a_file" };
+            }
+            else
+            {
+                yield return new object[] { @"~/test/this_is_a_file.txt" };
+                yield return new object[] { @"~/this_is_a_file" };
+            }
         }
     }
 }
