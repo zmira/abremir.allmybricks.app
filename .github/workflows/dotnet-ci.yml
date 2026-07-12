@@ -1,0 +1,39 @@
+name: .NET CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5.4.0
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore dependencies
+        run: dotnet restore source
+
+      - name: Build
+        run: dotnet build source --no-restore --configuration Release
+
+      - name: Test
+        shell: bash
+        run: |
+          testAssemblies=$(find source -type f -name "*.Tests.dll" -not -path "*/obj/*")
+          if [ -z "$testAssemblies" ]; then
+            echo "No test assemblies matching **/*.Tests.dll found (excluding **/obj/**)."
+            exit 1
+          fi
+          echo "Running tests for:"
+          echo "$testAssemblies"
+          dotnet vstest $testAssemblies
